@@ -214,7 +214,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
               child: Text('Something went wrong. Try again'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -482,7 +482,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               left: 66,
                               right: 66,
                             ),
-                            hasShadow: true,
+                            hasShadow: _enableButton,
                             action: _enableButton ? submitForm : null,
                           ),
                           const SizedBox(height: 200),

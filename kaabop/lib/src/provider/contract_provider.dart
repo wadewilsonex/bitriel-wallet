@@ -79,16 +79,30 @@ class ContractProvider with ChangeNotifier {
 
     final res = await _web3client.getTransactionReceipt(txHash);
 
-    return res.status;
+    print(res);
+
+    if (res == null) return false;
+
+    // print(res.blockHash?? '');
+    // print(res.blockNumber?? '');
+    // print(res.contractAddress?? '');
+    // print(res.cumulativeGasUsed?? '');
+    // print(res.from?? '');
+    // print(res.gasUsed?? '');
+    // print(res.to?? '');
+    // print(res.transactionHash?? '');
+    // print(res.transactionIndex?? '');
+
+    return res.status ?? false;
     //print(r);
   }
 
   Future<void> getEtherBalance() async {
+
     initEtherClient();
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final EtherAmount ethbalance =
-        await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
+    final EtherAmount ethbalance = await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
     etherNative.balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
 
     notifyListeners();
@@ -166,8 +180,8 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
-    final contract =
-        await initSwapSel('0x54419268c31678C31e94dB494C509193d7d2BB5D');
+    
+    final contract = await initSwapSel('0x54419268c31678C31e94dB494C509193d7d2BB5D');
     final ethFunction = contract.function('swap');
 
     final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
