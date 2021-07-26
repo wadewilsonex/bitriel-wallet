@@ -166,8 +166,7 @@ class MenuState extends State<Menu> {
             child: MenuBody(
               userInfo: widget._userData,
               model: _menuModel,
-              switchBio: switchBiometric,
-             
+              switchBio: switchBiometric,        
             ),
           ),
         ),

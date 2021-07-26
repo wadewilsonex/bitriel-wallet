@@ -75,28 +75,15 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> getPending(String txHash) async {
-    //final res = await client.getTransactionByHash('0x97fc5915fcf8e73e1c3eaa631d23c9833164b1664974592c7f1eb52f08b72045');
 
+    print("HEllo hash $txHash");
     final res = await _web3client.getTransactionReceipt(txHash);
 
-    print(res);
+    print(res.transactionHash);
+    print(res.transactionIndex);
 
-    if (res == null) return false;
-
-    // print(res.blockHash?? '');
-    // print(res.blockNumber?? '');
-    // print(res.contractAddress?? '');
-    // print(res.cumulativeGasUsed?? '');
-    // print(res.from?? '');
-    // print(res.gasUsed?? '');
-    // print(res.to?? '');
-    // print(res.transactionHash?? '');
-    // print(res.transactionIndex?? '');
-
-    return res.status ?? false;
-    //print(r);
+    return res.status;
   }
-
   Future<void> getEtherBalance() async {
 
     initEtherClient();
@@ -146,7 +133,6 @@ class ContractProvider with ChangeNotifier {
     final contract = await initBsc(oldSelAddr);
     final ethFunction = contract.function('approve');
 
-    // final credentials = EthPrivateKey('0x5f64cd3fe9ed1f0639e2ce4f072ca8f58a5947b6f55ff92c456dbe005b614687'as Uint8List);
     final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
 
     final approve = await _web3client.sendTransaction(
@@ -233,8 +219,7 @@ class ContractProvider with ChangeNotifier {
   //   return response.first as String;
   // }
 
-  Future<List> queryEther(
-      String contractAddress, String functionName, List args) async {
+  Future<List> queryEther(String contractAddress, String functionName, List args) async {
     await initEtherClient();
     final contract = await initEtherContract(contractAddress);
 
@@ -248,8 +233,8 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<List> query(
-      String contractAddress, String functionName, List args) async {
+  Future<List> query(String contractAddress, String functionName, List args) async {
+
     initClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);

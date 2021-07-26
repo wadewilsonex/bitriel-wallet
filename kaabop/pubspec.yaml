@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.13+31
+version: 2.0.13+32
 #6 feature
 #8 debug
 #1 refactor
@@ -65,8 +65,8 @@ dependencies:
   flutter_circular_chart:
   syncfusion_flutter_charts:
   charts_flutter:
-  fl_chart: ^0.12.0
-  pie_chart: ^5.0.0
+  fl_chart:
+  pie_chart:
 
   #Indecator
   percent_indicator:
@@ -80,7 +80,7 @@ dependencies:
  
   device_preview:
   store_redirect:
-  share: ^2.0.0
+  share:
 
   vibration: ^1.7.3
  
@@ -90,19 +90,19 @@ dependencies:
   shimmer: ^1.1.2
 
   #Authenticatioin & Verification
-  local_auth:
+  local_auth: ^1.1.6
   permission_handler:
 
   #for secure wallet function
 
   polkawallet_sdk:
     path: ../
-  animations: ^1.1.2
-  provider: ^4.3.3
-  web3dart: ^1.2.3
-  bitcoin_flutter: ^2.0.2
+  animations:
+  provider:
+  web3dart:
+  bitcoin_flutter:
 
-  flutter_secure_storage: ^4.1.0
+  flutter_secure_storage:
   flutter_screenshot_switcher: ^1.2.0
 
   #Contact

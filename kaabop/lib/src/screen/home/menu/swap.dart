@@ -5,11 +5,13 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 class Swap extends StatefulWidget {
+
   @override
   _SwapState createState() => _SwapState();
 }
 
 class _SwapState extends State<Swap> {
+  
   FlareControls flareController = FlareControls();
   final GlobalKey<FormState> _swapKey = GlobalKey<FormState>();
 
@@ -60,23 +62,25 @@ class _SwapState extends State<Swap> {
 
           final hash = await contract.swap(_amountController.text, res);
 
-          print(hash);
+          print("My Hash $hash");
           if (hash != null) {
-            await Future.delayed(const Duration(seconds: 5));
+            await Future.delayed(const Duration(seconds: 15));
             final res = await contract.getPending(hash);
-            print("Geting pending $res");
-            
-            if (res) {
-              setState(() {});
 
-              contract.getBscBalance();
-              Navigator.pop(context);
-              enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.');
-              _amountController.text = '';
-            } else {
-              print("Oops");
-              Navigator.pop(context);
-              await customDialog('Opps', 'Something went wrong.');
+            print("After get pending $res");
+
+            if (res != null) {
+              if (res) {
+                setState(() {});
+
+                contract.getBscBalance();
+                Navigator.pop(context);
+                enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.');
+                _amountController.text = '';
+              } else {
+                Navigator.pop(context);
+                await customDialog('Opps', 'Something went wrong.');
+              }
             }
           } else {
             Navigator.pop(context);
@@ -150,7 +154,6 @@ class _SwapState extends State<Swap> {
         );
       }
     );
-
     return _result;
   }
 
@@ -185,23 +188,23 @@ class _SwapState extends State<Swap> {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
-            height: MediaQuery.of(context).size.height / 2.5,
+            //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(
-                    height: 36,
+                    height: MediaQuery.of(context).size.width * 0.08,
                   ),
                   SvgPicture.asset(
                     'assets/icons/tick.svg',
-                    height: 110,
-                    width: 110,
+                    height: 100,
+                    width: 100,
                   ),
-                  const MyText(
+                  MyText(
                     text: 'SUCCESS!',
-                    fontSize: 28,
-                    top: 45,
+                    fontSize: 22,
+                    top: MediaQuery.of(context).size.width * 0.1,
                     fontWeight: FontWeight.bold,
                   ),
                   MyText(
@@ -210,7 +213,7 @@ class _SwapState extends State<Swap> {
                     text: 'You have successfully ' + operationText,
                   ),
                   SizedBox(
-                    height: 60,
+                    height: MediaQuery.of(context).size.width * 0.2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -451,7 +454,7 @@ class _SwapState extends State<Swap> {
                                 color: isDarkTheme
                                   ? hexaCodeToColor(AppColors.darkBgd)
                                   : hexaCodeToColor(AppColors.whiteColorHexa),
-                                  borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Form(
                                 key: _swapKey,
@@ -469,6 +472,7 @@ class _SwapState extends State<Swap> {
                                       overflow: TextOverflow.ellipsis,
                                       bottom: 4.0,
                                     ),
+
                                     Expanded(
                                       child: Container(
                                         alignment: Alignment.bottomLeft,
@@ -579,10 +583,15 @@ class _SwapState extends State<Swap> {
   }
 
   void fetchMax() async {
+
+    Component.dialog(context);
+
     final contract = Provider.of<ContractProvider>(context, listen: false); 
-    contract.getBscBalance();
+    
+    await contract.getBscBalance();
 
     setState(() {
+      
       _amountController.value = TextEditingValue(
         text: contract.bscNative.balance,
         selection: TextSelection(
@@ -590,6 +599,9 @@ class _SwapState extends State<Swap> {
           extentOffset: contract.bscNative.balance.length,
         )
       );
+      
     });
+    // Close Dialog
+    Navigator.pop(context);
   }
 }

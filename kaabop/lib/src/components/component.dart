@@ -4,6 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class Component {
+
   static void popScreen(BuildContext context) {
     Navigator.pop(context);
   }
@@ -30,6 +31,45 @@ class Component {
               child: const Text('Setting'),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  static void dialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CircularProgressIndicator(backgroundColor: Colors.transparent, valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))),
+                      MyText(
+                        top: 10, left: 10, right: 10, bottom: 10,
+                        text: "Fetching token",
+                        fontSize: 16,
+                        color: AppColors.blackColor,
+                      )
+                    ],
+                  )
+                )
+              )
+            ],
+          ),
         );
       },
     );
@@ -101,6 +141,7 @@ class MyFlatButton extends StatelessWidget {
 }
 
 class MyText extends StatelessWidget {
+  
   final String text;
   final String color;
   final double fontSize;
