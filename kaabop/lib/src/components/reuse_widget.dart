@@ -631,16 +631,17 @@ Widget progress({String content}) {
   );
 }
 
-Future<void> dialogLoading(BuildContext context, {String content}) {
+dialogLoading(BuildContext context, {String content}) {
   return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return WillPopScope(
-          onWillPop: () => Future(() => false),
-          child: progress(content: content),
-        );
-      });
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return WillPopScope(
+        onWillPop: () => Future(() => false),
+        child: progress(content: content),
+      );
+    }
+  );
 }
 
 Widget logoSize(

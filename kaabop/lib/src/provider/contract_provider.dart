@@ -76,13 +76,9 @@ class ContractProvider with ChangeNotifier {
 
   Future<bool> getPending(String txHash) async {
 
-    print("HEllo hash $txHash");
     final res = await _web3client.getTransactionReceipt(txHash);
 
-    print(res.transactionHash);
-    print(res.transactionIndex);
-
-    return res.status;
+    return res == null ? false : res.status;
   }
   Future<void> getEtherBalance() async {
 

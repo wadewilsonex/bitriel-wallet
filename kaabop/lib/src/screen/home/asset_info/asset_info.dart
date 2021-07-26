@@ -531,8 +531,8 @@ class _AssetInfoState extends State<AssetInfo> {
                     Container(
                       height: 32.0,
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                     ),
                     Container(
                       //padding: const EdgeInsets.only(top: 32.0),
@@ -548,13 +548,13 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
-                                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                                    ? hexaCodeToColor(AppColors.darkCard)
+                                    : hexaCodeToColor(AppColors.whiteHexaColor),
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 0
-                                          ? hexaCodeToColor(AppColors.secondary)
-                                          : Colors.transparent,
+                                        ? hexaCodeToColor(AppColors.secondary)
+                                        : Colors.transparent,
                                       width: 1.5,
                                     ),
                                   ),
@@ -562,10 +562,10 @@ class _AssetInfoState extends State<AssetInfo> {
                                 child: MyText(
                                   text: "Details",
                                   color: _tabIndex == 0
-                                      ? AppColors.secondary
-                                      : isDarkTheme
-                                          ? AppColors.darkSecondaryText
-                                          : AppColors.textColor,
+                                    ? AppColors.secondary
+                                    : isDarkTheme
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
                                 ),
                               ),
                             ),
@@ -580,13 +580,13 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
-                                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                                    ? hexaCodeToColor(AppColors.darkCard)
+                                    : hexaCodeToColor(AppColors.whiteHexaColor),
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 1
-                                          ? hexaCodeToColor(AppColors.secondary)
-                                          : Colors.transparent,
+                                        ? hexaCodeToColor(AppColors.secondary)
+                                        : Colors.transparent,
                                       width: 1.5,
                                     ),
                                   ),
@@ -594,10 +594,10 @@ class _AssetInfoState extends State<AssetInfo> {
                                 child: MyText(
                                   text: "Activity",
                                   color: _tabIndex == 1
-                                      ? AppColors.secondary
-                                      : isDarkTheme
-                                          ? AppColors.darkSecondaryText
-                                          : AppColors.textColor,
+                                    ? AppColors.secondary
+                                    : isDarkTheme
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
                                 ),
                               ),
                             ),

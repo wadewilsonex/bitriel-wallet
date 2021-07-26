@@ -49,12 +49,9 @@ class _SwapState extends State<Swap> {
 
     await dialogBox().then((value) async {
 
-      print("From dialogBox $value");
       try {
 
         final res = await getPrivateKey(value);
-
-        print("From private key $res");
 
         if (res != null) {
 
@@ -62,12 +59,10 @@ class _SwapState extends State<Swap> {
 
           final hash = await contract.swap(_amountController.text, res);
 
-          print("My Hash $hash");
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 15));
-            final res = await contract.getPending(hash);
 
-            print("After get pending $res");
+            final res = await contract.getPending(hash);
 
             if (res != null) {
               if (res) {
@@ -108,18 +103,26 @@ class _SwapState extends State<Swap> {
   }
 
   void validateSwap() async {
+
+    // Loading 
+    dialogLoading(context);
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (double.parse(_amountController.text) > double.parse(contract.bscNative.balance) ||
-        double.parse(contract.bscNative.balance) == 0) {
-      customDialog(
-          'Insufficient Balance', 'Your loaded balance is not enough to swap.');
+    if (double.parse(_amountController.text) > double.parse(contract.bscNative.balance) || double.parse(contract.bscNative.balance) == 0) {
+      
+      // Close Loading
+      Navigator.pop(context);
+      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
     } else {
+
       final res = await ContractProvider().checkAllowance();
 
+      // Close Loading
+      Navigator.pop(context);
+
       if (res.toString() == '0') {
-        customDialog(
-            'Approval Required', 'Your haven\'t approved to swap balance.');
+        customDialog('Approval Required', 'Your haven\'t approved to swap balance.');
       } else {
         confirmDialog(_amountController.text, swap);
       }
@@ -181,6 +184,7 @@ class _SwapState extends State<Swap> {
     );
   }
 
+  // After Swap
   Future<void> successDialog(String operationText) async {
     await showDialog(
       context: context,
@@ -215,9 +219,11 @@ class _SwapState extends State<Swap> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.2,
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      
                       // ignore: deprecated_member_use
                       SizedBox(
                         height: 50,
@@ -233,12 +239,13 @@ class _SwapState extends State<Swap> {
                           child: Text(
                             'Close',
                             style: TextStyle(
-                              color: hexaCodeToColor(AppColors.secondarytext),
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
+
                       // ignore: deprecated_member_use
                       SizedBox(
                         height: 50,
@@ -248,7 +255,7 @@ class _SwapState extends State<Swap> {
                             Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
                           },
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                            backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
                             shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
                           ),
                           child: Text(
@@ -478,7 +485,7 @@ class _SwapState extends State<Swap> {
                                         alignment: Alignment.bottomLeft,
                                         child: TextFormField(
                                           controller: _amountController,
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
                                           textInputAction: TextInputAction.done,
                                           style: TextStyle(
                                             color: isDarkTheme
@@ -584,21 +591,15 @@ class _SwapState extends State<Swap> {
 
   void fetchMax() async {
 
-    Component.dialog(context);
+    Component.dialog(context, contents: "Fetching Balance");
 
     final contract = Provider.of<ContractProvider>(context, listen: false); 
     
     await contract.getBscBalance();
 
     setState(() {
-      
-      _amountController.value = TextEditingValue(
-        text: contract.bscNative.balance,
-        selection: TextSelection(
-          baseOffset: contract.bscNative.balance.length,
-          extentOffset: contract.bscNative.balance.length,
-        )
-      );
+
+      _amountController.text = contract.bscNative.balance;
       
     });
     // Close Dialog

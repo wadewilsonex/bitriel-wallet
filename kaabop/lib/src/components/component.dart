@@ -36,7 +36,7 @@ class Component {
     );
   }
 
-  static void dialog(BuildContext context) async {
+  static void dialog(BuildContext context, {String contents}) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -58,12 +58,12 @@ class Component {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CircularProgressIndicator(backgroundColor: Colors.transparent, valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))),
-                      MyText(
+                      contents == null ? MyText(
                         top: 10, left: 10, right: 10, bottom: 10,
-                        text: "Fetching token",
+                        text: contents,
                         fontSize: 16,
                         color: AppColors.blackColor,
-                      )
+                      ) : Container()
                     ],
                   )
                 )
