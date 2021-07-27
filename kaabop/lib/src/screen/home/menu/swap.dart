@@ -130,12 +130,13 @@ class _SwapState extends State<Swap> {
   }
 
   Future enableAnimation(String operationText) async {
+
     setState(() {
       _success = true;
     });
     flareController.play('Checkmark');
 
-    Timer(const Duration(milliseconds: 2500), () {
+    Timer(const Duration(milliseconds: 3), () {
       // Navigator.pop(context);
       setState(() {
         _success = false;
@@ -446,7 +447,7 @@ class _SwapState extends State<Swap> {
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
-                          shadow()
+                          shadow(context)
                         ]
                       ),
                       child: SingleChildScrollView(

@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
@@ -112,10 +113,10 @@ OutlineInputBorder errorOutline() {
 }
 
 /* Button shadow */
-BoxShadow shadow(
-    {Color hexaCode, double blurRadius, double spreadRadius, Offset offset}) {
+BoxShadow shadow(BuildContext context, {Color hexaCode, double blurRadius, double spreadRadius, Offset offset}) {
+  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return BoxShadow(
-    color: hexaCode ?? Colors.grey.withOpacity(0.2),
+    color: hexaCode ?? isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : Colors.grey.withOpacity(0.2),
     blurRadius: blurRadius ?? 6.0,
     spreadRadius: spreadRadius ?? 2.0,
     offset: offset ?? Offset(0.5, 2.0),

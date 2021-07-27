@@ -69,7 +69,7 @@ class ReceiveWalletBody extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: [
-                        shadow()
+                        shadow(context)
                       ],
                       color: isDarkTheme
                         ? hexaCodeToColor(AppColors.darkCard)

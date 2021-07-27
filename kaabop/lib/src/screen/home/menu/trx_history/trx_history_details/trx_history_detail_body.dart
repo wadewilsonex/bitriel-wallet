@@ -21,7 +21,7 @@ class TrxHistoryDetailsBody extends StatelessWidget {
           margin: const EdgeInsets.only(top: 30, left: 16, right: 16),
           decoration: BoxDecoration(
             boxShadow: [
-              shadow()
+              shadow(context)
             ],
             borderRadius: BorderRadius.circular(5.0),
             color: hexaCodeToColor(AppColors.whiteHexaColor),
