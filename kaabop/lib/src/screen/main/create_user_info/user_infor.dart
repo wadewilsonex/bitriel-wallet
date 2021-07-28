@@ -316,10 +316,7 @@ class MyUserInfoState extends State<MyUserInfo> {
     final hdWallet = HDWallet.fromSeed(seed);
 
     final keyPair = ECPair.fromWIF(hdWallet.wif);
-    final bech32Address = new P2WPKH(
-            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
-        .data
-        .address;
+    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
 
     await StorageServices.setData(bech32Address, 'bech32');
 

@@ -4,7 +4,6 @@ import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 
 class SubmitTrxBody extends StatelessWidget {
   final bool enableInput;
-  final dynamic dialog;
   final ModelScanPay scanPayM;
   final String Function(String) onChanged;
   final String Function(String) validateField;
@@ -17,7 +16,6 @@ class SubmitTrxBody extends StatelessWidget {
 
   const SubmitTrxBody({
     this.enableInput,
-    this.dialog,
     this.scanPayM,
     this.onChanged,
     this.validateField,

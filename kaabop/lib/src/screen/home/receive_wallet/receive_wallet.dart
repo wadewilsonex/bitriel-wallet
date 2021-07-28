@@ -52,8 +52,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
       if (value == 'BTC') {
         wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
       } else {
-        wallet =
-            Provider.of<ApiProvider>(context, listen: false).accountM.address;
+        wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address;
       }
     }
   }

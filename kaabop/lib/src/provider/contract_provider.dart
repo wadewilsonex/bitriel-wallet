@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+  
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
@@ -112,6 +113,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<DeployedContract> initEtherContract(String contractAddr) async {
+    
     final String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
 
     final contract = DeployedContract(

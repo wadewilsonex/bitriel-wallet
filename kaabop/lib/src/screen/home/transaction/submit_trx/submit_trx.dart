@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 
 class SubmitTrx extends StatefulWidget {
+
   final String _walletKey;
   final String asset;
   final List<dynamic> _listPortfolio;
@@ -27,6 +29,9 @@ class SubmitTrx extends StatefulWidget {
 }
 
 class SubmitTrxState extends State<SubmitTrx> {
+
+  TrxFunctional trxFunc;
+
   final ModelScanPay _scanPayM = ModelScanPay();
 
   FlareControls flareController = FlareControls();
@@ -38,11 +43,11 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   @override
   void initState() {
-    widget.asset != null
-        ? _scanPayM.asset = widget.asset
-        : _scanPayM.asset = "SEL";
+    widget.asset != null ? _scanPayM.asset = widget.asset : _scanPayM.asset = "SEL";
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
+
+    trxFunc = TrxFunctional(context: context, enableAnimation: enableAnimation, validateAddress: validateAddress);
 
     _scanPayM.controlReceiverAddress.text = widget._walletKey;
     _scanPayM.portfolio = widget._listPortfolio;
@@ -58,14 +63,16 @@ class SubmitTrxState extends State<SubmitTrx> {
   Future<String> dialogBox() async {
     /* Show Pin Code For Fill Out */
     final String _result = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Material(
-            color: Colors.transparent,
-            child: FillPin(),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
+    print("My pin $_result");
     return _result;
   }
 
@@ -116,6 +123,8 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   Future enableAnimation() async {
+
+    // Close Dialog Loading
     Navigator.pop(context);
     setState(() {
       _scanPayM.isPay = true;
@@ -124,8 +133,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     flareController.play('Checkmark');
 
     Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }
 
@@ -141,410 +149,123 @@ class SubmitTrxState extends State<SubmitTrx> {
     enableButton();
   }
 
-  Future<void> sendTxKmpi(String to, String pass, String value) async {
-    dialogLoading(
-      context,
-      content: 'Please wait! This might be taking some time.',
-    );
-
-    try {
-      final res = await ApiProvider.sdk.api.keyring.contractTransfer(
-        ApiProvider.keyring.keyPairs[0].pubKey,
-        to,
-        value,
-        pass,
-        Provider.of<ContractProvider>(context, listen: false).kmpi.hash,
-      );
-
-      if (res['status'] != null) {
-        Provider.of<ContractProvider>(context, listen: false)
-            .fetchKmpiBalance();
-
-        saveTxHistory(TxHistory(
-          date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-          symbol: 'KMPI',
-          destination: to,
-          sender: ApiProvider.keyring.current.address,
-          org: 'KOOMPI',
-          amount: value.trim(),
-        ));
-
-        await enableAnimation();
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
-    }
-  }
-
-  Future<String> sendTx(String target, String amount, String pin) async {
-    dialogLoading(context);
-    String mhash;
-
-    final res = await validateAddress(target);
-
-    if (res) {
-      final sender = TxSenderData(
-        ApiProvider.keyring.current.address,
-        ApiProvider.keyring.current.pubKey,
-      );
-      final txInfo = TxInfoData('balances', 'transfer', sender);
-      final chainDecimal =
-          Provider.of<ApiProvider>(context, listen: false).nativeM.chainDecimal;
-      try {
-        final hash = await ApiProvider.sdk.api.tx.signAndSend(
-            txInfo,
-            [
-              target,
-              Fmt.tokenInt(
-                amount.trim(),
-                int.parse(chainDecimal),
-              ).toString(),
-            ],
-            pin,
-            onStatusChange: (status) async {});
-
-        if (hash != null) {
-          saveTxHistory(TxHistory(
-            date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-            symbol: 'SEL',
-            destination: target,
-            sender: ApiProvider.keyring.current.address,
-            org: 'SELENDRA',
-            amount: amount.trim(),
-          ));
-
-          await enableAnimation();
-        } else {
-          Navigator.pop(context);
-          await customDialog('Opps', 'Something went wrong!');
-        }
-      } catch (e) {
-        Navigator.pop(context);
-        await customDialog('Opps', e.message.toString());
-      }
-    } else {
-      Navigator.pop(context);
-      await customDialog('Opps', 'Invalid Address');
-    }
-
-    return mhash;
-  }
-
-  Future<void> customDialog(String text1, String text2) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: MyText(text: text1, fontWeight: FontWeight.w600,),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(text2),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<String> sendTxDot(String target, String amount, String pin) async {
-    dialogLoading(context);
-    String mhash;
-    final sender = TxSenderData(
-      ApiProvider.keyring.current.address,
-      ApiProvider.keyring.current.pubKey,
-    );
-    final txInfo = TxInfoData('balances', 'transfer', sender);
-
-    try {
-      final hash = await ApiProvider.sdk.api.tx.signAndSendDot(
-          txInfo, [target, pow(double.parse(amount) * 10, 12)], pin,
-          onStatusChange: (status) async {});
-
-      if (hash != null) {
-        await enableAnimation();
-      } else {
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      Navigator.pop(context);
-
-      await customDialog('Opps', e.message.toString());
-    }
-
-    return mhash;
-  }
-
   Future<void> clickSend() async {
-    if (_scanPayM.formStateKey.currentState.validate()) {
-      /* Send payment */
+    try {
 
-      await Future.delayed(const Duration(milliseconds: 100), () {
-        // Unfocus All Field Input
-        unFocusAllField();
-      });
+      if (_scanPayM.formStateKey.currentState.validate()) {
+        /* Send payment */
 
-      await dialogBox().then((value) async {
-        switch (_scanPayM.asset) {
-          case "SEL":
-            sendTx(
-              _scanPayM.controlReceiverAddress.text,
-              _scanPayM.controlAmount.text,
-              value,
-            );
-            break;
-          case "KMPI":
-            sendTxKmpi(
-              _scanPayM.controlReceiverAddress.text,
-              value,
-              _scanPayM.controlAmount.text,
-            );
-            break;
-          case "DOT":
-            sendTxDot(
-              _scanPayM.controlReceiverAddress.text,
-              _scanPayM.controlAmount.text,
-              value,
-            );
-            break;
-          case "SEL (BEP-20)":
-            final chainDecimal = await ContractProvider()
-                .query(AppConfig.bscMainnetAddr, 'decimals', []);
-            if (chainDecimal != null) {
-              sendTxAYF(
-                AppConfig.bscMainnetAddr,
-                chainDecimal[0].toString(),
-                _scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text,
-                value,
-              );
-            }
-            break;
-          case "KGO (BEP-20)":
-            final chainDecimal = await ContractProvider()
-                .query(AppConfig.kgoAddr, 'decimals', []);
-            if (chainDecimal != null) {
-              sendTxAYF(
-                AppConfig.kgoAddr,
-                chainDecimal[0].toString(),
-                _scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text,
-                value,
-              );
-            }
-            break;
-          case "BNB":
-            sendTxBnb(
-              _scanPayM.controlReceiverAddress.text,
-              _scanPayM.controlAmount.text,
-              value,
-            );
-            break;
-          case "ETH":
-            sendTxEther(
-              _scanPayM.controlReceiverAddress.text,
-              _scanPayM.controlAmount.text,
-              value,
-            );
-            break;
-          case "BTC":
-            sendTxBtc(_scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text, value);
-            break;
-          default:
-            if (_scanPayM.asset.contains('ERC-20')) {
-              final contractAddr =
-                  ContractProvider().findContractAddr(_scanPayM.asset);
-              final chainDecimal = await ContractProvider()
-                  .queryEther(contractAddr, 'decimals', []);
-              sendTxErc(
-                  contractAddr,
-                  chainDecimal[0].toString(),
+        await Future.delayed(const Duration(milliseconds: 100), () {
+          // Unfocus All Field Input
+          unFocusAllField();
+        });
+
+        final contract = Provider.of<ContractProvider>(context, listen: false);
+
+        await dialogBox().then((value) async {
+          print("Asset ${_scanPayM.asset}");
+
+          if (value != null) {
+
+            switch (_scanPayM.asset) {
+              case "SEL":
+                await trxFunc.sendTx(
                   _scanPayM.controlReceiverAddress.text,
                   _scanPayM.controlAmount.text,
-                  value);
-            } else {
-              final contractAddr =
-                  ContractProvider().findContractAddr(_scanPayM.asset);
-              final chainDecimal =
-                  await ContractProvider().query(contractAddr, 'decimals', []);
-              sendTxAYF(
-                contractAddr,
-                chainDecimal[0].toString(),
-                _scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text,
-                value,
-              );
+                  value,
+                );
+                break;
+              case "KMPI":
+                await trxFunc.sendTxKmpi(
+                  _scanPayM.controlReceiverAddress.text,
+                  value,
+                  _scanPayM.controlAmount.text,
+                );
+                break;
+              case "DOT":
+                await trxFunc.sendTxDot(
+                  _scanPayM.controlReceiverAddress.text,
+                  _scanPayM.controlAmount.text,
+                  value,
+                );
+                break;
+              case "SEL (BEP-20)":
+                final chainDecimal = await ContractProvider().query(AppConfig.bscMainnetAddr, 'decimals', []);
+                if (chainDecimal != null) {
+                  await trxFunc.sendTxAYF(
+                    AppConfig.bscMainnetAddr,
+                    chainDecimal[0].toString(),
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text,
+                    value,
+                  );
+                }
+                break;
+              case "KGO (BEP-20)":
+                final chainDecimal = await ContractProvider().query(AppConfig.kgoAddr, 'decimals', []);
+                if (chainDecimal != null) {
+                  await trxFunc.sendTxAYF(
+                    AppConfig.kgoAddr,
+                    chainDecimal[0].toString(),
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text,
+                    value,
+                  );
+                }
+                break;
+
+              case "BNB":
+                await trxFunc.sendTxBnb(
+                  contract,
+                  _scanPayM.controlReceiverAddress.text,
+                  _scanPayM.controlAmount.text,
+                  value,
+                );
+                break;
+
+              case "ETH":
+                await trxFunc.sendTxEther(
+                  _scanPayM.controlReceiverAddress.text,
+                  _scanPayM.controlAmount.text,
+                  value,
+                );
+                break;
+
+              case "BTC":
+                await trxFunc.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text, value);
+                break;
+
+              default:
+                if (_scanPayM.asset.contains('ERC-20')) {
+                  final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
+                  final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
+                  await trxFunc.sendTxErc(
+                    contractAddr,
+                    chainDecimal[0].toString(),
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text,
+                    value
+                  );
+                } else {
+                  final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
+                  final chainDecimal = await ContractProvider().query(contractAddr, 'decimals', []);
+                  await trxFunc.sendTxAYF(
+                    contractAddr,
+                    chainDecimal[0].toString(),
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text,
+                    value,
+                  );
+                }
+
+                break;
             }
-
-            break;
-        }
-      });
-    }
-  }
-
-  Future<void> sendTxBnb(String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    try {
-      final res = await getPrivateKey(pin);
-
-      print("Response get key $res");
-
-      if (res != null) {
-
-        final hash = await contract.sendTxBnb(res, reciever, amount);
-        print("Contract $hash");
-
-        if (hash != null) {
-          Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-          enableAnimation();
-        } else {
-          Navigator.pop(context);
-        }
+          }
+        });
       }
-    } catch (e) {
-      print("Error $e");
-      Navigator.pop(context);
-      await customDialog('Oops', e.message.toString());
+    } catch (e){
+      await TrxFunctional(context: context, enableAnimation: enableAnimation, validateAddress: validateAddress).customDialog("Oops", "$e");
     }
-  }
-
-  Future<void> sendTxBtc(String to, String amount, String pin) async {
-    dialogLoading(context);
-
-    final api = Provider.of<ApiProvider>(context, listen: false);
-
-    final resAdd = await api.validateBtcAddr(to);
-
-    final wif = await getBtcPrivateKey(pin);
-
-    if (resAdd) {
-      final res =
-          api.sendTxBtc(context, api.btcAdd, to, double.parse(amount), wif);
-      if (res == 200) {
-        enableAnimation();
-      } else {
-        Navigator.pop(context);
-      }
-    } else {
-      Navigator.pop(context);
-      await customDialog('Opps', 'Invalid Address');
-    }
-  }
-
-  Future<void> sendTxEther(String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-
-    try {
-      final res = await getPrivateKey(pin);
-
-      if (res != null) {
-        final hash = await contract.sendTxEther(res, reciever, amount);
-        if (hash != null) {
-          enableAnimation();
-        } else {
-          Navigator.pop(context);
-        }
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
-    }
-  }
-
-  Future<void> sendTxAYF(String contractAddr, String chainDecimal,
-      String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    try {
-      final res = await getPrivateKey(pin);
-      if (res != null) {
-        final hash = await contract.sendTxBsc(
-          contractAddr,
-          chainDecimal,
-          res,
-          reciever,
-          amount,
-        );
-
-        if (hash != null) {
-          Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          enableAnimation();
-        } else {
-          Navigator.pop(context);
-        }
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
-    }
-  }
-
-  Future<void> sendTxErc(String contractAddr, String chainDecimal,
-      String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    try {
-      final res = await getPrivateKey(pin);
-      if (res != null) {
-        final hash = await contract.sendTxEthCon(
-          contractAddr,
-          chainDecimal,
-          res,
-          reciever,
-          amount,
-        );
-
-        if (hash != null) {
-          enableAnimation();
-        } else {
-          Navigator.pop(context);
-        }
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
-    }
-  }
-
-  Future<String> getPrivateKey(String pin) async {
-    String privateKey;
-    final encrytKey = await StorageServices().readSecure('private');
-    try {
-      privateKey =
-          await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
-    } catch (e) {
-      await customDialog('Opps', 'PIN verification failed');
-    }
-
-    return privateKey;
-  }
-
-  Future<String> getBtcPrivateKey(String pin) async {
-    String privateKey;
-    final encrytKey = await StorageServices().readSecure('btcwif');
-    try {
-      privateKey =
-          await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
-    } catch (e) {
-      await customDialog('Opps', 'PIN verification failed');
-    }
-
-    return privateKey;
-  }
-
-  Future<void> saveTxHistory(TxHistory txHistory) async {
-    await StorageServices.addTxHistory(txHistory, 'txhistory');
   }
 
   void unFocusAllField() {
@@ -579,7 +300,6 @@ class SubmitTrxState extends State<SubmitTrx> {
               builder: (context, value, child) {
                 return SubmitTrxBody(
                   enableInput: widget.enableInput,
-                  dialog: dialogBox,
                   scanPayM: _scanPayM,
                   onChanged: onChanged,
                   onSubmit: onSubmit,
