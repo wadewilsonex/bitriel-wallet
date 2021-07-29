@@ -75,11 +75,25 @@ class ContractProvider with ChangeNotifier {
     _etherClient = Web3Client(AppConfig.etherMainet, _httpClient);
   }
 
-  Future<bool> getPending(String txHash) async {
+  Future getPending(String txHash) async {
 
-    final res = await _web3client.getTransactionReceipt(txHash);
+    TransactionReceipt res;
+    try{
 
-    return res == null ? false : res.status;
+      while(true) {
+        res = await _web3client.getTransactionReceipt(txHash);
+        print("Get pending $res");
+        
+        if (res != null) break;
+        await Future.delayed(Duration(seconds: 3), (){});
+      }
+
+    } catch (e) {
+      print("Error get pending $res");
+      return null;
+    }
+
+    return res.status;
   }
   Future<void> getEtherBalance() async {
 

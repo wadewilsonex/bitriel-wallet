@@ -1,8 +1,5 @@
-import 'dart:math';
 import 'dart:ui';
 import 'package:flare_flutter/flare_controls.dart';
-import 'package:intl/intl.dart';
-import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
@@ -22,6 +19,7 @@ class SubmitTrx extends StatefulWidget {
     this._listPortfolio,
     {this.asset}
   );
+
   @override
   State<StatefulWidget> createState() {
     return SubmitTrxState();
@@ -31,6 +29,8 @@ class SubmitTrx extends StatefulWidget {
 class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional trxFunc;
+
+  ApiProvider _api;
 
   final ModelScanPay _scanPayM = ModelScanPay();
 
@@ -47,7 +47,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
 
-    trxFunc = TrxFunctional(context: context, enableAnimation: enableAnimation, validateAddress: validateAddress);
+    // Initalize Functional Of Trx 
+    trxFunc = TrxFunctional.init(context: context, enableAnimation: enableAnimation, validateAddress: validateAddress);
 
     _scanPayM.controlReceiverAddress.text = widget._walletKey;
     _scanPayM.portfolio = widget._listPortfolio;
@@ -150,121 +151,160 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   Future<void> clickSend() async {
+
     try {
 
       if (_scanPayM.formStateKey.currentState.validate()) {
         /* Send payment */
 
+        // Unfocus All Field Input
         await Future.delayed(const Duration(milliseconds: 100), () {
-          // Unfocus All Field Input
           unFocusAllField();
         });
 
-        final contract = Provider.of<ContractProvider>(context, listen: false);
+        // Start Loading Before Dialog Pin
+        dialogLoading(context);
 
-        await dialogBox().then((value) async {
+        // Init member variables of Trx Functional
+        trxFunc.contract = Provider.of<ContractProvider>(context, listen: false);
+
+        trxFunc.api = Provider.of<ApiProvider>(context, listen: false);
+
+        trxFunc.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : 'private');
+
+        // Close Dialog
+        Navigator.pop(context);
+        
+        // Show Dialog Fill PIN
+        await dialogBox().then((resPin) async {
           print("Asset ${_scanPayM.asset}");
 
-          if (value != null) {
+          if (resPin != null) {
 
-            switch (_scanPayM.asset) {
-              case "SEL":
-                await trxFunc.sendTx(
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text,
-                  value,
-                );
-                break;
-              case "KMPI":
-                await trxFunc.sendTxKmpi(
-                  _scanPayM.controlReceiverAddress.text,
-                  value,
-                  _scanPayM.controlAmount.text,
-                );
-                break;
-              case "DOT":
-                await trxFunc.sendTxDot(
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text,
-                  value,
-                );
-                break;
-              case "SEL (BEP-20)":
-                final chainDecimal = await ContractProvider().query(AppConfig.bscMainnetAddr, 'decimals', []);
-                if (chainDecimal != null) {
-                  await trxFunc.sendTxAYF(
-                    AppConfig.bscMainnetAddr,
-                    chainDecimal[0].toString(),
+            // Second: Start Loading For Sending
+            dialogLoading(context);
+            
+            trxFunc.pin = resPin;
+
+            /* ------------------Check and Get Private------------ */
+            
+            // Get Private Key Only BTC Contract
+            if (_scanPayM.asset == 'BTC'){
+              await trxFunc.getBtcPrivateKey(resPin);
+            } 
+            // Get Private Key For Other Contract 
+            else await trxFunc.getPrivateKey(resPin);
+
+            /* ------------------Check PIN------------ */
+            // Pin Incorrect And Private Key Response NULL
+            if (trxFunc.privateKey == null){
+              // Close Second Dialog
+              Navigator.pop(context);
+              
+              await trxFunc.customDialog('Opps', 'PIN verification failed');
+            }
+            // Pin Correct And Response With Private Key
+            else if (trxFunc.privateKey != null){
+
+              /* -------------Processing Transactioin----------- */
+              switch (_scanPayM.asset) {
+
+                case "SEL":
+                  await trxFunc.sendTx(
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text
+                  );
+                  break;
+
+                case "KMPI":
+                  await trxFunc.sendTxKmpi(
                     _scanPayM.controlReceiverAddress.text,
                     _scanPayM.controlAmount.text,
-                    value,
                   );
-                }
-                break;
-              case "KGO (BEP-20)":
-                final chainDecimal = await ContractProvider().query(AppConfig.kgoAddr, 'decimals', []);
-                if (chainDecimal != null) {
-                  await trxFunc.sendTxAYF(
-                    AppConfig.kgoAddr,
-                    chainDecimal[0].toString(),
+                  break;
+
+                case "DOT":
+                  await trxFunc.sendTxDot(
                     _scanPayM.controlReceiverAddress.text,
-                    _scanPayM.controlAmount.text,
-                    value,
+                    _scanPayM.controlAmount.text
                   );
-                }
-                break;
+                  break;
 
-              case "BNB":
-                await trxFunc.sendTxBnb(
-                  contract,
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text,
-                  value,
-                );
-                break;
+                case "SEL (BEP-20)":
+                  final chainDecimal = await ContractProvider().query(AppConfig.bscMainnetAddr, 'decimals', []);
+                  if (chainDecimal != null) {
+                    await trxFunc.sendTxAYF(
+                      AppConfig.bscMainnetAddr,
+                      chainDecimal[0].toString(),
+                      _scanPayM.controlReceiverAddress.text,
+                      _scanPayM.controlAmount.text
+                    );
+                  }
+                  break;
 
-              case "ETH":
-                await trxFunc.sendTxEther(
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text,
-                  value,
-                );
-                break;
+                case "KGO (BEP-20)":
+                  final chainDecimal = await ContractProvider().query(AppConfig.kgoAddr, 'decimals', []);
+                  if (chainDecimal != null) {
+                    await trxFunc.sendTxAYF(
+                      AppConfig.kgoAddr,
+                      chainDecimal[0].toString(),
+                      _scanPayM.controlReceiverAddress.text,
+                      _scanPayM.controlAmount.text
+                    );
+                  }
+                  break;
 
-              case "BTC":
-                await trxFunc.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text, value);
-                break;
-
-              default:
-                if (_scanPayM.asset.contains('ERC-20')) {
-                  final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
-                  final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
-                  await trxFunc.sendTxErc(
-                    contractAddr,
-                    chainDecimal[0].toString(),
+                case "BNB":
+                  await trxFunc.sendTxBnb(
                     _scanPayM.controlReceiverAddress.text,
-                    _scanPayM.controlAmount.text,
-                    value
+                    _scanPayM.controlAmount.text
                   );
-                } else {
-                  final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
-                  final chainDecimal = await ContractProvider().query(contractAddr, 'decimals', []);
-                  await trxFunc.sendTxAYF(
-                    contractAddr,
-                    chainDecimal[0].toString(),
-                    _scanPayM.controlReceiverAddress.text,
-                    _scanPayM.controlAmount.text,
-                    value,
-                  );
-                }
+                  break;
 
-                break;
+                case "ETH":
+                  await trxFunc.sendTxEther(
+                    _scanPayM.controlReceiverAddress.text,
+                    _scanPayM.controlAmount.text
+                  );
+                  break;
+
+                case "BTC":
+                  await trxFunc.sendTxBtc(
+                    _scanPayM.controlReceiverAddress.text, 
+                    _scanPayM.controlAmount.text
+                  );
+                  break;
+
+                default:
+                  if (_scanPayM.asset.contains('ERC-20')) {
+                    final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
+                    final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
+                    await trxFunc.sendTxErc(
+                      contractAddr,
+                      chainDecimal[0].toString(),
+                      _scanPayM.controlReceiverAddress.text,
+                      _scanPayM.controlAmount.text
+                    );
+                  } 
+                  else {
+                    final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset);
+                    final chainDecimal = await ContractProvider().query(contractAddr, 'decimals', []);
+                    await trxFunc.sendTxAYF(
+                      contractAddr,
+                      chainDecimal[0].toString(),
+                      _scanPayM.controlReceiverAddress.text,
+                      _scanPayM.controlAmount.text
+                    );
+                  }
+
+                  break;
+              }
             }
           }
         });
       }
     } catch (e){
-      await TrxFunctional(context: context, enableAnimation: enableAnimation, validateAddress: validateAddress).customDialog("Oops", "$e");
+      await trxFunc.customDialog("Oops", "$e");
     }
   }
 

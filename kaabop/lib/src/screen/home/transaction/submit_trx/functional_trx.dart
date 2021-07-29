@@ -7,15 +7,26 @@ import 'package:wallet_apps/index.dart';
 
 class TrxFunctional {
 
+  ApiProvider api;
+
+  String pin;
+
+  String encryptKey;
+
+  String privateKey;
+
+  ContractProvider contract;
+
   final BuildContext context;
 
   final Function enableAnimation;
 
   final Function validateAddress;
 
-  TrxFunctional({this.context, this.enableAnimation, this.validateAddress});
+  TrxFunctional.init({this.context, this.enableAnimation, this.validateAddress});
 
 
+  /*  ---------------Message-------------- */
   Future<void> customDialog(String text1, String text2) async {
     await showDialog(
       context: context,
@@ -31,8 +42,10 @@ class TrxFunctional {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context),
               child: const Text('Close'),
+              onPressed: (){
+                Navigator.pop(context);
+              },
             ),
           ],
         );
@@ -40,12 +53,14 @@ class TrxFunctional {
     );
   }
 
+  /* --------------Local Storage----------------- */
+
   Future<String> getBtcPrivateKey(String pin) async {
 
-    String privateKey;
-    final encrytKey = await StorageServices().readSecure('btcwif');
+    // String privateKey;
+
     try {
-      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }
@@ -54,19 +69,9 @@ class TrxFunctional {
   }
 
   Future<String> getPrivateKey(String pin) async {
-
-    String privateKey;
-    final encrytKey = await StorageServices().readSecure('private');
-
-    print("Encrypt $encrytKey");
     
     try {
-      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
-
-      // For Input Wrong PIN
-      if (privateKey == null){
-        await customDialog('Opps', 'PIN verification failed');
-      }
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
       await customDialog('Opps', '$e');
     }
@@ -74,19 +79,17 @@ class TrxFunctional {
     return privateKey;
   }
 
-  /* --------------Local Storage----------------- */
   Future<void> saveTxHistory(TxHistory txHistory) async {
     await StorageServices.addTxHistory(txHistory, 'txhistory');
   }
 
   /* ------------------Transaction--------------- */
-  Future<void> sendTxBnb(ContractProvider contract, String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final res = await getPrivateKey(pin);
 
-    if (res != null) {
+  Future<void> sendTxBnb(String reciever, String amount) async {
 
-      final hash = await contract.sendTxBnb(res, reciever, amount);
+    if (privateKey != null) {
+
+      final hash = await contract.sendTxBnb(privateKey, reciever, amount);
       print("Contract $hash");
 
       if (hash != null) {
@@ -103,18 +106,12 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxBtc(String to, String amount, String pin) async {
-    
-    dialogLoading(context);
-
-    final api = Provider.of<ApiProvider>(context, listen: false);
+  Future<void> sendTxBtc(String to, String amount) async {
 
     final resAdd = await api.validateBtcAddr(to);
 
-    final wif = await getBtcPrivateKey(pin);
-
     if (resAdd) {
-      final res = await api.sendTxBtc(context, api.btcAdd, to, double.parse(amount), wif);
+      final res = await api.sendTxBtc(context, api.btcAdd, to, double.parse(amount), privateKey);
       if (res == 200) {
         enableAnimation();
       } else {
@@ -127,15 +124,12 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxEther(String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+  Future<void> sendTxEther(String reciever, String amount) async {
 
     try {
-      final res = await getPrivateKey(pin);
 
-      if (res != null) {
-        final hash = await contract.sendTxEther(res, reciever, amount);
+      if (privateKey != null) {
+        final hash = await contract.sendTxEther(privateKey, reciever, amount);
         if (hash != null) {
           enableAnimation();
         } else {
@@ -149,20 +143,15 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxAYF(String contractAddr, String chainDecimal, String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+  Future<void> sendTxAYF(String contractAddr, String chainDecimal, String reciever, String amount) async {
+
     try {
-      final res = await getPrivateKey(pin);
 
-      print("Tx AYF Res $res");
-
-      if (res != null) {
+      if (privateKey != null) {
         final hash = await contract.sendTxBsc(
           contractAddr,
           chainDecimal,
-          res,
+          privateKey,
           reciever,
           amount,
         );
@@ -188,16 +177,14 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount, String pin) async {
-    dialogLoading(context);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+  Future<void> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount) async {
     try {
-      final res = await getPrivateKey(pin);
-      if (res != null) {
+
+      if (privateKey != null) {
         final hash = await contract.sendTxEthCon(
           contractAddr,
           chainDecimal,
-          res,
+          privateKey,
           reciever,
           amount,
         );
@@ -217,32 +204,34 @@ class TrxFunctional {
 
 
 
-  Future<void> sendTxKmpi(String to, String pass, String value) async {
-    dialogLoading(
-      context,
-      content: 'Please wait! This might be taking some time.',
-    );
+  Future<void> sendTxKmpi(String to, String amount) async {
+    // dialogLoading(
+    //   context,
+    //   content: 'Please wait! This might be taking some time.',
+    // );
 
     try {
       final res = await ApiProvider.sdk.api.keyring.contractTransfer(
         ApiProvider.keyring.keyPairs[0].pubKey,
         to,
-        value,
-        pass,
+        amount,
+        pin,
         Provider.of<ContractProvider>(context, listen: false).kmpi.hash,
       );
 
       if (res['status'] != null) {
         Provider.of<ContractProvider>(context, listen: false).fetchKmpiBalance();
 
-        await saveTxHistory(TxHistory(
-          date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-          symbol: 'KMPI',
-          destination: to,
-          sender: ApiProvider.keyring.current.address,
-          org: 'KOOMPI',
-          amount: value.trim(),
-        ));
+        await saveTxHistory(
+          TxHistory(
+            date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
+            symbol: 'KMPI',
+            destination: to,
+            sender: ApiProvider.keyring.current.address,
+            org: 'KOOMPI',
+            amount: amount.trim(),
+          )
+        );
 
         await enableAnimation();
       }
@@ -252,9 +241,7 @@ class TrxFunctional {
     }
   }
 
-  Future<String> sendTx(String target, String amount, String pin) async {
-
-    dialogLoading(context);
+  Future<String> sendTx(String target, String amount) async {
 
     String mhash;
 
@@ -315,9 +302,10 @@ class TrxFunctional {
     return mhash;
   }
 
-  Future<String> sendTxDot(String target, String amount, String pin) async {
-    dialogLoading(context);
+  Future<String> sendTxDot(String target, String amount) async {
+
     String mhash;
+    
     final sender = TxSenderData(
       ApiProvider.keyring.current.address,
       ApiProvider.keyring.current.pubKey,

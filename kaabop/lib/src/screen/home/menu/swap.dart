@@ -55,28 +55,34 @@ class _SwapState extends State<Swap> {
 
         if (res != null) {
 
-          dialogLoading(context);
+          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
           final hash = await contract.swap(_amountController.text, res);
 
+          print("Has $hash");
+
           if (hash != null) {
-            await Future.delayed(const Duration(seconds: 15));
+            
+            bool res = await contract.getPending(hash);
 
-            final res = await contract.getPending(hash);
+            print("After get pending $res");
+            if (res) {
+              setState(() {});
 
-            if (res != null) {
-              if (res) {
-                setState(() {});
-
-                contract.getBscBalance();
-                Navigator.pop(context);
-                enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.');
-                _amountController.text = '';
-              } else {
-                Navigator.pop(context);
-                await customDialog('Opps', 'Something went wrong.');
-              }
+              contract.getBscBalance();
+              Navigator.pop(context);
+              enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.');
+              _amountController.text = '';
+            } else if (res == false){
+              Navigator.pop(context);
+              await customDialog('Opps', 'Connection time out.');
+            } else {
+              await customDialog('Opps', 'Something went wrong.');
             }
+
+            // if (res != null) {
+              
+            // }
           } else {
             Navigator.pop(context);
           }
