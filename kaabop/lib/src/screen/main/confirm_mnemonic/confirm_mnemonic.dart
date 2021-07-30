@@ -134,10 +134,11 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
+
             MyAppBar(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                ? hexaCodeToColor(AppColors.darkCard)
+                : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppText.createAccTitle,
               onPressed: () {
                 Navigator.pop(context);
@@ -154,8 +155,8 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -165,8 +166,8 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                     text: AppText.clickMnemonic,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                     bottom: 12,
                   ),
 
@@ -191,8 +192,8 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                     width: double.infinity,
                     margin: const EdgeInsets.only(bottom: 16),
                     color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : hexaCodeToColor(AppColors.darkCard),
+                      ? hexaCodeToColor(AppColors.darkCard)
+                      : hexaCodeToColor(AppColors.whiteColorHexa),
                     padding: const EdgeInsets.all(16),
                     alignment: Alignment.centerLeft,
                     child: MyText(

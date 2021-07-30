@@ -623,7 +623,7 @@ Widget progress({String content}) {
             else
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-                child: textScale(text: content, hexaColor: "#FFFFFF"),
+                child: textScale(text: content, hexaColor: "#FFFFFF", textA),
               ),
           ],
         )
@@ -912,13 +912,15 @@ Widget textButton(
   );
 }
 
-Widget textScale(
-    {String text,
-    double fontSize = 18.0,
-    String hexaColor = "#1BD2FA",
-    TextDecoration underline,
-    BoxFit fit = BoxFit.contain,
-    FontWeight fontWeight}) {
+Widget textScale({
+  String text,
+  double fontSize = 18.0,
+  String hexaColor = "#1BD2FA",
+  TextDecoration underline,
+  BoxFit fit = BoxFit.contain,
+  FontWeight fontWeight,
+  TextAlign textAlign = TextAlign.center
+}) {
   return FittedBox(
     fit: fit,
     child: Text(
@@ -927,7 +929,9 @@ Widget textScale(
           color: hexaCodeToColor(hexaColor),
           decoration: underline,
           fontSize: fontSize,
-          fontWeight: fontWeight),
+          fontWeight: fontWeight,
+        ),
+        textAlign: textAlign
     ),
   );
 }

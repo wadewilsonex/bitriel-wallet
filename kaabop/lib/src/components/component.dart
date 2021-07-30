@@ -77,6 +77,7 @@ class Component {
 }
 
 class MyFlatButton extends StatelessWidget {
+  
   final String textButton;
   final String buttonColor;
   final FontWeight fontWeight;

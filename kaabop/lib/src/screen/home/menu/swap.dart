@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/network_sensitive.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 class Swap extends StatefulWidget {
@@ -14,6 +15,7 @@ class _SwapState extends State<Swap> {
   
   FlareControls flareController = FlareControls();
   final GlobalKey<FormState> _swapKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _amountController;
 
@@ -62,29 +64,38 @@ class _SwapState extends State<Swap> {
           print("Has $hash");
 
           if (hash != null) {
-            
-            bool res = await contract.getPending(hash);
+            await Future.delayed(const Duration(seconds: 7));
+            final res = await contract.getPending(hash);
 
-            print("After get pending $res");
-            if (res) {
-              setState(() {});
+            if (res != null) {
+              if (res) {
+                setState(() {});
 
-              contract.getBscBalance();
-              Navigator.pop(context);
-              enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.');
-              _amountController.text = '';
-            } else if (res == false){
-              Navigator.pop(context);
-              await customDialog('Opps', 'Connection time out.');
+                contract.getBscBalance();
+                Navigator.pop(context);
+                enableAnimation(
+                    'swapped ${_amountController.text} of SEL v1 to SEL v2.');
+                _amountController.text = '';
+              } else {
+                Navigator.pop(context);
+                await customDialog('Transaction failed',
+                    'Something went wrong with your transaction.');
+              }
             } else {
-              await customDialog('Opps', 'Something went wrong.');
+              Navigator.pop(context);
+              await customDialog('Transaction failed',
+                  'Something went wrong with your transaction.');
             }
 
             // if (res != null) {
               
             // }
           } else {
+            contract.getBscBalance();
             Navigator.pop(context);
+            enableAnimation(
+                'swapped ${_amountController.text} of SEL v1 to SEL v2.');
+            _amountController.text = '';
           }
         }
       } catch (e) {
@@ -605,9 +616,7 @@ class _SwapState extends State<Swap> {
     await contract.getBscBalance();
 
     setState(() {
-
       _amountController.text = contract.bscNative.balance;
-      
     });
     // Close Dialog
     Navigator.pop(context);

@@ -80,8 +80,8 @@ class SubmitTrxBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     listInput[0],
+                    /* Type of payment */
                     Container(
-                      /* Type of payment */
                       margin: const EdgeInsets.only(
                         bottom: 16.0,
                         left: 16,

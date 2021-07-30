@@ -2,7 +2,6 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyUserInfoBody extends StatelessWidget {
-
   final ModelUserInfo modelUserInfo;
   final Function onSubmit;
   final String Function(String) onChanged;
@@ -69,11 +68,15 @@ class MyUserInfoBody extends StatelessWidget {
                       enabled: true,
                       focusNode: modelUserInfo.passwordNode,
                       validator: validateMidName,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       obscureText: true,
                       controller: modelUserInfo.passwordCon,
                       textInputAction: TextInputAction.next,
-                      style: TextStyle(color: hexaCodeToColor("#FFFFFF"), fontSize: 18.0),
+                      style: TextStyle(
+                          color: isDarkTheme
+                              ? hexaCodeToColor(AppColors.whiteColorHexa)
+                              : hexaCodeToColor(AppColors.textColor),
+                          fontSize: 18.0),
                       decoration: InputDecoration(
                         labelText: "Pin",
                         labelStyle: TextStyle(
@@ -136,7 +139,7 @@ class MyUserInfoBody extends StatelessWidget {
                         controller: modelUserInfo.confirmPasswordCon,
                         focusNode: modelUserInfo.confirmPasswordNode,
                         validator: validateLastName,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         obscureText: true,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
@@ -208,13 +211,21 @@ class MyUserInfoBody extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
                                     title: Align(
-                                      child: MyText(text: "Oops", fontWeight: FontWeight.w600,),
+                                      child: MyText(
+                                        text: "Oops",
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                     content: Padding(
-                                      padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                                      child: Text("This feature has not implemented yet!", textAlign: TextAlign.center),
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0, bottom: 15.0),
+                                      child: Text(
+                                          "This feature has not implemented yet!",
+                                          textAlign: TextAlign.center),
                                     ),
                                     actions: <Widget>[
                                       FlatButton(

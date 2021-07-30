@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart';
+import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
@@ -63,11 +64,16 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client _web3client, _etherClient;
 
+  final String _wsUrl = "wss://bsc-ws-node.nariox.org:443";
+
   List<TokenModel> token = [];
 
   Future<void> initClient() async {
     _httpClient = Client();
-    _web3client = Web3Client(AppConfig.bscMainNet, _httpClient);
+    _web3client =
+        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(_wsUrl).cast<String>();
+    });
   }
 
   Future<void> initEtherClient() async {
@@ -75,25 +81,20 @@ class ContractProvider with ChangeNotifier {
     _etherClient = Web3Client(AppConfig.etherMainet, _httpClient);
   }
 
-  Future getPending(String txHash) async {
+  Future<bool> getPending(String txHash) async {
+    await initClient();
 
-    TransactionReceipt res;
-    try{
+    final res = await _web3client
+        .addedBlocks()
+        .asyncMap((_) => _web3client.getTransactionReceipt(txHash))
+        .where((receipt) => receipt != null)
+        .first;
 
-      while(true) {
-        res = await _web3client.getTransactionReceipt(txHash);
-        print("Get pending $res");
-        
-        if (res != null) break;
-        await Future.delayed(Duration(seconds: 3), (){});
-      } 
+    print(res.status);
 
-    } catch (e) {
-      print("Error get pending $res");
-      return null;
-    }
+    if (res != null) return res.status;
 
-    return res.status;
+    return null;
   }
   Future<void> getEtherBalance() async {
 
@@ -178,20 +179,34 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
-    
-    final contract = await initSwapSel('0x54419268c31678C31e94dB494C509193d7d2BB5D');
+    await initClient();
+    final contract =
+        await initSwapSel('0x54419268c31678C31e94dB494C509193d7d2BB5D');
+
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final gasPrice = await _web3client.getGasPrice();
+
     final ethFunction = contract.function('swap');
 
     final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+
+    final maxGas = await _web3client.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: contract.address,
+      data: ethFunction
+          .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
+    );
 
     final swap = await _web3client.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
+        from: EthereumAddress.fromHex(ethAddr),
         function: ethFunction,
-        parameters: [
-          BigInt.from(double.parse(amount) * pow(10, 18)),
-        ],
+        gasPrice: gasPrice,
+        maxGas: maxGas.toInt(),
+        parameters: [BigInt.from(double.parse(amount) * pow(10, 18))],
       ),
       fetchChainIdFromNetworkId: true,
     );
@@ -472,12 +487,7 @@ class ContractProvider with ChangeNotifier {
         function: txFunction,
         parameters: [
           EthereumAddress.fromHex(reciever),
-          BigInt.from(
-            pow(
-              double.parse(amount) * 10,
-              int.parse(chainDecimal),
-            ),
-          ),
+          BigInt.from(double.parse(amount) * pow(10, 18))
         ],
       ),
       fetchChainIdFromNetworkId: true,
@@ -507,12 +517,7 @@ class ContractProvider with ChangeNotifier {
         function: txFunction,
         parameters: [
           EthereumAddress.fromHex(reciever),
-          BigInt.from(
-            pow(
-              double.parse(amount) * 10,
-              int.parse(chainDecimal),
-            ),
-          ),
+          BigInt.from(double.parse(amount) * pow(10, 18))
         ],
       ),
       fetchChainIdFromNetworkId: true,
