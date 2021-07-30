@@ -86,7 +86,7 @@ class ContractProvider with ChangeNotifier {
         
         if (res != null) break;
         await Future.delayed(Duration(seconds: 3), (){});
-      }
+      } 
 
     } catch (e) {
       print("Error get pending $res");
