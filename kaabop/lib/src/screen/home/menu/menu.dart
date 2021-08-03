@@ -1,6 +1,5 @@
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:provider/provider.dart';
-import 'package:local_auth/local_auth.dart' as auth;
 import 'package:wallet_apps/index.dart';
 
 class Menu extends StatefulWidget {

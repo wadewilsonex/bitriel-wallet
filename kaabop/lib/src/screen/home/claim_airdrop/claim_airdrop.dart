@@ -215,7 +215,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
               child: Text('Something went wrong. Try again'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -453,6 +453,9 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               left: 16.0,
                               right: 16.0,
                               fontSize: 16.0,
+                              color: isDarkTheme
+                                  ? AppColors.whiteColorHexa
+                                  : AppColors.textColor,
                             ),
                             // MyInputField(
                             //   pTop: 24.0,

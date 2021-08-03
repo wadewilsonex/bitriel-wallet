@@ -70,7 +70,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> initClient() async {
     _httpClient = Client();
     _web3client =
-        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
+        Web3Client(AppConfig.bscTestNet, _httpClient, socketConnector: () {
       return IOWebSocketChannel.connect(_wsUrl).cast<String>();
     });
   }
@@ -139,13 +139,35 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> approveSwap(String privateKey) async {
-    final String oldSelAddr = "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a";
-    final String newSelAddr = "0x54419268c31678C31e94dB494C509193d7d2BB5D";
+    print(privateKey);
 
-    final contract = await initBsc(oldSelAddr);
+    // final String newSelAddr = "0x54419268c31678C31e94dB494C509193d7d2BB5D";
+
+    // final contract = await initBsc(AppConfig.oSEL);
+    // final ethFunction = contract.function('approve');
+
+    // final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+
+    // final approve = await _web3client.sendTransaction(
+    //   credentials,
+    //   Transaction.callContract(
+    //     contract: contract,
+    //     function: ethFunction,
+    //     parameters: [
+    //       EthereumAddress.fromHex(AppConfig.swapTestContract),
+    //       BigInt.parse('1000000000000000042420637374017961984')
+    //     ],
+    //   ),
+    //   fetchChainIdFromNetworkId: true,
+    // );
+
+    final contract =
+        await initBsc('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
     final ethFunction = contract.function('approve');
 
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    // final credentials = EthPrivateKey('0x5f64cd3fe9ed1f0639e2ce4f072ca8f58a5947b6f55ff92c456dbe005b614687'as Uint8List);
+    final credentials =
+        await _web3client.credentialsFromPrivateKey(privateKey);
 
     final approve = await _web3client.sendTransaction(
       credentials,
@@ -153,12 +175,13 @@ class ContractProvider with ChangeNotifier {
         contract: contract,
         function: ethFunction,
         parameters: [
-          EthereumAddress.fromHex(newSelAddr),
-          BigInt.parse('999999999999999974000000000000000000')
+          EthereumAddress.fromHex('0xE5DD12570452057fc85B8cE9820aD676390f865B'),
+          BigInt.parse('1000000000000000042420637374017961984'),
         ],
       ),
       fetchChainIdFromNetworkId: true,
     );
+    print('aprr $approve');
 
     return approve;
   }
@@ -166,11 +189,11 @@ class ContractProvider with ChangeNotifier {
   Future<dynamic> checkAllowance() async {
     final ethAddr = await StorageServices().readSecure('etherAdd');
     final res = await query(
-      '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
+      AppConfig.oSEL,
       'allowance',
       [
         EthereumAddress.fromHex(ethAddr),
-        EthereumAddress.fromHex('0x54419268c31678C31e94dB494C509193d7d2BB5D')
+        EthereumAddress.fromHex(AppConfig.swapTestContract)
       ],
     );
 
@@ -179,8 +202,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> swap(String amount, String privateKey) async {
     await initClient();
-    final contract =
-        await initSwapSel('0x54419268c31678C31e94dB494C509193d7d2BB5D');
+    final contract = await initSwapSel(AppConfig.swapTestContract);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
@@ -306,7 +328,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscDecimal() async {
-    final res = await query(AppConfig.bscMainnetAddr, 'decimals', []);
+    final res = await query(AppConfig.oSEL, 'decimals', []);
 
     bscNative.chainDecimal = res[0].toString();
 
@@ -355,8 +377,8 @@ class ContractProvider with ChangeNotifier {
     bscNativeV2.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.bscMainnetV2Addr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(
+          AppConfig.testSEL, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
       bscNativeV2.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),
@@ -370,8 +392,8 @@ class ContractProvider with ChangeNotifier {
     bscNative.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.bscMainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(
+          AppConfig.oSEL, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
       bscNative.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),

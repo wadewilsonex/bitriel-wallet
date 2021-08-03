@@ -196,6 +196,7 @@ class AddAssetBody extends StatelessWidget {
 
                         if (assetM.match)
                           portFolioItemRow(
+                            context,
                             isDarkTheme,
                             ContractProvider().kmpi.logo,
                             ContractProvider().kmpi.symbol,
@@ -204,6 +205,7 @@ class AddAssetBody extends StatelessWidget {
                           )
                         else if (tokenSymbol == 'SEL')
                           portFolioItemRow(
+                            context,
                             isDarkTheme,
                             ContractProvider().bscNative.logo,
                             tokenSymbol,
@@ -212,6 +214,7 @@ class AddAssetBody extends StatelessWidget {
                           )
                         else if (tokenSymbol == 'KGO')
                           portFolioItemRow(
+                            context,
                             isDarkTheme,
                             ContractProvider().kgoNative.logo,
                             tokenSymbol,
@@ -220,6 +223,7 @@ class AddAssetBody extends StatelessWidget {
                           )
                         else if (tokenSymbol != 'SEL' && tokenSymbol != '')
                           portFolioItemRow(
+                            context,
                             isDarkTheme,
                             'assets/circle.png',
                             tokenSymbol,
@@ -275,9 +279,10 @@ class AddAssetBody extends StatelessWidget {
     );
   }
 
-  Widget portFolioItemRow(bool isDark, String logo, String tokenSymbol, Color color, Function addAsset) {
+  Widget portFolioItemRow(BuildContext context, bool isDark, String logo, String tokenSymbol, Color color, Function addAsset) {
 
     return rowDecorationStyle(
+      context, 
       isDark,
       child: Row(
         children: <Widget>[
@@ -335,15 +340,13 @@ class AddAssetBody extends StatelessWidget {
     );
   }
 
-  Widget rowDecorationStyle(bool isDark, {Widget child, double mTop = 0, double mBottom = 16}) {
+  Widget rowDecorationStyle(BuildContext context, bool isDark, {Widget child, double mTop = 0, double mBottom = 16}) {
     return Container(
         margin: EdgeInsets.only(top: mTop, left: 16, right: 16, bottom: 16),
         padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
         decoration: BoxDecoration(
           boxShadow:[
-            shadow(
-              hexaCode: isDark ? Colors.black.withOpacity(0.3) : null 
-            )
+            shadow(context)
           ],
           color: hexaCodeToColor(isDark ? AppColors.darkCard : AppColors.whiteHexaColor),
           borderRadius: BorderRadius.circular(8),

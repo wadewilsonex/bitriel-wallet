@@ -285,17 +285,17 @@ class _AssetInfoState extends State<AssetInfo> {
     return Scaffold(
       key: _globalKey,
       floatingActionButton: widget.tokenSymbol != "ATD"
-        ? Container()
-        : FloatingActionButton(
-            onPressed: () {
-              qrRes();
-            },
-            backgroundColor: hexaCodeToColor(AppColors.secondary),
-            child: const Icon(
-              Icons.location_on,
-              size: 30,
-            ),
-          ),
+      ? Container()
+      : FloatingActionButton(
+        onPressed: () {
+          qrRes();
+        },
+        backgroundColor: hexaCodeToColor(AppColors.secondary),
+        child: const Icon(
+          Icons.location_on,
+          size: 30,
+        ),
+      ),
 
       body: BodyScaffold(
         bottom: 0,
@@ -310,12 +310,12 @@ class _AssetInfoState extends State<AssetInfo> {
                 automaticallyImplyLeading: false,
                 leading: Container(),
                 backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : Colors.white,
-                flexibleSpace: Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    children: [
+                flexibleSpace: Column(
+                  children: [
 
-                      Flexible(
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -364,20 +364,27 @@ class _AssetInfoState extends State<AssetInfo> {
                             ),
                           ],
                         )
-                      ),
-                      Divider(height: 3, color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : Colors.grey.shade400)
-                    ]
-                  )
+                      )
+                    ),
+                  ]
                 ),
               ),
 
+              // Under Line of AppBar
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Divider(height: 3, color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : Colors.grey.shade400)
+                ])
+              ),
+
+              // Body 
               SliverList(
                 delegate: SliverChildListDelegate(
                   <Widget>[
                     Container(
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
                           if (widget.tokenSymbol == "ATD")
@@ -440,32 +447,29 @@ class _AssetInfoState extends State<AssetInfo> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
-                                      ? AppColors.whiteColorHexa
-                                      : AppColors.textColor,
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
                                 ),
                                 const SizedBox(width: 6.0),
                                 MyText(
-                                  text: widget.priceChange24h.substring(0, 1) ==
-                                          '-'
-                                      ? '${widget.priceChange24h}%'
-                                      : '+${widget.priceChange24h}%',
+                                  text: widget.priceChange24h.substring(0, 1) == '-'
+                                    ? '${widget.priceChange24h}%'
+                                    : '+${widget.priceChange24h}%',
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      widget.priceChange24h.substring(0, 1) ==
-                                              '-'
-                                          ? '#FF0000'
-                                          : isDarkTheme
-                                              ? '#00FF00'
-                                              : '#66CD00',
+                                  color: widget.priceChange24h.substring(0, 1) == '-'
+                                  ? '#FF0000'
+                                  : isDarkTheme
+                                    ? '#00FF00'
+                                    : '#66CD00',
                                 ),
                               ],
                             ),
                           Container(
                             margin: const EdgeInsets.only(top: 40),
                             padding: widget.tokenSymbol == 'ATD'
-                                ? const EdgeInsets.symmetric()
-                                : const EdgeInsets.symmetric(vertical: 16.0),
+                              ? const EdgeInsets.symmetric()
+                              : const EdgeInsets.symmetric(vertical: 16.0),
                             child: widget.tokenSymbol == 'ATD'
                                 ? Container()
                                 : Row(
@@ -527,8 +531,8 @@ class _AssetInfoState extends State<AssetInfo> {
                     Container(
                       height: 32.0,
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                     ),
                     Container(
                       //padding: const EdgeInsets.only(top: 32.0),
@@ -544,13 +548,13 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
-                                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                                    ? hexaCodeToColor(AppColors.darkCard)
+                                    : hexaCodeToColor(AppColors.whiteHexaColor),
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 0
-                                          ? hexaCodeToColor(AppColors.secondary)
-                                          : Colors.transparent,
+                                        ? hexaCodeToColor(AppColors.secondary)
+                                        : Colors.transparent,
                                       width: 1.5,
                                     ),
                                   ),
@@ -558,10 +562,10 @@ class _AssetInfoState extends State<AssetInfo> {
                                 child: MyText(
                                   text: "Details",
                                   color: _tabIndex == 0
-                                      ? AppColors.secondary
-                                      : isDarkTheme
-                                          ? AppColors.darkSecondaryText
-                                          : AppColors.textColor,
+                                    ? AppColors.secondary
+                                    : isDarkTheme
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
                                 ),
                               ),
                             ),
@@ -576,13 +580,13 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
-                                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                                    ? hexaCodeToColor(AppColors.darkCard)
+                                    : hexaCodeToColor(AppColors.whiteHexaColor),
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 1
-                                          ? hexaCodeToColor(AppColors.secondary)
-                                          : Colors.transparent,
+                                        ? hexaCodeToColor(AppColors.secondary)
+                                        : Colors.transparent,
                                       width: 1.5,
                                     ),
                                   ),
@@ -590,10 +594,10 @@ class _AssetInfoState extends State<AssetInfo> {
                                 child: MyText(
                                   text: "Activity",
                                   color: _tabIndex == 1
-                                      ? AppColors.secondary
-                                      : isDarkTheme
-                                          ? AppColors.darkSecondaryText
-                                          : AppColors.textColor,
+                                    ? AppColors.secondary
+                                    : isDarkTheme
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
                                 ),
                               ),
                             ),
@@ -606,6 +610,7 @@ class _AssetInfoState extends State<AssetInfo> {
               ),
             ];
           },
+
           body: PageView(
             controller: controller,
             onPageChanged: (index) {

@@ -75,8 +75,8 @@ class _ContentsBackupState extends State<ContentsBackup> {
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                         bottom: bpSize,
                       )),
                   Align(
@@ -86,8 +86,8 @@ class _ContentsBackupState extends State<ContentsBackup> {
                       text: AppText.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: bpSize,
                     ),
                   ),
@@ -117,8 +117,8 @@ class _ContentsBackupState extends State<ContentsBackup> {
               child: Container(),
             ),
             MyFlatButton(
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              hasShadow: true,
               textButton: AppText.next,
               action: () async {
                 Navigator.push(

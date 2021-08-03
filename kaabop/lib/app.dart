@@ -32,6 +32,7 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+
     Provider.of<ApiProvider>(context, listen: false).initApi().then(
       (value) async {
         if (ApiProvider.keyring.keyPairs.isNotEmpty) {
@@ -45,13 +46,14 @@ class AppState extends State<App> {
 
           isKgoContain();
 
+
           getSavedContractToken();
 
           getEtherSavedContractToken();
 
-          Provider.of<ContractProvider>(context, listen: false)
-              .getEtherBalance();
+          Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
         }
+
         Provider.of<ApiProvider>(context, listen: false).connectNode().then(
           (value) {
             if (value != null) {
@@ -60,8 +62,7 @@ class AppState extends State<App> {
               });
 
               if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-                Provider.of<ApiProvider>(context, listen: false)
-                    .getChainDecimal();
+                Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
               }
             }
           },

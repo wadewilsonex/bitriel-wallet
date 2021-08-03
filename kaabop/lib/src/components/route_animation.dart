@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 class RouteAnimation extends PageRouteBuilder {
@@ -10,29 +11,28 @@ class RouteAnimation extends PageRouteBuilder {
           transitionDuration: const Duration(milliseconds: 50),
           settings: RouteSettings(name: routeName),
           transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              Stack(
-            children: [
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0.0, 0.0),
-                  end: const Offset(-1.0, 0.0),
-                ).animate(animation),
-                child: exitPage,
-              ),
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(1.0, 0.0),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: enterPage,
-              ),
-            ],
+              //     Stack(
+              //   children: [
+              //     SlideTransition(
+              //       position: Tween<Offset>(
+              //         begin: const Offset(0.0, 0.0),
+              //         end: const Offset(-1.0, 0.0),
+              //       ).animate(animation),
+              //       child: exitPage,
+              //     ),
+              //     SlideTransition(
+              //       position: Tween<Offset>(
+              //         begin: const Offset(1.0, 0.0),
+              //         end: Offset.zero,
+              //       ).animate(animation),
+              //       child: enterPage,
+              //     ),
+              //   ],
+              // ),
+              FadeThroughTransition(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            child: enterPage,
           ),
-          //     FadeThroughTransition(
-          //   animation: animation,
-          //   secondaryAnimation: secondaryAnimation,
-          //   child: enterPage,
-
-          // ),
         );
 }

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.13+33
+version: 2.0.14+35
 #6 feature
 #8 debug
 #1 refactor
@@ -32,12 +32,10 @@ dependencies:
  
   geolocator: ^5.3.2+2
 
-  minimize_app: ^0.1.1
-
   url_launcher: ^6.0.3
   
   latlong: ^0.6.1
-  web_socket_channel: ^1.1.0
+  web_socket_channel:
 
   webview_flutter: ^1.0.7
 
@@ -63,10 +61,9 @@ dependencies:
 
   # Chart
   flutter_circular_chart:
-  syncfusion_flutter_charts:
   charts_flutter:
-  fl_chart: ^0.12.0
-  pie_chart: ^5.0.0
+  fl_chart:
+  pie_chart:
 
   #Indecator
   percent_indicator:
@@ -74,13 +71,11 @@ dependencies:
   # Icons
   line_awesome_flutter:
   pinput: ^1.0.0
-  transparent_image: 
-  autocomplete_textfield:
+  transparent_image:  
   date_format:
  
-  device_preview:
   store_redirect:
-  share: ^2.0.0
+  share:
 
   vibration: ^1.7.3
  
@@ -97,17 +92,17 @@ dependencies:
 
   polkawallet_sdk:
     path: ../
-  animations: ^1.1.2
-  provider: ^4.3.3
-  web3dart: ^1.2.3
-  bitcoin_flutter: ^2.0.2
+  animations:
+  provider:
+  web3dart:
+  bitcoin_flutter:
 
-  flutter_secure_storage: ^4.1.0
+  flutter_secure_storage:
   flutter_screenshot_switcher: ^1.2.0
 
   #Contact
   contacts_service: ^0.4.6 
-  fluttercontactpicker: ^4.2.1
+  fluttercontactpicker: 
   
   #animation
   flare_flutter:

@@ -117,7 +117,7 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   void onSubmit() {
-    if (_userInfoM.userNameNode.hasFocus) {
+    if (_userInfoM.nodeFirstName.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.passwordNode);
     } else if (_userInfoM.passwordNode.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.confirmPasswordNode);
@@ -139,7 +139,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         return 'Please fill in username';
       }
     }
-    return _userInfoM.responseFirstname;
+    return null;
   }
 
   String validatePassword(String value) {
@@ -148,7 +148,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         return 'Please fill in 4-digits password';
       }
     }
-    return _userInfoM.responseMidname;
+    return null;
   }
 
   String validateConfirmPassword(String value) {

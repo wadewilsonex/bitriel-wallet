@@ -65,6 +65,12 @@ class AppConfig {
 
   //test 0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314
 
+  static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+
+  static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
+  
+  static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
+
   static const nodeName = 'Indranet hosted By Selendra';
 
   static const nodeEndpoint = 'wss://rpc-testnet.selendra.org';
@@ -105,13 +111,16 @@ class AppConfig {
     },
   ];
 
-  static const testInviteLink = 'https://selendra-airdrop.netlify.app/invitation?ref=';
+  static const testInviteLink =
+      'https://selendra-airdrop.netlify.app/invitation?ref=';
 
-  static const testInviteLink1 = 'https://selendra-airdrop.netlify.app/claim-\$sel?ref=';
+  static const testInviteLink1 =
+      'https://selendra-airdrop.netlify.app/claim-\$sel?ref=';
 
   static const baseInviteLink = 'https://airdrop.selendra.org/claim-\$sel?ref=';
 
-  static const credentials = '';
+  //static const credentials = '';
+
 
   //
   // sld_market net API

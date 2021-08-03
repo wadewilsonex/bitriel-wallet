@@ -80,6 +80,12 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     )
                   else
                     Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
+                            width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       color: isDarkTheme
                           ? hexaCodeToColor(AppColors.darkCard)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -108,8 +114,10 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               ),
             ),
             MyFlatButton(
-              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin:
+                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               textButton: AppText.next,
+              hasShadow: true,
               action: () async {
                 Navigator.push(
                   context,

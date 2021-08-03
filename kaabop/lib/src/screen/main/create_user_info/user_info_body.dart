@@ -56,7 +56,7 @@ class MyUserInfoBody extends StatelessWidget {
                       LengthLimitingTextInputFormatter(TextField.noMaxLength)
                     ],
                     controller: modelUserInfo.userNameCon,
-                    focusNode: modelUserInfo.userNameNode,
+                    focusNode: modelUserInfo.nodeFirstName,
                     validateField: validateFirstName,
                     onChanged: onChanged,
                     onSubmit: onSubmit,
@@ -68,7 +68,7 @@ class MyUserInfoBody extends StatelessWidget {
                       enabled: true,
                       focusNode: modelUserInfo.passwordNode,
                       validator: validateMidName,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       obscureText: true,
                       controller: modelUserInfo.passwordCon,
                       textInputAction: TextInputAction.next,
@@ -86,8 +86,7 @@ class MyUserInfoBody extends StatelessWidget {
                               ? isDarkTheme
                                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                                       .withOpacity(0.3)
-                                  : hexaCodeToColor(AppColors.textColor)
-                                      .withOpacity(0.3)
+                                  : hexaCodeToColor(AppColors.secondary)
                               : hexaCodeToColor(AppColors.darkSecondaryText),
                         ),
                         prefixStyle: TextStyle(
@@ -99,15 +98,13 @@ class MyUserInfoBody extends StatelessWidget {
                             ? hexaCodeToColor(AppColors.darkCard)
                             : hexaCodeToColor(AppColors.whiteHexaColor),
                         enabledBorder: myTextInputBorder(
-                          modelUserInfo.passwordCon.text != ""
-                              ? isDarkTheme
-                                  ? hexaCodeToColor(AppColors.whiteColorHexa)
-                                      .withOpacity(0.3)
-                                  : hexaCodeToColor(AppColors.textColor)
-                                      .withOpacity(0.3)
-                              : hexaCodeToColor(AppColors.secondary)
-                                  .withOpacity(0.3),
-                        ),
+                            modelUserInfo.passwordCon.text != ""
+                                ? isDarkTheme
+                                    ? hexaCodeToColor(AppColors.whiteColorHexa)
+                                        .withOpacity(0.3)
+                                    : hexaCodeToColor(AppColors.textColor)
+                                        .withOpacity(0.3)
+                                : hexaCodeToColor(AppColors.darkSecondaryText)),
                         /* Enable Border But Not Show Error */
                         border: errorOutline(),
                         /* Show Error And Red Border */
@@ -139,7 +136,7 @@ class MyUserInfoBody extends StatelessWidget {
                         controller: modelUserInfo.confirmPasswordCon,
                         focusNode: modelUserInfo.confirmPasswordNode,
                         validator: validateLastName,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         obscureText: true,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
@@ -156,8 +153,7 @@ class MyUserInfoBody extends StatelessWidget {
                                 ? isDarkTheme
                                     ? hexaCodeToColor(AppColors.whiteColorHexa)
                                         .withOpacity(0.3)
-                                    : hexaCodeToColor(AppColors.textColor)
-                                        .withOpacity(0.3)
+                                    : hexaCodeToColor(AppColors.secondary)
                                 : hexaCodeToColor(AppColors.darkSecondaryText),
                           ),
                           /* Prefix Text */
@@ -172,8 +168,8 @@ class MyUserInfoBody extends StatelessWidget {
                                         .withOpacity(0.3)
                                     : hexaCodeToColor(AppColors.textColor)
                                         .withOpacity(0.3)
-                                : hexaCodeToColor(AppColors.secondary)
-                                    .withOpacity(0.3),
+                                : hexaCodeToColor(AppColors.darkSecondaryText),
+                                    
                           ),
                           /* Enable Border But Not Show Error */
                           border: errorOutline(),

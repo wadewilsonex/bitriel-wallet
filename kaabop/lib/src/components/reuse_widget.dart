@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
@@ -112,10 +113,13 @@ OutlineInputBorder errorOutline() {
 }
 
 /* Button shadow */
-BoxShadow shadow(
+BoxShadow shadow(BuildContext context,
     {Color hexaCode, double blurRadius, double spreadRadius, Offset offset}) {
+  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return BoxShadow(
-    color: hexaCode ?? Colors.grey.withOpacity(0.2),
+    color: hexaCode ?? isDarkTheme
+        ? hexaCodeToColor(AppColors.darkBgd)
+        : Colors.grey.withOpacity(0.2),
     blurRadius: blurRadius ?? 6.0,
     spreadRadius: spreadRadius ?? 2.0,
     offset: offset ?? Offset(0.5, 2.0),
@@ -622,7 +626,10 @@ Widget progress({String content}) {
             else
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-                child: textScale(text: content, hexaColor: "#FFFFFF"),
+                child: textScale(
+                  text: content,
+                  hexaColor: "#FFFFFF",
+                ),
               ),
           ],
         )
@@ -631,9 +638,9 @@ Widget progress({String content}) {
   );
 }
 
-Future<void> dialogLoading(BuildContext context, {String content}) {
+dialogLoading(BuildContext context, {String content}) {
   return showDialog(
-      barrierDismissible: false,
+      barrierDismissible: true,
       context: context,
       builder: (context) {
         return WillPopScope(
@@ -916,17 +923,18 @@ Widget textScale(
     String hexaColor = "#1BD2FA",
     TextDecoration underline,
     BoxFit fit = BoxFit.contain,
-    FontWeight fontWeight}) {
+    FontWeight fontWeight,
+    TextAlign textAlign = TextAlign.center}) {
   return FittedBox(
     fit: fit,
-    child: Text(
-      text,
-      style: TextStyle(
+    child: Text(text,
+        style: TextStyle(
           color: hexaCodeToColor(hexaColor),
           decoration: underline,
           fontSize: fontSize,
-          fontWeight: fontWeight),
-    ),
+          fontWeight: fontWeight,
+        ),
+        textAlign: textAlign),
   );
 }
 

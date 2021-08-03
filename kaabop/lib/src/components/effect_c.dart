@@ -12,10 +12,10 @@ class MyShimmer extends StatelessWidget{
       period: const Duration(seconds: 2),
       baseColor: isDarkTheme
           ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
+          : Colors.grey[300],
       highlightColor: isDarkTheme
           ? hexaCodeToColor(AppColors.darkBgd)
-          : hexaCodeToColor(AppColors.bgdColor),
+          : Colors.grey[100],
       child: ListView.builder(
         shrinkWrap: true,
         itemBuilder: (_, __) => Padding(

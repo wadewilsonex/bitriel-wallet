@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
+  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -134,8 +135,7 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> sendTxBtc(BuildContext context, String from, String to,
-      double amount, String wif) async {
+  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
     int totalSatoshi = 0;
     int input = 0;
     final alice = ECPair.fromWIF(wif);
@@ -148,6 +148,8 @@ class ApiProvider with ChangeNotifier {
     txb.setVersion(1);
 
     final res = await getAddressUxto(from);
+
+    print("BTC");
 
     if (res.length != 0) {
       for (final i in res) {
