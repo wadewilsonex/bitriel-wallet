@@ -10,7 +10,7 @@ class SwapDescription extends StatelessWidget {
       children: [
         MyText(
           width: double.infinity,
-          text: 'The SEL Token v2 features:',
+          text: 'Swapping Note',
           fontWeight: FontWeight.bold,
           color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           overflow: TextOverflow.ellipsis,
@@ -22,7 +22,7 @@ class SwapDescription extends StatelessWidget {
         MyText(
           width: double.infinity,
           text:
-              'Token contract verification and other related information to SEL token v2, all available on BSCscan like Whitepaper, Social Channels and other official info.',
+              'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
           fontWeight: FontWeight.bold,
           color:
               isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
@@ -36,7 +36,7 @@ class SwapDescription extends StatelessWidget {
         MyText(
           width: double.infinity,
           text:
-              '🚀 For future cross-chains transaction; this version is designed to work with others chains like Polygon, Ethereum and other networks.',
+              '🚀 Swap rewards: this is part of the airdrop 2. For example, if you have 100 SEL v1, after swapped you will have 200 SEL v2 to keep and use in the future.',
           fontWeight: FontWeight.bold,
           color:
               isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
@@ -50,7 +50,7 @@ class SwapDescription extends StatelessWidget {
         MyText(
           width: double.infinity,
           text:
-              '🚀 Use the Token to purchase invitations and share the referral link to join Selendra airdrop opportunity.',
+              '🚀 SEL v2 will be the utility token for Selendra with cross-chains capability. This meant that SEL v2 will be able to perform on both Selendra network as well as other network such as Polygon, Ethereum, BSC.',
           fontWeight: FontWeight.bold,
           color:
               isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,

@@ -374,6 +374,75 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                 ),
                               ),
                             ),
+<<<<<<< HEAD
+                          ),
+                          MyInputField(
+                            pBottom: 24,
+                            labelText:
+                                "Email address",
+                            inputType: TextInputType.emailAddress,
+                            textInputFormatter: [
+                              LengthLimitingTextInputFormatter(
+                                TextField.noMaxLength,
+                              ),
+                            ],
+                            controller: _emailController,
+                            focusNode: _emailFocusNode,
+                            validateField: validateEmailField,
+                            onChanged: onChangedEmail,
+                            onSubmit: onSubmit,
+                          ),
+                          MyInputField(
+                            pBottom: 24,
+                            labelText:
+                                "Phone Number",
+                            textInputFormatter: [
+                              LengthLimitingTextInputFormatter(
+                                TextField.noMaxLength,
+                              ),
+                            ],
+                            controller: _phoneController,
+                            focusNode: _phoneFocusNode,
+                            inputType: TextInputType.number,
+                            validateField: (value) => value.isEmpty
+                                ? 'Please fill in phone number'
+                                : null,
+                            onChanged: onChanged,
+                            onSubmit: onSubmit,
+                          ),
+                          MyInputField(
+                            pBottom: 8,
+                            labelText:
+                                "Wallet Address (0xe0e5c149b9cdf9d2279b6ddfda9bc0a4a975285c)",
+                            textInputFormatter: [
+                              LengthLimitingTextInputFormatter(
+                                TextField.noMaxLength,
+                              ),
+                            ],
+                            controller: _walletController,
+                            focusNode: _walletFocusNode,
+                            validateField: (value) => value.isEmpty
+                                ? 'Please fill in wallet address'
+                                : null,
+                            onChanged: onChanged,
+                            onSubmit: onSubmit,
+                          ),
+                          const MyText(
+                            text:
+                                'Get Wallet (this is where you will receive \$SEL)',
+                            textAlign: TextAlign.left,
+                            left: 16.0,
+                            right: 16.0,
+                            fontSize: 16.0,
+                          ),
+                          MyInputField(
+                            pTop: 24.0,
+                            pBottom: 8,
+                            labelText: "Social Post Links (optional)",
+                            textInputFormatter: [
+                              LengthLimitingTextInputFormatter(
+                                TextField.noMaxLength,
+=======
                             MyInputField(
                               pBottom: 24,
                               labelText:
@@ -486,6 +555,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                 top: 40,
                                 left: 66,
                                 right: 66,
+>>>>>>> 76ef0d98e8b704635e7d7d8167918d76efe99a05
                               ),
                               hasShadow: true,
                               action: _enableButton ? submitForm : null,
