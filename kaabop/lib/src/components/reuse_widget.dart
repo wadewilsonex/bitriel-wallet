@@ -614,17 +614,20 @@ Widget progress({String content}) {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+
             CircularProgressIndicator(
-                backgroundColor: Colors.transparent,
-                valueColor: AlwaysStoppedAnimation(
-                    hexaCodeToColor(AppColors.lightBlueSky))),
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.lightBlueSky))
+            ),
+
             if (content == null)
               Container()
             else
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-                child: textScale(text: content, hexaColor: "#FFFFFF", textA),
+                child: textScale(text: content, hexaColor: "#FFFFFF"),
               ),
+              
           ],
         )
       ],
