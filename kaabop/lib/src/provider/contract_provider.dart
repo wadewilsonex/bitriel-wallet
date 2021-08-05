@@ -176,11 +176,28 @@ class ContractProvider with ChangeNotifier {
 
     final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final gasPrice = await _web3client.getGasPrice();
+
+    final maxGas = await _web3client.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: contract.address,
+      data: ethFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
+          BigInt.parse('1000000000000000042420637374017961984'),
+        ],
+      ),
+    );
+
     final approve = await _web3client.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: ethFunction,
+        gasPrice: gasPrice,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
           BigInt.parse('1000000000000000042420637374017961984'),
