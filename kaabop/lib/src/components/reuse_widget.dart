@@ -643,10 +643,11 @@ dialogLoading(BuildContext context, {String content}) {
       barrierDismissible: true,
       context: context,
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () => Future(() => false),
-          child: progress(content: content),
-        );
+        return progress(content: content);
+        // WillPopScope(
+        //   onWillPop: () => Future(() => false),
+        //   child: ,
+        // );
       });
 }
 

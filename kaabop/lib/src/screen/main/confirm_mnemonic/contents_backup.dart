@@ -70,7 +70,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        text: 'Backup passphrase',
+                        text: AppText.backupPassphrase,
                         textAlign: TextAlign.left,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,

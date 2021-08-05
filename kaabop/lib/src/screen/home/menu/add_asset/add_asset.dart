@@ -11,7 +11,6 @@ class AddAsset extends StatefulWidget {
 }
 
 class AddAssetState extends State<AddAsset> {
-
   final ModelAsset _modelAsset = ModelAsset();
 
   final FlareControls _flareController = FlareControls();
@@ -110,10 +109,10 @@ class AddAssetState extends State<AddAsset> {
     setState(() {
       _modelAsset.loading = true;
     });
-    final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
+    final resEther =
+        await validateEtherAddress(_modelAsset.controllerAssetCode.text);
     final res = await validateAddress(_modelAsset.controllerAssetCode.text);
-    print("ResEther $resEther");
-    print("Res $res");
+
     if (res || resEther) {
       if (res) {
         if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
@@ -138,27 +137,25 @@ class AddAssetState extends State<AddAsset> {
         }
       }
     } else {
-
       await showDialog(
-      context: context,
+        context: context,
         builder: (context) {
           return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Opps'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text('Invalid token contract address!'),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: Text('Opps'),
               ),
-            ]
-          );
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text('Invalid token contract address!'),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ]);
         },
       );
       //await dialog('Invalid token contract address!', 'Opps');
@@ -170,7 +167,8 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> searchEtherContract() async {
     try {
-      final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
+      final res = await Provider.of<ContractProvider>(context, listen: false)
+          .queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
 
       if (res != null) {
         setState(() {
@@ -178,9 +176,7 @@ class AddAssetState extends State<AddAsset> {
           _modelAsset.loading = false;
         });
       }
-    } catch (e) {
-      
-    }
+    } catch (e) {}
   }
 
   void onSubmit() {
@@ -238,7 +234,6 @@ class AddAssetState extends State<AddAsset> {
       key: globalKey,
       body: Stack(
         children: [
-          
           AddAssetBody(
             assetM: _modelAsset,
             initialValue: initialValue,
@@ -255,21 +250,21 @@ class AddAssetState extends State<AddAsset> {
             Container()
           else
             BackdropFilter(
-            // Fill Blur Background
-            filter: ImageFilter.blur(
-              sigmaX: 5.0,
-              sigmaY: 5.0,
+              // Fill Blur Background
+              filter: ImageFilter.blur(
+                sigmaX: 5.0,
+                sigmaY: 5.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: CustomAnimation.flareAnimation(_flareController,
+                        "assets/animation/check.flr", "Checkmark"),
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: CustomAnimation.flareAnimation(_flareController,
-                      "assets/animation/check.flr", "Checkmark"),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );

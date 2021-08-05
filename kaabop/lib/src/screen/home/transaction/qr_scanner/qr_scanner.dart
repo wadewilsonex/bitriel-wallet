@@ -37,7 +37,7 @@ class QrScannerState extends State<QrScanner> {
         // });
       });
     } catch (e) {
-      print("Error $e");
+     
     }
   }
 

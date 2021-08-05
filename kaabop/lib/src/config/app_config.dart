@@ -37,7 +37,7 @@ class AppConfig {
   // Main Net API
   static const url = "https://testnet-api.selendra.com/pub/v1";
 
-  static const bscTestNet = 'https://data-seed-prebsc-1-s1.binance.org:8545';
+  //static const bscTestNet = 'https://data-seed-prebsc-1-s1.binance.org:8545';
 
   static const bscMainNet = 'https://bsc-dataseed.binance.org/';
 
@@ -55,9 +55,11 @@ class AppConfig {
   static const coingeckoBaseUrl =
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
-  static const bscMainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
+  static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
 
-  static const bscMainnetV2Addr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+  static const selv2MainnetAddr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+
+  static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
 
   static const kgoAddr = '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773';
 
@@ -65,11 +67,11 @@ class AppConfig {
 
   //test 0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314
 
-  static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+ // static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
 
-  static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
+  //static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
   
-  static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
+  //static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
 
   static const nodeName = 'Indranet hosted By Selendra';
 

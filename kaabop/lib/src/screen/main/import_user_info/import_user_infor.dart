@@ -249,7 +249,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   String validateFirstName(String value) {
     if (_userInfoM.nodeFirstName.hasFocus) {
-      print(_userInfoM.nodeFirstName.hasFocus);
       if (value.isEmpty) {
         return 'Please fill in username';
       } else if (_userInfoM.confirmPasswordCon.text !=

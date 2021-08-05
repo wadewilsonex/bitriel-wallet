@@ -146,19 +146,22 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> approveAndSwap() async {
+    
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     await dialogBox().then((value) async {
+
       final res = await getPrivateKey(value);
 
       if (res != null) {
+        
         dialogLoading(
           context,
           content: "This processing may take a bit longer\nPlease wait a moment")
         ;
         final approveHash = await approve(res);
 
-        print('approve:$approveHash');
+        print('Approve: $approveHash');
 
         if (approveHash != null) {
           await Future.delayed(const Duration(seconds: 7));
@@ -166,8 +169,11 @@ class _SwapState extends State<Swap> {
 
           print('swap: $swapHash');
 
-          if (swapHash != null) {
-            await Future.delayed(const Duration(seconds: 7));
+          // if (swapHash != null) {
+          //   await Future.delayed(const Duration(seconds: 7));
+          // }
+
+
             final isSuccess = await contract.getPending(swapHash);
 
             print('status: $isSuccess');
@@ -189,7 +195,7 @@ class _SwapState extends State<Swap> {
               await customDialog('Transaction failed',
                   'Something went wrong with your transaction.');
             }
-          }
+          
         } else {
           Navigator.pop(context);
           await customDialog('Transaction failed',

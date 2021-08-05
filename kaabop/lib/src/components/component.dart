@@ -327,14 +327,14 @@ class MyAppBar extends StatelessWidget {
                     IconButton(
                       /* Menu Icon */
 
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 16),
                       iconSize: 40.0,
                       icon: Icon(
                         Platform.isAndroid
                             ? LineAwesomeIcons.arrow_left
                             : LineAwesomeIcons.angle_left,
                         color: isDarkTheme ? Colors.white : Colors.black,
-                        size: 30,
+                        size: 36,
                       ),
                       onPressed: onPressed,
                     ),
