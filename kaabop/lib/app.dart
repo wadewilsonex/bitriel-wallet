@@ -43,9 +43,9 @@ class AppState extends State<App> {
           Provider.of<ContractProvider>(context, listen: false).getBscBalance();
           Provider.of<ContractProvider>(context, listen: false)
               .getBscV2Balance();
-          // ContractProvider().checkAllowance();
 
           isKgoContain();
+
 
           getSavedContractToken();
 

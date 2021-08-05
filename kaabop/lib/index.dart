@@ -8,7 +8,7 @@ export 'dart:io';
 export 'dart:typed_data';
 
 export 'package:async/async.dart';
-export 'package:autocomplete_textfield/autocomplete_textfield.dart';
+
 /* Package from Pub.dev */
 export 'package:connectivity/connectivity.dart';
 export 'package:flare_flutter/flare_actor.dart';

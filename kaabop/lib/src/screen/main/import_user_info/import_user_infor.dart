@@ -6,7 +6,6 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 
 class ImportUserInfo extends StatefulWidget {
-
   final String passPhrase;
 
   static const route = '/importUserInfo';
@@ -24,10 +23,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   LocalAuthentication _localAuth = LocalAuthentication();
 
-  final MenuModel _menuModel = MenuModel();
+  MenuModel _menuModel;
 
   @override
   void initState() {
+    _menuModel = MenuModel();
     AppServices.noInternetConnection(_userInfoM.globalKey);
     super.initState();
   }
@@ -43,7 +43,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> _importFromMnemonic() async {
     try {
-
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
@@ -60,16 +59,15 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       if (acc != null) {
-
         addBtcWallet();
 
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
         if (resPk != null) {
-
           ContractProvider().extractAddress(resPk);
-          
-          final res = await ApiProvider.keyring.store.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+
+          final res = await ApiProvider.keyring.store
+              .encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
 
           if (res != null) {
             await StorageServices().writeSecure('private', res);
@@ -86,7 +84,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         isKgoContain();
 
-        Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        Provider.of<MarketProvider>(context, listen: false)
+            .fetchTokenMarketPrice(context);
 
         Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
         Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
@@ -99,7 +98,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Message'),
             ),
@@ -122,6 +122,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> addBtcWallet() async {
+    
     final seed = bip39.mnemonicToSeed(widget.passPhrase);
     final hdWallet = HDWallet.fromSeed(seed);
     final keyPair = ECPair.fromWIF(hdWallet.wif);
@@ -136,7 +137,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       await StorageServices().writeSecure('btcwif', res);
     }
 
-    Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address);
+    Provider.of<ApiProvider>(context, listen: false)
+        .getBtcBalance(hdWallet.address);
     Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
@@ -144,21 +146,20 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) {
+    Provider.of<ContractProvider>(context, listen: false)
+        .getKgoDecimal()
+        .then((value) {
       Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
     });
   }
 
   // ignore: avoid_void_async
   void switchBiometric(bool switchValue) async {
-
-    bool available = await AppServices().checkBiometrics(context); 
+    bool available = await AppServices().checkBiometrics(context);
 
     try {
-
-      // Avaible To 
-      if (available){
-
+      // Avaible To
+      if (available) {
         // Switch Enable
         if (switchValue) {
           await authenticateBiometric(_localAuth).then((values) async {
@@ -170,7 +171,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             }
           });
         }
-        // Switch Disable 
+        // Switch Disable
         else {
           await authenticateBiometric(_localAuth).then((values) async {
             if (_menuModel.authenticated) {
@@ -184,14 +185,18 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       } else {
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
-    } catch (e){
+    } catch (e) {
       await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             title: Align(
-              child: MyText(text: "Oops", fontWeight: FontWeight.w600,),
+              child: MyText(
+                text: "Oops",
+                fontWeight: FontWeight.w600,
+              ),
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -225,7 +230,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> onSubmit() async {
-    if (_userInfoM.userNameNode.hasFocus) {
+    if (_userInfoM.nodeFirstName.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.passwordNode);
     } else if (_userInfoM.passwordNode.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.confirmPasswordNode);
@@ -244,6 +249,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   String validateFirstName(String value) {
     if (_userInfoM.nodeFirstName.hasFocus) {
+      print(_userInfoM.nodeFirstName.hasFocus);
       if (value.isEmpty) {
         return 'Please fill in username';
       } else if (_userInfoM.confirmPasswordCon.text !=
@@ -251,7 +257,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         return 'Password does not matched';
       }
     }
-    return _userInfoM.responseFirstname;
+    return null;
   }
 
   String validatePassword(String value) {
@@ -260,7 +266,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         return 'Please fill in 4-digits password';
       }
     }
-    return _userInfoM.responseMidname;
+    return null;
   }
 
   String validateConfirmPassword(String value) {
@@ -313,7 +319,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _userInfoM.globalKey,
       body: ImportUserInfoBody(

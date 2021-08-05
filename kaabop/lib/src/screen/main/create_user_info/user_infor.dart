@@ -78,13 +78,18 @@ class MyUserInfoState extends State<MyUserInfo> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
-            child: MyText(text: "Oops", fontWeight: FontWeight.w600,),
+            child: MyText(
+              text: "Oops",
+              fontWeight: FontWeight.w600,
+            ),
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text("This feature has not implemented yet!", textAlign: TextAlign.center),
+            child: Text("This feature has not implemented yet!",
+                textAlign: TextAlign.center),
           ),
           actions: <Widget>[
             FlatButton(
@@ -112,7 +117,7 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   void onSubmit() {
-    if (_userInfoM.userNameNode.hasFocus) {
+    if (_userInfoM.nodeFirstName.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.passwordNode);
     } else if (_userInfoM.passwordNode.hasFocus) {
       FocusScope.of(context).requestFocus(_userInfoM.confirmPasswordNode);
@@ -134,7 +139,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         return 'Please fill in username';
       }
     }
-    return _userInfoM.responseFirstname;
+    return null;
   }
 
   String validatePassword(String value) {
@@ -143,7 +148,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         return 'Please fill in 4-digits password';
       }
     }
-    return _userInfoM.responseMidname;
+    return null;
   }
 
   String validateConfirmPassword(String value) {
@@ -157,6 +162,7 @@ class MyUserInfoState extends State<MyUserInfo> {
     }
     return null;
   }
+
   void validateAll() {
     if (_userInfoM.userNameCon.text.isNotEmpty &&
         _userInfoM.passwordCon.text.isNotEmpty &&
@@ -316,7 +322,10 @@ class MyUserInfoState extends State<MyUserInfo> {
     final hdWallet = HDWallet.fromSeed(seed);
 
     final keyPair = ECPair.fromWIF(hdWallet.wif);
-    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+    final bech32Address = new P2WPKH(
+            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
+        .data
+        .address;
 
     await StorageServices.setData(bech32Address, 'bech32');
 
@@ -336,9 +345,6 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   Future<void> isKgoContain() async {
-    // Provider.of<WalletProvider>(context, listen: false)
-    //     .addTokenSymbol('KGO (BEP-20)');
-    // Provider.of<ContractProvider>(context, listen: false).getKgoSymbol();
     Provider.of<ContractProvider>(context, listen: false)
         .getKgoDecimal()
         .then((value) {
@@ -359,7 +365,6 @@ class MyUserInfoState extends State<MyUserInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _userInfoM.globalKey,
       body: BodyScaffold(

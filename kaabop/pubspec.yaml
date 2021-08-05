@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.14+32
+version: 2.0.14+35
 #6 feature
 #8 debug
 #1 refactor
@@ -31,8 +31,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
  
   geolocator: ^5.3.2+2
-
-  minimize_app: ^0.1.1
 
   url_launcher: ^6.0.3
   
@@ -63,7 +61,6 @@ dependencies:
 
   # Chart
   flutter_circular_chart:
-  syncfusion_flutter_charts:
   charts_flutter:
   fl_chart:
   pie_chart:
@@ -74,11 +71,9 @@ dependencies:
   # Icons
   line_awesome_flutter:
   pinput: ^1.0.0
-  transparent_image: 
-  autocomplete_textfield:
+  transparent_image:  
   date_format:
  
-  device_preview:
   store_redirect:
   share:
 
@@ -107,7 +102,7 @@ dependencies:
 
   #Contact
   contacts_service: ^0.4.6 
-  fluttercontactpicker: ^4.2.1
+  fluttercontactpicker: 
   
   #animation
   flare_flutter:

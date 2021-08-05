@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
-import 'package:minimize_app/minimize_app.dart';
+
 
 class Passcode extends StatefulWidget {
 

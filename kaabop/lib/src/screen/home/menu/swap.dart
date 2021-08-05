@@ -2,67 +2,212 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/network_sensitive.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 class Swap extends StatefulWidget {
-
   @override
   _SwapState createState() => _SwapState();
 }
 
 class _SwapState extends State<Swap> {
-  
   FlareControls flareController = FlareControls();
   final GlobalKey<FormState> _swapKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   TextEditingController _amountController;
 
-  bool _success = false;
+  bool _success = false, _enableBtn = false;
 
-  Future<void> approve() async {
+  // Future<void> approve() async {
+  //   final contract = Provider.of<ContractProvider>(context, listen: false);
+
+  //   await dialogBox().then((value) async {
+  //     try {
+  //       final res = await getPrivateKey(value);
+
+  //       if (res != null) {
+  //         dialogLoading(context);
+  //         final hash = await contract.approveSwap(res);
+  //         if (hash != null) {
+  //           contract.getBscBalance();
+  //           Navigator.pop(context);
+  //           enableAnimation('approved balance to swap.', 'Continue swap', () {
+  //             Navigator.pop(context);
+  //             if (_swapKey.currentState.validate()) {
+  //               FocusScopeNode currentFocus = FocusScope.of(context);
+
+  //               if (!currentFocus.hasPrimaryFocus) {
+  //                 currentFocus.unfocus();
+  //               }
+
+  //               validateSwap();
+
+  //               // successDialog('');
+
+  //             }
+  //           });
+  //         }
+  //       }
+  //     } catch (e) {
+  //       Navigator.pop(context);
+  //       await customDialog('Oops', e.message.toString());
+  //     }
+  //   });
+  // }
+
+  Future<String> approve(String pKey) async {
+    String _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
+    try {
+      final hash = await contract.approveSwap(pKey);
+
+      if (hash != null) {
+        _hash = hash;
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      await customDialog('Oops', e.message.toString());
+    }
+    return _hash;
+  }
+
+  Future<String> swap(String pKey) async {
+    String _hash;
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+
+    try {
+      final hash = await contract.swap(_amountController.text, pKey);
+      if (hash != null) {
+        _hash = hash;
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      print(e.message);
+      await customDialog(
+          'Transaction failed', 'Something went wrong with your transaction.');
+    }
+
+    return _hash;
+
+    // await dialogBox().then((value) async {
+    //   try {
+    //     final res = await getPrivateKey(value);
+
+    //     if (res != null) {
+    //       dialogLoading(context,
+    //           content:
+    //               "This processing may take a bit longer\nPlease wait a moment");
+
+    //       print("Has $hash");
+
+    //       if (hash != null) {
+
+    //         if (res != null) {
+    //           if (res) {
+    //             setState(() {});
+
+    //             contract.getBscBalance();
+    //             contract.getBscV2Balance();
+    //             Navigator.pop(context);
+    //             enableAnimation(
+    //                 'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+    //                 'Go to wallet', () {
+    //               Navigator.pushNamedAndRemoveUntil(
+    //                   context, Home.route, ModalRoute.withName('/'));
+    //             });
+    //             _amountController.text = '';
+    //           } else {
+    //             Navigator.pop(context);
+    //             await customDialog('Transaction failed',
+    //                 'Something went wrong with your transaction.');
+    //           }
+    //         } else {
+    //           Navigator.pop(context);
+    //           await customDialog('Transaction failed',
+    //               'Something went wrong with your transaction.');
+    //         }
+
+    //         // if (res != null) {
+
+    //         // }
+    //       } else {
+    //         contract.getBscBalance();
+    //         contract.getBscV2Balance();
+    //         Navigator.pop(context);
+    //       }
+    //     }
+    //   } catch (e) {
+    //     print("Error $e");
+    //     Navigator.pop(context);
+    //     await customDialog('Opps', e.toString().toString());
+    //   }
+    //  });
+  }
+
+  Future<void> approveAndSwap() async {
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+
+    await dialogBox().then((value) async {
+      final res = await getPrivateKey(value);
+
+      if (res != null) {
+        dialogLoading(
+          context,
+          content: "This processing may take a bit longer\nPlease wait a moment")
+        ;
+        final approveHash = await approve(res);
+
+        print('approve:$approveHash');
+
+        if (approveHash != null) {
+          await Future.delayed(const Duration(seconds: 7));
+          final swapHash = await swap(res);
+
+          print('swap: $swapHash');
+
+          if (swapHash != null) {
+            await Future.delayed(const Duration(seconds: 7));
+            final isSuccess = await contract.getPending(swapHash);
+
+            print('status: $isSuccess');
+            if (isSuccess) {
+              setState(() {});
+
+              contract.getBscBalance();
+              contract.getBscV2Balance();
+              Navigator.pop(context);
+              enableAnimation(
+                  'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                  'Go to wallet', () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, Home.route, ModalRoute.withName('/'));
+              });
+              _amountController.text = '';
+            } else {
+              Navigator.pop(context);
+              await customDialog('Transaction failed',
+                  'Something went wrong with your transaction.');
+            }
+          }
+        } else {
+          Navigator.pop(context);
+          await customDialog('Transaction failed',
+              'Something went wrong with your transaction.');
+        }
+      }
+    });
+  }
+
+  Future<void> swapWithoutAp() async {
+    final contract = Provider.of<ContractProvider>(context, listen: false);
     await dialogBox().then((value) async {
       try {
         final res = await getPrivateKey(value);
 
         if (res != null) {
           dialogLoading(context);
-          final hash = await contract.approveSwap(res);
-          if (hash != null) {
-            contract.getBscBalance();
-            Navigator.pop(context);
-            enableAnimation('approved balance to swap.');
-          }
-        }
-      } catch (e) {
-        Navigator.pop(context);
-        await customDialog('Oops', e.message.toString());
-      }
-    });
-  }
-
-  
-  Future<void> swap() async {
-
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-
-    await dialogBox().then((value) async {
-
-      try {
-
-        final res = await getPrivateKey(value);
-
-        if (res != null) {
-
-          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
-
           final hash = await contract.swap(_amountController.text, res);
-
-          print("Has $hash");
-
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 7));
             final res = await contract.getPending(hash);
@@ -72,9 +217,14 @@ class _SwapState extends State<Swap> {
                 setState(() {});
 
                 contract.getBscBalance();
+                contract.getBscV2Balance();
                 Navigator.pop(context);
                 enableAnimation(
-                    'swapped ${_amountController.text} of SEL v1 to SEL v2.');
+                    'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                    'Go to wallet', () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Home.route, ModalRoute.withName('/'));
+                });
                 _amountController.text = '';
               } else {
                 Navigator.pop(context);
@@ -86,32 +236,41 @@ class _SwapState extends State<Swap> {
               await customDialog('Transaction failed',
                   'Something went wrong with your transaction.');
             }
-
-            // if (res != null) {
-              
-            // }
           } else {
             contract.getBscBalance();
+            contract.getBscV2Balance();
             Navigator.pop(context);
-            enableAnimation(
-                'swapped ${_amountController.text} of SEL v1 to SEL v2.');
-            _amountController.text = '';
           }
         }
       } catch (e) {
-
-        print("Error $e");
         Navigator.pop(context);
-        await customDialog('Opps', e.toString().toString());
+        await customDialog('Opps', e.message.toString());
       }
     });
+  }
+
+  Future<void> confirmFunction() async {
+    dialogLoading(context);
+    final res = await ContractProvider().checkAllowance();
+
+    print('allowance: $res');
+
+    if (res.toString() == '0') {
+      Navigator.pop(context);
+      approveAndSwap();
+    } else {
+      Navigator.pop(context);
+      print('swap without approve');
+      swapWithoutAp();
+    }
   }
 
   Future<String> getPrivateKey(String pin) async {
     String privateKey;
     final encrytKey = await StorageServices().readSecure('private');
     try {
-      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
+      privateKey =
+          await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }
@@ -120,34 +279,26 @@ class _SwapState extends State<Swap> {
   }
 
   void validateSwap() async {
-
-    // Loading 
+    // Loading
     dialogLoading(context);
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (double.parse(_amountController.text) > double.parse(contract.bscNative.balance) || double.parse(contract.bscNative.balance) == 0) {
-      
+    if (double.parse(_amountController.text) >
+            double.parse(contract.bscNative.balance) ||
+        double.parse(contract.bscNative.balance) == 0) {
       // Close Loading
       Navigator.pop(context);
-      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
+      customDialog(
+          'Insufficient Balance', 'Your loaded balance is not enough to swap.');
     } else {
-
-      final res = await ContractProvider().checkAllowance();
-
-      // Close Loading
       Navigator.pop(context);
-
-      if (res.toString() == '0') {
-        customDialog('Approval Required', 'Your haven\'t approved to swap balance.');
-      } else {
-        confirmDialog(_amountController.text, swap);
-      }
+      confirmDialog(_amountController.text, swap);
     }
   }
 
-  Future enableAnimation(String operationText) async {
-
+  Future enableAnimation(
+      String operationText, String btnText, Function onPressed) async {
     setState(() {
       _success = true;
     });
@@ -159,22 +310,21 @@ class _SwapState extends State<Swap> {
         _success = false;
       });
 
-      successDialog(operationText);
+      successDialog(operationText, btnText, onPressed);
     });
   }
 
   Future<String> dialogBox() async {
     /* Show Pin Code For Fill Out */
     final String _result = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Colors.transparent,
-          child: FillPin(),
-        );
-      }
-    );
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: Colors.transparent,
+            child: FillPin(),
+          );
+        });
     return _result;
   }
 
@@ -183,7 +333,8 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
           ),
@@ -203,12 +354,14 @@ class _SwapState extends State<Swap> {
   }
 
   // After Swap
-  Future<void> successDialog(String operationText) async {
+  Future<void> successDialog(
+      String operationText, String btnText, Function onPressed) async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -237,11 +390,9 @@ class _SwapState extends State<Swap> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.2,
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      
                       // ignore: deprecated_member_use
                       SizedBox(
                         height: 50,
@@ -251,9 +402,11 @@ class _SwapState extends State<Swap> {
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-                          ),
+                              foregroundColor: MaterialStateProperty.all(
+                                  hexaCodeToColor(AppColors.secondary)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)))),
                           child: Text(
                             'Close',
                             style: TextStyle(
@@ -269,15 +422,15 @@ class _SwapState extends State<Swap> {
                         height: 50,
                         width: 140,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-                          },
+                          onPressed: onPressed,
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-                          ),
+                              backgroundColor: MaterialStateProperty.all(
+                                  hexaCodeToColor(AppColors.secondary)),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)))),
                           child: Text(
-                            'Go to wallet',
+                            btnText,
                             style: TextStyle(
                               color: hexaCodeToColor('#ffffff'),
                               fontWeight: FontWeight.bold,
@@ -301,66 +454,72 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.7,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                const MyText(
-                  text: 'Swapping',
-                  //color: '#000000',
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                SvgPicture.asset(
-                  'assets/icons/arrow.svg',
-                  height: 100,
-                  width: 100,
-                  color: hexaCodeToColor(AppColors.secondary),
-                ),
-                const MyText(
-                  text: 'SEL v1 to SEL v2',
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  top: 40,
-                  bottom: 8.0,
-                ),
-                MyText(
-                  text: '$amount of SEL v1',
-                  fontSize: 16,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 60,
-                  width: 200,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      swap();
-                    },
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-                    ),
-                    child: Text(
-                      'CONFIRM',
-                      style: TextStyle(
-                        color: hexaCodeToColor('#ffffff'),
-                        fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  const MyText(
+                    text: 'Swapping',
+                    //color: '#000000',
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  SvgPicture.asset(
+                    'assets/icons/arrow.svg',
+                    height: 100,
+                    width: 100,
+                    color: hexaCodeToColor(AppColors.secondary),
+                  ),
+                  const MyText(
+                    text: 'SEL v1 to SEL v2',
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    top: 40,
+                    bottom: 8.0,
+                  ),
+                  MyText(
+                    text: '$amount of SEL v1',
+                    fontSize: 16,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 60,
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        confirmFunction();
+                      },
+                      style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all(
+                              hexaCodeToColor(AppColors.secondary)),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)))),
+                      child: Text(
+                        'CONFIRM',
+                        style: TextStyle(
+                          color: hexaCodeToColor('#ffffff'),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -371,18 +530,7 @@ class _SwapState extends State<Swap> {
   @override
   void initState() {
     _amountController = TextEditingController();
-    // _amountController.addListener(() {
 
-    //   print("Listion $_amountController.text");
-    //   final text = _amountController.text.toLowerCase();
-
-    //   print("After text $text");
-    //   _amountController.value = _amountController.value.copyWith(
-    //     text: text,
-    //     selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
-    //     composing: TextRange.empty,
-    //   );
-    // });
     super.initState();
   }
 
@@ -398,226 +546,220 @@ class _SwapState extends State<Swap> {
     final contract = Provider.of<ContractProvider>(context, listen: false);
     return Scaffold(
       body: BodyScaffold(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                MyAppBar(
-                  title: "Swap SEL v2",
-                  color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
-                    : hexaCodeToColor(AppColors.whiteHexaColor),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  tile: GestureDetector(
-                    onTap: () async {
-                      dialogLoading(context);
-                      final res = await ContractProvider().checkAllowance();
-
-                      if (res.toString() == '0') {
-                        Navigator.pop(context);
-                        approve();
-                      } else {
-                        Navigator.pop(context);
-                        customDialog('Opps', 'You have already approved.');
-                      }
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  MyAppBar(
+                    title: "Swap SEL v2",
+                    color: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
-                    child: MyText(
-                      text: 'Approve',
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.secondarytext,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      right: 30,
-                    ),
                   ),
-                ),
-
-                SizedBox(height: 16.0),
-                Column(
-                  children: [
-
-                    MyText(
-                      width: double.infinity,
-                      text: 'Available Balance:  ${contract.bscNative.balance} SEL v1',
-                      fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                        ? AppColors.darkSecondaryText
-                        : AppColors.textColor,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      bottom: 20.0,
-                      top: 16.0,
-                      left: 16.0,
-                    ),
-
-                    // Swap Contents
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
+                  SizedBox(height: 16.0),
+                  Column(
+                    children: [
+                      MyText(
+                        width: double.infinity,
+                        text: contract.bscNative.balance == null
+                            ? 'Available Balance:  ${AppText.loadingPattern} SEL v1'
+                            : 'Available Balance:  ${contract.bscNative.balance} SEL v1',
+                        fontWeight: FontWeight.bold,
                         color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          shadow(context)
-                        ]
+                            ? AppColors.darkSecondaryText
+                            : AppColors.textColor,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        bottom: 20.0,
+                        top: 16.0,
+                        left: 16.0,
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
 
-                            Container(
-                              height: 150,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: isDarkTheme
-                                  ? hexaCodeToColor(AppColors.darkBgd)
-                                  : hexaCodeToColor(AppColors.whiteColorHexa),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Form(
-                                key: _swapKey,
-                                child: Column(
-                                  children: [
-
-                                    MyText(
-                                      width: double.infinity,
-                                      text: 'Amount',
-                                      fontWeight: FontWeight.bold,
-                                      color: isDarkTheme
-                                        ? AppColors.darkSecondaryText
-                                        : AppColors.textColor,
-                                      textAlign: TextAlign.left,
-                                      overflow: TextOverflow.ellipsis,
-                                      bottom: 4.0,
-                                    ),
-
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.bottomLeft,
-                                        child: TextFormField(
-                                          controller: _amountController,
-                                          keyboardType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
-                                          textInputAction: TextInputAction.done,
-                                          style: TextStyle(
-                                            color: isDarkTheme
-                                              ? hexaCodeToColor(AppColors.whiteColorHexa)
-                                              : hexaCodeToColor(AppColors.textColor),
-                                            fontSize: 18.0
-                                          ),
-
-                                          decoration: InputDecoration(
-                                            suffixIcon: GestureDetector(
-                                              onTap: () {
-                                                fetchMax();
-                                              },
-                                              child: MyText(
-                                                textAlign: TextAlign.left,
-                                                text: 'Max',
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.secondarytext,
-                                              ),
-                                            ),
-                                            prefixIconConstraints: BoxConstraints(
-                                              minWidth: 0,
-                                              minHeight: 0,
-                                            ),
-                                            border: InputBorder.none,
-                                            hintText: '0.00',
-                                            hintStyle: TextStyle(
-                                              fontSize: 20.0,
-                                              color: isDarkTheme
-                                                ? hexaCodeToColor(AppColors.darkSecondaryText)
-                                                : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
-                                            ),
-                                            contentPadding: const EdgeInsets.all(0), // Default padding =
-                                          ),
-                                          validator: (value) => value.isEmpty
-                                            ? 'Please fill in amount'
-                                            : null,
-                                          /* Limit Length Of Text Input */
-                                          onChanged: (String value){
-                                            print(value);
-                                          },
-                                          onFieldSubmitted: (value) {},
-                                        ),
+                      // Swap Contents
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                            color: isDarkTheme
+                                ? hexaCodeToColor(AppColors.darkCard)
+                                : hexaCodeToColor(AppColors.whiteHexaColor),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [shadow(context)]),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 150,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: isDarkTheme
+                                      ? hexaCodeToColor(AppColors.darkBgd)
+                                      : hexaCodeToColor(
+                                          AppColors.whiteColorHexa),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Form(
+                                  key: _swapKey,
+                                  child: Column(
+                                    children: [
+                                      MyText(
+                                        width: double.infinity,
+                                        text: 'Amount',
+                                        fontWeight: FontWeight.bold,
+                                        color: isDarkTheme
+                                            ? AppColors.darkSecondaryText
+                                            : AppColors.textColor,
+                                        textAlign: TextAlign.left,
+                                        overflow: TextOverflow.ellipsis,
+                                        bottom: 4.0,
                                       ),
-                                    )
-                                  ],
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.bottomLeft,
+                                          child: TextFormField(
+                                            controller: _amountController,
+                                            keyboardType: Platform.isAndroid
+                                                ? TextInputType.number
+                                                : TextInputType.text,
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            style: TextStyle(
+                                                color: isDarkTheme
+                                                    ? hexaCodeToColor(AppColors
+                                                        .whiteColorHexa)
+                                                    : hexaCodeToColor(
+                                                        AppColors.textColor),
+                                                fontSize: 18.0),
+                                            decoration: InputDecoration(
+                                              suffixIcon: GestureDetector(
+                                                onTap: () {
+                                                  fetchMax();
+                                                },
+                                                child: MyText(
+                                                  textAlign: TextAlign.left,
+                                                  text: 'Max',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      AppColors.secondarytext,
+                                                ),
+                                              ),
+                                              prefixIconConstraints:
+                                                  BoxConstraints(
+                                                minWidth: 0,
+                                                minHeight: 0,
+                                              ),
+                                              border: InputBorder.none,
+                                              hintText: '0.00',
+                                              hintStyle: TextStyle(
+                                                fontSize: 20.0,
+                                                color: isDarkTheme
+                                                    ? hexaCodeToColor(AppColors
+                                                        .darkSecondaryText)
+                                                    : hexaCodeToColor(
+                                                            AppColors.textColor)
+                                                        .withOpacity(0.3),
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.all(
+                                                      0), // Default padding =
+                                            ),
+                                            validator: (value) => value.isEmpty
+                                                ? 'Please fill in amount'
+                                                : null,
+                                            /* Limit Length Of Text Input */
+                                            onChanged: (String value) {
+                                              if (value.isNotEmpty) {
+                                                setState(() {});
+                                                _enableBtn = true;
+                                              } else {
+                                                setState(() {});
+                                                _enableBtn = false;
+                                              }
+                                            },
+                                            onFieldSubmitted: (value) {},
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            // Swap Button
-                            MyFlatButton(
-                              edgeMargin: const EdgeInsets.only(bottom: 16, top: 42),
-                              textButton: 'Swap',
-                              action: () async {
-                                if (_swapKey.currentState.validate()) {
-                                  FocusScopeNode currentFocus = FocusScope.of(context);
+                              // Swap Button
+                              MyFlatButton(
+                                edgeMargin:
+                                    const EdgeInsets.only(bottom: 16, top: 42),
+                                textButton: 'Swap',
+                                action: !_enableBtn
+                                    ? null
+                                    : () async {
+                                        if (_swapKey.currentState.validate()) {
+                                          FocusScopeNode currentFocus =
+                                              FocusScope.of(context);
 
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
+                                          if (!currentFocus.hasPrimaryFocus) {
+                                            currentFocus.unfocus();
+                                          }
 
-                                  validateSwap();
-                                }
-                              },
-                            ),
-                            SwapDescription(),
-                          ],
+                                          validateSwap();
+                                        }
+                                      },
+                              ),
+                              SwapDescription(),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            if (_success == false)
-              Container()
-            else
-              BackdropFilter(
-                // Fill Blur Background
-                filter: ImageFilter.blur(
-                  sigmaX: 5.0,
-                  sigmaY: 5.0,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: CustomAnimation.flareAnimation(
-                        flareController,
-                        "assets/animation/check.flr",
-                        "Checkmark",
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
-          ],
-        )),
+              if (_success == false)
+                Container()
+              else
+                BackdropFilter(
+                  // Fill Blur Background
+                  filter: ImageFilter.blur(
+                    sigmaX: 5.0,
+                    sigmaY: 5.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: CustomAnimation.flareAnimation(
+                          flareController,
+                          "assets/animation/check.flr",
+                          "Checkmark",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          )),
     );
   }
 
   void fetchMax() async {
+    dialogLoading(context, content: 'Fetching Balance');
 
-    Component.dialog(context, contents: "Fetching Balance");
+    final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    final contract = Provider.of<ContractProvider>(context, listen: false); 
-    
     await contract.getBscBalance();
 
     setState(() {
       _amountController.text = contract.bscNative.balance;
+      _enableBtn = true;
     });
+
     // Close Dialog
     Navigator.pop(context);
   }

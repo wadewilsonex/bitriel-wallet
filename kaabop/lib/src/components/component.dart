@@ -4,7 +4,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class Component {
-
   static void popScreen(BuildContext context) {
     Navigator.pop(context);
   }
@@ -46,28 +45,34 @@ class Component {
             alignment: Alignment.center,
             children: <Widget>[
               Card(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CircularProgressIndicator(backgroundColor: Colors.transparent, valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))),
-                      contents == null ? MyText(
-                        top: 10, left: 10, right: 10, bottom: 10,
-                        text: contents,
-                        fontSize: 16,
-                        color: AppColors.blackColor,
-                      ) : Container()
-                    ],
-                  )
-                )
-              )
+                  child: Container(
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          CircularProgressIndicator(
+                              backgroundColor: Colors.transparent,
+                              valueColor: AlwaysStoppedAnimation(
+                                  hexaCodeToColor(AppColors.secondary))),
+                          contents == null
+                              ? MyText(
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 10,
+                                  text: contents,
+                                  fontSize: 16,
+                                  color: AppColors.blackColor,
+                                )
+                              : Container()
+                        ],
+                      )))
             ],
           ),
         );
@@ -77,7 +82,6 @@ class Component {
 }
 
 class MyFlatButton extends StatelessWidget {
-  
   final String textButton;
   final String buttonColor;
   final FontWeight fontWeight;
@@ -104,7 +108,6 @@ class MyFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return Container(
@@ -113,7 +116,8 @@ class MyFlatButton extends StatelessWidget {
       width: width,
       height: height,
 
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(size5), boxShadow: [
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(size5), boxShadow: [
         if (hasShadow)
           BoxShadow(
             color: Colors.black54.withOpacity(0.3),
@@ -126,14 +130,15 @@ class MyFlatButton extends StatelessWidget {
       child: FlatButton(
         onPressed: action,
         color: hexaCodeToColor(buttonColor),
-        disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
+        disabledColor:
+            isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: MyText(
           pTop: 20,
           pBottom: 20,
           text: textButton,
-          color: isDarkTheme ? '#FFFFFF' : AppColors.textBtnColor,
+          color: AppColors.whiteColorHexa,
           fontWeight: fontWeight,
         ),
       ),
@@ -142,7 +147,6 @@ class MyFlatButton extends StatelessWidget {
 }
 
 class MyText extends StatelessWidget {
-  
   final String text;
   final String color;
   final double fontSize;
@@ -190,10 +194,9 @@ class MyText extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontWeight: fontWeight,
-            color: Color(AppUtils.convertHexaColor(color)),
-            fontSize: fontSize
-          ),
+              fontWeight: fontWeight,
+              color: Color(AppUtils.convertHexaColor(color)),
+              fontSize: fontSize),
           textAlign: textAlign,
           overflow: overflow,
         ),
@@ -292,71 +295,67 @@ class MyAppBar extends StatelessWidget {
   final Color color;
   final Widget tile;
 
-  const MyAppBar({
-    this.pLeft = 0,
-    this.pTop = 0,
-    this.pRight = 0,
-    this.pBottom = 0,
-    this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
-    @required this.title,
-    this.color,
-    this.onPressed,
-    this.tile
-  });
+  const MyAppBar(
+      {this.pLeft = 0,
+      this.pTop = 0,
+      this.pRight = 0,
+      this.pBottom = 0,
+      this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      @required this.title,
+      this.color,
+      this.onPressed,
+      this.tile});
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SafeArea(
-      child: Container(
-        height: 65.0,
-        width: MediaQuery.of(context).size.width,
-        margin: margin,
-        decoration: BoxDecoration(
-          color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkCard)
-            : hexaCodeToColor(AppColors.whiteHexaColor),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-
-            Row(
-              children: [
-                IconButton(
-                  /* Menu Icon */
-
-                  padding: const EdgeInsets.only(left: 20),
-                  iconSize: 40.0,
-                  icon: Icon(
-                    Platform.isAndroid ? LineAwesomeIcons.arrow_left : LineAwesomeIcons.angle_left,
-                    color: isDarkTheme ? Colors.white : Colors.black,
-                    size: 30,
-                  ),
-                  onPressed: onPressed,
-                ),
-                MyText(
-                  color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                  text: title,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600
-                ),
-              ],
+        child: Container(
+            height: 65.0,
+            width: MediaQuery.of(context).size.width,
+            margin: margin,
+            decoration: BoxDecoration(
+              color: isDarkTheme
+                  ? hexaCodeToColor(AppColors.darkCard)
+                  : hexaCodeToColor(AppColors.whiteHexaColor),
             ),
-            tile ?? Container()
-          ],
-        )
-      )
-    );
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      /* Menu Icon */
+
+                      padding: const EdgeInsets.only(left: 20),
+                      iconSize: 40.0,
+                      icon: Icon(
+                        Platform.isAndroid
+                            ? LineAwesomeIcons.arrow_left
+                            : LineAwesomeIcons.angle_left,
+                        color: isDarkTheme ? Colors.white : Colors.black,
+                        size: 30,
+                      ),
+                      onPressed: onPressed,
+                    ),
+                    MyText(
+                        color: isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                        text: title,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600),
+                  ],
+                ),
+                tile ?? Container()
+              ],
+            )));
   }
 }
 
 class BodyScaffold extends StatelessWidget {
-  
   final double left, top, right, bottom;
-  final Widget child; 
+  final Widget child;
   final double width;
   final double height;
   final ScrollPhysics physic;
@@ -378,17 +377,16 @@ class BodyScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SingleChildScrollView(
-      physics: physic,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: height,
-        color: isDarkTheme
-          ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-          : Color(AppUtils.convertHexaColor("#F5F5F5")),
-        padding: EdgeInsets.fromLTRB(left, top, right, bottom),
-        child: isSafeArea ? SafeArea(child: child) : child,
-      )
-    );
+        physics: physic,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: height,
+          color: isDarkTheme
+              ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+              : Color(AppUtils.convertHexaColor(AppColors.whiteColorHexa)),
+          padding: EdgeInsets.fromLTRB(left, top, right, bottom),
+          child: isSafeArea ? SafeArea(child: child) : child,
+        ));
   }
 }
 

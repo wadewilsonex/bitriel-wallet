@@ -2,10 +2,9 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class ImportAcc extends StatefulWidget {
-
   final String reimport;
   const ImportAcc({this.reimport});
-  
+
   @override
   State<StatefulWidget> createState() {
     return ImportAccState();
@@ -13,6 +12,7 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
+  
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -207,8 +207,6 @@ class ImportAccState extends State<ImportAcc> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return Scaffold(
       key: globalKey,
       body: Container(

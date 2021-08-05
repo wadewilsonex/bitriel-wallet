@@ -113,10 +113,13 @@ OutlineInputBorder errorOutline() {
 }
 
 /* Button shadow */
-BoxShadow shadow(BuildContext context, {Color hexaCode, double blurRadius, double spreadRadius, Offset offset}) {
+BoxShadow shadow(BuildContext context,
+    {Color hexaCode, double blurRadius, double spreadRadius, Offset offset}) {
   final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return BoxShadow(
-    color: hexaCode ?? isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : Colors.grey.withOpacity(0.2),
+    color: hexaCode ?? isDarkTheme
+        ? hexaCodeToColor(AppColors.darkBgd)
+        : Colors.grey.withOpacity(0.2),
     blurRadius: blurRadius ?? 6.0,
     spreadRadius: spreadRadius ?? 2.0,
     offset: offset ?? Offset(0.5, 2.0),
@@ -637,15 +640,14 @@ Widget progress({String content}) {
 
 dialogLoading(BuildContext context, {String content}) {
   return showDialog(
-    barrierDismissible: true,
-    context: context,
-    builder: (context) {
-      return WillPopScope(
-        onWillPop: () => Future(() => false),
-        child: progress(content: content),
-      );
-    }
-  );
+      barrierDismissible: true,
+      context: context,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () => Future(() => false),
+          child: progress(content: content),
+        );
+      });
 }
 
 Widget logoSize(
@@ -915,27 +917,24 @@ Widget textButton(
   );
 }
 
-Widget textScale({
-  String text,
-  double fontSize = 18.0,
-  String hexaColor = "#1BD2FA",
-  TextDecoration underline,
-  BoxFit fit = BoxFit.contain,
-  FontWeight fontWeight,
-  TextAlign textAlign = TextAlign.center
-}) {
+Widget textScale(
+    {String text,
+    double fontSize = 18.0,
+    String hexaColor = "#1BD2FA",
+    TextDecoration underline,
+    BoxFit fit = BoxFit.contain,
+    FontWeight fontWeight,
+    TextAlign textAlign = TextAlign.center}) {
   return FittedBox(
     fit: fit,
-    child: Text(
-      text,
-      style: TextStyle(
+    child: Text(text,
+        style: TextStyle(
           color: hexaCodeToColor(hexaColor),
           decoration: underline,
           fontSize: fontSize,
           fontWeight: fontWeight,
         ),
-        textAlign: textAlign
-    ),
+        textAlign: textAlign),
   );
 }
 
