@@ -73,7 +73,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         );
       }
     );
-    print("My pin $_result");
+    
     return _result;
   }
 
@@ -177,7 +177,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         
         // Show Dialog Fill PIN
         await dialogBox().then((resPin) async {
-          print("Asset ${_scanPayM.asset}");
+          
 
           if (resPin != null) {
 
@@ -231,10 +231,10 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "SEL (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(AppConfig.bscMainnetAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(AppConfig.selV1MainnetAddr, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxAYF(
-                      AppConfig.bscMainnetAddr,
+                      AppConfig.selV1MainnetAddr,
                       chainDecimal[0].toString(),
                       _scanPayM.controlReceiverAddress.text,
                       _scanPayM.controlAmount.text

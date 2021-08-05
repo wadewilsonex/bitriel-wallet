@@ -47,16 +47,17 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               child: Column(
                 children: [
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppText.backupMnemonic,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: 12,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppText.backupPassphrase,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                      bottom: 12,
+                    ),
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
@@ -82,7 +83,8 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
+                            color: hexaCodeToColor(AppColors.darkSecondaryText)
+                                .withOpacity(0.3),
                             width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),

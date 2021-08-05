@@ -90,8 +90,7 @@ class TrxFunctional {
     if (privateKey != null) {
 
       final hash = await contract.sendTxBnb(privateKey, reciever, amount);
-      print("Contract $hash");
-
+     
       if (hash != null) {
         await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
         await enableAnimation();
@@ -156,10 +155,9 @@ class TrxFunctional {
           amount,
         );
 
-        print("Tx AYF hash $hash");
-
+       
         if (hash != null) {
-          await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+        //  await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
 
           enableAnimation();
         } else {
@@ -269,7 +267,6 @@ class TrxFunctional {
           onStatusChange: (status) async {}
         );
 
-        print("Send trx has $hash");
         if (hash != null) {
 
           await saveTxHistory(
@@ -285,12 +282,12 @@ class TrxFunctional {
 
           await enableAnimation();
         } else {
-          print("has equal null");
+          
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
         }
       } catch (e) {
-        print("Error $e");
+       
         Navigator.pop(context);
         await customDialog('Opps', e.message.toString());
       }

@@ -27,14 +27,15 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     });
 
     AppServices.noInternetConnection(_homeM.globalKey);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ContractProvider>(context, listen: false)
+          .subscribeBscbalance();
+      Provider.of<ContractProvider>(context, listen: false)
+          .subscribeEthbalance();
+        
+    });
 
     super.initState();
-  }
-
-  Future<void> handleDialog() async {
-    if (!Provider.of<ApiProvider>(context, listen: false).isConnected) {
-      // startNode(context);
-    }
   }
 
   Future<void> toReceiveToken() async {

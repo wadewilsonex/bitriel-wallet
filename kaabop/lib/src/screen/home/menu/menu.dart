@@ -1,4 +1,3 @@
-
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -22,7 +21,6 @@ class MenuState extends State<Menu> {
 
   /* Login Inside Dialog */
   bool isDarkTheme = false;
-
 
   /* InitState */
   @override
@@ -74,19 +72,16 @@ class MenuState extends State<Menu> {
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> switchBiometric(BuildContext context, bool switchValue) async {
-
-    try{
-
+    try {
       final canCheck = await AppServices().checkBiometrics(context);
 
-      if (canCheck == false) {  
-        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+      if (canCheck == false) {
+        snackBar(context,
+            "Your device doesn't have finger print! Set up to enable this feature");
       } else {
-
         // Check New Enable Bio
         if (switchValue) {
           await authenticateBiometric().then((values) async {
-
             if (_menuModel.authenticated) {
               setState(() {
                 _menuModel.switchBio = switchValue;
@@ -94,7 +89,7 @@ class MenuState extends State<Menu> {
               await StorageServices.saveBio(_menuModel.switchBio);
             }
           });
-        } 
+        }
         // Check Disable Bio
         else {
           await authenticateBiometric().then((values) async {
@@ -107,16 +102,20 @@ class MenuState extends State<Menu> {
           });
         }
       }
-    } catch (e){
+    } catch (e) {
       print("error auth $e");
-        
+
       await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             title: Align(
-              child: MyText(text: "Oops", fontWeight: FontWeight.w600,),
+              child: MyText(
+                text: "Oops",
+                fontWeight: FontWeight.w600,
+              ),
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -143,8 +142,6 @@ class MenuState extends State<Menu> {
         stickyAuth: true,
       );
 
-      print("Authen ${_menuModel.authenticated}");
-
       // ignore: empty_catches
     } on PlatformException {}
 
@@ -155,17 +152,20 @@ class MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context,listen: false).isDark;
+    final isDarkTheme =
+        Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(
         child: Container(
-          color: isDarkTheme ?  hexaCodeToColor(AppColors.darkBgd) :  hexaCodeToColor(AppColors.bgdColor),
+          color: isDarkTheme
+              ? hexaCodeToColor(AppColors.darkBgd)
+              : hexaCodeToColor(AppColors.bgdColor),
           child: SingleChildScrollView(
             child: MenuBody(
               userInfo: widget._userData,
               model: _menuModel,
-              switchBio: switchBiometric,        
+              switchBio: switchBiometric,
             ),
           ),
         ),
