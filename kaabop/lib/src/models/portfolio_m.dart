@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 
 class PortfolioM {
+  
   Color color;
   String symbol;
   String percentage;

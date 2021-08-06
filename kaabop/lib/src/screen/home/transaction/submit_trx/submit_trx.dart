@@ -304,6 +304,8 @@ class SubmitTrxState extends State<SubmitTrx> {
         });
       }
     } catch (e){
+      //Close Dialog
+      Navigator.pop(context);
       await trxFunc.customDialog("Oops", "$e");
     }
   }

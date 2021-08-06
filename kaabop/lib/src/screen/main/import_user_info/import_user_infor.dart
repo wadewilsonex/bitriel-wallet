@@ -91,6 +91,9 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
+        // For Pie Chart
+        Provider.of<WalletProvider>(context).setPortfolio(context);
+
         await successDialog(context, "imported your account.");
       }
     } catch (e) {

@@ -84,8 +84,7 @@ class _SwapState extends State<Swap> {
     } catch (e) {
       Navigator.pop(context);
       print(e.message);
-      await customDialog(
-          'Transaction failed', 'Something went wrong with your transaction.');
+      await customDialog('Transaction failed', 'Something went wrong with your transaction.');
     }
 
     return _hash;
@@ -164,42 +163,47 @@ class _SwapState extends State<Swap> {
         print('Approve: $approveHash');
 
         if (approveHash != null) {
-          await Future.delayed(const Duration(seconds: 7));
-          final swapHash = await swap(res);
+         // await Future.delayed(Duration(seconds: 10));
+          final approveStatus = await contract.getPending(approveHash);
+          print(' approve stat: $approveStatus');
 
-          print('swap: $swapHash');
+          if (approveStatus) {
+            final resAllow = await ContractProvider().checkAllowance();
+            print(resAllow);
 
-          // if (swapHash != null) {
-          //   await Future.delayed(const Duration(seconds: 7));
-          // }
+            if (resAllow.toString() != '0') {
 
+              final swapHash = await swap(res);
 
-            final isSuccess = await contract.getPending(swapHash);
+              if (swapHash != null) {
+                final isSuccess = await contract.getPending(swapHash);
 
-            print('status: $isSuccess');
-            if (isSuccess) {
-              setState(() {});
-
-              contract.getBscBalance();
-              contract.getBscV2Balance();
-              Navigator.pop(context);
-              enableAnimation(
-                  'swapped ${_amountController.text} of SEL v1 to SEL v2.',
-                  'Go to wallet', () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Home.route, ModalRoute.withName('/'));
-              });
-              _amountController.text = '';
+                if (isSuccess) {
+                  Navigator.pop(context);
+                  enableAnimation(
+                      'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                      'Go to wallet', () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Home.route, ModalRoute.withName('/'));
+                  });
+                  _amountController.text = '';
+                  setState(() {});
+                } else {
+                  Navigator.pop(context);
+                  await customDialog('Transaction failed',
+                      'Something went wrong with your transaction.');
+                }
+              }
             } else {
               Navigator.pop(context);
               await customDialog('Transaction failed',
                   'Something went wrong with your transaction.');
             }
-          
-        } else {
-          Navigator.pop(context);
-          await customDialog('Transaction failed',
-              'Something went wrong with your transaction.');
+          } else {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          }
         }
       }
     });
@@ -259,7 +263,7 @@ class _SwapState extends State<Swap> {
     dialogLoading(context);
     final res = await ContractProvider().checkAllowance();
 
-    print('allowance: $res');
+    print(res);
 
     if (res.toString() == '0') {
       Navigator.pop(context);
@@ -290,13 +294,10 @@ class _SwapState extends State<Swap> {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (double.parse(_amountController.text) >
-            double.parse(contract.bscNative.balance) ||
-        double.parse(contract.bscNative.balance) == 0) {
+    if (double.parse(_amountController.text) > double.parse(contract.bscNative.balance) || double.parse(contract.bscNative.balance) == 0) {
       // Close Loading
       Navigator.pop(context);
-      customDialog(
-          'Insufficient Balance', 'Your loaded balance is not enough to swap.');
+      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
     } else {
       Navigator.pop(context);
       confirmDialog(_amountController.text, swap);
@@ -460,8 +461,7 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             child: SingleChildScrollView(

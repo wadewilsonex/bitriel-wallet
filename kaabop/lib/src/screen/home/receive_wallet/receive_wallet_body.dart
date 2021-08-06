@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/receive_wallet/appbar_wallet.dart';
 
 class ReceiveWalletBody extends StatelessWidget {
+  
   final GlobalKey keyQrShare;
   final GlobalKey<ScaffoldState> globalKey;
   final HomeModel homeM;
@@ -30,12 +31,14 @@ class ReceiveWalletBody extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Column(
       children: <Widget>[
+        
         MyAppBar(
           title: "Receive wallet",
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        
         Expanded(
             child: BodyScaffold(
                 isSafeArea: false,
@@ -44,8 +47,7 @@ class ReceiveWalletBody extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset('assets/icons/no_data.svg',
-                                height: 200),
+                            SvgPicture.asset('assets/icons/no_data.svg', height: 200),
                             const MyText(text: "There are no wallet found")
                           ],
                         ),
@@ -53,21 +55,22 @@ class ReceiveWalletBody extends StatelessWidget {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          
                           RepaintBoundary(
                             key: keyQrShare,
                             child: Container(
                               margin: const EdgeInsets.only(
-                                  bottom: 45.0,
-                                  left: 16.0,
-                                  right: 16.0,
-                                  top: 16.0),
+                                bottom: 45.0,
+                                left: 16.0,
+                                right: 16.0,
+                                top: 16.0),
                               padding: const EdgeInsets.all(30),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),
-                                boxShadow: [shadow(context)],
-                                color: isDarkTheme
-                                    ? hexaCodeToColor(AppColors.darkCard)
-                                    : hexaCodeToColor(AppColors.whiteHexaColor),
+                                // boxShadow: [shadow(context)],
+                                // color: isDarkTheme
+                                //     ? hexaCodeToColor(AppColors.darkCard)
+                                //     : hexaCodeToColor(AppColors.whiteHexaColor),
                               ),
                               child: Column(
                                 children: [

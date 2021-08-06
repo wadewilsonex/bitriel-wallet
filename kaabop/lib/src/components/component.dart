@@ -316,8 +316,11 @@ class MyAppBar extends StatelessWidget {
             margin: margin,
             decoration: BoxDecoration(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                ? hexaCodeToColor(AppColors.darkCard)
+                : hexaCodeToColor(AppColors.whiteHexaColor),
+              boxShadow: [
+                shadow(context)
+              ]
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -383,7 +386,7 @@ class BodyScaffold extends StatelessWidget {
           height: height,
           color: isDarkTheme
               ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-              : Color(AppUtils.convertHexaColor(AppColors.whiteColorHexa)),
+              : Color(AppUtils.convertHexaColor("#F5F5F5")),
           padding: EdgeInsets.fromLTRB(left, top, right, bottom),
           child: isSafeArea ? SafeArea(child: child) : child,
         ));

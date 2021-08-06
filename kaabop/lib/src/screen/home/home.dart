@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
   final bool apiConnected;
@@ -15,6 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> with TickerProviderStateMixin {
+
+  PortfolioServices _portServices = PortfolioServices();
+
   MenuModel menuModel = MenuModel();
   final HomeModel _homeM = HomeModel();
 
@@ -22,17 +26,15 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    // processingDialog(context, true, false, false);
     Timer(const Duration(seconds: 2), () {
-      setPortfolio();
+      _portServices.setPortfolio(context);
     });
 
     AppServices.noInternetConnection(_homeM.globalKey);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance();
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
-        
+      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
 
     super.initState();
@@ -44,92 +46,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   void openMyDrawer() {
     _homeM.globalKey.currentState.openDrawer();
-  }
-
-  void setPortfolio() {
-    final walletProvider = Provider.of<WalletProvider>(context, listen: false);
-
-    walletProvider.clearPortfolio();
-
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-
-    final api = Provider.of<ApiProvider>(context, listen: false);
-
-    if (api.nativeM.balance == null) {
-      walletProvider.addAvaibleToken({
-        'symbol': api.nativeM.symbol,
-        'balance': '0',
-      });
-    } else {
-      walletProvider.addAvaibleToken({
-        'symbol': api.nativeM.symbol,
-        'balance': api.nativeM.balance.replaceAll(RegExp(','), '') ?? '0',
-      });
-    }
-
-    if (contract.kmpi.isContain) {
-      walletProvider.addAvaibleToken({
-        'symbol': contract.kmpi.symbol,
-        'balance': contract.kmpi.balance ?? '0',
-      });
-    }
-
-    if (contract.atd.isContain) {
-      walletProvider.addAvaibleToken({
-        'symbol': contract.atd.symbol,
-        'balance': contract.atd.balance ?? '0',
-      });
-    }
-
-    walletProvider.addAvaibleToken({
-      'symbol': contract.bnbNative.symbol,
-      'balance': contract.bnbNative.balance ?? '0',
-    });
-
-    if (api.btc.isContain) {
-      walletProvider.addAvaibleToken({
-        'symbol': api.btc.symbol,
-        'balance': api.btc.balance ?? '0',
-      });
-    }
-
-    if (api.dot.balance == null) {
-      walletProvider.addAvaibleToken({
-        'symbol': api.dot.symbol,
-        'balance': '0',
-      });
-    } else {
-      walletProvider.addAvaibleToken({
-        'symbol': api.dot.symbol,
-        'balance': api.dot.balance.replaceAll(RegExp(','), '') ?? '0',
-      });
-    }
-
-    walletProvider.addAvaibleToken({
-      'symbol': '${contract.bscNative.symbol} (BEP-20)',
-      'balance': contract.bscNative.balance ?? '0',
-    });
-
-    walletProvider.addAvaibleToken({
-      'symbol': '${contract.kgoNative.symbol} (BEP-20)',
-      'balance': contract.kgoNative.balance ?? '0',
-    });
-
-    walletProvider.addAvaibleToken({
-      'symbol': '${contract.etherNative.symbol} (BEP-20)',
-      'balance': contract.etherNative.balance ?? '0',
-    });
-
-    if (contract.token.isNotEmpty) {
-      for (int i = 0; i < contract.token.length; i++) {
-        walletProvider.addAvaibleToken({
-          'symbol': '${contract.token[i].symbol} (BEP-20)',
-          'balance': contract.token[i].balance ?? '0',
-        });
-      }
-    }
-
-    Provider.of<WalletProvider>(context, listen: false).getPortfolio();
   }
 
   Future<void> onClosed() async {
@@ -146,7 +62,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> handle() async {
     Navigator.of(context).pop();
     Timer(const Duration(seconds: 1), () async {
-      setPortfolio();
+      _portServices.setPortfolio(context);
       showAirdrop();
     });
   }
@@ -161,12 +77,13 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Future<void> scrollRefresh() async {
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     final market = Provider.of<MarketProvider>(context, listen: false);
 
     await Future.delayed(const Duration(milliseconds: 300)).then((value) async {
-      setPortfolio();
+      _portServices.setPortfolio(context);
       market.fetchTokenMarketPrice(context);
       if (contract.bnbNative.isContain) {
         contract.getBnbBalance();

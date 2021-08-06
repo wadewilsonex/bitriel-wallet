@@ -5,12 +5,14 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
+import 'package:wallet_apps/src/service/portfolio_s.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
@@ -65,8 +67,7 @@ class ContractProvider with ChangeNotifier {
 
   final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
 
-  final String _wsEthUrl =
-      "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
+  final String _wsEthUrl = "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
 
   List<TokenModel> token = [];
 
@@ -98,16 +99,27 @@ class ContractProvider with ChangeNotifier {
     return res.status;
   }
 
-  void subscribeBscbalance() async {
+  void subscribeBscbalance(BuildContext context) async {
     await initClient();
     try {
       final res = _web3client.addedBlocks();
+      context = context;
 
       res.listen((event) {
+
+        print("My event ${event.length}");
         getBscBalance();
         getBscV2Balance();
         getBnbBalance();
         getKgoBalance();
+
+        PortfolioServices().setPortfolio(context);
+        // Timer.periodic(Duration(seconds: 10), (timer) {
+        //   Provider.of<WalletProvider>(context, listen: false).setProfolio();
+        //   if(timer.tick == 10){
+        //     timer.cancel();
+        //   }
+        // });
       });
     } catch (e) {
       print(e.message);
@@ -176,11 +188,28 @@ class ContractProvider with ChangeNotifier {
 
     final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final gasPrice = await _web3client.getGasPrice();
+
+    final maxGas = await _web3client.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: contract.address,
+      data: ethFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
+          BigInt.parse('1000000000000000042420637374017961984'),
+        ],
+      ),
+    );
+
     final approve = await _web3client.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: ethFunction,
+        gasPrice: gasPrice,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
           BigInt.parse('1000000000000000042420637374017961984'),
@@ -385,12 +414,26 @@ class ContractProvider with ChangeNotifier {
     bscNativeV2.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
       bscNativeV2.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),
       ).toString();
+      // bscNativeV2.balance = tmp;
+
+      // print(_walletProvider.portfolio[0].percentage);
+
+      // print("Tmp $tmp");
+      // print("Bsc native v2 ${bscNativeV2.balance}");
+      // print("My percent ${}");
+
+      // Provider.of<WalletProvider>(context, listen: false).setProfolio();
+      // print("My percentage $percentage");
+
+      // if (percentage == null){
+      //   print("Got v2 ");
+      //   Provider.of<WalletProvider>(context, listen: false).getPortfolio();
+      // }
     }
 
     notifyListeners();
@@ -400,8 +443,7 @@ class ContractProvider with ChangeNotifier {
     bscNative.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
       bscNative.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),
@@ -418,13 +460,16 @@ class ContractProvider with ChangeNotifier {
         final contractAddr = findContractAddr(token[i].symbol);
         final decimal = await query(contractAddr, 'decimals', []);
 
-        final balance = await query(
-            contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+        final balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-        token[i].balance = Fmt.bigIntToDouble(
+        String tmp = Fmt.bigIntToDouble(
           balance[0] as BigInt,
           int.parse(decimal[0].toString()),
         ).toString();
+
+        if (tmp != token[i].balance){
+          token[i].balance = tmp;
+        }
       }
     }
 
@@ -601,8 +646,7 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToken(String symbol, BuildContext context,
-      {String contractAddr, String network}) async {
+  Future<void> addToken(String symbol, BuildContext context, {String contractAddr, String network}) async {
     if (symbol == 'KMPI') {
       if (!kmpi.isContain) {
         initKmpi().then((value) async {
@@ -740,6 +784,7 @@ class ContractProvider with ChangeNotifier {
         }
       }
     }
+
     notifyListeners();
   }
 

@@ -46,7 +46,6 @@ class AppState extends State<App> {
 
           isKgoContain();
 
-
           getSavedContractToken();
 
           getEtherSavedContractToken();

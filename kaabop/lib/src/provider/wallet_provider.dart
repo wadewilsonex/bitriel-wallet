@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../../index.dart';
 
 class WalletProvider with ChangeNotifier {
+
   final List<PortfolioM> _portfolioM = [];
+  
   List<Map<String, String>> availableToken = [];
 
   List<String> listSymbol = [
@@ -75,6 +77,7 @@ class WalletProvider with ChangeNotifier {
   void clearPortfolio() {
     availableToken.clear();
     _portfolioM.clear();
+    availableToken.clear();
     notifyListeners();
   }
 
@@ -96,6 +99,7 @@ class WalletProvider with ChangeNotifier {
   }
 
   Future<void> getPortfolio() async {
+    
     _portfolioM.clear();
     dataMap.clear();
 
