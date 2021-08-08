@@ -177,7 +177,6 @@ class SubmitTrxState extends State<SubmitTrx> {
         
         // Show Dialog Fill PIN
         await dialogBox().then((resPin) async {
-          
 
           if (resPin != null) {
 

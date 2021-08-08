@@ -106,12 +106,16 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> submitAsset() async {
+
     setState(() {
       _modelAsset.loading = true;
     });
-    final resEther =
-        await validateEtherAddress(_modelAsset.controllerAssetCode.text);
+
+    final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
     final res = await validateAddress(_modelAsset.controllerAssetCode.text);
+
+    print("resEther $resEther ");
+    print("Res $res");
 
     if (res || resEther) {
       if (res) {
@@ -125,9 +129,7 @@ class AddAssetState extends State<AddAsset> {
         if (initialValue == 'Ethereum') {
           searchEtherContract();
         } else {
-          final res =
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .query(_modelAsset.controllerAssetCode.text, 'symbol', []);
+          final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
           if (res != null) {
             setState(() {
               _tokenSymbol = res[0].toString();

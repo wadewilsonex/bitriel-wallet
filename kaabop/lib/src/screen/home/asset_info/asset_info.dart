@@ -281,8 +281,7 @@ class _AssetInfoState extends State<AssetInfo> {
     }
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         key: _globalKey,
         floatingActionButton: widget.tokenSymbol != "ATD"
         ? Container()
@@ -298,7 +297,7 @@ class _AssetInfoState extends State<AssetInfo> {
         ),
 
         body: BodyScaffold(
-          isSafeArea: false,
+          isSafeArea: true,
           bottom: 0,
           height: MediaQuery.of(context).size.height,
           child: NestedScrollView(
@@ -653,7 +652,7 @@ class _AssetInfoState extends State<AssetInfo> {
             ),
           ),
         ),
-      )
+      
     );
   }
 }

@@ -329,6 +329,7 @@ class AddAssetBody extends StatelessWidget {
                       color: AppColors.secondary,
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.w700
                     ),
                   ],
                 ),

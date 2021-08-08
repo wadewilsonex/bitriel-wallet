@@ -78,6 +78,7 @@ class WalletProvider with ChangeNotifier {
     availableToken.clear();
     _portfolioM.clear();
     availableToken.clear();
+    dataMap.clear();
     notifyListeners();
   }
 
@@ -105,9 +106,9 @@ class WalletProvider with ChangeNotifier {
 
     double temp = 0.0;
 
-    await getTotal();
-
     await getTotal().then((total) {
+
+      print("Total $total");
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
@@ -116,9 +117,10 @@ class WalletProvider with ChangeNotifier {
         if (total == 0.0) {
           _portfolioM.add(
             PortfolioM(
-                color: pieColorList[i],
-                symbol: availableToken[i]['symbol'],
-                percentage: '0'),
+              color: pieColorList[i],
+              symbol: availableToken[i]['symbol'],
+              percentage: '0'
+            ),
           );
         } else {
           percen = temp * 100;
@@ -133,8 +135,9 @@ class WalletProvider with ChangeNotifier {
             availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
           });
         }
-        notifyListeners();
       }
     });
+
+    notifyListeners();
   }
 }

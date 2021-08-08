@@ -36,7 +36,7 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
 
       _updateConnectionStatus(_result);
     } on PlatformException catch (e) {
-      print(e.toString());
+      print("Error connectivity ${e.toString()}");
     }
 
     // If the widget was removed from the tree while the asynchronous platform

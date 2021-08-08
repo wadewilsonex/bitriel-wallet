@@ -89,8 +89,6 @@ class AppState extends State<App> {
     final res = await ApiProvider().swapToken(
         '0xed4ef39b5043fdff35a66a1a56e3188d8830e5d42e2bbe7dfa38ac559c62b952',
         '0.01');
-
-    print(res);
   }
 
   // bool _checkIfDarkModeEnabled() {

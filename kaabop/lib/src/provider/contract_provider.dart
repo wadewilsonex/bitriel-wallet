@@ -73,8 +73,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initClient() async {
     _httpClient = Client();
-    _web3client =
-        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
+    _web3client = Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
       return IOWebSocketChannel.connect(_wsBscUrl).cast<String>();
     });
   }
@@ -105,22 +104,15 @@ class ContractProvider with ChangeNotifier {
       final res = _web3client.addedBlocks();
       context = context;
 
-      res.listen((event) {
+      // res.listen((event) {
 
-        print("My event ${event.length}");
-        getBscBalance();
-        getBscV2Balance();
-        getBnbBalance();
-        getKgoBalance();
+      //   getBscBalance();
+      //   getBscV2Balance();
+      //   getBnbBalance();
+      //   getKgoBalance();
 
-        PortfolioServices().setPortfolio(context);
-        // Timer.periodic(Duration(seconds: 10), (timer) {
-        //   Provider.of<WalletProvider>(context, listen: false).setProfolio();
-        //   if(timer.tick == 10){
-        //     timer.cancel();
-        //   }
-        // });
-      });
+      //   PortfolioServices().setPortfolio(context);
+      // });
     } catch (e) {
       print(e.message);
     }
@@ -347,16 +339,23 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoBalance() async {
-    bscNative.isContain = true;
+    try {
 
-    if (ethAdd != '') {
-      final res = await query(
-          AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      bscNative.isContain = true;
 
-      kgoNative.balance = Fmt.bigIntToDouble(
-        res[0] as BigInt,
-        int.parse(kgoNative.chainDecimal),
-      ).toString();
+      if (ethAdd != '') {
+        final res = await query(AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+
+        kgoNative.balance = res[0].toString();
+
+        // Error kgo Invalid argument(s): The source must not be null
+        // Fmt.bigIntToDouble(
+        //   res[0] as BigInt,
+        //   int.parse(kgoNative.chainDecimal),
+        // ).toString();
+    }
+    } catch (e){
+      print("Error kgo $e");
     }
 
     notifyListeners();

@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
@@ -17,8 +18,6 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> with TickerProviderStateMixin {
 
-  PortfolioServices _portServices = PortfolioServices();
-
   MenuModel menuModel = MenuModel();
   final HomeModel _homeM = HomeModel();
 
@@ -28,7 +27,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     // processingDialog(context, true, false, false);
     Timer(const Duration(seconds: 2), () {
-      _portServices.setPortfolio(context);
+      PortfolioServices().setPortfolio(context);
     });
 
     AppServices.noInternetConnection(_homeM.globalKey);
@@ -62,7 +61,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> handle() async {
     Navigator.of(context).pop();
     Timer(const Duration(seconds: 1), () async {
-      _portServices.setPortfolio(context);
+    PortfolioServices().setPortfolio(context);
       showAirdrop();
     });
   }
@@ -83,7 +82,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     final market = Provider.of<MarketProvider>(context, listen: false);
 
     await Future.delayed(const Duration(milliseconds: 300)).then((value) async {
-      _portServices.setPortfolio(context);
+      PortfolioServices().setPortfolio(context);
       market.fetchTokenMarketPrice(context);
       if (contract.bnbNative.isContain) {
         contract.getBnbBalance();
@@ -125,25 +124,31 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Menu(_homeM.userData),
       ),
-      body: Column(children: [
-        SafeArea(child: homeAppBar(context)),
-        Divider(
-          height: 2,
-          color: isDarkTheme ? Colors.black : Colors.grey.shade400,
-        ),
-        Flexible(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await scrollRefresh();
-            },
-            child: BodyScaffold(
-              bottom: 0,
-              isSafeArea: false,
-              child: HomeBody(),
+      
+      // AnnotatedRegion Use For System Icon Above SafeArea
+      body: AnnotatedRegion(
+        value: isDarkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        child: Column(children: [
+          SafeArea(child: homeAppBar(context)),
+          Divider(
+            height: 2,
+            color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+          ),
+          Flexible(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await scrollRefresh();
+              },
+              child: BodyScaffold(
+                bottom: 0,
+                isSafeArea: false,
+                child: HomeBody(),
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
+
       floatingActionButton: Container(
         width: 65,
         height: 65,
@@ -165,6 +170,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ),
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,
