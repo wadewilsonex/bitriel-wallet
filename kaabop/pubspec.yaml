@@ -103,6 +103,8 @@ dependencies:
   #Contact
   contacts_service: ^0.4.6 
   fluttercontactpicker: 
+
+  timeline_tile: ^2.0.0
   
   #animation
   flare_flutter:
