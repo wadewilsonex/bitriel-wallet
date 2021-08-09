@@ -156,7 +156,7 @@ class _SwapState extends State<Swap> {
         final approveHash = await approve(res);
 
         if (approveHash != null) {
-         // await Future.delayed(Duration(seconds: 10));
+          // await Future.delayed(Duration(seconds: 10));
           final approveStatus = await contract.getPending(approveHash);
           print(' approve stat: $approveStatus');
 
@@ -165,7 +165,6 @@ class _SwapState extends State<Swap> {
             print(resAllow);
 
             if (resAllow.toString() != '0') {
-
               final swapHash = await swap(res);
 
               if (swapHash != null) {
@@ -394,6 +393,8 @@ class _SwapState extends State<Swap> {
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey[300]),
                               foregroundColor: MaterialStateProperty.all(
                                   hexaCodeToColor(AppColors.secondary)),
                               shape: MaterialStateProperty.all(
@@ -402,7 +403,7 @@ class _SwapState extends State<Swap> {
                           child: Text(
                             'Close',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -496,6 +497,8 @@ class _SwapState extends State<Swap> {
                         confirmFunction();
                       },
                       style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              hexaCodeToColor(AppColors.secondary)),
                           foregroundColor: MaterialStateProperty.all(
                               hexaCodeToColor(AppColors.secondary)),
                           shape: MaterialStateProperty.all(

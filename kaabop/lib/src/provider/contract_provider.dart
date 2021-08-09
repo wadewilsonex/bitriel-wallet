@@ -63,6 +63,9 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client _web3client, _etherClient;
 
+  StreamSubscription<String> streamSubscriptionBsc;
+  StreamSubscription<String> streamSubscriptionEth;
+
   final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
 
   final String _wsEthUrl =
@@ -101,9 +104,9 @@ class ContractProvider with ChangeNotifier {
   void subscribeBscbalance() async {
     await initClient();
     try {
-      final res = _web3client.addedBlocks();
+      var res = _web3client.addedBlocks();
 
-      res.listen((event) {
+      streamSubscriptionBsc = res.listen((event) {
         getBscBalance();
         getBscV2Balance();
         getBnbBalance();
@@ -112,19 +115,27 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       print(e.message);
     }
+    notifyListeners();
   }
 
   void subscribeEthbalance() async {
     await initEtherClient();
     try {
-      final res = _etherClient.addedBlocks();
+      var res = _etherClient.addedBlocks();
 
-      res.listen((event) {
+      streamSubscriptionEth = res.listen((event) {
         getEtherBalance();
       });
     } catch (e) {
       print(e.message);
     }
+    notifyListeners();
+  }
+
+  void unsubscribeNetwork() async {
+    await streamSubscriptionBsc.cancel();
+    await streamSubscriptionEth.cancel();
+    notifyListeners();
   }
 
   Future<void> getEtherBalance() async {
@@ -134,7 +145,6 @@ class ContractProvider with ChangeNotifier {
     final EtherAmount ethbalance =
         await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
     etherNative.balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
-    print(etherNative.balance);
 
     notifyListeners();
   }
@@ -171,6 +181,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> approveSwap(String privateKey) async {
+    await initClient();
     final contract = await initBsc(AppConfig.selV1MainnetAddr);
     final ethFunction = contract.function('approve');
 
@@ -386,6 +397,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> getBnbBalance() async {
     bnbNative.isContain = true;
+    initClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
     final balance = await _web3client.getBalance(
       EthereumAddress.fromHex(ethAddr),

@@ -4,6 +4,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class App extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +34,6 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
-
     Provider.of<ApiProvider>(context, listen: false).initApi().then(
       (value) async {
         if (ApiProvider.keyring.keyPairs.isNotEmpty) {
@@ -46,12 +47,12 @@ class AppState extends State<App> {
 
           isKgoContain();
 
-
           getSavedContractToken();
 
           getEtherSavedContractToken();
 
-          Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+          Provider.of<ContractProvider>(context, listen: false)
+              .getEtherBalance();
         }
 
         Provider.of<ApiProvider>(context, listen: false).connectNode().then(
@@ -62,7 +63,8 @@ class AppState extends State<App> {
               });
 
               if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-                Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+                Provider.of<ApiProvider>(context, listen: false)
+                    .getChainDecimal();
               }
             }
           },
@@ -90,8 +92,6 @@ class AppState extends State<App> {
     final res = await ApiProvider().swapToken(
         '0xed4ef39b5043fdff35a66a1a56e3188d8830e5d42e2bbe7dfa38ac559c62b952',
         '0.01');
-
-    print(res);
   }
 
   // bool _checkIfDarkModeEnabled() {
@@ -196,6 +196,7 @@ class AppState extends State<App> {
                   navigatorKey: AppUtils.globalKey,
                   title: AppText.appName,
                   theme: AppStyle.myTheme(context),
+                  navigatorObservers: [routeObserver],
                   onGenerateRoute: router.generateRoute,
                   routes: {
                     Home.route: (_) => Home(apiConnected: _apiConnected),

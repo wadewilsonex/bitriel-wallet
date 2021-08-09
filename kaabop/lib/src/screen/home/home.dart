@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/screen_wrapper.dart';
 
 class Home extends StatefulWidget {
   final bool apiConnected;
@@ -14,7 +15,8 @@ class Home extends StatefulWidget {
   }
 }
 
-class HomeState extends State<Home> with TickerProviderStateMixin {
+class HomeState extends State<Home>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   MenuModel menuModel = MenuModel();
   final HomeModel _homeM = HomeModel();
 
@@ -22,20 +24,46 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     Timer(const Duration(seconds: 2), () {
       setPortfolio();
     });
 
     AppServices.noInternetConnection(_homeM.globalKey);
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ContractProvider>(context, listen: false)
           .subscribeBscbalance();
       Provider.of<ContractProvider>(context, listen: false)
           .subscribeEthbalance();
-        
     });
+    super.didChangeDependencies();
+  }
 
-    super.initState();
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      Provider.of<ContractProvider>(context, listen: false)
+          .unsubscribeNetwork();
+      // went to Background
+    }
+    if (state == AppLifecycleState.resumed) {
+      Provider.of<ContractProvider>(context, listen: false)
+          .subscribeBscbalance();
+      // came back to Foreground
+    }
   }
 
   Future<void> toReceiveToken() async {
@@ -202,58 +230,63 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
-    return Scaffold(
-      key: _homeM.globalKey,
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: Menu(_homeM.userData),
-      ),
-      body: Column(children: [
-        SafeArea(child: homeAppBar(context)),
-        Divider(
-          height: 2,
-          color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+    return ScreenWrapper(
+      routeName: "/home",
+      onLeaveScreen: () => Provider.of<ContractProvider>(context, listen: false)
+          .unsubscribeNetwork(),
+      child: Scaffold(
+        key: _homeM.globalKey,
+        drawer: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: Menu(_homeM.userData),
         ),
-        Flexible(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              await scrollRefresh();
+        body: Column(children: [
+          SafeArea(child: homeAppBar(context)),
+          Divider(
+            height: 2,
+            color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+          ),
+          Flexible(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await scrollRefresh();
+              },
+              child: BodyScaffold(
+                bottom: 0,
+                isSafeArea: false,
+                child: HomeBody(),
+              ),
+            ),
+          ),
+        ]),
+        floatingActionButton: Container(
+          width: 65,
+          height: 65,
+          child: FloatingActionButton(
+            elevation: 0,
+            backgroundColor:
+                hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+            onPressed: () async {
+              await TrxOptionMethod.scanQR(
+                context,
+                _homeM.portfolioList,
+              );
             },
-            child: BodyScaffold(
-              bottom: 0,
-              isSafeArea: false,
-              child: HomeBody(),
+            child: SvgPicture.asset(
+              'assets/icons/qr_code.svg',
+              width: 30,
+              height: 30,
+              color: Colors.white,
             ),
           ),
         ),
-      ]),
-      floatingActionButton: Container(
-        width: 65,
-        height: 65,
-        child: FloatingActionButton(
-          elevation: 0,
-          backgroundColor:
-              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
-          onPressed: () async {
-            await TrxOptionMethod.scanQR(
-              context,
-              _homeM.portfolioList,
-            );
-          },
-          child: SvgPicture.asset(
-            'assets/icons/qr_code.svg',
-            width: 30,
-            height: 30,
-            color: Colors.white,
-          ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: MyBottomAppBar(
+          apiStatus: true,
+          homeM: _homeM,
+          toReceiveToken: toReceiveToken,
+          openDrawer: openMyDrawer,
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: MyBottomAppBar(
-        apiStatus: true,
-        homeM: _homeM,
-        toReceiveToken: toReceiveToken,
-        openDrawer: openMyDrawer,
       ),
     );
   }
