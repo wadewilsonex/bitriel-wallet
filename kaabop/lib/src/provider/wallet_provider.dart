@@ -107,8 +107,6 @@ class WalletProvider with ChangeNotifier {
     double temp = 0.0;
 
     await getTotal().then((total) {
-
-      print("Total $total");
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {

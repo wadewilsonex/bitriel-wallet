@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class WelcomeBody extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -63,7 +64,12 @@ class WelcomeBody extends StatelessWidget {
               edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
               textButton: AppText.createAccTitle,
               action: () {
-                Navigator.pushNamed(context, AppText.contentBackup);
+                print("Why");
+                // Navigator.pushNamed(context, AppText.contentBackup);
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => ContentsBackup())
+                );
               },
             ),
             MyFlatButton(

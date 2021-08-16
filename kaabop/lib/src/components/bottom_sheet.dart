@@ -74,7 +74,7 @@ class MyBottomSheet {
                         //     context, portfolioList);
                         await dialog(
                           context,
-                          'Coming Soon !',
+                          'Coming Soon!',
                           'Invite friend',
                         );
                       },
@@ -102,7 +102,7 @@ class MyBottomSheet {
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(text2),
+            child: Text(text2, textAlign: TextAlign.center,),
           ),
           actions: <Widget>[
             FlatButton(

@@ -5,6 +5,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
 
 class MenuHeader extends StatelessWidget {
+  
   final Map<String, dynamic> userInfo;
 
   const MenuHeader({this.userInfo});
@@ -34,12 +35,11 @@ class MenuHeader extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 5),
                       decoration: BoxDecoration(
                         color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.whiteHexaColor)
-                            : Colors.grey.shade400,
+                          ? hexaCodeToColor(AppColors.whiteHexaColor)
+                          : Colors.grey.shade400,
                         shape: BoxShape.circle,
                       ),
-                      child:
-                          SvgPicture.string(acc.addressIcon ?? 'hello world'),
+                      child: SvgPicture.string(acc.addressIcon ?? 'hello world'),
                     ),
                   ),
                   const SizedBox(width: 5),

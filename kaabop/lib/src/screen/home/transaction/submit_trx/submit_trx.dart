@@ -30,8 +30,6 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional trxFunc;
 
-  ApiProvider _api;
-
   final ModelScanPay _scanPayM = ModelScanPay();
 
   FlareControls flareController = FlareControls();
@@ -43,6 +41,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   @override
   void initState() {
+
     widget.asset != null ? _scanPayM.asset = widget.asset : _scanPayM.asset = "SEL";
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
@@ -133,7 +132,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     });
     flareController.play('Checkmark');
 
-    Timer(const Duration(milliseconds: 2500), () {
+    Timer(const Duration(milliseconds: 3000), () {
       Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }

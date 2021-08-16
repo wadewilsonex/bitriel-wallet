@@ -103,7 +103,6 @@ class MenuState extends State<Menu> {
         }
       }
     } catch (e) {
-      print("error auth $e");
 
       await showDialog(
         context: context,

@@ -39,8 +39,7 @@ class SubmitTrxBody extends StatelessWidget {
         ],
         controller: scanPayM.controlReceiverAddress,
         focusNode: scanPayM.nodeReceiverAddress,
-        validateField: (value) =>
-            value == null ? 'Please fill in receiver address' : null,
+        validateField: (value) => value == null ? 'Please fill in receiver address' : null,
         onChanged: onChanged,
         onSubmit: () {}
       ),
@@ -48,7 +47,8 @@ class SubmitTrxBody extends StatelessWidget {
         pBottom: 16,
         labelText: "Amount",
         textInputFormatter: [
-          LengthLimitingTextInputFormatter(TextField.noMaxLength)
+          LengthLimitingTextInputFormatter(TextField.noMaxLength,),
+          FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
         ],
         inputType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
         controller: scanPayM.controlAmount,

@@ -25,8 +25,7 @@ class SwapDescription extends StatelessWidget {
           // text:
           //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
           fontWeight: FontWeight.bold,
-          color:
-              isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
+          color: isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
           fontSize: 14.0,
           textAlign: TextAlign.start,
           bottom: 4.0,

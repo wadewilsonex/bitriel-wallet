@@ -151,7 +151,7 @@ class AppServices {
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      print("Erorr $e");
+      // print("Erorr $e");
       // canCheckBiometrics = false;
     }
 

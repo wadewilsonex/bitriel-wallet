@@ -10,19 +10,31 @@ class ContentsBackup extends StatefulWidget {
 }
 
 class _ContentsBackupState extends State<ContentsBackup> {
+
   final double bpSize = 16.0;
   String _passPhrase = '';
   List _passPhraseList = [];
 
-  Future<void> _generateMnemonic(WalletSDK sdk) async {
-    _passPhrase = await sdk.api.keyring.generateMnemonic();
-    _passPhraseList = _passPhrase.split(' ');
-    setState(() {});
+  Future<void> _generateMnemonic() async {
+    try {
+      print("Generate");
+      
+      print("Generating");
+      _passPhrase = await ApiProvider.sdk.api.keyring.generateMnemonic();
+      print("passPhrase $_passPhrase");
+      _passPhraseList = _passPhrase.split(' ');
+
+      // setState(() {});
+    } on PlatformException catch (p) {
+      print("Platform $p");
+    }  catch (e){
+      print("error $e");
+    }
   }
 
   @override
   void initState() {
-    _generateMnemonic(ApiProvider.sdk);
+    _generateMnemonic();
     super.initState();
   }
 
@@ -34,51 +46,52 @@ class _ContentsBackupState extends State<ContentsBackup> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
+
             MyAppBar(
               title: AppText.createAccTitle,
-              color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppText.backup,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppText.backup,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   MyText(
                     textAlign: TextAlign.left,
                     text: AppText.getMnemonic,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                     bottom: bpSize,
                   ),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppText.backupPassphrase,
-                        textAlign: TextAlign.left,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppText.backupPassphrase,
+                      textAlign: TextAlign.left,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(

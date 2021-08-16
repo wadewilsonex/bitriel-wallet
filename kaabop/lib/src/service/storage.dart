@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
+  
   static String _decode;
   static SharedPreferences _preferences;
   

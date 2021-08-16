@@ -260,7 +260,6 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = true;
       });
     } else {
-      print("PIN");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure('passcode');
         Navigator.pop(context, false);
@@ -473,9 +472,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
       alignment: Alignment.center,
       child: MaterialButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-        color: isDarkTheme
-          ? Colors.transparent
-          : hexaCodeToColor(AppColors.secondary),
+        color: hexaCodeToColor(AppColors.secondary),
         padding: const EdgeInsets.all(8.0),
         onPressed: onPressed,
         height: 90,

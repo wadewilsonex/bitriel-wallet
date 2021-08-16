@@ -620,7 +620,7 @@ Widget progress({String content}) {
 
             CircularProgressIndicator(
               backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.lightBlueSky))
+              valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))
             ),
 
             if (content == null)

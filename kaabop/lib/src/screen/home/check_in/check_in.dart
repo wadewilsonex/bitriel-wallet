@@ -16,6 +16,7 @@ class CheckIn extends StatefulWidget {
 }
 
 class _CheckInState extends State<CheckIn> {
+
   final CheckInModel _checkInModel = CheckInModel();
   FlareControls flareController = FlareControls();
   String _location;

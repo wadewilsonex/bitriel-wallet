@@ -114,9 +114,6 @@ class AddAssetState extends State<AddAsset> {
     final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
     final res = await validateAddress(_modelAsset.controllerAssetCode.text);
 
-    print("resEther $resEther ");
-    print("Res $res");
-
     if (res || resEther) {
       if (res) {
         if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {

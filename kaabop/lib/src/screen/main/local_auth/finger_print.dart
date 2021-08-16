@@ -52,7 +52,7 @@ class _FingerPrintState extends State<FingerPrint> {
               child: MyText(text: e.message.toString()),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -77,6 +77,7 @@ class _FingerPrintState extends State<FingerPrint> {
           authenticate();
         },
         child: BodyScaffold(
+          isSafeArea: true,
           height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

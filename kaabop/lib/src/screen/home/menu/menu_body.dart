@@ -22,6 +22,7 @@ class MenuBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         MenuHeader(userInfo: userInfo),
 
         // History
@@ -101,8 +102,6 @@ class MenuBody extends StatelessWidget {
                   )
                 )
               );
-
-              print("Response $res");
 
               if (res == true){
                 enablePassword(true);

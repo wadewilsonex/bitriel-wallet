@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class ImportAcc extends StatefulWidget {
+
   final String reimport;
   const ImportAcc({this.reimport});
 
@@ -18,6 +19,7 @@ class ImportAccState extends State<ImportAcc> {
   final ImportAccModel _importAccModel = ImportAccModel();
 
   bool status;
+
   int currentVersion;
 
   bool enable = false;
@@ -76,8 +78,7 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> reImport() async {
     dialogLoading(context);
-    final isValidSeed =
-        await validateMnemonic(_importAccModel.mnemonicCon.text);
+    final isValidSeed = await validateMnemonic(_importAccModel.mnemonicCon.text);
     final isValidPw = await checkPassword(_importAccModel.pwCon.text);
 
     if (isValidSeed == false) {
@@ -85,8 +86,7 @@ class ImportAccState extends State<ImportAcc> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Opps'),
             ),
@@ -121,7 +121,7 @@ class ImportAccState extends State<ImportAcc> {
               child: Text('PIN  verification failed'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),

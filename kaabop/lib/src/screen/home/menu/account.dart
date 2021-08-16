@@ -267,6 +267,7 @@ class _AccountState extends State<Account> {
             )
           : Column(
           children: [
+
             MyAppBar(
               title: "Account",
               onPressed: () {
@@ -281,8 +282,11 @@ class _AccountState extends State<Account> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.darkCard)
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                    ? hexaCodeToColor(AppColors.darkCard)
+                    : hexaCodeToColor(AppColors.whiteHexaColor),
+                  boxShadow: [
+                    shadow(context)
+                  ]
                 ),
                 child: Column(
                   children: [
@@ -297,12 +301,13 @@ class _AccountState extends State<Account> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.darkCard)
-                            : hexaCodeToColor(AppColors.whiteHexaColor),
+                          ? hexaCodeToColor(AppColors.darkCard)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           Row(
                             children: [
                               Consumer<ApiProvider>(

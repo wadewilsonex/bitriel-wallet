@@ -16,6 +16,7 @@ class MyUserInfo extends StatefulWidget {
 }
 
 class MyUserInfoState extends State<MyUserInfo> {
+
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
   final MenuModel _menuModel = MenuModel();
@@ -105,7 +106,7 @@ class MyUserInfoState extends State<MyUserInfo> {
   Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
     try {
       // Trigger Authentication By Finger Print
-      _menuModel.authenticated = await _localAuth.authenticateWithBiometrics(
+      _menuModel.authenticated = await _localAuth.authenticate(
           localizedReason: '', stickyAuth: true);
       // ignore: empty_catches
     } on PlatformException {}
@@ -266,7 +267,7 @@ class MyUserInfoState extends State<MyUserInfo> {
               child: Text(e.message.toString()),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),

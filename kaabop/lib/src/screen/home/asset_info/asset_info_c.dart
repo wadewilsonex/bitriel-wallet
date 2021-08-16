@@ -42,6 +42,7 @@ class AssetInfoC {
   }
 
   void showRecieved(BuildContext mycontext, GetWalletMethod _method, {String symbol, org}) {
+
     showModalBottomSheet<void>(
       isScrollControlled: true,
       context: mycontext,

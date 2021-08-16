@@ -1,6 +1,7 @@
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 
 class CreateMnemonic extends StatefulWidget {
   final String passPhrase;
@@ -19,11 +20,23 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   }
 
   Future<void> disableScreenShot() async {
+    try {
     await FlutterScreenshotSwitcher.disableScreenshots();
+      await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
+        print("Value $value");
+      });
+    } catch (e){
+    }
   }
 
   Future<void> enableScreenShot() async {
-    await FlutterScreenshotSwitcher.enableScreenshots();
+    try {
+      await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
+        print("Value $value");
+      });
+    } catch (e){
+    }
+
     Navigator.pop(context);
   }
 
@@ -37,8 +50,8 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
           children: [
             MyAppBar(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                ? hexaCodeToColor(AppColors.darkCard)
+                : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppText.createAccTitle,
               onPressed: enableScreenShot,
             ),
@@ -53,8 +66,8 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -65,8 +78,8 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                       text: AppText.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -83,14 +96,14 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: hexaCodeToColor(AppColors.darkSecondaryText)
-                                .withOpacity(0.3),
-                            width: 1),
+                          color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
+                          width: 1
+                        ),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: MyText(
                         text: widget.passPhrase ?? '',
                         textAlign: TextAlign.left,
@@ -116,8 +129,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               ),
             ),
             MyFlatButton(
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               textButton: AppText.next,
               hasShadow: true,
               action: () async {

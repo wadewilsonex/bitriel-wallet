@@ -15,31 +15,6 @@ class _ContactBookState extends State<ContactBook> {
 
   List<Map<String, dynamic>> contactData = [];
 
-  // Future<void> dialog(String text1, String text2, {Widget action}) async {
-  //   await showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         shape:
-  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-  //         title: Align(
-  //           child: Text(text1),
-  //         ),
-  //         content: Padding(
-  //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-  //           child: Text(text2),
-  //         ),
-  //         actions: <Widget>[
-  //           FlatButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text('Close'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<void> getContact() async {
     try {
       _contactBookModel.contactBookList = [];
@@ -75,7 +50,7 @@ class _ContactBookState extends State<ContactBook> {
               child: Text('Cannot add contact'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),

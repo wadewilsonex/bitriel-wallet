@@ -79,9 +79,14 @@ class ApiProvider with ChangeNotifier {
   bool get isConnected => _isConnected;
 
   Future<void> initApi() async {
-    await keyring.init();
-    keyring.setSS58(42);
-    await sdk.init(keyring);
+    try {
+
+      await keyring.init();
+      keyring.setSS58(42);
+      await sdk.init(keyring);
+    } catch (e) {
+      // print("Error initApi $e");
+    }
   }
 
   Future<NetworkParams> connectNode() async {
@@ -148,8 +153,6 @@ class ApiProvider with ChangeNotifier {
     txb.setVersion(1);
 
     final res = await getAddressUxto(from);
-
-    print("BTC");
 
     if (res.length != 0) {
       for (final i in res) {

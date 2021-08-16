@@ -79,7 +79,6 @@ class PortfolioServices {
     });
 
     if (contract.token.isNotEmpty) {
-      print("Token contract ${contract.token}");
       for (int i = 0; i < contract.token.length; i++) {
         walletProvider.addAvaibleToken({
           'symbol': '${contract.token[i].symbol} (BEP-20)',
@@ -87,8 +86,6 @@ class PortfolioServices {
         });
       }
     }
-
-    print("Run");
 
     walletProvider.getPortfolio();
   }

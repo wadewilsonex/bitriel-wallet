@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>en_US</string>
 	<key>CFBundleDisplayName</key>
 	<string>Bitriel</string>
 	<key>CFBundleExecutable</key>
@@ -42,6 +42,8 @@
 	<string>2000018596961531</string>
 	<key>FacebookDisplayName</key>
 	<string>Flutter2</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>

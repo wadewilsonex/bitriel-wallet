@@ -37,6 +37,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     });
 
     super.initState();
+    
   }
 
   Future<void> toReceiveToken() async {
@@ -126,9 +127,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       
       // AnnotatedRegion Use For System Icon Above SafeArea
-      body: AnnotatedRegion(
-        value: isDarkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-        child: Column(children: [
+      body: Column(children: [
           SafeArea(child: homeAppBar(context)),
           Divider(
             height: 2,
@@ -147,7 +146,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ),
         ]),
-      ),
 
       floatingActionButton: Container(
         width: 65,

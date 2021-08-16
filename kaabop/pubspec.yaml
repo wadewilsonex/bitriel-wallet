@@ -84,7 +84,7 @@ dependencies:
   package_info: 
   shimmer: ^1.1.2
 
-  #Authenticatioin & Verification
+  # Authentication & Verification
   local_auth: ^1.1.6
   permission_handler:
 

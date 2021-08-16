@@ -380,16 +380,17 @@ class BodyScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SingleChildScrollView(
-        physics: physic,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: height,
-          color: isDarkTheme
-            ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-            : Color(AppUtils.convertHexaColor("#F5F5F5")),
-          padding: EdgeInsets.fromLTRB(left, top, right, bottom),
-          child: isSafeArea ? SafeArea(child: child) : child,
-        ));
+      physics: physic,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: height,
+        color: isDarkTheme
+          ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+          : Color(AppUtils.convertHexaColor("#F5F5F5")),
+        padding: EdgeInsets.fromLTRB(left, top, right, bottom),
+        child: isSafeArea ? SafeArea(child: child) : child,
+      )
+    );
   }
 }
 
