@@ -5,19 +5,18 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
-import 'package:wallet_apps/src/service/portfolio_s.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
-
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
 
   String ethAdd = '';
+  bool std = false;
 
   Atd atd = Atd();
   Kmpi kmpi = Kmpi();
@@ -67,7 +66,8 @@ class ContractProvider with ChangeNotifier {
 
   final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
 
-  final String _wsEthUrl = "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
+  final String _wsEthUrl =
+      "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
 
   List<TokenModel> token = [];
 
@@ -89,29 +89,51 @@ class ContractProvider with ChangeNotifier {
   Future<bool> getPending(String txHash) async {
     await initClient();
 
-    final res = await _web3client
-        .addedBlocks()
-        .asyncMap((_) => _web3client.getTransactionReceipt(txHash))
-        .where((receipt) => receipt != null)
-        .first;
+    print("txHas $txHash");
+    await _web3client
+      .addedBlocks()
+      .asyncMap((_) async {
+        try {
 
-    return res.status;
+          await _web3client.getTransactionReceipt(txHash).then((d) {
+            if (d != null){
+              print("Status ${d.status}");
+              if (d.status) std = d.status;
+            }
+          });
+          print("Std $std");
+          if (std == true) return std;
+
+        } on FormatException catch (e){
+
+          print("Error ${e.message}");
+          if (e.message.toString() == 'Invalid radix-10 number'){
+            print("Hello");
+            std = true;
+            return std;
+          }
+
+        }
+        catch (e){
+          print("Error $e");
+        }
+      })
+      .where((receipt) => receipt != null)
+      .first;
+
+    return std;
   }
 
-  void subscribeBscbalance(BuildContext context) async {
+  void subscribeBscbalance() async {
     await initClient();
     try {
       final res = _web3client.addedBlocks();
-      context = context;
 
       // res.listen((event) {
-
-      //   getBscBalance();
-      //   getBscV2Balance();
-      //   getBnbBalance();
-      //   getKgoBalance();
-
-      //   PortfolioServices().setPortfolio(context);
+        getBscBalance();
+        getBscV2Balance();
+        getBnbBalance();
+        getKgoBalance();
       // });
     } catch (e) {
       print(e.message);
@@ -228,7 +250,9 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
+
     await initClient();
+    
     final contract = await initSwapSel(AppConfig.swapMainnetAddr);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
@@ -242,8 +266,7 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _web3client.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
-      data: ethFunction
-          .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
+      data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
     );
 
     final swap = await _web3client.sendTransaction(
@@ -339,23 +362,16 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoBalance() async {
-    try {
+    bscNative.isContain = true;
 
-      bscNative.isContain = true;
+    if (ethAdd != '') {
+      final res = await query(
+          AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-      if (ethAdd != '') {
-        final res = await query(AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-
-        kgoNative.balance = res[0].toString();
-
-        // Error kgo Invalid argument(s): The source must not be null
-        // Fmt.bigIntToDouble(
-        //   res[0] as BigInt,
-        //   int.parse(kgoNative.chainDecimal),
-        // ).toString();
-    }
-    } catch (e){
-      print("Error kgo $e");
+      kgoNative.balance = Fmt.bigIntToDouble(
+        res[0] as BigInt,
+        int.parse(kgoNative.chainDecimal),
+      ).toString();
     }
 
     notifyListeners();
@@ -404,8 +420,6 @@ class ContractProvider with ChangeNotifier {
 
     bnbNative.balance = balance.getValueInUnit(EtherUnit.ether).toString();
 
-    print("My Bnb ${bnbNative.balance}");
-
     notifyListeners();
   }
 
@@ -413,26 +427,12 @@ class ContractProvider with ChangeNotifier {
     bscNativeV2.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
       bscNativeV2.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),
       ).toString();
-      // bscNativeV2.balance = tmp;
-
-      // print(_walletProvider.portfolio[0].percentage);
-
-      // print("Tmp $tmp");
-      // print("Bsc native v2 ${bscNativeV2.balance}");
-      // print("My percent ${}");
-
-      // Provider.of<WalletProvider>(context, listen: false).setProfolio();
-      // print("My percentage $percentage");
-
-      // if (percentage == null){
-      //   print("Got v2 ");
-      //   Provider.of<WalletProvider>(context, listen: false).getPortfolio();
-      // }
     }
 
     notifyListeners();
@@ -442,7 +442,8 @@ class ContractProvider with ChangeNotifier {
     bscNative.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
       bscNative.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(bscNative.chainDecimal),
@@ -459,16 +460,13 @@ class ContractProvider with ChangeNotifier {
         final contractAddr = findContractAddr(token[i].symbol);
         final decimal = await query(contractAddr, 'decimals', []);
 
-        final balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+        final balance = await query(
+            contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-        String tmp = Fmt.bigIntToDouble(
+        token[i].balance = Fmt.bigIntToDouble(
           balance[0] as BigInt,
           int.parse(decimal[0].toString()),
         ).toString();
-
-        if (tmp != token[i].balance){
-          token[i].balance = tmp;
-        }
       }
     }
 
@@ -577,12 +575,12 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-
     initEtherClient();
 
     final contract = await initEtherContract(contractAddr);
     final txFunction = contract.function('transfer');
-    final credentials = await _etherClient.credentialsFromPrivateKey(privateKey);
+    final credentials =
+        await _etherClient.credentialsFromPrivateKey(privateKey);
 
     final res = await _etherClient.sendTransaction(
       credentials,
@@ -645,7 +643,8 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToken(String symbol, BuildContext context, {String contractAddr, String network}) async {
+  Future<void> addToken(String symbol, BuildContext context,
+      {String contractAddr, String network}) async {
     if (symbol == 'KMPI') {
       if (!kmpi.isContain) {
         initKmpi().then((value) async {
@@ -783,7 +782,6 @@ class ContractProvider with ChangeNotifier {
         }
       }
     }
-
     notifyListeners();
   }
 

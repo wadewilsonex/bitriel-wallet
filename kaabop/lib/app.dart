@@ -12,6 +12,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+  
   bool _apiConnected = false;
 
   @override
@@ -173,11 +174,11 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-    });
+    // Provider.of<ContractProvider>(context, listen: false)
+    //     .getKgoDecimal()
+    //     .then((value) {
+    //   Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+    // });
   }
 
   @override

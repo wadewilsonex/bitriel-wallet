@@ -94,7 +94,7 @@ dependencies:
     path: ../
   animations:
   provider:
-  web3dart:
+  web3dart: 
   bitcoin_flutter:
 
   flutter_secure_storage:

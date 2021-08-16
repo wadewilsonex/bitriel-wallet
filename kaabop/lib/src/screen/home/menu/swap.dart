@@ -214,6 +214,8 @@ class _SwapState extends State<Swap> {
       });
     } catch (e) {
       print("Error arrove and swap $e");
+      Navigator.pop(context);
+      await customDialog('Oops', '$e');
     }
   }
  
@@ -254,7 +256,7 @@ class _SwapState extends State<Swap> {
         }
       } catch (e) {
         Navigator.pop(context);
-        await customDialog('Opps', e.message.toString());
+        await customDialog('Opps', e.toString());
       }
     });
   }
@@ -266,8 +268,6 @@ class _SwapState extends State<Swap> {
       dialogLoading(context);
       
       final res = await ContractProvider().checkAllowance();
-
-      print("Check allowance $res");
 
       if (res.toString() == '0') {
         Navigator.pop(context);
@@ -539,8 +539,8 @@ class _SwapState extends State<Swap> {
 
   @override
   void initState() {
-    _amountController = TextEditingController();
-
+    _amountController = TextEditingController(text: '0.001');
+    _enableBtn = true;
     super.initState();
   }
 

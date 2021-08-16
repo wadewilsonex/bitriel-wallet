@@ -32,7 +32,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
     AppServices.noInternetConnection(_homeM.globalKey);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance();
       Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
 
