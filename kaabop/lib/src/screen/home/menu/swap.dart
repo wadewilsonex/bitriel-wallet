@@ -535,7 +535,7 @@ class _SwapState extends State<Swap> {
   @override
   void dispose() {
     super.dispose();
-    _amountController.dispose();
+    _amountController.dispose(); 
   }
 
   @override
