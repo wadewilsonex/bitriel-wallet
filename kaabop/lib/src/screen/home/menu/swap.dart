@@ -158,17 +158,12 @@ class _SwapState extends State<Swap> {
 
           final approveHash = await approve(res);
 
-          print("Approve $approveHash");
-
           if (approveHash != null) {
           // await Future.delayed(Duration(seconds: 10));
             final approveStatus = await contract.getPending(approveHash);
 
-            print('approve stat: $approveStatus');
-
             if (approveStatus) {
               final resAllow = await ContractProvider().checkAllowance();
-              print("Check allowance $resAllow");
 
               if (resAllow.toString() != '0') {
 
@@ -176,13 +171,9 @@ class _SwapState extends State<Swap> {
 
                 if (swapHash != null) {
 
-                  print("Swapping $swapHash");
                   final isSuccess = await contract.getPending(swapHash);
 
-                  print("Getting pending $isSuccess");
-
                   if (isSuccess) {
-                    print("Success $isSuccess");
                     Navigator.pop(context);
                     enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.', 'Go to wallet', () {
                       Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
@@ -213,7 +204,7 @@ class _SwapState extends State<Swap> {
         }
       });
     } catch (e) {
-      print("Error arrove and swap $e");
+      // print("Error arrove and swap $e");
       Navigator.pop(context);
       await customDialog('Oops', '$e');
     }
@@ -229,8 +220,6 @@ class _SwapState extends State<Swap> {
           dialogLoading(context, content:"This processing may take a bit longer\nPlease wait a moment");
 
           final hash = await contract.swap(_amountController.text, res);
-
-          print("Got has $hash");
           if (hash != null) {
             final swapStatus = await contract.getPending(hash);
 
@@ -514,7 +503,7 @@ class _SwapState extends State<Swap> {
                         confirmFunction();
                       },
                       style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all(
+                          backgroundColor: MaterialStateProperty.all(
                               hexaCodeToColor(AppColors.secondary)),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
@@ -539,8 +528,7 @@ class _SwapState extends State<Swap> {
 
   @override
   void initState() {
-    _amountController = TextEditingController(text: '0.001');
-    _enableBtn = true;
+    _amountController = TextEditingController();
     super.initState();
   }
 

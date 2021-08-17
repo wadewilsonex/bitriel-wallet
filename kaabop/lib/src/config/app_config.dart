@@ -18,8 +18,7 @@ class AppConfig {
   static String logoBottomAppBar = "assets/images/sld_qr.png";
 
   // QR Embedded
-  static String logoQrEmbedded =
-      "assets/SelendraQr-1.png"; //"assets/sld_stroke.png";
+  static String logoQrEmbedded = "assets/SelendraQr-1.png"; //"assets/sld_stroke.png";
 
   // Portfolio
   static String logoPortfolio = 'assets/images/sld_logo.png';
@@ -39,27 +38,23 @@ class AppConfig {
 
   //static const bscTestNet = 'https://data-seed-prebsc-1-s1.binance.org:8545';
 
-  static const bscMainNet = 'https://data-seed-prebsc-2-s1.binance.org:8545';//'https://bsc-dataseed.binance.org/';
+  static const bscMainNet = 'https://bsc-dataseed.binance.org/';
 
   //static const bscAddr = '0xd84d89d5c9df06755b5d591794241d3fd20669ce';
 
-  static const etherTestnet =
-      'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherTestnet = 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const etherMainet =
-      'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherMainet = 'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const etherTestnetWebSocket =
-      'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherTestnetWebSocket = 'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const coingeckoBaseUrl =
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
+  static const coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
-  static const selV1MainnetAddr = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030'; //'0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
+  static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
 
-  static const selv2MainnetAddr = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //'0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+  static const selv2MainnetAddr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
 
-  static const swapMainnetAddr = '0xE5DD12570452057fc85B8cE9820aD676390f865B';//'0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
+  static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
 
   static const kgoAddr = '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773';
 
