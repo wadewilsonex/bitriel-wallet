@@ -305,7 +305,9 @@ class SubmitTrxState extends State<SubmitTrx> {
     } catch (e){
       //Close Dialog
       Navigator.pop(context);
-      await trxFunc.customDialog("Oops", "$e");
+
+      // Condition For RPCError
+      await trxFunc.customDialog("Oops", "${ e.runtimeType.toString() == 'RPCError' ? 'insufficient funds for gas' : e}");
     }
   }
 

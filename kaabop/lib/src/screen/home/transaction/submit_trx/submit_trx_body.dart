@@ -79,6 +79,9 @@ class SubmitTrxBody extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+
+                    
+
                     listInput[0],
                     /* Type of payment */
                     Container(

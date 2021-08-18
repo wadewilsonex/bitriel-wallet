@@ -85,11 +85,14 @@ class TrxFunctional {
 
   /* ------------------Transaction--------------- */
 
-  Future<void> sendTxBnb(String reciever, String amount) async {
+  Future<void>  sendTxBnb(String reciever, String amount) async {
 
+    print("BNB");
     if (privateKey != null) {
 
       final hash = await contract.sendTxBnb(privateKey, reciever, amount);
+
+      print("has $hash");
      
       if (hash != null) {
         await contract.getPending(hash).then((value) async {
@@ -179,7 +182,7 @@ class TrxFunctional {
             if (value == false){
               await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
               Navigator.pop(context);
-              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+              await customDialog('Transaction failed', 'insufficient funds for gas');
             } else {
               enableAnimation();
             }

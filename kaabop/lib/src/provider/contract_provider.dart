@@ -509,7 +509,7 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initClient();
+    await initClient();
     final credentials = await _web3client.credentialsFromPrivateKey(
       privateKey.substring(2),
     );
@@ -523,6 +523,8 @@ class ContractProvider with ChangeNotifier {
       ),
       fetchChainIdFromNetworkId: true,
     );
+
+    print("Res $res");
 
     return res;
   }
