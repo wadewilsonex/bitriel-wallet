@@ -152,8 +152,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         height: 65,
         child: FloatingActionButton(
           elevation: 0,
-          backgroundColor:
-              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+          backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
               context,

@@ -230,6 +230,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 case "SEL (BEP-20)":
                   final chainDecimal = await ContractProvider().query(AppConfig.selV1MainnetAddr, 'decimals', []);
+                  print("Chain decimal $chainDecimal");
                   if (chainDecimal != null) {
                     await trxFunc.sendTxAYF(
                       AppConfig.selV1MainnetAddr,

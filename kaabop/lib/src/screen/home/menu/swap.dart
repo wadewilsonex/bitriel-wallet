@@ -162,6 +162,8 @@ class _SwapState extends State<Swap> {
           // await Future.delayed(Duration(seconds: 10));
             final approveStatus = await contract.getPending(approveHash);
 
+            print("approveAndSwap $approveStatus");
+
             if (approveStatus) {
               final resAllow = await ContractProvider().checkAllowance();
 
@@ -222,6 +224,8 @@ class _SwapState extends State<Swap> {
           final hash = await contract.swap(_amountController.text, res);
           if (hash != null) {
             final swapStatus = await contract.getPending(hash);
+
+            print("swapWithoutAp $swapStatus");
 
             if (swapStatus) {
               // setState(() {});

@@ -16,7 +16,7 @@ class ContractProvider with ChangeNotifier {
   final Keyring keyring = ApiProvider.keyring;
 
   String ethAdd = '';
-  bool std = false;
+  bool std;
 
   Atd atd = Atd();
   Kmpi kmpi = Kmpi();
@@ -87,28 +87,39 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> getPending(String txHash) async {
+    // Re-Initialize
+    std = null;
+
     await initClient();
 
-    print("txHas $txHash");
     await _web3client
       .addedBlocks()
       .asyncMap((_) async {
         try {
 
+          // This Method Will Run Again And Again Until we return something
           await _web3client.getTransactionReceipt(txHash).then((d) {
+            print("getTransactionReceipt ${d.status}");
+            // Give Value To std When Request Successfully
             if (d != null){
-              print("Status ${d.status}");
-              if (d.status) std = d.status;
+            print("Pending ${d.status}");
+            print("Get Transaction has ${d.from}");
+              std = d.status;
             }
           });
-          print("Std $std");
-          if (std == true) return std;
+          
+          // Return Value For True Value And Method GetTrxReceipt Also Terminate
+          if (std != null) return std;
 
         } on FormatException catch (e){
+          
+          // This Error Because can't Convert Hexadecimal number to integer.
+          // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+          // Example-Error: 0xc, 0x3a, ...
+          // Example-Success: 0x1, 0x2, 0,3 ...
 
-          print("Error ${e.message}");
+          // return True For Facing This FormatException
           if (e.message.toString() == 'Invalid radix-10 number'){
-            print("Hello");
             std = true;
             return std;
           }
@@ -160,7 +171,6 @@ class ContractProvider with ChangeNotifier {
     final EtherAmount ethbalance =
         await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
     etherNative.balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
-    print(etherNative.balance);
 
     notifyListeners();
   }
@@ -546,7 +556,7 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initClient();
+    await initClient();
 
     final contract = await initBsc(contractAddr);
     final txFunction = contract.function('transfer');

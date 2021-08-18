@@ -92,8 +92,15 @@ class TrxFunctional {
       final hash = await contract.sendTxBnb(privateKey, reciever, amount);
      
       if (hash != null) {
-        await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-        await enableAnimation();
+        await contract.getPending(hash).then((value) async {
+          if (value == false){
+            await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+            Navigator.pop(context);
+            await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+          } else {
+            enableAnimation();
+          }
+        });
       } else {
         throw hash;
       }
@@ -130,7 +137,14 @@ class TrxFunctional {
       if (privateKey != null) {
         final hash = await contract.sendTxEther(privateKey, reciever, amount);
         if (hash != null) {
-          enableAnimation();
+          await contract.getPending(hash).then((value) async {
+            if (value == false){
+              Navigator.pop(context);
+              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+            } else {
+              enableAnimation();
+            }
+          });
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -144,6 +158,8 @@ class TrxFunctional {
 
   Future<void> sendTxAYF(String contractAddr, String chainDecimal, String reciever, String amount) async {
 
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+
     try {
 
       if (privateKey != null) {
@@ -155,11 +171,20 @@ class TrxFunctional {
           amount,
         );
 
+        print("Trx hash $hash");
        
         if (hash != null) {
-        //  await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
 
-          enableAnimation();
+          await contract.getPending(hash).then((value) async {
+            if (value == false){
+              await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+              Navigator.pop(context);
+              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+            } else {
+              enableAnimation();
+            }
+          });
+
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -188,7 +213,15 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          enableAnimation();
+          await contract.getPending(hash).then((value) async {
+            if (value == false){
+              await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+              Navigator.pop(context);
+              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+            } else {
+              enableAnimation();
+            }
+          });
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -218,6 +251,7 @@ class TrxFunctional {
       );
 
       if (res['status'] != null) {
+        
         Provider.of<ContractProvider>(context, listen: false).fetchKmpiBalance();
 
         await saveTxHistory(
@@ -312,7 +346,9 @@ class TrxFunctional {
     try {
       final hash = await ApiProvider.sdk.api.tx.signAndSendDot(
         txInfo, [target, pow(double.parse(amount) * 10, 12)], pin,
-        onStatusChange: (status) async {}
+        onStatusChange: (status) async {
+          
+        }
       );
 
       if (hash != null) {
