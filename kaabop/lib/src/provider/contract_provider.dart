@@ -140,12 +140,12 @@ class ContractProvider with ChangeNotifier {
     try {
       final res = _web3client.addedBlocks();
 
-      // res.listen((event) {
+      res.listen((event) {
         getBscBalance();
         getBscV2Balance();
         getBnbBalance();
         getKgoBalance();
-      // });
+      });
     } catch (e) {
       print(e.message);
     }
