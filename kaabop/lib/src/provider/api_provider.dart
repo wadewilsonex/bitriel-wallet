@@ -5,13 +5,12 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
-  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -55,19 +54,19 @@ class ApiProvider with ChangeNotifier {
 
   ContractProvider contractProvider;
   AccountM accountM = AccountM();
-  NativeM nativeM = NativeM(
+  Coin selNative = Coin(
     id: 'selendra',
     logo: 'assets/SelendraCircle-White.png',
     symbol: 'SEL',
     org: 'Testnet',
   );
-  NativeM dot = NativeM(
+  Coin dot = Coin(
     id: 'polkadot',
     symbol: 'DOT',
     logo: 'assets/icons/polkadot.png',
     isContain: false,
   );
-  NativeM btc = NativeM(
+  Coin btc = Coin(
       id: 'bitcoin',
       symbol: 'BTC',
       logo: 'assets/btc_logo.png',
@@ -108,7 +107,7 @@ class ApiProvider with ChangeNotifier {
     node.endpoint = AppConfig.dotMainnet;
     node.ss58 = 0;
 
-    final node1 = NetworkParams();
+    // final node1 = NetworkParams();
     node.name = 'Polkadot(Live, hosted by PatractLabs)';
     node.endpoint = 'wss://polkadot.elara.patract.io';
     node.ss58 = 0;
@@ -135,7 +134,32 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
+  Future<String> calBtcMaxGas() async {
+    int input = 0;
+
+    final from = await StorageServices.fetchData('bech32');
+
+    final txb = TransactionBuilder();
+    txb.setVersion(1);
+    final res = await getAddressUxto(from);
+
+    if (res.length != 0) {
+      for (final i in res) {
+        if (i['status']['confirmed'] == true) {
+          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null);
+          input++;
+        }
+      }
+    }
+
+    final trxSize = calTrxSize(input, 2);
+
+    print(trxSize);
+    return trxSize.toString();
+  }
+
+  Future<int> sendTxBtc(BuildContext context, String from, String to,
+      double amount, String wif) async {
     int totalSatoshi = 0;
     int input = 0;
     final alice = ECPair.fromWIF(wif);
@@ -148,8 +172,6 @@ class ApiProvider with ChangeNotifier {
     txb.setVersion(1);
 
     final res = await getAddressUxto(from);
-
-
 
     if (res.length != 0) {
       for (final i in res) {
@@ -237,12 +259,12 @@ class ApiProvider with ChangeNotifier {
     return jsonDecode(res.body);
   }
 
-  Future<void> getBtcFee() async {
-    final res =
-        await http.get('https://bitcoinfees.earn.com/api/v1/fees/recommended');
+  // Future<void> getBtcFee() async {
+  //   final res =
+  //       await http.get('https://bitcoinfees.earn.com/api/v1/fees/recommended');
 
-    //print(jsonDecode(res.body));
-  }
+  //   //print(jsonDecode(res.body));
+  // }
 
   Future<void> getBtcBalance(String address) async {
     int totalSatoshi = 0;
@@ -310,15 +332,9 @@ class ApiProvider with ChangeNotifier {
     return res;
   }
 
-  Future<String> swapToken(String privateKey, String amount) async {
-   // final res = await sdk.api.swapToken(privateKey, amount);
-    await sdk.api.connectBsc();
-    return 'res';
-  }
-
   Future<void> getChainDecimal() async {
     final res = await sdk.api.getChainDecimal();
-    nativeM.chainDecimal = res[0].toString();
+    selNative.chainDecimal = res[0].toString();
 
     subscribeBalance();
     notifyListeners();
@@ -333,9 +349,9 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> subscribeBalance() async {
     await sdk.api.account.subscribeBalance(keyring.current.address, (res) {
-      nativeM.balance = Fmt.balance(
+      selNative.balance = Fmt.balance(
         res.freeBalance.toString(),
-        int.parse(nativeM.chainDecimal),
+        int.parse(selNative.chainDecimal),
       );
 
       notifyListeners();
@@ -369,13 +385,13 @@ class ApiProvider with ChangeNotifier {
 
   void resetNativeObj() {
     accountM = AccountM();
-    nativeM = NativeM(
+    selNative = Coin(
       id: 'selendra',
       logo: 'assets/SelendraCircle-White.png',
       symbol: 'SEL',
       org: 'Testnet',
     );
-    dot = NativeM();
+    dot = Coin();
 
     notifyListeners();
   }

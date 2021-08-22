@@ -1,6 +1,6 @@
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/coin.m.dart';
 
-class Kmpi extends NativeM{
+class Kmpi extends Coin {
   String hash;
   bool isContain = false;
 }

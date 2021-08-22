@@ -11,6 +11,15 @@ import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+  Client _httpClient;
+
+  Web3Client _bscClient, _etherClient, _selClient;
+
+  StreamSubscription<String> streamSubscriptionBsc;
+  StreamSubscription<String> streamSubscriptionEth;
+
+  List<TokenModel> token = [];
+
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
@@ -20,14 +29,14 @@ class ContractProvider with ChangeNotifier {
   Atd atd = Atd();
   Kmpi kmpi = Kmpi();
   bool isReady = false;
-  NativeM bscNative = NativeM(
+  Coin selBsc = Coin(
     id: 'selendra',
     logo: 'assets/SelendraCircle-Blue.png',
     symbol: 'SEL',
     org: 'BEP-20',
     isContain: true,
   );
-  NativeM bscNativeV2 = NativeM(
+  Coin selBscV2 = Coin(
     id: 'selendra v2',
     logo: 'assets/SelendraCircle-Blue.png',
     symbol: 'SEL (v2)',
@@ -35,7 +44,7 @@ class ContractProvider with ChangeNotifier {
     isContain: true,
   );
 
-  NativeM kgoNative = NativeM(
+  Coin kgoBsc = Coin(
     id: 'kiwigo',
     logo: 'assets/Kiwi-GO-White-1.png',
     symbol: 'KGO',
@@ -43,7 +52,7 @@ class ContractProvider with ChangeNotifier {
     isContain: true,
   );
 
-  NativeM etherNative = NativeM(
+  Coin etherNative = Coin(
     id: 'ethereum',
     logo: 'assets/eth.png',
     symbol: 'ETH',
@@ -51,7 +60,7 @@ class ContractProvider with ChangeNotifier {
     isContain: true,
   );
 
-  NativeM bnbNative = NativeM(
+  Coin bnbSmartChain = Coin(
     id: 'binance smart chain',
     logo: 'assets/bnb.png',
     symbol: 'BNB',
@@ -59,25 +68,11 @@ class ContractProvider with ChangeNotifier {
     isContain: true,
   );
 
-  Client _httpClient;
-
-  Web3Client _web3client, _etherClient;
-
-  StreamSubscription<String> streamSubscriptionBsc;
-  StreamSubscription<String> streamSubscriptionEth;
-
-  final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
-
-  final String _wsEthUrl =
-      "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
-
-  List<TokenModel> token = [];
-
-  Future<void> initClient() async {
+  Future<void> initBscClient() async {
     _httpClient = Client();
-    _web3client =
+    _bscClient =
         Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_wsBscUrl).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.bscWs).cast<String>();
     });
   }
 
@@ -85,16 +80,24 @@ class ContractProvider with ChangeNotifier {
     _httpClient = Client();
     _etherClient =
         Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_wsEthUrl).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.etherWs).cast<String>();
+    });
+  }
+
+  Future<void> initSelClient() async {
+    _httpClient = Client();
+    _selClient =
+        Web3Client(AppConfig.selTestnet, _httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.selWs).cast<String>();
     });
   }
 
   Future<bool> getPending(String txHash) async {
-    await initClient();
+    await initBscClient();
 
-    final res = await _web3client
+    final res = await _bscClient
         .addedBlocks()
-        .asyncMap((_) => _web3client.getTransactionReceipt(txHash))
+        .asyncMap((_) => _bscClient.getTransactionReceipt(txHash))
         .where((receipt) => receipt != null)
         .first;
 
@@ -102,39 +105,39 @@ class ContractProvider with ChangeNotifier {
   }
 
   void subscribeBscbalance() async {
-    await initClient();
-    try {
-      var res = _web3client.addedBlocks();
+    // await initBscClient();
+    // try {
+    //   var res = _bscClient.addedBlocks();
 
-      streamSubscriptionBsc = res.listen((event) {
-        getBscBalance();
-        getBscV2Balance();
-        getBnbBalance();
-        getKgoBalance();
-      });
-    } catch (e) {
-      print(e.message);
-    }
-    notifyListeners();
+    //   streamSubscriptionBsc = res.listen((event) {
+    //     getBscBalance();
+    //     getBscV2Balance();
+    //     getBnbBalance();
+    //     getKgoBalance();
+    //   });
+    // } catch (e) {
+    //   print(e.message);
+    // }
+    // notifyListeners();
   }
 
   void subscribeEthbalance() async {
-    await initEtherClient();
-    try {
-      var res = _etherClient.addedBlocks();
+    // await initEtherClient();
+    // try {
+    //   var res = _etherClient.addedBlocks();
 
-      streamSubscriptionEth = res.listen((event) {
-        getEtherBalance();
-      });
-    } catch (e) {
-      print(e.message);
-    }
-    notifyListeners();
+    //   streamSubscriptionEth = res.listen((event) {
+    //     getEtherBalance();
+    //   });
+    // } catch (e) {
+    //   print(e.message);
+    // }
+    // notifyListeners();
   }
 
   void unsubscribeNetwork() async {
-    await streamSubscriptionBsc.cancel();
-    await streamSubscriptionEth.cancel();
+    // await streamSubscriptionBsc.cancel();
+    //await streamSubscriptionEth.cancel();
     notifyListeners();
   }
 
@@ -169,6 +172,84 @@ class ContractProvider with ChangeNotifier {
     return contract;
   }
 
+  Future<bool> validateEvmAddr(String address) async {
+    bool _isValid = false;
+    try {
+      EthereumAddress.fromHex(address, enforceEip55: true);
+      // valid!
+      _isValid = true;
+    } on ArgumentError {
+      // Not valid
+    }
+    return _isValid;
+  }
+
+  Future<EtherAmount> getEthGasPrice() async {
+    initEtherClient();
+    final gasPrice = await _etherClient.getGasPrice();
+    return gasPrice;
+  }
+
+  Future<void> getBtcMaxGas() async {}
+
+  Future<String> getBnbMaxGas(String reciever, String amount) async {
+    initBscClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
+    return maxGas.toString();
+  }
+
+  Future<String> getEthMaxGas(String reciever, String amount) async {
+    initEtherClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+    return maxGas.toString();
+  }
+
+  Future<String> getBep20MaxGas(
+      String contractAddr, String reciever, String amount) async {
+    initBscClient();
+    final bep20Contract = await initBsc(contractAddr);
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final txFunction = bep20Contract.function('transfer');
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
+    return maxGas.toString();
+  }
+
+  Future<EtherAmount> getSelGasPrice() async {
+    initSelClient();
+    final gasPrice = await _selClient.getGasPrice();
+    return gasPrice;
+  }
+
+  Future<EtherAmount> getBscGasPrice() async {
+    initBscClient();
+    final gasPrice = await _bscClient.getGasPrice();
+    return gasPrice;
+  }
+
   Future<DeployedContract> initEtherContract(String contractAddr) async {
     final String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
 
@@ -181,17 +262,17 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> approveSwap(String privateKey) async {
-    await initClient();
+    await initBscClient();
     final contract = await initBsc(AppConfig.selV1MainnetAddr);
     final ethFunction = contract.function('approve');
 
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
-    final gasPrice = await _web3client.getGasPrice();
+    final gasPrice = await _bscClient.getGasPrice();
 
-    final maxGas = await _web3client.estimateGas(
+    final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
       data: ethFunction.encodeCall(
@@ -202,7 +283,7 @@ class ContractProvider with ChangeNotifier {
       ),
     );
 
-    final approve = await _web3client.sendTransaction(
+    final approve = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
@@ -235,25 +316,25 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
-    await initClient();
+    await initBscClient();
     final contract = await initSwapSel(AppConfig.swapMainnetAddr);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
-    final gasPrice = await _web3client.getGasPrice();
+    final gasPrice = await _bscClient.getGasPrice();
 
     final ethFunction = contract.function('swap');
 
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
-    final maxGas = await _web3client.estimateGas(
+    final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
       data: ethFunction
           .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
     );
 
-    final swap = await _web3client.sendTransaction(
+    final swap = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
@@ -268,38 +349,6 @@ class ContractProvider with ChangeNotifier {
 
     return swap;
   }
-
-  // Future<BigInt> getEtherTokenBalance(String contractAddr, EthereumAddress from) async {
-  //   await initEtherClient();
-  //   final contract =
-  //       await initEtherContract(contractAddr);
-  //   final ethFunction = contract.function('balanceOf');
-  //   final response = await _etherClient.call(
-  //     contract: contract,
-  //     function: ethFunction,
-  //     params: [from],
-  //   );
-
-  //   print(response.first);
-
-  //   return response.first as BigInt;
-  // }
-
-  // Future<String> getEtherTokenSymbol(
-  //     String contractAddr, EthereumAddress from) async {
-  //   await initEtherClient();
-  //   final contract = await initEtherContract(contractAddr);
-  //   final ethFunction = contract.function('symbol');
-  //   final response = await _etherClient.call(
-  //     contract: contract,
-  //     function: ethFunction,
-  //     params: [],
-  //   );
-
-  //   print(response.first);
-
-  //   return response.first as String;
-  // }
 
   Future<List> queryEther(
       String contractAddress, String functionName, List args) async {
@@ -318,11 +367,11 @@ class ContractProvider with ChangeNotifier {
 
   Future<List> query(
       String contractAddress, String functionName, List args) async {
-    initClient();
+    initBscClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
 
-    final res = await _web3client.call(
+    final res = await _bscClient.call(
       contract: contract,
       function: ethFunction,
       params: args,
@@ -333,28 +382,28 @@ class ContractProvider with ChangeNotifier {
   Future<void> getKgoSymbol() async {
     final res = await query(AppConfig.kgoAddr, 'symbol', []);
 
-    kgoNative.symbol = res[0].toString();
-    kgoNative.isContain = true;
+    kgoBsc.symbol = res[0].toString();
+    kgoBsc.isContain = true;
     notifyListeners();
   }
 
   Future<void> getKgoDecimal() async {
     final res = await query(AppConfig.kgoAddr, 'decimals', []);
-    kgoNative.chainDecimal = res[0].toString();
+    kgoBsc.chainDecimal = res[0].toString();
 
     notifyListeners();
   }
 
   Future<void> getKgoBalance() async {
-    bscNative.isContain = true;
+    selBsc.isContain = true;
 
     if (ethAdd != '') {
       final res = await query(
           AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-      kgoNative.balance = Fmt.bigIntToDouble(
+      kgoBsc.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(kgoNative.chainDecimal),
+        int.parse(kgoBsc.chainDecimal),
       ).toString();
     }
 
@@ -364,7 +413,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBscDecimal() async {
     final res = await query(AppConfig.selV1MainnetAddr, 'decimals', []);
 
-    bscNative.chainDecimal = res[0].toString();
+    selBsc.chainDecimal = res[0].toString();
 
     notifyListeners();
   }
@@ -372,13 +421,13 @@ class ContractProvider with ChangeNotifier {
   Future<void> getSymbol() async {
     final res = await query(AppConfig.selV1MainnetAddr, 'symbol', []);
 
-    bscNative.symbol = res[0].toString();
+    selBsc.symbol = res[0].toString();
     notifyListeners();
   }
 
   Future<void> extractAddress(String privateKey) async {
-    initClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    initBscClient();
+    final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey,
     );
 
@@ -396,27 +445,27 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBnbBalance() async {
-    bnbNative.isContain = true;
-    initClient();
+    bnbSmartChain.isContain = true;
+    initBscClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final balance = await _web3client.getBalance(
+    final balance = await _bscClient.getBalance(
       EthereumAddress.fromHex(ethAddr),
     );
 
-    bnbNative.balance = balance.getValueInUnit(EtherUnit.ether).toString();
+    bnbSmartChain.balance = balance.getValueInUnit(EtherUnit.ether).toString();
 
     notifyListeners();
   }
 
   Future<void> getBscV2Balance() async {
-    bscNativeV2.isContain = true;
+    selBscV2.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
       final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
-      bscNativeV2.balance = Fmt.bigIntToDouble(
+      selBscV2.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(bscNative.chainDecimal),
+        int.parse(selBsc.chainDecimal),
       ).toString();
     }
 
@@ -424,14 +473,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscBalance() async {
-    bscNative.isContain = true;
+    selBsc.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
       final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
-      bscNative.balance = Fmt.bigIntToDouble(
+      selBsc.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(bscNative.chainDecimal),
+        int.parse(selBsc.chainDecimal),
       ).toString();
     }
 
@@ -439,7 +488,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> fetchNonBalance() async {
-    initClient();
+    initBscClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {
         final contractAddr = findContractAddr(token[i].symbol);
@@ -484,17 +533,18 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    initBscClient();
+    final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey.substring(2),
     );
 
-    final res = await _web3client.sendTransaction(
+    final res = await _bscClient.sendTransaction(
       credentials,
       Transaction(
         to: EthereumAddress.fromHex(reciever),
-        value:
-            EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+        value: EtherAmount.inWei(
+          BigInt.from(double.parse(amount) * pow(10, 18)),
+        ),
       ),
       fetchChainIdFromNetworkId: true,
     );
@@ -508,7 +558,7 @@ class ContractProvider with ChangeNotifier {
     String amount,
   ) async {
     initEtherClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey.substring(2),
     );
 
@@ -531,13 +581,13 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initClient();
+    initBscClient();
 
     final contract = await initBsc(contractAddr);
     final txFunction = contract.function('transfer');
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
-    final res = await _web3client.sendTransaction(
+    final res = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
@@ -639,8 +689,8 @@ class ContractProvider with ChangeNotifier {
             .addTokenSymbol(symbol);
       }
     } else if (symbol == 'SEL') {
-      if (!bscNative.isContain) {
-        bscNative.isContain = true;
+      if (!selBsc.isContain) {
+        selBsc.isContain = true;
 
         await StorageServices.saveBool('SEL', true);
 
@@ -652,8 +702,8 @@ class ContractProvider with ChangeNotifier {
         await getBscBalance();
       }
     } else if (symbol == 'BNB') {
-      if (!bnbNative.isContain) {
-        bnbNative.isContain = true;
+      if (!bnbSmartChain.isContain) {
+        bnbSmartChain.isContain = true;
 
         await StorageServices.saveBool('BNB', true);
 
@@ -676,7 +726,6 @@ class ContractProvider with ChangeNotifier {
         await StorageServices.saveBool('DOT', true);
 
         ApiProvider().connectPolNon();
-        //Provider.of<ApiProvider>(context, listen: false).isDotContain();
         Provider.of<WalletProvider>(context, listen: false)
             .addTokenSymbol(symbol);
       }
@@ -753,12 +802,14 @@ class ContractProvider with ChangeNotifier {
                   .addTokenSymbol('${symbol[0]} (BEP-20)');
             }
           } else {
-            token.add(TokenModel(
-                contractAddr: contractAddr,
-                decimal: decimal[0].toString(),
-                symbol: symbol[0].toString(),
-                balance: balance[0].toString(),
-                org: 'BEP-20'));
+            token.add(
+              TokenModel(
+                  contractAddr: contractAddr,
+                  decimal: decimal[0].toString(),
+                  symbol: symbol[0].toString(),
+                  balance: balance[0].toString(),
+                  org: 'BEP-20'),
+            );
 
             await StorageServices.saveContractAddr(contractAddr);
             Provider.of<WalletProvider>(context, listen: false)
@@ -799,10 +850,10 @@ class ContractProvider with ChangeNotifier {
       atd.isContain = false;
       await StorageServices.removeKey('ATD');
     } else if (symbol == 'SEL') {
-      bscNative.isContain = false;
+      selBsc.isContain = false;
       await StorageServices.removeKey('SEL');
     } else if (symbol == 'BNB') {
-      bnbNative.isContain = false;
+      bnbSmartChain.isContain = false;
       await StorageServices.removeKey('BNB');
     } else if (symbol == 'DOT') {
       await StorageServices.removeKey('DOT');
@@ -852,19 +903,19 @@ class ContractProvider with ChangeNotifier {
 
   void setBnbMarket(Market bnbMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
-    bnbNative.marketData = bnbMarket;
-    bnbNative.marketPrice = currentPrice;
-    bnbNative.change24h = priceChange24h;
-    bnbNative.lineChartData = lineChart;
+    bnbSmartChain.marketData = bnbMarket;
+    bnbSmartChain.marketPrice = currentPrice;
+    bnbSmartChain.change24h = priceChange24h;
+    bnbSmartChain.lineChartData = lineChart;
     notifyListeners();
   }
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
-    kgoNative.marketData = kgoMarket;
-    kgoNative.lineChartData = lineChart;
-    kgoNative.marketPrice = currentPrice;
-    kgoNative.change24h = priceChange24h;
+    kgoBsc.marketData = kgoMarket;
+    kgoBsc.lineChartData = lineChart;
+    kgoBsc.marketPrice = currentPrice;
+    kgoBsc.change24h = priceChange24h;
     notifyListeners();
   }
 
@@ -877,14 +928,14 @@ class ContractProvider with ChangeNotifier {
   void resetConObject() {
     atd = Atd();
     kmpi = Kmpi();
-    bscNative = NativeM(
+    selBsc = Coin(
       id: 'selendra',
       symbol: 'SEL',
       logo: 'assets/SelendraCircle-Blue.png',
       org: 'BEP-20',
       isContain: true,
     );
-    bnbNative = NativeM(
+    bnbSmartChain = Coin(
       id: 'binance smart chain',
       logo: 'assets/bnb.png',
       symbol: 'BNB',

@@ -1,6 +1,6 @@
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/coin.m.dart';
 
-class Atd extends NativeM {
+class Atd extends Coin {
   bool status = false;
   String hash;
   bool isContain = false;

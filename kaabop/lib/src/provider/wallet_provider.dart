@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../../index.dart';
 
 class WalletProvider with ChangeNotifier {
+
   final List<PortfolioM> _portfolioM = [];
+  
   List<Map<String, String>> availableToken = [];
 
   List<String> listSymbol = [
@@ -75,6 +77,8 @@ class WalletProvider with ChangeNotifier {
   void clearPortfolio() {
     availableToken.clear();
     _portfolioM.clear();
+    availableToken.clear();
+    dataMap.clear();
     notifyListeners();
   }
 
@@ -96,14 +100,15 @@ class WalletProvider with ChangeNotifier {
   }
 
   Future<void> getPortfolio() async {
+    
     _portfolioM.clear();
     dataMap.clear();
 
     double temp = 0.0;
 
-    await getTotal();
-
     await getTotal().then((total) {
+
+      print("Total $total");
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
@@ -112,9 +117,10 @@ class WalletProvider with ChangeNotifier {
         if (total == 0.0) {
           _portfolioM.add(
             PortfolioM(
-                color: pieColorList[i],
-                symbol: availableToken[i]['symbol'],
-                percentage: '0'),
+              color: pieColorList[i],
+              symbol: availableToken[i]['symbol'],
+              percentage: '0'
+            ),
           );
         } else {
           percen = temp * 100;
@@ -129,8 +135,9 @@ class WalletProvider with ChangeNotifier {
             availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
           });
         }
-        notifyListeners();
       }
     });
+
+    notifyListeners();
   }
 }

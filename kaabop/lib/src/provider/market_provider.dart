@@ -14,7 +14,7 @@ class MarketProvider with ChangeNotifier {
     'bitcoin'
   ];
 
-  Market parsePhotos(String responseBody) {
+  Market parseMarketData(String responseBody) {
     Market data;
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
@@ -44,6 +44,31 @@ class MarketProvider with ChangeNotifier {
     return prices ?? null;
   }
 
+  Future<void> findMarketPrice(String asset) async {
+    String marketPrice;
+    final contract = ContractProvider();
+    final api = ApiProvider();
+    switch (asset) {
+      case 'KGO':
+        marketPrice = contract.kgoBsc.marketPrice;
+        print(contract.kgoBsc.marketPrice);
+        break;
+      case 'BTC':
+        print(api.btc.marketPrice);
+        marketPrice = api.btc.marketPrice;
+        break;
+      case 'ETH':
+        print(contract.etherNative.marketPrice);
+        marketPrice = contract.etherNative.marketPrice;
+        break;
+      case 'BNB':
+        print(contract.bnbSmartChain.marketPrice);
+        marketPrice = contract.bnbSmartChain.marketPrice;
+        break;
+    }
+    return marketPrice;
+  }
+
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
@@ -57,7 +82,7 @@ class MarketProvider with ChangeNotifier {
         if (response.statusCode == 200) {
           final jsonResponse = convert.jsonDecode(response.body);
 
-          final res = parsePhotos(response.body);
+          final res = parseMarketData(response.body);
 
           //final market = Market.fromJson(jsonResponse);
 

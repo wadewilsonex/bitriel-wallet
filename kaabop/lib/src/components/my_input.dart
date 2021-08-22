@@ -18,7 +18,7 @@ class MyInputField extends StatelessWidget {
   final TextEditingController controller;
   final void Function() onTap;
   final FocusNode focusNode;
-  final IconButton icon;
+  final Widget suffixIcon;
   final Widget suffix;
   final bool autoFocus;
   final String Function(String) validateField;
@@ -43,7 +43,7 @@ class MyInputField extends StatelessWidget {
       this.onTap,
       @required this.controller,
       @required this.focusNode,
-      this.icon,
+      this.suffixIcon,
       this.textColor = "#FFFFFF",
       this.autoFocus,
       this.suffix,
@@ -88,6 +88,7 @@ class MyInputField extends StatelessWidget {
                   : hexaCodeToColor(AppColors.darkSecondaryText),
             ),
             prefixText: prefixText,
+
             prefixStyle: TextStyle(
                 color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
@@ -114,7 +115,11 @@ class MyInputField extends StatelessWidget {
             /* Border Color When Focusing */
             contentPadding: const EdgeInsets.fromLTRB(
                 21, 23, 21, 23), // Default padding = -10.0 px
-            suffixIcon: icon,
+            suffixIcon: suffixIcon,
+            suffixIconConstraints: BoxConstraints(
+              minWidth: 0,
+              minHeight: 0,
+            ),
             suffix: suffix,
           ),
           inputFormatters: textInputFormatter,

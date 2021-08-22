@@ -224,8 +224,8 @@ class MyUserInfoState extends State<MyUserInfo> {
           Provider.of<ApiProvider>(context, listen: false).connectPolNon();
           Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
           Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          Provider.of<ContractProvider>(context, listen: false)
-              .getBscV2Balance();
+
+          selV2();
 
           isKgoContain();
           await addBtcWallet();
@@ -237,10 +237,11 @@ class MyUserInfoState extends State<MyUserInfo> {
           Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
           Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
           Provider.of<WalletProvider>(context, listen: false).addAvaibleToken({
-            'symbol':
-                Provider.of<ApiProvider>(context, listen: false).nativeM.symbol,
+            'symbol': Provider.of<ApiProvider>(context, listen: false)
+                .selNative
+                .symbol,
             'balance': Provider.of<ApiProvider>(context, listen: false)
-                    .nativeM
+                    .selNative
                     .balance ??
                 '0',
           });
@@ -275,6 +276,13 @@ class MyUserInfoState extends State<MyUserInfo> {
         },
       );
     }
+  }
+
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
   }
   // Future<void> isDotContain() async {
   //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');

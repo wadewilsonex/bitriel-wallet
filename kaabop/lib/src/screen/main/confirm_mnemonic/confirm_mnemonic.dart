@@ -138,7 +138,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
               color: isDarkTheme
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
-              title: AppText.createAccTitle,
+              title: AppString.createAccTitle,
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -150,7 +150,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
-                      text: AppText.confirmMnemonic,
+                      text: AppString.confirmMnemonic,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
@@ -162,7 +162,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
 
                   MyText(
                     textAlign: TextAlign.left,
-                    text: AppText.clickMnemonic,
+                    text: AppString.clickMnemonic,
                     fontWeight: FontWeight.w500,
                     bottom: 12,
                   ),
@@ -175,7 +175,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: MyText(
-                        text: AppText.reset,
+                        text: AppString.reset,
                         bottom: 16,
                         color: AppColors.secondarytext,
                       ),
@@ -222,7 +222,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
               hasShadow: enable,
               edgeMargin:
                   const EdgeInsets.only(left: 66, right: 66, bottom: 16),
-              textButton: AppText.next,
+              textButton: AppString.next,
               action: enable == false
                   ? null
                   : () async {

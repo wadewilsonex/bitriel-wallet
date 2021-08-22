@@ -35,7 +35,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
         child: Column(
           children: [
             MyAppBar(
-              title: AppText.createAccTitle,
+              title: AppString.createAccTitle,
               color: isDarkTheme
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -50,7 +50,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        text: AppText.backup,
+                        text: AppString.backup,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
@@ -60,7 +60,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                       )),
                   MyText(
                     textAlign: TextAlign.left,
-                    text: AppText.getMnemonic,
+                    text: AppString.getMnemonic,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
                         ? AppColors.whiteColorHexa
@@ -70,31 +70,31 @@ class _ContentsBackupState extends State<ContentsBackup> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        text: AppText.backupPassphrase,
+                        text: AppString.backupPassphrase,
                         textAlign: TextAlign.left,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
                         bottom: bpSize,
                       )),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
                       textAlign: TextAlign.left,
-                      text: AppText.keepMnemonic,
+                      text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                       bottom: bpSize,
                     ),
                   ),
                   Align(
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        text: AppText.offlineStorage,
+                        text: AppString.offlineStorage,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
@@ -104,7 +104,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                       )),
                   MyText(
                     textAlign: TextAlign.left,
-                    text: AppText.mnemonicAdvise,
+                    text: AppString.mnemonicAdvise,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
                         ? AppColors.whiteColorHexa
@@ -117,9 +117,10 @@ class _ContentsBackupState extends State<ContentsBackup> {
               child: Container(),
             ),
             MyFlatButton(
-              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin:
+                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               hasShadow: true,
-              textButton: AppText.next,
+              textButton: AppString.next,
               action: () async {
                 Navigator.push(
                   context,

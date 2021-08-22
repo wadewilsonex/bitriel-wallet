@@ -39,7 +39,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               color: isDarkTheme
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
-              title: AppText.createAccTitle,
+              title: AppString.createAccTitle,
               onPressed: enableScreenShot,
             ),
             Padding(
@@ -49,7 +49,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
-                      text: AppText.backupPassphrase,
+                      text: AppString.backupPassphrase,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
@@ -62,7 +62,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     alignment: Alignment.centerLeft,
                     child: MyText(
                       textAlign: TextAlign.left,
-                      text: AppText.keepMnemonic,
+                      text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
                           ? AppColors.whiteColorHexa
@@ -111,14 +111,14 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                 padding: const EdgeInsets.all(16.0),
                 child: MyText(
                   textAlign: TextAlign.start,
-                  text: AppText.screenshotNote,
+                  text: AppString.screenshotNote,
                 ),
               ),
             ),
             MyFlatButton(
               edgeMargin:
                   const EdgeInsets.only(left: 66, right: 66, bottom: 16),
-              textButton: AppText.next,
+              textButton: AppString.next,
               hasShadow: true,
               action: () async {
                 Navigator.push(

@@ -6,12 +6,14 @@ import 'package:wallet_apps/index.dart';
 class MenuBody extends StatelessWidget {
   final Map<String, dynamic> userInfo;
   final MenuModel model;
+  final Function enablePassword;
   final Function switchBio;
   final Function switchTheme;
 
   const MenuBody({
     this.userInfo,
     this.model,
+    this.enablePassword,
     this.switchBio,
     this.switchTheme,
   });
@@ -44,7 +46,7 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppText.recieveWalletView);
+            Navigator.pushNamed(context, AppString.recieveWalletView);
           },
         ),
 
@@ -62,7 +64,7 @@ class MenuBody extends StatelessWidget {
           index: 2,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppText.claimAirdropView);
+            Navigator.pushNamed(context, AppString.claimAirdropView);
           },
         ),
         MyListTile(
@@ -89,14 +91,22 @@ class MenuBody extends StatelessWidget {
           subIndex: 0,
           trailing: Switch(
             value: model.switchPasscode,
-            onChanged: (value) {
+            onChanged: (value) async {
               // Navigator.pushNamed(context, AppText.passcodeView);
-              Navigator.push(
+              final res = await Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const Passcode(
                             isAppBar: true,
                           )));
+
+              print("Response $res");
+
+              if (res == true) {
+                enablePassword(true);
+              } else if (res == false) {
+                enablePassword(false);
+              }
             },
           ),
           onTap: null,

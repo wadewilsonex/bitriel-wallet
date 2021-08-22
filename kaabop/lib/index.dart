@@ -73,7 +73,7 @@ export 'package:wallet_apps/src/models/m_import_acc.dart';
 
 export 'package:wallet_apps/src/models/atd.dart';
 export 'package:wallet_apps/src/models/kmpi.dart';
-export 'package:wallet_apps/src/models/native.m.dart';
+export 'package:wallet_apps/src/models/coin.m.dart';
 
 export 'package:wallet_apps/src/models/checkin.m.dart';
 
@@ -180,5 +180,3 @@ export 'src/screen/home/asset_info/asset_info.dart';
 export 'src/screen/home/asset_info/asset_info_c.dart';
 export 'src/screen/home/asset_info/att_activity.dart';
 export 'src/screen/home/passcode/passcode.dart';
-
-

@@ -16,7 +16,7 @@ class MenuHeader extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppText.accountView);
+        Navigator.pushNamed(context, AppString.accountView);
       },
       child: Container(
         margin: const EdgeInsets.only(left: 16),
@@ -78,8 +78,8 @@ class MenuSubTitle extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
       color: isDarkTheme
           ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteColorHexa),
-      height: isDarkTheme? 35 : 55,
+          : hexaCodeToColor("#F5F5F5"),
+      height: 55,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(
@@ -90,24 +90,13 @@ class MenuSubTitle extends StatelessWidget {
             child: MyText(
               fontSize: 16,
               text: MenuModel.listTile[index]['title'].toString(),
-              color: isDarkTheme
-                  ? AppColors.secondarytext
-                  : AppColors.text,
+              color: AppColors.secondarytext,
               textAlign: TextAlign.start,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(
             height: 5,
-          ),
-          Container(
-            padding: EdgeInsets.only(right: 6),
-            child: Divider(
-              height: 3,
-              color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : Colors.grey.shade400,
-            ),
           ),
         ],
       ),

@@ -156,6 +156,8 @@ class ImportAccState extends State<ImportAcc> {
       Provider.of<ContractProvider>(context, listen: false).getBscBalance();
       Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
+      selV2();
+
       await dialogSuccess(
         context,
         const Text("You haved imported successfully"),
@@ -196,6 +198,13 @@ class ImportAccState extends State<ImportAcc> {
         .then((value) {
       Provider.of<ContractProvider>(context, listen: false).getBscBalance();
     });
+  }
+
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
   }
 
   Future<bool> checkPassword(String pin) async {

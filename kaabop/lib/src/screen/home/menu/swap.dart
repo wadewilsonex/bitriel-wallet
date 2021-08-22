@@ -83,7 +83,9 @@ class _SwapState extends State<Swap> {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Transaction failed', e.message.toString());
+      print(e.message);
+      await customDialog(
+          'Transaction failed', 'Something went wrong with your transaction.');
     }
 
     return _hash;
@@ -155,6 +157,8 @@ class _SwapState extends State<Swap> {
                 "This processing may take a bit longer\nPlease wait a moment");
         final approveHash = await approve(res);
 
+        print('Approve: $approveHash');
+
         if (approveHash != null) {
           // await Future.delayed(Duration(seconds: 10));
           final approveStatus = await contract.getPending(approveHash);
@@ -211,26 +215,37 @@ class _SwapState extends State<Swap> {
           dialogLoading(context);
           final hash = await contract.swap(_amountController.text, res);
           if (hash != null) {
-            final swapStatus = await contract.getPending(hash);
+            await Future.delayed(const Duration(seconds: 7));
+            final res = await contract.getPending(hash);
 
-            if (swapStatus) {
-              setState(() {});
+            if (res != null) {
+              if (res) {
+                setState(() {});
 
-              contract.getBscBalance();
-              contract.getBscV2Balance();
-              Navigator.pop(context);
-              enableAnimation(
-                  'swapped ${_amountController.text} of SEL v1 to SEL v2.',
-                  'Go to wallet', () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Home.route, ModalRoute.withName('/'));
-              });
-              _amountController.text = '';
+                contract.getBscBalance();
+                contract.getBscV2Balance();
+                Navigator.pop(context);
+                enableAnimation(
+                    'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                    'Go to wallet', () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Home.route, ModalRoute.withName('/'));
+                });
+                _amountController.text = '';
+              } else {
+                Navigator.pop(context);
+                await customDialog('Transaction failed',
+                    'Something went wrong with your transaction.');
+              }
             } else {
               Navigator.pop(context);
               await customDialog('Transaction failed',
                   'Something went wrong with your transaction.');
             }
+          } else {
+            contract.getBscBalance();
+            contract.getBscV2Balance();
+            Navigator.pop(context);
           }
         }
       } catch (e) {
@@ -251,7 +266,7 @@ class _SwapState extends State<Swap> {
       approveAndSwap();
     } else {
       Navigator.pop(context);
-
+      print('swap without approve');
       swapWithoutAp();
     }
   }
@@ -276,8 +291,8 @@ class _SwapState extends State<Swap> {
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     if (double.parse(_amountController.text) >
-            double.parse(contract.bscNative.balance) ||
-        double.parse(contract.bscNative.balance) == 0) {
+            double.parse(contract.selBsc.balance) ||
+        double.parse(contract.selBsc.balance) == 0) {
       // Close Loading
       Navigator.pop(context);
       customDialog(
@@ -560,9 +575,9 @@ class _SwapState extends State<Swap> {
                     children: [
                       MyText(
                         width: double.infinity,
-                        text: contract.bscNative.balance == null
-                            ? 'Available Balance:  ${AppText.loadingPattern} SEL v1'
-                            : 'Available Balance:  ${contract.bscNative.balance} SEL v1',
+                        text: contract.selBsc.balance == null
+                            ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
+                            : 'Available Balance:  ${contract.selBsc.balance} SEL v1',
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
                             ? AppColors.darkSecondaryText
@@ -751,7 +766,7 @@ class _SwapState extends State<Swap> {
     await contract.getBscBalance();
 
     setState(() {
-      _amountController.text = contract.bscNative.balance;
+      _amountController.text = contract.selBsc.balance;
       _enableBtn = true;
     });
 

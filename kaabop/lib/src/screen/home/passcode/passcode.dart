@@ -15,6 +15,7 @@ class Passcode extends StatefulWidget {
 }
 
 class _PasscodeState extends State<Passcode> {
+  
   final TextEditingController pinOneController = TextEditingController();
 
   final TextEditingController pinTwoController = TextEditingController();
@@ -61,6 +62,7 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
     final res = await StorageServices().readSecure('passcode');
 
@@ -102,13 +104,14 @@ class _PasscodeState extends State<Passcode> {
     bool authenticate = false;
 
     try {
-      authenticate = await localAuth.authenticateWithBiometrics(
+      authenticate = await localAuth.authenticate(
         localizedReason: '',
         stickyAuth: true,
       );
 
       if (authenticate) {
-        Navigator.pushReplacementNamed(context, Home.route);
+        // Pop With Data For Refresh Menu 
+        Navigator.pop(context, true);
       }
     } on SocketException catch (e) {
       await Future.delayed(const Duration(milliseconds: 300), () {});
@@ -128,7 +131,7 @@ class _PasscodeState extends State<Passcode> {
               child: Text(e.message.toString()),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -164,24 +167,15 @@ class _PasscodeState extends State<Passcode> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.05,
                   ),
-                  if (_isFirst)
-                    Text(
-                      'Re-enter 6-Digits Code',
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme ? Colors.white : Colors.black,
-                      ),
-                    )
-                  else
-                    Text(
-                      'Enter 6-Digits Code',
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme ? Colors.white : Colors.black,
-                      ),
+                  Text(
+                    _isFirst ? 'Enter 6-Digits Code' : 'Re-enter 6-Digits Code',
+                    style: TextStyle(
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme ? Colors.white : Colors.black,
                     ),
+                  ),
+
                   const SizedBox(
                     height: 5,
                   ),
@@ -228,6 +222,7 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> pinIndexSetup(String text) async {
+
     if (pinIndex == 0) {
       pinIndex = 1;
     } else if (pinIndex < 6) {
@@ -256,6 +251,7 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> clearVerifyPin(String pin) async {
+    
     if (firstPin == null) {
       firstPin = pin;
 
@@ -264,13 +260,10 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = true;
       });
     } else {
+      print("PIN");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure('passcode');
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          Home.route,
-          ModalRoute.withName('/'),
-        );
+        Navigator.pop(context, false);
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -279,6 +272,7 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> setVerifyPin(String pin) async {
+
     if (firstPin == null) {
       firstPin = pin;
 
@@ -288,12 +282,9 @@ class _PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
+        print ("Set pin");
         await StorageServices().writeSecure('passcode', pin);
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          Home.route,
-          ModalRoute.withName('/'),
-        );
+        Navigator.pop(context, true);
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -367,6 +358,7 @@ class ReusePinNum extends StatelessWidget {
 }
 
 class ReuseNumPad extends StatelessWidget {
+
   final Function pinIndexSetup;
   final Function clearPin;
 
@@ -380,8 +372,7 @@ class ReuseNumPad extends StatelessWidget {
   }
 
   Widget _buildNumberPad(context) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Expanded(
       child: Container(
         alignment: Alignment.center,
@@ -481,11 +472,10 @@ class ReuseKeyBoardNum extends StatelessWidget {
       height: 70.0,
       alignment: Alignment.center,
       child: MaterialButton(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         color: isDarkTheme
-            ? Colors.transparent
-            : hexaCodeToColor(AppColors.secondary),
+          ? Colors.transparent
+          : hexaCodeToColor(AppColors.secondary),
         padding: const EdgeInsets.all(8.0),
         onPressed: onPressed,
         height: 90,

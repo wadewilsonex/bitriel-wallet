@@ -65,7 +65,7 @@ dependencies:
   fl_chart:
   pie_chart:
 
-  #Indecator
+  #Indicator
   percent_indicator:
 
   # Icons
@@ -103,12 +103,15 @@ dependencies:
   #Contact
   contacts_service: ^0.4.6 
   fluttercontactpicker: 
+
+
   
   #animation
   flare_flutter:
   responsive_framework: ^0.0.8
   circular_check_box: ^1.0.4
   flutter_launcher_icons: ^0.8.1
+  timeline_tile:
 
 dev_dependencies:
   flutter_test:

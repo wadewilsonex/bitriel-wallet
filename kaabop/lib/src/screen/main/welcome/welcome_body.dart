@@ -21,7 +21,7 @@ class WelcomeBody extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: MyText(
-                  text: AppText.welcome,
+                  text: AppString.welcome,
                   fontSize: 22,
                   color: isDarkTheme
                       ? AppColors.whiteColorHexa
@@ -33,7 +33,7 @@ class WelcomeBody extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: MyText(
-                    text: AppText.appName,
+                    text: AppString.appName,
                     fontSize: 38,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
@@ -60,18 +60,20 @@ class WelcomeBody extends StatelessWidget {
           children: [
             MyFlatButton(
               hasShadow: true,
-              edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
-              textButton: AppText.createAccTitle,
+              edgeMargin:
+                  const EdgeInsets.only(left: 42, right: 42, bottom: 16),
+              textButton: AppString.createAccTitle,
               action: () {
-                Navigator.pushNamed(context, AppText.contentBackup);
+                Navigator.pushNamed(context, AppString.contentBackup);
               },
             ),
             MyFlatButton(
               hasShadow: true,
-              edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
-              textButton: AppText.importAccTitle,
+              edgeMargin:
+                  const EdgeInsets.only(left: 42, right: 42, bottom: 16),
+              textButton: AppString.importAccTitle,
               action: () {
-                Navigator.pushNamed(context, AppText.importAccView);
+                Navigator.pushNamed(context, AppString.importAccView);
               },
             )
           ],

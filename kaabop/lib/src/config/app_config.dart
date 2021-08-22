@@ -41,6 +41,15 @@ class AppConfig {
 
   static const bscMainNet = 'https://bsc-dataseed.binance.org/';
 
+  static const bscWs = 'wss://bsc-ws-node.nariox.org:443';
+
+  static const selTestnet = 'https://rpc.testnet.selendra.org/';
+
+  static const selWs = 'wss://rpc1-testnet.selendra.org/';
+
+  // final String _rpcUrl = 'https://rpc.testnet.selendra.org/';
+  // final String _wsUrl = 'wss://rpc1-testnet.selendra.org/';
+
   //static const bscAddr = '0xd84d89d5c9df06755b5d591794241d3fd20669ce';
 
   static const etherTestnet =
@@ -48,6 +57,9 @@ class AppConfig {
 
   static const etherMainet =
       'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+
+  static const etherWs =
+      'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
   static const etherTestnetWebSocket =
       'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
@@ -75,7 +87,7 @@ class AppConfig {
 
   static const nodeName = 'Indranet hosted By Selendra';
 
-  static const nodeEndpoint = 'wss://rpc-testnet.selendra.org';
+  static const nodeEndpoint = 'wss://rpc1-testnet.selendra.org';
 
   static const dotTestnet = 'wss://westend-rpc.polkadot.io';
 
@@ -122,8 +134,6 @@ class AppConfig {
   static const baseInviteLink = 'https://airdrop.selendra.org/claim-\$sel?ref=';
 
   static const credentials = '';
-
- 
 
   //
   // sld_market net API

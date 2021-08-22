@@ -84,6 +84,7 @@ class Component {
 class MyFlatButton extends StatelessWidget {
   final String textButton;
   final String buttonColor;
+  final String textColor;
   final FontWeight fontWeight;
   final double fontSize;
   final EdgeInsetsGeometry edgeMargin;
@@ -96,6 +97,7 @@ class MyFlatButton extends StatelessWidget {
   const MyFlatButton({
     this.textButton,
     this.buttonColor = AppColors.secondary,
+    this.textColor = AppColors.whiteColorHexa,
     this.fontWeight = FontWeight.bold,
     this.fontSize = 18,
     this.edgeMargin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -138,7 +140,7 @@ class MyFlatButton extends StatelessWidget {
           pTop: 20,
           pBottom: 20,
           text: textButton,
-          color: AppColors.whiteColorHexa,
+          color: textColor,
           fontWeight: fontWeight,
         ),
       ),
@@ -315,10 +317,10 @@ class MyAppBar extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             margin: margin,
             decoration: BoxDecoration(
-              color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
-            ),
+                color: isDarkTheme
+                    ? hexaCodeToColor(AppColors.darkCard)
+                    : hexaCodeToColor(AppColors.whiteHexaColor),
+                boxShadow: [shadow(context)]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -327,7 +329,7 @@ class MyAppBar extends StatelessWidget {
                     IconButton(
                       /* Menu Icon */
 
-                      padding: const EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.only(left: 16, right: 8),
                       iconSize: 40.0,
                       icon: Icon(
                         Platform.isAndroid

@@ -448,7 +448,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               onSubmit: onSubmit,
                             ),
                             MyText(
-                              text: AppText.claimAirdropNote,
+                              text: AppString.claimAirdropNote,
                               textAlign: TextAlign.start,
                               left: 16.0,
                               right: 16.0,

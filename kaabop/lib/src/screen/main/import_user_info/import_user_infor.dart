@@ -91,6 +91,9 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
+        // For Pie Chart
+        Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
+
         await successDialog(context, "imported your account.");
       }
     } catch (e) {
@@ -122,19 +125,16 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> addBtcWallet() async {
+    
     final seed = bip39.mnemonicToSeed(widget.passPhrase);
     final hdWallet = HDWallet.fromSeed(seed);
     final keyPair = ECPair.fromWIF(hdWallet.wif);
 
-    final bech32Address = new P2WPKH(
-            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
-        .data
-        .address;
+    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
 
     await StorageServices.setData(bech32Address, 'bech32');
 
-    final res = await ApiProvider.keyring.store
-        .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
+    final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
 
     if (res != null) {
       await StorageServices().writeSecure('btcwif', res);
@@ -186,8 +186,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           });
         }
       } else {
-        snackBar(context,
-            "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
       await showDialog(

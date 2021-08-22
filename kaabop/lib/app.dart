@@ -22,9 +22,9 @@ class AppState extends State<App> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       MarketProvider().fetchTokenMarketPrice(context);
+
       initApi();
       isBtcContain();
-
       clearOldBtcAddr();
 
       Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -42,10 +42,10 @@ class AppState extends State<App> {
           Provider.of<ApiProvider>(context, listen: false).connectPolNon();
           Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
           Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          Provider.of<ContractProvider>(context, listen: false)
-              .getBscV2Balance();
 
           isKgoContain();
+
+          selV2();
 
           getSavedContractToken();
 
@@ -73,32 +73,20 @@ class AppState extends State<App> {
     );
   }
 
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
+  }
+
   void readTheme() async {
     final res = await StorageServices.fetchData('dark');
-    //final sysTheme = _checkIfDarkModeEnabled();
 
     if (res != null) {
       Provider.of<ThemeProvider>(context, listen: false).changeMode();
     }
-    //   if (sysTheme) {
-    //     Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   } else {
-    //     Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   }
-    // }
   }
-
-  Future<void> swapToken() async {
-    final res = await ApiProvider().swapToken(
-        '0xed4ef39b5043fdff35a66a1a56e3188d8830e5d42e2bbe7dfa38ac559c62b952',
-        '0.01');
-  }
-
-  // bool _checkIfDarkModeEnabled() {
-  //   var brightness = SchedulerBinding.instance.window.platformBrightness;
-  //   bool darkModeOn = brightness == Brightness.dark;
-  //   return darkModeOn;
-  // }
 
   Future<void> getSavedContractToken() async {
     final contractProvider =
@@ -194,14 +182,15 @@ class AppState extends State<App> {
               builder: (context, value, child) {
                 return MaterialApp(
                   navigatorKey: AppUtils.globalKey,
-                  title: AppText.appName,
+                  title: AppString.appName,
                   theme: AppStyle.myTheme(context),
                   navigatorObservers: [routeObserver],
                   onGenerateRoute: router.generateRoute,
                   routes: {
                     Home.route: (_) => Home(apiConnected: _apiConnected),
                   },
-                  initialRoute: AppText.splashScreenView,
+                  // home: ConfirmationTx(),
+                  initialRoute: AppString.splashScreenView,
                   builder: (context, widget) => ResponsiveWrapper.builder(
                     BouncingScrollWrapper.builder(context, widget),
                     maxWidth: 1200,

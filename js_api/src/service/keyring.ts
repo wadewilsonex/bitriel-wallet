@@ -14,6 +14,16 @@ import { DispatchError } from "@polkadot/types/interfaces";
 import { ContractPromise } from "@polkadot/api-contract";
 let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
 
+function send(path: string, data: any) {
+  if (window.location.href === "about:blank") {
+    PolkaWallet.postMessage(JSON.stringify({ path, data }));
+  } else {
+    console.log(path, data);
+  }
+}
+
+(<any>window).send = send;
+
 /**
  * Generate a set of new mnemonic.
  */
@@ -39,12 +49,13 @@ async function validateAddress(address: string) {
         encodeAddress(
           isHex(address)
             ? hexToU8a(address)
-            : decodeAddress(address, false, 42)
+            : decodeAddress(address)
         );
-
 
         resolve(true);
       } catch (error) {
+        send("log", error);
+
         resolve(false);
       }
     };
@@ -317,7 +328,7 @@ async function contractTransfer(apiContract: ContractPromise, senderPubKey: stri
 
       await apiContract.tx.transfer(0, -1, to, hash, Number(value)).signAndSend(keyPair, ({ events = [], status }) => {
         if (status.isInBlock) {
-          resolve({status: 'In Block'})
+          resolve({ status: 'In Block' })
         } else if (status.isFinalized) {
 
           resolve({ hash: status.asFinalized });

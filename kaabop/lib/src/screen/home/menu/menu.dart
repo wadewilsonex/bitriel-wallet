@@ -120,7 +120,7 @@ class MenuState extends State<Menu> {
               child: Text(e.toString(), textAlign: TextAlign.center),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -146,6 +146,12 @@ class MenuState extends State<Menu> {
     return _menuModel.authenticated;
   }
 
+  void enablePassword(bool value){
+    setState(() {
+      _menuModel.switchPasscode = value;
+    });
+  }
+
   /* ----------------------Side Bar -------------------------*/
 
   @override
@@ -157,12 +163,13 @@ class MenuState extends State<Menu> {
       child: SafeArea(
         child: Container(
           color: isDarkTheme
-              ? hexaCodeToColor(AppColors.darkBgd)
-              : hexaCodeToColor(AppColors.bgdColor),
+            ? hexaCodeToColor(AppColors.darkBgd)
+            : hexaCodeToColor(AppColors.bgdColor),
           child: SingleChildScrollView(
             child: MenuBody(
               userInfo: widget._userData,
               model: _menuModel,
+              enablePassword: enablePassword,
               switchBio: switchBiometric,
             ),
           ),
