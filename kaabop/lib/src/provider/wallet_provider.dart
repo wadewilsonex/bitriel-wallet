@@ -110,9 +110,11 @@ class WalletProvider with ChangeNotifier {
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
+        // print(availableToken[i]['symbol']);
+        // print(availableToken.length);
         temp = double.parse(availableToken[i]['balance']) / total;
 
-        if (total == 0.0) {
+        // if (total == 0.0) {
           _portfolioM.add(
             PortfolioM(
               color: pieColorList[i],
@@ -120,19 +122,19 @@ class WalletProvider with ChangeNotifier {
               percentage: '0'
             ),
           );
-        } else {
-          percen = temp * 100;
+        // } else {
+        //   percen = temp * 100;
 
-          _portfolioM.add(PortfolioM(
-            color: pieColorList[i],
-            symbol: availableToken[i]['symbol'],
-            percentage: percen.toStringAsFixed(2),
-          ));
+        //   _portfolioM.add(PortfolioM(
+        //     color: pieColorList[i],
+        //     symbol: availableToken[i]['symbol'],
+        //     percentage: percen.toStringAsFixed(2),
+        //   ));
 
-          dataMap.addAll({
-            availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
-          });
-        }
+        //   dataMap.addAll({
+        //     availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
+        //   });
+        // }
       }
     });
 

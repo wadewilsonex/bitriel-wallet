@@ -73,7 +73,7 @@ export 'package:wallet_apps/src/models/m_import_acc.dart';
 
 export 'package:wallet_apps/src/models/atd.dart';
 export 'package:wallet_apps/src/models/kmpi.dart';
-export 'package:wallet_apps/src/models/native.m.dart';
+export 'package:wallet_apps/src/models/smart_contract.m.dart';
 
 export 'package:wallet_apps/src/models/checkin.m.dart';
 

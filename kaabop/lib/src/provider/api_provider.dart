@@ -5,7 +5,7 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/smart_contract.m.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
@@ -54,23 +54,32 @@ class ApiProvider with ChangeNotifier {
   ];
 
   ContractProvider contractProvider;
+  
   AccountM accountM = AccountM();
-  NativeM nativeM = NativeM(
+
+  SmartContractModel nativeM = SmartContractModel(
     id: 'selendra',
     logo: 'assets/SelendraCircle-White.png',
     symbol: 'SEL',
+    balance: '0.0',
     org: 'Testnet',
   );
-  NativeM dot = NativeM(
+
+  SmartContractModel dot = SmartContractModel(
     id: 'polkadot',
     symbol: 'DOT',
     logo: 'assets/icons/polkadot.png',
+    org: '',
+    balance: '0.0',
     isContain: false,
   );
-  NativeM btc = NativeM(
+  
+  SmartContractModel btc = SmartContractModel(
       id: 'bitcoin',
       symbol: 'BTC',
       logo: 'assets/btc_logo.png',
+      org: '',
+      balance: '0.0',
       isContain: false);
 
   bool _isConnected = false;
@@ -372,13 +381,13 @@ class ApiProvider with ChangeNotifier {
 
   void resetNativeObj() {
     accountM = AccountM();
-    nativeM = NativeM(
+    nativeM = SmartContractModel(
       id: 'selendra',
       logo: 'assets/SelendraCircle-White.png',
       symbol: 'SEL',
       org: 'Testnet',
     );
-    dot = NativeM();
+    dot = SmartContractModel();
 
     notifyListeners();
   }

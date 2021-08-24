@@ -32,12 +32,17 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
     AppServices.noInternetConnection(_homeM.globalKey);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance();
+      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
       Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
 
     super.initState();
     
+  }
+
+  @override
+  dispose(){
+    super.dispose();
   }
 
   Future<void> toReceiveToken() async {
@@ -85,35 +90,62 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     await Future.delayed(const Duration(milliseconds: 300)).then((value) async {
       PortfolioServices().setPortfolio(context);
       market.fetchTokenMarketPrice(context);
-      if (contract.bnbNative.isContain) {
-        contract.getBnbBalance();
-      }
-      if (contract.bscNative.isContain) {
-        contract.getBscBalance();
+      
+      if (contract.listContract[0].isContain) {
+        await contract.getBscBalance();
       }
 
-      if (contract.bscNativeV2.isContain) {
-        contract.getBscV2Balance();
+      if (contract.listContract[1].isContain) {
+        await contract.getBscV2Balance();
       }
 
-      if (contract.etherNative.isContain) {
-        contract.getEtherBalance();
+      if (contract.listContract[2].isContain) {
+        await contract.getKgoBalance();
       }
 
-      if (contract.kgoNative.isContain) {
-        contract.getKgoBalance();
+      if (contract.listContract[3].isContain) {
+        await contract.getEtherBalance();
+      }
+
+      if (contract.listContract[4].isContain) {
+        await contract.getBnbBalance();
       }
 
       if (api.btc.isContain) {
-        api.getBtcBalance(api.btcAdd);
+        await api.getBtcBalance(api.btcAdd);
       }
 
       if (contract.token.isNotEmpty) {
-        contract.fetchNonBalance();
-        contract.fetchEtherNonBalance();
+        await contract.fetchNonBalance();
+        await contract.fetchEtherNonBalance();
       }
+      
+      contract.sortAsset();
+      // await sortAsset(contract);
+      // contract.listContract.forEach((element) {print(element.balance);});
+
+      Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
+      setState(() {
+        print("Compare");
+      });
     });
   }
+
+  // Future<void> sortAsset(ContractProvider contract){
+  //   SmartContractModel tmp = SmartContractModel();
+  //   for (int i = 0; i< contract.listContract.length; i++){
+  //     for (int j = i+1; j > contract.listContract.length; j++){
+  //       tmp = contract.listContract[i];
+  //       if ((double.parse(contract.listContract[j].balance)) < (double.parse(tmp.balance))){
+  //         contract.listContract[i] = contract.listContract[j];
+  //         contract.listContract[j] = tmp;
+  //       }
+  //     }
+  //   }
+
+  //   contract.listContract.forEach((element) {print(element.balance);});
+  // }
 
   @override
   Widget build(BuildContext context) {

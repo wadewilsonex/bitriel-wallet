@@ -23,10 +23,9 @@ class AppState extends State<App> {
       MarketProvider().fetchTokenMarketPrice(context);
       initApi();
       isBtcContain();
-
       clearOldBtcAddr();
-
       Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      
     });
 
     super.initState();
@@ -37,13 +36,6 @@ class AppState extends State<App> {
     Provider.of<ApiProvider>(context, listen: false).initApi().then(
       (value) async {
         if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-          Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-          Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-          Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-          Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-          Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          Provider.of<ContractProvider>(context, listen: false)
-              .getBscV2Balance();
 
           isKgoContain();
 
@@ -51,7 +43,16 @@ class AppState extends State<App> {
 
           getEtherSavedContractToken();
 
-          Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+          await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+          await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+          await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+          await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+          await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+          await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+          await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+          await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
         }
 
         Provider.of<ApiProvider>(context, listen: false).connectNode().then(
@@ -174,11 +175,11 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    // Provider.of<ContractProvider>(context, listen: false)
-    //     .getKgoDecimal()
-    //     .then((value) {
-    //   Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-    // });
+    Provider.of<ContractProvider>(context, listen: false)
+        .getKgoDecimal()
+        .then((value) {
+      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+    });
   }
 
   @override

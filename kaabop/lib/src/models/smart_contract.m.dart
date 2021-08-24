@@ -1,6 +1,6 @@
 import 'package:wallet_apps/src/models/asset_m.dart';
 
-class NativeM {
+class SmartContractModel {
   String id;
   String chainDecimal;
   String symbol;
@@ -14,7 +14,7 @@ class NativeM {
   bool isContain;
   List<List<double>> lineChartData;
 
-  NativeM({
+  SmartContractModel({
     this.id,
     this.chainDecimal,
     this.symbol,
@@ -28,4 +28,8 @@ class NativeM {
     this.isContain,
     this.lineChartData,
   });
+  
+  void init(){
+    
+  }
 }

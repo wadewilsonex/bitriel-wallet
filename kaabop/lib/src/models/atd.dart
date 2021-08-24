@@ -1,6 +1,6 @@
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/smart_contract.m.dart';
 
-class Atd extends NativeM {
+class Atd extends SmartContractModel {
   bool status = false;
   String hash;
   bool isContain = false;

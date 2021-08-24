@@ -64,8 +64,7 @@ class _AssetItemState extends State<AssetItem> {
 
     _maxY = (maxY / _divider).ceilToDouble() * _divider;
 
-    _leftTitlesInterval =
-        ((_maxY - _minY) / (_leftLabelsCount - 1)).floorToDouble();
+    _leftTitlesInterval = ((_maxY - _minY) / (_leftLabelsCount - 1)).floorToDouble();
 
     setState(() {});
   }
@@ -91,6 +90,8 @@ class _AssetItemState extends State<AssetItem> {
       : hexaCodeToColor(AppColors.whiteHexaColor),
       child: Row(
         children: <Widget>[
+
+          // Asset Logo
           Container(
             width: 65, //size ?? 65,
             height: 65, //size ?? 65,
@@ -105,6 +106,7 @@ class _AssetItemState extends State<AssetItem> {
             ),
           ),
 
+          // Asset Name
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -118,58 +120,59 @@ class _AssetItemState extends State<AssetItem> {
                     : AppColors.textColor,
                   bottom: 4.0,
                 ),
-                if (widget.marketPrice == null) 
+                // if (widget.marketPrice == null) 
 
-                  if (widget.org == '') Container()
-                  else MyText(
-                    text: widget.org,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkTheme
-                      ? AppColors.darkSecondaryText
-                      : AppColors.darkSecondaryText,
-                  )
-                else
-                  Row(
-                    children: [
+                //   if (widget.org == '') Container()
+                //   else MyText(
+                //     text: widget.org,
+                //     fontSize: 12,
+                //     fontWeight: FontWeight.bold,
+                //     color: isDarkTheme
+                //       ? AppColors.darkSecondaryText
+                //       : AppColors.darkSecondaryText,
+                //   )
+                // else
+                //   Row(
+                //     children: [
 
-                      widget.tokenSymbol == "KGO"
-                      ? MyText(
-                        text: '\$ ${widget.marketPrice.substring(0, 8)}' ?? '',
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.darkSecondaryText,
-                      )
-                      : MyText(
-                        text: '\$ ${widget.marketPrice}' ?? '',
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.darkSecondaryText,
-                      ),
+                //       widget.tokenSymbol == "KGO"
+                //       ? MyText(
+                //         text: '\$ ${widget.marketPrice.substring(0, 8)}' ?? '',
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold,
+                //         color: isDarkTheme
+                //           ? AppColors.darkSecondaryText
+                //           : AppColors.darkSecondaryText,
+                //       )
+                //       : MyText(
+                //         text: '\$ ${widget.marketPrice}' ?? '',
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold,
+                //         color: isDarkTheme
+                //           ? AppColors.darkSecondaryText
+                //           : AppColors.darkSecondaryText,
+                //       ),
 
-                      const SizedBox(width: 6.0),
-                      MyText(
-                        text: widget.priceChange24h.substring(0, 1) == '-'
-                          ? '${widget.priceChange24h}%'
-                          : '+${widget.priceChange24h}%',
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: widget.priceChange24h.substring(0, 1) == '-'
-                          ? '#FF0000'
-                          : isDarkTheme
-                            ? '#00FF00'
-                            : '#66CD00',
-                      ),
-                    ],
-                  ),
+                //       const SizedBox(width: 6.0),
+                //       MyText(
+                //         text: widget.priceChange24h.substring(0, 1) == '-'
+                //           ? '${widget.priceChange24h}%'
+                //           : '+${widget.priceChange24h}%',
+                //         fontSize: 12,
+                //         fontWeight: FontWeight.bold,
+                //         color: widget.priceChange24h.substring(0, 1) == '-'
+                //           ? '#FF0000'
+                //           : isDarkTheme
+                //             ? '#00FF00'
+                //             : '#66CD00',
+                //       ),
+                //     ],
+                //   ),
               ],
             ),
           ),
 
+          // Graph Chart
           Padding(
             padding: const EdgeInsets.only(left: 18.0),
             child: SizedBox(
@@ -181,6 +184,7 @@ class _AssetItemState extends State<AssetItem> {
             ),
           ),
           
+          // Total Amount
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(right: 8.0),

@@ -41,7 +41,6 @@ class AddAssetBody extends StatelessWidget {
       children: [
         
         MyAppBar(
-
           title: "Add asset",
           onPressed: () {
             Navigator.pop(context);
@@ -207,7 +206,7 @@ class AddAssetBody extends StatelessWidget {
                           portFolioItemRow(
                             context,
                             isDarkTheme,
-                            ContractProvider().bscNative.logo,
+                            ContractProvider().listContract[0].logo,
                             tokenSymbol,
                             Colors.black,
                             addAsset,
@@ -216,7 +215,7 @@ class AddAssetBody extends StatelessWidget {
                           portFolioItemRow(
                             context,
                             isDarkTheme,
-                            ContractProvider().kgoNative.logo,
+                            ContractProvider().listContract[2].logo,
                             tokenSymbol,
                             Colors.black,
                             addAsset,

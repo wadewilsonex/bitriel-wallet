@@ -5,12 +5,14 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
+import 'package:wallet_apps/src/service/portfolio_s.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
@@ -21,44 +23,91 @@ class ContractProvider with ChangeNotifier {
   Atd atd = Atd();
   Kmpi kmpi = Kmpi();
   bool isReady = false;
-  NativeM bscNative = NativeM(
-    id: 'selendra',
-    logo: 'assets/SelendraCircle-Blue.png',
-    symbol: 'SEL',
-    org: 'BEP-20',
-    isContain: true,
-  );
-  NativeM bscNativeV2 = NativeM(
-    id: 'selendra v2',
-    logo: 'assets/SelendraCircle-Blue.png',
-    symbol: 'SEL (v2)',
-    org: 'BEP-20',
-    isContain: true,
-  );
 
-  NativeM kgoNative = NativeM(
-    id: 'kiwigo',
-    logo: 'assets/Kiwi-GO-White-1.png',
-    symbol: 'KGO',
-    org: 'BEP-20',
-    isContain: true,
-  );
+  // To Get Member Variable
+  ApiProvider apiProvider = ApiProvider();
+  
+  List<SmartContractModel>listContract = [
+    // 0(SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
+    SmartContractModel(
+      id: 'selendra',
+      logo: 'assets/SelendraCircle-Blue.png',
+      symbol: 'SEL',
+      org: 'BEP-20',
+      isContain: true,
+    ),
+    // SEL V2
+    SmartContractModel(
+      id: 'selendra v2',
+      logo: 'assets/SelendraCircle-Blue.png',
+      symbol: 'SEL (v2)',
+      org: 'BEP-20',
+      isContain: true,
+    ),
+    // KIWIGO
+    SmartContractModel(
+      id: 'kiwigo',
+      logo: 'assets/Kiwi-GO-White-1.png',
+      symbol: 'KGO',
+      org: 'BEP-20',
+      isContain: true,
+    ),
+    // Ethereum
+    SmartContractModel(
+      id: 'ethereum',
+      logo: 'assets/eth.png',
+      symbol: 'ETH',
+      org: '',
+      isContain: true,
+    ),
+    //BNB
+    SmartContractModel(
+      id: 'binance smart chain',
+      logo: 'assets/bnb.png',
+      symbol: 'BNB',
+      org: 'Smart Chain',
+      isContain: true,
+    ),
+  ];
 
-  NativeM etherNative = NativeM(
-    id: 'ethereum',
-    logo: 'assets/eth.png',
-    symbol: 'ETH',
-    org: '',
-    isContain: true,
-  );
+  // SmartContractModel bscNative = SmartContractModel(
+  //   id: 'selendra',
+  //   logo: 'assets/SelendraCircle-Blue.png',
+  //   symbol: 'SEL',
+  //   org: 'BEP-20',
+  //   isContain: true,
+  // );
+  // SmartContractModel bscNativeV2 = SmartContractModel(
+  //   id: 'selendra v2',
+  //   logo: 'assets/SelendraCircle-Blue.png',
+  //   symbol: 'SEL (v2)',
+  //   org: 'BEP-20',
+  //   isContain: true,
+  // );
 
-  NativeM bnbNative = NativeM(
-    id: 'binance smart chain',
-    logo: 'assets/bnb.png',
-    symbol: 'BNB',
-    org: 'Smart Chain',
-    isContain: true,
-  );
+  // SmartContractModel kgoNative = SmartContractModel(
+  //   id: 'kiwigo',
+  //   logo: 'assets/Kiwi-GO-White-1.png',
+  //   symbol: 'KGO',
+  //   org: 'BEP-20',
+  //   isContain: true,
+  // );
+
+  // SmartContractModel etherNative = SmartContractModel(
+  //   id: 'ethereum',
+  //   logo: 'assets/eth.png',
+  //   symbol: 'ETH',
+  //   org: '',
+  //   isContain: true,
+  // );
+
+  // SmartContractModel bnbNative = SmartContractModel(
+  //   id: 'binance smart chain',
+  //   logo: 'assets/bnb.png',
+  //   symbol: 'BNB',
+  //   org: 'Smart Chain',
+  //   isContain: true,
+  // );
 
   Client _httpClient;
 
@@ -66,10 +115,19 @@ class ContractProvider with ChangeNotifier {
 
   final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
 
-  final String _wsEthUrl =
-      "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
+  final String _wsEthUrl = "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
 
   List<TokenModel> token = [];
+
+  Web3Client get getWeb3 => _web3client;
+
+  ContractProvider(){
+    listContract.addAll([
+      apiProvider.btc,
+      apiProvider.dot,
+      apiProvider.nativeM,
+    ]);
+  }
 
   Future<void> initClient() async {
     _httpClient = Client();
@@ -80,10 +138,30 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient =
-        Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
+    _etherClient = Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
       return IOWebSocketChannel.connect(_wsEthUrl).cast<String>();
     });
+  }
+
+  Future<void> sortAsset(){
+    print("Start sort");
+    print(listContract.length);
+    if (listContract.isNotEmpty){
+      SmartContractModel tmp = SmartContractModel();
+      for (int i = 0; i< listContract.length; i++){
+        for (int j = i+1; j < listContract.length; j++){
+          tmp = listContract[i];
+          if ((double.parse(listContract[j].balance)) > (double.parse(tmp.balance))){
+            listContract[i] = listContract[j];
+            listContract[j] = tmp;
+          }
+        }
+      }
+
+      listContract.forEach((element) {print(element.balance);});
+
+      notifyListeners();
+    }
   }
 
   Future<bool> getPending(String txHash) async {
@@ -99,11 +177,8 @@ class ContractProvider with ChangeNotifier {
 
           // This Method Will Run Again And Again Until we return something
           await _web3client.getTransactionReceipt(txHash).then((d) {
-            print("getTransactionReceipt ${d.status}");
             // Give Value To std When Request Successfully
             if (d != null){
-            print("Pending ${d.status}");
-            print("Get Transaction has ${d.from}");
               std = d.status;
             }
           });
@@ -135,17 +210,23 @@ class ContractProvider with ChangeNotifier {
     return std;
   }
 
-  void subscribeBscbalance() async {
+  void subscribeBscbalance(BuildContext context) async {
     await initClient();
     try {
       final res = _web3client.addedBlocks();
 
-      res.listen((event) {
-        getBscBalance();
-        getBscV2Balance();
-        getBnbBalance();
-        getKgoBalance();
-      });
+      // res.listen((event) {
+      //   getBscBalance();
+      //   getBscV2Balance();
+      //   getBnbBalance();
+      //   getKgoBalance();
+
+      //   PortfolioServices().setPortfolio(context);
+
+      //   // sortAsset();
+
+      //   // MarketProvider().fetchTokenMarketPrice(context);
+      // });
     } catch (e) {
       print(e.message);
     }
@@ -168,9 +249,8 @@ class ContractProvider with ChangeNotifier {
     await initEtherClient();
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final EtherAmount ethbalance =
-        await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
-    etherNative.balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
+    final EtherAmount ethbalance = await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
+    listContract[3].balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
 
     notifyListeners();
   }
@@ -342,8 +422,7 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<List> query(
-      String contractAddress, String functionName, List args) async {
+  Future<List> query(String contractAddress, String functionName, List args) async {
     initClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
@@ -357,30 +436,32 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoSymbol() async {
-    final res = await query(AppConfig.kgoAddr, 'symbol', []);
 
-    kgoNative.symbol = res[0].toString();
-    kgoNative.isContain = true;
+    final res = await query(AppConfig.kgoAddr, 'symbol', []);
+    listContract[2].symbol = res[0].toString();
+    listContract[2].isContain = true;
     notifyListeners();
   }
 
   Future<void> getKgoDecimal() async {
+
     final res = await query(AppConfig.kgoAddr, 'decimals', []);
-    kgoNative.chainDecimal = res[0].toString();
+    listContract[2].chainDecimal = res[0].toString();
 
     notifyListeners();
   }
 
   Future<void> getKgoBalance() async {
-    bscNative.isContain = true;
+
+    print(int.parse(listContract[2].chainDecimal));
+    listContract[4].isContain = true;
 
     if (ethAdd != '') {
-      final res = await query(
-          AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-      kgoNative.balance = Fmt.bigIntToDouble(
+      listContract[2].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(kgoNative.chainDecimal),
+        int.parse(listContract[2].chainDecimal),
       ).toString();
     }
 
@@ -390,7 +471,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBscDecimal() async {
     final res = await query(AppConfig.selV1MainnetAddr, 'decimals', []);
 
-    bscNative.chainDecimal = res[0].toString();
+    listContract[0].chainDecimal = res[0].toString();
 
     notifyListeners();
   }
@@ -398,7 +479,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> getSymbol() async {
     final res = await query(AppConfig.selV1MainnetAddr, 'symbol', []);
 
-    bscNative.symbol = res[0].toString();
+    listContract[0].symbol = res[0].toString();
     notifyListeners();
   }
 
@@ -422,26 +503,25 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBnbBalance() async {
-    bnbNative.isContain = true;
+    listContract[4].isContain = true;
     final ethAddr = await StorageServices().readSecure('etherAdd');
     final balance = await _web3client.getBalance(
       EthereumAddress.fromHex(ethAddr),
     );
-
-    bnbNative.balance = balance.getValueInUnit(EtherUnit.ether).toString();
+    listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
 
     notifyListeners();
   }
 
   Future<void> getBscV2Balance() async {
-    bscNativeV2.isContain = true;
+    listContract[1].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
       final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
-      bscNativeV2.balance = Fmt.bigIntToDouble(
+      listContract[1].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(bscNative.chainDecimal),
+        int.parse(listContract[0].chainDecimal),
       ).toString();
     }
 
@@ -449,14 +529,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscBalance() async {
-    bscNative.isContain = true;
+    listContract[0].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
       final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
-      bscNative.balance = Fmt.bigIntToDouble(
+      listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
-        int.parse(bscNative.chainDecimal),
+        int.parse(listContract[0].chainDecimal),
       ).toString();
     }
 
@@ -524,7 +604,7 @@ class ContractProvider with ChangeNotifier {
       fetchChainIdFromNetworkId: true,
     );
 
-    print("Res $res");
+    // print("Res $res");
 
     return res;
   }
@@ -666,8 +746,8 @@ class ContractProvider with ChangeNotifier {
             .addTokenSymbol(symbol);
       }
     } else if (symbol == 'SEL') {
-      if (!bscNative.isContain) {
-        bscNative.isContain = true;
+      if (!listContract[0].isContain) {
+        listContract[0].isContain = true;
 
         await StorageServices.saveBool('SEL', true);
 
@@ -679,8 +759,8 @@ class ContractProvider with ChangeNotifier {
         await getBscBalance();
       }
     } else if (symbol == 'BNB') {
-      if (!bnbNative.isContain) {
-        bnbNative.isContain = true;
+      if (!listContract[0].isContain) {
+        listContract[0].isContain = true;
 
         await StorageServices.saveBool('BNB', true);
 
@@ -826,10 +906,10 @@ class ContractProvider with ChangeNotifier {
       atd.isContain = false;
       await StorageServices.removeKey('ATD');
     } else if (symbol == 'SEL') {
-      bscNative.isContain = false;
+      listContract[0].isContain = false;
       await StorageServices.removeKey('SEL');
     } else if (symbol == 'BNB') {
-      bnbNative.isContain = false;
+      listContract[4].isContain = false;
       await StorageServices.removeKey('BNB');
     } else if (symbol == 'DOT') {
       await StorageServices.removeKey('DOT');
@@ -870,28 +950,28 @@ class ContractProvider with ChangeNotifier {
 
   void setEtherMarket(Market ethMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
-    etherNative.marketData = ethMarket;
-    etherNative.marketPrice = currentPrice;
-    etherNative.change24h = priceChange24h;
-    etherNative.lineChartData = lineChart;
+    listContract[3].marketData = ethMarket;
+    listContract[3].marketPrice = currentPrice;
+    listContract[3].change24h = priceChange24h;
+    listContract[3].lineChartData = lineChart;
     notifyListeners();
   }
 
   void setBnbMarket(Market bnbMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
-    bnbNative.marketData = bnbMarket;
-    bnbNative.marketPrice = currentPrice;
-    bnbNative.change24h = priceChange24h;
-    bnbNative.lineChartData = lineChart;
+    listContract[4].marketData = bnbMarket;
+    listContract[4].marketPrice = currentPrice;
+    listContract[4].change24h = priceChange24h;
+    listContract[4].lineChartData = lineChart;
     notifyListeners();
   }
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
-    kgoNative.marketData = kgoMarket;
-    kgoNative.lineChartData = lineChart;
-    kgoNative.marketPrice = currentPrice;
-    kgoNative.change24h = priceChange24h;
+    listContract[2].marketData = kgoMarket;
+    listContract[2].lineChartData = lineChart;
+    listContract[2].marketPrice = currentPrice;
+    listContract[2].change24h = priceChange24h;
     notifyListeners();
   }
 
@@ -904,14 +984,14 @@ class ContractProvider with ChangeNotifier {
   void resetConObject() {
     atd = Atd();
     kmpi = Kmpi();
-    bscNative = NativeM(
+    listContract[0] = SmartContractModel(
       id: 'selendra',
       symbol: 'SEL',
       logo: 'assets/SelendraCircle-Blue.png',
       org: 'BEP-20',
       isContain: true,
     );
-    bnbNative = NativeM(
+    listContract[4] = SmartContractModel(
       id: 'binance smart chain',
       logo: 'assets/bnb.png',
       symbol: 'BNB',

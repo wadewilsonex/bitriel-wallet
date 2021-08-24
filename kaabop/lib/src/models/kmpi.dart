@@ -1,6 +1,6 @@
-import 'package:wallet_apps/src/models/native.m.dart';
+import 'package:wallet_apps/src/models/smart_contract.m.dart';
 
-class Kmpi extends NativeM{
+class Kmpi extends SmartContractModel{
   String hash;
   bool isContain = false;
 }

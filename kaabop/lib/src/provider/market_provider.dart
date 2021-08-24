@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/provider/contract_provider.dart';
 import '../../index.dart';
 
 class MarketProvider with ChangeNotifier {
+
   List<String> id = [
     'kiwigo',
     'ethereum',
@@ -14,7 +15,10 @@ class MarketProvider with ChangeNotifier {
     'bitcoin'
   ];
 
+  List<Map<String, dynamic>> sortDataMarket = [];
+
   Market parsePhotos(String responseBody) {
+    
     Market data;
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
@@ -26,32 +30,34 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<List<double>>> fetchLineChartData(String id) async {
     List<List<double>> prices;
-    final res = await http.get(Uri.parse(
-        'https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
-
+    final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
+  
     if (res.statusCode == 200) {
-      final data = jsonDecode(res.body);
-
-      //print(data);
+      final data = await jsonDecode(res.body);
 
       CryptoData mData = CryptoData.fromJson(data);
 
       prices = mData.prices;
 
-      //print(mData.marketCaps.first);
     }
 
     return prices ?? null;
   }
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
 
     for (int i = 0; i < id.length; i++) {
       try {
-        final response =
-            await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
+
+        final response = await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
+        // print("id[i] ${id[i]}");
+        // print("${id[i]} ${json.decode(response.body)[0]}");
+        sortDataMarket.addAll({
+          json.decode(response.body)[0]
+        });
         final lineChartData = await fetchLineChartData(id[i]);
 
         if (response.statusCode == 200) {
@@ -115,6 +121,22 @@ class MarketProvider with ChangeNotifier {
         contract.setReady();
       }
     }
+
+    Map<String, dynamic> tmp = {};
+    for (int i = 0; i< sortDataMarket.length; i++){
+      for (int j = i+1; j < sortDataMarket.length; j++){
+        tmp = sortDataMarket[i];
+        if (sortDataMarket[j]['market_cap_rank'] < tmp['market_cap_rank']){
+          sortDataMarket[i] = sortDataMarket[j];
+          sortDataMarket[j] = tmp;
+        }
+      }
+    }
+
+    // sortDataMarket.forEach((element) {      
+    //   print("My market list ${element['market_cap_rank']}");
+    // });
+
     notifyListeners();
   }
 }
