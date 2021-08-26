@@ -40,7 +40,7 @@ class MyPieChartRow extends StatelessWidget {
           ),
 
           MyText(
-            text: "$endText%",
+            text: "$endText %",
             fontSize: 14.0,
             color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           )

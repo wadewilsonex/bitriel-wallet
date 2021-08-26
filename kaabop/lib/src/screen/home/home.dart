@@ -1,6 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
@@ -19,6 +21,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> with TickerProviderStateMixin {
 
   MenuModel menuModel = MenuModel();
+  LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
 
   String status = '';
@@ -35,6 +38,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
       Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
+    // _prepareCryptoData();
 
     super.initState();
     
@@ -131,21 +135,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       });
     });
   }
-
-  // Future<void> sortAsset(ContractProvider contract){
-  //   SmartContractModel tmp = SmartContractModel();
-  //   for (int i = 0; i< contract.listContract.length; i++){
-  //     for (int j = i+1; j > contract.listContract.length; j++){
-  //       tmp = contract.listContract[i];
-  //       if ((double.parse(contract.listContract[j].balance)) < (double.parse(tmp.balance))){
-  //         contract.listContract[i] = contract.listContract[j];
-  //         contract.listContract[j] = tmp;
-  //       }
-  //     }
-  //   }
-
-  //   contract.listContract.forEach((element) {print(element.balance);});
-  // }
 
   @override
   Widget build(BuildContext context) {

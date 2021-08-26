@@ -7,8 +7,6 @@ import 'package:wallet_apps/src/components/portfolio_c.dart';
 class PortFolioCus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    final market = Provider.of<MarketProvider>(context);
     
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
@@ -84,7 +82,7 @@ class PortFolioCus extends StatelessWidget {
                 return value.portfolio.isEmpty
                 ? Center(
                   child: MyText(
-                    text: "Portfolio...",
+                    text: "Market Price...",
                     fontWeight: FontWeight.bold,
                     color: AppColors.darkSecondaryText,
                   ),

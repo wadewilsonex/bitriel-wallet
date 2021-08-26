@@ -5,6 +5,7 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:http/http.dart' as http;
@@ -63,6 +64,7 @@ class ApiProvider with ChangeNotifier {
     symbol: 'SEL',
     balance: '0.0',
     org: 'Testnet',
+    lineChartModel: LineChartModel()
   );
 
   SmartContractModel dot = SmartContractModel(
@@ -72,15 +74,18 @@ class ApiProvider with ChangeNotifier {
     org: '',
     balance: '0.0',
     isContain: false,
+    lineChartModel: LineChartModel()
   );
   
   SmartContractModel btc = SmartContractModel(
-      id: 'bitcoin',
-      symbol: 'BTC',
-      logo: 'assets/btc_logo.png',
-      org: '',
-      balance: '0.0',
-      isContain: false);
+    id: 'bitcoin',
+    symbol: 'BTC',
+    logo: 'assets/btc_logo.png',
+    org: '',
+    balance: '0.0',
+    isContain: false,
+    lineChartModel: LineChartModel()
+  );
 
   bool _isConnected = false;
   String btcAdd = '';
@@ -270,6 +275,7 @@ class ApiProvider with ChangeNotifier {
       }
 
       btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
+      btc.lineChartModel = LineChartModel().prepareCryptoData(btc);
     }
 
     notifyListeners();
@@ -285,7 +291,7 @@ class ApiProvider with ChangeNotifier {
     dot.marketData = marketData;
     dot.marketPrice = currentPrice;
     dot.change24h = priceChange24h;
-    dot.lineChartData = lineChartData;
+    dot.lineChartData = lineChartData ?? [];
 
     notifyListeners();
   }
@@ -302,7 +308,7 @@ class ApiProvider with ChangeNotifier {
     btc.marketData = marketData;
     btc.marketPrice = currentPrice;
     btc.change24h = priceChange24h;
-    btc.lineChartData = lineChartData;
+    btc.lineChartData = lineChartData ?? [];
 
     notifyListeners();
   }
@@ -360,6 +366,7 @@ class ApiProvider with ChangeNotifier {
         res.freeBalance.toString(),
         int.parse(dot.chainDecimal),
       );
+      dot.lineChartModel = LineChartModel().prepareCryptoData(dot);
       notifyListeners();
     });
   }

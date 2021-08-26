@@ -157,6 +157,4 @@ class AppServices {
 
     return canCheckBiometrics;
   }
-  
-
 }

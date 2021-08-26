@@ -12,7 +12,8 @@ class MarketProvider with ChangeNotifier {
     'ethereum',
     'binancecoin',
     'polkadot',
-    'bitcoin'
+    'bitcoin',
+    'selendra'
   ];
 
   List<Map<String, dynamic>> sortDataMarket = [];
@@ -53,6 +54,8 @@ class MarketProvider with ChangeNotifier {
       try {
 
         final response = await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
+        print("id[i] ${id[i]}");
+        print(response.body);
         // print("id[i] ${id[i]}");
         // print("${id[i]} ${json.decode(response.body)[0]}");
         sortDataMarket.addAll({
@@ -121,7 +124,13 @@ class MarketProvider with ChangeNotifier {
         contract.setReady();
       }
     }
+    
+    // Fill Market Price Into Asset
+    // for (int i = 0; i< sortDataMarket.length; i++){
+    //   contract.listContract[i].marketPrice = sortDataMarket[i]['current_price'];
+    // }
 
+    // Sort Market Price
     Map<String, dynamic> tmp = {};
     for (int i = 0; i< sortDataMarket.length; i++){
       for (int j = i+1; j < sortDataMarket.length; j++){
@@ -132,10 +141,6 @@ class MarketProvider with ChangeNotifier {
         }
       }
     }
-
-    // sortDataMarket.forEach((element) {      
-    //   print("My market list ${element['market_cap_rank']}");
-    // });
 
     notifyListeners();
   }

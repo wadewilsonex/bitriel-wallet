@@ -51,8 +51,11 @@ class AppState extends State<App> {
           await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
           await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
           await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-
+          // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+          await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+          // Sort After MarketPrice Filled Into Asset
           await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+          Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
         }
 
         Provider.of<ApiProvider>(context, listen: false).connectNode().then(

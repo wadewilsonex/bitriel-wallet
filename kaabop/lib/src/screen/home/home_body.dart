@@ -3,11 +3,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/effect_c.dart';
 
 class HomeBody extends StatelessWidget {
-  // final Function balanceOf;
-  // final Function setPortfolio;
-  // final Function scrollRefresh;
-
-  // const HomeBody({this.balanceOf, this.setPortfolio, this.scrollRefresh});
 
   @override
   Widget build(BuildContext context) {

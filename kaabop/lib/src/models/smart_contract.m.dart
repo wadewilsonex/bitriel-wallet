@@ -1,4 +1,5 @@
 import 'package:wallet_apps/src/models/asset_m.dart';
+import 'package:wallet_apps/src/models/lineChart_m.dart';
 
 class SmartContractModel {
   String id;
@@ -12,7 +13,9 @@ class SmartContractModel {
   String marketPrice;
   String change24h;
   bool isContain;
-  List<List<double>> lineChartData;
+  List<List<double>> lineChartData = [];
+
+  LineChartModel lineChartModel;
 
   SmartContractModel({
     this.id,
@@ -27,6 +30,7 @@ class SmartContractModel {
     this.change24h,
     this.isContain,
     this.lineChartData,
+    this.lineChartModel
   });
   
   void init(){

@@ -32,6 +32,48 @@ class WalletProvider with ChangeNotifier {
   Map<String, double> dataMap = {};
   List<PortfolioM> get portfolio => _portfolioM;
 
+  // The Formula Find Percentage is
+  // 1. Add each data to gether to get total
+  // 2. Divide Each Data With Total To Get Float
+  // 3. Take Eacher Data Divided To Multple By 100 To Get Percentage
+  // For Pie Chart
+  void fillWithMarketData(context){
+    _portfolioM.clear();
+    double temp = 0.0, total = 0.0, percen = 0.0;
+    final market = Provider.of<MarketProvider>(context, listen: false);
+    
+    // Find Total Of All Asset
+    market.sortDataMarket.forEach((element) {
+      if (element['current_price'].runtimeType.toString() == 'int'){
+        // To Convert Integer To Double By Plus With .0
+        total = total + ((element['current_price']) + .0);
+      } else  total += element['current_price'];
+    });
+
+    // Loop Add Eacher Asset From Market
+    for (int i = 0; i < market.sortDataMarket.length; i++){
+
+      // Divide Value With Total Of Asset
+      temp = (market.sortDataMarket[i]['current_price']+.0) / total;
+      percen = temp * 100;
+      
+      // Use Round To Round Number
+      _portfolioM.add(PortfolioM(
+        color: pieColorList[i],
+        symbol: market.sortDataMarket[i]['symbol'].toUpperCase(),
+        percentage: percen.toStringAsFixed(2),
+      ));
+
+      // This Variable For Pie Chart Data
+      dataMap.addAll({
+        market.sortDataMarket[i]['symbol']: double.parse(percen.toStringAsFixed(4))
+      });
+    }
+    
+
+    notifyListeners();
+  }
+
   void setProfolio() {
     clearPortfolio();
     getPortfolio();
@@ -113,13 +155,16 @@ class WalletProvider with ChangeNotifier {
         // print(availableToken[i]['symbol']);
         // print(availableToken.length);
         temp = double.parse(availableToken[i]['balance']) / total;
+        // percen = temp * 100;
+
+        // print(percen);
 
         // if (total == 0.0) {
           _portfolioM.add(
             PortfolioM(
               color: pieColorList[i],
               symbol: availableToken[i]['symbol'],
-              percentage: '0'
+              percentage: percen.toStringAsFixed(2)
             ),
           );
         // } else {
