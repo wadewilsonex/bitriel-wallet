@@ -38,7 +38,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
       Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
-    // _prepareCryptoData();
 
     super.initState();
     
@@ -90,50 +89,55 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     final market = Provider.of<MarketProvider>(context, listen: false);
+    final wallet = Provider.of<WalletProvider>(context, listen: false);
+    contract.isReady = false;
+    setState(() {});
 
-    await Future.delayed(const Duration(milliseconds: 300)).then((value) async {
-      PortfolioServices().setPortfolio(context);
-      market.fetchTokenMarketPrice(context);
+    await PortfolioServices().setPortfolio(context);
       
-      if (contract.listContract[0].isContain) {
-        await contract.getBscBalance();
-      }
+    if (contract.listContract[0].isContain) {
+      await contract.getBscBalance();
+    }
 
-      if (contract.listContract[1].isContain) {
-        await contract.getBscV2Balance();
-      }
+    if (contract.listContract[1].isContain) {
+      await contract.getBscV2Balance();
+    }
 
-      if (contract.listContract[2].isContain) {
-        await contract.getKgoBalance();
-      }
-
-      if (contract.listContract[3].isContain) {
-        await contract.getEtherBalance();
-      }
-
-      if (contract.listContract[4].isContain) {
-        await contract.getBnbBalance();
-      }
-
-      if (api.btc.isContain) {
-        await api.getBtcBalance(api.btcAdd);
-      }
-
-      if (contract.token.isNotEmpty) {
-        await contract.fetchNonBalance();
-        await contract.fetchEtherNonBalance();
-      }
-      
-      contract.sortAsset();
-      // await sortAsset(contract);
-      // contract.listContract.forEach((element) {print(element.balance);});
-
-      Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-
-      setState(() {
-        print("Compare");
+    if (contract.listContract[2].isContain) {
+      await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+        await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
       });
-    });
+    }
+
+    if (contract.listContract[3].isContain) {
+      await contract.getEtherBalance();
+    }
+
+    if (contract.listContract[4].isContain) {
+      await contract.getBnbBalance();
+    }
+
+    if (api.btc.isContain) {
+      await api.getBtcBalance(api.btcAdd);
+    }
+
+    // Sort Each Asset Portfolio
+    await contract.sortAsset();
+
+    if (contract.token.isNotEmpty) {
+      await contract.fetchNonBalance();
+      await contract.fetchEtherNonBalance();
+    }
+
+    // To Disable Asset Loading
+    contract.setReady();
+    
+    /* -----------------------Pie Chart----------------------- */
+    // Fetch 5 Asset From Market
+    await market.fetchTokenMarketPrice(context);
+
+    // Fill 5 Asset Into Pie Chart
+    await wallet.fillWithMarketData(context);
   }
 
   @override

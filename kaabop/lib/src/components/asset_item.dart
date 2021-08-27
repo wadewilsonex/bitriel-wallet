@@ -33,8 +33,8 @@ class AssetItem extends StatelessWidget {
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
-    // print("Hello $tokenSymbol");
-    // if (tokenSymbol == "KGO") print("Hello ${lineChartModel.values ?? 0}");
+    print("Hello $tokenSymbol");
+    if (tokenSymbol == "BTC") print("Hello ${lineChartModel.values ?? 0}");
     // if (tokenSymbol == "BNB") print("Hello ${lineChartModel.values ?? 0}");
     // if (tokenSymbol == "ETH") print("Hello ${lineChartModel.values.length ?? 0}");
     

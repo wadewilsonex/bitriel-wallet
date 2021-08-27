@@ -29,7 +29,7 @@ class ContractProvider with ChangeNotifier {
   ApiProvider apiProvider = ApiProvider();
   
   List<SmartContractModel>listContract = [
-    // 0(SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
+    // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
       id: 'selendra',
       logo: 'assets/SelendraCircle-Blue.png',
@@ -75,6 +75,8 @@ class ContractProvider with ChangeNotifier {
       lineChartModel: LineChartModel()
     ),
   ];
+
+  List<SmartContractModel> sortListContract = [];
 
   // SmartContractModel bscNative = SmartContractModel(
   //   id: 'selendra',
@@ -151,21 +153,24 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio 
   Future<void> sortAsset(){
-    print("Start sort");
-    print(listContract.length);
-    if (listContract.isNotEmpty){
+    
+    sortListContract.clear();
+    listContract.forEach((element) {
+      sortListContract.addAll({element});
+    });
+
+    if (sortListContract.isNotEmpty){
       SmartContractModel tmp = SmartContractModel();
-      for (int i = 0; i< listContract.length; i++){
-        for (int j = i+1; j < listContract.length; j++){
-          tmp = listContract[i];
-          if ((double.parse(listContract[j].balance)) > (double.parse(tmp.balance))){
-            listContract[i] = listContract[j];
-            listContract[j] = tmp;
+      for (int i = 0; i< sortListContract.length; i++){
+        for (int j = i+1; j < sortListContract.length; j++){
+          tmp = sortListContract[i];
+          if ((double.parse(sortListContract[j].balance)) > (double.parse(tmp.balance))){
+            sortListContract[i] = sortListContract[j];
+            sortListContract[j] = tmp;
           }
         }
       }
-
-      listContract.forEach((element) {print(element.marketPrice);});
+      // sortListContract.forEach((element) {print(element.symbol);});
 
       notifyListeners();
     }
@@ -224,18 +229,21 @@ class ContractProvider with ChangeNotifier {
     try {
       final res = _web3client.addedBlocks();
 
-      // res.listen((event) {
-      //   getBscBalance();
-      //   getBscV2Balance();
-      //   getBnbBalance();
-      //   getKgoBalance();
+      res.listen((event) async {
+        // await getBscBalance();
+        // await getBscV2Balance();
+        // await getBnbBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+        //   await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+        // });
 
-      //   PortfolioServices().setPortfolio(context);
+        // // await PortfolioServices().setPortfolio(context);
 
-      //   // sortAsset();
-
-      //   // MarketProvider().fetchTokenMarketPrice(context);
-      // });
+        // // sortAsset();
+        // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+        
+      });
     } catch (e) {
       print(e.message);
     }
@@ -262,7 +270,7 @@ class ContractProvider with ChangeNotifier {
     listContract[3].balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
 
 
-    listContract[3].lineChartModel = LineChartModel().prepareCryptoData(listContract[3]);
+    listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
 
     notifyListeners();
   }
@@ -475,7 +483,7 @@ class ContractProvider with ChangeNotifier {
         int.parse(listContract[2].chainDecimal),
       ).toString();
 
-      listContract[2].lineChartModel = LineChartModel().prepareCryptoData(listContract[2]);
+      listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
     }
 
     notifyListeners();
@@ -524,7 +532,7 @@ class ContractProvider with ChangeNotifier {
     listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
 
     // Assign Line Graph Chart
-    listContract[4].lineChartModel = LineChartModel().prepareCryptoData(listContract[4]);
+    listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
     notifyListeners();
   }
@@ -541,7 +549,7 @@ class ContractProvider with ChangeNotifier {
       ).toString();
 
       // Assign Line Graph Chart
-      listContract[1].lineChartModel = LineChartModel().prepareCryptoData(listContract[1]);
+      listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]);
     }
 
     notifyListeners();
@@ -551,15 +559,14 @@ class ContractProvider with ChangeNotifier {
     listContract[0].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',[EthereumAddress.fromHex(ethAdd)]);
       listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[0].chainDecimal),
       ).toString();
 
       // Assign Line Graph Chart
-      listContract[0].lineChartModel = LineChartModel().prepareCryptoData(listContract[0]);
+      listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
     }
 
     notifyListeners();
@@ -791,7 +798,7 @@ class ContractProvider with ChangeNotifier {
         await getBscDecimal();
         await getBnbBalance();
 
-        listContract[4].lineChartModel = LineChartModel().prepareCryptoData(listContract[0]);
+        listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
       }
     } else if (symbol == 'ATD') {
       if (!atd.isContain) {

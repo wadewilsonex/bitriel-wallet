@@ -22,7 +22,6 @@ class AppState extends State<App> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       MarketProvider().fetchTokenMarketPrice(context);
       initApi();
-      isBtcContain();
       clearOldBtcAddr();
       Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       
@@ -33,46 +32,47 @@ class AppState extends State<App> {
 
   Future<void> initApi() async {
 
-    Provider.of<ApiProvider>(context, listen: false).initApi().then(
-      (value) async {
-        if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
+      if (ApiProvider.keyring.keyPairs.isNotEmpty) {
 
-          isKgoContain();
+        await getSavedContractToken();
+        await getEtherSavedContractToken();
 
-          getSavedContractToken();
+        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
-          getEtherSavedContractToken();
+        await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();  
+        await isKgoContain();
+        await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-          await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
-          await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-          await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-          await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-          await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-          await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-          await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-          // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-          await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-          // Sort After MarketPrice Filled Into Asset
-          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-          Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+        await isBtcContain();
+        
+        // Sort After MarketPrice Filled Into Asset
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
+        Provider.of<ContractProvider>(context, listen: false).setReady();
+        Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+      }
+
+      await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
+        if (value != null) {
+          setState(() {
+            _apiConnected = true;
+          });
+
+          if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+            await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+          }
         }
+      });
 
-        Provider.of<ApiProvider>(context, listen: false).connectNode().then(
-          (value) {
-            if (value != null) {
-              setState(() {
-                _apiConnected = true;
-              });
-
-              if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-                Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-              }
-            }
-          },
-        );
-      },
-    );
+    });
   }
 
   void readTheme() async {
@@ -159,14 +159,11 @@ class AppState extends State<App> {
     final res = await StorageServices.fetchData('bech32');
 
     if (res != null) {
-      Provider.of<ApiProvider>(context, listen: false)
-          .getBtcBalance(res.toString());
-      Provider.of<ApiProvider>(context, listen: false)
-          .isBtcAvailable('contain');
+      Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
-      Provider.of<ApiProvider>(context, listen: false)
-          .setBtcAddr(res.toString());
+      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+      await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString());
     }
   }
 
@@ -178,10 +175,8 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+    await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
     });
   }
 

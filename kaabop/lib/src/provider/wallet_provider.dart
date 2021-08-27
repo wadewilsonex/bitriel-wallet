@@ -37,7 +37,7 @@ class WalletProvider with ChangeNotifier {
   // 2. Divide Each Data With Total To Get Float
   // 3. Take Eacher Data Divided To Multple By 100 To Get Percentage
   // For Pie Chart
-  void fillWithMarketData(context){
+  Future<void> fillWithMarketData(context){
     _portfolioM.clear();
     double temp = 0.0, total = 0.0, percen = 0.0;
     final market = Provider.of<MarketProvider>(context, listen: false);
@@ -69,14 +69,9 @@ class WalletProvider with ChangeNotifier {
         market.sortDataMarket[i]['symbol']: double.parse(percen.toStringAsFixed(4))
       });
     }
-    
 
     notifyListeners();
-  }
-
-  void setProfolio() {
-    clearPortfolio();
-    getPortfolio();
+    return null;
   }
 
   void addTokenSymbol(String symbol) {

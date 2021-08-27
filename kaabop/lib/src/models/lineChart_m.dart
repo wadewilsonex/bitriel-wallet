@@ -26,7 +26,7 @@ class LineChartModel {
     hexaCodeToColor("#00ff6b")
   ];
 
-  LineChartModel prepareCryptoData(SmartContractModel contract) {
+  LineChartModel prepareGraphChart(SmartContractModel contract) {
 
     // print(contract.symbol);
     // if (contract.symbol == 'KGO'){

@@ -140,34 +140,34 @@ class AssetList extends StatelessWidget {
             return Column(
               children: [
 
-                for(int index = 0; index < value.listContract.length; index++)
+                for(int index = 0; index < value.sortListContract.length; index++)
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       RouteAnimation(
                         enterPage: AssetInfo(
-                          id: value.listContract[index].id,
-                          assetLogo: value.listContract[index].logo,
-                          balance: value.listContract[index].balance ?? AppText.loadingPattern,
-                          tokenSymbol: value.listContract[index].symbol ?? '',
-                          org: value.listContract[index].org,
-                          marketPrice: value.listContract[index].marketPrice,
-                          priceChange24h: value.listContract[index].change24h,
+                          id: value.sortListContract[index].id,
+                          assetLogo: value.sortListContract[index].logo,
+                          balance: value.sortListContract[index].balance ?? AppText.loadingPattern,
+                          tokenSymbol: value.sortListContract[index].symbol ?? '',
+                          org: value.sortListContract[index].org,
+                          marketPrice: value.sortListContract[index].marketPrice,
+                          priceChange24h: value.sortListContract[index].change24h,
                         ),
                       ),
                     );
                   },
                   child: AssetItem(
-                    value.listContract[index].logo,
-                    value.listContract[index].symbol ?? '',
-                    value.listContract[index].org,
-                    value.listContract[index].balance ?? AppText.loadingPattern,
+                    value.sortListContract[index].logo,
+                    value.sortListContract[index].symbol ?? '',
+                    value.sortListContract[index].org,
+                    value.sortListContract[index].balance ?? AppText.loadingPattern,
                     Colors.transparent,
-                    marketPrice: value.listContract[index].marketPrice,
-                    priceChange24h: value.listContract[index].change24h,
-                    lineChartData: value.listContract[index].lineChartData,
-                    lineChartModel: value.listContract[index].lineChartModel,
+                    marketPrice: value.sortListContract[index].marketPrice,
+                    priceChange24h: value.sortListContract[index].change24h,
+                    lineChartData: value.sortListContract[index].lineChartData,
+                    lineChartModel: value.sortListContract[index].lineChartModel,
                   ),
                 )
 

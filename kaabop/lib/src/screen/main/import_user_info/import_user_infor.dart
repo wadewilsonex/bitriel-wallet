@@ -84,14 +84,13 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         isKgoContain();
 
-        Provider.of<MarketProvider>(context, listen: false)
-            .fetchTokenMarketPrice(context);
+        Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
         Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
         Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-        // For Pie Chart
+        // Set Empty For Pie Chart
         Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
 
         await successDialog(context, "imported your account.");

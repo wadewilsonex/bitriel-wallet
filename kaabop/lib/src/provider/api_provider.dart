@@ -225,7 +225,7 @@ class ApiProvider with ChangeNotifier {
             child: Text(text2),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('Close'),
             ),
@@ -275,8 +275,11 @@ class ApiProvider with ChangeNotifier {
       }
 
       btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
-      btc.lineChartModel = LineChartModel().prepareCryptoData(btc);
     }
+    btc.lineChartModel = LineChartModel().prepareGraphChart(btc);
+
+    print("My BTC");
+    print(btc.lineChartModel.values);
 
     notifyListeners();
   }
@@ -366,7 +369,7 @@ class ApiProvider with ChangeNotifier {
         res.freeBalance.toString(),
         int.parse(dot.chainDecimal),
       );
-      dot.lineChartModel = LineChartModel().prepareCryptoData(dot);
+      dot.lineChartModel = LineChartModel().prepareGraphChart(dot);
       notifyListeners();
     });
   }

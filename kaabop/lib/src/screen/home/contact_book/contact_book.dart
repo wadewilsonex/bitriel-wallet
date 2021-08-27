@@ -75,7 +75,6 @@ class _ContactBookState extends State<ContactBook> {
 
       setState(() {});
     } else {
-      print('not empty');
       for (final data in _contactBookModel.contactBookList) {
         contactData.add({
           'username': data.userName.text,

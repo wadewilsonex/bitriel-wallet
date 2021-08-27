@@ -49,13 +49,14 @@ class MarketProvider with ChangeNotifier {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
+    sortDataMarket.clear();
 
     for (int i = 0; i < id.length; i++) {
       try {
 
         final response = await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
-        print("id[i] ${id[i]}");
-        print(response.body);
+        // print("id[i] ${id[i]}");
+        // print(response.body);
         // print("id[i] ${id[i]}");
         // print("${id[i]} ${json.decode(response.body)[0]}");
         sortDataMarket.addAll({
@@ -64,7 +65,7 @@ class MarketProvider with ChangeNotifier {
         final lineChartData = await fetchLineChartData(id[i]);
 
         if (response.statusCode == 200) {
-          final jsonResponse = convert.jsonDecode(response.body);
+          final jsonResponse = await convert.jsonDecode(response.body);
 
           final res = parsePhotos(response.body);
 
@@ -115,13 +116,10 @@ class MarketProvider with ChangeNotifier {
                   .toStringAsFixed(2)
                   .toString(),
             );
-            contract.setReady();
           }
-        } else {
-          contract.setReady();
         }
       } catch (e) {
-        contract.setReady();
+        // contract.setReady();
       }
     }
     

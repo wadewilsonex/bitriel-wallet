@@ -3,12 +3,11 @@ import 'package:wallet_apps/index.dart';
 
 class PortfolioServices {
 
-  void setPortfolio(BuildContext context) async {
+  Future<void> setPortfolio(BuildContext context) async {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
     
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
-    final marketProvider = Provider.of<MarketProvider>(context, listen: false);
 
     walletProvider.clearPortfolio();
 
