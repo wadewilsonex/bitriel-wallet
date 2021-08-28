@@ -50,10 +50,6 @@ class LineChartModel {
         }).toList()
       );
 
-      // if (contract.symbol == 'KGO'){
-        // print(contract.lineChartModel.values);
-      // }
-
       contract.lineChartModel.minX = contract.lineChartModel.values.first.x;
       contract.lineChartModel.maxX = contract.lineChartModel.values.last.x;
       contract.lineChartModel.minY = (minY / contract.lineChartModel.divider).floorToDouble() * contract.lineChartModel.divider;

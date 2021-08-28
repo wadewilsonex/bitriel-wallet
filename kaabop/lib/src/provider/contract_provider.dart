@@ -129,12 +129,14 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client get getWeb3 => _web3client;
 
-  ContractProvider(){
+  void addApiProviderProperty(ApiProvider api){
     listContract.addAll([
-      apiProvider.btc,
-      apiProvider.dot,
-      apiProvider.nativeM,
+      api.btc,
+      api.dot,
+      api.nativeM,
     ]);
+
+    notifyListeners();
   }
 
   Future<void> initClient() async {
@@ -230,19 +232,17 @@ class ContractProvider with ChangeNotifier {
       final res = _web3client.addedBlocks();
 
       res.listen((event) async {
-        // await getBscBalance();
-        // await getBscV2Balance();
-        // await getBnbBalance();
-        // await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-        //   await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-        // });
+        await getBscBalance();
+        await getBscV2Balance();
+        await getBnbBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+          await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+        });
 
-        // // await PortfolioServices().setPortfolio(context);
-
-        // // sortAsset();
+        // await sortAsset();
         // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-        
+        print("Done");
       });
     } catch (e) {
       print(e.message);

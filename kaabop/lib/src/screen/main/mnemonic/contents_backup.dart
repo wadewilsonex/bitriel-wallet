@@ -17,18 +17,14 @@ class _ContentsBackupState extends State<ContentsBackup> {
 
   Future<void> _generateMnemonic() async {
     try {
-      print("Generate");
-      
-      print("Generating");
       _passPhrase = await ApiProvider.sdk.api.keyring.generateMnemonic();
-      print("passPhrase $_passPhrase");
       _passPhraseList = _passPhrase.split(' ');
 
       // setState(() {});
     } on PlatformException catch (p) {
-      print("Platform $p");
+      // print("Platform $p");
     }  catch (e){
-      print("error $e");
+      // print("error $e");
     }
   }
 

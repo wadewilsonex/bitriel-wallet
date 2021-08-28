@@ -33,8 +33,8 @@ class AssetItem extends StatelessWidget {
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
-    print("Hello $tokenSymbol");
-    if (tokenSymbol == "BTC") print("Hello ${lineChartModel.values ?? 0}");
+    // print("Hello $tokenSymbol");
+    // if (tokenSymbol == "BTC") print("Hello ${lineChartModel.values ?? 0}");
     // if (tokenSymbol == "BNB") print("Hello ${lineChartModel.values ?? 0}");
     // if (tokenSymbol == "ETH") print("Hello ${lineChartModel.values.length ?? 0}");
     
@@ -182,6 +182,7 @@ class AssetItem extends StatelessWidget {
 
   LineChartData avgData(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
+    // print(lineChartModel.values.length);
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
@@ -254,6 +255,7 @@ class AssetItem extends StatelessWidget {
       minY: 0,
       maxY: 6,
       lineBarsData: [
+        
         LineChartBarData(
           spots: 
           [
@@ -371,7 +373,7 @@ class AssetItem extends StatelessWidget {
       maxY: lineChartModel.maxY,
       lineBarsData: [
 
-         LineChartBarData(
+        LineChartBarData(
           spots: lineChartModel.values,
           isCurved: true,
           colors: priceChange24h.substring(0, 1) == '-'
@@ -390,14 +392,14 @@ class AssetItem extends StatelessWidget {
             gradientFrom: const Offset(0.2, 1.2),
             gradientTo: const Offset(0.2, 0),
             colors: priceChange24h.substring(0, 1) == '-'
-              ? [
-                  Colors.white.withOpacity(0.2),
-                  hexaCodeToColor('#FF0000').withOpacity(0.2)
-                ]
-              : [
-                  Colors.white.withOpacity(0.2),
-                  hexaCodeToColor('#00FF00').withOpacity(0.2),
-                ],
+            ? [
+                Colors.white.withOpacity(0.2),
+                hexaCodeToColor('#FF0000').withOpacity(0.2)
+              ]
+            : [
+                Colors.white.withOpacity(0.2),
+                hexaCodeToColor('#00FF00').withOpacity(0.2),
+              ],
             // colors:
             //     _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
           ),

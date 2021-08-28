@@ -276,18 +276,16 @@ class ApiProvider with ChangeNotifier {
 
       btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
     }
-    btc.lineChartModel = LineChartModel().prepareGraphChart(btc);
 
-    print("My BTC");
-    print(btc.lineChartModel.values);
+    btc.lineChartModel = LineChartModel().prepareGraphChart(btc);
 
     notifyListeners();
   }
 
-  // void isDotContain() {
-  //   dot.isContain = true;
-  //   notifyListeners();
-  // }
+  void isDotContain() {
+    dot.isContain = true;
+    notifyListeners();
+  }
 
   void setDotMarket(Market marketData, List<List<double>> lineChartData,
       String currentPrice, String priceChange24h) {

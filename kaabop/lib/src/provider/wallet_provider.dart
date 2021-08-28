@@ -69,7 +69,7 @@ class WalletProvider with ChangeNotifier {
         market.sortDataMarket[i]['symbol']: double.parse(percen.toStringAsFixed(4))
       });
     }
-
+    
     notifyListeners();
     return null;
   }

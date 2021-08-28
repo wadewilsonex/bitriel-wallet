@@ -60,7 +60,7 @@ class MarketProvider with ChangeNotifier {
         // print("id[i] ${id[i]}");
         // print("${id[i]} ${json.decode(response.body)[0]}");
         sortDataMarket.addAll({
-          json.decode(response.body)[0]
+          await json.decode(response.body)[0]
         });
         final lineChartData = await fetchLineChartData(id[i]);
 

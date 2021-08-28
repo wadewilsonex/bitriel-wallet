@@ -31,8 +31,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
         final ethAddr = await StorageServices().readSecure('etherAdd');
 
-        print(ethAddr);
-
         if (ethAddr == null) {
 
           await dialogSuccess(

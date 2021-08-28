@@ -17,14 +17,14 @@ class AppState extends State<App> {
 
   @override
   void initState() {
+
     readTheme();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       MarketProvider().fetchTokenMarketPrice(context);
       initApi();
       clearOldBtcAddr();
-      Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
     });
 
     super.initState();
@@ -32,24 +32,30 @@ class AppState extends State<App> {
 
   Future<void> initApi() async {
 
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+
     await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
 
         await getSavedContractToken();
         await getEtherSavedContractToken();
 
-        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+        await apiProvider.getAddressIcon();
+        await apiProvider.getCurrentAccount();
+        await apiProvider.connectPolNon();
 
-        await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-        await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();  
+        await contractProvider.getBscBalance();
+        await contractProvider.getBscV2Balance();  
         await isKgoContain();
-        await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
-        await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+        await contractProvider.getEtherBalance();
+        await contractProvider.getBnbBalance();
 
         await isBtcContain();
         
+        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+        contractProvider.addApiProviderProperty(apiProvider);
+
         // Sort After MarketPrice Filled Into Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
@@ -57,7 +63,9 @@ class AppState extends State<App> {
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
         Provider.of<ContractProvider>(context, listen: false).setReady();
-        Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+
+        await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+
       }
 
       await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {

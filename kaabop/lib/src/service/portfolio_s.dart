@@ -17,13 +17,13 @@ class PortfolioServices {
     // if (marketProvider.sortDataMarket.isEmpty){
 
       if (api.nativeM.balance == null) {
-        print("Null ${api.nativeM.symbol}");
+        // print("Null ${api.nativeM.symbol}");
         walletProvider.addAvaibleToken({
           'symbol': api.nativeM.symbol,
           'balance': '0',
         });
       } else {
-        print("NOt null ${api.nativeM.symbol}");
+        // print("NOt null ${api.nativeM.symbol}");
         walletProvider.addAvaibleToken({
           'symbol': api.nativeM.symbol,
           'balance': api.nativeM.balance.replaceAll(RegExp(','), '') ?? '0',

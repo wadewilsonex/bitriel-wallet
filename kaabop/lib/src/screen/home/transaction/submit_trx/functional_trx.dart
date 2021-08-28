@@ -87,12 +87,9 @@ class TrxFunctional {
 
   Future<void>  sendTxBnb(String reciever, String amount) async {
 
-    print("BNB");
     if (privateKey != null) {
 
       final hash = await contract.sendTxBnb(privateKey, reciever, amount);
-
-      print("has $hash");
      
       if (hash != null) {
         await contract.getPending(hash).then((value) async {
@@ -173,8 +170,6 @@ class TrxFunctional {
           reciever,
           amount,
         );
-
-        print("Trx hash $hash");
        
         if (hash != null) {
 

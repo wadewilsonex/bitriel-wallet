@@ -131,16 +131,48 @@ class AssetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    // final value = Provider.of<ContractProvider>(context);
+    // print(value.listContract.length ?? '');
+    // for (int index = 0; index < value.listContract.length; index++) {
+    //   print(value.sortListContract[index].logo.toString());
+    //   print(value.sortListContract[index].symbol.toString());
+    //   print(value.sortListContract[index].org.toString());
+    //   print(value.sortListContract[index].balance.toString());
+    //   print(value.sortListContract[index].marketPrice.toString());
+    //   print(value.sortListContract[index].change24h.toString());
+    //   print(value.sortListContract[index].lineChartData.toString());
+    //   print(value.sortListContract[index].lineChartModel.toString());
+    // }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
+        // Text(kgo.listContract[2].lineChartData.length.toString()),
+        // AssetItem(
+        //   kgo.listContract[2].logo,
+        //   kgo.listContract[2].symbol ?? '',
+        //   kgo.listContract[2].org,
+        //   kgo.listContract[2].balance ?? AppText.loadingPattern,
+        //   Colors.transparent,
+        //   marketPrice: kgo.listContract[2].marketPrice,
+        //   priceChange24h: kgo.listContract[2].change24h,
+        //   lineChartData: kgo.listContract[2].lineChartData,
+        //   lineChartModel: kgo.listContract[2].lineChartModel,
+        // ), 
+        // Text(kgo.listContract[2].lineChartModel.values.length.toString()),
 
         Consumer<ContractProvider>(
           builder: (context, value, child) {
             return Column(
               children: [
 
+                // for(int index = 0; index < value.sortListContract.length; index++)
+                // value.sortListContract[index].symbol == "BTC" ? MyText(text: value.sortListContract[index].lineChartData[0].toString(),) : Container(),
+
                 for(int index = 0; index < value.sortListContract.length; index++)
+
+                // Text(value.sortListContract[index].lineChartModel.leftTitlesInterval.toString()),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -165,7 +197,7 @@ class AssetList extends StatelessWidget {
                     value.sortListContract[index].balance ?? AppText.loadingPattern,
                     Colors.transparent,
                     marketPrice: value.sortListContract[index].marketPrice,
-                    priceChange24h: value.sortListContract[index].change24h,
+                    priceChange24h: value.sortListContract[index].change24h ?? '',
                     lineChartData: value.sortListContract[index].lineChartData,
                     lineChartModel: value.sortListContract[index].lineChartModel,
                   ),
@@ -177,53 +209,53 @@ class AssetList extends StatelessWidget {
         ),
         
         // ERC or Token After Added 
-        Consumer<ContractProvider>(builder: (context, value, child) {
+        // Consumer<ContractProvider>(builder: (context, value, child) {
 
-          return value.token.isNotEmpty ?
-          Column(
-            children: [
-              for(int index = 0; index < value.token.length; index++)
+        //   return value.token.isNotEmpty ?
+        //   Column(
+        //     children: [
+        //       for(int index = 0; index < value.token.length; index++)
               
-              Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                background: DismissibleBackground(),
-                onDismissed: (direct) {
-                  if (value.token[index].org == 'ERC-20') {
-                    value.removeEtherToken(value.token[index].symbol, context);
-                  } else {
-                    value.removeToken(value.token[index].symbol, context);
-                  }
+        //       Dismissible(
+        //         key: UniqueKey(),
+        //         direction: DismissDirection.endToStart,
+        //         background: DismissibleBackground(),
+        //         onDismissed: (direct) {
+        //           if (value.token[index].org == 'ERC-20') {
+        //             value.removeEtherToken(value.token[index].symbol, context);
+        //           } else {
+        //             value.removeToken(value.token[index].symbol, context);
+        //           }
 
-                  //setPortfolio();
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      RouteAnimation(
-                        enterPage: AssetInfo(
-                          assetLogo: 'assets/circle.png',
-                          balance: value.token[index].balance ?? AppText.loadingPattern,
-                          tokenSymbol: value.token[index].symbol ?? '',
-                          org: value.token[index].org,
-                        ),
-                      ),
-                    );
-                  },
-                  child: AssetItem(
-                    'assets/circle.png',
-                    value.token[index].symbol ?? '',
-                    value.token[index].org ?? '',
-                    value.token[index].balance ?? AppText.loadingPattern,
-                    Colors.transparent,
-                  ),
-                ),
-              )
-            ],
-          )
-          : Container();
-        }),
+        //           //setPortfolio();
+        //         },
+        //         child: GestureDetector(
+        //           onTap: () {
+        //             Navigator.push(
+        //               context,
+        //               RouteAnimation(
+        //                 enterPage: AssetInfo(
+        //                   assetLogo: 'assets/circle.png',
+        //                   balance: value.token[index].balance ?? AppText.loadingPattern,
+        //                   tokenSymbol: value.token[index].symbol ?? '',
+        //                   org: value.token[index].org,
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //           child: AssetItem(
+        //             'assets/circle.png',
+        //             value.token[index].symbol ?? '',
+        //             value.token[index].org ?? '',
+        //             value.token[index].balance ?? AppText.loadingPattern,
+        //             Colors.transparent,
+        //           ),
+        //         ),
+        //       )
+        //     ],
+        //   )
+        //   : Container();
+        // }),
       ],
     );
   }

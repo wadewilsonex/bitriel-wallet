@@ -137,7 +137,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     await market.fetchTokenMarketPrice(context);
 
     // Fill 5 Asset Into Pie Chart
-    await wallet.fillWithMarketData(context);
+    wallet.fillWithMarketData(context);
   }
 
   @override
