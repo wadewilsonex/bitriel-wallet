@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:polkawallet_sdk/service/index.dart';
 
 class ServiceAccount {
@@ -25,6 +24,12 @@ class ServiceAccount {
   Future<Map> queryBalance(String address) async {
     final res = await serviceRoot.webView
         .evalJavascript('account.getBalance(api, "$address")');
+    return res;
+  }
+
+  Future<Map> queryNBalance(String address) async {
+    final res = await serviceRoot.webView
+        .evalJavascript('account.getBalance(apiNon, "$address")');
     return res;
   }
 

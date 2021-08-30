@@ -1,5 +1,6 @@
-import { keyExtractSuri, mnemonicGenerate, cryptoWaitReady, signatureVerify } from "@polkadot/util-crypto";
+import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, cryptoWaitReady, signatureVerify } from "@polkadot/util-crypto";
 import { hexToU8a, u8aToHex, isHex, stringToHex } from "@polkadot/util";
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import BN from "bn.js";
 import { parseQrCode, getSigner, makeTx, getSubmittable } from "../utils/QrSigner";
 import gov from "./gov";
@@ -11,7 +12,7 @@ import { SubmittableExtrinsic } from "@polkadot/api/types";
 import { ITuple } from "@polkadot/types/types";
 import { DispatchError } from "@polkadot/types/interfaces";
 import { ContractPromise } from "@polkadot/api-contract";
-let keyring = new Keyring({ ss58Format: 0, type: "sr25519" });
+let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
 
 /**
  * Generate a set of new mnemonic.
@@ -21,6 +22,35 @@ async function gen() {
   return {
     mnemonic,
   };
+}
+
+async function validateMnemonic(mnemonic: string) {
+  return new Promise(async (resolve, reject) => {
+    const isValidMnemonic = mnemonicValidate(mnemonic);
+    resolve(isValidMnemonic);
+  });
+}
+
+async function validateAddress(address: string) {
+  return new Promise(async (resolve, reject) => {
+
+    const isValidAddressPolkadotAddress = () => {
+      try {
+        encodeAddress(
+          isHex(address)
+            ? hexToU8a(address)
+            : decodeAddress(address, false, 42)
+        );
+
+
+        resolve(true);
+      } catch (error) {
+        resolve(false);
+      }
+    };
+
+    const isValid = isValidAddressPolkadotAddress();
+  });
 }
 
 /**
@@ -218,7 +248,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     try {
       keyPair.decodePkcs8(password);
     } catch (err) {
-      resolve({ error: "password check failed" });
+      resolve({ error: "PIN verification failed" });
     }
     tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
       .then((res) => {
@@ -230,19 +260,64 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
   });
 }
 
-async function contractTransfer(apiContract: ContractPromise, senderPubKey: string, to: string, value: string, password: string) {
+
+async function aCheckIn(aContract: ContractPromise, senderPubKey: string, password: string, attendantHash: string, location: string) {
   return new Promise(async (resolve, reject) => {
     try {
       const keyPair = keyring.getPair(hexToU8a(senderPubKey));
       try {
         keyPair.decodePkcs8(password);
       } catch (err) {
-        resolve({ error: "password check failed" });
+        resolve({ error: "PIN verification failed" });
       }
 
-      await apiContract.tx.transfer(0, -1, to, value).signAndSend(keyPair, ({ events = [], status }) => {
+      await aContract.tx.checkedIn(0, -1, attendantHash, location).signAndSend(keyPair, ({ events = [], status }) => {
         if (status.isInBlock) {
+          resolve({ status: "In Block" });
+        }
+      });
 
+    } catch (e) {
+      resolve({ err: e.message });
+    }
+  });
+}
+
+async function aCheckOut(aContract: ContractPromise, senderPubKey: string, password: string, attendantHash: string, location: string) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const keyPair = keyring.getPair(hexToU8a(senderPubKey));
+      try {
+        keyPair.decodePkcs8(password);
+      } catch (err) {
+        resolve({ error: "PIN verification failed" });
+      }
+
+      await aContract.tx.checkedOut(0, -1, attendantHash, location).signAndSend(keyPair, ({ events = [], status }) => {
+        if (status.isInBlock) {
+          resolve({ status: "In Block" });
+        }
+      });
+    } catch (e) {
+      resolve({ err: e.message });
+    }
+  });
+}
+
+async function contractTransfer(apiContract: ContractPromise, senderPubKey: string, to: string, value: string, password: string, hash: string) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const keyPair = keyring.getPair(hexToU8a(senderPubKey));
+      try {
+        keyPair.decodePkcs8(password);
+      } catch (err) {
+        resolve({ error: "PIN verification failed" });
+      }
+
+
+      await apiContract.tx.transfer(0, -1, to, hash, Number(value)).signAndSend(keyPair, ({ events = [], status }) => {
+        if (status.isInBlock) {
+          resolve({status: 'In Block'})
         } else if (status.isFinalized) {
 
           resolve({ hash: status.asFinalized });
@@ -262,7 +337,7 @@ async function contractTransferFrom(apiContract: ContractPromise, from: string, 
       try {
         keyPair.decodePkcs8(password);
       } catch (err) {
-        resolve({ error: "password check failed" });
+        resolve({ error: "PIN verification failed" });
       }
       await apiContract.tx.transferFrom(0, -1, from, to, value).signAndSend(keyPair, ({ events = [], status }) => {
         if (status.isInBlock) {
@@ -288,7 +363,7 @@ async function approve(apiContract: ContractPromise, senderPubKey: string, to: s
       try {
         keyPair.decodePkcs8(password);
       } catch (err) {
-        resolve({ error: "password check failed" });
+        resolve({ error: "PIN verification failed" });
       }
       await apiContract.tx.approve(0, -1, to, value).signAndSend(keyPair, ({ events = [], status }) => {
         if (status.isInBlock) {
@@ -473,12 +548,16 @@ async function verifySignature(message: string, signature: string, address: stri
 export default {
   initKeys,
   gen,
+  validateMnemonic,
+  validateAddress,
   recover,
   txFeeEstimate,
   sendTx,
+  aCheckIn,
+  aCheckOut,
   contractTransfer,
   contractTransferFrom,
-  approve,
+  //approve,
   checkPassword,
   changePassword,
   checkDerivePath,
@@ -486,7 +565,7 @@ export default {
   signAsync,
   makeTx,
   addSignatureAndSend,
-  signTxAsExtension,
-  signBytesAsExtension,
-  verifySignature,
+  //signTxAsExtension,
+  //signBytesAsExtension,
+  //verifySignature,
 };

@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polkawallet_sdk/api/types/balanceData.dart';
 import 'package:polkawallet_sdk/api/types/networkStateData.dart';
 import 'package:polkawallet_sdk/plugin/store/balances.dart';
-import 'package:polkawallet_sdk/polkawallet_sdk.dart';
+import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
 import 'package:polkawallet_sdk/plugin/homeNavItem.dart';
 import 'package:polkawallet_sdk/service/webViewRunner.dart';
@@ -141,7 +141,7 @@ abstract class PolkawalletPluginBase {
 
   /// Plugin should define a list of node to connect
   /// for users of Polkawallet App.
-  List<NetworkParams> get nodeList => List<NetworkParams>();
+  List<NetworkParams> get nodeList => [];
 
   /// Plugin should provide [tokenIcons]
   /// for display in Assets page of Polkawallet App.
@@ -149,8 +149,7 @@ abstract class PolkawalletPluginBase {
 
   /// The [getNavItems] method returns a list of [HomeNavItem] which defines
   /// the [Widget] to be used in home page of polkawallet App.
-  List<HomeNavItem> getNavItems(BuildContext context, Keyring keyring) =>
-      List<HomeNavItem>();
+  List<HomeNavItem> getNavItems(BuildContext context, Keyring keyring) => [];
 
   /// App will add plugin's pages with custom [routes].
   Map<String, WidgetBuilder> getRoutes(Keyring keyring) =>

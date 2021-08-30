@@ -7,7 +7,7 @@ import 'package:polkawallet_sdk/service/tx.dart';
 class ApiTx {
   ApiTx(this.apiRoot, this.service);
 
-  final PolkawalletApi apiRoot;
+  final KabobApi apiRoot;
   final ServiceTx service;
 
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
@@ -41,9 +41,34 @@ class ApiTx {
   }) async {
     final param = rawParam != null ? rawParam : jsonEncode(params);
     final Map tx = txInfo.toJson();
-    print(tx);
-    print(param);
+    // print(tx);
+    // print(param);
     final res = await service.signAndSend(
+      tx,
+      param,
+      password,
+      onStatusChange ?? (status) => print(status),
+    );
+    if (res['error'] != null) {
+      throw Exception(res['error']);
+    }
+
+    print('res $res');
+    
+    return res ?? null;
+  }
+
+  Future<Map> signAndSendDot(
+    TxInfoData txInfo,
+    List params,
+    String password, {
+    Function(String) onStatusChange,
+    String rawParam,
+  }) async {
+    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+
+    final res = await service.signAndSendDot(
       tx,
       param,
       password,

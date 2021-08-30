@@ -55,6 +55,19 @@ class ServiceKeyring {
     return acc['mnemonic'];
   }
 
+  Future<bool> validateMnemonic(String mnemonic) async {
+    final res = await serviceRoot.webView
+        .evalJavascript('keyring.validateMnemonic("$mnemonic")');
+    return res;
+  }
+
+  Future<bool> validateAddress(String address) async {
+    final res = await serviceRoot.webView
+        .evalJavascript('keyring.validateAddress("$address")');
+
+    return res;
+  }
+
   /// Import account from mnemonic/rawSeed/keystore.
   /// param [cryptoType] can be `sr25519`(default) or `ed25519`.
   /// return [null] if import failed.
@@ -120,11 +133,24 @@ class ServiceKeyring {
     return res;
   }
 
-  Future<Map> contractTranfer(
-      String senderPubKey, String to, String value, String password) async {
-    print('contract transfer js');
+  Future<Map> aCheckIn(String senderPubKey, String password, String aHash,
+      String location) async {
     final res = await serviceRoot.webView.evalJavascript(
-        'keyring.contractTransfer(apiContract,"$senderPubKey","$to","$value", "$password")');
+        'keyring.aCheckIn(aContract,"$senderPubKey","$password","$aHash","$location")');
+    return res;
+  }
+
+  Future<Map> aCheckOut(String senderPubKey, String password, String aHash,
+      String location) async {
+    final res = await serviceRoot.webView.evalJavascript(
+        'keyring.aCheckOut(aContract,"$senderPubKey","$password","$aHash","$location")');
+    return res;
+  }
+
+  Future<Map> contractTranfer(String senderPubKey, String to, String value,
+      String password, String hash) async {
+    final res = await serviceRoot.webView.evalJavascript(
+        'keyring.contractTransfer(apiContract,"$senderPubKey","$to","$value", "$password","$hash")');
 
     if (res != null) {
       return res;
@@ -134,10 +160,6 @@ class ServiceKeyring {
 
   Future<Map> contractTranferFrom(String from, String senderPubKey, String to,
       String value, String password) async {
-    print('contract transfer js');
-
-    print('from js $from');
-    print('sender js$senderPubKey');
     final res = await serviceRoot.webView.evalJavascript(
         'keyring.contractTransferFrom(apiContract,"$from","$senderPubKey","$to","$value", "$password")');
 

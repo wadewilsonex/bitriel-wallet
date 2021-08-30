@@ -70,13 +70,13 @@ class Keyring {
 class KeyringPrivateStore {
   final KeyringStorage _storage = KeyringStorage();
   final LocalStorage _storageOld = LocalStorage();
-  final List<int> ss58List = [0, 2, 42];
+  final List<int> ss58List = [42];
 
   Map<String, Map> _pubKeyAddressMap = {};
   Map<String, String> _iconsMap = {};
   Map<String, Map> _indicesMap = {};
 
-  int ss58 = 0;
+  int ss58 = 42;
 
   String get currentPubKey => _storage.currentPubKey.val;
   void setCurrentPubKey(String pubKey) {
@@ -239,6 +239,20 @@ class KeyringPrivateStore {
     _storage.contacts.val = ls;
   }
 
+  Future<String> encryptPrivateKey(String privateKey, String password) async {
+    final String key = Encrypt.passwordToEncryptKey(password);
+    final String encryted =
+        await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+    return encryted;
+  }
+
+  Future<String> decryptPrivateKey(String privateKey, String password) async {
+    final String key = Encrypt.passwordToEncryptKey(password);
+    final String decryted =
+        await FlutterAesEcbPkcs5.decryptString(privateKey, key);
+    return decryted;
+  }
+
   Future<void> encryptSeedAndSave(
       String pubKey, seed, seedType, password) async {
     final String key = Encrypt.passwordToEncryptKey(password);
@@ -274,7 +288,7 @@ class KeyringPrivateStore {
       try {
         res['seed'] = await FlutterAesEcbPkcs5.decryptString(mnemonic, key);
       } catch (err) {
-        print(err);
+        // print(err);
       }
       return res;
     }
@@ -284,7 +298,7 @@ class KeyringPrivateStore {
       try {
         res['seed'] = await FlutterAesEcbPkcs5.decryptString(rawSeed, key);
       } catch (err) {
-        print(err);
+        // print(err);
       }
       return res;
     }

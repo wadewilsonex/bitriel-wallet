@@ -15,13 +15,23 @@ enum CryptoType { sr25519, ed25519 }
 class ApiKeyring {
   ApiKeyring(this.apiRoot, this.service);
 
-  final PolkawalletApi apiRoot;
+  final KabobApi apiRoot;
   final ServiceKeyring service;
 
   /// Generate a set of new mnemonic.
   Future<String> generateMnemonic() async {
     final mnemonic = await service.generateMnemonic();
     return mnemonic;
+  }
+
+  Future<bool> validateMnemonic(String mnemonic) async {
+    final res = await service.validateMnemonic(mnemonic);
+    return res;
+  }
+
+  Future<bool> validateAddress(String address) async {
+    final res = await service.validateAddress(address);
+    return res;
   }
 
   /// Import account from mnemonic/rawSeed/keystore.
@@ -183,6 +193,7 @@ class ApiKeyring {
   /// check password of account
   Future<bool> checkPassword(KeyPairData account, String pass) async {
     final res = await service.checkPassword(account.pubKey, pass);
+
     return res;
   }
 
@@ -246,10 +257,33 @@ class ApiKeyring {
     return VerifyResult.fromJson(Map<String, dynamic>.of(res));
   }
 
-  Future<dynamic> contractTransfer(
-      String senderPubKey, String to, String value, String password) async {
+  Future<Map> aCheckIn(String senderPubKey, String password, String aHash,
+      String location) async {
+    final res = await service.aCheckIn(senderPubKey, password, aHash, location);
+
+    if (res['err'] != null) {
+      throw Exception(res['err']);
+    }
+
+    return res;
+  }
+
+  Future<Map> aCheckOut(String senderPubKey, String password, String aHash,
+      String location) async {
     final res =
-        await service.contractTranfer(senderPubKey, to, value, password);
+        await service.aCheckOut(senderPubKey, password, aHash, location);
+
+    if (res['err'] != null) {
+      throw Exception(res['err']);
+    }
+    return res;
+  }
+
+  Future<dynamic> contractTransfer(String senderPubKey, String to, String value,
+      String password, String hash) async {
+    final res =
+        await service.contractTranfer(senderPubKey, to, value, password, hash);
+
     if (res['error'] != null) {
       throw Exception(res['error']);
     }
@@ -258,7 +292,7 @@ class ApiKeyring {
 
   Future<dynamic> contractTransferFrom(String from, String senderPubKey,
       String to, String value, String password) async {
-    print('contract transfer');
+    // print('contract transfer');
 
     final res = await service.contractTranferFrom(
         from, senderPubKey, to, value, password);

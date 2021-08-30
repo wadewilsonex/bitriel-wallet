@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:polkawallet_sdk/api/api.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/service/uos.dart';
@@ -14,7 +12,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 class ApiUOS {
   ApiUOS(this.apiRoot, this.service);
 
-  final PolkawalletApi apiRoot;
+  final KabobApi apiRoot;
   final ServiceUOS service;
 
   /// parse data of QR code.

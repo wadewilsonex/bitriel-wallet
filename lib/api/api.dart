@@ -13,7 +13,7 @@ import 'package:polkawallet_sdk/api/types/networkParams.dart';
 import 'package:polkawallet_sdk/service/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 
-/// The [PolkawalletApi] instance is the wrapper of `polkadot-js/api`.
+/// The [KabobApi] instance is the wrapper of `polkadot-js/api`.
 /// It provides:
 /// * [ApiKeyring] of npm package [@polkadot/keyring](https://www.npmjs.com/package/@polkadot/keyring)
 /// * [ApiSetting], the [networkConst] and [networkProperties] of `polkadot-js/api`.
@@ -22,8 +22,8 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 /// * [ApiStaking] and [ApiGov], the staking and governance module of substrate.
 /// * [ApiUOS], provides the offline-signature ability of polkawallet.
 /// * [ApiRecovery], the social-recovery module of Kusama network.
-class PolkawalletApi {
-  PolkawalletApi(this.service);
+class KabobApi {
+  KabobApi(this.service);
 
   final SubstrateService service;
 
@@ -60,7 +60,7 @@ class PolkawalletApi {
       Keyring keyringStorage, List<NetworkParams> nodes) async {
     _connectedNode = null;
     final NetworkParams res = await service.webView.connectNode(nodes);
-    print('api');
+    // print('api');
     if (res != null) {
       _connectedNode = res;
 
@@ -70,9 +70,83 @@ class PolkawalletApi {
     return res;
   }
 
-  Future<void> callContract() async {
-    await service.webView.callContract();
-    print('call Contract');
+  Future<NetworkParams> connectNon(
+      Keyring keyringStorage, List<NetworkParams> nodes) async {
+    _connectedNode = null;
+    final NetworkParams res = await service.webView.connectNon(nodes);
+
+    if (res != null) {
+      _connectedNode = res;
+
+      // update indices of keyPairs after connect
+      keyring.updateIndicesMap(keyringStorage);
+    }
+    return res;
+  }
+
+  Future<void> connectBsc() async {
+    print('coonect bsc');
+    final res = await service.webView.connectBsc();
+  }
+
+  Future<String> getPrivateKey(String mnemonic) async {
+    final res = await service.webView.getPrivateKey(mnemonic);
+    return res;
+  }
+
+  Future<bool> validateEtherAddr(String address) async {
+    final res = await service.webView.validateEtherAddr(address);
+    return res;
+  }
+
+  Future<String> swapToken(String privateKey, String amount) async {
+    final res = await service.webView.swapToken(privateKey, amount);
+    return res;
+  }
+
+  Future<List> getChainDecimal() async {
+    final res = await service.webView.getChainDecimal();
+    return res;
+  }
+
+  Future<List> getNChainDecimal() async {
+    final res = await service.webView.getNChainDecimal();
+    return res;
+  }
+
+  Future<String> callContract() async {
+    final res = await service.webView.callContract();
+    return res;
+  }
+
+  Future<String> initAttendant() async {
+    final res = await service.webView.initAttendant();
+    return res;
+  }
+
+  Future<String> getAToken(String attender) async {
+    final res = await service.webView.getAToken(attender);
+    return res;
+  }
+
+  Future<bool> getAStatus(String attender) async {
+    final res = await service.webView.getAStatus(attender);
+    return res;
+  }
+
+  Future<List> getCheckInList(String attender) async {
+    final res = await service.webView.getCheckInList(attender);
+    return res;
+  }
+
+  Future<List> getCheckOutList(String attender) async {
+    final res = await service.webView.getCheckOutList(attender);
+    return res;
+  }
+
+  Future<List> contractSymbol(String from) async {
+    final res = await service.webView.contractSymbol(from);
+    return res;
   }
 
   Future<dynamic> totalSupply(String from) async {
@@ -82,6 +156,23 @@ class PolkawalletApi {
 
   Future<dynamic> balanceOf(String from, String who) async {
     final res = await service.webView.balanceOf(who, from);
+    return res;
+  }
+
+  Future<dynamic> balanceOfByPartition(
+      String from, String who, String hash) async {
+    final res = await service.webView.balanceOfByPartition(from, who, hash);
+    return res;
+  }
+
+  Future<dynamic> getPartitionHash(String from) async {
+    final res = await service.webView.getPartitionHash(from);
+
+    return res;
+  }
+
+  Future<String> getHashBySymbol(String from, String symbol) async {
+    final res = await service.webView.getHashBySymbol(from, symbol);
     return res;
   }
 
