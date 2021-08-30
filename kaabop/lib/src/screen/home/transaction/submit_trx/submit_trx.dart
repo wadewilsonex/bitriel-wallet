@@ -6,7 +6,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
-import 'package:web3dart/web3dart.dart';
 
 class SubmitTrx extends StatefulWidget {
   final String _walletKey;
@@ -103,8 +102,8 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   String validateField(String value) {
-    if (value == '' || double.parse(value.toString()) < 0 || value == '-0') {
-      return 'Please fill in positive amount';
+    if (value == '' || double.parse(value.toString()) <= 0 || value == '-0') {
+      return 'Please fill in valid amount';
     }
 
     return null;
@@ -187,75 +186,76 @@ class SubmitTrxState extends State<SubmitTrx> {
         gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
       }
 
-      if (gasPrice != null) {
-        print('gas price: $gasPrice');
+      if (isValid && isEnough) {
+        if (gasPrice != null) {
+          print('gas price: $gasPrice');
 
-        final estAmtPrice = await trxFunc.calPrice(
-          _scanPayM.asset,
-          _scanPayM.controlAmount.text,
-        );
+          final estAmtPrice = await trxFunc.calPrice(
+            _scanPayM.asset,
+            _scanPayM.controlAmount.text,
+          );
 
-        print(estAmtPrice);
+          print(estAmtPrice);
 
-        final maxGas = await trxFunc.estMaxGas(
-          _scanPayM.asset,
-          _scanPayM.controlReceiverAddress.text,
-          _scanPayM.controlAmount.text,
-        );
+          final maxGas = await trxFunc.estMaxGas(
+            _scanPayM.asset,
+            _scanPayM.controlReceiverAddress.text,
+            _scanPayM.controlAmount.text,
+          );
 
-        print('maxGas: $maxGas');
+          print('maxGas: $maxGas');
 
-        final gasFee = double.parse(maxGas) * double.parse(gasPrice);
+          final gasFee = double.parse(maxGas) * double.parse(gasPrice);
 
-        print(gasFee);
+          print(gasFee);
 
-        final totalAmt = double.parse(_scanPayM.controlAmount.text) +
-            double.parse((gasFee / pow(10, 9)).toString());
+          final estGasFeePrice =
+              await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
 
-        print(totalAmt);
+          final totalAmt = double.parse(_scanPayM.controlAmount.text) +
+              double.parse((gasFee / pow(10, 9)).toString());
 
-        final estTotalPrice = totalAmt * double.parse(estAmtPrice.last);
+          print(totalAmt);
 
-        print(estTotalPrice);
+          final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
 
-        final estGasFeePrice =
-            (gasFee / pow(10, 9)) * double.parse(estAmtPrice.last);
+          print(estToSendPrice);
 
-        print('gasfeeprice: $estGasFeePrice');
+          final estTotalPrice = estGasFeePrice + estToSendPrice;
 
-        // final res =
-        //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+          // final res =
+          //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
 
-        // print(res);
+          // print(res);
 
-        TransactionInfo txInfo = TransactionInfo(
-          coinSymbol: _scanPayM.asset,
-          to: _scanPayM.controlReceiverAddress.text,
-          amount: _scanPayM.controlAmount.text,
-          gasPrice: gasPrice,
-          gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-          maxGas: maxGas,
-          gasFee: gasFee.toInt().toString(),
-          totalAmt: totalAmt.toString(),
-          estAmountPrice: estAmtPrice.first.toString(),
-          estTotalPrice: estTotalPrice.toStringAsFixed(2),
-          estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-        );
+          TransactionInfo txInfo = TransactionInfo(
+            coinSymbol: _scanPayM.asset,
+            to: _scanPayM.controlReceiverAddress.text,
+            amount: _scanPayM.controlAmount.text,
+            gasPrice: gasPrice,
+            gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+            maxGas: maxGas,
+            gasFee: gasFee.toInt().toString(),
+            totalAmt: totalAmt.toString(),
+            estAmountPrice: estAmtPrice.first.toString(),
+            estTotalPrice: estTotalPrice.toStringAsFixed(2),
+            estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+          );
 
-        Navigator.pop(context);
+          Navigator.pop(context);
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: ConfirmationTx(
-              trxInfo: txInfo,
+          Navigator.push(
+            context,
+            RouteAnimation(
+              enterPage: ConfirmationTx(
+                trxInfo: txInfo,
+                clickSend: clickSend,
+              ),
             ),
-          ),
-        );
-      } else {
-        Navigator.pop(context);
-
-        clickSend();
+          );
+        } else {
+          clickSend();
+        }
       }
     }
   }
@@ -461,7 +461,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       pasteText: pasteText,
                       onChanged: onChanged,
                       onSubmit: onSubmit,
-                      clickSend: validateSubmit, //clickSend,
+                      validateSubmit: validateSubmit, //clickSend,
                       validateField: validateField,
                       resetAssetsDropDown: resetAssetsDropDown,
                       list: value.listSymbol,

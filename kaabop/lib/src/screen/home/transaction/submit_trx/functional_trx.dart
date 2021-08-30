@@ -83,7 +83,8 @@ class TrxFunctional {
       privateKey =
           await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
-      await customDialog('Opps', '$e');
+      await customDialog('Opps', 'PIN verification failed');
+      // await customDialog('Opps', '$e');
     }
 
     return privateKey;
@@ -469,6 +470,33 @@ class TrxFunctional {
     }
 
     return _gasPrice;
+  }
+
+  Future<double> estGasFeePrice(double gasFee, String asset) async {
+    String marketPrice;
+
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
+
+    await MarketProvider().fetchTokenMarketPrice(context);
+
+    switch (asset) {
+      case 'BTC':
+        marketPrice = api.btc.marketData.currentPrice;
+        break;
+      case 'ETH':
+        marketPrice = contract.etherNative.marketData.currentPrice;
+        break;
+      default:
+        marketPrice = contract.bnbSmartChain.marketData.currentPrice;
+        break;
+    }
+
+    final estGasFeePrice = (gasFee / pow(10, 9)) * double.parse(marketPrice);
+
+    print('gasfeeprice: $estGasFeePrice');
+
+    return estGasFeePrice;
   }
 
   Future<List> calPrice(String asset, String amount) async {

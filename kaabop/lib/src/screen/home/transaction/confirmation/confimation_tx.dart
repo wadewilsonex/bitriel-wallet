@@ -5,14 +5,18 @@ import 'package:wallet_apps/src/models/trx_info.dart';
 
 class ConfirmationTx extends StatelessWidget {
   final TransactionInfo trxInfo;
+  final Function clickSend;
   const ConfirmationTx({
     Key key,
     this.trxInfo,
+    this.clickSend,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final startPart = trxInfo.to.substring(0, 5);
+    final endPart = trxInfo.to.substring(trxInfo.to.length - 4);
     return Scaffold(
       body: BodyScaffold(
         child: Column(
@@ -49,7 +53,7 @@ class ConfirmationTx extends StatelessWidget {
               //fontWeight: FontWeight.bold,
             ),
             SizedBox(
-              height: 42,
+              height: MediaQuery.of(context).size.height * 0.05,
             ),
             Divider(
               color: isDarkTheme
@@ -57,21 +61,34 @@ class ConfirmationTx extends StatelessWidget {
                   : hexaCodeToColor(AppColors.darkSecondaryText),
               height: 1.0,
             ),
-
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
               child: Column(
                 children: [
-                  MyText(
-                    textAlign: TextAlign.left,
-                    width: double.infinity,
-                    text: 'TO: ${trxInfo.to}',
-                    fontSize: 16.0,
-                    overflow: TextOverflow.ellipsis,
-                    color: isDarkTheme
-                        ? AppColors.darkSecondaryText
-                        : AppColors.textColor,
-                    //fontWeight: FontWeight.bold,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyText(
+                        text: 'TO:',
+                        fontSize: 16.0,
+                        color: isDarkTheme
+                            ? AppColors.darkSecondaryText
+                            : AppColors.textColor,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                      MyText(
+                        textAlign: TextAlign.left,
+
+                        text: '${startPart + '...' + endPart}',
+                        fontSize: 16.0,
+                        bottom: 8.0,
+                        overflow: TextOverflow.ellipsis,
+                        color: isDarkTheme
+                            ? AppColors.darkSecondaryText
+                            : AppColors.textColor,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,6 +96,7 @@ class ConfirmationTx extends StatelessWidget {
                       MyText(
                         text: 'GAS FEE:',
                         fontSize: 16.0,
+                        top: 8.0,
                         color: isDarkTheme
                             ? AppColors.darkSecondaryText
                             : AppColors.textColor,
@@ -89,6 +107,7 @@ class ConfirmationTx extends StatelessWidget {
                           MyText(
                             text: trxInfo.gasFee,
                             fontSize: 22.0,
+                            top: 8.0,
                             fontWeight: FontWeight.bold,
                             color: isDarkTheme
                                 ? AppColors.whiteColorHexa
@@ -159,7 +178,7 @@ class ConfirmationTx extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
-                vertical: 32.0,
+                vertical: 28.0,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,7 +219,7 @@ class ConfirmationTx extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.03,
             ),
             Column(
               children: [
@@ -209,31 +228,12 @@ class ConfirmationTx extends StatelessWidget {
                   edgeMargin:
                       const EdgeInsets.only(left: 42, right: 42, bottom: 16),
                   textButton: 'CONFIRM',
-                  action: () {},
+                  action: () {
+                    clickSend();
+                  },
                 ),
-                // MyFlatButton(
-                //   buttonColor:
-                //       isDarkTheme ? AppColors.darkSecondaryText : '#F5F5F5',
-                //   textColor: AppColors.darkGrey,
-                //   //hasShadow: true,
-                //   edgeMargin:
-                //       const EdgeInsets.only(left: 42, right: 42, bottom: 16),
-                //   textButton: 'CANCEL',
-                //   action: () {},
-                // )
               ],
             ),
-            // Expanded(
-            //   child: Container(
-            //     height: double.infinity,
-            //     child: Row(
-            //       mainAxisSize: MainAxisSize.max,
-            //       children: [
-
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

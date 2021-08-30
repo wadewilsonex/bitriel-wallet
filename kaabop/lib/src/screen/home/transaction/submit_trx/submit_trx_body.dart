@@ -8,7 +8,8 @@ class SubmitTrxBody extends StatelessWidget {
   final String Function(String) onChanged;
   final String Function(String) validateField;
   final Function onSubmit;
-  final void Function() clickSend;
+  final Function clickSend;
+  final void Function() validateSubmit;
   final Function(String) resetAssetsDropDown;
 
   final List<String> list;
@@ -23,6 +24,7 @@ class SubmitTrxBody extends StatelessWidget {
     this.validateField,
     this.onSubmit,
     this.clickSend,
+    this.validateSubmit,
     this.resetAssetsDropDown,
     this.item,
     this.list,
@@ -158,7 +160,7 @@ class SubmitTrxBody extends StatelessWidget {
                         right: 66,
                       ),
                       hasShadow: scanPayM.enable,
-                      action: scanPayM.enable ? clickSend : null,
+                      action: scanPayM.enable ? validateSubmit : null,
                     ),
                   ],
                 ),
