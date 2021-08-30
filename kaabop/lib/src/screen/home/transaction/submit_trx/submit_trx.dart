@@ -297,17 +297,19 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             // Get Private Key Only BTC Contract
             if (_scanPayM.asset == 'BTC') {
-              await trxFunc.getBtcPrivateKey(resPin);
+              trxFunc.privateKey = await trxFunc.getBtcPrivateKey(resPin);
+            } else {
+              trxFunc.privateKey = await trxFunc.getPrivateKey(resPin);
             }
             // Get Private Key For Other Contract
-            else
-              await trxFunc.getPrivateKey(resPin);
 
             /* ------------------Check PIN------------ */
             // Pin Incorrect And Private Key Response NULL
             if (trxFunc.privateKey == null) {
               // Close Second Dialog
               Navigator.pop(context);
+
+              print('null');
 
               await trxFunc.customDialog('Opps', 'PIN verification failed');
             }

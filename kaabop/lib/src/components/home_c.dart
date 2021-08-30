@@ -399,9 +399,7 @@ class MyBottomAppBar extends StatelessWidget {
                 onPressed: !apiStatus
                     ? null
                     : () async {
-                        Navigator.pushNamed(
-                            context, AppString.confirmationTxView);
-                        //Navigator.pushNamed(context, AppString.contactBookView);
+                        Navigator.pushNamed(context, AppString.contactBookView);
                       },
               ),
             ),

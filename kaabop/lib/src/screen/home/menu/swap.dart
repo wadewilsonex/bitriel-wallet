@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 class Swap extends StatefulWidget {
   @override
@@ -67,7 +66,12 @@ class _SwapState extends State<Swap> {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Oops', e.message.toString());
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Opps', e.message.toString());
+      }
     }
     return _hash;
   }
@@ -84,8 +88,15 @@ class _SwapState extends State<Swap> {
     } catch (e) {
       Navigator.pop(context);
       print(e.message);
-      await customDialog(
-          'Transaction failed', 'Something went wrong with your transaction.');
+
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Transaction failed',
+            'Something went wrong with your transaction.');
+        // await customDialog('Opps', e.message.toString());
+      }
     }
 
     return _hash;

@@ -190,6 +190,12 @@ class ContractProvider with ChangeNotifier {
     return gasPrice;
   }
 
+  Future<EtherAmount> getSelGasPrice() async {
+    initSelClient();
+    final gasPrice = await _selClient.getGasPrice();
+    return gasPrice;
+  }
+
   Future<void> getBtcMaxGas() async {}
 
   Future<String> getBnbMaxGas(String reciever, String amount) async {
@@ -217,6 +223,19 @@ class ContractProvider with ChangeNotifier {
     return maxGas.toString();
   }
 
+  Future<String> getSelMaxGas(String reciever, String amount) async {
+    initSelClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _selClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
+    return maxGas.toString();
+  }
+
   Future<String> getBep20MaxGas(
       String contractAddr, String reciever, String amount) async {
     initBscClient();
@@ -236,12 +255,6 @@ class ContractProvider with ChangeNotifier {
     );
 
     return maxGas.toString();
-  }
-
-  Future<EtherAmount> getSelGasPrice() async {
-    initSelClient();
-    final gasPrice = await _selClient.getGasPrice();
-    return gasPrice;
   }
 
   Future<EtherAmount> getBscGasPrice() async {

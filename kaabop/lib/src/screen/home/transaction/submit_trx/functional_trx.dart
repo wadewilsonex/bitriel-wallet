@@ -72,7 +72,9 @@ class TrxFunctional {
       privateKey =
           await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
-      await customDialog('Opps', 'PIN verification failed');
+      // Navigator.pop(context);
+      // print('1');
+      // await customDialog('Opps', 'PIN verification failed');
     }
 
     return privateKey;
@@ -83,8 +85,9 @@ class TrxFunctional {
       privateKey =
           await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
-      await customDialog('Opps', 'PIN verification failed');
-      // await customDialog('Opps', '$e');
+      // Navigator.pop(context);
+      // print('2');
+      // await customDialog('Opps', 'PIN verification failed');
     }
 
     return privateKey;
@@ -145,7 +148,12 @@ class TrxFunctional {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Opps', e.message.toString());
+      }
     }
   }
 
@@ -176,7 +184,13 @@ class TrxFunctional {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
+      print(e.message.toString());
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Opps', e.message.toString());
+      }
     }
   }
 
@@ -201,7 +215,12 @@ class TrxFunctional {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Opps', e.message.toString());
+      }
     }
   }
 
@@ -244,52 +263,46 @@ class TrxFunctional {
   Future<String> sendTx(String target, String amount) async {
     String mhash;
 
-    final res = await validateAddress(target);
+    //final res = await validateAddress(target);
 
-    if (res) {
-      final sender = TxSenderData(
-        ApiProvider.keyring.current.address,
-        ApiProvider.keyring.current.pubKey,
-      );
-      final txInfo = TxInfoData('balances', 'transfer', sender);
-      final chainDecimal = Provider.of<ApiProvider>(context, listen: false)
-          .selNative
-          .chainDecimal;
-      try {
-        final hash = await ApiProvider.sdk.api.tx.signAndSend(
-            txInfo,
-            [
-              target,
-              Fmt.tokenInt(
-                amount.trim(),
-                int.parse(chainDecimal),
-              ).toString(),
-            ],
-            pin,
-            onStatusChange: (status) async {});
+    final sender = TxSenderData(
+      ApiProvider.keyring.current.address,
+      ApiProvider.keyring.current.pubKey,
+    );
+    final txInfo = TxInfoData('balances', 'transfer', sender);
+    final chainDecimal =
+        Provider.of<ApiProvider>(context, listen: false).selNative.chainDecimal;
+    try {
+      final hash = await ApiProvider.sdk.api.tx.signAndSend(
+          txInfo,
+          [
+            target,
+            Fmt.tokenInt(
+              amount.trim(),
+              int.parse(chainDecimal),
+            ).toString(),
+          ],
+          pin,
+          onStatusChange: (status) async {});
 
-        if (hash != null) {
-          await saveTxHistory(TxHistory(
-            date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-            symbol: 'SEL',
-            destination: target,
-            sender: ApiProvider.keyring.current.address,
-            org: 'SELENDRA',
-            amount: amount.trim(),
-          ));
+      if (hash != null) {
+        await saveTxHistory(TxHistory(
+          date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
+          symbol: 'SEL',
+          destination: target,
+          sender: ApiProvider.keyring.current.address,
+          org: 'SELENDRA',
+          amount: amount.trim(),
+        ));
 
-          await enableAnimation();
-        } else {
-          Navigator.pop(context);
-          await customDialog('Opps', 'Something went wrong!');
-        }
-      } catch (e) {
+        await enableAnimation();
+      } else {
         Navigator.pop(context);
-        await customDialog('Opps', e.message.toString());
+        await customDialog('Opps', 'Something went wrong!');
       }
-    } else {
+    } catch (e) {
       Navigator.pop(context);
-      await customDialog('Opps', 'Invalid Address');
+      await customDialog('Opps', e.message.toString());
     }
 
     return mhash;
@@ -429,8 +442,14 @@ class TrxFunctional {
     switch (asset) {
       case "SEL":
         final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
-        print('sel $res');
         _isValid = res;
+
+        // if (res) {
+        //   _isValid = res;
+        // } else {
+        //   final res = await ContractProvider().validateEvmAddr(address);
+        //   _isValid = res;
+        // }
         break;
       case "DOT":
         final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
@@ -468,6 +487,10 @@ class TrxFunctional {
     } else if (asset == 'BTC') {
       _gasPrice = '88';
     }
+    // else if (asset == 'SEL') {
+    //   final res = await ContractProvider().getSelGasPrice();
+    //   _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
+    // }
 
     return _gasPrice;
   }
@@ -487,6 +510,9 @@ class TrxFunctional {
       case 'ETH':
         marketPrice = contract.etherNative.marketData.currentPrice;
         break;
+      // case 'SEL':
+      //   marketPrice = null;
+      //   break;
       default:
         marketPrice = contract.bnbSmartChain.marketData.currentPrice;
         break;
@@ -558,7 +584,6 @@ class TrxFunctional {
         maxGas = await contract.getBep20MaxGas(
             AppConfig.selv2MainnetAddr, reciever, amount);
         break;
-
       case 'KGO (BEP-20)':
         maxGas =
             await contract.getBep20MaxGas(AppConfig.kgoAddr, reciever, amount);
@@ -566,10 +591,7 @@ class TrxFunctional {
       case 'BNB':
         maxGas = await contract.getBnbMaxGas(reciever, amount);
         break;
-      default:
-        break;
     }
-
     return maxGas;
   }
 }

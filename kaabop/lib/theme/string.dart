@@ -56,6 +56,16 @@ class AppString {
   //for loading balance pattern
   static const String loadingPattern = '--.--';
 
+  //transaction confirmation
+  static const amtToSend = 'Amount To Send:';
+  static const to = 'TO:';
+  static const gasFee = 'GAS FEE:';
+  static const gasPrice = 'Gas Price';
+  static const gasLimit = 'Gas Limit:';
+  static const total = 'TOTAL';
+  static const amtPGasFee = 'AMOUNT + GAS FEE';
+  static const confirm = 'CONFIRM';
+
   //swap screen description
   static const String swapNote = 'Swapping Note';
   static const String swapfirstNote =

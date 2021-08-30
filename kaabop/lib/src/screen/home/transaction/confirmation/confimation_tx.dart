@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/trx_info.dart';
 
 class ConfirmationTx extends StatelessWidget {
   final TransactionInfo trxInfo;
@@ -32,7 +30,7 @@ class ConfirmationTx extends StatelessWidget {
             ),
             MyText(
               top: 32.0,
-              text: 'Amount To Send:',
+              text: AppString.amtToSend,
               fontSize: 22,
               color: isDarkTheme
                   ? AppColors.darkSecondaryText
@@ -43,14 +41,14 @@ class ConfirmationTx extends StatelessWidget {
               text: '${trxInfo.amount} ${trxInfo.coinSymbol}',
               fontSize: 32,
               fontWeight: FontWeight.bold,
+              overflow: TextOverflow.ellipsis,
               color:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             ),
             MyText(
               top: 8.0,
-              text: trxInfo.estAmountPrice, //'≈ \$0.00',
+              text: '≈ ${trxInfo.estAmountPrice}' ?? '≈ \$0.00', //'≈ \$0.00',
               color: AppColors.darkSecondaryText,
-              //fontWeight: FontWeight.bold,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
@@ -65,107 +63,93 @@ class ConfirmationTx extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyText(
-                        text: 'TO:',
-                        fontSize: 16.0,
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      MyText(
-                        textAlign: TextAlign.left,
-
-                        text: '${startPart + '...' + endPart}',
-                        fontSize: 16.0,
-                        bottom: 8.0,
-                        overflow: TextOverflow.ellipsis,
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyText(
-                        text: 'GAS FEE:',
-                        fontSize: 16.0,
-                        top: 8.0,
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      Column(
-                        children: [
-                          MyText(
-                            text: trxInfo.gasFee,
-                            fontSize: 22.0,
-                            top: 8.0,
-                            fontWeight: FontWeight.bold,
-                            color: isDarkTheme
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
-                            //fontWeight: FontWeight.bold,
-                          ),
-                          MyText(
-                            top: 8.0,
-                            text: '\$${trxInfo.estGasFeePrice}' ?? '≈ \$0.00',
-                            color: AppColors.darkSecondaryText,
-                            //fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyText(
-                        top: 32.0,
-                        text: 'Gas Price ${trxInfo.gasPriceUnit}:',
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                      MyText(
-                        top: 32.0,
-                        text: '  ${trxInfo.gasPrice}',
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        //fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyText(
-                        top: 16.0,
-                        text: 'Gas Limit:',
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
-                      ),
-                      MyText(
-                        top: 16.0,
-                        text: '  ${trxInfo.maxGas}',
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                      ),
-                    ],
-                  )
+                  spaceRow([
+                    MyText(
+                      text: AppString.to,
+                      fontSize: 16.0,
+                      color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                    MyText(
+                      textAlign: TextAlign.left,
+                      text: '${startPart + '...' + endPart}',
+                      fontSize: 16.0,
+                      bottom: 8.0,
+                      overflow: TextOverflow.ellipsis,
+                      color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                  ]),
+                  spaceRow([
+                    MyText(
+                      text: AppString.gasFee,
+                      fontSize: 16.0,
+                      top: 8.0,
+                      color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
+                    ),
+                    Column(
+                      children: [
+                        MyText(
+                          text: trxInfo.gasFee,
+                          fontSize: 22.0,
+                          top: 8.0,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkTheme
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
+                          //fontWeight: FontWeight.bold,
+                        ),
+                        MyText(
+                          top: 8.0,
+                          text: '≈ \$${trxInfo.estGasFeePrice}' ?? '≈ \$0.00',
+                          color: AppColors.darkSecondaryText,
+                          //fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ]),
+                  spaceRow([
+                    MyText(
+                      top: 32.0,
+                      text: '${AppString.gasPrice} ${trxInfo.gasPriceUnit}:',
+                      color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                    MyText(
+                      top: 32.0,
+                      text: '  ${trxInfo.gasPrice}',
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                      //fontWeight: FontWeight.bold,
+                    ),
+                  ]),
+                  spaceRow([
+                    MyText(
+                      top: 16.0,
+                      text: AppString.gasLimit,
+                      color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
+                    ),
+                    MyText(
+                      top: 16.0,
+                      text: '  ${trxInfo.maxGas}',
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                    ),
+                  ])
                 ],
               ),
             ),
@@ -176,15 +160,13 @@ class ConfirmationTx extends StatelessWidget {
               height: 1.0,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 28.0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 28.0,
+                ),
+                child: spaceRow([
                   MyText(
-                    text: 'TOTAL',
+                    text: AppString.total,
                     color: isDarkTheme
                         ? AppColors.darkSecondaryText
                         : AppColors.textColor,
@@ -194,7 +176,7 @@ class ConfirmationTx extends StatelessWidget {
                     children: [
                       MyText(
                         top: 8.0,
-                        text: 'AMOUNT + GAS FEE',
+                        text: AppString.amtPGasFee,
                         fontSize: 16.0,
                         color: AppColors.darkSecondaryText,
                         //fontWeight: FontWeight.bold,
@@ -209,25 +191,22 @@ class ConfirmationTx extends StatelessWidget {
                       ),
                       MyText(
                         top: 8.0,
-                        text: '\$${trxInfo.estTotalPrice}', //'≈ \$0.00',
+                        text: '≈ \$${trxInfo.estTotalPrice}', //'≈ \$0.00',
                         color: AppColors.darkSecondaryText,
                         //fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ])),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
             ),
             Column(
               children: [
                 MyFlatButton(
-                  // hasShadow: true,
                   edgeMargin:
                       const EdgeInsets.only(left: 42, right: 42, bottom: 16),
-                  textButton: 'CONFIRM',
+                  textButton: AppString.confirm,
                   action: () {
                     clickSend();
                   },
@@ -237,6 +216,13 @@ class ConfirmationTx extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget spaceRow(List<Widget> children) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: children,
     );
   }
 }

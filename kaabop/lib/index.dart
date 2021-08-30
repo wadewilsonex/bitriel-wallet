@@ -31,6 +31,7 @@ export 'package:qr_flutter/qr_flutter.dart';
 export 'package:responsive_framework/responsive_framework.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:store_redirect/store_redirect.dart';
+export 'package:provider/provider.dart';
 //Component
 export 'package:wallet_apps/src/components/animation.dart';
 export 'package:wallet_apps/src/components/bottom_sheet.dart';
@@ -110,9 +111,13 @@ export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset_body.dart';
 /* Menu Screen */
 export 'package:wallet_apps/src/screen/home/menu/menu.dart';
 export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 export 'package:wallet_apps/src/screen/home/menu/about.dart';
 export 'package:wallet_apps/src/screen/home/menu/swap.dart';
+
+//Transaction confirmation
+export 'package:wallet_apps/src/models/trx_info.dart';
 
 // Transaction Activiity
 export 'package:wallet_apps/src/screen/home/menu/trx_activity/reuse_activity_widget.dart';

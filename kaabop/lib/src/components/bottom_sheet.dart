@@ -39,6 +39,7 @@ class MyBottomSheet {
                       subTitle: "Scan wallet",
                       icon: "icons/qr_code.svg",
                       action: () async {
+                        Navigator.pop(context);
                         try {
                           await TrxOptionMethod.scanQR(
                             context,
@@ -55,6 +56,7 @@ class MyBottomSheet {
                       icon: "icons/form.svg",
                       subTitle: "Fill wallet",
                       action: () {
+                        Navigator.pop(context);
                         TrxOptionMethod.navigateFillAddress(
                           context,
                           portfolioList,
@@ -69,6 +71,7 @@ class MyBottomSheet {
                       action: () async {
                         // TrxOptionMethod.selectContact(
                         //     context, portfolioList);
+                        Navigator.pop(context);
                         await dialog(
                           context,
                           'Coming Soon !',
