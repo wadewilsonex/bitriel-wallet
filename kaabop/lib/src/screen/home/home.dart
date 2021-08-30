@@ -134,10 +134,10 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     
     /* -----------------------Pie Chart----------------------- */
     // Fetch 5 Asset From Market
-    await market.fetchTokenMarketPrice(context);
-
-    // Fill 5 Asset Into Pie Chart
-    wallet.fillWithMarketData(context);
+    market.fetchTokenMarketPrice(context).then((value) async {
+      // Fill 5 Asset Into Pie Chart
+      await wallet.fillWithMarketData(context);
+    });
   }
 
   @override
@@ -152,7 +152,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       
       // AnnotatedRegion Use For System Icon Above SafeArea
-      body: Column(children: [
+      body: Column(
+        children: [
           SafeArea(child: homeAppBar(context)),
           Divider(
             height: 2,
@@ -160,9 +161,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
           ),
           Flexible(
             child: RefreshIndicator(
-              onRefresh: () async {
-                await scrollRefresh();
-              },
+              onRefresh: () async => await scrollRefresh(),
               child: BodyScaffold(
                 bottom: 0,
                 isSafeArea: false,
@@ -170,7 +169,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
               ),
             ),
           ),
-        ]),
+        ]
+      ),
 
       floatingActionButton: Container(
         width: 65,

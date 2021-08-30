@@ -43,7 +43,6 @@ class AppState extends State<App> {
 
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();
-        await apiProvider.connectPolNon();
 
         await contractProvider.getBscBalance();
         await contractProvider.getBscV2Balance();  
@@ -51,6 +50,8 @@ class AppState extends State<App> {
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
 
+        // This Method Is Also Request Dot Contract
+        await apiProvider.connectPolNon();
         await isBtcContain();
         
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property

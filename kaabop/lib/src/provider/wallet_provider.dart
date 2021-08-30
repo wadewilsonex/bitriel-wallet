@@ -21,12 +21,12 @@ class WalletProvider with ChangeNotifier {
   List<Color> pieColorList = const [
     Color(0xFFff7675),
     Color(0xFF74b9ff),
-    Color(0xFF55efc4),
     Color(0xFFffeaa7),
+    Color(0xFF05ff1a),
     Color(0xFFa29bfe),
-    Color(0xFFfd79a8),
-    Color(0xFFe17055),
     Color(0xFF00b894),
+    Color(0xFF55efc4),
+    Color(0xFFfd79a8),
   ];
 
   Map<String, double> dataMap = {};
@@ -38,8 +38,12 @@ class WalletProvider with ChangeNotifier {
   // 3. Take Eacher Data Divided To Multple By 100 To Get Percentage
   // For Pie Chart
   Future<void> fillWithMarketData(context){
+
     _portfolioM.clear();
+    dataMap.clear();
+
     double temp = 0.0, total = 0.0, percen = 0.0;
+
     final market = Provider.of<MarketProvider>(context, listen: false);
     
     // Find Total Of All Asset
@@ -47,7 +51,7 @@ class WalletProvider with ChangeNotifier {
       if (element['current_price'].runtimeType.toString() == 'int'){
         // To Convert Integer To Double By Plus With .0
         total = total + ((element['current_price']) + .0);
-      } else  total += element['current_price'];
+      } else total += element['current_price'];
     });
 
     // Loop Add Eacher Asset From Market

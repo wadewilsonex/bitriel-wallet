@@ -56,7 +56,7 @@ class PortFolioCus extends StatelessWidget {
                         ringStrokeWidth: 15,
                         dataMap: value.dataMap,
                         chartType: ChartType.ring,
-                        //colorList: value.pieColorList,
+                        colorList: value.pieColorList,
                         centerText: "100%",
                         legendOptions: const LegendOptions(
                           showLegends: false,
@@ -90,16 +90,13 @@ class PortFolioCus extends StatelessWidget {
                 : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    value.portfolio.length,
-                    (index) {
-                      return MyPieChartRow(
-                        color: value.portfolio[index].color,
-                        centerText: value.portfolio[index].symbol,
-                        endText: value.portfolio[index].percentage,
-                      );
-                    },
-                  ),
+                  children: List.generate(value.portfolio.length, (index) {
+                    return MyPieChartRow(
+                      color: value.portfolio[index].color,
+                      centerText: value.portfolio[index].symbol,
+                      endText: value.portfolio[index].percentage,
+                    );
+                  }),
                 );
               },
             ),

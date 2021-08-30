@@ -12,21 +12,21 @@ class HomeBody extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        // Pie Chart With List Asset
+        // Pie Chart With List Asset Market
         PortFolioCus(),
 
         Consumer<ContractProvider>(builder: (context, value, child) {
           return value.isReady
             // Asset List As Row
             ? AnimatedOpacity(
-                opacity: value.isReady ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 500),
-                child: AssetList(),
-              )
+              opacity: value.isReady ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 500),
+              child: AssetList(),
+            )
             // Loading Data Effect Shimmer
             : MyShimmer(
-                isDarkTheme: isDarkTheme,
-              );
+              isDarkTheme: isDarkTheme,
+            );
         }),
       ],
     );

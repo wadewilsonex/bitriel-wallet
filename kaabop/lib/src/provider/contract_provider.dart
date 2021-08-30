@@ -228,6 +228,7 @@ class ContractProvider with ChangeNotifier {
 
   void subscribeBscbalance(BuildContext context) async {
     await initClient();
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     try {
       final res = _web3client.addedBlocks();
 
@@ -239,13 +240,28 @@ class ContractProvider with ChangeNotifier {
           await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
         });
 
-        // await sortAsset();
+        await isBtcContain(apiPro, context);
+
+        await apiPro.getDotChainDecimal();
+        
         // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
         print("Done");
       });
     } catch (e) {
       print(e.message);
+    }
+  }
+
+  Future<void> isBtcContain(ApiProvider apiPro, BuildContext context) async {
+    final res = await StorageServices.fetchData('bech32');
+
+    if (res != null) {
+      apiPro.isBtcAvailable('contain');
+
+      apiPro.setBtcAddr(res.toString());
+      Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+      await apiPro.getBtcBalance(res.toString());
     }
   }
 

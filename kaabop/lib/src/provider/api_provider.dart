@@ -137,7 +137,7 @@ class ApiProvider with ChangeNotifier {
     if (res != null) {
       _isConnected = true;
 
-      getNChainDecimal();
+      getDotChainDecimal();
     }
 
     notifyListeners();
@@ -339,14 +339,7 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.getChainDecimal();
     nativeM.chainDecimal = res[0].toString();
 
-    subscribeBalance();
-    notifyListeners();
-  }
-
-  Future<void> getNChainDecimal() async {
-    final res = await sdk.api.getNChainDecimal();
-    dot.chainDecimal = res[0].toString();
-    subscribeNBalance();
+    await subscribeBalance();
     notifyListeners();
   }
 
@@ -361,12 +354,21 @@ class ApiProvider with ChangeNotifier {
     });
   }
 
-  Future<void> subscribeNBalance() async {
+  Future<void> getDotChainDecimal() async {
+    final res = await sdk.api.getNChainDecimal();
+    dot.chainDecimal = res[0].toString();
+    await subscribeDotBalance();
+
+    notifyListeners();
+  }
+
+  Future<void> subscribeDotBalance() async {
     await sdk.api.account.subscribeNBalance(keyring.current.address, (res) {
       dot.balance = Fmt.balance(
         res.freeBalance.toString(),
         int.parse(dot.chainDecimal),
       );
+
       dot.lineChartModel = LineChartModel().prepareGraphChart(dot);
       notifyListeners();
     });

@@ -28,16 +28,10 @@ class LineChartModel {
 
   LineChartModel prepareGraphChart(SmartContractModel contract) {
 
-    // print(contract.symbol);
-    // if (contract.symbol == 'KGO'){
-    //   print(contract.lineChartData);
-    // }
-    // print(contract.lineChartData);
+    contract.lineChartModel.values.clear();
 
     double minY = double.maxFinite;
     double maxY = double.minPositive;
-    
-    contract.lineChartModel.values.clear();
 
     // To Prevent Null Of Line Chart
     if (contract.lineChartData != null){
