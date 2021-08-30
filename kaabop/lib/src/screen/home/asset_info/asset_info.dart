@@ -349,7 +349,7 @@ class _AssetInfoState extends State<AssetInfo> {
                               MyText(
                                 fontSize: 18.0,
                                 color: isDarkTheme
-                                    ? "#FFFFFF"
+                                    ? AppColors.whiteHexaColor
                                     : AppColors.blackColor,
                                 text: widget.id == null
                                     ? widget.tokenSymbol

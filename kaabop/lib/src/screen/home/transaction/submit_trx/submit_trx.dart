@@ -254,6 +254,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             ),
           );
         } else {
+          Navigator.pop(context);
           clickSend();
         }
       }
@@ -271,7 +272,6 @@ class SubmitTrxState extends State<SubmitTrx> {
         });
 
         // Start Loading Before Dialog Pin
-        dialogLoading(context);
 
         // Init member variables of Trx Functional
         trxFunc.contract =
@@ -283,7 +283,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             .readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : 'private');
 
         // Close Dialog
-        Navigator.pop(context);
+        //Navigator.pop(context);
 
         // Show Dialog Fill PIN
         await dialogBox().then((resPin) async {
@@ -336,10 +336,10 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 case "SEL (BEP-20)":
                   final chainDecimal = await ContractProvider()
-                      .query(AppConfig.selV1MainnetAddr, 'decimals', []);
+                      .query(AppConfig.oSEL, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.selV1MainnetAddr,
+                        AppConfig.oSEL,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);
@@ -350,10 +350,11 @@ class SubmitTrxState extends State<SubmitTrx> {
                       .query(AppConfig.selv2MainnetAddr, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.selv2MainnetAddr,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
+                      AppConfig.selv2MainnetAddr,
+                      chainDecimal[0].toString(),
+                      _scanPayM.controlReceiverAddress.text,
+                      _scanPayM.controlAmount.text,
+                    );
                   }
                   break;
 

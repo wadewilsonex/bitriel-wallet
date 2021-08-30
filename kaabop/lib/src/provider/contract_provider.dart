@@ -71,7 +71,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> initBscClient() async {
     _httpClient = Client();
     _bscClient =
-        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
+        Web3Client(AppConfig.bscTestNet, _httpClient, socketConnector: () {
       return IOWebSocketChannel.connect(AppConfig.bscWs).cast<String>();
     });
   }
@@ -205,6 +205,7 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: EthereumAddress.fromHex(reciever),
+      gasPrice: EtherAmount.inWei(BigInt.from(20)),
       value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
 
@@ -243,9 +244,11 @@ class ContractProvider with ChangeNotifier {
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
     final txFunction = bep20Contract.function('transfer');
+
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
-      to: EthereumAddress.fromHex(reciever),
+      to: EthereumAddress.fromHex(contractAddr),
+      //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
       data: txFunction.encodeCall(
         [
           EthereumAddress.fromHex(reciever),
@@ -253,6 +256,11 @@ class ContractProvider with ChangeNotifier {
         ],
       ),
     );
+
+    print(txFunction.encodeCall([
+      EthereumAddress.fromHex(reciever),
+      BigInt.from(double.parse(amount) * pow(10, 18))
+    ]));
 
     return maxGas.toString();
   }
@@ -424,7 +432,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscDecimal() async {
-    final res = await query(AppConfig.selV1MainnetAddr, 'decimals', []);
+    final res = await query(AppConfig.oSEL, 'decimals', []);
 
     selBsc.chainDecimal = res[0].toString();
 
@@ -432,7 +440,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getSymbol() async {
-    final res = await query(AppConfig.selV1MainnetAddr, 'symbol', []);
+    final res = await query(AppConfig.oSEL, 'symbol', []);
 
     selBsc.symbol = res[0].toString();
     notifyListeners();
@@ -489,8 +497,8 @@ class ContractProvider with ChangeNotifier {
     selBsc.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(
+          AppConfig.oSEL, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
       selBsc.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(selBsc.chainDecimal),

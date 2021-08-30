@@ -270,6 +270,7 @@ class TrxFunctional {
       ApiProvider.keyring.current.pubKey,
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
+
     final chainDecimal =
         Provider.of<ApiProvider>(context, listen: false).selNative.chainDecimal;
     try {
@@ -285,15 +286,16 @@ class TrxFunctional {
           pin,
           onStatusChange: (status) async {});
 
+      print('myhash: $hash');
       if (hash != null) {
-        await saveTxHistory(TxHistory(
-          date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-          symbol: 'SEL',
-          destination: target,
-          sender: ApiProvider.keyring.current.address,
-          org: 'SELENDRA',
-          amount: amount.trim(),
-        ));
+        // await saveTxHistory(TxHistory(
+        //   date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
+        //   symbol: 'SEL',
+        //   destination: target,
+        //   sender: ApiProvider.keyring.current.address,
+        //   org: 'SELENDRA',
+        //   amount: amount.trim(),
+        // ));
 
         await enableAnimation();
       } else {
@@ -302,6 +304,8 @@ class TrxFunctional {
       }
     } catch (e) {
       Navigator.pop(context);
+
+      print(e.message.toString());
       await customDialog('Opps', e.message.toString());
     }
 
@@ -344,7 +348,8 @@ class TrxFunctional {
     switch (asset) {
       case "SEL":
         print(api.selNative.balance);
-        if (double.parse(api.selNative.balance) < double.parse(amount)) {
+        final withoutComma = api.selNative.balance.replaceAll(RegExp(','), '');
+        if (double.parse(withoutComma) < double.parse(amount)) {
           print('not enough');
           _enough = false;
         }
@@ -353,7 +358,8 @@ class TrxFunctional {
         break;
       case "DOT":
         print(api.dot.balance);
-        if (double.parse(api.dot.balance) < double.parse(amount)) {
+        final withoutComma = api.dot.balance.replaceAll(RegExp(','), '');
+        if (double.parse(withoutComma) < double.parse(amount)) {
           print('not enough');
           _enough = false;
         }
@@ -577,8 +583,8 @@ class TrxFunctional {
         maxGas = await contract.getEthMaxGas(reciever, amount);
         break;
       case 'SEL (BEP-20)':
-        maxGas = await contract.getBep20MaxGas(
-            AppConfig.selV1MainnetAddr, reciever, amount);
+        maxGas =
+            await contract.getBep20MaxGas(AppConfig.oSEL, reciever, amount);
         break;
       case 'SEL v2 (BEP-20)':
         maxGas = await contract.getBep20MaxGas(
