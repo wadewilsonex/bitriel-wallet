@@ -37,7 +37,7 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new com.zt.shareextend.ShareExtendPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin());
       com.jaumard.smsautofill.SmsAutoFillPlugin.registerWith(shimPluginRegistry.registrarFor("com.jaumard.smsautofill.SmsAutoFillPlugin"));
-      com.danieldallos.storeredirect.StoreRedirectPlugin.registerWith(shimPluginRegistry.registrarFor("com.danieldallos.storeredirect.StoreRedirectPlugin"));
+    flutterEngine.getPlugins().add(new com.danieldallos.storeredirect.StoreRedirectPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());
     flutterEngine.getPlugins().add(new com.benjaminabel.vibration.VibrationPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.webviewflutter.WebViewFlutterPlugin());
