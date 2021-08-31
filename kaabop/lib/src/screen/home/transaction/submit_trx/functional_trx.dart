@@ -583,8 +583,8 @@ class TrxFunctional {
         maxGas = await contract.getEthMaxGas(reciever, amount);
         break;
       case 'SEL (BEP-20)':
-        maxGas =
-            await contract.getBep20MaxGas(AppConfig.oSEL, reciever, amount);
+        maxGas = await contract.getBep20MaxGas(
+            AppConfig.selV1MainnetAddr, reciever, amount);
         break;
       case 'SEL v2 (BEP-20)':
         maxGas = await contract.getBep20MaxGas(

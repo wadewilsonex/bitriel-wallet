@@ -183,7 +183,7 @@ class ConfirmationTx extends StatelessWidget {
                       ),
                       MyText(
                         top: 8.0,
-                        text: trxInfo.totalAmt,
+                        text: trxInfo.totalAmt.substring(0, 9),
                         fontSize: 32.0,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondary,

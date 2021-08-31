@@ -136,10 +136,13 @@ class SubmitTrxState extends State<SubmitTrx> {
     });
     flareController.play('Checkmark');
 
-    Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, Home.route, ModalRoute.withName('/'));
-    });
+    await successDialog(context, "transferred the funds.");
+    // Timer(const Duration(milliseconds: 2500), () async {
+    //   await successDialog(context, "transferred the funds.");
+
+    //   // Navigator.pushNamedAndRemoveUntil(
+    //   //     context, Home.route, ModalRoute.withName('/'));
+    // });
   }
 
   void popScreen() {
@@ -336,10 +339,10 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 case "SEL (BEP-20)":
                   final chainDecimal = await ContractProvider()
-                      .query(AppConfig.oSEL, 'decimals', []);
+                      .query(AppConfig.selV1MainnetAddr, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.oSEL,
+                        AppConfig.selV1MainnetAddr,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);

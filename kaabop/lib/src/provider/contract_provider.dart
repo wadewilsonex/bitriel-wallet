@@ -15,8 +15,8 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client _bscClient, _etherClient, _selClient;
 
-  StreamSubscription<String> streamSubscriptionBsc;
-  StreamSubscription<String> streamSubscriptionEth;
+  // StreamSubscription<String> streamSubscriptionBsc;
+  // StreamSubscription<String> streamSubscriptionEth;
 
   List<TokenModel> token = [];
 
@@ -71,7 +71,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> initBscClient() async {
     _httpClient = Client();
     _bscClient =
-        Web3Client(AppConfig.bscTestNet, _httpClient, socketConnector: () {
+        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
       return IOWebSocketChannel.connect(AppConfig.bscWs).cast<String>();
     });
   }
@@ -136,7 +136,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   void unsubscribeNetwork() async {
-    // await streamSubscriptionBsc.cancel();
+    //await streamSubscriptionBsc.cancel();
     //await streamSubscriptionEth.cancel();
     notifyListeners();
   }
@@ -156,6 +156,17 @@ class ContractProvider with ChangeNotifier {
     final String abiCode = await rootBundle.loadString('assets/abi/abi.json');
     final contract = DeployedContract(
       ContractAbi.fromJson(abiCode, 'BEP-20'),
+      EthereumAddress.fromHex(contractAddr),
+    );
+
+    return contract;
+  }
+
+  Future<DeployedContract> initEtherContract(String contractAddr) async {
+    final String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
+
+    final contract = DeployedContract(
+      ContractAbi.fromJson(abiCode, 'ERC-20'),
       EthereumAddress.fromHex(contractAddr),
     );
 
@@ -205,7 +216,6 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: EthereumAddress.fromHex(reciever),
-      gasPrice: EtherAmount.inWei(BigInt.from(20)),
       value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
 
@@ -269,17 +279,6 @@ class ContractProvider with ChangeNotifier {
     initBscClient();
     final gasPrice = await _bscClient.getGasPrice();
     return gasPrice;
-  }
-
-  Future<DeployedContract> initEtherContract(String contractAddr) async {
-    final String abiCode = await rootBundle.loadString('assets/abi/erc20.json');
-
-    final contract = DeployedContract(
-      ContractAbi.fromJson(abiCode, 'ERC-20'),
-      EthereumAddress.fromHex(contractAddr),
-    );
-
-    return contract;
   }
 
   Future<String> approveSwap(String privateKey) async {
@@ -432,7 +431,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscDecimal() async {
-    final res = await query(AppConfig.oSEL, 'decimals', []);
+    final res = await query(AppConfig.selV1MainnetAddr, 'decimals', []);
 
     selBsc.chainDecimal = res[0].toString();
 
@@ -440,7 +439,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getSymbol() async {
-    final res = await query(AppConfig.oSEL, 'symbol', []);
+    final res = await query(AppConfig.selV1MainnetAddr, 'symbol', []);
 
     selBsc.symbol = res[0].toString();
     notifyListeners();
@@ -497,8 +496,8 @@ class ContractProvider with ChangeNotifier {
     selBsc.isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(
-          AppConfig.oSEL, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
       selBsc.balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(selBsc.chainDecimal),
@@ -559,9 +558,18 @@ class ContractProvider with ChangeNotifier {
       privateKey.substring(2),
     );
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
     final res = await _bscClient.sendTransaction(
       credentials,
       Transaction(
+        maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
         value: EtherAmount.inWei(
           BigInt.from(double.parse(amount) * pow(10, 18)),
@@ -579,13 +587,22 @@ class ContractProvider with ChangeNotifier {
     String amount,
   ) async {
     initEtherClient();
-    final credentials = await _bscClient.credentialsFromPrivateKey(
+    final credentials = await _etherClient.credentialsFromPrivateKey(
       privateKey.substring(2),
+    );
+
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
 
     final res = await _etherClient.sendTransaction(
       credentials,
       Transaction(
+        maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
         value:
             EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
@@ -608,11 +625,25 @@ class ContractProvider with ChangeNotifier {
     final txFunction = contract.function('transfer');
     final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(contractAddr),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
     final res = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: txFunction,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(reciever),
           BigInt.from(double.parse(amount) * pow(10, 18))
@@ -638,11 +669,25 @@ class ContractProvider with ChangeNotifier {
     final credentials =
         await _etherClient.credentialsFromPrivateKey(privateKey);
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(contractAddr),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
     final res = await _etherClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: txFunction,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(reciever),
           BigInt.from(double.parse(amount) * pow(10, 18))

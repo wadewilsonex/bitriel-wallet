@@ -17,7 +17,7 @@ android/app/google-services.json
 .pub/
 .pubspec.lock
 /build/
-.vscode
+.vscode/
 /home/chay/bitriel-wallet/.vscode
 
 # Android Studio will place build artifacts here
