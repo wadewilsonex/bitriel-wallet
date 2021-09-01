@@ -10,7 +10,7 @@ class SwapDescription extends StatelessWidget {
       children: [
         MyText(
           width: double.infinity,
-          text: AppText.swapNote,
+          text: AppString.swapNote,
           fontWeight: FontWeight.bold,
           color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           overflow: TextOverflow.ellipsis,
@@ -21,7 +21,7 @@ class SwapDescription extends StatelessWidget {
         ),
         MyText(
           width: double.infinity,
-          text: AppText.swapfirstNote,
+          text: AppString.swapfirstNote,
           // text:
           //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
           fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class SwapDescription extends StatelessWidget {
         ),
         MyText(
           width: double.infinity,
-          text: AppText.swapSecondNote,
+          text: AppString.swapSecondNote,
           // text:
           //     '🚀 Swap rewards: this is part of the airdrop 2. For example, if you have 100 SEL v1, after swapped you will have 200 SEL v2 to keep and use in the future.',
           fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class SwapDescription extends StatelessWidget {
         ),
         MyText(
           width: double.infinity,
-          text: AppText.swapThirdNote,
+          text: AppString.swapThirdNote,
           // text:
           //     '🚀 SEL v2 will be the utility token for Selendra with cross-chains capability. This meant that SEL v2 will be able to perform on both Selendra network as well as other network such as Polygon, Ethereum, BSC.',
           fontWeight: FontWeight.bold,

@@ -18,7 +18,8 @@ class AppConfig {
   static String logoBottomAppBar = "assets/images/sld_qr.png";
 
   // QR Embedded
-  static String logoQrEmbedded = "assets/SelendraQr-1.png"; //"assets/sld_stroke.png";
+  static String logoQrEmbedded =
+      "assets/SelendraQr-1.png"; //"assets/sld_stroke.png";
 
   // Portfolio
   static String logoPortfolio = 'assets/images/sld_logo.png';
@@ -36,19 +37,35 @@ class AppConfig {
   // Main Net API
   static const url = "https://testnet-api.selendra.com/pub/v1";
 
-  //static const bscTestNet = 'https://data-seed-prebsc-2-s1.binance.org:8545/';
+  static const bscTestNet = 'https://data-seed-prebsc-1-s1.binance.org:8545';
 
   static const bscMainNet = 'https://bsc-dataseed.binance.org/';
 
+  static const bscWs = 'wss://bsc-ws-node.nariox.org:443';
+
+  static const selTestnet = 'https://rpc.testnet.selendra.org/';
+
+  static const selWs = 'wss://rpc1-testnet.selendra.org/';
+
+  // final String _rpcUrl = 'https://rpc.testnet.selendra.org/';
+  // final String _wsUrl = 'wss://rpc1-testnet.selendra.org/';
+
   //static const bscAddr = '0xd84d89d5c9df06755b5d591794241d3fd20669ce';
 
-  static const etherTestnet = 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherTestnet =
+      'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const etherMainet = 'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherMainet =
+      'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const etherTestnetWebSocket = 'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+  static const etherWs =
+      'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
 
-  static const coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
+  static const etherTestnetWebSocket =
+      'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda';
+
+  static const coingeckoBaseUrl =
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
   static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
 
@@ -62,15 +79,15 @@ class AppConfig {
 
   //test 0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314
 
- // static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+  // static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
 
   //static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
-  
+
   //static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
 
   static const nodeName = 'Indranet hosted By Selendra';
 
-  static const nodeEndpoint = 'wss://rpc-testnet.selendra.org';
+  static const nodeEndpoint = 'wss://rpc1-testnet.selendra.org';
 
   static const dotTestnet = 'wss://westend-rpc.polkadot.io';
 
@@ -117,7 +134,6 @@ class AppConfig {
   static const baseInviteLink = 'https://airdrop.selendra.org/claim-\$sel?ref=';
 
   static const credentials = '';
-
 
   //
   // sld_market net API

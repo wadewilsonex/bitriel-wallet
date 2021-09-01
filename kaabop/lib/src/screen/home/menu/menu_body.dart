@@ -22,7 +22,6 @@ class MenuBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         MenuHeader(userInfo: userInfo),
 
         // History
@@ -35,7 +34,7 @@ class MenuBody extends StatelessWidget {
         //     Navigator.pop(context, '');
         //     Navigator.pushNamed(
         //       context,
-        //       AppText.txActivityView,
+        //       s.txActivityView,
         //     );
         //   },
         // ),
@@ -47,7 +46,7 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppText.recieveWalletView);
+            Navigator.pushNamed(context, AppString.recieveWalletView);
           },
         ),
 
@@ -65,7 +64,7 @@ class MenuBody extends StatelessWidget {
           index: 2,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppText.claimAirdropView);
+            Navigator.pushNamed(context, AppString.claimAirdropView);
           },
         ),
         MyListTile(
@@ -95,15 +94,13 @@ class MenuBody extends StatelessWidget {
             onChanged: (value) async {
               // Navigator.pushNamed(context, AppText.passcodeView);
               final res = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Passcode(
-                    isAppBar: true,
-                  )
-                )
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Passcode(
+                            isAppBar: true,
+                          )));
 
-              if (res == true){
+              if (res == true) {
                 enablePassword(true);
               } else if (res == false) {
                 enablePassword(false);

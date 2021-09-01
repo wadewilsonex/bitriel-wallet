@@ -88,7 +88,7 @@ class TrxOptionMethod {
         //           var _response = await _postRequest.inviteFriend("+855${_contact.phoneNumber.number.replaceFirst("0", "", 0)}");
         //           Navigator.pop(context); // Close Dialog Loading
         //           if (_response != null) {
-                    // await dialog(context, Text(_response['message'], textAlign: TextAlign.center,), Icon(Icons.done_outline, color: hexaCodeToColor(AppColors.greenColor)));
+        // await dialog(context, Text(_response['message'], textAlign: TextAlign.center,), Icon(Icons.done_outline, color: hexaCodeToColor(AppColors.greenColor)));
         //           }
         //         },
         //       )
@@ -103,8 +103,6 @@ class TrxOptionMethod {
   static void navigateFillAddress(
     BuildContext context,
     List<dynamic> portfolioList,
-    WalletSDK sdk,
-    Keyring keyring,
   ) async {
     Navigator.push(
         context,

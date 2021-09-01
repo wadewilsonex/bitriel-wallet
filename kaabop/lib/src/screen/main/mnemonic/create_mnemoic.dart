@@ -21,12 +21,11 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
 
   Future<void> disableScreenShot() async {
     try {
-    await FlutterScreenshotSwitcher.disableScreenshots();
+      await FlutterScreenshotSwitcher.disableScreenshots();
       await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
         print("Value $value");
       });
-    } catch (e){
-    }
+    } catch (e) {}
   }
 
   Future<void> enableScreenShot() async {
@@ -34,8 +33,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
       await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
         print("Value $value");
       });
-    } catch (e){
-    }
+    } catch (e) {}
 
     Navigator.pop(context);
   }
@@ -50,9 +48,9 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
           children: [
             MyAppBar(
               color: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkCard)
-                : hexaCodeToColor(AppColors.whiteHexaColor),
-              title: AppText.createAccTitle,
+                  ? hexaCodeToColor(AppColors.darkCard)
+                  : hexaCodeToColor(AppColors.whiteHexaColor),
+              title: AppString.createAccTitle,
               onPressed: enableScreenShot,
             ),
             Padding(
@@ -62,12 +60,12 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
-                      text: AppText.backupPassphrase,
+                      text: AppString.backupPassphrase,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -75,11 +73,11 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     alignment: Alignment.centerLeft,
                     child: MyText(
                       textAlign: TextAlign.left,
-                      text: AppText.keepMnemonic,
+                      text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -96,14 +94,14 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                          color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
-                          width: 1
-                        ),
+                            color: hexaCodeToColor(AppColors.darkSecondaryText)
+                                .withOpacity(0.3),
+                            width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                          ? hexaCodeToColor(AppColors.darkCard)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: MyText(
                         text: widget.passPhrase ?? '',
                         textAlign: TextAlign.left,
@@ -124,13 +122,14 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                 padding: const EdgeInsets.all(16.0),
                 child: MyText(
                   textAlign: TextAlign.start,
-                  text: AppText.screenshotNote,
+                  text: AppString.screenshotNote,
                 ),
               ),
             ),
             MyFlatButton(
-              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
-              textButton: AppText.next,
+              edgeMargin:
+                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              textButton: AppString.next,
               hasShadow: true,
               action: () async {
                 Navigator.push(

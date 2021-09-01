@@ -56,7 +56,7 @@ class _ContactBookBodyState extends State<ContactBookBody> {
     return Column(
       children: [
         MyAppBar(
-          title: "Contact List",
+          title: AppString.contactAppBarTitle,
           color: isDarkTheme
             ? hexaCodeToColor(AppColors.darkCard)
             : hexaCodeToColor(AppColors.whiteHexaColor),

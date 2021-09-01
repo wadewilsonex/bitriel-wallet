@@ -13,7 +13,7 @@ class AppServices {
 
       _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         if (result == ConnectivityResult.none) {
-          openSnackBar(globalKey, AppText.contentConnection);
+          openSnackBar(globalKey, AppString.contentConnection);
         } else {
           // ignore: deprecated_member_use
           globalKey.currentState.removeCurrentSnackBar();
@@ -21,10 +21,9 @@ class AppServices {
       });
 
       if (myResult == ConnectivityResult.none) {
-        openSnackBar(globalKey, AppText.contentConnection);
+        openSnackBar(globalKey, AppString.contentConnection);
       }
     } catch (e) {}
-
   }
 
   static Future connectivityStatus(BuildContext context) async {

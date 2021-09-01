@@ -6,13 +6,20 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
-import 'package:wallet_apps/src/service/portfolio_s.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+  Client _httpClient;
+
+  Web3Client _bscClient, _etherClient, _selClient;
+
+  // StreamSubscription<String> streamSubscriptionBsc;
+  // StreamSubscription<String> streamSubscriptionEth;
+
+  List<TokenModel> token = [];
 
   final WalletSDK sdk = ApiProvider.sdk;
 
@@ -27,53 +34,48 @@ class ContractProvider with ChangeNotifier {
 
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
-  
-  List<SmartContractModel>listContract = [
+
+  List<SmartContractModel> listContract = [
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
-      id: 'selendra',
-      logo: 'assets/SelendraCircle-Blue.png',
-      symbol: 'SEL',
-      org: 'BEP-20',
-      isContain: true,
-      lineChartModel: LineChartModel()
-    ),
+        id: 'selendra',
+        logo: 'assets/SelendraCircle-Blue.png',
+        symbol: 'SEL',
+        org: 'BEP-20',
+        isContain: true,
+        lineChartModel: LineChartModel()),
     // SEL V2
     SmartContractModel(
-      id: 'selendra v2',
-      logo: 'assets/SelendraCircle-Blue.png',
-      symbol: 'SEL (v2)',
-      org: 'BEP-20',
-      isContain: true,
-      lineChartModel: LineChartModel()
-    ),
+        id: 'selendra v2',
+        logo: 'assets/SelendraCircle-Blue.png',
+        symbol: 'SEL (v2)',
+        org: 'BEP-20',
+        isContain: true,
+        lineChartModel: LineChartModel()),
     // KIWIGO
     SmartContractModel(
-      id: 'kiwigo',
-      logo: 'assets/Kiwi-GO-White-1.png',
-      symbol: 'KGO',
-      org: 'BEP-20',
-      isContain: true,
-      lineChartModel: LineChartModel()
-    ),
+        id: 'kiwigo',
+        logo: 'assets/Kiwi-GO-White-1.png',
+        symbol: 'KGO',
+        org: 'BEP-20',
+        isContain: true,
+        lineChartModel: LineChartModel()),
     // Ethereum
     SmartContractModel(
-      id: 'ethereum',
-      logo: 'assets/eth.png',
-      symbol: 'ETH',
-      org: '',
-      isContain: true,
-      lineChartModel: LineChartModel()
-    ),
+        id: 'ethereum',
+        logo: 'assets/eth.png',
+        symbol: 'ETH',
+        org: '',
+        isContain: true,
+        lineChartModel: LineChartModel()),
     //BNB
     SmartContractModel(
-      id: 'binance smart chain',
-      logo: 'assets/bnb.png',
-      symbol: 'BNB',
-      org: 'Smart Chain',
-      isContain: true,
-      lineChartModel: LineChartModel()
-    ),
+        id: 'binance smart chain',
+        logo: 'assets/bnb.png',
+        symbol: 'BNB',
+        org: 'Smart Chain',
+        isContain: true,
+        lineChartModel: LineChartModel()),
   ];
 
   List<SmartContractModel> sortListContract = [];
@@ -117,19 +119,9 @@ class ContractProvider with ChangeNotifier {
   //   isContain: true,
   // );
 
-  Client _httpClient;
+  // Web3Client get getWeb3 => _web3client;
 
-  Web3Client _web3client, _etherClient;
-
-  final String _wsBscUrl = "wss://bsc-ws-node.nariox.org:443";
-
-  final String _wsEthUrl = "wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda";
-
-  List<TokenModel> token = [];
-
-  Web3Client get getWeb3 => _web3client;
-
-  void addApiProviderProperty(ApiProvider api){
+  void addApiProviderProperty(ApiProvider api) {
     listContract.addAll([
       api.btc,
       api.dot,
@@ -139,34 +131,44 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initClient() async {
+  Future<void> initBscClient() async {
     _httpClient = Client();
-    _web3client = Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_wsBscUrl).cast<String>();
+    _bscClient =
+        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.bscWs).cast<String>();
     });
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(_wsEthUrl).cast<String>();
+    _etherClient =
+        Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.etherWs).cast<String>();
     });
   }
 
-  // Sort Asset Portoflio 
-  Future<void> sortAsset(){
-    
+  Future<void> initSelClient() async {
+    _httpClient = Client();
+    _selClient =
+        Web3Client(AppConfig.selTestnet, _httpClient, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.selWs).cast<String>();
+    });
+  }
+
+  // Sort Asset Portoflio
+  Future<void> sortAsset() {
     sortListContract.clear();
     listContract.forEach((element) {
       sortListContract.addAll({element});
     });
 
-    if (sortListContract.isNotEmpty){
+    if (sortListContract.isNotEmpty) {
       SmartContractModel tmp = SmartContractModel();
-      for (int i = 0; i< sortListContract.length; i++){
-        for (int j = i+1; j < sortListContract.length; j++){
+      for (int i = 0; i < sortListContract.length; i++) {
+        for (int j = i + 1; j < sortListContract.length; j++) {
           tmp = sortListContract[i];
-          if ((double.parse(sortListContract[j].balance)) > (double.parse(tmp.balance))){
+          if ((double.parse(sortListContract[j].balance)) >
+              (double.parse(tmp.balance))) {
             sortListContract[i] = sortListContract[j];
             sortListContract[j] = tmp;
           }
@@ -184,66 +186,64 @@ class ContractProvider with ChangeNotifier {
     // Re-Initialize
     std = null;
 
-    await initClient();
+    await initBscClient();
 
-    await _web3client
-      .addedBlocks()
-      .asyncMap((_) async {
-        try {
+    await _bscClient
+        .addedBlocks()
+        .asyncMap((_) async {
+          try {
+            // This Method Will Run Again And Again Until we return something
+            await _bscClient.getTransactionReceipt(txHash).then((d) {
+              // Give Value To std When Request Successfully
+              if (d != null) {
+                std = d.status;
+              }
+            });
 
-          // This Method Will Run Again And Again Until we return something
-          await _web3client.getTransactionReceipt(txHash).then((d) {
-            // Give Value To std When Request Successfully
-            if (d != null){
-              std = d.status;
+            // Return Value For True Value And Method GetTrxReceipt Also Terminate
+            if (std != null) return std;
+          } on FormatException catch (e) {
+            // This Error Because can't Convert Hexadecimal number to integer.
+            // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+            // Example-Error: 0xc, 0x3a, ...
+            // Example-Success: 0x1, 0x2, 0,3 ...
+
+            // return True For Facing This FormatException
+            if (e.message.toString() == 'Invalid radix-10 number') {
+              std = true;
+              return std;
             }
-          });
-          
-          // Return Value For True Value And Method GetTrxReceipt Also Terminate
-          if (std != null) return std;
-
-        } on FormatException catch (e){
-          
-          // This Error Because can't Convert Hexadecimal number to integer.
-          // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
-          // Example-Error: 0xc, 0x3a, ...
-          // Example-Success: 0x1, 0x2, 0,3 ...
-
-          // return True For Facing This FormatException
-          if (e.message.toString() == 'Invalid radix-10 number'){
-            std = true;
-            return std;
+          } catch (e) {
+            print("Error $e");
           }
-
-        }
-        catch (e){
-          print("Error $e");
-        }
-      })
-      .where((receipt) => receipt != null)
-      .first;
+        })
+        .where((receipt) => receipt != null)
+        .first;
 
     return std;
   }
 
   void subscribeBscbalance(BuildContext context) async {
-    await initClient();
+    await initBscClient();
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final res = _web3client.addedBlocks();
+      final res = _bscClient.addedBlocks();
 
       res.listen((event) async {
         await getBscBalance();
         await getBscV2Balance();
         await getBnbBalance();
-        await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-          await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoDecimal()
+            .then((value) async {
+          await Provider.of<ContractProvider>(context, listen: false)
+              .getKgoBalance();
         });
 
         await isBtcContain(apiPro, context);
 
         await apiPro.getDotChainDecimal();
-        
+
         // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
         print("Done");
@@ -266,27 +266,36 @@ class ContractProvider with ChangeNotifier {
   }
 
   void subscribeEthbalance() async {
-    await initEtherClient();
-    try {
-      final res = _etherClient.addedBlocks();
+    // await initEtherClient();
+    // try {
+    //   var res = _etherClient.addedBlocks();
 
-      res.listen((event) {
-        getEtherBalance();
-      });
-    } catch (e) {
-      print(e.message);
-    }
+    //   streamSubscriptionEth = res.listen((event) {
+    //     getEtherBalance();
+    //   });
+    // } catch (e) {
+    //   print(e.message);
+    // }
+    // notifyListeners();
+  }
+
+  void unsubscribeNetwork() async {
+    //await streamSubscriptionBsc.cancel();
+    //await streamSubscriptionEth.cancel();
+    notifyListeners();
   }
 
   Future<void> getEtherBalance() async {
     await initEtherClient();
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final EtherAmount ethbalance = await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
-    listContract[3].balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
+    final EtherAmount ethbalance =
+        await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
+    listContract[3].balance =
+        ethbalance.getValueInUnit(EtherUnit.ether).toString();
 
-
-    listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
+    listContract[3].lineChartModel =
+        LineChartModel().prepareGraphChart(listContract[3]);
 
     notifyListeners();
   }
@@ -295,16 +304,6 @@ class ContractProvider with ChangeNotifier {
     final String abiCode = await rootBundle.loadString('assets/abi/abi.json');
     final contract = DeployedContract(
       ContractAbi.fromJson(abiCode, 'BEP-20'),
-      EthereumAddress.fromHex(contractAddr),
-    );
-
-    return contract;
-  }
-
-  Future<DeployedContract> initSwapSel(String contractAddr) async {
-    final String abiCode = await rootBundle.loadString('assets/abi/swap.json');
-    final contract = DeployedContract(
-      ContractAbi.fromJson(abiCode, 'Swap'),
       EthereumAddress.fromHex(contractAddr),
     );
 
@@ -322,17 +321,126 @@ class ContractProvider with ChangeNotifier {
     return contract;
   }
 
+  Future<DeployedContract> initSwapSel(String contractAddr) async {
+    final String abiCode = await rootBundle.loadString('assets/abi/swap.json');
+    final contract = DeployedContract(
+      ContractAbi.fromJson(abiCode, 'Swap'),
+      EthereumAddress.fromHex(contractAddr),
+    );
+
+    return contract;
+  }
+
+  Future<bool> validateEvmAddr(String address) async {
+    bool _isValid = false;
+    try {
+      EthereumAddress.fromHex(address, enforceEip55: true);
+      // valid!
+      _isValid = true;
+    } on ArgumentError {
+      // Not valid
+    }
+    return _isValid;
+  }
+
+  Future<EtherAmount> getEthGasPrice() async {
+    initEtherClient();
+    final gasPrice = await _etherClient.getGasPrice();
+    return gasPrice;
+  }
+
+  Future<EtherAmount> getSelGasPrice() async {
+    initSelClient();
+    final gasPrice = await _selClient.getGasPrice();
+    return gasPrice;
+  }
+
+  Future<void> getBtcMaxGas() async {}
+
+  Future<String> getBnbMaxGas(String reciever, String amount) async {
+    initBscClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
+    return maxGas.toString();
+  }
+
+  Future<String> getEthMaxGas(String reciever, String amount) async {
+    initEtherClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+    return maxGas.toString();
+  }
+
+  Future<String> getSelMaxGas(String reciever, String amount) async {
+    initSelClient();
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _selClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
+    return maxGas.toString();
+  }
+
+  Future<String> getBep20MaxGas(
+      String contractAddr, String reciever, String amount) async {
+    initBscClient();
+    final bep20Contract = await initBsc(contractAddr);
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final txFunction = bep20Contract.function('transfer');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(contractAddr),
+      //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
+    print(txFunction.encodeCall([
+      EthereumAddress.fromHex(reciever),
+      BigInt.from(double.parse(amount) * pow(10, 18))
+    ]));
+
+    return maxGas.toString();
+  }
+
+  Future<EtherAmount> getBscGasPrice() async {
+    initBscClient();
+    final gasPrice = await _bscClient.getGasPrice();
+    return gasPrice;
+  }
+
   Future<String> approveSwap(String privateKey) async {
+    await initBscClient();
     final contract = await initBsc(AppConfig.selV1MainnetAddr);
     final ethFunction = contract.function('approve');
 
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
-    final gasPrice = await _web3client.getGasPrice();
+    final gasPrice = await _bscClient.getGasPrice();
 
-    final maxGas = await _web3client.estimateGas(
+    final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
       data: ethFunction.encodeCall(
@@ -343,7 +451,7 @@ class ContractProvider with ChangeNotifier {
       ),
     );
 
-    final approve = await _web3client.sendTransaction(
+    final approve = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
@@ -376,26 +484,25 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
-
-    await initClient();
-    
+    await initBscClient();
     final contract = await initSwapSel(AppConfig.swapMainnetAddr);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
-    final gasPrice = await _web3client.getGasPrice();
+    final gasPrice = await _bscClient.getGasPrice();
 
     final ethFunction = contract.function('swap');
 
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
-    final maxGas = await _web3client.estimateGas(
+    final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
-      data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
+      data: ethFunction
+          .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
     );
 
-    final swap = await _web3client.sendTransaction(
+    final swap = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
@@ -410,38 +517,6 @@ class ContractProvider with ChangeNotifier {
 
     return swap;
   }
-
-  // Future<BigInt> getEtherTokenBalance(String contractAddr, EthereumAddress from) async {
-  //   await initEtherClient();
-  //   final contract =
-  //       await initEtherContract(contractAddr);
-  //   final ethFunction = contract.function('balanceOf');
-  //   final response = await _etherClient.call(
-  //     contract: contract,
-  //     function: ethFunction,
-  //     params: [from],
-  //   );
-
-  //   print(response.first);
-
-  //   return response.first as BigInt;
-  // }
-
-  // Future<String> getEtherTokenSymbol(
-  //     String contractAddr, EthereumAddress from) async {
-  //   await initEtherClient();
-  //   final contract = await initEtherContract(contractAddr);
-  //   final ethFunction = contract.function('symbol');
-  //   final response = await _etherClient.call(
-  //     contract: contract,
-  //     function: ethFunction,
-  //     params: [],
-  //   );
-
-  //   print(response.first);
-
-  //   return response.first as String;
-  // }
 
   Future<List> queryEther(
       String contractAddress, String functionName, List args) async {
@@ -458,12 +533,13 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<List> query(String contractAddress, String functionName, List args) async {
-    initClient();
+  Future<List> query(
+      String contractAddress, String functionName, List args) async {
+    initBscClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
 
-    final res = await _web3client.call(
+    final res = await _bscClient.call(
       contract: contract,
       function: ethFunction,
       params: args,
@@ -472,7 +548,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoSymbol() async {
-
     final res = await query(AppConfig.kgoAddr, 'symbol', []);
     listContract[2].symbol = res[0].toString();
     listContract[2].isContain = true;
@@ -480,7 +555,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoDecimal() async {
-
     final res = await query(AppConfig.kgoAddr, 'decimals', []);
     listContract[2].chainDecimal = res[0].toString();
 
@@ -488,18 +562,19 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoBalance() async {
-    
     listContract[2].isContain = true;
 
     if (ethAdd != '') {
-      final res = await query(AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(
+          AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
       listContract[2].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[2].chainDecimal),
       ).toString();
 
-      listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
+      listContract[2].lineChartModel =
+          LineChartModel().prepareGraphChart(listContract[2]);
     }
 
     notifyListeners();
@@ -521,8 +596,8 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> extractAddress(String privateKey) async {
-    initClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    initBscClient();
+    final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey,
     );
 
@@ -542,13 +617,15 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBnbBalance() async {
     listContract[4].isContain = true;
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final balance = await _web3client.getBalance(
+    final balance = await _bscClient.getBalance(
       EthereumAddress.fromHex(ethAddr),
     );
-    listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
+    listContract[4].balance =
+        balance.getValueInUnit(EtherUnit.ether).toString();
 
     // Assign Line Graph Chart
-    listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
+    listContract[4].lineChartModel =
+        LineChartModel().prepareGraphChart(listContract[4]);
 
     notifyListeners();
   }
@@ -565,7 +642,8 @@ class ContractProvider with ChangeNotifier {
       ).toString();
 
       // Assign Line Graph Chart
-      listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]);
+      listContract[1].lineChartModel =
+          LineChartModel().prepareGraphChart(listContract[1]);
     }
 
     notifyListeners();
@@ -575,21 +653,23 @@ class ContractProvider with ChangeNotifier {
     listContract[0].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',[EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
       listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[0].chainDecimal),
       ).toString();
 
       // Assign Line Graph Chart
-      listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
+      listContract[0].lineChartModel =
+          LineChartModel().prepareGraphChart(listContract[0]);
     }
 
     notifyListeners();
   }
 
   Future<void> fetchNonBalance() async {
-    initClient();
+    initBscClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {
         final contractAddr = findContractAddr(token[i].symbol);
@@ -634,17 +714,27 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    await initClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    initBscClient();
+    final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey.substring(2),
     );
 
-    final res = await _web3client.sendTransaction(
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+    );
+
+    final res = await _bscClient.sendTransaction(
       credentials,
       Transaction(
+        maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
-        value:
-            EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+        value: EtherAmount.inWei(
+          BigInt.from(double.parse(amount) * pow(10, 18)),
+        ),
       ),
       fetchChainIdFromNetworkId: true,
     );
@@ -660,13 +750,22 @@ class ContractProvider with ChangeNotifier {
     String amount,
   ) async {
     initEtherClient();
-    final credentials = await _web3client.credentialsFromPrivateKey(
+    final credentials = await _etherClient.credentialsFromPrivateKey(
       privateKey.substring(2),
+    );
+
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(reciever),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
     );
 
     final res = await _etherClient.sendTransaction(
       credentials,
       Transaction(
+        maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
         value:
             EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
@@ -683,17 +782,31 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    await initClient();
+    initBscClient();
 
     final contract = await initBsc(contractAddr);
     final txFunction = contract.function('transfer');
-    final credentials = await _web3client.credentialsFromPrivateKey(privateKey);
+    final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
 
-    final res = await _web3client.sendTransaction(
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _bscClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(contractAddr),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
+    final res = await _bscClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: txFunction,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(reciever),
           BigInt.from(double.parse(amount) * pow(10, 18))
@@ -719,11 +832,25 @@ class ContractProvider with ChangeNotifier {
     final credentials =
         await _etherClient.credentialsFromPrivateKey(privateKey);
 
+    final ethAddr = await StorageServices().readSecure('etherAdd');
+
+    final maxGas = await _etherClient.estimateGas(
+      sender: EthereumAddress.fromHex(ethAddr),
+      to: EthereumAddress.fromHex(contractAddr),
+      data: txFunction.encodeCall(
+        [
+          EthereumAddress.fromHex(reciever),
+          BigInt.from(double.parse(amount) * pow(10, 18))
+        ],
+      ),
+    );
+
     final res = await _etherClient.sendTransaction(
       credentials,
       Transaction.callContract(
         contract: contract,
         function: txFunction,
+        maxGas: maxGas.toInt(),
         parameters: [
           EthereumAddress.fromHex(reciever),
           BigInt.from(double.parse(amount) * pow(10, 18))
@@ -809,18 +936,21 @@ class ContractProvider with ChangeNotifier {
 
         await StorageServices.saveBool('BNB', true);
 
-        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol(symbol);
 
         await getBscDecimal();
         await getBnbBalance();
 
-        listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
+        listContract[4].lineChartModel =
+            LineChartModel().prepareGraphChart(listContract[0]);
       }
     } else if (symbol == 'ATD') {
       if (!atd.isContain) {
         await initAtd().then((value) async {
           await StorageServices.saveBool(atd.symbol, true);
-          Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
+          Provider.of<WalletProvider>(context, listen: false)
+              .addTokenSymbol(symbol);
         });
       }
     } else if (symbol == 'DOT') {
@@ -829,14 +959,20 @@ class ContractProvider with ChangeNotifier {
 
         await ApiProvider().connectPolNon();
         //Provider.of<ApiProvider>(context, listen: false).isDotContain();
-        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol(symbol);
       }
     } else if (symbol == 'KGO') {
       if (!ApiProvider().dot.isContain) {
-        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('KGO (BEP-20)');
-        await Provider.of<ContractProvider>(context, listen: false).getKgoSymbol();
-        await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-          await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol('KGO (BEP-20)');
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoSymbol();
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoDecimal()
+            .then((value) async {
+          await Provider.of<ContractProvider>(context, listen: false)
+              .getKgoBalance();
         });
       }
     } else {
@@ -859,7 +995,8 @@ class ContractProvider with ChangeNotifier {
             addContractToken(mToken);
 
             await StorageServices.saveEthContractAddr(contractAddr);
-            Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
+            Provider.of<WalletProvider>(context, listen: false)
+                .addTokenSymbol('${symbol[0]} (ERC-20)');
           }
 
           if (token.isNotEmpty) {
@@ -900,12 +1037,14 @@ class ContractProvider with ChangeNotifier {
                   .addTokenSymbol('${symbol[0]} (BEP-20)');
             }
           } else {
-            token.add(TokenModel(
-                contractAddr: contractAddr,
-                decimal: decimal[0].toString(),
-                symbol: symbol[0].toString(),
-                balance: balance[0].toString(),
-                org: 'BEP-20'));
+            token.add(
+              TokenModel(
+                  contractAddr: contractAddr,
+                  decimal: decimal[0].toString(),
+                  symbol: symbol[0].toString(),
+                  balance: balance[0].toString(),
+                  org: 'BEP-20'),
+            );
 
             await StorageServices.saveContractAddr(contractAddr);
             Provider.of<WalletProvider>(context, listen: false)

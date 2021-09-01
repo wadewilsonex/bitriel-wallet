@@ -24,11 +24,11 @@
     "build-dev": "webpack -d --mode development"
   },
   "resolutions": {
-    "@polkadot/api": "^4.16.2"
+    "@polkadot/api": "^5.5.2"
   },
   "dependencies": {
-    "@polkadot/api": "^4.16.2",
-    "@polkadot/api-contract": "^4.16.2",
+    "@polkadot/api": "^5.5.2",
+    "@polkadot/api-contract": "^5.5.2",
     "@polkadot/ui-shared": "^0.82.1",
     "bn.js": "^5.1.2",
     "ethers": "^5.4.2",

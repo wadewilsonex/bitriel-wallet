@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../index.dart';
 
 class AssetList extends StatelessWidget {
-
   final _formKey = GlobalKey<FormState>();
   final passphraseController = TextEditingController();
   final pinController = TextEditingController();
@@ -22,7 +21,8 @@ class AssetList extends StatelessWidget {
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring
+        .checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 
@@ -38,7 +38,8 @@ class AssetList extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               title: const Align(
                 child: Text('Opps'),
               ),
@@ -64,7 +65,8 @@ class AssetList extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               title: const Align(
                 child: Text('Opps'),
               ),
@@ -87,20 +89,29 @@ class AssetList extends StatelessWidget {
         final seed = bip39.mnemonicToSeed(passphraseController.text);
         final hdWallet = HDWallet.fromSeed(seed);
         final keyPair = ECPair.fromWIF(hdWallet.wif);
-        final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+        final bech32Address = new P2WPKH(
+                data: new PaymentData(pubkey: keyPair.publicKey),
+                network: bitcoin)
+            .data
+            .address;
 
         await StorageServices.setData(bech32Address, 'bech32');
-        final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, pinController.text);
+        final res = await ApiProvider.keyring.store
+            .encryptPrivateKey(hdWallet.wif, pinController.text);
 
         if (res != null) {
           await StorageServices().writeSecure('btcwif', res);
         }
 
-        Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address);
-        Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
+        Provider.of<ApiProvider>(context, listen: false)
+            .getBtcBalance(hdWallet.address);
+        Provider.of<ApiProvider>(context, listen: false)
+            .isBtcAvailable('contain');
 
-        Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
-        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+        Provider.of<ApiProvider>(context, listen: false)
+            .setBtcAddr(bech32Address);
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol('BTC');
         Navigator.pop(context);
         Navigator.pop(context);
 
@@ -108,7 +119,8 @@ class AssetList extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
               title: const Align(
                 child: Text('Success'),
               ),
@@ -134,13 +146,12 @@ class AssetList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         Consumer<ContractProvider>(
           builder: (context, value, child) {
-            return Column(
-              children: [
-
-                for(int index = 0; index < value.sortListContract.length; index++)
+            return Column(children: [
+              for (int index = 0;
+                  index < value.sortListContract.length;
+                  index++)
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -149,11 +160,15 @@ class AssetList extends StatelessWidget {
                         enterPage: AssetInfo(
                           id: value.sortListContract[index].id,
                           assetLogo: value.sortListContract[index].logo,
-                          balance: value.sortListContract[index].balance ?? AppText.loadingPattern,
-                          tokenSymbol: value.sortListContract[index].symbol ?? '',
+                          balance: value.sortListContract[index].balance ??
+                              AppString.loadingPattern,
+                          tokenSymbol:
+                              value.sortListContract[index].symbol ?? '',
                           org: value.sortListContract[index].org,
-                          marketPrice: value.sortListContract[index].marketPrice,
-                          priceChange24h: value.sortListContract[index].change24h,
+                          marketPrice:
+                              value.sortListContract[index].marketPrice,
+                          priceChange24h:
+                              value.sortListContract[index].change24h,
                         ),
                       ),
                     );
@@ -162,67 +177,70 @@ class AssetList extends StatelessWidget {
                     value.sortListContract[index].logo,
                     value.sortListContract[index].symbol ?? '',
                     value.sortListContract[index].org,
-                    value.sortListContract[index].balance ?? AppText.loadingPattern,
+                    value.sortListContract[index].balance ??
+                        AppString.loadingPattern,
                     Colors.transparent,
                     marketPrice: value.sortListContract[index].marketPrice,
-                    priceChange24h: value.sortListContract[index].change24h ?? '',
+                    priceChange24h:
+                        value.sortListContract[index].change24h ?? '',
                     lineChartData: value.sortListContract[index].lineChartData,
-                    lineChartModel: value.sortListContract[index].lineChartModel,
+                    lineChartModel:
+                        value.sortListContract[index].lineChartModel,
                   ),
                 )
-
-              ]
-            );
+            ]);
           },
         ),
-        
-        // ERC or Token After Added 
+
+        // ERC or Token After Added
         Consumer<ContractProvider>(builder: (context, value, child) {
+          return value.token.isNotEmpty
+              ? Column(
+                  children: [
+                    for (int index = 0; index < value.token.length; index++)
+                      Dismissible(
+                        key: UniqueKey(),
+                        direction: DismissDirection.endToStart,
+                        background: DismissibleBackground(),
+                        onDismissed: (direct) {
+                          if (value.token[index].org == 'ERC-20') {
+                            value.removeEtherToken(
+                                value.token[index].symbol, context);
+                          } else {
+                            value.removeToken(
+                                value.token[index].symbol, context);
+                          }
 
-          return value.token.isNotEmpty ?
-          Column(
-            children: [
-              for(int index = 0; index < value.token.length; index++)
-              
-              Dismissible(
-                key: UniqueKey(),
-                direction: DismissDirection.endToStart,
-                background: DismissibleBackground(),
-                onDismissed: (direct) {
-                  if (value.token[index].org == 'ERC-20') {
-                    value.removeEtherToken(value.token[index].symbol, context);
-                  } else {
-                    value.removeToken(value.token[index].symbol, context);
-                  }
-
-                  //setPortfolio();
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      RouteAnimation(
-                        enterPage: AssetInfo(
-                          assetLogo: 'assets/circle.png',
-                          balance: value.token[index].balance ?? AppText.loadingPattern,
-                          tokenSymbol: value.token[index].symbol ?? '',
-                          org: value.token[index].org,
+                          //setPortfolio();
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              RouteAnimation(
+                                enterPage: AssetInfo(
+                                  assetLogo: 'assets/circle.png',
+                                  balance: value.token[index].balance ??
+                                      AppString.loadingPattern,
+                                  tokenSymbol: value.token[index].symbol ?? '',
+                                  org: value.token[index].org,
+                                ),
+                              ),
+                            );
+                          },
+                          child: AssetItem(
+                            'assets/circle.png',
+                            value.token[index].symbol ?? '',
+                            value.token[index].org ?? '',
+                            value.token[index].balance ??
+                                AppString.loadingPattern,
+                            Colors.transparent,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  child: AssetItem(
-                    'assets/circle.png',
-                    value.token[index].symbol ?? '',
-                    value.token[index].org ?? '',
-                    value.token[index].balance ?? AppText.loadingPattern,
-                    Colors.transparent,
-                  ),
-                ),
-              )
-            ],
-          )
-          : Container();
+                      )
+                  ],
+                )
+              : Container();
         }),
       ],
     );

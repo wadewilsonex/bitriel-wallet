@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
-  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -55,37 +54,34 @@ class ApiProvider with ChangeNotifier {
   ];
 
   ContractProvider contractProvider;
-  
+
   AccountM accountM = AccountM();
 
   SmartContractModel nativeM = SmartContractModel(
-    id: 'selendra',
-    logo: 'assets/SelendraCircle-White.png',
-    symbol: 'SEL',
-    balance: '0.0',
-    org: 'Testnet',
-    lineChartModel: LineChartModel()
-  );
+      id: 'selendra',
+      logo: 'assets/SelendraCircle-White.png',
+      symbol: 'SEL',
+      balance: '0.0',
+      org: 'Testnet',
+      lineChartModel: LineChartModel());
 
   SmartContractModel dot = SmartContractModel(
-    id: 'polkadot',
-    symbol: 'DOT',
-    logo: 'assets/icons/polkadot.png',
-    org: '',
-    balance: '0.0',
-    isContain: false,
-    lineChartModel: LineChartModel()
-  );
-  
+      id: 'polkadot',
+      symbol: 'DOT',
+      logo: 'assets/icons/polkadot.png',
+      org: '',
+      balance: '0.0',
+      isContain: false,
+      lineChartModel: LineChartModel());
+
   SmartContractModel btc = SmartContractModel(
-    id: 'bitcoin',
-    symbol: 'BTC',
-    logo: 'assets/btc_logo.png',
-    org: '',
-    balance: '0.0',
-    isContain: false,
-    lineChartModel: LineChartModel()
-  );
+      id: 'bitcoin',
+      symbol: 'BTC',
+      logo: 'assets/btc_logo.png',
+      org: '',
+      balance: '0.0',
+      isContain: false,
+      lineChartModel: LineChartModel());
 
   bool _isConnected = false;
   String btcAdd = '';
@@ -94,7 +90,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> initApi() async {
     try {
-
       await keyring.init();
       keyring.setSS58(42);
       await sdk.init(keyring);
@@ -127,7 +122,7 @@ class ApiProvider with ChangeNotifier {
     node.endpoint = AppConfig.dotMainnet;
     node.ss58 = 0;
 
-    final node1 = NetworkParams();
+    // final node1 = NetworkParams();
     node.name = 'Polkadot(Live, hosted by PatractLabs)';
     node.endpoint = 'wss://polkadot.elara.patract.io';
     node.ss58 = 0;
@@ -154,7 +149,32 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
+  Future<String> calBtcMaxGas() async {
+    int input = 0;
+
+    final from = await StorageServices.fetchData('bech32');
+
+    final txb = TransactionBuilder();
+    txb.setVersion(1);
+    final res = await getAddressUxto(from);
+
+    if (res.length != 0) {
+      for (final i in res) {
+        if (i['status']['confirmed'] == true) {
+          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null);
+          input++;
+        }
+      }
+    }
+
+    final trxSize = calTrxSize(input, 2);
+
+    print(trxSize);
+    return trxSize.toString();
+  }
+
+  Future<int> sendTxBtc(BuildContext context, String from, String to,
+      double amount, String wif) async {
     int totalSatoshi = 0;
     int input = 0;
     final alice = ECPair.fromWIF(wif);
@@ -254,12 +274,12 @@ class ApiProvider with ChangeNotifier {
     return jsonDecode(res.body);
   }
 
-  Future<void> getBtcFee() async {
-    final res =
-        await http.get('https://bitcoinfees.earn.com/api/v1/fees/recommended');
+  // Future<void> getBtcFee() async {
+  //   final res =
+  //       await http.get('https://bitcoinfees.earn.com/api/v1/fees/recommended');
 
-    //print(jsonDecode(res.body));
-  }
+  //   //print(jsonDecode(res.body));
+  // }
 
   Future<void> getBtcBalance(String address) async {
     int totalSatoshi = 0;
@@ -327,12 +347,6 @@ class ApiProvider with ChangeNotifier {
   Future<bool> validateAddress(String address) async {
     final res = await sdk.api.keyring.validateAddress(address);
     return res;
-  }
-
-  Future<String> swapToken(String privateKey, String amount) async {
-   // final res = await sdk.api.swapToken(privateKey, amount);
-    await sdk.api.connectBsc();
-    return 'res';
   }
 
   Future<void> getChainDecimal() async {

@@ -4,6 +4,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class App extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,32 +14,33 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  
   bool _apiConnected = false;
 
   @override
   void initState() {
-
     readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       MarketProvider().fetchTokenMarketPrice(context);
+
       initApi();
       clearOldBtcAddr();
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      await Provider.of<ContractProvider>(context, listen: false)
+          .getEtherAddr();
     });
 
     super.initState();
   }
 
   Future<void> initApi() async {
-
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider =
+        Provider.of<ContractProvider>(context, listen: false);
 
-    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
+    await Provider.of<ApiProvider>(context, listen: false)
+        .initApi()
+        .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-
         await getSavedContractToken();
         await getEtherSavedContractToken();
 
@@ -45,7 +48,7 @@ class AppState extends State<App> {
         await apiProvider.getCurrentAccount();
 
         await contractProvider.getBscBalance();
-        await contractProvider.getBscV2Balance();  
+        await contractProvider.getBscV2Balance();
         await isKgoContain();
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
@@ -53,7 +56,7 @@ class AppState extends State<App> {
         // This Method Is Also Request Dot Contract
         await apiProvider.connectPolNon();
         await isBtcContain();
-        
+
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
         contractProvider.addApiProviderProperty(apiProvider);
 
@@ -61,55 +64,46 @@ class AppState extends State<App> {
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        await Provider.of<MarketProvider>(context, listen: false)
+            .fetchTokenMarketPrice(context);
 
         Provider.of<ContractProvider>(context, listen: false).setReady();
 
-        await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-
+        await Provider.of<WalletProvider>(context, listen: false)
+            .fillWithMarketData(context);
       }
 
-      await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
+      await Provider.of<ApiProvider>(context, listen: false)
+          .connectNode()
+          .then((value) async {
         if (value != null) {
           setState(() {
             _apiConnected = true;
           });
 
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-            await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+            await Provider.of<ApiProvider>(context, listen: false)
+                .getChainDecimal();
           }
         }
       });
-
     });
+  }
+
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
   }
 
   void readTheme() async {
     final res = await StorageServices.fetchData('dark');
-    //final sysTheme = _checkIfDarkModeEnabled();
 
     if (res != null) {
       Provider.of<ThemeProvider>(context, listen: false).changeMode();
     }
-    //   if (sysTheme) {
-    //     Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   } else {
-    //     Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   }
-    // }
   }
-
-  Future<void> swapToken() async {
-    final res = await ApiProvider().swapToken(
-        '0xed4ef39b5043fdff35a66a1a56e3188d8830e5d42e2bbe7dfa38ac559c62b952',
-        '0.01');
-  }
-
-  // bool _checkIfDarkModeEnabled() {
-  //   var brightness = SchedulerBinding.instance.window.platformBrightness;
-  //   bool darkModeOn = brightness == Brightness.dark;
-  //   return darkModeOn;
-  // }
 
   Future<void> getSavedContractToken() async {
     final contractProvider =
@@ -168,11 +162,14 @@ class AppState extends State<App> {
     final res = await StorageServices.fetchData('bech32');
 
     if (res != null) {
-      Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
+      Provider.of<ApiProvider>(context, listen: false)
+          .isBtcAvailable('contain');
 
-      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
+      Provider.of<ApiProvider>(context, listen: false)
+          .setBtcAddr(res.toString());
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString());
+      await Provider.of<ApiProvider>(context, listen: false)
+          .getBtcBalance(res.toString());
     }
   }
 
@@ -184,14 +181,16 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-      await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+    await Provider.of<ContractProvider>(context, listen: false)
+        .getKgoDecimal()
+        .then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false)
+          .getKgoBalance();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return AnnotatedRegion(
@@ -205,13 +204,13 @@ class AppState extends State<App> {
                 builder: (context, value, child) {
                   return MaterialApp(
                     navigatorKey: AppUtils.globalKey,
-                    title: AppText.appName,
+                    title: AppString.appName,
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
                       Home.route: (_) => Home(apiConnected: _apiConnected),
                     },
-                    initialRoute: AppText.splashScreenView,
+                    initialRoute: AppString.splashScreenView,
                     builder: (context, widget) => ResponsiveWrapper.builder(
                       BouncingScrollWrapper.builder(context, widget),
                       maxWidth: 1200,
@@ -229,7 +228,7 @@ class AppState extends State<App> {
             },
           );
         },
-      ), 
+      ),
     );
   }
 }

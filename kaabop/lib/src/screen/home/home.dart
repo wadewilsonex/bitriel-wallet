@@ -12,14 +12,17 @@ class Home extends StatefulWidget {
 
   static const route = '/home';
 
+  // @override
+  // State<StatefulWidget> createState() {
+  //   return HomeState();
+  // }
+
   @override
-  State<StatefulWidget> createState() {
-    return HomeState();
-  }
+  HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home> with TickerProviderStateMixin {
-
+class HomeState extends State<Home>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   MenuModel menuModel = MenuModel();
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
@@ -28,28 +31,35 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // processingDialog(context, true, false, false);
+    super.initState();
     Timer(const Duration(seconds: 2), () {
       PortfolioServices().setPortfolio(context);
     });
 
     AppServices.noInternetConnection(_homeM.globalKey);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
-    });
 
-    super.initState();
-    
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
-  dispose(){
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ContractProvider>(context, listen: false)
+          .subscribeBscbalance(context);
+      Provider.of<ContractProvider>(context, listen: false)
+          .subscribeEthbalance();
+    });
+    super.didChangeDependencies();
+  }
+
   Future<void> toReceiveToken() async {
-    await Navigator.pushNamed(context, AppText.recieveWalletView);
+    await Navigator.pushNamed(context, AppString.recieveWalletView);
   }
 
   void openMyDrawer() {
@@ -70,7 +80,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Future<void> handle() async {
     Navigator.of(context).pop();
     Timer(const Duration(seconds: 1), () async {
-    PortfolioServices().setPortfolio(context);
+      PortfolioServices().setPortfolio(context);
       showAirdrop();
     });
   }
@@ -85,7 +95,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Future<void> scrollRefresh() async {
-
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     final market = Provider.of<MarketProvider>(context, listen: false);
@@ -94,7 +103,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     setState(() {});
 
     await PortfolioServices().setPortfolio(context);
-      
+
     if (contract.listContract[0].isContain) {
       await contract.getBscBalance();
     }
@@ -104,8 +113,11 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
     }
 
     if (contract.listContract[2].isContain) {
-      await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-        await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+      await Provider.of<ContractProvider>(context, listen: false)
+          .getKgoDecimal()
+          .then((value) async {
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoBalance();
       });
     }
 
@@ -131,7 +143,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
     // To Disable Asset Loading
     contract.setReady();
-    
+
     /* -----------------------Pie Chart----------------------- */
     // Fetch 5 Asset From Market
     market.fetchTokenMarketPrice(context).then((value) async {
@@ -150,34 +162,33 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: Menu(_homeM.userData),
       ),
-      
+
       // AnnotatedRegion Use For System Icon Above SafeArea
-      body: Column(
-        children: [
-          SafeArea(child: homeAppBar(context)),
-          Divider(
-            height: 2,
-            color: isDarkTheme ? Colors.black : Colors.grey.shade400,
-          ),
-          Flexible(
-            child: RefreshIndicator(
-              onRefresh: () async => await scrollRefresh(),
-              child: BodyScaffold(
-                bottom: 0,
-                isSafeArea: false,
-                child: HomeBody(),
-              ),
+      body: Column(children: [
+        SafeArea(child: homeAppBar(context)),
+        Divider(
+          height: 2,
+          color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+        ),
+        Flexible(
+          child: RefreshIndicator(
+            onRefresh: () async => await scrollRefresh(),
+            child: BodyScaffold(
+              bottom: 0,
+              isSafeArea: false,
+              child: HomeBody(),
             ),
           ),
-        ]
-      ),
+        ),
+      ]),
 
       floatingActionButton: Container(
         width: 65,
         height: 65,
         child: FloatingActionButton(
           elevation: 0,
-          backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+          backgroundColor:
+              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
               context,
@@ -192,7 +203,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ),
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,
