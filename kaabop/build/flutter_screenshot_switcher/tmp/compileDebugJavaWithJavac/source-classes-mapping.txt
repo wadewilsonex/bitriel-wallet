@@ -1,2 +1,0 @@
-be/appmire/flutter_screenshot_switcher/BuildConfig.java
- be.appmire.flutter_screenshot_switcher.BuildConfig
