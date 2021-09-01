@@ -1,32 +1,31 @@
-import 'package:polkawallet_sdk/storage/keyring.dart';
-import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyBottomSheet {
   dynamic response;
 
-  Future<dynamic> trxOptions({
-    BuildContext context,
-    List portfolioList,
-    WalletSDK sdk,
-    Keyring keyring,
-  }) {
-     final isDarkTheme = Provider.of<ThemeProvider>(context,listen: false).isDark;
+  Future<dynamic> trxOptions(
+      {BuildContext context, List portfolioList, String asset}) {
+    final isDarkTheme =
+        Provider.of<ThemeProvider>(context, listen: false).isDark;
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.bgdColor),
+            color: isDarkTheme
+                ? hexaCodeToColor(AppColors.darkBgd)
+                : hexaCodeToColor(AppColors.bgdColor),
           ),
           height: 153,
           child: Column(
             children: [
               Align(
                 child: MyText(
-                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                  color: isDarkTheme
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                   top: 20,
                   bottom: 33,
                   text: "Transaction options",
@@ -40,6 +39,7 @@ class MyBottomSheet {
                       subTitle: "Scan wallet",
                       icon: "icons/qr_code.svg",
                       action: () async {
+                        Navigator.pop(context);
                         try {
                           await TrxOptionMethod.scanQR(
                             context,
@@ -56,11 +56,10 @@ class MyBottomSheet {
                       icon: "icons/form.svg",
                       subTitle: "Fill wallet",
                       action: () {
+                        Navigator.pop(context);
                         TrxOptionMethod.navigateFillAddress(
                           context,
                           portfolioList,
-                          sdk,
-                          keyring,
                         );
                       },
                     ),
@@ -72,6 +71,7 @@ class MyBottomSheet {
                       action: () async {
                         // TrxOptionMethod.selectContact(
                         //     context, portfolioList);
+                        Navigator.pop(context);
                         await dialog(
                           context,
                           'Coming Soon!',

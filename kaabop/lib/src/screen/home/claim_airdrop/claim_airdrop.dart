@@ -348,8 +348,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                   MyAppBar(
                     title: 'Claim Airdrop',
                     color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.darkCard)
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -448,7 +448,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               onSubmit: onSubmit,
                             ),
                             MyText(
-                              text: AppText.claimAirdropNote,
+                              text: AppString.claimAirdropNote,
                               textAlign: TextAlign.start,
                               left: 16.0,
                               right: 16.0,

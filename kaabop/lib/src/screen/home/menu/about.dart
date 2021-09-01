@@ -185,7 +185,7 @@ class About extends StatelessWidget {
                     MyText(
                       top: 6.0,
                       text:
-                          'Bitriel Wallets are used to store and transact SEL tokens and multiple other cryptocoins. Wallets can be integrated into any application where a use case exists, connecting the application to the Selendra main chain.',
+                          'Bitriel is used to store and transact SEL tokens and multiple other cryptocoins. Wallets can be integrated into any application where a use case exists, connecting the application to the Selendra main chain.',
                       fontSize: 16,
                       textAlign: TextAlign.left,
                       color: isDarkTheme

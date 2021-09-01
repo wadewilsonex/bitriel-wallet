@@ -17,7 +17,7 @@ class MenuHeader extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppText.accountView);
+        Navigator.pushNamed(context, AppString.accountView);
       },
       child: Container(
         margin: const EdgeInsets.only(left: 16),
@@ -77,8 +77,8 @@ class MenuSubTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
       color: isDarkTheme
-        ? hexaCodeToColor(AppColors.darkCard)
-        : hexaCodeToColor("#F5F5F5"),
+          ? hexaCodeToColor(AppColors.darkCard)
+          : hexaCodeToColor("#F5F5F5"),
       height: 55,
       width: double.infinity,
       alignment: Alignment.centerLeft,

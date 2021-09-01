@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
 
 class Swap extends StatefulWidget {
   @override
@@ -67,7 +66,12 @@ class _SwapState extends State<Swap> {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Oops', e.message.toString());
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Opps', e.message.toString());
+      }
     }
     return _hash;
   }
@@ -83,7 +87,16 @@ class _SwapState extends State<Swap> {
       }
     } catch (e) {
       Navigator.pop(context);
-      await customDialog('Transaction failed', e.message.toString());
+      print(e.message);
+
+      if (e.message.toString() ==
+          'insufficient funds for gas * price + value') {
+        await customDialog('Opps', 'Insufficient funds for gas');
+      } else {
+        await customDialog('Transaction failed',
+            'Something went wrong with your transaction.');
+        // await customDialog('Opps', e.message.toString());
+      }
     }
 
     return _hash;
@@ -144,54 +157,92 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> approveAndSwap() async {
-    try {
+    final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      final contract = Provider.of<ContractProvider>(context, listen: false);
+    await dialogBox().then((value) async {
+      final res = await getPrivateKey(value);
 
-      await dialogBox().then((value) async {
+      if (res != null) {
+        dialogLoading(context,
+            content:
+                "This processing may take a bit longer\nPlease wait a moment");
+        final approveHash = await approve(res);
 
+        print('Approve: $approveHash');
+
+        if (approveHash != null) {
+          // await Future.delayed(Duration(seconds: 10));
+          final approveStatus = await contract.getPending(approveHash);
+          print(' approve stat: $approveStatus');
+
+          if (approveStatus) {
+            final resAllow = await ContractProvider().checkAllowance();
+            print(resAllow);
+
+            if (resAllow.toString() != '0') {
+              final swapHash = await swap(res);
+
+              if (swapHash != null) {
+                final isSuccess = await contract.getPending(swapHash);
+
+                if (isSuccess) {
+                  Navigator.pop(context);
+                  enableAnimation(
+                      'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                      'Go to wallet', () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, Home.route, ModalRoute.withName('/'));
+                  });
+                  _amountController.text = '';
+                  setState(() {});
+                } else {
+                  Navigator.pop(context);
+                  await customDialog('Transaction failed',
+                      'Something went wrong with your transaction.');
+                }
+              }
+            } else {
+              Navigator.pop(context);
+              await customDialog('Transaction failed',
+                  'Something went wrong with your transaction.');
+            }
+          } else {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          }
+        }
+      }
+    });
+  }
+
+  Future<void> swapWithoutAp() async {
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+    await dialogBox().then((value) async {
+      try {
         final res = await getPrivateKey(value);
 
         if (res != null) {
+          dialogLoading(context);
+          final hash = await contract.swap(_amountController.text, res);
+          if (hash != null) {
+            await Future.delayed(const Duration(seconds: 7));
+            final res = await contract.getPending(hash);
 
-          dialogLoading(context, content:"This processing may take a bit longer\nPlease wait a moment");
+            if (res != null) {
+              if (res) {
+                setState(() {});
 
-          final approveHash = await approve(res);
-
-          if (approveHash != null) {
-          // await Future.delayed(Duration(seconds: 10));
-            final approveStatus = await contract.getPending(approveHash);
-
-            print("approveAndSwap $approveStatus");
-
-            if (approveStatus) {
-              final resAllow = await ContractProvider().checkAllowance();
-
-              if (resAllow.toString() != '0') {
-
-                final swapHash = await swap(res);
-
-                if (swapHash != null) {
-
-                  final isSuccess = await contract.getPending(swapHash);
-
-                  if (isSuccess) {
-                    Navigator.pop(context);
-                    enableAnimation('swapped ${_amountController.text} of SEL v1 to SEL v2.', 'Go to wallet', () {
-                      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-                    });
-                    _amountController.text = '';
-                    setState(() {});
-                  } else {
-                    Navigator.pop(context);
-                    await customDialog('Transaction failed', 'Something went wrong with your transaction.');
-                  }
-                } else {
-
-                  print("Failed Swapping $swapHash");
-                  Navigator.pop(context);
-                  await customDialog('Transaction failed', 'Something went wrong with your transaction.');
-                }
+                contract.getBscBalance();
+                contract.getBscV2Balance();
+                Navigator.pop(context);
+                enableAnimation(
+                    'swapped ${_amountController.text} of SEL v1 to SEL v2.',
+                    'Go to wallet', () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, Home.route, ModalRoute.withName('/'));
+                });
+                _amountController.text = '';
               } else {
                 Navigator.pop(context);
                 await customDialog('Transaction failed',
@@ -202,76 +253,32 @@ class _SwapState extends State<Swap> {
               await customDialog('Transaction failed',
                   'Something went wrong with your transaction.');
             }
-          }
-        }
-      });
-    } catch (e) {
-      // print("Error arrove and swap $e");
-      Navigator.pop(context);
-      await customDialog('Oops', '$e');
-    }
-  }
- 
-  Future<void> swapWithoutAp() async {
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    await dialogBox().then((value) async {
-      try {
-        final res = await getPrivateKey(value);
-
-        if (res != null) {
-          dialogLoading(context, content:"This processing may take a bit longer\nPlease wait a moment");
-
-          final hash = await contract.swap(_amountController.text, res);
-          if (hash != null) {
-            final swapStatus = await contract.getPending(hash);
-
-            print("swapWithoutAp $swapStatus");
-
-            if (swapStatus) {
-              // setState(() {});
-
-              contract.getBscBalance();
-              contract.getBscV2Balance();
-              Navigator.pop(context);
-              enableAnimation(
-                  'swapped ${_amountController.text} of SEL v1 to SEL v2.',
-                  'Go to wallet', () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Home.route, ModalRoute.withName('/'));
-              });
-              _amountController.text = '';
-            } else {
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            }
+          } else {
+            contract.getBscBalance();
+            contract.getBscV2Balance();
+            Navigator.pop(context);
           }
         }
       } catch (e) {
         Navigator.pop(context);
-        await customDialog('Opps', e.toString());
+        await customDialog('Opps', e.message.toString());
       }
     });
   }
 
   Future<void> confirmFunction() async {
+    dialogLoading(context);
+    final res = await ContractProvider().checkAllowance();
 
-    try {
+    print(res);
 
-      dialogLoading(context);
-      
-      final res = await ContractProvider().checkAllowance();
-
-      if (res.toString() == '0') {
-        Navigator.pop(context);
-        approveAndSwap();
-      } else {
-        Navigator.pop(context);
-
-        swapWithoutAp();
-      }
-    } catch (e) {
-      print("Error allowance $e");
+    if (res.toString() == '0') {
+      Navigator.pop(context);
+      approveAndSwap();
+    } else {
+      Navigator.pop(context);
+      print('swap without approve');
+      swapWithoutAp();
     }
   }
 
@@ -294,17 +301,21 @@ class _SwapState extends State<Swap> {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (double.parse(_amountController.text) > double.parse(contract.listContract[0].balance) || double.parse(contract.listContract[0].balance) == 0) {
+    if (double.parse(_amountController.text) >
+            double.parse(contract.listContract[0].balance) ||
+        double.parse(contract.listContract[0].balance) == 0) {
       // Close Loading
       Navigator.pop(context);
-      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
+      customDialog(
+          'Insufficient Balance', 'Your loaded balance is not enough to swap.');
     } else {
       Navigator.pop(context);
       confirmDialog(_amountController.text, swap);
     }
   }
 
-  Future enableAnimation(String operationText, String btnText, Function onPressed) async {
+  Future enableAnimation(
+      String operationText, String btnText, Function onPressed) async {
     setState(() {
       _success = true;
     });
@@ -339,7 +350,8 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
           ),
@@ -365,7 +377,8 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -406,6 +419,8 @@ class _SwapState extends State<Swap> {
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey[300]),
                               foregroundColor: MaterialStateProperty.all(
                                   hexaCodeToColor(AppColors.secondary)),
                               shape: MaterialStateProperty.all(
@@ -414,7 +429,7 @@ class _SwapState extends State<Swap> {
                           child: Text(
                             'Close',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -458,7 +473,8 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             child: SingleChildScrollView(
@@ -509,6 +525,8 @@ class _SwapState extends State<Swap> {
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               hexaCodeToColor(AppColors.secondary)),
+                          foregroundColor: MaterialStateProperty.all(
+                              hexaCodeToColor(AppColors.secondary)),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8)))),
@@ -533,13 +551,14 @@ class _SwapState extends State<Swap> {
   @override
   void initState() {
     _amountController = TextEditingController();
+
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _amountController.dispose(); 
+    _amountController.dispose();
   }
 
   @override
@@ -548,27 +567,27 @@ class _SwapState extends State<Swap> {
     final contract = Provider.of<ContractProvider>(context, listen: false);
     return Scaffold(
       body: BodyScaffold(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Column(
                 children: [
-
                   MyAppBar(
                     title: "Swap SEL v2",
+                    color: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
-                  
                   SizedBox(height: 16.0),
                   Column(
                     children: [
                       MyText(
                         width: double.infinity,
                         text: contract.listContract[0].balance == null
-                            ? 'Available Balance:  ${AppText.loadingPattern} SEL v1'
+                            ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
                             : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
@@ -696,22 +715,23 @@ class _SwapState extends State<Swap> {
 
                               // Swap Button
                               MyFlatButton(
-                                edgeMargin: const EdgeInsets.only(bottom: 16, top: 42),
+                                edgeMargin:
+                                    const EdgeInsets.only(bottom: 16, top: 42),
                                 textButton: 'Swap',
                                 action: !_enableBtn
-                                  ? null
-                                  : () async {
-                                    if (_swapKey.currentState.validate()) {
-                                      FocusScopeNode currentFocus =
-                                          FocusScope.of(context);
+                                    ? null
+                                    : () async {
+                                        if (_swapKey.currentState.validate()) {
+                                          FocusScopeNode currentFocus =
+                                              FocusScope.of(context);
 
-                                      if (!currentFocus.hasPrimaryFocus) {
-                                        currentFocus.unfocus();
-                                      }
+                                          if (!currentFocus.hasPrimaryFocus) {
+                                            currentFocus.unfocus();
+                                          }
 
-                                      validateSwap();
-                                    }
-                                  },
+                                          validateSwap();
+                                        }
+                                      },
                               ),
                               SwapDescription(),
                             ],
@@ -722,34 +742,30 @@ class _SwapState extends State<Swap> {
                   ),
                 ],
               ),
-            ),
-
-            if (_success == false)
-              Container()
-            else
-              BackdropFilter(
-              // Fill Blur Background
-              filter: ImageFilter.blur(
-                sigmaX: 5.0,
-                sigmaY: 5.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(
-                      flareController,
-                      "assets/animation/check.flr",
-                      "Checkmark",
-                    ),
+              if (_success == false)
+                Container()
+              else
+                BackdropFilter(
+                  // Fill Blur Background
+                  filter: ImageFilter.blur(
+                    sigmaX: 5.0,
+                    sigmaY: 5.0,
                   ),
-                ],
-              ),
-            ),
-            
-          ],
-        )
-      ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: CustomAnimation.flareAnimation(
+                          flareController,
+                          "assets/animation/check.flr",
+                          "Checkmark",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          )),
     );
   }
 

@@ -38,9 +38,19 @@ async function connect(nodes: string[]) {
   return new Promise(async (resolve, reject) => {
     const wsProvider = new WsProvider(nodes);
     try {
+
+      const types = {
+        EvmAddress: "H160",
+        EthereumTxHash: "H256",
+        SubmissionIndicesOf: "BTreeMap<ElectionScore, u32>",
+        SignedSubmissionOf: "SignedSubmission"
+      };
       const res = await ApiPromise.create({
         provider: wsProvider,
+        types: types,
       });
+
+
       (<any>window).api = res;
       const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       send("log", `${url} wss connected success`);

@@ -13,7 +13,6 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
-  
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -157,6 +156,8 @@ class ImportAccState extends State<ImportAcc> {
       Provider.of<ContractProvider>(context, listen: false).getBscBalance();
       Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
+      selV2();
+
       await dialogSuccess(
         context,
         const Text("You haved imported successfully"),
@@ -199,6 +200,13 @@ class ImportAccState extends State<ImportAcc> {
     });
   }
 
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
+  }
+
   Future<bool> checkPassword(String pin) async {
     final res = await ApiProvider.sdk.api.keyring
         .checkPassword(ApiProvider.keyring.current, pin);
@@ -208,19 +216,18 @@ class ImportAccState extends State<ImportAcc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: globalKey,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: ImportAccBody(
-          reImport: widget.reimport,
-          importAccModel: _importAccModel,
-          onChanged: widget.reimport != null ? null : onChanged,
-          onSubmit: widget.reimport != null ? onSubmitIm : submit,
-          clearInput: clearInput,
-          enable: enable,
-          submit: widget.reimport != null ? onSubmitIm : submit,
-        ),
-      )
-    );
+        key: globalKey,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          child: ImportAccBody(
+            reImport: widget.reimport,
+            importAccModel: _importAccModel,
+            onChanged: widget.reimport != null ? null : onChanged,
+            onSubmit: widget.reimport != null ? onSubmitIm : submit,
+            clearInput: clearInput,
+            enable: enable,
+            submit: widget.reimport != null ? onSubmitIm : submit,
+          ),
+        ));
   }
 }

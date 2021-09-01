@@ -156,10 +156,7 @@ class WebViewRunner {
   }
 
   Future<void> connectBsc() async {
-    print('coonect:');
     final res = await evalJavascript('settings.connectBsc()');
-
-    print('coonect: $res');
 
     return res;
   }

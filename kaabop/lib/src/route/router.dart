@@ -1,42 +1,46 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
+import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
-    case AppText.splashScreenView:
+    case AppString.splashScreenView:
       return RouteAnimation(enterPage: MySplashScreen());
       break;
-    case AppText.accountView:
+    case AppString.accountView:
       return RouteAnimation(enterPage: Account());
       break;
-    case AppText.contactBookView:
+    case AppString.contactBookView:
       return RouteAnimation(enterPage: ContactBook());
       break;
-    case AppText.txActivityView:
+    case AppString.txActivityView:
       return RouteAnimation(enterPage: TrxActivity());
       break;
-    case AppText.importAccView:
+    case AppString.importAccView:
       return RouteAnimation(enterPage: const ImportAcc());
       break;
-    case AppText.contentBackup:
+    case AppString.contentBackup:
       return RouteAnimation(enterPage: ContentsBackup());
       break;
-    case AppText.passcodeView:
+    case AppString.passcodeView:
       return RouteAnimation(enterPage: const Passcode());
       break;
-    case AppText.checkinView:
+    case AppString.confirmationTxView:
+      return RouteAnimation(enterPage: const ConfirmationTx());
+      break;
+    case AppString.checkinView:
       return RouteAnimation(enterPage: const CheckIn());
       break;
-    case AppText.recieveWalletView:
+    case AppString.recieveWalletView:
       return RouteAnimation(enterPage: ReceiveWallet());
       break;
-    case AppText.claimAirdropView:
+    case AppString.claimAirdropView:
       return RouteAnimation(enterPage: ClaimAirDrop());
       break;
-    case AppText.navigationDrawerView:
+    case AppString.navigationDrawerView:
       return RouteAnimation(enterPage: NavigationDrawer());
       break;
-    case AppText.inviteFriendView:
+    case AppString.inviteFriendView:
       return RouteAnimation(enterPage: InviteFriend());
       break;
     default:

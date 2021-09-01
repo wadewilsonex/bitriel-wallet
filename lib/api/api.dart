@@ -85,7 +85,6 @@ class KabobApi {
   }
 
   Future<void> connectBsc() async {
-    print('coonect bsc');
     final res = await service.webView.connectBsc();
   }
 

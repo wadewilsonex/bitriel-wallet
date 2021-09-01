@@ -10,7 +10,6 @@ class ContentsBackup extends StatefulWidget {
 }
 
 class _ContentsBackupState extends State<ContentsBackup> {
-
   final double bpSize = 16.0;
   String _passPhrase = '';
   List _passPhraseList = [];
@@ -23,7 +22,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
       // setState(() {});
     } on PlatformException catch (p) {
       // print("Platform $p");
-    }  catch (e){
+    } catch (e) {
       // print("error $e");
     }
   }
@@ -42,68 +41,23 @@ class _ContentsBackupState extends State<ContentsBackup> {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-
             MyAppBar(
-              title: AppText.createAccTitle,
+              title: AppString.createAccTitle,
+              color: isDarkTheme
+                  ? hexaCodeToColor(AppColors.darkCard)
+                  : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: MyText(
-                      text: AppText.backup,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
-                      bottom: bpSize,
-                    )
-                  ),
-                  MyText(
-                    textAlign: TextAlign.left,
-                    text: AppText.getMnemonic,
-                    fontWeight: FontWeight.w500,
-                    color: isDarkTheme
-                      ? AppColors.whiteColorHexa
-                      : AppColors.textColor,
-                    bottom: bpSize,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: MyText(
-                      text: AppText.backupPassphrase,
-                      textAlign: TextAlign.left,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
-                      bottom: bpSize,
-                    )
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: MyText(
-                      textAlign: TextAlign.left,
-                      text: AppText.keepMnemonic,
-                      fontWeight: FontWeight.w500,
-                      color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
-                      bottom: bpSize,
-                    ),
-                  ),
-                  Align(
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        text: AppText.offlineStorage,
+                        text: AppString.backup,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
@@ -113,7 +67,51 @@ class _ContentsBackupState extends State<ContentsBackup> {
                       )),
                   MyText(
                     textAlign: TextAlign.left,
-                    text: AppText.mnemonicAdvise,
+                    text: AppString.getMnemonic,
+                    fontWeight: FontWeight.w500,
+                    color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                    bottom: bpSize,
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: MyText(
+                        text: AppString.backupPassphrase,
+                        textAlign: TextAlign.left,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                        bottom: bpSize,
+                      )),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      textAlign: TextAlign.left,
+                      text: AppString.keepMnemonic,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                      bottom: bpSize,
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: MyText(
+                        text: AppString.offlineStorage,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                        bottom: bpSize,
+                      )),
+                  MyText(
+                    textAlign: TextAlign.left,
+                    text: AppString.mnemonicAdvise,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
                         ? AppColors.whiteColorHexa
@@ -126,9 +124,10 @@ class _ContentsBackupState extends State<ContentsBackup> {
               child: Container(),
             ),
             MyFlatButton(
-              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin:
+                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               hasShadow: true,
-              textButton: AppText.next,
+              textButton: AppString.next,
               action: () async {
                 Navigator.push(
                   context,

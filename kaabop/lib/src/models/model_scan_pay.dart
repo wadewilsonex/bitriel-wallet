@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ModelScanPay{
-
+class ModelScanPay {
   final formStateKey = GlobalKey<FormState>();
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
@@ -23,5 +22,4 @@ class ModelScanPay{
   FocusNode nodeAmount = FocusNode();
   FocusNode nodeMemo = FocusNode();
   FocusNode nodeReceiverAddress = FocusNode();
-  
 }

@@ -16,7 +16,6 @@ class MyUserInfo extends StatefulWidget {
 }
 
 class MyUserInfoState extends State<MyUserInfo> {
-
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
   final MenuModel _menuModel = MenuModel();
@@ -106,8 +105,8 @@ class MyUserInfoState extends State<MyUserInfo> {
   Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
     try {
       // Trigger Authentication By Finger Print
-      _menuModel.authenticated = await _localAuth.authenticate(
-          localizedReason: '', stickyAuth: true);
+      _menuModel.authenticated =
+          await _localAuth.authenticate(localizedReason: '', stickyAuth: true);
       // ignore: empty_catches
     } on PlatformException {}
     return _menuModel.authenticated;
@@ -225,8 +224,8 @@ class MyUserInfoState extends State<MyUserInfo> {
           Provider.of<ApiProvider>(context, listen: false).connectPolNon();
           Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
           Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          Provider.of<ContractProvider>(context, listen: false)
-              .getBscV2Balance();
+
+          selV2();
 
           isKgoContain();
           await addBtcWallet();
@@ -276,6 +275,13 @@ class MyUserInfoState extends State<MyUserInfo> {
         },
       );
     }
+  }
+
+  void selV2() async {
+    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+      'SEL v2 (BEP-20)',
+    );
   }
   // Future<void> isDotContain() async {
   //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
