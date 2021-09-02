@@ -264,34 +264,34 @@ class TrxFunctional {
     //   content: 'Please wait! This might be taking some time.',
     // );
 
-    try {
-      final res = await ApiProvider.sdk.api.keyring.contractTransfer(
-        ApiProvider.keyring.keyPairs[0].pubKey,
-        to,
-        amount,
-        pin,
-        Provider.of<ContractProvider>(context, listen: false).kmpi.hash,
-      );
+    // try {
+    //   final res = await ApiProvider.sdk.api.keyring.contractTransfer(
+    //     ApiProvider.keyring.keyPairs[0].pubKey,
+    //     to,
+    //     amount,
+    //     pin,
+    //     Provider.of<ContractProvider>(context, listen: false).kmpi.hash,
+    //   );
 
-      if (res['status'] != null) {
-        Provider.of<ContractProvider>(context, listen: false)
-            .fetchKmpiBalance();
+    //   if (res['status'] != null) {
+    //     Provider.of<ContractProvider>(context, listen: false)
+    //         .fetchKmpiBalance();
 
-        await saveTxHistory(TxHistory(
-          date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
-          symbol: 'KMPI',
-          destination: to,
-          sender: ApiProvider.keyring.current.address,
-          org: 'KOOMPI',
-          amount: amount.trim(),
-        ));
+    //     await saveTxHistory(TxHistory(
+    //       date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
+    //       symbol: 'KMPI',
+    //       destination: to,
+    //       sender: ApiProvider.keyring.current.address,
+    //       org: 'KOOMPI',
+    //       amount: amount.trim(),
+    //     ));
 
-        await enableAnimation();
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      await customDialog('Opps', e.message.toString());
-    }
+    //     await enableAnimation();
+    //   }
+    // } catch (e) {
+    //   Navigator.pop(context);
+    //   await customDialog('Opps', e.message.toString());
+    // }
   }
 
   Future<String> sendTx(String target, String amount) async {
@@ -488,12 +488,6 @@ class TrxFunctional {
         final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
         _isValid = res;
 
-        // if (res) {
-        //   _isValid = res;
-        // } else {
-        //   final res = await ContractProvider().validateEvmAddr(address);
-        //   _isValid = res;
-        // }
         break;
       case "DOT":
         final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
@@ -622,15 +616,15 @@ class TrxFunctional {
         break;
       case 'SEL (BEP-20)':
         maxGas = await contract.getBep20MaxGas(
-            AppConfig.selV1MainnetAddr, reciever, amount);
+            contract.listContract[0].address, reciever, amount);
         break;
       case 'SEL v2 (BEP-20)':
         maxGas = await contract.getBep20MaxGas(
-            AppConfig.selv2MainnetAddr, reciever, amount);
+            contract.listContract[1].address, reciever, amount);
         break;
       case 'KGO (BEP-20)':
-        maxGas =
-            await contract.getBep20MaxGas(AppConfig.kgoAddr, reciever, amount);
+        maxGas = await contract.getBep20MaxGas(
+            contract.listContract[2].address, reciever, amount);
         break;
       case 'BNB':
         maxGas = await contract.getBnbMaxGas(reciever, amount);

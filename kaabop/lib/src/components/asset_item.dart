@@ -32,6 +32,10 @@ class AssetItem extends StatelessWidget {
       lineChartModel.totalUsd = res.toStringAsFixed(2);
     }
 
+    if (tokenSymbol == "KGO") {
+      print(double.parse(marketPrice));
+    }
+
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     // print("Hello $tokenSymbol");
@@ -152,6 +156,7 @@ class AssetItem extends StatelessWidget {
                       width: double.infinity,
                       text: balance ?? '0',
                       fontWeight: FontWeight.bold,
+                      textAlign: TextAlign.right,
                       color: isDarkTheme
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,

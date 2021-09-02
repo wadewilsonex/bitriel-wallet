@@ -1,6 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
-import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -28,9 +26,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case AppString.confirmationTxView:
       return RouteAnimation(enterPage: const ConfirmationTx());
       break;
-    case AppString.checkinView:
-      return RouteAnimation(enterPage: const CheckIn());
-      break;
+    // case AppString.checkinView:
+    //   return RouteAnimation(enterPage: const CheckIn());
+    //   break;
     case AppString.recieveWalletView:
       return RouteAnimation(enterPage: ReceiveWallet());
       break;
@@ -40,9 +38,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case AppString.navigationDrawerView:
       return RouteAnimation(enterPage: NavigationDrawer());
       break;
-    case AppString.inviteFriendView:
-      return RouteAnimation(enterPage: InviteFriend());
-      break;
+    // case AppString.inviteFriendView:
+    //   return RouteAnimation(enterPage: InviteFriend());
+    //   break;
     default:
       return RouteAnimation(enterPage: MySplashScreen());
   }

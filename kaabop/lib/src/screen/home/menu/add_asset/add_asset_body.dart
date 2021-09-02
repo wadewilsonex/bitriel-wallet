@@ -199,16 +199,7 @@ class AddAssetBody extends StatelessWidget {
                         onSubmit: onSubmit,
                       ),
 
-                      if (assetM.match)
-                        portFolioItemRow(
-                          context,
-                          isDarkTheme,
-                          ContractProvider().kmpi.logo,
-                          ContractProvider().kmpi.symbol,
-                          Colors.black,
-                          addAsset,
-                        )
-                      else if (tokenSymbol == 'SEL')
+                      if (tokenSymbol == 'SEL')
                         portFolioItemRow(
                           context,
                           isDarkTheme,

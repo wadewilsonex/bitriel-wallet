@@ -3,6 +3,7 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 
 class SmartContractModel {
   String id;
+  String address;
   String chainDecimal;
   String symbol;
   String balance;
@@ -19,6 +20,7 @@ class SmartContractModel {
 
   SmartContractModel(
       {this.id,
+      this.address,
       this.chainDecimal,
       this.symbol,
       this.balance,

@@ -14,8 +14,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  bool _apiConnected = false;
-
   @override
   void initState() {
     readTheme();
@@ -67,7 +65,7 @@ class AppState extends State<App> {
         await Provider.of<MarketProvider>(context, listen: false)
             .fetchTokenMarketPrice(context);
 
-        Provider.of<ContractProvider>(context, listen: false).setReady();
+        //Provider.of<ContractProvider>(context, listen: false).setReady();
 
         await Provider.of<WalletProvider>(context, listen: false)
             .fillWithMarketData(context);
@@ -77,10 +75,6 @@ class AppState extends State<App> {
           .connectNode()
           .then((value) async {
         if (value != null) {
-          setState(() {
-            _apiConnected = true;
-          });
-
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
             await Provider.of<ApiProvider>(context, listen: false)
                 .getChainDecimal();
@@ -192,7 +186,6 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return AnnotatedRegion(
       value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: LayoutBuilder(
@@ -208,7 +201,7 @@ class AppState extends State<App> {
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
-                      Home.route: (_) => Home(apiConnected: _apiConnected),
+                      Home.route: (_) => Home(),
                     },
                     initialRoute: AppString.splashScreenView,
                     builder: (context, widget) => ResponsiveWrapper.builder(

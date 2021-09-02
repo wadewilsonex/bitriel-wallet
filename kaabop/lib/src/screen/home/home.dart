@@ -6,9 +6,9 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
-  final bool apiConnected;
+ // final bool apiConnected;
   // ignore: avoid_positional_boolean_parameters
-  const Home({this.apiConnected});
+  //const Home({this.apiConnected});
 
   static const route = '/home';
 

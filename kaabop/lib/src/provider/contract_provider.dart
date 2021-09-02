@@ -16,7 +16,8 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client _bscClient, _etherClient, _selClient;
 
-  // StreamSubscription<String> streamSubscriptionBsc;
+  StreamSubscription<String> streamSubscriptionBsc;
+  Stream<String> stream;
   // StreamSubscription<String> streamSubscriptionEth;
 
   List<TokenModel> token = [];
@@ -28,8 +29,8 @@ class ContractProvider with ChangeNotifier {
   String ethAdd = '';
   bool std;
 
-  Atd atd = Atd();
-  Kmpi kmpi = Kmpi();
+  // Atd atd = Atd();
+  // Kmpi kmpi = Kmpi();
   bool isReady = false;
 
   // To Get Member Variable
@@ -39,6 +40,7 @@ class ContractProvider with ChangeNotifier {
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
         id: 'selendra',
+        address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL',
         org: 'BEP-20',
@@ -47,6 +49,7 @@ class ContractProvider with ChangeNotifier {
     // SEL V2
     SmartContractModel(
         id: 'selendra v2',
+        address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL (v2)',
         org: 'BEP-20',
@@ -55,6 +58,7 @@ class ContractProvider with ChangeNotifier {
     // KIWIGO
     SmartContractModel(
         id: 'kiwigo',
+        address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
         logo: 'assets/Kiwi-GO-White-1.png',
         symbol: 'KGO',
         org: 'BEP-20',
@@ -133,25 +137,28 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient =
-        Web3Client(AppConfig.bscMainNet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.bscWs).cast<String>();
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN, _httpClient,
+        socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN)
+          .cast<String>();
     });
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient =
-        Web3Client(AppConfig.etherMainet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.etherWs).cast<String>();
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN, _httpClient,
+        socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN)
+          .cast<String>();
     });
   }
 
   Future<void> initSelClient() async {
     _httpClient = Client();
-    _selClient =
-        Web3Client(AppConfig.selTestnet, _httpClient, socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.selWs).cast<String>();
+    _selClient = Web3Client(AppConfig.networkList[0].httpUrlTN, _httpClient,
+        socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[0].wsUrlTN)
+          .cast<String>();
     });
   }
 
@@ -227,9 +234,9 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final res = _bscClient.addedBlocks();
+      stream = _bscClient.addedBlocks();
 
-      res.listen((event) async {
+      streamSubscriptionBsc = stream.listen((event) async {
         await getBscBalance();
         await getBscV2Balance();
         await getBnbBalance();
@@ -243,6 +250,9 @@ class ContractProvider with ChangeNotifier {
         await isBtcContain(apiPro, context);
 
         await apiPro.getDotChainDecimal();
+        // await Future.delayed(const Duration(milliseconds: 5000)).then(
+        //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
+        // );
 
         // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
@@ -280,7 +290,9 @@ class ContractProvider with ChangeNotifier {
   }
 
   void unsubscribeNetwork() async {
-    //await streamSubscriptionBsc.cancel();
+    print('canel stream');
+    streamSubscriptionBsc.cancel();
+
     //await streamSubscriptionEth.cancel();
     notifyListeners();
   }
@@ -431,7 +443,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> approveSwap(String privateKey) async {
     await initBscClient();
-    final contract = await initBsc(AppConfig.selV1MainnetAddr);
+    final contract = await initBsc(listContract[0].address);
     final ethFunction = contract.function('approve');
 
     final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
@@ -472,7 +484,7 @@ class ContractProvider with ChangeNotifier {
   Future<dynamic> checkAllowance() async {
     final ethAddr = await StorageServices().readSecure('etherAdd');
     final res = await query(
-      AppConfig.selV1MainnetAddr,
+      listContract[0].address,
       'allowance',
       [
         EthereumAddress.fromHex(ethAddr),
@@ -548,14 +560,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoSymbol() async {
-    final res = await query(AppConfig.kgoAddr, 'symbol', []);
+    final res = await query(listContract[2].address, 'symbol', []);
     listContract[2].symbol = res[0].toString();
     listContract[2].isContain = true;
     notifyListeners();
   }
 
   Future<void> getKgoDecimal() async {
-    final res = await query(AppConfig.kgoAddr, 'decimals', []);
+    final res = await query(listContract[2].address, 'decimals', []);
     listContract[2].chainDecimal = res[0].toString();
 
     notifyListeners();
@@ -565,8 +577,8 @@ class ContractProvider with ChangeNotifier {
     listContract[2].isContain = true;
 
     if (ethAdd != '') {
-      final res = await query(
-          AppConfig.kgoAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(listContract[2].address, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
 
       listContract[2].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
@@ -581,7 +593,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscDecimal() async {
-    final res = await query(AppConfig.selV1MainnetAddr, 'decimals', []);
+    final res = await query(listContract[0].address, 'decimals', []);
 
     listContract[0].chainDecimal = res[0].toString();
 
@@ -589,7 +601,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getSymbol() async {
-    final res = await query(AppConfig.selV1MainnetAddr, 'symbol', []);
+    final res = await query(listContract[0].address, 'symbol', []);
 
     listContract[0].symbol = res[0].toString();
     notifyListeners();
@@ -634,7 +646,7 @@ class ContractProvider with ChangeNotifier {
     listContract[1].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selv2MainnetAddr, 'balanceOf',
+      final res = await query(listContract[1].address, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
       listContract[1].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
@@ -653,7 +665,7 @@ class ContractProvider with ChangeNotifier {
     listContract[0].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
+      final res = await query(listContract[1].address, 'balanceOf',
           [EthereumAddress.fromHex(ethAdd)]);
       listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
@@ -862,62 +874,54 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<void> initKmpi() async {
-    kmpi.isContain = true;
-    kmpi.logo = 'assets/koompi_white_logo.png';
-    kmpi.symbol = 'KMPI';
-    kmpi.org = 'KOOMPI';
-    kmpi.id = 'koompi';
+  // Future<void> initKmpi() async {
+  //   kmpi.isContain = true;
+  //   kmpi.logo = 'assets/koompi_white_logo.png';
+  //   kmpi.symbol = 'KMPI';
+  //   kmpi.org = 'KOOMPI';
+  //   kmpi.id = 'koompi';
 
-    await sdk.api.callContract();
-    await fetchKmpiHash();
-    fetchKmpiBalance();
-    notifyListeners();
-  }
+  //   await sdk.api.callContract();
+  //   await fetchKmpiHash();
+  //   fetchKmpiBalance();
+  //   notifyListeners();
+  // }
 
-  Future<void> fetchKmpiHash() async {
-    final res =
-        await sdk.api.getHashBySymbol(keyring.current.address, kmpi.symbol);
-    kmpi.hash = res.toString();
-  }
+  // Future<void> fetchKmpiHash() async {
+  //   final res =
+  //       await sdk.api.getHashBySymbol(keyring.current.address, kmpi.symbol);
+  //   kmpi.hash = res.toString();
+  // }
 
-  Future<void> fetchKmpiBalance() async {
-    final res = await sdk.api.balanceOfByPartition(
-        keyring.current.address, keyring.current.address, kmpi.hash);
-    kmpi.balance = BigInt.parse(res['output'].toString()).toString();
+  // Future<void> fetchKmpiBalance() async {
+  //   final res = await sdk.api.balanceOfByPartition(
+  //       keyring.current.address, keyring.current.address, kmpi.hash);
+  //   kmpi.balance = BigInt.parse(res['output'].toString()).toString();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
-  Future<void> initAtd() async {
-    atd.isContain = true;
-    atd.logo = 'assets/FingerPrint1.png';
-    atd.symbol = 'ATD';
-    atd.org = 'KOOMPI';
-    atd.id = 'koompi';
+  // Future<void> initAtd() async {
+  //   atd.isContain = true;
+  //   atd.logo = 'assets/FingerPrint1.png';
+  //   atd.symbol = 'ATD';
+  //   atd.org = 'KOOMPI';
+  //   atd.id = 'koompi';
 
-    await sdk.api.initAttendant();
-    notifyListeners();
-  }
+  //   await sdk.api.initAttendant();
+  //   notifyListeners();
+  // }
 
-  Future<void> fetchAtdBalance() async {
-    final res = await sdk.api.getAToken(keyring.current.address);
-    atd.balance = BigInt.parse(res).toString();
+  // Future<void> fetchAtdBalance() async {
+  //   final res = await sdk.api.getAToken(keyring.current.address);
+  //   atd.balance = BigInt.parse(res).toString();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   Future<void> addToken(String symbol, BuildContext context,
       {String contractAddr, String network}) async {
-    if (symbol == 'KMPI') {
-      if (!kmpi.isContain) {
-        initKmpi().then((value) async {
-          await StorageServices.saveBool(kmpi.symbol, true);
-        });
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol(symbol);
-      }
-    } else if (symbol == 'SEL') {
+    if (symbol == 'SEL') {
       if (!listContract[0].isContain) {
         listContract[0].isContain = true;
 
@@ -944,14 +948,6 @@ class ContractProvider with ChangeNotifier {
 
         listContract[4].lineChartModel =
             LineChartModel().prepareGraphChart(listContract[0]);
-      }
-    } else if (symbol == 'ATD') {
-      if (!atd.isContain) {
-        await initAtd().then((value) async {
-          await StorageServices.saveBool(atd.symbol, true);
-          Provider.of<WalletProvider>(context, listen: false)
-              .addTokenSymbol(symbol);
-        });
       }
     } else if (symbol == 'DOT') {
       if (!ApiProvider().dot.isContain) {
@@ -1078,13 +1074,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> removeToken(String symbol, BuildContext context) async {
-    if (symbol == 'KMPI') {
-      kmpi.isContain = false;
-      await StorageServices.removeKey('KMPI');
-    } else if (symbol == 'ATD') {
-      atd.isContain = false;
-      await StorageServices.removeKey('ATD');
-    } else if (symbol == 'SEL') {
+    if (symbol == 'SEL') {
       listContract[0].isContain = false;
       await StorageServices.removeKey('SEL');
     } else if (symbol == 'BNB') {
@@ -1121,11 +1111,11 @@ class ContractProvider with ChangeNotifier {
     return item.contractAddr;
   }
 
-  Future<void> getAStatus() async {
-    final res = await sdk.api.getAStatus(keyring.keyPairs[0].address);
-    atd.status = res;
-    notifyListeners();
-  }
+  // Future<void> getAStatus() async {
+  //   final res = await sdk.api.getAStatus(keyring.keyPairs[0].address);
+  //   atd.status = res;
+  //   notifyListeners();
+  // }
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart,
       String currentPrice, String priceChange24h) {
@@ -1161,8 +1151,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   void resetConObject() {
-    atd = Atd();
-    kmpi = Kmpi();
     listContract[0] = SmartContractModel(
       id: 'selendra',
       symbol: 'SEL',
