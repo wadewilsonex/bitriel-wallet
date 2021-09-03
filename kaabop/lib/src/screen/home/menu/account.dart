@@ -95,19 +95,24 @@ class _AccountState extends State<Account> {
 
   Future<void> _deleteAccount() async {
     try {
-      await ApiProvider.sdk.api.keyring.deleteAccount(
-        ApiProvider.keyring,
-        _currentAcc,
-      );
+      // await ApiProvider.sdk.api.keyring.deleteAccount(
+      //   ApiProvider.keyring,
+      //   _currentAcc,
+      // );
       Navigator.pop(context);
-      AppServices.clearStorage();
-      StorageServices().clearSecure();
-      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
-      Provider.of<ContractProvider>(context, listen: false).resetConObject();
-      Navigator.pushAndRemoveUntil(context,
-          RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+
+      // AppServices.clearStorage();
+      // await StorageServices().clearSecure();
+      // //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      // Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      // Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      Provider.of<ContractProvider>(context, listen: false).cancelStream = true;
+      await Provider.of<ContractProvider>(context, listen: false).getBscClient.dispose();
+      
+      // Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+
     } catch (e) {
+      print(e.toString());
       // await dialog(context, e.toString(), 'Opps');
     }
   }
@@ -133,7 +138,7 @@ class _AccountState extends State<Account> {
                 child: Text(pairs['seed'].toString()),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),
@@ -174,7 +179,7 @@ class _AccountState extends State<Account> {
               child: Text('You pin has changed!!'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),

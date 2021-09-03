@@ -109,17 +109,19 @@ class AssetItem extends StatelessWidget {
                         ),
 
                         const SizedBox(width: 6.0),
-                        MyText(
-                          text: priceChange24h.substring(0, 1) == '-'
-                              ? '$priceChange24h%'
-                              : '+$priceChange24h%',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: priceChange24h.substring(0, 1) == '-'
-                              ? '#FF0000'
-                              : isDarkTheme
-                                  ? '#00FF00'
-                                  : '#66CD00',
+                        Flexible(
+                          child: MyText(
+                            text: priceChange24h.substring(0, 1) == '-'
+                                ? '$priceChange24h%'
+                                : '+$priceChange24h%',
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: priceChange24h.substring(0, 1) == '-'
+                                ? '#FF0000'
+                                : isDarkTheme
+                                    ? '#00FF00'
+                                    : '#66CD00',
+                          ),
                         ),
                       ],
                     ),
@@ -143,15 +145,16 @@ class AssetItem extends StatelessWidget {
             // Total Amount
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(right: 8.0),
+                // margin: const EdgeInsets.only(right: 8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
                       width: double.infinity,
-                      text: balance ?? '0',
-                      fontWeight: FontWeight.bold,
+                      text: double.parse(balance).toStringAsFixed(4) ?? '0',
+                      fontWeight: FontWeight.bold,                    
+                      textAlign: TextAlign.right,
                       color: isDarkTheme
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,

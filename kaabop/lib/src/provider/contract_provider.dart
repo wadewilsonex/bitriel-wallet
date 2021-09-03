@@ -25,12 +25,16 @@ class ContractProvider with ChangeNotifier {
 
   final Keyring keyring = ApiProvider.keyring;
 
+  Web3Client get getBscClient => _bscClient;
+
   String ethAdd = '';
   bool std;
 
   Atd atd = Atd();
   Kmpi kmpi = Kmpi();
   bool isReady = false;
+  bool cancelStream = false;
+  StreamSubscription<String> streamSubscription;
 
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
@@ -128,7 +132,7 @@ class ContractProvider with ChangeNotifier {
       api.nativeM,
     ]);
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future<void> initBscClient() async {
@@ -174,7 +178,8 @@ class ContractProvider with ChangeNotifier {
           }
         }
       }
-      // sortListContract.forEach((element) {print(element.symbol);});
+      sortListContract.forEach((element) {print(element.symbol);});
+      sortListContract.forEach((element) {print(element.balance);});
 
       notifyListeners();
     }
@@ -227,27 +232,34 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final res = _bscClient.addedBlocks();
+      final res = _bscClient.addedBlocks().asBroadcastStream();
 
-      res.listen((event) async {
-        await getBscBalance();
-        await getBscV2Balance();
-        await getBnbBalance();
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoDecimal()
-            .then((value) async {
-          await Provider.of<ContractProvider>(context, listen: false)
-              .getKgoBalance();
-        });
+      // streamSubscription = res.listen((event) async {
+        
+      //   if (cancelStream) {
+      //     await streamSubscription.cancel();
+      //     _bscClient.dispose();
+      //   }
+      //   print(cancelStream);
 
-        await isBtcContain(apiPro, context);
+      //   // await getBscBalance();
+      //   // await getBscV2Balance();
+      //   // await getBnbBalance();
+      //   // await Provider.of<ContractProvider>(context, listen: false)
+      //   //     .getKgoDecimal()
+      //   //     .then((value) async {
+      //   //   await Provider.of<ContractProvider>(context, listen: false)
+      //   //       .getKgoBalance();
+      //   // });
 
-        await apiPro.getDotChainDecimal();
+      //   // await isBtcContain(apiPro, context);
 
-        // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-        print("Done");
-      });
+      //   // await apiPro.getDotChainDecimal();
+
+      //   // // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+      //   // // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+      //   // print("Done");
+      // });
     } catch (e) {
       print(e.message);
     }
@@ -535,7 +547,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<List> query(
       String contractAddress, String functionName, List args) async {
-    initBscClient();
+    await initBscClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
 
@@ -556,6 +568,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> getKgoDecimal() async {
     final res = await query(AppConfig.kgoAddr, 'decimals', []);
+    print("My res $res");
     listContract[2].chainDecimal = res[0].toString();
 
     notifyListeners();
@@ -653,16 +666,14 @@ class ContractProvider with ChangeNotifier {
     listContract[0].isContain = true;
     await getBscDecimal();
     if (ethAdd != '') {
-      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(AppConfig.selV1MainnetAddr, 'balanceOf',[EthereumAddress.fromHex(ethAdd)]);
       listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[0].chainDecimal),
       ).toString();
 
       // Assign Line Graph Chart
-      listContract[0].lineChartModel =
-          LineChartModel().prepareGraphChart(listContract[0]);
+      listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
     }
 
     notifyListeners();
@@ -1157,7 +1168,7 @@ class ContractProvider with ChangeNotifier {
   void setReady() {
     isReady = true;
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   void resetConObject() {

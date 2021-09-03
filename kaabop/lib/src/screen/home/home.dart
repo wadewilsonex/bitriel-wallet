@@ -32,13 +32,32 @@ class HomeState extends State<Home>
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      PortfolioServices().setPortfolio(context);
-    });
+    // Timer(const Duration(seconds: 2), () {
+    //   PortfolioServices().setPortfolio(context);
+    // });
+    marketInitializer();
 
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  void marketInitializer() async {
+
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+    Provider.of<ContractProvider>(context, listen: false).addApiProviderProperty(apiProvider);
+
+    // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+    await Provider.of<MarketProvider>(context, listen: false)
+        .fetchTokenMarketPrice(context);
+
+    await Provider.of<WalletProvider>(context, listen: false)
+        .fillWithMarketData(context);
+
+    setState(() {
+      
+    });
   }
 
   @override
@@ -49,12 +68,13 @@ class HomeState extends State<Home>
 
   @override
   void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
-    });
+    if(mounted){
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+        Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+      });
+    }
     super.didChangeDependencies();
   }
 

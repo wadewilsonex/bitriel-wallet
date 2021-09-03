@@ -42,6 +42,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     try {
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
@@ -59,7 +61,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       if (acc != null) {
-        addBtcWallet();
 
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
@@ -74,24 +75,38 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           }
         }
 
-        Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-        Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-        Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-        Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-        Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-        Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        isKgoContain();
+        await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+        await isKgoContain();
+        await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+        await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-        Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        // This Method Is Also Request Dot Contract
+        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+        await addBtcWallet();
 
-        Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-        Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+        contractProvider.addApiProviderProperty(apiProvider);
 
-        // Set Empty For Pie Chart
-        Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
+        // Sort After MarketPrice Filled Into Asset
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+        await Provider.of<MarketProvider>(context, listen: false)
+            .fetchTokenMarketPrice(context);
+
+        Provider.of<ContractProvider>(context, listen: false).setReady();await Provider.of<WalletProvider>(context, listen: false)
+            .fillWithMarketData(context);
+            
+        await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+
+        // // Set Empty For Pie Chart
+        // Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
 
         await successDialog(context, "imported your account.");
       }
@@ -107,7 +122,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.message.toString()),
+              child: Text(e.toString()),
             ),
             actions: <Widget>[
               TextButton(
@@ -139,19 +154,18 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       await StorageServices().writeSecure('btcwif', res);
     }
 
-    Provider.of<ApiProvider>(context, listen: false)
-        .getBtcBalance(hdWallet.address);
     Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+    await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address);
   }
 
   Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
+    await Provider.of<ContractProvider>(context, listen: false)
         .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+        .then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
     });
   }
 

@@ -14,6 +14,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+  
   bool _apiConnected = false;
 
   @override
@@ -23,7 +24,7 @@ class AppState extends State<App> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       MarketProvider().fetchTokenMarketPrice(context);
 
-      initApi();
+      await initApi();
       clearOldBtcAddr();
       await Provider.of<ContractProvider>(context, listen: false)
           .getEtherAddr();
@@ -34,13 +35,13 @@ class AppState extends State<App> {
 
   Future<void> initApi() async {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     await Provider.of<ApiProvider>(context, listen: false)
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+
         await getSavedContractToken();
         await getEtherSavedContractToken();
 
@@ -49,44 +50,32 @@ class AppState extends State<App> {
 
         await contractProvider.getBscBalance();
         await contractProvider.getBscV2Balance();
-        await isKgoContain();
+        // await isKgoContain();
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
 
         // This Method Is Also Request Dot Contract
         await apiProvider.connectPolNon();
         await isBtcContain();
-
-        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        contractProvider.addApiProviderProperty(apiProvider);
-
-        // Sort After MarketPrice Filled Into Asset
+        // Sort Contract Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        await Provider.of<MarketProvider>(context, listen: false)
-            .fetchTokenMarketPrice(context);
-
+        // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
-
-        await Provider.of<WalletProvider>(context, listen: false)
-            .fillWithMarketData(context);
       }
 
-      await Provider.of<ApiProvider>(context, listen: false)
-          .connectNode()
-          .then((value) async {
+      await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
         if (value != null) {
+
           setState(() {
             _apiConnected = true;
           });
 
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-            await Provider.of<ApiProvider>(context, listen: false)
-                .getChainDecimal();
+            await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
           }
         }
       });
+
     });
   }
 
@@ -181,12 +170,17 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) async {
+    try {
+
       await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoBalance();
-    });
+          .getKgoDecimal();
+      //     .then((value) async {
+      //   await Provider.of<ContractProvider>(context, listen: false)
+      //       .getKgoBalance();
+      // });
+    } catch (e) {
+      print("Error KGO $e");
+    }
   }
 
   @override
