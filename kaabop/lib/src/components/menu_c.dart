@@ -17,7 +17,10 @@ class MenuHeader extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppString.accountView);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Account())
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(left: 16),

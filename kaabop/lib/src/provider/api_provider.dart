@@ -101,13 +101,14 @@ class ApiProvider with ChangeNotifier {
   Future<NetworkParams> connectNode() async {
     final node = NetworkParams();
 
-    node.name = AppConfig.nodeName;
-    node.endpoint = AppConfig.nodeEndpoint;
-    node.ss58 = AppConfig.ss58;
+    node.name = 'Indranet hosted By Selendra';
+    node.endpoint = AppConfig.networkList[0].wsUrlTN;
+    node.ss58 = AppConfig.networkList[0].ss58;
 
     final res = await sdk.api.connectNode(keyring, [node]);
 
     if (res != null) {
+      print('connected');
       _isConnected = true;
     }
 
@@ -118,21 +119,21 @@ class ApiProvider with ChangeNotifier {
 
   Future<NetworkParams> connectPolNon() async {
     final node = NetworkParams();
-    node.name = AppConfig.nodeName;
-    node.endpoint = AppConfig.dotMainnet;
+    node.name = 'Polkadot(Live, hosted by PatractLabs)';
+    node.endpoint = AppConfig.networkList[1].wsUrlMN;
     node.ss58 = 0;
 
     // final node1 = NetworkParams();
-    node.name = 'Polkadot(Live, hosted by PatractLabs)';
-    node.endpoint = 'wss://polkadot.elara.patract.io';
-    node.ss58 = 0;
+    // node.name = 'Polkadot(Live, hosted by PatractLabs)';
+    // node.endpoint = 'wss://polkadot.elara.patract.io';
+    // node.ss58 = 0;
 
     final res = await sdk.api.connectNon(keyring, [node]);
 
     if (res != null) {
       _isConnected = true;
 
-      getDotChainDecimal();
+      await getDotChainDecimal();
     }
 
     notifyListeners();
@@ -169,7 +170,7 @@ class ApiProvider with ChangeNotifier {
 
     final trxSize = calTrxSize(input, 2);
 
-    print(trxSize);
+    print("trxSize $trxSize");
     return trxSize.toString();
   }
 
@@ -274,13 +275,6 @@ class ApiProvider with ChangeNotifier {
     return jsonDecode(res.body);
   }
 
-  // Future<void> getBtcFee() async {
-  //   final res =
-  //       await http.get('https://bitcoinfees.earn.com/api/v1/fees/recommended');
-
-  //   //print(jsonDecode(res.body));
-  // }
-
   Future<void> getBtcBalance(String address) async {
     int totalSatoshi = 0;
     final res = await getAddressUxto(address);
@@ -351,6 +345,7 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> getChainDecimal() async {
     final res = await sdk.api.getChainDecimal();
+    print("Res ${res[0]}");
     nativeM.chainDecimal = res[0].toString();
 
     await subscribeBalance();

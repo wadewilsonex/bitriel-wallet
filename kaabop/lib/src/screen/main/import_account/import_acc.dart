@@ -33,6 +33,7 @@ class ImportAccState extends State<ImportAcc> {
 
   String onChanged(String value) {
     validateMnemonic(value).then((value) {
+      print("validateMnemonic $value");
       setState(() {
         enable = value;
       });
@@ -42,6 +43,7 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<bool> validateMnemonic(String mnemonic) async {
     final res = await ApiProvider.sdk.api.keyring.validateMnemonic(mnemonic);
+    print("validateMnemonic $res");
     return res;
   }
 
@@ -55,7 +57,7 @@ class ImportAccState extends State<ImportAcc> {
   Future<void> onSubmit() async => submit();
 
   Future<void> submit() async {
-    validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
+    await validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
       if (value) {
         Navigator.push(
           context,
@@ -180,36 +182,32 @@ class ImportAccState extends State<ImportAcc> {
   Future<void> isDotContain() async {
     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
     // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-    Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+    await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
   }
 
   Future<void> isBnbContain() async {
     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BNB');
     // Provider.of<ContractProvider>(context, listen: false).getBscDecimal();
-    Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+    await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
   }
 
   Future<void> isBscContain() async {
-    Provider.of<WalletProvider>(context, listen: false)
-        .addTokenSymbol('SEL (BEP-20)');
-    Provider.of<ContractProvider>(context, listen: false).getSymbol();
-    Provider.of<ContractProvider>(context, listen: false)
-        .getBscDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('SEL (BEP-20)');
+    await Provider.of<ContractProvider>(context, listen: false).getSymbol();
+    await Provider.of<ContractProvider>(context, listen: false).getBscDecimal(0).then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
     });
   }
 
   void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
       'SEL v2 (BEP-20)',
     );
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring
-        .checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 

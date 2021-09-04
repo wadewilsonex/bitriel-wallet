@@ -184,14 +184,14 @@ class ImportAccBody extends StatelessWidget {
                 // )
                 MyFlatButton(
                   hasShadow: enable,
-                  edgeMargin:
-                      const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+                  edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
                   textButton: AppString.next,
                   action: enable == false
-                      ? null
-                      : () async {
-                          submit();
-                        },
+                    ? null
+                    : () async {
+                    print("Submit ");
+                      await submit();
+                    },
                 )
               ],
             ),

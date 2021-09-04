@@ -7,6 +7,7 @@ import 'package:wallet_apps/src/screen/home/menu/account_c.dart';
 import '../../../../index.dart';
 
 class Account extends StatefulWidget {
+
   //static const route = '/account';
   @override
   _AccountState createState() => _AccountState();
@@ -83,7 +84,7 @@ class _AccountState extends State<Account> {
               child: const MyText(text: 'Close', color: AppColors.blackColor),
             ),
             TextButton(
-              onPressed: _deleteAccount,
+              onPressed: () async => await _deleteAccount(),
               child: const MyText(text: 'Delete', color: AppColors.redColor),
             ),
             // action
@@ -95,21 +96,22 @@ class _AccountState extends State<Account> {
 
   Future<void> _deleteAccount() async {
     try {
-      // await ApiProvider.sdk.api.keyring.deleteAccount(
-      //   ApiProvider.keyring,
-      //   _currentAcc,
-      // );
-      Navigator.pop(context);
+      await ApiProvider.sdk.api.keyring.deleteAccount(
+        ApiProvider.keyring,
+        _currentAcc,
+      );
 
-      // AppServices.clearStorage();
-      // await StorageServices().clearSecure();
-      // //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      // Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
-      // Provider.of<ContractProvider>(context, listen: false).resetConObject();
-      Provider.of<ContractProvider>(context, listen: false).cancelStream = true;
-      await Provider.of<ContractProvider>(context, listen: false).getBscClient.dispose();
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
+      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      await Future.delayed(Duration(seconds: 2), (){});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      Provider.of<ContractProvider>(context, listen: false).listContract.forEach((element) {print("Element ${element.symbol} ${element.address}");});
       
-      // Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
 
     } catch (e) {
       print(e.toString());
@@ -263,6 +265,7 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contract = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -410,7 +413,10 @@ class _AccountState extends State<Account> {
                     ),
                     const SizedBox(height: 20),
                     GestureDetector(
-                      onTap: deleteAccout,
+                      onTap: () async {
+                        // await contract.unsubscribeNetwork();
+                        await deleteAccout();
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(right: 16),

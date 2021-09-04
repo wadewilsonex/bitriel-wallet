@@ -92,8 +92,8 @@ class AddAssetState extends State<AddAsset> {
   Future<void> addAsset() async {
     dialogLoading(context);
     if (_modelAsset.match) {
-      Provider.of<ContractProvider>(context, listen: false)
-          .addToken(ContractProvider().kmpi.symbol, context);
+      // Provider.of<ContractProvider>(context, listen: false)
+      //     .addToken(ContractProvider().kmpi.symbol, context);
     } else {
       Provider.of<ContractProvider>(context, listen: false).addToken(
         _tokenSymbol,
@@ -106,12 +106,12 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> submitAsset() async {
-
     setState(() {
       _modelAsset.loading = true;
     });
 
-    final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
+    final resEther =
+        await validateEtherAddress(_modelAsset.controllerAssetCode.text);
     final res = await validateAddress(_modelAsset.controllerAssetCode.text);
 
     if (res || resEther) {
@@ -126,7 +126,9 @@ class AddAssetState extends State<AddAsset> {
         if (initialValue == 'Ethereum') {
           searchEtherContract();
         } else {
-          final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
+          final res =
+              await Provider.of<ContractProvider>(context, listen: false)
+                  .query(_modelAsset.controllerAssetCode.text, 'symbol', []);
           if (res != null) {
             setState(() {
               _tokenSymbol = res[0].toString();

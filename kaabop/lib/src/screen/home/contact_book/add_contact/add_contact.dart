@@ -78,8 +78,7 @@ class _AddContactState extends State<AddContact> {
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  Navigator.pop(context,true);
-                  
+                  Navigator.pop(context, true);
                 },
                 child: const Text('Close'),
               ),

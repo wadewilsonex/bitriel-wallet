@@ -336,22 +336,22 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "SEL (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.selV1MainnetAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[0].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.selV1MainnetAddr,
+                        trxFunc.contract.listContract[0].address,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);
                   }
                   break;
                 case "SEL v2 (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.selv2MainnetAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[1].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                      AppConfig.selv2MainnetAddr,
+                      trxFunc.contract.listContract[1].address,
                       chainDecimal[0].toString(),
                       _scanPayM.controlReceiverAddress.text,
                       _scanPayM.controlAmount.text,
@@ -360,11 +360,11 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "KGO (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.kgoAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[2].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.kgoAddr,
+                        trxFunc.contract.listContract[2].address,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);

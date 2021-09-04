@@ -14,9 +14,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  
-  bool _apiConnected = false;
-
   @override
   void initState() {
     readTheme();
@@ -34,13 +31,14 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+    print("Second");
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
-    await Provider.of<ApiProvider>(context, listen: false)
-        .initApi()
-        .then((value) async {
+    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+
+        await contractProvider.getEtherAddr();
 
         await getSavedContractToken();
         await getEtherSavedContractToken();
@@ -57,18 +55,24 @@ class AppState extends State<App> {
         // This Method Is Also Request Dot Contract
         await apiProvider.connectPolNon();
         await isBtcContain();
-        // Sort Contract Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+        // contractProvider.addApiProviderProperty(apiProvider);
+
+        contractProvider.listContract.forEach((element) {
+          print("element.symbol ${element.symbol}");
+        });
+        
+        // Sort Contract Asset  
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
+        
         // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
+        print("contractProvider.isReady ${contractProvider.isReady}");
       }
 
       await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
         if (value != null) {
-
-          setState(() {
-            _apiConnected = true;
-          });
 
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
             await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
@@ -104,8 +108,7 @@ class AppState extends State<App> {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
         final decimal =
             await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',
-            [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -186,7 +189,6 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return AnnotatedRegion(
       value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: LayoutBuilder(
@@ -202,7 +204,7 @@ class AppState extends State<App> {
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
-                      Home.route: (_) => Home(apiConnected: _apiConnected),
+                      Home.route: (_) => Home(),
                     },
                     initialRoute: AppString.splashScreenView,
                     builder: (context, widget) => ResponsiveWrapper.builder(

@@ -32,6 +32,10 @@ class AssetItem extends StatelessWidget {
       lineChartModel.totalUsd = res.toStringAsFixed(2);
     }
 
+    // if (tokenSymbol == "KGO") {
+    //   print(double.parse(marketPrice));
+    // }
+
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     // print("Hello $tokenSymbol");
@@ -67,11 +71,11 @@ class AssetItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyText(
-                    text: tokenSymbol,
+                    text: tokenSymbol ?? '',
                     fontWeight: FontWeight.bold,
                     color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                     bottom: 4.0,
                   ),
                   if (marketPrice == null)
@@ -79,13 +83,13 @@ class AssetItem extends StatelessWidget {
                       Container()
                     else
                       MyText(
-                        text: org,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.darkSecondaryText,
-                      )
+                      text: org,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.darkSecondaryText
+                        : AppColors.darkSecondaryText,
+                    )
                   else
                     Row(
                       children: [

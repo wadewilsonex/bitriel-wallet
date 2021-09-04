@@ -140,6 +140,7 @@ class AssetList extends StatelessWidget {
       }
     }
   }
+  // int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -149,9 +150,8 @@ class AssetList extends StatelessWidget {
         Consumer<ContractProvider>(
           builder: (context, value, child) {
             return Column(children: [
-              for (int index = 0;
-                  index < value.sortListContract.length;
-                  index++)
+
+              for (int index = 0; index < value.sortListContract.length; index++)
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
