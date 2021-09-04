@@ -30,7 +30,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   void initState() {
     _menuModel = MenuModel();
     AppServices.noInternetConnection(_userInfoM.globalKey);
-    print(Provider.of<ContractProvider>(context, listen: false).listContract[0].address);
     super.initState();
   }
 

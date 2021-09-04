@@ -95,6 +95,7 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _deleteAccount() async {
+    dialogLoading(context);
     try {
       await ApiProvider.sdk.api.keyring.deleteAccount(
         ApiProvider.keyring,
@@ -108,8 +109,6 @@ class _AccountState extends State<Account> {
 
       await Future.delayed(Duration(seconds: 2), (){});
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
-
-      Provider.of<ContractProvider>(context, listen: false).listContract.forEach((element) {print("Element ${element.symbol} ${element.address}");});
       
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
 
@@ -122,8 +121,7 @@ class _AccountState extends State<Account> {
   Future<void> getBackupKey(String pass) async {
     Navigator.pop(context);
     try {
-      final pairs = await KeyringPrivateStore()
-          .getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
+      final pairs = await KeyringPrivateStore().getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
 
       if (pairs['seed'] != null) {
         await showDialog(
@@ -414,7 +412,7 @@ class _AccountState extends State<Account> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () async {
-                        // await contract.unsubscribeNetwork();
+                        await contract.unsubscribeNetwork();
                         await deleteAccout();
                       },
                       child: Container(

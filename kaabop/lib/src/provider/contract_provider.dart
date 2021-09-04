@@ -254,27 +254,27 @@ class ContractProvider with ChangeNotifier {
     try {
       stream = _bscClient.addedBlocks();
 
-      // streamSubscriptionBsc = stream.listen((event) async {
-      //   await getBscBalance();
-      //   await getBscV2Balance();
-      //   await getBnbBalance();
-      //   await Provider.of<ContractProvider>(context, listen: false)
-      //       .getKgoDecimal()
-      //       .then((value) async {
-      //     await Provider.of<ContractProvider>(context, listen: false)
-      //         .getKgoBalance();
-      //   });
+      streamSubscriptionBsc = stream.listen((event) async {
+        await getBscBalance();
+        await getBscV2Balance();
+        await getBnbBalance();
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoDecimal()
+            .then((value) async {
+          await Provider.of<ContractProvider>(context, listen: false)
+              .getKgoBalance();
+        });
 
-      //   await isBtcContain(apiPro, context);
+        await isBtcContain(apiPro, context);
 
-      //   await apiPro.getDotChainDecimal();
-      //   // await Future.delayed(const Duration(milliseconds: 5000)).then(
-      //   //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
-      //   // );
+        await apiPro.getDotChainDecimal();
+        // await Future.delayed(const Duration(milliseconds: 5000)).then(
+        //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
+        // );
 
-      //   // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-      //   // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-      // });
+        // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+      });
     } catch (e) {
       print(e.message);
     }

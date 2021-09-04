@@ -51,6 +51,8 @@ class Component {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                       ),
+                      width: 60,
+                      height: 60,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +62,7 @@ class Component {
                               backgroundColor: Colors.transparent,
                               valueColor: AlwaysStoppedAnimation(
                                   hexaCodeToColor(AppColors.secondary))),
-                          contents == null
+                          contents != null
                               ? MyText(
                                   top: 10,
                                   left: 10,
