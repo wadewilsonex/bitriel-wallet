@@ -115,11 +115,11 @@ class TrxOptionMethod {
     BuildContext context,
     List<dynamic> portfolioList,
   ) async {
-    final String _response = await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => QrScanner()));
-
+    final String _response = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
+    print("scanQR $_response");
     //print("Scan qr reponse $_response");
     if (_response != null) {
+      print("Hello");
       await Navigator.push(
           context,
           MaterialPageRoute(

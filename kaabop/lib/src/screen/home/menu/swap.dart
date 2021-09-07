@@ -163,16 +163,14 @@ class _SwapState extends State<Swap> {
       final res = await getPrivateKey(value);
 
       if (res != null) {
-        dialogLoading(context,
-            content:
-                "This processing may take a bit longer\nPlease wait a moment");
+        dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
         final approveHash = await approve(res);
 
         print('Approve: $approveHash');
 
         if (approveHash != null) {
           // await Future.delayed(Duration(seconds: 10));
-          final approveStatus = await contract.getPending(approveHash);
+          final approveStatus = await contract.getPending(approveHash, nodeClient: contract.bscClient);
           print(' approve stat: $approveStatus');
 
           if (approveStatus) {
@@ -183,7 +181,7 @@ class _SwapState extends State<Swap> {
               final swapHash = await swap(res);
 
               if (swapHash != null) {
-                final isSuccess = await contract.getPending(swapHash);
+                final isSuccess = await contract.getPending(swapHash, nodeClient: contract.bscClient);
 
                 if (isSuccess) {
                   Navigator.pop(context);
@@ -227,14 +225,14 @@ class _SwapState extends State<Swap> {
           final hash = await contract.swap(_amountController.text, res);
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 7));
-            final res = await contract.getPending(hash);
+            final res = await contract.getPending(hash, nodeClient: contract.bscClient);
 
             if (res != null) {
               if (res) {
                 setState(() {});
 
-                contract.getBscBalance();
-                contract.getBscV2Balance();
+                await contract.getBscBalance();
+                await contract.getBscV2Balance();
                 Navigator.pop(context);
                 enableAnimation(
                     'swapped ${_amountController.text} of SEL v1 to SEL v2.',

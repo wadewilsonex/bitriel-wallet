@@ -58,10 +58,6 @@ class AppState extends State<App> {
 
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
         // contractProvider.addApiProviderProperty(apiProvider);
-
-        contractProvider.listContract.forEach((element) {
-          print("element.symbol ${element.symbol}");
-        });
         
         // Sort Contract Asset  
         await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);

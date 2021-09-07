@@ -161,103 +161,109 @@ class SubmitTrxState extends State<SubmitTrx> {
     if (_scanPayM.formStateKey.currentState.validate()) {
       // Navigator.pushNamed(context, AppString.confirmationTxView);
 
-      final isValid = await trxFunc.validateAddr(
-          _scanPayM.asset, _scanPayM.controlReceiverAddress.text);
+      final isValid = await trxFunc.validateAddr(_scanPayM.asset, _scanPayM.controlReceiverAddress.text);
       print('isValid: $isValid');
 
       if (!isValid) {
         Navigator.pop(context);
         await trxFunc.customDialog('Oops', 'Invalid Reciever Address.');
-      }
+      } else {
+        
+        final isEnough = await trxFunc.checkBalanceofCoin(
+          _scanPayM.asset,
+          _scanPayM.controlAmount.text,
+        );
 
-      final isEnough = await trxFunc.checkBalanceofCoin(
-        _scanPayM.asset,
-        _scanPayM.controlAmount.text,
-      );
+        if (!isEnough && isValid) {
+          if (isValid) {
+            Navigator.pop(context);
+          }
+          await trxFunc.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
+        }
 
-      if (!isEnough && isValid) {
         if (isValid) {
-          Navigator.pop(context);
+          gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
         }
-        await trxFunc.customDialog('Insufficient Balance',
-            'You do not have sufficient balance for transaction.');
-      }
 
-      if (isValid) {
-        gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
-      }
+        if (isValid && isEnough) {
+          if (gasPrice != null) {
+            print('gas price: $gasPrice');
 
-      if (isValid && isEnough) {
-        if (gasPrice != null) {
-          print('gas price: $gasPrice');
+            final estAmtPrice = await trxFunc.calPrice(
+              _scanPayM.asset,
+              _scanPayM.controlAmount.text,
+            );
 
-          final estAmtPrice = await trxFunc.calPrice(
-            _scanPayM.asset,
-            _scanPayM.controlAmount.text,
-          );
+            print(estAmtPrice);
 
-          print(estAmtPrice);
+            final maxGas = await trxFunc.estMaxGas(
+              _scanPayM.asset,
+              _scanPayM.controlReceiverAddress.text,
+              _scanPayM.controlAmount.text,
+            );
 
-          final maxGas = await trxFunc.estMaxGas(
-            _scanPayM.asset,
-            _scanPayM.controlReceiverAddress.text,
-            _scanPayM.controlAmount.text,
-          );
+            print('maxGas: $maxGas');
 
-          print('maxGas: $maxGas');
+            final gasFee = double.parse(maxGas) * double.parse(gasPrice);
 
-          final gasFee = double.parse(maxGas) * double.parse(gasPrice);
+            print(gasFee);
 
-          print(gasFee);
+            final estGasFeePrice =
+                await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
 
-          final estGasFeePrice =
-              await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+            final totalAmt = double.parse(_scanPayM.controlAmount.text) +
+                double.parse((gasFee / pow(10, 9)).toString());
 
-          final totalAmt = double.parse(_scanPayM.controlAmount.text) +
-              double.parse((gasFee / pow(10, 9)).toString());
+            print(totalAmt);
 
-          print(totalAmt);
+            final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
 
-          final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
+            print(estToSendPrice);
 
-          print(estToSendPrice);
+            final estTotalPrice = estGasFeePrice + estToSendPrice;
+            print("Let go");
+            print(_scanPayM.asset);
+            print(_scanPayM.controlReceiverAddress.text);
+            print(_scanPayM.controlAmount.text);
+            print(gasPrice);
+            print(_scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei');
+            print(maxGas);
+            print(gasFee.toInt().toString());
+            print(totalAmt.toString());
+            print(estAmtPrice.first.toString());
+            print(estTotalPrice.toStringAsFixed(2));
+            print(estGasFeePrice.toStringAsFixed(2));
 
-          final estTotalPrice = estGasFeePrice + estToSendPrice;
+            TransactionInfo txInfo = TransactionInfo(
+              coinSymbol: _scanPayM.asset,
+              to: _scanPayM.controlReceiverAddress.text,
+              amount: _scanPayM.controlAmount.text,
+              gasPrice: gasPrice,
+              gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+              maxGas: maxGas,
+              gasFee: gasFee.toInt().toString(),
+              totalAmt: totalAmt.toString(),
+              estAmountPrice: estAmtPrice.first.toString(),
+              estTotalPrice: estTotalPrice.toStringAsFixed(2),
+              estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+            );
 
-          // final res =
-          //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+            Navigator.pop(context);
 
-          // print(res);
-
-          TransactionInfo txInfo = TransactionInfo(
-            coinSymbol: _scanPayM.asset,
-            to: _scanPayM.controlReceiverAddress.text,
-            amount: _scanPayM.controlAmount.text,
-            gasPrice: gasPrice,
-            gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-            maxGas: maxGas,
-            gasFee: gasFee.toInt().toString(),
-            totalAmt: totalAmt.toString(),
-            estAmountPrice: estAmtPrice.first.toString(),
-            estTotalPrice: estTotalPrice.toStringAsFixed(2),
-            estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-          );
-
-          Navigator.pop(context);
-
-          Navigator.push(
-            context,
-            RouteAnimation(
-              enterPage: ConfirmationTx(
-                trxInfo: txInfo,
-                clickSend: clickSend,
+            Navigator.push(
+              context,
+              RouteAnimation(
+                enterPage: ConfirmationTx(
+                  trxInfo: txInfo,
+                  clickSend: clickSend,
+                ),
               ),
-            ),
-          );
-        } else {
-          Navigator.pop(context);
-          clickSend();
-        }
+            );
+          } else {
+            Navigator.pop(context);
+            clickSend();
+          }
+        } 
       }
     }
   }

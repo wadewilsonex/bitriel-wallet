@@ -34,17 +34,16 @@ class AppConfig {
       ss58: 42,
     ),
     NetworkParams(
-      httpUrlMN:
-          'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      httpUrlMN:'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
       wsUrlMN: 'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
-      httpUrlTN:
-          'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      httpUrlTN:'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
       wsUrlTN: 'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
     ),
     NetworkParams(
       httpUrlMN: 'https://bsc-dataseed.binance.org/',
       wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
       httpUrlTN: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+      wsUrlTN: "wss://testnet-dex.binance.org/api/ws"
     )
   ];
 

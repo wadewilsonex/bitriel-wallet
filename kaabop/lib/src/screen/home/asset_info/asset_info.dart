@@ -490,8 +490,8 @@ class _AssetInfoState extends State<AssetInfo> {
                                         width: 150,
                                         // ignore: deprecated_member_use
                                         child: FlatButton(
-                                          onPressed: () {
-                                            MyBottomSheet().trxOptions(
+                                          onPressed: () async {
+                                            await MyBottomSheet().trxOptions(
                                               context: context,
                                             );
                                           },

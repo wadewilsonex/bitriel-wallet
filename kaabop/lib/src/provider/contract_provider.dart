@@ -15,6 +15,9 @@ class ContractProvider with ChangeNotifier {
   Client _httpClient;
 
   Web3Client _bscClient, _etherClient, _selClient;
+  Web3Client get bscClient => _bscClient;
+  Web3Client get ethClient => _etherClient;
+  Web3Client get selClient => _selClient;
 
   StreamSubscription<String> streamSubscriptionBsc;
   Stream<String> stream;
@@ -25,8 +28,6 @@ class ContractProvider with ChangeNotifier {
   final WalletSDK sdk = ApiProvider.sdk;
 
   final Keyring keyring = ApiProvider.keyring;
-
-  Web3Client get getBscClient => _bscClient;
 
   String ethAdd = '';
   bool std;
@@ -44,7 +45,7 @@ class ContractProvider with ChangeNotifier {
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
         id: 'selendra',
-        address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
+        address: '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030',//'0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL',
         org: 'BEP-20',
@@ -53,7 +54,7 @@ class ContractProvider with ChangeNotifier {
     // SEL V2
     SmartContractModel(
         id: 'selendra v2',
-        address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
+        address: '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C',//'0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL (v2)',
         org: 'BEP-20',
@@ -146,9 +147,9 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN, _httpClient,
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN, _httpClient,
         socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN)
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlTN)
           .cast<String>();
     });
   }
@@ -207,7 +208,7 @@ class ContractProvider with ChangeNotifier {
     return null;
   }
 
-  Future<bool> getPending(String txHash) async {
+  Future<bool> getPending(String txHash, {@required Web3Client nodeClient}) async {
     // Re-Initialize
     std = null;
 
@@ -218,7 +219,7 @@ class ContractProvider with ChangeNotifier {
         .asyncMap((_) async {
           try {
             // This Method Will Run Again And Again Until we return something
-            await _bscClient.getTransactionReceipt(txHash).then((d) {
+            await nodeClient.getTransactionReceipt(txHash).then((d) {
               // Give Value To std When Request Successfully
               if (d != null) {
                 std = d.status;
@@ -254,27 +255,27 @@ class ContractProvider with ChangeNotifier {
     try {
       stream = _bscClient.addedBlocks();
 
-      streamSubscriptionBsc = stream.listen((event) async {
-        await getBscBalance();
-        await getBscV2Balance();
-        await getBnbBalance();
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoDecimal()
-            .then((value) async {
-          await Provider.of<ContractProvider>(context, listen: false)
-              .getKgoBalance();
-        });
+      // streamSubscriptionBsc = stream.listen((event) async {
+      //   await getBscBalance();
+      //   await getBscV2Balance();
+      //   await getBnbBalance();
+      //   await Provider.of<ContractProvider>(context, listen: false)
+      //       .getKgoDecimal()
+      //       .then((value) async {
+      //     await Provider.of<ContractProvider>(context, listen: false)
+      //         .getKgoBalance();
+      //   });
 
-        await isBtcContain(apiPro, context);
+      //   await isBtcContain(apiPro, context);
 
-        await apiPro.getDotChainDecimal();
-        // await Future.delayed(const Duration(milliseconds: 5000)).then(
-        //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
-        // );
+      //   await apiPro.getDotChainDecimal();
+      //   // await Future.delayed(const Duration(milliseconds: 5000)).then(
+      //   //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
+      //   // );
 
-        // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-      });
+      //   // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+      //   // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+      // });
     } catch (e) {
       print(e.message);
     }
@@ -379,13 +380,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<EtherAmount> getEthGasPrice() async {
-    initEtherClient();
+    await initEtherClient();
     final gasPrice = await _etherClient.getGasPrice();
     return gasPrice;
   }
 
   Future<EtherAmount> getSelGasPrice() async {
-    initSelClient();
+    await initSelClient();
     final gasPrice = await _selClient.getGasPrice();
     return gasPrice;
   }
@@ -393,7 +394,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBtcMaxGas() async {}
 
   Future<String> getBnbMaxGas(String reciever, String amount) async {
-    initBscClient();
+    await initBscClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
     final maxGas = await _bscClient.estimateGas(
@@ -406,7 +407,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> getEthMaxGas(String reciever, String amount) async {
-    initEtherClient();
+    await initEtherClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
     final maxGas = await _etherClient.estimateGas(
@@ -418,7 +419,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> getSelMaxGas(String reciever, String amount) async {
-    initSelClient();
+    await initSelClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
     final maxGas = await _selClient.estimateGas(
@@ -519,6 +520,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> swap(String amount, String privateKey) async {
+    
     await initBscClient();
     final contract = await initSwapSel(AppConfig.swapMainnetAddr);
 
