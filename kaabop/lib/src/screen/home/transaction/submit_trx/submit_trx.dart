@@ -208,11 +208,9 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             print(gasFee);
 
-            final estGasFeePrice =
-                await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+            final estGasFeePrice = double.parse("0.08");//await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
 
-            final totalAmt = double.parse(_scanPayM.controlAmount.text) +
-                double.parse((gasFee / pow(10, 9)).toString());
+            final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
 
             print(totalAmt);
 
@@ -234,6 +232,17 @@ class SubmitTrxState extends State<SubmitTrx> {
             print(estTotalPrice.toStringAsFixed(2));
             print(estGasFeePrice.toStringAsFixed(2));
 
+            // _scanPayM.asset = "BNB";
+            // _scanPayM.controlReceiverAddress.text = '0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3';
+            // _scanPayM.controlAmount.text = '0.01';
+            // gasPrice = '10.0';
+            // // maxGas = '';
+            // gasFee.toInt().toString();
+            // totalAmt.toString();
+            // estAmtPrice.first.toString();
+            // estTotalPrice.toStringAsFixed(2);
+            // estGasFeePrice.toStringAsFixed(2);
+
             TransactionInfo txInfo = TransactionInfo(
               coinSymbol: _scanPayM.asset,
               to: _scanPayM.controlReceiverAddress.text,
@@ -247,9 +256,10 @@ class SubmitTrxState extends State<SubmitTrx> {
               estTotalPrice: estTotalPrice.toStringAsFixed(2),
               estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
             );
-
+            print("Hello");
             Navigator.pop(context);
 
+            print("Navigate");
             Navigator.push(
               context,
               RouteAnimation(

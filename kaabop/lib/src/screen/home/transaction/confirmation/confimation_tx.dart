@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 
 class ConfirmationTx extends StatelessWidget {
+
   final TransactionInfo trxInfo;
   final Function clickSend;
   const ConfirmationTx({
@@ -59,10 +60,11 @@ class ConfirmationTx extends StatelessWidget {
                 ),
                 Divider(
                   color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.whiteColorHexa)
-                      : hexaCodeToColor(AppColors.darkSecondaryText),
+                    ? hexaCodeToColor(AppColors.whiteColorHexa)
+                    : hexaCodeToColor(AppColors.darkSecondaryText),
                   height: 1.0,
                 ),
+
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
                   child: Column(
@@ -72,8 +74,8 @@ class ConfirmationTx extends StatelessWidget {
                           text: AppString.to,
                           fontSize: 16.0,
                           color: isDarkTheme
-                              ? AppColors.darkSecondaryText
-                              : AppColors.textColor,
+                            ? AppColors.darkSecondaryText
+                            : AppColors.textColor,
                           //fontWeight: FontWeight.bold,
                         ),
                         MyText(
@@ -83,8 +85,8 @@ class ConfirmationTx extends StatelessWidget {
                           bottom: 8.0,
                           overflow: TextOverflow.ellipsis,
                           color: isDarkTheme
-                              ? AppColors.darkSecondaryText
-                              : AppColors.textColor,
+                            ? AppColors.darkSecondaryText
+                            : AppColors.textColor,
                           //fontWeight: FontWeight.bold,
                         ),
                       ]),
@@ -157,10 +159,11 @@ class ConfirmationTx extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 Divider(
                   color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.whiteColorHexa)
-                      : hexaCodeToColor(AppColors.darkSecondaryText),
+                    ? hexaCodeToColor(AppColors.whiteColorHexa)
+                    : hexaCodeToColor(AppColors.darkSecondaryText),
                   height: 1.0,
                 ),
                 Container(
@@ -172,36 +175,42 @@ class ConfirmationTx extends StatelessWidget {
                       MyText(
                         text: AppString.total,
                         color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.textColor,
+                          ? AppColors.darkSecondaryText
+                          : AppColors.textColor,
                         //fontWeight: FontWeight.bold,
                       ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           MyText(
                             top: 8.0,
                             text: AppString.amtPGasFee,
+                            textAlign: TextAlign.right,
                             fontSize: 16.0,
                             color: AppColors.darkSecondaryText,
                             //fontWeight: FontWeight.bold,
                           ),
                           MyText(
                             top: 8.0,
-                            text: trxInfo.totalAmt.substring(0, 9),
+                            text: trxInfo.totalAmt,//.substring(0, 9),
                             fontSize: 32.0,
                             fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.right,
                             color: AppColors.secondary,
                             //fontWeight: FontWeight.bold,
                           ),
                           MyText(
                             top: 8.0,
-                            text: '≈ \$${trxInfo.estTotalPrice}', //'≈ \$0.00',
+                            text: '≈ \$${trxInfo.estTotalPrice}', 
+                            textAlign: TextAlign.right,//'≈ \$0.00',
                             color: AppColors.darkSecondaryText,
                             //fontWeight: FontWeight.bold,
                           ),
                         ],
                       ),
-                    ])),
+                    ]
+                  )
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
