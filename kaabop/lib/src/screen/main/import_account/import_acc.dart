@@ -214,18 +214,19 @@ class ImportAccState extends State<ImportAcc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: globalKey,
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: ImportAccBody(
-            reImport: widget.reimport,
-            importAccModel: _importAccModel,
-            onChanged: widget.reimport != null ? null : onChanged,
-            onSubmit: widget.reimport != null ? onSubmitIm : submit,
-            clearInput: clearInput,
-            enable: enable,
-            submit: widget.reimport != null ? onSubmitIm : submit,
-          ),
-        ));
+      key: globalKey,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: ImportAccBody(
+          reImport: widget.reimport,
+          importAccModel: _importAccModel,
+          onChanged: widget.reimport != null ? null : onChanged,
+          onSubmit: widget.reimport != null ? onSubmitIm : submit,
+          clearInput: clearInput,
+          enable: enable,
+          submit: widget.reimport != null ? onSubmitIm : submit,
+        ),
+      )
+    );
   }
 }

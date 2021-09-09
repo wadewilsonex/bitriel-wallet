@@ -50,18 +50,14 @@ class MarketProvider with ChangeNotifier {
     switch (asset) {
       case 'KGO':
         marketPrice = contract.listContract[2].marketPrice;
-        print(contract.listContract[2].marketPrice);
         break;
       case 'BTC':
-        print(api.btc.marketPrice);
         marketPrice = api.btc.marketPrice;
         break;
       case 'ETH':
-        print(contract.listContract[3].marketPrice);
         marketPrice = contract.listContract[3].marketPrice;
         break;
       case 'BNB':
-        print(contract.listContract[4].marketPrice);
         marketPrice = contract.listContract[4].marketPrice;
         break;
     }

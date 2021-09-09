@@ -31,7 +31,6 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
-    print("Second");
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
@@ -64,7 +63,6 @@ class AppState extends State<App> {
         
         // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
-        print("contractProvider.isReady ${contractProvider.isReady}");
       }
 
       await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
@@ -178,7 +176,7 @@ class AppState extends State<App> {
       //       .getKgoBalance();
       // });
     } catch (e) {
-      print("Error KGO $e");
+      // print("Error KGO $e");
     }
   }
 

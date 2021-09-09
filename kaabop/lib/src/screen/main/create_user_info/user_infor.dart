@@ -31,7 +31,12 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   Future<void> enableScreenshot() async {
+    try {
+
     await FlutterScreenshotSwitcher.enableScreenshots();
+    } catch (e){
+      print(e);
+    }
   }
 
   @override
@@ -198,18 +203,15 @@ class MyUserInfoState extends State<MyUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      ApiProvider.sdk.api.keyring
-          .addAccount(
+      await ApiProvider.sdk.api.keyring.addAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
         acc: json,
         password: _userInfoM.confirmPasswordCon.text,
-      )
-          .then(
-        (value) async {
-          final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
+      ).then((value) async {
+        final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
           if (resPk != null) {
-            ContractProvider().extractAddress(resPk);
+            await ContractProvider().extractAddress(resPk);
             final res = await ApiProvider.keyring.store.encryptPrivateKey(
               resPk,
               _userInfoM.confirmPasswordCon.text,
@@ -219,35 +221,34 @@ class MyUserInfoState extends State<MyUserInfo> {
               await StorageServices().writeSecure('private', res);
             }
           }
-          Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+          
+          await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-          Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-          Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-          Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+          await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+          await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-          selV2();
+          await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+          await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+          await isKgoContain();
+          await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+          await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-          isKgoContain();
+          // This Method Is Also Request Dot Contract
+          await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+          
           await addBtcWallet();
+          
+          // // Sort Contract Asset
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
+          
+          // // Ready To Display Asset Portfolio
+          Provider.of<ContractProvider>(context, listen: false).setReady();
+          
+          print("getChainDecimal");
+          await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
-          Provider.of<MarketProvider>(context, listen: false)
-              .fetchTokenMarketPrice(context);
-
-          Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-          Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-          Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-          Provider.of<WalletProvider>(context, listen: false).addAvaibleToken({
-            'symbol':
-                Provider.of<ApiProvider>(context, listen: false).nativeM.symbol,
-            'balance': Provider.of<ApiProvider>(context, listen: false)
-                    .nativeM
-                    .balance ??
-                '0',
-          });
-
-          // Close Loading Process
-          Navigator.pop(context);
-          enableScreenshot();
+          // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
+          await enableScreenshot();
           await successDialog(context, "created your account.");
         },
       );

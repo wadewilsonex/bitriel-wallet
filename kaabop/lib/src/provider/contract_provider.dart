@@ -63,7 +63,7 @@ class ContractProvider with ChangeNotifier {
     // KIWIGO
     SmartContractModel(
         id: 'kiwigo',
-        address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
+        address: '0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314',//'0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
         logo: 'assets/Kiwi-GO-White-1.png',
         symbol: 'KGO',
         org: 'BEP-20',
@@ -186,8 +186,6 @@ class ContractProvider with ChangeNotifier {
     
     addApiProviderProperty(api);
 
-    listContract.forEach((element) {print(element.symbol); print(element.balance);});
-
     if (sortListContract.isNotEmpty) {
       SmartContractModel tmp = SmartContractModel();
       for (int i = 0; i < sortListContract.length; i++) {
@@ -200,9 +198,6 @@ class ContractProvider with ChangeNotifier {
           }
         }
       }
-      sortListContract.forEach((element) {print(element.symbol); print(element.balance);});
-      // sortListContract.forEach((element) {print(element.balance);});
-
     }
 
     return null;
@@ -255,27 +250,22 @@ class ContractProvider with ChangeNotifier {
     try {
       stream = _bscClient.addedBlocks();
 
-      // streamSubscriptionBsc = stream.listen((event) async {
-      //   await getBscBalance();
-      //   await getBscV2Balance();
-      //   await getBnbBalance();
-      //   await Provider.of<ContractProvider>(context, listen: false)
-      //       .getKgoDecimal()
-      //       .then((value) async {
-      //     await Provider.of<ContractProvider>(context, listen: false)
-      //         .getKgoBalance();
-      //   });
+      streamSubscriptionBsc = stream.listen((event) async {
+        await getBscBalance();
+        await getBscV2Balance();
+        await getBnbBalance();
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getKgoDecimal()
+            .then((value) async {
+          await Provider.of<ContractProvider>(context, listen: false)
+              .getKgoBalance();
+        });
 
-      //   await isBtcContain(apiPro, context);
+        await isBtcContain(apiPro, context);
 
-      //   await apiPro.getDotChainDecimal();
-      //   // await Future.delayed(const Duration(milliseconds: 5000)).then(
-      //   //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
-      //   // );
+        await apiPro.getDotChainDecimal();
 
-      //   // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-      //   // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-      // });
+      });
     } catch (e) {
       print(e.message);
     }
@@ -451,11 +441,6 @@ class ContractProvider with ChangeNotifier {
       ),
     );
 
-    print(txFunction.encodeCall([
-      EthereumAddress.fromHex(reciever),
-      BigInt.from(double.parse(amount) * pow(10, 18))
-    ]));
-
     return maxGas.toString();
   }
 
@@ -569,8 +554,7 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<List> query(
-      String contractAddress, String functionName, List args) async {
+  Future<List> query(String contractAddress, String functionName, List args) async {
     await initBscClient();
     final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
@@ -591,7 +575,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoDecimal() async {
-    print("getKgoDecimal");
     if (!cancelStream){
       final res = await query(listContract[2].address, 'decimals', []);
       listContract[2].chainDecimal = res[0].toString();
@@ -602,7 +585,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> getKgoBalance() async {
 
-    print("getKgoBalance");
+    // print("getKgoBalance");
     if (!cancelStream){
       listContract[2].isContain = true;
 
@@ -629,7 +612,7 @@ class ContractProvider with ChangeNotifier {
 
     listContract[indexContract].chainDecimal = res[0].toString();
 
-    print("getBscDecimal ${listContract[indexContract].chainDecimal}");
+    // print("getBscDecimal ${listContract[indexContract].chainDecimal}");
 
     notifyListeners();
   }
@@ -661,17 +644,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBnbBalance() async {
-    print("getBnbBalance");
-    print(!cancelStream);
     if (!cancelStream){
-      print("!cancelStream ${!cancelStream}");
       listContract[4].isContain = true;
       final ethAddr = await StorageServices().readSecure('etherAdd');
       final balance = await _bscClient.getBalance(
         EthereumAddress.fromHex(ethAddr),
       );
       listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
-      print("BNB balance ${listContract[4].balance}");
       // Assign Line Graph Chart
       listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
@@ -680,17 +659,15 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscBalance() async {
-    print("getBscBalance");
-    print(listContract[0].symbol);
+    // print("getBscBalance");
     if (!cancelStream){
-      print("BSC ${!cancelStream}");
+      // print("BSC ${!cancelStream}");
       listContract[0].isContain = true;
-      print(listContract[0].address);
       await getBscDecimal(0);
-      print("ethAdd $ethAdd");
+      // print("ethAdd $ethAdd");
       if (ethAdd != '') {
         final res = await query(listContract[0].address, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-        print("listContract[0].balance ${listContract[0].balance}");
+        // print("listContract[0].balance ${listContract[0].balance}");
         listContract[0].balance = Fmt.bigIntToDouble(
           res[0] as BigInt,
           int.parse(listContract[0].chainDecimal),
@@ -705,13 +682,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscV2Balance() async {
-    print("getBscV2Balance");
+    // print("getBscV2Balance");
     if(!cancelStream){
       listContract[1].isContain = true;
       await getBscDecimal(1);
       if (ethAdd != '') {
         final res = await query(listContract[1].address, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-        print("listContract[0].balance ${listContract[1].balance}");
+        // print("listContract[0].balance ${listContract[1].balance}");
         listContract[1].balance = Fmt.bigIntToDouble(
           res[0] as BigInt,
           int.parse(listContract[1].chainDecimal),
@@ -727,7 +704,7 @@ class ContractProvider with ChangeNotifier {
 
 
   Future<void> fetchNonBalance() async {
-    print("fetchNonBalance");
+    // print("fetchNonBalance");
     await initBscClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {
@@ -747,7 +724,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> fetchEtherNonBalance() async {
-    print("fetchEtherNonBalance");
+    // print("fetchEtherNonBalance");
     await initEtherClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {

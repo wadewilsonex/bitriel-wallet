@@ -4,10 +4,9 @@ FLUTTER_APPLICATION_PATH=/Users/mac/Documents/bitriel-wallet/kaabop
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=/Users/mac/Documents/bitriel-wallet/kaabop/lib/main.dart
 FLUTTER_BUILD_DIR=build
-SYMROOT=${SOURCE_ROOT}/../build/ios
 FLUTTER_BUILD_NAME=2.0.16
 FLUTTER_BUILD_NUMBER=39
-EXCLUDED_ARCHS[sdk=iphonesimulator*]=arm64 i386
+EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
 DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true

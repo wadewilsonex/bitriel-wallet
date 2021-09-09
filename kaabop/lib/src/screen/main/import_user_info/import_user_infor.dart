@@ -28,6 +28,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   @override
   void initState() {
+    print("Hello import use info");
     _menuModel = MenuModel();
     AppServices.noInternetConnection(_userInfoM.globalKey);
     super.initState();
@@ -43,7 +44,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     print("acc ${contractProvider.listContract[0].address}");
@@ -65,13 +65,10 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       if (acc != null) {
-        print("acc ${contractProvider.listContract.length}");
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
         if (resPk != null) {
-          print("extractAddress");
           await ContractProvider().extractAddress(resPk);
-          print(contractProvider.listContract.length);
 
           final res = await ApiProvider.keyring.store.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
 
@@ -90,18 +87,10 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
         await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-        print(contractProvider.listContract.length);
-
         // This Method Is Also Request Dot Contract
         await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-        print(contractProvider.listContract.length);
         
         await addBtcWallet();
-
-        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        // contractProvider.addApiProviderProperty(apiProvider);
-
-        print(contractProvider.listContract.length);
         
         // // Sort Contract Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
@@ -112,19 +101,12 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         print("getChainDecimal");
         await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
-        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-
-        // Provider.of<ContractProvider>(context, listen: false).setReady();
-        //await Provider.of<WalletProvider>(context, listen: false)
-        //     .fillWithMarketData(context);
-
-        // // Set Empty For Pie Chart
-        // Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
+        print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
 
         await successDialog(context, "imported your account.");
       }
     } catch (e) {
+      print("Import Error $e");
       await showDialog(
         context: context,
         builder: (context) {
@@ -176,9 +158,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) async {
+    await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
       await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
     });
   }

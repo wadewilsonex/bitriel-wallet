@@ -119,6 +119,8 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
     _wordsLeft = [];
     _wordsSelected = [];
 
+    print("ConfirmMnemonic");
+
     for (final i in widget.passPhraseList) {
       _wordsLeft.add(i); // Use For Sort Mnemonic
       _mnemonic.add(i); // Use For Compare

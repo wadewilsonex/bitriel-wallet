@@ -32,16 +32,7 @@ class AssetItem extends StatelessWidget {
       lineChartModel.totalUsd = res.toStringAsFixed(2);
     }
 
-    // if (tokenSymbol == "KGO") {
-    //   print(double.parse(marketPrice));
-    // }
-
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
-    // print("Hello $tokenSymbol");
-    // if (tokenSymbol == "BTC") print("Hello ${lineChartModel.values ?? 0}");
-    // if (tokenSymbol == "BNB") print("Hello ${lineChartModel.values ?? 0}");
-    // if (tokenSymbol == "ETH") print("Hello ${lineChartModel.values.length ?? 0}");
 
     return rowDecorationStyle(
         color: isDarkTheme

@@ -6,21 +6,14 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    // final contract = Provider.of<ContractProvider>(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // RaisedButton(
-        //   onPressed: () {
-        //     contract.unsubscribeNetwork();
-        //   },
-        //   child: Text('unsubscribe'),
-        // ),
+
         // Pie Chart With List Asset Market
         PortFolioCus(),
 
         Consumer<ContractProvider>(builder: (context, value, child) {
-          if (value.isReady) print("value.isReady ${value.isReady}");
           return value.isReady
             // Asset List As Row
             ? AnimatedOpacity(

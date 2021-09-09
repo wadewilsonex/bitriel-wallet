@@ -119,7 +119,6 @@ class TrxOptionMethod {
     print("scanQR $_response");
     //print("Scan qr reponse $_response");
     if (_response != null) {
-      print("Hello");
       await Navigator.push(
           context,
           MaterialPageRoute(

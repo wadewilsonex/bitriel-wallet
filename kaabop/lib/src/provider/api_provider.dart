@@ -170,7 +170,6 @@ class ApiProvider with ChangeNotifier {
 
     final trxSize = calTrxSize(input, 2);
 
-    print("trxSize $trxSize");
     return trxSize.toString();
   }
 
@@ -345,7 +344,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> getChainDecimal() async {
     final res = await sdk.api.getChainDecimal();
-    print("Res ${res[0]}");
     nativeM.chainDecimal = res[0].toString();
 
     await subscribeBalance();

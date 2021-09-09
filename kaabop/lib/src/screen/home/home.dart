@@ -31,7 +31,6 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
-    print("first");
     super.initState();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
