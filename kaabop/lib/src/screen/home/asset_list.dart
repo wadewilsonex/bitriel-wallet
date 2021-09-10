@@ -140,6 +140,7 @@ class AssetList extends StatelessWidget {
       }
     }
   }
+  // int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +166,7 @@ class AssetList extends StatelessWidget {
                           tokenSymbol:
                               value.sortListContract[index].symbol ?? '',
                           org: value.sortListContract[index].org,
+                          marketData: value.sortListContract[index].marketData,
                           marketPrice:
                               value.sortListContract[index].marketPrice,
                           priceChange24h:

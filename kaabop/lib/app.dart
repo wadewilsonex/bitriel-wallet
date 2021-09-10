@@ -14,8 +14,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  bool _apiConnected = false;
-
   @override
   void initState() {
     readTheme();
@@ -23,7 +21,7 @@ class AppState extends State<App> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       MarketProvider().fetchTokenMarketPrice(context);
 
-      initApi();
+      await initApi();
       clearOldBtcAddr();
       await Provider.of<ContractProvider>(context, listen: false)
           .getEtherAddr();
@@ -33,6 +31,7 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+    print("Second");
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider =
         Provider.of<ContractProvider>(context, listen: false);
@@ -41,6 +40,8 @@ class AppState extends State<App> {
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+        await contractProvider.getEtherAddr();
+
         await getSavedContractToken();
         await getEtherSavedContractToken();
 
@@ -48,8 +49,8 @@ class AppState extends State<App> {
         await apiProvider.getCurrentAccount();
 
         await contractProvider.getBscBalance();
-        //await contractProvider.getBscV2Balance();
-        //await isKgoContain();
+        await contractProvider.getBscV2Balance();
+        await isKgoContain();
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
 
@@ -58,29 +59,21 @@ class AppState extends State<App> {
         await isBtcContain();
 
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        contractProvider.addApiProviderProperty(apiProvider);
+        // contractProvider.addApiProviderProperty(apiProvider);
 
-        // Sort After MarketPrice Filled Into Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        // Sort Contract Asset
+        await Provider.of<ContractProvider>(context, listen: false)
+            .sortAsset(context);
 
-        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        await Provider.of<MarketProvider>(context, listen: false)
-            .fetchTokenMarketPrice(context);
-
+        // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
-
-        await Provider.of<WalletProvider>(context, listen: false)
-            .fillWithMarketData(context);
+        print("contractProvider.isReady ${contractProvider.isReady}");
       }
 
       await Provider.of<ApiProvider>(context, listen: false)
           .connectNode()
           .then((value) async {
         if (value != null) {
-          setState(() {
-            _apiConnected = true;
-          });
-
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
             await Provider.of<ApiProvider>(context, listen: false)
                 .getChainDecimal();
@@ -181,18 +174,21 @@ class AppState extends State<App> {
   }
 
   Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) async {
+    try {
       await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoBalance();
-    });
+          .getKgoDecimal();
+      //     .then((value) async {
+      //   await Provider.of<ContractProvider>(context, listen: false)
+      //       .getKgoBalance();
+      // });
+    } catch (e) {
+      print("Error KGO $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return AnnotatedRegion(
       value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: LayoutBuilder(
@@ -208,7 +204,7 @@ class AppState extends State<App> {
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
-                      Home.route: (_) => Home(apiConnected: _apiConnected),
+                      Home.route: (_) => Home(),
                     },
                     initialRoute: AppString.splashScreenView,
                     builder: (context, widget) => ResponsiveWrapper.builder(

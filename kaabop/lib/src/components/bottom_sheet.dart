@@ -4,10 +4,8 @@ import 'package:wallet_apps/index.dart';
 class MyBottomSheet {
   dynamic response;
 
-  Future<dynamic> trxOptions(
-      {BuildContext context, List portfolioList, String asset}) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+  Future<dynamic> trxOptions({BuildContext context, List portfolioList, String asset}) {
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -46,7 +44,7 @@ class MyBottomSheet {
                             portfolioList,
                           );
                         } catch (e) {
-                          //  print(e.message);
+                          print(e);
                         }
                       },
                     ),

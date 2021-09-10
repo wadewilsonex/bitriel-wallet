@@ -78,9 +78,8 @@ class AppServices {
   }
 
   // ignore: avoid_void_async
-  static void clearStorage() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+  static Future<void> clearStorage() async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }
 

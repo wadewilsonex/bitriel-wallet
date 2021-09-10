@@ -16,29 +16,23 @@ class QrScanner extends StatefulWidget {
 }
 
 class QrScannerState extends State<QrScanner> {
+
   final GlobalKey qrKey = GlobalKey();
 
-  String code;
-
-  void _onQrViewCreated(QRViewController controller) {
+  Future<void> _onQrViewCreated(QRViewController controller) async {
     try {
+      controller.scannedDataStream.listen((event) async {
+        controller.dispose();
 
-      controller.scannedDataStream.listen((scanData) async {
-        await controller.pauseCamera();
-        // code = scanData.code;
-        Navigator.pop(context, scanData.code);
-        // await Future.delayed(Duration(seconds: 2), () async {
-        //   // _backend.mapData = await Navigator.push(
-        //   //     context,
-        //   //     MaterialPageRoute(
-        //   //         builder: (context) => SubmitTrx(scanData.code, false,
-        //   //             widget.portList, widget.sdk, widget.keyring)));
+        Navigator.pop(context, event.code);
 
-        // });
       });
+
     } catch (e) {
      
     }
+
+    return controller;
   }
 
   @override
@@ -63,7 +57,10 @@ class QrScannerState extends State<QrScanner> {
             Expanded(
               child: QRView(
                 key: qrKey,
-                onQRViewCreated: _onQrViewCreated,
+                onQRViewCreated: (QRViewController qrView) async {
+                  await _onQrViewCreated(qrView);
+                  // print(qrKey.currentState);
+                },
                 overlay: QrScannerOverlayShape(
                   borderRadius: 10,
                   borderWidth: 10,

@@ -118,7 +118,6 @@ class WalletProvider with ChangeNotifier {
   void clearPortfolio() {
     availableToken.clear();
     _portfolioM.clear();
-    availableToken.clear();
     dataMap.clear();
     notifyListeners();
   }

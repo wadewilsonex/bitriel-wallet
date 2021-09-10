@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 
 class ConfirmationTx extends StatelessWidget {
   final TransactionInfo trxInfo;
-  final String gasFeetoEther;
   final Function clickSend;
+  final String gasFeetoEther;
   const ConfirmationTx({
     Key key,
     this.trxInfo,
@@ -19,7 +17,6 @@ class ConfirmationTx extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final startPart = trxInfo.to.substring(0, 5);
     final endPart = trxInfo.to.substring(trxInfo.to.length - 4);
-
     return Scaffold(
       body: BodyScaffold(
         child: Column(
@@ -164,53 +161,49 @@ class ConfirmationTx extends StatelessWidget {
                   : hexaCodeToColor(AppColors.darkSecondaryText),
               height: 1.0,
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 28.0,
+            Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 28.0,
+                ),
+                child: spaceRow([
+                  MyText(
+                    text: AppString.total,
+                    color: isDarkTheme
+                        ? AppColors.darkSecondaryText
+                        : AppColors.textColor,
+                    //fontWeight: FontWeight.bold,
                   ),
-                  child: spaceRow([
-                    MyText(
-                      text: AppString.total,
-                      color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.textColor,
-                      //fontWeight: FontWeight.bold,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        MyText(
-                          top: 8.0,
-                          text: AppString.amtPGasFee,
-                          fontSize: 16.0,
-                          color: AppColors.darkSecondaryText,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                        MyText(
-                          top: 8.0,
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          text: trxInfo.coinSymbol == 'BTC'
-                              ? ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther '
-                              : ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther  ${trxInfo.feeNetworkSymbol}',
-                          fontSize: 18.0,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.secondary,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                        MyText(
-                          top: 8.0,
-                          text: '≈ \$${trxInfo.estTotalPrice}', //'≈ \$0.00',
-                          color: AppColors.darkSecondaryText,
-                          //fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                  ])),
-            ),
+                  Column(
+                    children: [
+                      MyText(
+                        top: 8.0,
+                        text: AppString.amtPGasFee,
+                        fontSize: 16.0,
+                        color: AppColors.darkSecondaryText,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                      MyText(
+                        top: 8.0,
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        text: trxInfo.coinSymbol == 'BTC'
+                            ? ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther '
+                            : ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther  ${trxInfo.feeNetworkSymbol}',
+                        fontSize: 18.0,
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondary,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                      MyText(
+                        top: 8.0,
+                        text: '≈ \$${trxInfo.estTotalPrice}', //'≈ \$0.00',
+                        color: AppColors.darkSecondaryText,
+                        //fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ])),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
             ),
@@ -239,3 +232,17 @@ class ConfirmationTx extends StatelessWidget {
     );
   }
 }
+
+
+// MyText(
+//                           top: 8.0,
+//                           width: MediaQuery.of(context).size.width / 1.5,
+//                           text: trxInfo.coinSymbol == 'BTC'
+//                               ? ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther '
+//                               : ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther  ${trxInfo.feeNetworkSymbol}',
+//                           fontSize: 18.0,
+//                           overflow: TextOverflow.ellipsis,
+//                           fontWeight: FontWeight.bold,
+//                           color: AppColors.secondary,
+//                           //fontWeight: FontWeight.bold,
+//                         ),

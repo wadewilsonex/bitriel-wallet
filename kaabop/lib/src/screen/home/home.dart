@@ -6,9 +6,9 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
-  final bool apiConnected;
+ // final bool apiConnected;
   // ignore: avoid_positional_boolean_parameters
-  const Home({this.apiConnected});
+  //const Home({this.apiConnected});
 
   static const route = '/home';
 
@@ -31,14 +31,49 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
+    print("first");
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      PortfolioServices().setPortfolio(context);
-    });
+    // Timer(const Duration(seconds: 2), () {
+    //   PortfolioServices().setPortfolio(context);
+    // });
+    if (mounted){
+      marketInitializer();
+    }
 
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    });
+  }
+
+  void marketInitializer() async {
+
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+
+    // print(apiProvider.)
+    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+    // Provider.of<ContractProvider>(context).addApiProviderProperty(apiProvider);
+
+    // Sort After MarketPrice Filled Into Asset
+    // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+    // Ready To Display Asset Portfolio
+    // Provider.of<ContractProvider>(context, listen: false).setReady();
+
+    /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
+    await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
+    await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+
+    // setState(() {
+      
+    // });
+
   }
 
   @override
@@ -47,16 +82,10 @@ class HomeState extends State<Home>
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
-    });
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   Future<void> toReceiveToken() async {
     await Navigator.pushNamed(context, AppString.recieveWalletView);
@@ -134,7 +163,7 @@ class HomeState extends State<Home>
     }
 
     // Sort Each Asset Portfolio
-    await contract.sortAsset();
+    await contract.sortAsset(context);
 
     if (contract.token.isNotEmpty) {
       await contract.fetchNonBalance();
@@ -155,7 +184,6 @@ class HomeState extends State<Home>
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return Scaffold(
       key: _homeM.globalKey,
       drawer: Theme(

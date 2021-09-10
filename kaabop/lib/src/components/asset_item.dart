@@ -32,6 +32,10 @@ class AssetItem extends StatelessWidget {
       lineChartModel.totalUsd = res.toStringAsFixed(2);
     }
 
+    // if (tokenSymbol == "KGO") {
+    //   print(double.parse(marketPrice));
+    // }
+
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     // print("Hello $tokenSymbol");
@@ -67,7 +71,7 @@ class AssetItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyText(
-                    text: tokenSymbol,
+                    text: tokenSymbol ?? '',
                     fontWeight: FontWeight.bold,
                     color: isDarkTheme
                         ? AppColors.whiteColorHexa
@@ -109,17 +113,19 @@ class AssetItem extends StatelessWidget {
                         ),
 
                         const SizedBox(width: 6.0),
-                        MyText(
-                          text: priceChange24h.substring(0, 1) == '-'
-                              ? '$priceChange24h%'
-                              : '+$priceChange24h%',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: priceChange24h.substring(0, 1) == '-'
-                              ? '#FF0000'
-                              : isDarkTheme
-                                  ? '#00FF00'
-                                  : '#66CD00',
+                        Flexible(
+                          child: MyText(
+                            text: priceChange24h.substring(0, 1) == '-'
+                                ? '$priceChange24h%'
+                                : '+$priceChange24h%',
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: priceChange24h.substring(0, 1) == '-'
+                                ? '#FF0000'
+                                : isDarkTheme
+                                    ? '#00FF00'
+                                    : '#66CD00',
+                          ),
                         ),
                       ],
                     ),
@@ -143,7 +149,7 @@ class AssetItem extends StatelessWidget {
             // Total Amount
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(right: 8.0),
+                // margin: const EdgeInsets.only(right: 8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

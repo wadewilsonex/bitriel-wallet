@@ -117,7 +117,7 @@ class _AssetInfoState extends State<AssetInfo> {
   Future<void> _refresh() async {
     await Future.delayed(const Duration(seconds: 3)).then((value) {
       if (widget.tokenSymbol == "ATD") {
-        Provider.of<ContractProvider>(context, listen: false).getAStatus();
+        // Provider.of<ContractProvider>(context, listen: false).getAStatus();
         getCheckInList();
         getCheckOutList();
         sortList();
@@ -180,14 +180,14 @@ class _AssetInfoState extends State<AssetInfo> {
     return res;
   }
 
-  Future<void> initATD() async {
-    if (widget.tokenSymbol == "ATD") {
-      Provider.of<ContractProvider>(context, listen: false).getAStatus();
-      await getCheckInList();
-      await getCheckOutList();
-      sortList();
-    }
-  }
+  // Future<void> initATD() async {
+  //   if (widget.tokenSymbol == "ATD") {
+  //     Provider.of<ContractProvider>(context, listen: false).getAStatus();
+  //     await getCheckInList();
+  //     await getCheckOutList();
+  //     sortList();
+  //   }
+  // }
 
   Future<String> addressName(LatLng place) async {
     final List<Placemark> placemark = await Geolocator()
@@ -226,21 +226,21 @@ class _AssetInfoState extends State<AssetInfo> {
     await txDetailDialog(context, txHistory);
   }
 
-  Future<void> qrRes() async {
-    final _response =
-        await Navigator.push(context, transitionRoute(QrScanner()));
+  // Future<void> qrRes() async {
+  //   final _response =
+  //       await Navigator.push(context, transitionRoute(QrScanner()));
 
-    if (_response != null && _response != "null") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CheckIn(
-            qrRes: _response.toString(),
-          ),
-        ),
-      );
-    }
-  }
+  //   if (_response != null && _response != "null") {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => CheckIn(
+  //           qrRes: _response.toString(),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   void onPageChange(int index) {
     setState(() {
@@ -281,18 +281,18 @@ class _AssetInfoState extends State<AssetInfo> {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _globalKey,
-      floatingActionButton: widget.tokenSymbol != "ATD"
-          ? Container()
-          : FloatingActionButton(
-              onPressed: () {
-                qrRes();
-              },
-              backgroundColor: hexaCodeToColor(AppColors.secondary),
-              child: const Icon(
-                Icons.location_on,
-                size: 30,
-              ),
-            ),
+      // floatingActionButton: widget.tokenSymbol != "ATD"
+      //     ? Container()
+      //     : FloatingActionButton(
+      //         onPressed: () {
+      //          /// qrRes();
+      //         },
+      //         backgroundColor: hexaCodeToColor(AppColors.secondary),
+      //         child: const Icon(
+      //           Icons.location_on,
+      //           size: 30,
+      //         ),
+      //       ),
       body: BodyScaffold(
         isSafeArea: true,
         bottom: 0,
@@ -394,27 +394,27 @@ class _AssetInfoState extends State<AssetInfo> {
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
-                          if (widget.tokenSymbol == "ATD")
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Consumer<ContractProvider>(
-                                builder: (context, value, child) {
-                                  return MyText(
-                                    textAlign: TextAlign.right,
-                                    text: value.atd.status
-                                        ? 'Status: Check-In'
-                                        : 'Status: Check-out',
-                                    fontSize: 16.0,
-                                    right: 16.0,
-                                    color: isDarkTheme
-                                        ? AppColors.whiteColorHexa
-                                        : AppColors.textColor,
-                                  );
-                                },
-                              ),
-                            )
-                          else
-                            Container(),
+                          // if (widget.tokenSymbol == "ATD")
+                          //   Align(
+                          //     alignment: Alignment.topRight,
+                          //     child: Consumer<ContractProvider>(
+                          //       builder: (context, value, child) {
+                          //         return MyText(
+                          //           textAlign: TextAlign.right,
+                          //           text: value.atd.status
+                          //               ? 'Status: Check-In'
+                          //               : 'Status: Check-out',
+                          //           fontSize: 16.0,
+                          //           right: 16.0,
+                          //           color: isDarkTheme
+                          //               ? AppColors.whiteColorHexa
+                          //               : AppColors.textColor,
+                          //         );
+                          //       },
+                          //     ),
+                          //   )
+                          // else
+                          //   Container(),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
@@ -490,8 +490,8 @@ class _AssetInfoState extends State<AssetInfo> {
                                         width: 150,
                                         // ignore: deprecated_member_use
                                         child: FlatButton(
-                                          onPressed: () {
-                                            MyBottomSheet().trxOptions(
+                                          onPressed: () async {
+                                            await MyBottomSheet().trxOptions(
                                               context: context,
                                             );
                                           },

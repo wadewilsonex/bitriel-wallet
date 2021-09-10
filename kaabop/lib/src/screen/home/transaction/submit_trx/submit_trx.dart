@@ -168,105 +168,165 @@ class SubmitTrxState extends State<SubmitTrx> {
       if (!isValid) {
         Navigator.pop(context);
         await trxFunc.customDialog('Oops', 'Invalid Reciever Address.');
-      }
+      } else {
+        final isEnough = await trxFunc.checkBalanceofCoin(
+          _scanPayM.asset,
+          _scanPayM.controlAmount.text,
+        );
 
-      final isEnough = await trxFunc.checkBalanceofCoin(
-        _scanPayM.asset,
-        _scanPayM.controlAmount.text,
-      );
+        if (!isEnough && isValid) {
+          if (isValid) {
+            Navigator.pop(context);
+          }
+          await trxFunc.customDialog('Insufficient Balance',
+              'You do not have sufficient balance for transaction.');
+        }
 
-      if (!isEnough && isValid) {
         if (isValid) {
-          Navigator.pop(context);
+          gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
         }
-        await trxFunc.customDialog('Insufficient Balance',
-            'You do not have sufficient balance for transaction.');
-      }
 
-      if (isValid) {
-        gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
-      }
+        if (isValid && isEnough) {
+          if (gasPrice != null) {
+            final estAmtPrice = await trxFunc.calPrice(
+              _scanPayM.asset,
+              _scanPayM.controlAmount.text,
+            );
 
-      if (isValid && isEnough) {
-        if (gasPrice != null) {
-          print('gas price: $gasPrice');
+            print(estAmtPrice);
 
-          final estAmtPrice = await trxFunc.calPrice(
-            _scanPayM.asset,
-            _scanPayM.controlAmount.text,
-          );
+            final maxGas = await trxFunc.estMaxGas(
+              _scanPayM.asset,
+              _scanPayM.controlReceiverAddress.text,
+              _scanPayM.controlAmount.text,
+            );
 
-          print(estAmtPrice);
+            print('maxGas: $maxGas');
 
-          final maxGas = await trxFunc.estMaxGas(
-            _scanPayM.asset,
-            _scanPayM.controlReceiverAddress.text,
-            _scanPayM.controlAmount.text,
-          );
+            final gasFee = double.parse(maxGas) * double.parse(gasPrice);
 
-          print('maxGas: $maxGas');
+            print(gasFee);
 
-          final gasFee = double.parse(maxGas) * double.parse(gasPrice);
+            var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
 
-          print(gasFee);
+            final estGasFeePrice =
+                await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
 
-          final estGasFeePrice =
-              await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+            final totalAmt = double.parse(_scanPayM.controlAmount.text) +
+                double.parse((gasFee / pow(10, 9)).toString());
 
-          var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+            print(totalAmt);
 
-          final totalAmt =
-              double.parse(_scanPayM.controlAmount.text) + gasFeeToEther;
+            final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
 
-          print(totalAmt);
+            print(estToSendPrice);
 
-          final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
+            final estTotalPrice = estGasFeePrice + estToSendPrice;
 
-          print(estToSendPrice);
+            // final res =
+            //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
 
-          final estTotalPrice = estGasFeePrice + estToSendPrice;
+            // print(res);
 
-          print(gasFeeToEther.toStringAsFixed(8));
+            TransactionInfo txInfo = TransactionInfo(
+              coinSymbol: _scanPayM.asset,
+              to: _scanPayM.controlReceiverAddress.text,
+              amount: _scanPayM.controlAmount.text,
+              gasPrice: gasPrice,
+              feeNetworkSymbol:
+                  _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
+                      ? 'BNB'
+                      : 'ETH',
+              gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+              maxGas: maxGas,
+              gasFee: gasFee.toInt().toString(),
+              totalAmt: totalAmt.toString(),
+              estAmountPrice: estAmtPrice.first.toString(),
+              estTotalPrice: estTotalPrice.toStringAsFixed(2),
+              estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+            );
 
-          // final res =
-          //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+            Navigator.pop(context);
 
-          // print(res);
-
-          TransactionInfo txInfo = TransactionInfo(
-            coinSymbol: _scanPayM.asset,
-            to: _scanPayM.controlReceiverAddress.text,
-            amount: _scanPayM.controlAmount.text,
-            gasPrice: gasPrice,
-            feeNetworkSymbol:
-                _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
-                    ? 'BNB'
-                    : 'ETH',
-            gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-            maxGas: maxGas,
-            gasFee: gasFee.toInt().toString(),
-            totalAmt: totalAmt.toString(),
-            estAmountPrice: estAmtPrice.first.toString(),
-            estTotalPrice: estTotalPrice.toStringAsFixed(2),
-            estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-          );
-
-          Navigator.pop(context);
-
-          Navigator.push(
-            context,
-            RouteAnimation(
-              enterPage: ConfirmationTx(
-                trxInfo: txInfo,
-                clickSend: clickSend,
-                gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+            Navigator.push(
+              context,
+              RouteAnimation(
+                enterPage: ConfirmationTx(
+                  trxInfo: txInfo,
+                  clickSend: clickSend,
+                  gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+                ),
               ),
-            ),
-          );
-        } else {
-          Navigator.pop(context);
-          clickSend();
+            );
+          } else {
+            Navigator.pop(context);
+            clickSend();
+          }
         }
+
+        //   final estGasFeePrice =
+        //       await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+
+        //   var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+
+        //   final totalAmt =
+        //       double.parse(_scanPayM.controlAmount.text) + gasFeeToEther;
+
+        //   print(totalAmt);
+
+        //   final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
+
+        //   print(estToSendPrice);
+
+        //   final estTotalPrice = estGasFeePrice + estToSendPrice;
+
+        //   print(gasFeeToEther.toStringAsFixed(8));
+
+        //   // final res =
+        //   //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+
+        //   // print(res);
+
+        //   TransactionInfo txInfo = TransactionInfo(
+        //     coinSymbol: _scanPayM.asset,
+        //     to: _scanPayM.controlReceiverAddress.text,
+        //     amount: _scanPayM.controlAmount.text,
+        //     gasPrice: gasPrice,
+        //     feeNetworkSymbol:
+        //         _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
+        //             ? 'BNB'
+        //             : 'ETH',
+        //     gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+        //     maxGas: maxGas,
+        //     gasFee: gasFee.toInt().toString(),
+        //     totalAmt: totalAmt.toString(),
+        //     estAmountPrice: estAmtPrice.first.toString(),
+        //     estTotalPrice: estTotalPrice.toStringAsFixed(2),
+        //     estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+        //   );
+
+        //   Navigator.pop(context);
+
+        //   Navigator.push(
+        //     context,
+        //     RouteAnimation(
+        //       enterPage: ConfirmationTx(
+        //         trxInfo: txInfo,
+        //         clickSend: clickSend,
+        //         gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+        //       ),
+        //     );
+        //   } else {
+        //     Navigator.pop(context);
+        //     clickSend();
+        //   }
+        // }
+      }
+
+      @override
+      Widget build(BuildContext context) {
+        // TODO: implement build
+        throw UnimplementedError();
       }
     }
   }
@@ -345,22 +405,22 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "SEL (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.selV1MainnetAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[0].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.selV1MainnetAddr,
+                        trxFunc.contract.listContract[0].address,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);
                   }
                   break;
                 case "SEL v2 (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.selv2MainnetAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[1].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                      AppConfig.selv2MainnetAddr,
+                      trxFunc.contract.listContract[1].address,
                       chainDecimal[0].toString(),
                       _scanPayM.controlReceiverAddress.text,
                       _scanPayM.controlAmount.text,
@@ -369,11 +429,11 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "KGO (BEP-20)":
-                  final chainDecimal = await ContractProvider()
-                      .query(AppConfig.kgoAddr, 'decimals', []);
+                  final chainDecimal = await ContractProvider().query(
+                      trxFunc.contract.listContract[2].address, 'decimals', []);
                   if (chainDecimal != null) {
                     await trxFunc.sendTxBsc(
-                        AppConfig.kgoAddr,
+                        trxFunc.contract.listContract[2].address,
                         chainDecimal[0].toString(),
                         _scanPayM.controlReceiverAddress.text,
                         _scanPayM.controlAmount.text);

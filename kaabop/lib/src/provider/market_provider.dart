@@ -160,6 +160,6 @@ class MarketProvider with ChangeNotifier {
       }
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 }

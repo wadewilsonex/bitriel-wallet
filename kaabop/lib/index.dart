@@ -139,6 +139,7 @@ export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.da
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx_body.dart';
+export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';
@@ -157,6 +158,8 @@ export 'package:wallet_apps/src/screen/main/welcome/welcome_body.dart';
 
 export 'package:wallet_apps/src/screen/home/asset_list.dart';
 
+export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
+
 export 'package:wallet_apps/src/screen/main/create_user_info/user_infor.dart';
 
 /* Local File */
@@ -166,7 +169,6 @@ export 'package:wallet_apps/src/service/services.dart';
 export 'package:wallet_apps/src/service/storage.dart';
 export 'package:wallet_apps/src/utils/app_utils.dart';
 /* ---------------------Util------------------------ */
-export 'package:wallet_apps/src/utils/instance_trx_order.dart';
 export 'package:wallet_apps/theme/color.dart';
 export 'package:wallet_apps/theme/string.dart';
 export 'package:wallet_apps/theme/style.dart';

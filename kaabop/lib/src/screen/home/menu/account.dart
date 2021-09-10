@@ -7,6 +7,7 @@ import 'package:wallet_apps/src/screen/home/menu/account_c.dart';
 import '../../../../index.dart';
 
 class Account extends StatefulWidget {
+
   //static const route = '/account';
   @override
   _AccountState createState() => _AccountState();
@@ -83,7 +84,7 @@ class _AccountState extends State<Account> {
               child: const MyText(text: 'Close', color: AppColors.blackColor),
             ),
             TextButton(
-              onPressed: _deleteAccount,
+              onPressed: () async => await _deleteAccount(),
               child: const MyText(text: 'Delete', color: AppColors.redColor),
             ),
             // action
@@ -94,20 +95,25 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _deleteAccount() async {
+    dialogLoading(context);
     try {
       await ApiProvider.sdk.api.keyring.deleteAccount(
         ApiProvider.keyring,
         _currentAcc,
       );
-      Navigator.pop(context);
-      AppServices.clearStorage();
-      StorageServices().clearSecure();
+
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
       //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
-      Navigator.pushAndRemoveUntil(context,
-          RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+
+      await Future.delayed(Duration(seconds: 2), (){});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+
     } catch (e) {
+      print(e.toString());
       // await dialog(context, e.toString(), 'Opps');
     }
   }
@@ -115,8 +121,7 @@ class _AccountState extends State<Account> {
   Future<void> getBackupKey(String pass) async {
     Navigator.pop(context);
     try {
-      final pairs = await KeyringPrivateStore()
-          .getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
+      final pairs = await KeyringPrivateStore().getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
 
       if (pairs['seed'] != null) {
         await showDialog(
@@ -133,7 +138,7 @@ class _AccountState extends State<Account> {
                 child: Text(pairs['seed'].toString()),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),
@@ -174,7 +179,7 @@ class _AccountState extends State<Account> {
               child: Text('You pin has changed!!'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -258,6 +263,7 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contract = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -405,7 +411,10 @@ class _AccountState extends State<Account> {
                     ),
                     const SizedBox(height: 20),
                     GestureDetector(
-                      onTap: deleteAccout,
+                      onTap: () async {
+                        await contract.unsubscribeNetwork();
+                        await deleteAccout();
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(right: 16),
