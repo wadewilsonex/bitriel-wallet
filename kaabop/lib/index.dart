@@ -60,6 +60,8 @@ export 'package:wallet_apps/src/components/route_animation.dart';
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
 
+export 'package:wallet_apps/src/models/lineChart_m.dart';
+
 export 'package:wallet_apps/src/models/crypto_data.dart';
 
 export 'package:wallet_apps/src/utils/fmt.dart';

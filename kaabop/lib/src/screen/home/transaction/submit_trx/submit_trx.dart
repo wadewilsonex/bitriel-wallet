@@ -231,7 +231,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
           TransactionInfo txInfo = TransactionInfo(
             coinSymbol: _scanPayM.asset,
-            to: _scanPayM.controlReceiverAddress.text,
+            receiver:
+                AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
             amount: _scanPayM.controlAmount.text,
             gasPrice: gasPrice,
             gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
@@ -314,8 +315,16 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               await trxFunc.customDialog('Opps', 'PIN verification failed');
             }
+
             // Pin Correct And Response With Private Key
             else if (trxFunc.privateKey != null) {
+              print('my private key${trxFunc.privateKey}');
+              final txInfo = TransactionInfo(
+                privateKey: trxFunc.privateKey,
+                amount: _scanPayM.controlAmount.text,
+                receiver: trxFunc.contract
+                    .getEthAddr(_scanPayM.controlReceiverAddress.text),
+              );
               /* -------------Processing Transactioin----------- */
               switch (_scanPayM.asset) {
                 case "SEL":
@@ -336,39 +345,43 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "SEL (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[0].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                        trxFunc.contract.listContract[0].address,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
-                  }
+                  await trxFunc.sendTxBep20(
+                      trxFunc.contract.getSelToken, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[0].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //       trxFunc.contract.listContract[0].address,
+                  //       chainDecimal[0].toString(),
+                  //       _scanPayM.controlReceiverAddress.text,
+                  //       _scanPayM.controlAmount.text);
+                  // }
                   break;
                 case "SEL v2 (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[1].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                      trxFunc.contract.listContract[1].address,
-                      chainDecimal[0].toString(),
-                      _scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text,
-                    );
-                  }
+                  await trxFunc.sendTxBep20(trxFunc.contract.getSelv2, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[1].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //     trxFunc.contract.listContract[1].address,
+                  //     chainDecimal[0].toString(),
+                  //     _scanPayM.controlReceiverAddress.text,
+                  //     _scanPayM.controlAmount.text,
+                  //   );
+                  // }
                   break;
 
                 case "KGO (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[2].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                        trxFunc.contract.listContract[2].address,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
-                  }
+                  await trxFunc.sendTxBep20(trxFunc.contract.getKgo, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[2].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //       trxFunc.contract.listContract[2].address,
+                  //       chainDecimal[0].toString(),
+                  //       _scanPayM.controlReceiverAddress.text,
+                  //       _scanPayM.controlAmount.text);
+                  // }
                   break;
 
                 case "BNB":
@@ -403,11 +416,11 @@ class SubmitTrxState extends State<SubmitTrx> {
                         ContractProvider().findContractAddr(_scanPayM.asset);
                     final chainDecimal = await ContractProvider()
                         .query(contractAddr, 'decimals', []);
-                    await trxFunc.sendTxBsc(
-                        contractAddr,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
+                    // await trxFunc.sendTxBsc(
+                    //     contractAddr,
+                    //     chainDecimal[0].toString(),
+                    //     _scanPayM.controlReceiverAddress.text,
+                    //     _scanPayM.controlAmount.text);
                   }
 
                   break;

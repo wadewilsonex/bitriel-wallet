@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
- // final bool apiConnected;
+  // final bool apiConnected;
   // ignore: avoid_positional_boolean_parameters
   //const Home({this.apiConnected});
 
@@ -105,28 +105,23 @@ class HomeState extends State<Home>
     await PortfolioServices().setPortfolio(context);
 
     if (contract.listContract[0].isContain) {
-      await contract.getBscBalance();
+      await contract.selTokenWallet();
     }
 
     if (contract.listContract[1].isContain) {
-      await contract.getBscV2Balance();
+      await contract.selv2TokenWallet();
     }
 
     if (contract.listContract[2].isContain) {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoDecimal()
-          .then((value) async {
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoBalance();
-      });
+      await contract.kgoTokenWallet();
     }
 
     if (contract.listContract[3].isContain) {
-      await contract.getEtherBalance();
+      await contract.ethWallet();
     }
 
     if (contract.listContract[4].isContain) {
-      await contract.getBnbBalance();
+      await contract.bnbWallet();
     }
 
     if (api.btc.isContain) {
@@ -165,6 +160,8 @@ class HomeState extends State<Home>
 
       // AnnotatedRegion Use For System Icon Above SafeArea
       body: Column(children: [
+       
+       
         SafeArea(child: homeAppBar(context)),
         Divider(
           height: 2,

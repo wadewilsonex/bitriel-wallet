@@ -16,12 +16,12 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   @override
   void initState() {
+    MarketProvider().fetchTokenMarketPrice(context);
     readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      MarketProvider().fetchTokenMarketPrice(context);
-
       initApi();
+
       clearOldBtcAddr();
       await Provider.of<ContractProvider>(context, listen: false)
           .getEtherAddr();
@@ -39,20 +39,30 @@ class AppState extends State<App> {
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+        // await contractProvider.setupNetwork();
+
+        await apiProvider.connectPolNon();
+        await apiProvider.connectNode();
+
         await getSavedContractToken();
         await getEtherSavedContractToken();
 
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();
 
-        await contractProvider.getBscBalance();
-        await contractProvider.getBscV2Balance();
-        await isKgoContain();
-        await contractProvider.getEtherBalance();
-        await contractProvider.getBnbBalance();
+        // await contractProvider.getBscBalance();
+        // await contractProvider.getBscV2Balance();s
+        //await isKgoContain();
+
+        await contractProvider.kgoTokenWallet();
+        await contractProvider.selTokenWallet();
+        await contractProvider.selv2TokenWallet();
+
+        await contractProvider.ethWallet();
+        await contractProvider.bnbWallet();
 
         // This Method Is Also Request Dot Contract
-        await apiProvider.connectPolNon();
+
         await isBtcContain();
 
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
@@ -65,31 +75,19 @@ class AppState extends State<App> {
         await Provider.of<MarketProvider>(context, listen: false)
             .fetchTokenMarketPrice(context);
 
-        //Provider.of<ContractProvider>(context, listen: false).setReady();
-
         await Provider.of<WalletProvider>(context, listen: false)
             .fillWithMarketData(context);
+        contractProvider.setReady();
       }
-
-      await Provider.of<ApiProvider>(context, listen: false)
-          .connectNode()
-          .then((value) async {
-        if (value != null) {
-          if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-            await Provider.of<ApiProvider>(context, listen: false)
-                .getChainDecimal();
-          }
-        }
-      });
     });
   }
 
-  void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-      'SEL v2 (BEP-20)',
-    );
-  }
+  // void selV2() async {
+  //   Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+  //     'SEL v2 (BEP-20)',
+  //   );
+  // }
 
   void readTheme() async {
     final res = await StorageServices.fetchData('dark');
@@ -172,15 +170,6 @@ class AppState extends State<App> {
     if (res != null) {
       await StorageServices.removeKey('btcaddress');
     }
-  }
-
-  Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) async {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoBalance();
-    });
   }
 
   @override

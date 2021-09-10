@@ -13,8 +13,8 @@ class ConfirmationTx extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final startPart = trxInfo.to.substring(0, 5);
-    final endPart = trxInfo.to.substring(trxInfo.to.length - 4);
+    final addr = AppUtils.addrFmt(trxInfo.receiver.toString());
+
     return Scaffold(
       body: BodyScaffold(
         child: Column(
@@ -74,7 +74,7 @@ class ConfirmationTx extends StatelessWidget {
                     ),
                     MyText(
                       textAlign: TextAlign.left,
-                      text: '${startPart + '...' + endPart}',
+                      text: addr ?? '',
                       fontSize: 16.0,
                       bottom: 8.0,
                       overflow: TextOverflow.ellipsis,

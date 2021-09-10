@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class TrxFunctional {
@@ -101,20 +102,22 @@ class TrxFunctional {
 
   Future<void> sendTxBnb(String reciever, String amount) async {
     if (privateKey != null) {
-      final hash = await contract.sendTxBnb(privateKey, reciever, amount);
+      final txinfo = TransactionInfo(
+          privateKey: privateKey,
+          receiver: contract.getEthAddr(reciever),
+          amount: amount);
+
+      final hash = await contract.bnb.sendTx(txinfo);
 
       if (hash != null) {
-        await contract.getPending(hash).then((value) async {
-          if (value == false) {
-            await Provider.of<ContractProvider>(context, listen: false)
-                .getBscBalance();
-            Navigator.pop(context);
-            await customDialog('Transaction failed',
-                'Something went wrong with your transaction.');
-          } else {
-            enableAnimation();
-          }
-        });
+        final status = await contract.bnb.listenTransfer(hash);
+        if (!status) {
+          Navigator.pop(context);
+          await customDialog('Transaction failed',
+              'Something went wrong with your transaction.');
+        } else {
+          enableAnimation();
+        }
       } else {
         throw hash;
       }
@@ -146,17 +149,21 @@ class TrxFunctional {
   Future<void> sendTxEther(String reciever, String amount) async {
     try {
       if (privateKey != null) {
-        final hash = await contract.sendTxEther(privateKey, reciever, amount);
+        final txInfo = TransactionInfo(
+            privateKey: privateKey,
+            receiver: contract.getEthAddr(reciever),
+            amount: amount);
+        final hash = await contract.eth.sendTx(txInfo);
         if (hash != null) {
-          await contract.getPending(hash).then((value) async {
-            if (value == false) {
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            } else {
-              enableAnimation();
-            }
-          });
+          final status = await contract.eth.listenTransfer(hash);
+
+          if (!status) {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          } else {
+            enableAnimation();
+          }
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -173,50 +180,75 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxBsc(String contractAddr, String chainDecimal,
-      String reciever, String amount) async {
-    try {
-      if (privateKey != null) {
-        final hash = await contract.sendTxBsc(
-          contractAddr,
-          chainDecimal,
-          privateKey,
-          reciever,
-          amount,
-        );
+  Future<void> sendTxBep20(
+      ContractService tokenService, TransactionInfo txInfo) async {
+    print('send bep20');
 
+    if (txInfo.privateKey != null) {
+      try {
+        final hash = await tokenService.sendToken(txInfo);
         if (hash != null) {
-          await contract.getPending(hash).then((value) async {
-            if (value == false) {
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .getBscBalance();
-              Navigator.pop(context);
-              await customDialog(
-                  'Transaction failed', 'insufficient funds for gas');
-            } else {
-              enableAnimation();
-            }
-          });
-        } else {
-          Navigator.pop(context);
-          await customDialog('Opps', 'Something went wrong!');
+          await tokenService.listenTransfer(hash).then((status) => {
+                if (!status)
+                  {
+                    Navigator.pop(context),
+                    customDialog('Transaction failed', 'Something went wrong!')
+                  }
+                else
+                  {
+                    enableAnimation(),
+                  }
+              });
         }
-      }
-      // Res equal NULL
-      else {
+      } catch (e) {
         Navigator.pop(context);
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      print(e.message.toString());
-      if (e.message.toString() ==
-          'insufficient funds for gas * price + value') {
-        await customDialog('Opps', 'Insufficient funds for gas');
-      } else {
-        await customDialog('Opps', e.message.toString());
+        print('myerro $e');
+        if (e.message.toString() ==
+            'insufficient funds for gas * price + value') {
+          await customDialog('Opps', 'Insufficient funds for gas');
+        } else {
+          await customDialog('Opps', e.message.toString());
+        }
       }
     }
   }
+
+  // Future<void> sendTxBsc(String contractAddr, String chainDecimal,
+  //     String reciever, String amount) async {
+  //   try {
+  //     if (privateKey != null) {
+  //       final txInfo = TransactionInfo(privateKey: privateKey,receiver: contract.getEthAddr(reciever),amount: amount);
+  //       final hash = await contract.g
+
+  //       if (hash != null) {
+  //         final status = await contract.getSelToken.listenTransfer(hash);
+  //         if (!status) {
+  //           Navigator.pop(context);
+  //           await customDialog(
+  //               'Transaction failed', 'insufficient funds for gas');
+  //         } else {
+  //           enableAnimation();
+  //         }
+  //       } else {
+  //         Navigator.pop(context);
+  //         await customDialog('Opps', 'Something went wrong!');
+  //       }
+  //     }
+  //     // Res equal NULL
+  //     else {
+  //       Navigator.pop(context);
+  //     }
+  //   } catch (e) {
+  //     Navigator.pop(context);
+  //     print(e.message.toString());
+  //     if (e.message.toString() ==
+  //         'insufficient funds for gas * price + value') {
+  //       await customDialog('Opps', 'Insufficient funds for gas');
+  //     } else {
+  //       await customDialog('Opps', e.message.toString());
+  //     }
+  //   }
+  // }
 
   Future<void> sendTxErc(String contractAddr, String chainDecimal,
       String reciever, String amount) async {
@@ -231,17 +263,26 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          await contract.getPending(hash).then((value) async {
-            if (value == false) {
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .getBscBalance();
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            } else {
-              enableAnimation();
-            }
-          });
+          final status = await contract.eth.listenTransfer(hash);
+
+          if (!status) {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          } else {
+            enableAnimation();
+          }
+          // await contract.getPending(hash).then((value) async {
+          //   if (value == false) {
+          //     // await Provider.of<ContractProvider>(context, listen: false)
+          //     //     .getBscBalance();
+          //     Navigator.pop(context);
+          //     await customDialog('Transaction failed',
+          //         'Something went wrong with your transaction.');
+          //   } else {
+          //     enableAnimation();
+          //   }
+          // });
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');

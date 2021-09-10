@@ -172,7 +172,8 @@ class _SwapState extends State<Swap> {
 
         if (approveHash != null) {
           // await Future.delayed(Duration(seconds: 10));
-          final approveStatus = await contract.getPending(approveHash);
+          final approveStatus =
+              await contract.getSwap.listenTransfer(approveHash);
           print(' approve stat: $approveStatus');
 
           if (approveStatus) {
@@ -183,7 +184,8 @@ class _SwapState extends State<Swap> {
               final swapHash = await swap(res);
 
               if (swapHash != null) {
-                final isSuccess = await contract.getPending(swapHash);
+                final isSuccess =
+                    await contract.getSwap.listenTransfer(swapHash);
 
                 if (isSuccess) {
                   Navigator.pop(context);
@@ -227,14 +229,11 @@ class _SwapState extends State<Swap> {
           final hash = await contract.swap(_amountController.text, res);
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 7));
-            final res = await contract.getPending(hash);
+            final res = await contract.getSwap.listenTransfer(hash);
 
             if (res != null) {
               if (res) {
                 setState(() {});
-
-                contract.getBscBalance();
-                contract.getBscV2Balance();
                 Navigator.pop(context);
                 enableAnimation(
                     'swapped ${_amountController.text} of SEL v1 to SEL v2.',
@@ -254,8 +253,8 @@ class _SwapState extends State<Swap> {
                   'Something went wrong with your transaction.');
             }
           } else {
-            contract.getBscBalance();
-            contract.getBscV2Balance();
+            // contract.getBscBalance();
+            // contract.getBscV2Balance();
             Navigator.pop(context);
           }
         }
@@ -774,7 +773,7 @@ class _SwapState extends State<Swap> {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    await contract.getBscBalance();
+    await contract.selTokenWallet();
 
     setState(() {
       _amountController.text = contract.listContract[0].balance;

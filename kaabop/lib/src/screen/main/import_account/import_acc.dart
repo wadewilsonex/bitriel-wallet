@@ -2,7 +2,6 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class ImportAcc extends StatefulWidget {
-
   final String reimport;
   const ImportAcc({this.reimport});
 
@@ -77,7 +76,8 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> reImport() async {
     dialogLoading(context);
-    final isValidSeed = await validateMnemonic(_importAccModel.mnemonicCon.text);
+    final isValidSeed =
+        await validateMnemonic(_importAccModel.mnemonicCon.text);
     final isValidPw = await checkPassword(_importAccModel.pwCon.text);
 
     if (isValidSeed == false) {
@@ -85,7 +85,8 @@ class ImportAccState extends State<ImportAcc> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Opps'),
             ),
@@ -141,7 +142,7 @@ class ImportAccState extends State<ImportAcc> {
       final resPk =
           await ApiProvider().getPrivateKey(_importAccModel.mnemonicCon.text);
       if (resPk != null) {
-        ContractProvider().extractAddress(resPk);
+        await ContractProvider().extractAddress(resPk);
         final res = await ApiProvider.keyring.store
             .encryptPrivateKey(resPk, _importAccModel.pwCon.text);
 
@@ -149,14 +150,21 @@ class ImportAccState extends State<ImportAcc> {
           await StorageServices().writeSecure('private', res);
         }
       }
+      final contract = Provider.of<ContractProvider>(context, listen: false);
+
+      contract.kgoTokenWallet();
+      contract.selTokenWallet();
+      contract.selv2TokenWallet();
+      contract.bnbWallet();
+      contract.ethWallet();
 
       Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-      Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-      Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-      Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+      // Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+      // Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+      // Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
-      selV2();
+      //selV2();
 
       await dialogSuccess(
         context,
@@ -183,29 +191,29 @@ class ImportAccState extends State<ImportAcc> {
     Provider.of<ApiProvider>(context, listen: false).connectPolNon();
   }
 
-  Future<void> isBnbContain() async {
-    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BNB');
-    // Provider.of<ContractProvider>(context, listen: false).getBscDecimal();
-    Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-  }
+  // Future<void> isBnbContain() async {
+  //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BNB');
+  //   // Provider.of<ContractProvider>(context, listen: false).getBscDecimal();
+  //   Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+  // }
 
-  Future<void> isBscContain() async {
-    Provider.of<WalletProvider>(context, listen: false)
-        .addTokenSymbol('SEL (BEP-20)');
-    Provider.of<ContractProvider>(context, listen: false).getSymbol();
-    Provider.of<ContractProvider>(context, listen: false)
-        .getBscDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-    });
-  }
+  // Future<void> isBscContain() async {
+  //   Provider.of<WalletProvider>(context, listen: false)
+  //       .addTokenSymbol('SEL (BEP-20)');
+  //   Provider.of<ContractProvider>(context, listen: false).getSymbol();
+  //   Provider.of<ContractProvider>(context, listen: false)
+  //       .getBscDecimal()
+  //       .then((value) {
+  //     Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+  //   });
+  // }
 
-  void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-      'SEL v2 (BEP-20)',
-    );
-  }
+  // void selV2() async {
+  //   Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+  //     'SEL v2 (BEP-20)',
+  //   );
+  // }
 
   Future<bool> checkPassword(String pin) async {
     final res = await ApiProvider.sdk.api.keyring

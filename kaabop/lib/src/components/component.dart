@@ -385,7 +385,7 @@ class BodyScaffold extends StatelessWidget {
           height: height,
           color: isDarkTheme
               ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-              : Color(AppUtils.convertHexaColor(AppColors.whiteColorHexa)),
+              : Color(AppUtils.convertHexaColor('f5f5f5')),
           padding: EdgeInsets.fromLTRB(left, top, right, bottom),
           child: isSafeArea ? SafeArea(child: child) : child,
         ));

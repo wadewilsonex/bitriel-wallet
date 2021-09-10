@@ -1,7 +1,10 @@
+import 'package:web3dart/credentials.dart';
+
 class TransactionInfo {
   //est refer to estimate price
   String coinSymbol;
-  String to;
+  String privateKey;
+  EthereumAddress receiver;
   String amount;
   String gasFee;
   String gasPrice;
@@ -14,7 +17,8 @@ class TransactionInfo {
 
   TransactionInfo({
     this.coinSymbol,
-    this.to,
+    this.privateKey,
+    this.receiver,
     this.amount,
     this.gasFee,
     this.gasPrice,

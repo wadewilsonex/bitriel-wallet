@@ -1,7 +1,7 @@
 class NetworkParams {
   //MN stand for Mainnet
   //TN stand for Testnet
-
+  String name;
   String httpUrlMN;
   String wsUrlMN;
   String httpUrlTN;
@@ -9,6 +9,7 @@ class NetworkParams {
   int ss58;
 
   NetworkParams({
+    this.name,
     this.httpUrlMN,
     this.wsUrlMN,
     this.httpUrlTN,

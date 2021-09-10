@@ -73,14 +73,13 @@ class MarketProvider with ChangeNotifier {
     final api = Provider.of<ApiProvider>(context, listen: false);
     sortDataMarket.clear();
 
+    print('fetch data');
+
     for (int i = 0; i < id.length; i++) {
       try {
         final response =
             await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
-        // print("id[i] ${id[i]}");
-        // print(response.body);
-        // print("id[i] ${id[i]}");
-        // print("${id[i]} ${json.decode(response.body)[0]}");
+
         sortDataMarket.addAll({await json.decode(response.body)[0]});
         final lineChartData = await fetchLineChartData(id[i]);
 
@@ -143,11 +142,6 @@ class MarketProvider with ChangeNotifier {
       }
     }
 
-    // Fill Market Price Into Asset
-    // for (int i = 0; i< sortDataMarket.length; i++){
-    //   contract.listContract[i].marketPrice = sortDataMarket[i]['current_price'];
-    // }
-
     // Sort Market Price
     Map<String, dynamic> tmp = {};
     for (int i = 0; i < sortDataMarket.length; i++) {
@@ -159,6 +153,7 @@ class MarketProvider with ChangeNotifier {
         }
       }
     }
+    print('finish market price');
 
     notifyListeners();
   }

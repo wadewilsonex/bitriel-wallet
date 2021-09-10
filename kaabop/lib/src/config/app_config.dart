@@ -14,6 +14,12 @@ class AppConfig {
   static const coingeckoBaseUrl =
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
+  static const erc20Path = 'assets/abi/erc20.json';
+
+  static const bep20Path = 'assets/abi/bep20.json';
+
+  static const swapPath = 'assets/abi/swap.json';
+
   /*google spreedsheet credential for claim airdrop */
   static const credentials = '';
 

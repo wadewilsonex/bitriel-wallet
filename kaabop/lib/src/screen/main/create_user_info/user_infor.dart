@@ -219,31 +219,29 @@ class MyUserInfoState extends State<MyUserInfo> {
               await StorageServices().writeSecure('private', res);
             }
           }
-          Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+          await Provider.of<ContractProvider>(context, listen: false)
+              .getEtherAddr();
+
+          final contract =
+              Provider.of<ContractProvider>(context, listen: false);
+
+          await contract.kgoTokenWallet();
+          await contract.selTokenWallet();
+          await contract.selv2TokenWallet();
+          await contract.bnbWallet();
+          await contract.ethWallet();
 
           Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-          Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-          Provider.of<ContractProvider>(context, listen: false).getBscBalance();
 
-          selV2();
-
-          isKgoContain();
           await addBtcWallet();
 
-          Provider.of<MarketProvider>(context, listen: false)
-              .fetchTokenMarketPrice(context);
-
-          Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
           Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
           Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-          Provider.of<WalletProvider>(context, listen: false).addAvaibleToken({
-            'symbol':
-                Provider.of<ApiProvider>(context, listen: false).nativeM.symbol,
-            'balance': Provider.of<ApiProvider>(context, listen: false)
-                    .nativeM
-                    .balance ??
-                '0',
-          });
+          await Provider.of<ContractProvider>(context, listen: false)
+              .sortAsset();
+
+          contract.setReady();
 
           // Close Loading Process
           Navigator.pop(context);
@@ -278,10 +276,10 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-      'SEL v2 (BEP-20)',
-    );
+    // Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+    //   'SEL v2 (BEP-20)',
+    // );
   }
   // Future<void> isDotContain() async {
   //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
@@ -351,13 +349,13 @@ class MyUserInfoState extends State<MyUserInfo> {
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
   }
 
-  Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-    });
-  }
+  // Future<void> isKgoContain() async {
+  //   Provider.of<ContractProvider>(context, listen: false)
+  //       .getKgoDecimal()
+  //       .then((value) {
+  //     Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+  //   });
+  // }
 
   PopupMenuItem item(Map<String, dynamic> list) {
     return PopupMenuItem(

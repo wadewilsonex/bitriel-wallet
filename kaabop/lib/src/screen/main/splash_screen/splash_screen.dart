@@ -1,6 +1,4 @@
 import 'package:flutter/scheduler.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
@@ -19,7 +17,7 @@ class MySplashScreenState extends State<MySplashScreen>
   Animation<double> animation;
 
   Future<void> getCurrentAccount() async {
-    await Future.delayed(const Duration(milliseconds: 1000), () async {
+    await Future.delayed(const Duration(milliseconds: 2000), () async {
       final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
       print('list length ${ls.length}');

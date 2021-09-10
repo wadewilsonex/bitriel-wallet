@@ -106,10 +106,11 @@ class ApiProvider with ChangeNotifier {
     node.ss58 = AppConfig.networkList[0].ss58;
 
     final res = await sdk.api.connectNode(keyring, [node]);
-
+    print('connecting node');
     if (res != null) {
       print('connected');
       _isConnected = true;
+      getChainDecimal();
     }
 
     notifyListeners();

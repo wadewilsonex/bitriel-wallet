@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:wallet_apps/src/components/activity_item.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 import '../../../../index.dart';
@@ -17,6 +18,7 @@ class AssetInfo extends StatefulWidget {
   final String marketPrice;
   final String priceChange24h;
   final Market marketData;
+  final TransactionInfo transactionInfo;
 
   const AssetInfo(
       {this.id,
@@ -26,7 +28,8 @@ class AssetInfo extends StatefulWidget {
       this.org,
       this.marketPrice,
       this.priceChange24h,
-      this.marketData});
+      this.marketData,
+      this.transactionInfo});
   @override
   _AssetInfoState createState() => _AssetInfoState();
 }
@@ -281,18 +284,6 @@ class _AssetInfoState extends State<AssetInfo> {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _globalKey,
-      // floatingActionButton: widget.tokenSymbol != "ATD"
-      //     ? Container()
-      //     : FloatingActionButton(
-      //         onPressed: () {
-      //          /// qrRes();
-      //         },
-      //         backgroundColor: hexaCodeToColor(AppColors.secondary),
-      //         child: const Icon(
-      //           Icons.location_on,
-      //           size: 30,
-      //         ),
-      //       ),
       body: BodyScaffold(
         isSafeArea: true,
         bottom: 0,
@@ -651,14 +642,29 @@ class _AssetInfoState extends State<AssetInfo> {
               Container(
                 color: isDarkTheme
                     ? hexaCodeToColor(AppColors.darkCard)
-                    : hexaCodeToColor(AppColors.whiteHexaColor),
-                child: Center(
-                    child: SvgPicture.asset(
-                  'assets/icons/no_data.svg',
-                  width: 150,
-                  height: 150,
-                )),
+                    : hexaCodeToColor(AppColors.whiteColorHexa),
+                child: SingleChildScrollView(
+                  physics: NeverScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ActivityItem(),
+                      ActivityItem(),
+                      ActivityItem(),
+                    ],
+                  ),
+                ),
               ),
+              // Container(
+              //   color: isDarkTheme
+              //       ? hexaCodeToColor(AppColors.darkCard)
+              //       : hexaCodeToColor(AppColors.whiteHexaColor),
+              //   child: Center(
+              //       child: SvgPicture.asset(
+              //     'assets/icons/no_data.svg',
+              //     width: 150,
+              //     height: 150,
+              //   )),
+              // ),
             ],
           ),
         ),

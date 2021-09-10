@@ -64,7 +64,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
         if (resPk != null) {
-          ContractProvider().extractAddress(resPk);
+          await ContractProvider().extractAddress(resPk);
 
           final res = await ApiProvider.keyring.store
               .encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
@@ -74,24 +74,37 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           }
         }
 
-        Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getEtherAddr();
+        final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
+        final contract = Provider.of<ContractProvider>(context, listen: false);
+
+        await contract.kgoTokenWallet();
+        await contract.selTokenWallet();
+        await contract.selv2TokenWallet();
+        await contract.bnbWallet();
+        await contract.ethWallet();
 
         Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-        Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-        Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-        Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-        Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
-        isKgoContain();
+        contract.addApiProviderProperty(apiProvider);
 
-        Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-
-        Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+        // Provider.of<MarketProvider>(context, listen: false)
+        //     .fetchTokenMarketPrice(context);
         Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        // Set Empty For Pie Chart
-        Provider.of<WalletProvider>(context, listen: false).setPortfolio(context);
+        // // // Ready To Display Asset Portfolio
+        Provider.of<ContractProvider>(context, listen: false).setReady();
+
+        // print("getChainDecimal");
+
+        Navigator.pop(context);
+
+        // await Provider.of<WalletProvider>(context, listen: false)
+        //     .fillWithMarketData(context);
 
         await successDialog(context, "imported your account.");
       }
@@ -124,16 +137,19 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> addBtcWallet() async {
-    
     final seed = bip39.mnemonicToSeed(widget.passPhrase);
     final hdWallet = HDWallet.fromSeed(seed);
     final keyPair = ECPair.fromWIF(hdWallet.wif);
 
-    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+    final bech32Address = new P2WPKH(
+            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
+        .data
+        .address;
 
     await StorageServices.setData(bech32Address, 'bech32');
 
-    final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
+    final res = await ApiProvider.keyring.store
+        .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
 
     if (res != null) {
       await StorageServices().writeSecure('btcwif', res);
@@ -147,13 +163,13 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
   }
 
-  Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-    });
-  }
+  // Future<void> isKgoContain() async {
+  //   Provider.of<ContractProvider>(context, listen: false)
+  //       .getKgoDecimal()
+  //       .then((value) {
+  //     Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+  //   });
+  // }
 
   // ignore: avoid_void_async
   void switchBiometric(bool switchValue) async {
@@ -185,7 +201,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           });
         }
       } else {
-        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context,
+            "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
       await showDialog(
