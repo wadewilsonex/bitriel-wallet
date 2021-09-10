@@ -48,8 +48,8 @@ class AppState extends State<App> {
         await apiProvider.getCurrentAccount();
 
         await contractProvider.getBscBalance();
-        await contractProvider.getBscV2Balance();
-        await isKgoContain();
+        //await contractProvider.getBscV2Balance();
+        //await isKgoContain();
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
 

@@ -213,8 +213,10 @@ class SubmitTrxState extends State<SubmitTrx> {
           final estGasFeePrice =
               await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
 
-          final totalAmt = double.parse(_scanPayM.controlAmount.text) +
-              double.parse((gasFee / pow(10, 9)).toString());
+          var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+
+          final totalAmt =
+              double.parse(_scanPayM.controlAmount.text) + gasFeeToEther;
 
           print(totalAmt);
 
@@ -223,6 +225,8 @@ class SubmitTrxState extends State<SubmitTrx> {
           print(estToSendPrice);
 
           final estTotalPrice = estGasFeePrice + estToSendPrice;
+
+          print(gasFeeToEther.toStringAsFixed(8));
 
           // final res =
           //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
@@ -234,6 +238,10 @@ class SubmitTrxState extends State<SubmitTrx> {
             to: _scanPayM.controlReceiverAddress.text,
             amount: _scanPayM.controlAmount.text,
             gasPrice: gasPrice,
+            feeNetworkSymbol:
+                _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
+                    ? 'BNB'
+                    : 'ETH',
             gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
             maxGas: maxGas,
             gasFee: gasFee.toInt().toString(),
@@ -251,6 +259,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               enterPage: ConfirmationTx(
                 trxInfo: txInfo,
                 clickSend: clickSend,
+                gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
               ),
             ),
           );

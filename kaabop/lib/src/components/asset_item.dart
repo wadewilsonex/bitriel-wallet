@@ -151,6 +151,7 @@ class AssetItem extends StatelessWidget {
                     MyText(
                       width: double.infinity,
                       text: balance ?? '0',
+                      textAlign: TextAlign.right,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
                           ? AppColors.whiteColorHexa

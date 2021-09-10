@@ -49,6 +49,7 @@ class ContractProvider with ChangeNotifier {
         id: 'selendra v2',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL (v2)',
+        balance: '0',
         org: 'BEP-20',
         isContain: true,
         lineChartModel: LineChartModel()),
@@ -57,6 +58,7 @@ class ContractProvider with ChangeNotifier {
         id: 'kiwigo',
         logo: 'assets/Kiwi-GO-White-1.png',
         symbol: 'KGO',
+        balance: '0',
         org: 'BEP-20',
         isContain: true,
         lineChartModel: LineChartModel()),
@@ -223,6 +225,47 @@ class ContractProvider with ChangeNotifier {
     return std;
   }
 
+  Future<bool> getEthPending(String txHash) async {
+    // Re-Initialize
+    std = null;
+
+    await initEtherClient();
+
+    await _etherClient
+        .addedBlocks()
+        .asyncMap((_) async {
+          try {
+            // This Method Will Run Again And Again Until we return something
+            await _etherClient.getTransactionReceipt(txHash).then((d) {
+              // Give Value To std When Request Successfully
+              if (d != null) {
+                std = d.status;
+              }
+            });
+
+            // Return Value For True Value And Method GetTrxReceipt Also Terminate
+            if (std != null) return std;
+          } on FormatException catch (e) {
+            // This Error Because can't Convert Hexadecimal number to integer.
+            // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+            // Example-Error: 0xc, 0x3a, ...
+            // Example-Success: 0x1, 0x2, 0,3 ...
+
+            // return True For Facing This FormatException
+            if (e.message.toString() == 'Invalid radix-10 number') {
+              std = true;
+              return std;
+            }
+          } catch (e) {
+            print("Error $e");
+          }
+        })
+        .where((receipt) => receipt != null)
+        .first;
+
+    return std;
+  }
+
   void subscribeBscbalance(BuildContext context) async {
     await initBscClient();
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
@@ -231,14 +274,14 @@ class ContractProvider with ChangeNotifier {
 
       res.listen((event) async {
         await getBscBalance();
-        await getBscV2Balance();
+        //await getBscV2Balance();
         await getBnbBalance();
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoDecimal()
-            .then((value) async {
-          await Provider.of<ContractProvider>(context, listen: false)
-              .getKgoBalance();
-        });
+        // await Provider.of<ContractProvider>(context, listen: false)
+        //     .getKgoDecimal()
+        //     .then((value) async {
+        //   await Provider.of<ContractProvider>(context, listen: false)
+        //       .getKgoBalance();
+        // });
 
         await isBtcContain(apiPro, context);
 
