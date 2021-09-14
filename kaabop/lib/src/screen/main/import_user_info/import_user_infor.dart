@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
+import 'package:web3dart/credentials.dart';
 
 class ImportUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -28,7 +29,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   @override
   void initState() {
-    print("Hello import use info");
+    print("Hello import use info ${widget.passPhrase}");
     _menuModel = MenuModel();
     AppServices.noInternetConnection(_userInfoM.globalKey);
     super.initState();
@@ -44,11 +45,12 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
+
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
-    print("acc ${contractProvider.listContract[0].address}");
     try {
-
+      
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
@@ -56,6 +58,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         name: _userInfoM.userNameCon.text,
         password: _userInfoM.confirmPasswordCon.text,
       );
+      print("json $json");
 
       final acc = await ApiProvider.sdk.api.keyring.addAccount(
         ApiProvider.keyring,
@@ -64,10 +67,15 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      if (acc != null) {
-        final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
+      print("acc $acc");  
 
+      if (acc != null) {
+        
+        await addBtcWallet();
+        final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
+        print("Get private key from mnemnic $resPk");
         if (resPk != null) {
+
           await ContractProvider().extractAddress(resPk);
 
           final res = await ApiProvider.keyring.store.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
@@ -78,9 +86,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         }
         await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-
         await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
         await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
         await isKgoContain();
@@ -89,8 +94,9 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         // This Method Is Also Request Dot Contract
         await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-        
-        await addBtcWallet();
+
+        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
         
         // // Sort Contract Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
@@ -98,8 +104,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         // // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
         
-        print("getChainDecimal");
-        await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+        // print("getChainDecimal");
+        // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
 
@@ -131,6 +137,55 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> getSavedContractToken() async {
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final res = await StorageServices.fetchData('contractList');
+    print("getSavedContractToken $res");
+
+    if (res != null) {
+      for (final i in res) {
+        final symbol = await contractProvider.query(i.toString(), 'symbol', []);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
+
+        contractProvider.addContractToken(TokenModel(
+          contractAddr: i.toString(),
+          decimal: decimal[0].toString(),
+          symbol: symbol[0].toString(),
+          balance: balance[0].toString(),
+          org: 'BEP-20',
+        ));
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
+      }
+    }
+  }
+
+  Future<void> getEtherSavedContractToken() async {
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final res = await StorageServices.fetchData('ethContractList');
+
+    if (res != null) {
+      for (final i in res) {
+        final symbol =
+            await contractProvider.queryEther(i.toString(), 'symbol', []);
+        final decimal =
+            await contractProvider.queryEther(i.toString(), 'decimals', []);
+        final balance = await contractProvider.queryEther(i.toString(),
+            'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+
+        contractProvider.addContractToken(TokenModel(
+          contractAddr: i.toString(),
+          decimal: decimal[0].toString(),
+          symbol: symbol[0].toString(),
+          balance: balance[0].toString(),
+          org: 'ERC-20',
+        ));
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol('${symbol[0]} (ERC-20)');
+      }
     }
   }
 
@@ -310,7 +365,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   // Submit Profile User
   Future<void> submitProfile() async {
     // Show Loading Process
-    dialogLoading(context);
+    dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
     await _importFromMnemonic();
   }

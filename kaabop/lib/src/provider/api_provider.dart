@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
+  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -19,39 +20,6 @@ class ApiProvider with ChangeNotifier {
   num bitcoinSatFmt = pow(10, 8);
 
   double amount = 0.0008;
-
-  static List<TokenModel> listToken = [
-    // TokenModel(
-    //   logo: 'assets/FingerPrint1.png',
-    //   symbol: 'ATD',
-    //   org: 'KOOMPI',
-    //   color: Colors.black,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/koompi_white_logo.png',
-    //   symbol: 'KMPI',
-    //   org: 'KOOMPI',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/icons/polkadot.png',
-    //   symbol: 'DOT',
-    //   org: '',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/bnb-2.png',
-    //   symbol: 'BNB',
-    //   org: 'Smart Chain',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/SelendraCircle-Blue.png',
-    //   symbol: 'SEL',
-    //   org: 'BEP-20',
-    //   color: Colors.transparent,
-    // ),
-  ];
 
   ContractProvider contractProvider;
 
@@ -84,11 +52,13 @@ class ApiProvider with ChangeNotifier {
       lineChartModel: LineChartModel());
 
   bool _isConnected = false;
+
   String btcAdd = '';
 
   bool get isConnected => _isConnected;
 
   Future<void> initApi() async {
+    print(keyring.ss58);
     try {
       await keyring.init();
       keyring.setSS58(42);
@@ -346,7 +316,10 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.getChainDecimal();
     nativeM.chainDecimal = res[0].toString();
 
+    print(nativeM.chainDecimal);
+
     await subscribeBalance();
+    
     notifyListeners();
   }
 
@@ -391,6 +364,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount() async {
+    print("getCurrentAccount");
     accountM.address = keyring.current.address;
     accountM.name = keyring.current.name;
     notifyListeners();

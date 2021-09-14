@@ -31,6 +31,7 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
+    // deleteAcc();
     super.initState();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
@@ -47,6 +48,25 @@ class HomeState extends State<Home>
       Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
       Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
+  }
+
+  void deleteAcc() async {
+      // await Provider.of<ContractProvider>(context, listen: false).unsubscribeNetwork();
+
+      await ApiProvider.sdk.api.keyring.deleteAccount(
+        ApiProvider.keyring,
+        ApiProvider.keyring.keyPairs[0],
+      );
+
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
+      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      await Future.delayed(Duration(seconds: 2), (){});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
   }
 
   void marketInitializer() async {
