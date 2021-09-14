@@ -22,9 +22,7 @@ class AppState extends State<App> {
       MarketProvider().fetchTokenMarketPrice(context);
 
       await initApi();
-      clearOldBtcAddr();
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getEtherAddr();
+      // clearOldBtcAddr();
     });
 
     super.initState();
@@ -47,7 +45,7 @@ class AppState extends State<App> {
 
         await contractProvider.getBscBalance();
         await contractProvider.getBscV2Balance();
-        // await isKgoContain();
+        await isKgoContain();
         await contractProvider.getEtherBalance();
         await contractProvider.getBnbBalance();
 
@@ -56,13 +54,14 @@ class AppState extends State<App> {
         await isBtcContain();
 
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        // contractProvider.addApiProviderProperty(apiProvider);
+        contractProvider.addApiProviderProperty(apiProvider);
         
         // Sort Contract Asset  
         await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
         
         // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
+
       }
 
       await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
@@ -118,8 +117,7 @@ class AppState extends State<App> {
   }
 
   Future<void> getEtherSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
 
     if (res != null) {

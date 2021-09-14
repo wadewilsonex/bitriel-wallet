@@ -13,6 +13,7 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
+  
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -42,6 +43,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool> validateMnemonic(String mnemonic) async {
+    print("Mnemonic $mnemonic");
     final res = await ApiProvider.sdk.api.keyring.validateMnemonic(mnemonic);
     print("validateMnemonic $res");
     return res;
@@ -56,6 +58,7 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> onSubmit() async => submit();
 
+  // Submit Mnemonic
   Future<void> submit() async {
     await validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
       if (value) {
@@ -135,6 +138,7 @@ class ImportAccState extends State<ImportAcc> {
     }
 
     if (isValidSeed && isValidPw) {
+      print("Import account now");
       Navigator.pop(context);
       setState(() {
         enable = true;
