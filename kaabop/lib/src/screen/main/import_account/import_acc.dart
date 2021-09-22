@@ -34,7 +34,6 @@ class ImportAccState extends State<ImportAcc> {
 
   String onChanged(String value) {
     validateMnemonic(value).then((value) {
-      print("validateMnemonic $value");
       setState(() {
         enable = value;
       });
@@ -43,9 +42,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool> validateMnemonic(String mnemonic) async {
-    print("Mnemonic $mnemonic");
     final res = await ApiProvider.sdk.api.keyring.validateMnemonic(mnemonic);
-    print("validateMnemonic $res");
     return res;
   }
 
@@ -138,7 +135,6 @@ class ImportAccState extends State<ImportAcc> {
     }
 
     if (isValidSeed && isValidPw) {
-      print("Import account now");
       Navigator.pop(context);
       setState(() {
         enable = true;

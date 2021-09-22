@@ -71,9 +71,8 @@ class MarketProvider with ChangeNotifier {
 
     for (int i = 0; i < id.length; i++) {
       try {
+        
         final response = await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
-        print("id[i] ${id[i]}");
-        print(response.body);
         sortDataMarket.addAll({await json.decode(response.body)[0]});
         final lineChartData = await fetchLineChartData(id[i]);
 

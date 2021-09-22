@@ -198,9 +198,9 @@ class MyText extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              fontWeight: fontWeight,
-              color: Color(AppUtils.convertHexaColor(color)),
-              fontSize: fontSize),
+            fontWeight: fontWeight,
+            color: Color(AppUtils.convertHexaColor(color)),
+            fontSize: fontSize),
           textAlign: textAlign,
           overflow: overflow,
         ),

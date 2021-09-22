@@ -45,7 +45,7 @@ class ContractProvider with ChangeNotifier {
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
         id: 'selendra',
-        address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030',
+        address: '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030',//'0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL',
         org: 'BEP-20',
@@ -54,7 +54,7 @@ class ContractProvider with ChangeNotifier {
     // SEL V2
     SmartContractModel(
         id: 'selendra v2',
-        address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',//'0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C',
+        address: '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C', //'0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
         logo: 'assets/SelendraCircle-Blue.png',
         symbol: 'SEL (v2)',
         org: 'BEP-20',
@@ -63,7 +63,7 @@ class ContractProvider with ChangeNotifier {
     // KIWIGO
     SmartContractModel(
         id: 'kiwigo',
-        address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',//'0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314',
+        address: '0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314',//'0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
         logo: 'assets/Kiwi-GO-White-1.png',
         symbol: 'KGO',
         org: 'BEP-20',
@@ -147,33 +147,30 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN, _httpClient,
-        socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN)
-          .cast<String>();
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN, _httpClient,
+    socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlTN).cast<String>();
     });
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN, _httpClient,
-        socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN).cast<String>();
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN, _httpClient,
+    socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN).cast<String>();
     });
   }
 
   Future<void> initSelClient() async {
     _httpClient = Client();
-    _selClient = Web3Client(AppConfig.networkList[0].httpUrlMN, _httpClient,
+    _selClient = Web3Client(AppConfig.networkList[0].httpUrlTN, _httpClient,
     socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[0].wsUrlMN).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[0].wsUrlTN).cast<String>();
     });
   }
 
   /// Sort Asset Portoflio, And aslo add api property
   Future<void> sortAsset(BuildContext context) {
-
-    print("sortAsset");
 
     final api = Provider.of<ApiProvider>(context, listen: false);
 
@@ -181,7 +178,6 @@ class ContractProvider with ChangeNotifier {
     
     // Added List Contract Into SortListContract
     listContract.forEach((element) {
-      print(element.balance);
       sortListContract.addAll({element});
     });
     
@@ -193,8 +189,7 @@ class ContractProvider with ChangeNotifier {
       for (int i = 0; i < sortListContract.length; i++) {
         for (int j = i + 1; j < sortListContract.length; j++) {
           tmp = sortListContract[i];
-          if ((double.parse(sortListContract[j].balance)) >
-              (double.parse(tmp.balance))) {
+          if ((double.parse(sortListContract[j].balance)) > (double.parse(tmp.balance))) {
             sortListContract[i] = sortListContract[j];
             sortListContract[j] = tmp;
           }
@@ -237,7 +232,7 @@ class ContractProvider with ChangeNotifier {
               return std;
             }
           } catch (e) {
-            print("Error $e");
+            // print("Error $e");
           }
         })
         .where((receipt) => receipt != null)
@@ -269,7 +264,7 @@ class ContractProvider with ChangeNotifier {
 
       });
     } catch (e) {
-      print(e.message);
+      // print(e.message);
     }
   }
 
@@ -303,7 +298,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> unsubscribeNetwork() async {
-    print('canel stream');
     await streamSubscriptionBsc.cancel();
 
     cancelStream = true;
@@ -313,13 +307,11 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getEtherBalance() async {
-    print("Get Ether");
     await initEtherClient();
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
     final EtherAmount ethbalance = await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
     listContract[3].balance = ethbalance.getValueInUnit(EtherUnit.ether).toString();
-      print("${listContract[3].balance}");
 
     listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
 
@@ -575,46 +567,37 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getKgoDecimal() async {
-    if (!cancelStream){
-      final res = await query(listContract[2].address, 'decimals', []);
-      listContract[2].chainDecimal = res[0].toString();
-    }
+    
+    final res = await query(listContract[2].address, 'decimals', []);
+    listContract[2].chainDecimal = res[0].toString();
 
     notifyListeners();
   }
 
   Future<void> getKgoBalance() async {
 
-    print("getKgoBalance");
-    if (!cancelStream){
-      listContract[2].isContain = true;
+    
+    listContract[2].isContain = true;
 
-      if (ethAdd != '') {
-        final res = await query(listContract[2].address, 'balanceOf',
-            [EthereumAddress.fromHex(ethAdd)]);
+    if (ethAdd != '') {
+      final res = await query(listContract[2].address, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
 
-        listContract[2].balance = Fmt.bigIntToDouble(
-          res[0] as BigInt,
-          int.parse(listContract[2].chainDecimal),
-        ).toString();
+      listContract[2].balance = Fmt.bigIntToDouble(
+        res[0] as BigInt,
+        int.parse(listContract[2].chainDecimal),
+      ).toString();
 
-      print("${listContract[2].balance}");
-
-        listContract[2].lineChartModel =
-            LineChartModel().prepareGraphChart(listContract[2]);
-      }
+      listContract[2].lineChartModel =
+          LineChartModel().prepareGraphChart(listContract[2]);
     }
 
     notifyListeners();
   }
 
   Future<void> getBscDecimal(int indexContract) async {
-
-    print("Bsc address ${listContract[indexContract].address}");
     
     final res = await query(listContract[indexContract].address, 'decimals', []);
-
-    print("getBscDecimal ${listContract[indexContract].chainDecimal}");
     listContract[indexContract].chainDecimal = res[0].toString();
 
     notifyListeners();
@@ -642,13 +625,11 @@ class ContractProvider with ChangeNotifier {
   Future<void> getEtherAddr() async {
     final ethAddr = await StorageServices().readSecure('etherAdd');
     ethAdd = ethAddr;
-    print("Get Eth address ${ethAdd}");
 
     notifyListeners();
   }
 
   Future<void> getBnbBalance() async {
-    print("getBnbBalance");
     
     listContract[4].isContain = true;
     final ethAddr = await StorageServices().readSecure('etherAdd');
@@ -656,7 +637,6 @@ class ContractProvider with ChangeNotifier {
       EthereumAddress.fromHex(ethAddr),
     );
     listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
-    print("${listContract[4].balance}");
     // Assign Line Graph Chart
     listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
@@ -664,8 +644,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscBalance() async {
-    print("Cancel stream $cancelStream");
-    print("getBscBalance");
     // print("BSC ${!cancelStream}");
     
     listContract[0].isContain = true;
@@ -673,7 +651,6 @@ class ContractProvider with ChangeNotifier {
     // print("ethAdd $ethAdd");
     if (ethAdd != '') {
       final res = await query(listContract[0].address, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-      print("listContract[0].balance $res");
       listContract[0].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[0].chainDecimal),
@@ -687,13 +664,11 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBscV2Balance() async {
-    print("getBscV2Balance");
     
     listContract[1].isContain = true;
     await getBscDecimal(1);
     if (ethAdd != '') {
       final res = await query(listContract[1].address, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-      print("${listContract[1].balance}");
       listContract[1].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
         int.parse(listContract[1].chainDecimal),

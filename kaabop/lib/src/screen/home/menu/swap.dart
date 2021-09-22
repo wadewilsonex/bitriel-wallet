@@ -87,7 +87,7 @@ class _SwapState extends State<Swap> {
       }
     } catch (e) {
       Navigator.pop(context);
-      print(e.message);
+      // print(e.message);
 
       if (e.message.toString() ==
           'insufficient funds for gas * price + value') {
@@ -642,6 +642,12 @@ class _SwapState extends State<Swap> {
                                         child: Container(
                                           alignment: Alignment.bottomLeft,
                                           child: TextFormField(
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(
+                                                TextField.noMaxLength,
+                                              ),
+                                              FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+                                            ],
                                             controller: _amountController,
                                             keyboardType: Platform.isAndroid
                                                 ? TextInputType.number
@@ -685,9 +691,6 @@ class _SwapState extends State<Swap> {
                                                             AppColors.textColor)
                                                         .withOpacity(0.3),
                                               ),
-                                              contentPadding:
-                                                  const EdgeInsets.all(
-                                                      0), // Default padding =
                                             ),
                                             validator: (value) => value.isEmpty
                                                 ? 'Please fill in amount'

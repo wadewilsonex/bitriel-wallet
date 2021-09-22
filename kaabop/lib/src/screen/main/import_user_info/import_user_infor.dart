@@ -29,7 +29,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   @override
   void initState() {
-    print("Hello import use info ${widget.passPhrase}");
     _menuModel = MenuModel();
     AppServices.noInternetConnection(_userInfoM.globalKey);
     super.initState();
@@ -58,7 +57,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         name: _userInfoM.userNameCon.text,
         password: _userInfoM.confirmPasswordCon.text,
       );
-      print("json $json");
 
       final acc = await ApiProvider.sdk.api.keyring.addAccount(
         ApiProvider.keyring,
@@ -67,13 +65,10 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      print("acc $acc");  
-
       if (acc != null) {
         
         await addBtcWallet();
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
-        print("Get private key from mnemnic $resPk");
         if (resPk != null) {
 
           await ContractProvider().extractAddress(resPk);
@@ -107,12 +102,9 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         // print("getChainDecimal");
         // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
-        print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
-
         await successDialog(context, "imported your account.");
       }
     } catch (e) {
-      print("Import Error $e");
       await showDialog(
         context: context,
         builder: (context) {

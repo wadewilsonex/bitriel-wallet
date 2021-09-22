@@ -249,7 +249,6 @@ class MyUserInfoState extends State<MyUserInfo> {
           // // Ready To Display Asset Portfolio
           Provider.of<ContractProvider>(context, listen: false).setReady();
           
-          print("getChainDecimal");
           await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
             if (value != null) {
 

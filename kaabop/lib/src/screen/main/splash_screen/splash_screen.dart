@@ -4,6 +4,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -13,8 +14,8 @@ class MySplashScreen extends StatefulWidget {
   }
 }
 
-class MySplashScreenState extends State<MySplashScreen>
-    with SingleTickerProviderStateMixin {
+class MySplashScreenState extends State<MySplashScreen> with SingleTickerProviderStateMixin {
+
   AnimationController controller;
   Animation<double> animation;
 
@@ -97,6 +98,7 @@ class MySplashScreenState extends State<MySplashScreen>
           ),
         );
       } else {
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
         Navigator.pushReplacementNamed(context, Home.route);
       }
     }
@@ -112,6 +114,7 @@ class MySplashScreenState extends State<MySplashScreen>
           ),
         );
       } else {
+        print("Check BiO");
         Navigator.pushReplacementNamed(context, Home.route);
       }
     });

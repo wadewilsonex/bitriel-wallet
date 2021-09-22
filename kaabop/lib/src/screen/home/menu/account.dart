@@ -113,7 +113,7 @@ class _AccountState extends State<Account> {
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
 
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
       // await dialog(context, e.toString(), 'Opps');
     }
   }

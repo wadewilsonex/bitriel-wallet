@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:wallet_apps/theme/color.dart';
 
 class SearchAsset extends SearchDelegate {
+  
   final Function added;
   final List<TokenModel> token;
   SearchAsset({this.added, this.token});

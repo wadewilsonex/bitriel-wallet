@@ -130,10 +130,11 @@ class MyListTile extends StatelessWidget {
       enabled: enable,
       onTap: onTap,
       leading: SvgPicture.asset(
-          MenuModel.listTile[index]['sub'][subIndex]['icon'].toString(),
-          color: isDarkTheme ? Colors.white : Colors.black,
-          width: 30,
-          height: 30),
+        MenuModel.listTile[index]['sub'][subIndex]['icon'].toString(),
+        color: isDarkTheme ? Colors.white : Colors.black,
+        width: 30,
+        height: 30
+      ),
       title: MyText(
         text: MenuModel.listTile[index]['sub'][subIndex]['subTitle'].toString(),
         color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,

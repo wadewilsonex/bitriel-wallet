@@ -31,6 +31,7 @@ class MenuModel {
         {'icon': "assets/icons/form.svg", 'subTitle': 'Claim KGO'},
         {'icon': "assets/icons/add_people.svg", 'subTitle': 'Invite Friends'},
         {'icon': "assets/icons/swap.svg", 'subTitle': 'Swap SEL v2'},
+        {'icon': "assets/icons/presale.svg", 'subTitle': 'Presale'},
       ]
     },
     {

@@ -33,6 +33,7 @@ class AppState extends State<App> {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
+
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
 
         await contractProvider.getEtherAddr();
@@ -92,8 +93,7 @@ class AppState extends State<App> {
   }
 
   Future<void> getSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
 
     if (res != null) {
@@ -167,12 +167,9 @@ class AppState extends State<App> {
   Future<void> isKgoContain() async {
     try {
 
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoDecimal();
-      //     .then((value) async {
-      //   await Provider.of<ContractProvider>(context, listen: false)
-      //       .getKgoBalance();
-      // });
+      await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+        await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+      });
     } catch (e) {
       // print("Error KGO $e");
     }

@@ -478,6 +478,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               children: <Widget>[
                 Consumer<WalletProvider>(
                   builder: (context, value, child) {
+                    print("My symbol length ${value.listSymbol.length}");
                     return SubmitTrxBody(
                       enableInput: widget.enableInput,
                       scanPayM: _scanPayM,

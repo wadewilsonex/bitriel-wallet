@@ -71,8 +71,8 @@ class HomeState extends State<Home>
 
   void marketInitializer() async {
 
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     // print(apiProvider.)
     // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
@@ -234,8 +234,7 @@ class HomeState extends State<Home>
         height: 65,
         child: FloatingActionButton(
           elevation: 0,
-          backgroundColor:
-              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+          backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
               context,

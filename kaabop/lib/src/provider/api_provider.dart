@@ -58,13 +58,12 @@ class ApiProvider with ChangeNotifier {
   bool get isConnected => _isConnected;
 
   Future<void> initApi() async {
-    print(keyring.ss58);
     try {
       await keyring.init();
       keyring.setSS58(42);
       await sdk.init(keyring);
     } catch (e) {
-      // print("Error initApi $e");
+      print("Error initApi $e");
     }
   }
 
@@ -78,7 +77,6 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.connectNode(keyring, [node]);
 
     if (res != null) {
-      print('connected');
       _isConnected = true;
     }
 
@@ -316,8 +314,6 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.getChainDecimal();
     nativeM.chainDecimal = res[0].toString();
 
-    print(nativeM.chainDecimal);
-
     await subscribeBalance();
     
     notifyListeners();
@@ -364,7 +360,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount() async {
-    print("getCurrentAccount");
     accountM.address = keyring.current.address;
     accountM.name = keyring.current.name;
     notifyListeners();
