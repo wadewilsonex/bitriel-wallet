@@ -6,13 +6,6 @@ This project is build on **polkadot substrate blockchain** technology.
 
 <img src="flutter_01.png" width="200"> <img src="flutter_02.png" width="200">
 
-## Current limitations
-
-| OS | Status |
-| -- | -- |
-| Android | Tested and working on Android 9 |
-| iOS | Tested and working on iOS 9 up.|
-
 ## Prerequisites:
 
 #### Linux OS: 
