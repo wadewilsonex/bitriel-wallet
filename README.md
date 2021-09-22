@@ -38,7 +38,7 @@ In this section we assume you have one among both OS on your machine. If you are
 	- Add path for Flutter:
 	```export PATH=$PATH:/Users/mac/Documents/flutter/bin```
 	- Here for android sdk if you wanna setup:
-	```export ANDROID_HOME=/Users/mac/Library/Android/sdk```
+	```export ANDROID_HOME=/Users/mac/Library/Android/sdk``` and 
 	```export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/platforms```
 3. After add path you need to refresh shell script file ```source ~/.zshrc```.
 4. Let's run ```flutter doctor``` to check your missing part of your installation.
