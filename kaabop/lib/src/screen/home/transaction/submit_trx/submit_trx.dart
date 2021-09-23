@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:web3dart/credentials.dart';
 
 class SubmitTrx extends StatefulWidget {
   final String _walletKey;
@@ -113,7 +114,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     } else if (_scanPayM.nodeAmount.hasFocus) {
       FocusScope.of(context).requestFocus(_scanPayM.nodeMemo);
     } else {
-      if (_scanPayM.enable == true) clickSend();
+      if (_scanPayM.enable == true) clickSend(trxFunc.txInfo);
     }
   }
 
@@ -157,6 +158,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   Future<void> validateSubmit() async {
     var gasPrice;
+    print('isValid: ');
     dialogLoading(context);
     if (_scanPayM.formStateKey.currentState.validate()) {
       // Navigator.pushNamed(context, AppString.confirmationTxView);
@@ -185,6 +187,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       if (isValid) {
         gasPrice = await trxFunc.getNetworkGasPrice(_scanPayM.asset);
+        print('gas price: $gasPrice');
       }
 
       if (isValid && isEnough) {
@@ -203,6 +206,15 @@ class SubmitTrxState extends State<SubmitTrx> {
             _scanPayM.controlReceiverAddress.text,
             _scanPayM.controlAmount.text,
           );
+
+          trxFunc.txInfo = TransactionInfo(
+            receiver:
+                AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
+            //   amount: _scanPayM.controlAmount.text,
+          );
+          //await trxFunc.getMaxG(trxFunc.contract.getSelToken, trxFunc.txInfo);
+
+          // print(maxG.toString());
 
           print('maxGas: $maxGas');
 
@@ -229,7 +241,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
           // print(res);
 
-          TransactionInfo txInfo = TransactionInfo(
+          trxFunc.txInfo = TransactionInfo(
             coinSymbol: _scanPayM.asset,
             receiver:
                 AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
@@ -250,20 +262,20 @@ class SubmitTrxState extends State<SubmitTrx> {
             context,
             RouteAnimation(
               enterPage: ConfirmationTx(
-                trxInfo: txInfo,
+                trxInfo: trxFunc.txInfo,
                 clickSend: clickSend,
               ),
             ),
           );
         } else {
           Navigator.pop(context);
-          clickSend();
+          clickSend(trxFunc.txInfo);
         }
       }
     }
   }
 
-  Future<void> clickSend() async {
+  Future<void> clickSend(TransactionInfo txInfo) async {
     try {
       if (_scanPayM.formStateKey.currentState.validate()) {
         /* Send payment */
@@ -319,13 +331,23 @@ class SubmitTrxState extends State<SubmitTrx> {
             // Pin Correct And Response With Private Key
             else if (trxFunc.privateKey != null) {
               print('my private key${trxFunc.privateKey}');
-              final txInfo = TransactionInfo(
-                privateKey: trxFunc.privateKey,
-                amount: _scanPayM.controlAmount.text,
-                receiver: trxFunc.contract
-                    .getEthAddr(_scanPayM.controlReceiverAddress.text),
+
+              trxFunc.txInfo.coinSymbol = _scanPayM.asset;
+              trxFunc.txInfo.privateKey = trxFunc.privateKey;
+              trxFunc.txInfo.amount = _scanPayM.controlAmount.text;
+              trxFunc.txInfo.receiver = trxFunc.contract.getEthAddr(
+                _scanPayM.controlReceiverAddress.text,
               );
-              /* -------------Processing Transactioin----------- */
+
+              // txInfo = TransactionInfo(
+              //   coinSymbol: _scanPayM.asset,
+              //   privateKey: trxFunc.privateKey,
+              //   amount: _scanPayM.controlAmount.text,
+              //   receiver: trxFunc.contract.getEthAddr(
+              //     _scanPayM.controlReceiverAddress.text,
+              //   ),
+              // );
+              // /* -------------Processing Transaction----------- */
               switch (_scanPayM.asset) {
                 case "SEL":
                   await trxFunc.sendTx(_scanPayM.controlReceiverAddress.text,
@@ -385,8 +407,9 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "BNB":
-                  await trxFunc.sendTxBnb(_scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text);
+                  await trxFunc.sendTxEvm(trxFunc.contract.bnb, txInfo);
+                  // await trxFunc.sendTxBnb(_scanPayM.controlReceiverAddress.text,
+                  //     _scanPayM.controlAmount.text);
                   break;
 
                 case "ETH":
@@ -416,6 +439,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                         ContractProvider().findContractAddr(_scanPayM.asset);
                     final chainDecimal = await ContractProvider()
                         .query(contractAddr, 'decimals', []);
+                    //await trxFunc.sendTxBep20(tokenService, txInfo)
                     // await trxFunc.sendTxBsc(
                     //     contractAddr,
                     //     chainDecimal[0].toString(),

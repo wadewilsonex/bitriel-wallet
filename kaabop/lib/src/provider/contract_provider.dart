@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,7 @@ class ContractProvider with ChangeNotifier {
         symbol: 'SEL',
         org: 'BEP-20',
         isContain: true,
+        listActivity: [],
         lineChartModel: LineChartModel()),
     // SEL V2
     SmartContractModel(
@@ -56,6 +58,7 @@ class ContractProvider with ChangeNotifier {
         symbol: 'SEL (v2)',
         org: 'BEP-20',
         isContain: true,
+        listActivity: [],
         lineChartModel: LineChartModel()),
     // KIWIGO
     SmartContractModel(
@@ -65,6 +68,7 @@ class ContractProvider with ChangeNotifier {
         symbol: 'KGO',
         org: 'BEP-20',
         isContain: true,
+        listActivity: [],
         lineChartModel: LineChartModel()),
     // Ethereum
     SmartContractModel(
@@ -73,6 +77,7 @@ class ContractProvider with ChangeNotifier {
         symbol: 'ETH',
         org: '',
         isContain: true,
+        listActivity: [],
         lineChartModel: LineChartModel()),
     //BNB
     SmartContractModel(
@@ -81,6 +86,7 @@ class ContractProvider with ChangeNotifier {
         symbol: 'BNB',
         org: 'Smart Chain',
         isContain: true,
+        listActivity: [],
         lineChartModel: LineChartModel()),
   ];
 
@@ -108,11 +114,6 @@ class ContractProvider with ChangeNotifier {
       return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN)
           .cast<String>();
     });
-    // _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN, _httpClient,
-    //     socketConnector: () {
-    //   return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN)
-    //       .cast<String>();
-    // });
   }
 
   Future<void> initEtherClient() async {
@@ -185,6 +186,50 @@ class ContractProvider with ChangeNotifier {
 
     listContract[1].chainDecimal = '18'; //chainDecimal.toString();
     // notifyListeners();
+  }
+
+  void addListActivity(TransactionInfo info, int index,
+      {ContractService contractService, NativeService nativeService}) async {
+    listContract[index].listActivity.add(info);
+
+    print('add to list activity');
+
+    if (contractService != null) {
+      await updateTxStt(contractService, info, index);
+    }
+
+    if (nativeService != null) {
+      print('update native network');
+      await updateNativeTxStt(nativeService, info, index);
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> updateNativeTxStt(
+      NativeService nativeService, TransactionInfo info, int index) async {
+    await nativeService.listenTransfer(info.hash).then((value) {
+      print('Stt: $value');
+      var item = listContract[index]
+          .listActivity
+          .firstWhere((element) => element.hash == info.hash);
+      item.status = value;
+    });
+
+    notifyListeners();
+  }
+
+  Future<void> updateTxStt(
+      ContractService contractService, TransactionInfo info, int index) async {
+    await contractService.listenTransfer(info.hash).then((value) {
+      print('Stt: $value');
+      var item = listContract[index]
+          .listActivity
+          .firstWhere((element) => element.hash == info.hash);
+      item.status = value;
+    });
+
+    notifyListeners();
   }
 
   Future<void> kgoTokenWallet() async {
@@ -411,7 +456,7 @@ class ContractProvider with ChangeNotifier {
 
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
-      to: EthereumAddress.fromHex(contractAddr),
+      to: bep20Contract.address,
       //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
       data: txFunction.encodeCall(
         [
@@ -421,11 +466,12 @@ class ContractProvider with ChangeNotifier {
       ),
     );
 
-    print(txFunction.encodeCall([
-      EthereumAddress.fromHex(reciever),
-      BigInt.from(double.parse(amount) * pow(10, 18))
-    ]));
+    // print(getSelToken.getMaxGas(
+    //     EthereumAddress.fromHex(ethAddr),
+    //     TransactionInfo(
+    //         receiver: EthereumAddress.fromHex(reciever), amount: amount)));
 
+    print('myGas: $maxGas');
     return maxGas.toString();
   }
 

@@ -3,10 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
-  
   static String _decode;
   static SharedPreferences _preferences;
-  
+
   final _storage = const FlutterSecureStorage();
 
   Future<String> readSecure(String key) async {
@@ -49,6 +48,10 @@ class StorageServices {
     _decode = jsonEncode(ls);
     _preferences.setString(_path, _decode);
     return _preferences;
+  }
+
+  static Future<void> assetData() async {
+    final List<SmartContractModel> assetData = [];
   }
 
   static Future<SharedPreferences> addTxHistory(

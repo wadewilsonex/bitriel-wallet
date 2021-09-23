@@ -158,6 +158,7 @@ class AssetList extends StatelessWidget {
                       context,
                       RouteAnimation(
                         enterPage: AssetInfo(
+                          index: index,
                           id: value.sortListContract[index].id,
                           assetLogo: value.sortListContract[index].logo,
                           balance: value.sortListContract[index].balance ??
@@ -168,6 +169,9 @@ class AssetList extends StatelessWidget {
                           marketData: value.sortListContract[index].marketData,
                           marketPrice:
                               value.sortListContract[index].marketPrice,
+                          transactionInfo: value
+                              .sortListContract[index].listActivity.reversed
+                              .toList(),
                           priceChange24h:
                               value.sortListContract[index].change24h,
                         ),

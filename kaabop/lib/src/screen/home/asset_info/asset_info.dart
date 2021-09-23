@@ -3,13 +3,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/components/activity_item.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
+import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import '../../../../index.dart';
 import 'asset_detail.dart';
 
 class AssetInfo extends StatefulWidget {
+  final int index;
   final String id;
   final String assetLogo;
   final String balance;
@@ -18,18 +19,23 @@ class AssetInfo extends StatefulWidget {
   final String marketPrice;
   final String priceChange24h;
   final Market marketData;
-  final TransactionInfo transactionInfo;
+  final List<TransactionInfo> transactionInfo;
+  final bool showActivity;
 
-  const AssetInfo(
-      {this.id,
-      this.assetLogo,
-      this.balance,
-      this.tokenSymbol,
-      this.org,
-      this.marketPrice,
-      this.priceChange24h,
-      this.marketData,
-      this.transactionInfo});
+  const AssetInfo({
+    this.index,
+    this.id,
+    this.assetLogo,
+    this.balance,
+    this.tokenSymbol,
+    this.org,
+    this.marketPrice,
+    this.priceChange24h,
+    this.marketData,
+    this.transactionInfo,
+    this.showActivity,
+  });
+
   @override
   _AssetInfoState createState() => _AssetInfoState();
 }
@@ -38,7 +44,7 @@ class _AssetInfoState extends State<AssetInfo> {
   final FlareControls _flareController = FlareControls();
   final ModelScanPay _scanPayM = ModelScanPay();
   final GetWalletMethod _method = GetWalletMethod();
-  PageController controller;
+  PageController controller = PageController();
   String totalUsd = '';
 
   int _tabIndex = 0;
@@ -262,7 +268,11 @@ class _AssetInfoState extends State<AssetInfo> {
   @override
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
-    controller = PageController();
+
+    if (widget.showActivity != null) {
+      _tabIndex = 1;
+      controller = PageController(initialPage: 1);
+    }
 
     super.initState();
   }
@@ -313,8 +323,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   },
                                   child: Container(
                                       alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.only(
-                                          right: 15, left: 10),
+                                      padding: const EdgeInsets.only(right: 16),
                                       child: Icon(
                                           Platform.isAndroid
                                               ? Icons.arrow_back
@@ -385,27 +394,6 @@ class _AssetInfoState extends State<AssetInfo> {
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
-                          // if (widget.tokenSymbol == "ATD")
-                          //   Align(
-                          //     alignment: Alignment.topRight,
-                          //     child: Consumer<ContractProvider>(
-                          //       builder: (context, value, child) {
-                          //         return MyText(
-                          //           textAlign: TextAlign.right,
-                          //           text: value.atd.status
-                          //               ? 'Status: Check-In'
-                          //               : 'Status: Check-out',
-                          //           fontSize: 16.0,
-                          //           right: 16.0,
-                          //           color: isDarkTheme
-                          //               ? AppColors.whiteColorHexa
-                          //               : AppColors.textColor,
-                          //         );
-                          //       },
-                          //     ),
-                          //   )
-                          // else
-                          //   Container(),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
@@ -639,21 +627,38 @@ class _AssetInfoState extends State<AssetInfo> {
                     ),
                   ),
                 ),
-              Container(
-                color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
-                    : hexaCodeToColor(AppColors.whiteColorHexa),
-                child: SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      ActivityItem(),
-                      ActivityItem(),
-                      ActivityItem(),
-                    ],
-                  ),
-                ),
-              ),
+              Consumer<ContractProvider>(builder: (context, value, child) {
+                return widget.transactionInfo.isEmpty
+                    ? Container(
+                        color: isDarkTheme
+                            ? hexaCodeToColor(AppColors.darkCard)
+                            : hexaCodeToColor(AppColors.whiteHexaColor),
+                        child: Center(
+                            child: SvgPicture.asset(
+                          'assets/icons/no_data.svg',
+                          width: 150,
+                          height: 150,
+                        )),
+                      )
+                    : Container(
+                        color: isDarkTheme
+                            ? hexaCodeToColor(AppColors.darkCard)
+                            : hexaCodeToColor(AppColors.whiteColorHexa),
+                        child: ActivityList(
+                          transactionInfo: widget.transactionInfo,
+                        )
+                        // child: SingleChildScrollView(
+                        //   physics: NeverScrollableScrollPhysics(),
+                        //   child: Column(
+                        //     children: [
+                        //       ActivityItem(),
+                        //       ActivityItem(),
+                        //       ActivityItem(),
+                        //     ],
+                        //   ),
+                        // ),
+                        );
+              })
               // Container(
               //   color: isDarkTheme
               //       ? hexaCodeToColor(AppColors.darkCard)

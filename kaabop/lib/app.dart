@@ -78,6 +78,17 @@ class AppState extends State<App> {
         await Provider.of<WalletProvider>(context, listen: false)
             .fillWithMarketData(context);
         contractProvider.setReady();
+
+        print(contractProvider.listContract.length);
+
+        // var list = json.encode(contractProvider.listContract.length);
+
+        await StorageServices.removeKey('assetData');
+
+        //await StorageServices.setData(list, 'assetData');
+
+        // final res = await StorageServices.fetchData('assetData');
+        // print('res $res');
       }
     });
   }

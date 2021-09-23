@@ -63,6 +63,7 @@ class ApiProvider with ChangeNotifier {
       symbol: 'SEL',
       balance: '0.0',
       org: 'Testnet',
+      listActivity: [],
       lineChartModel: LineChartModel());
 
   SmartContractModel dot = SmartContractModel(
@@ -72,6 +73,7 @@ class ApiProvider with ChangeNotifier {
       org: '',
       balance: '0.0',
       isContain: false,
+      listActivity: [],
       lineChartModel: LineChartModel());
 
   SmartContractModel btc = SmartContractModel(
@@ -81,6 +83,7 @@ class ApiProvider with ChangeNotifier {
       org: '',
       balance: '0.0',
       isContain: false,
+      listActivity: [],
       lineChartModel: LineChartModel());
 
   bool _isConnected = false;

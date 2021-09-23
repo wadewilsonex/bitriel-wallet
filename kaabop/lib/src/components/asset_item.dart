@@ -93,25 +93,23 @@ class AssetItem extends StatelessWidget {
                   else
                     Row(
                       children: [
-                        // tokenSymbol == "KGO"
-                        // ? MyText(
-                        //   text: '\$ ${marketPrice.substring(0, 8)}' ?? '',
-                        //   fontSize: 12,
-                        //   fontWeight: FontWeight.bold,
-                        //   color: isDarkTheme
-                        //     ? AppColors.darkSecondaryText
-                        //     : AppColors.darkSecondaryText,
-                        // )
-                        // :
-                        MyText(
-                          text: '\$ $marketPrice' ?? '',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme
-                              ? AppColors.darkSecondaryText
-                              : AppColors.darkSecondaryText,
-                        ),
-
+                        tokenSymbol == "KGO"
+                            ? MyText(
+                                text: '\$ ${marketPrice.substring(0, 8)}' ?? '',
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkTheme
+                                    ? AppColors.darkSecondaryText
+                                    : AppColors.darkSecondaryText,
+                              )
+                            : MyText(
+                                text: '\$ $marketPrice' ?? '',
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkTheme
+                                    ? AppColors.darkSecondaryText
+                                    : AppColors.darkSecondaryText,
+                              ),
                         const SizedBox(width: 6.0),
                         MyText(
                           text: priceChange24h.substring(0, 1) == '-'

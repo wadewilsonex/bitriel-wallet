@@ -27,6 +27,8 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
     AppServices.noInternetConnection(globalKey);
+    _importAccModel.mnemonicCon.text =
+        'neglect vocal merry giant busy tribe liberty supreme face network machine maple';
     super.initState();
   }
 

@@ -18,9 +18,7 @@ class AppUtils {
   }
 
   static addrFmt(String address) {
-    String mask() {
-      return '${address.substring(0, 6)}...${address.substring(address.length - 6, address.length)}';
-    }
+    return '${address.substring(0, 6)}...${address.substring(address.length - 6, address.length)}';
   }
 
   static EthereumAddress getEthAddr(String address) =>

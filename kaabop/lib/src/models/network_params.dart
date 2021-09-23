@@ -6,6 +6,8 @@ class NetworkParams {
   String wsUrlMN;
   String httpUrlTN;
   String wsUrlTN;
+  String scanMn;
+  String scanTN;
   int ss58;
 
   NetworkParams({
@@ -14,6 +16,8 @@ class NetworkParams {
     this.wsUrlMN,
     this.httpUrlTN,
     this.wsUrlTN,
+    this.scanMn,
+    this.scanTN,
     this.ss58,
   });
 }

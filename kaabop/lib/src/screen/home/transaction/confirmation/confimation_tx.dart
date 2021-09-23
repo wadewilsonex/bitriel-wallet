@@ -15,6 +15,8 @@ class ConfirmationTx extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final addr = AppUtils.addrFmt(trxInfo.receiver.toString());
 
+    print('fmt $addr');
+
     return Scaffold(
       body: BodyScaffold(
         child: Column(
@@ -183,7 +185,7 @@ class ConfirmationTx extends StatelessWidget {
                       ),
                       MyText(
                         top: 8.0,
-                        text: trxInfo.totalAmt.substring(0, 9),
+                        text: trxInfo.totalAmt,
                         fontSize: 32.0,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondary,
@@ -208,7 +210,7 @@ class ConfirmationTx extends StatelessWidget {
                       const EdgeInsets.only(left: 42, right: 42, bottom: 16),
                   textButton: AppString.confirm,
                   action: () {
-                    clickSend();
+                    clickSend(trxInfo);
                   },
                 ),
               ],

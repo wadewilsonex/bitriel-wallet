@@ -46,41 +46,82 @@ class ContractService implements IContractService {
   Future<bool> listenTransfer(String txHash) async {
     bool std;
     StreamSubscription subscribeEvent;
-    final addedBlock = _client.addedBlocks();
 
-    // ignore: unused_local_variable
-    // ignore: cancel_subscriptions
-    subscribeEvent = addedBlock.listen((event) async {
-      try {
-        // This Method Will Run Again And Again Until we return something
-        await _client.getTransactionReceipt(txHash).then((d) {
-          // Give Value To std When Request Successfully
-          if (d != null) {
-            std = d.status;
+    await _client
+        .addedBlocks()
+        .asyncMap((_) async {
+          try {
+            // This Method Will Run Again And Again Until we return something
+            await _client.getTransactionReceipt(txHash).then((d) {
+              // Give Value To std When Request Successfully
+              if (d != null) {
+                std = d.status;
 
-            subscribeEvent.cancel();
+                print('my status $std ');
+                //subscribeEvent.cancel();
+              }
+            });
+
+            // Return Value For True Value And Method GetTrxReceipt Also Terminate
+            if (std != null) return std;
+          } on FormatException catch (e) {
+            // This Error Because can't Convert Hexadecimal number to integer.
+            // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+            // Example-Error: 0xc, 0x3a, ...
+            // Example-Success: 0x1, 0x2, 0,3 ...
+
+            // return True For Facing This FormatException
+            if (e.message.toString() == 'Invalid radix-10 number') {
+              std = true;
+              return std;
+            }
+          } catch (e) {
+            print("Error $e");
           }
-        });
-
-        // Return Value For True Value And Method GetTrxReceipt Also Terminate
-        if (std != null) return std;
-      } on FormatException catch (e) {
-        // This Error Because can't Convert Hexadecimal number to integer.
-        // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
-        // Example-Error: 0xc, 0x3a, ...
-        // Example-Success: 0x1, 0x2, 0,3 ...
-
-        // return True For Facing This FormatException
-        if (e.message.toString() == 'Invalid radix-10 number') {
-          std = true;
-          return std;
-        }
-      } catch (e) {
-        print("Error $e");
-      }
-    });
+        })
+        .where((receipt) => receipt != null)
+        .first;
 
     return std;
+
+    // final addedBlock = await _client.addedBlocks();
+
+    // // ignore: unused_local_variable
+    // // ignore: cancel_subscriptions
+    // subscribeEvent = addedBlock.listen((event) async {
+    //   try {
+    //     // This Method Will Run Again And Again Until we return something
+    //     await _client.getTransactionReceipt(txHash).then((d) {
+    //       // Give Value To std When Request Successfully
+    //       if (d != null) {
+    //         std = d.status;
+
+    //         subscribeEvent.cancel();
+    //       }
+    //     });
+
+    //     print('std in try $std');
+
+    //     // Return Value For True Value And Method GetTrxReceipt Also Terminate
+    //     if (std != null) return std;
+    //   } on FormatException catch (e) {
+    //     // This Error Because can't Convert Hexadecimal number to integer.
+    //     // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+    //     // Example-Error: 0xc, 0x3a, ...
+    //     // Example-Success: 0x1, 0x2, 0,3 ...
+
+    //     // return True For Facing This FormatException
+    //     if (e.message.toString() == 'Invalid radix-10 number') {
+    //       std = true;
+    //       return std;
+    //     }
+    //   } catch (e) {
+    //     print("Error $e");
+    //   }
+    // });
+
+    // print('mystd: $std');
+    // return std;
   }
 
   @override
@@ -132,6 +173,8 @@ class ContractService implements IContractService {
   @override
   Future<BigInt> getMaxGas(
       EthereumAddress sender, TransactionInfo trxInfo) async {
+    print(trxInfo.receiver);
+    print(trxInfo.amount);
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: _contract.address,
@@ -142,6 +185,8 @@ class ContractService implements IContractService {
         ],
       ),
     );
+
+    print('maxG: $maxGas');
     return maxGas;
   }
 }
