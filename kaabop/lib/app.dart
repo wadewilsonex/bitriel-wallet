@@ -35,7 +35,6 @@ class AppState extends State<App> {
     await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
 
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-
         await contractProvider.getEtherAddr();
 
         await getSavedContractToken();
@@ -65,20 +64,21 @@ class AppState extends State<App> {
 
       }
 
-      await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
+      await Provider.of<ApiProvider>(context, listen: false)
+          .connectNode()
+          .then((value) async {
         if (value != null) {
-
           if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-            await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+            await Provider.of<ApiProvider>(context, listen: false)
+                .getChainDecimal();
           }
         }
       });
-
     });
   }
 
   void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
       'SEL v2 (BEP-20)',
     );
@@ -99,9 +99,8 @@ class AppState extends State<App> {
     if (res != null) {
       for (final i in res) {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -110,8 +109,7 @@ class AppState extends State<App> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (BEP-20)');
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
   }

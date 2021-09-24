@@ -161,14 +161,14 @@ class SubmitTrxState extends State<SubmitTrx> {
     if (_scanPayM.formStateKey.currentState.validate()) {
       // Navigator.pushNamed(context, AppString.confirmationTxView);
 
-      final isValid = await trxFunc.validateAddr(_scanPayM.asset, _scanPayM.controlReceiverAddress.text);
+      final isValid = await trxFunc.validateAddr(
+          _scanPayM.asset, _scanPayM.controlReceiverAddress.text);
       print('isValid: $isValid');
 
       if (!isValid) {
         Navigator.pop(context);
         await trxFunc.customDialog('Oops', 'Invalid Reciever Address.');
       } else {
-        
         final isEnough = await trxFunc.checkBalanceofCoin(
           _scanPayM.asset,
           _scanPayM.controlAmount.text,
@@ -178,7 +178,8 @@ class SubmitTrxState extends State<SubmitTrx> {
           if (isValid) {
             Navigator.pop(context);
           }
-          await trxFunc.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
+          await trxFunc.customDialog('Insufficient Balance',
+              'You do not have sufficient balance for transaction.');
         }
 
         if (isValid) {
@@ -187,8 +188,6 @@ class SubmitTrxState extends State<SubmitTrx> {
 
         if (isValid && isEnough) {
           if (gasPrice != null) {
-            print('gas price: $gasPrice');
-
             final estAmtPrice = await trxFunc.calPrice(
               _scanPayM.asset,
               _scanPayM.controlAmount.text,
@@ -208,9 +207,13 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             print(gasFee);
 
-            final estGasFeePrice = double.parse("0.08");//await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+            var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
 
-            final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
+            final estGasFeePrice =
+                await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+
+            final totalAmt = double.parse(_scanPayM.controlAmount.text) +
+                double.parse((gasFee / pow(10, 9)).toString());
 
             print(totalAmt);
 
@@ -219,35 +222,21 @@ class SubmitTrxState extends State<SubmitTrx> {
             print(estToSendPrice);
 
             final estTotalPrice = estGasFeePrice + estToSendPrice;
-            print("Let go");
-            print(_scanPayM.asset);
-            print(_scanPayM.controlReceiverAddress.text);
-            print(_scanPayM.controlAmount.text);
-            print(gasPrice);
-            print(_scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei');
-            print(maxGas);
-            print(gasFee.toInt().toString());
-            print(totalAmt.toString());
-            print(estAmtPrice.first.toString());
-            print(estTotalPrice.toStringAsFixed(2));
-            print(estGasFeePrice.toStringAsFixed(2));
 
-            // _scanPayM.asset = "BNB";
-            // _scanPayM.controlReceiverAddress.text = '0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3';
-            // _scanPayM.controlAmount.text = '0.01';
-            // gasPrice = '10.0';
-            // // maxGas = '';
-            // gasFee.toInt().toString();
-            // totalAmt.toString();
-            // estAmtPrice.first.toString();
-            // estTotalPrice.toStringAsFixed(2);
-            // estGasFeePrice.toStringAsFixed(2);
+            // final res =
+            //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+
+            // print(res);
 
             TransactionInfo txInfo = TransactionInfo(
               coinSymbol: _scanPayM.asset,
               to: _scanPayM.controlReceiverAddress.text,
               amount: _scanPayM.controlAmount.text,
               gasPrice: gasPrice,
+              feeNetworkSymbol:
+                  _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
+                      ? 'BNB'
+                      : 'ETH',
               gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
               maxGas: maxGas,
               gasFee: gasFee.toInt().toString(),
@@ -256,16 +245,16 @@ class SubmitTrxState extends State<SubmitTrx> {
               estTotalPrice: estTotalPrice.toStringAsFixed(2),
               estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
             );
-            print("Hello");
+
             Navigator.pop(context);
 
-            print("Navigate");
             Navigator.push(
               context,
               RouteAnimation(
                 enterPage: ConfirmationTx(
                   trxInfo: txInfo,
                   clickSend: clickSend,
+                  gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
                 ),
               ),
             );
@@ -273,7 +262,71 @@ class SubmitTrxState extends State<SubmitTrx> {
             Navigator.pop(context);
             clickSend();
           }
-        } 
+        }
+
+        //   final estGasFeePrice =
+        //       await trxFunc.estGasFeePrice(gasFee, _scanPayM.asset);
+
+        //   var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+
+        //   final totalAmt =
+        //       double.parse(_scanPayM.controlAmount.text) + gasFeeToEther;
+
+        //   print(totalAmt);
+
+        //   final estToSendPrice = totalAmt * double.parse(estAmtPrice.last);
+
+        //   print(estToSendPrice);
+
+        //   final estTotalPrice = estGasFeePrice + estToSendPrice;
+
+        //   print(gasFeeToEther.toStringAsFixed(8));
+
+        //   // final res =
+        //   //     EtherAmount.fromUnitAndValue(EtherUnit.ether, gasFee.toInt());
+
+        //   // print(res);
+
+        //   TransactionInfo txInfo = TransactionInfo(
+        //     coinSymbol: _scanPayM.asset,
+        //     to: _scanPayM.controlReceiverAddress.text,
+        //     amount: _scanPayM.controlAmount.text,
+        //     gasPrice: gasPrice,
+        //     feeNetworkSymbol:
+        //         _scanPayM.asset.contains('BEP-20') || _scanPayM.asset == 'BNB'
+        //             ? 'BNB'
+        //             : 'ETH',
+        //     gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+        //     maxGas: maxGas,
+        //     gasFee: gasFee.toInt().toString(),
+        //     totalAmt: totalAmt.toString(),
+        //     estAmountPrice: estAmtPrice.first.toString(),
+        //     estTotalPrice: estTotalPrice.toStringAsFixed(2),
+        //     estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+        //   );
+
+        //   Navigator.pop(context);
+
+        //   Navigator.push(
+        //     context,
+        //     RouteAnimation(
+        //       enterPage: ConfirmationTx(
+        //         trxInfo: txInfo,
+        //         clickSend: clickSend,
+        //         gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+        //       ),
+        //     );
+        //   } else {
+        //     Navigator.pop(context);
+        //     clickSend();
+        //   }
+        // }
+      }
+
+      @override
+      Widget build(BuildContext context) {
+        // TODO: implement build
+        throw UnimplementedError();
       }
     }
   }
@@ -471,51 +524,51 @@ class SubmitTrxState extends State<SubmitTrx> {
     return Scaffold(
       key: _scanPayM.globalKey,
       body: _loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Stack(
-              children: <Widget>[
-                Consumer<WalletProvider>(
-                  builder: (context, value, child) {
-                    print("My symbol length ${value.listSymbol.length}");
-                    return SubmitTrxBody(
-                      enableInput: widget.enableInput,
-                      scanPayM: _scanPayM,
-                      pasteText: pasteText,
-                      onChanged: onChanged,
-                      onSubmit: onSubmit,
-                      validateSubmit: validateSubmit, //clickSend,
-                      validateField: validateField,
-                      resetAssetsDropDown: resetAssetsDropDown,
-                      list: value.listSymbol,
-                    );
-                  },
-                ),
-                if (_scanPayM.isPay == false)
-                  Container()
-                else
-                  BackdropFilter(
-                    // Fill Blur Background
-                    filter: ImageFilter.blur(
-                      sigmaX: 5.0,
-                      sigmaY: 5.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: CustomAnimation.flareAnimation(
-                            flareController,
-                            "assets/animation/check.flr",
-                            "Checkmark",
-                          ),
-                        ),
-                      ],
-                    ),
+        ? const Center(
+          child: CircularProgressIndicator(),
+        )
+        : Stack(
+            children: <Widget>[
+              Consumer<WalletProvider>(
+                builder: (context, value, child) {
+                  print("My symbol length ${value.listSymbol.length}");
+                  return SubmitTrxBody(
+                    enableInput: widget.enableInput,
+                    scanPayM: _scanPayM,
+                    pasteText: pasteText,
+                    onChanged: onChanged,
+                    onSubmit: onSubmit,
+                    validateSubmit: validateSubmit, //clickSend,
+                    validateField: validateField,
+                    resetAssetsDropDown: resetAssetsDropDown,
+                    list: value.listSymbol,
+                  );
+                },
+              ),
+              if (_scanPayM.isPay == false)
+                Container()
+              else
+                BackdropFilter(
+                  // Fill Blur Background
+                  filter: ImageFilter.blur(
+                    sigmaX: 5.0,
+                    sigmaY: 5.0,
                   ),
-              ],
-            ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: CustomAnimation.flareAnimation(
+                          flareController,
+                          "assets/animation/check.flr",
+                          "Checkmark",
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
     );
   }
 }

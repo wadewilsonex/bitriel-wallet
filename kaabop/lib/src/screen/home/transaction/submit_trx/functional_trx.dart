@@ -101,12 +101,13 @@ class TrxFunctional {
 
   Future<void> sendTxBnb(String reciever, String amount) async {
     try {
-
       if (privateKey != null) {
         final hash = await contract.sendTxBnb(privateKey, reciever, amount);
 
         if (hash != null) {
-          await contract.getPending(hash, nodeClient: contract.bscClient).then((value) async {
+          await contract
+              .getPending(hash, nodeClient: contract.bscClient)
+              .then((value) async {
             if (value == false) {
               await Provider.of<ContractProvider>(context, listen: false)
                   .getBscBalance();
@@ -153,7 +154,7 @@ class TrxFunctional {
       if (privateKey != null) {
         final hash = await contract.sendTxEther(privateKey, reciever, amount);
         if (hash != null) {
-          await contract.getPending(hash, nodeClient: contract.ethClient).then((value) async {
+          await contract.getEthPending(hash).then((value) async {
             if (value == false) {
               Navigator.pop(context);
               await customDialog('Transaction failed',
@@ -191,7 +192,9 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          await contract.getPending(hash, nodeClient: contract.bscClient).then((value) async {
+          await contract
+              .getPending(hash, nodeClient: contract.bscClient)
+              .then((value) async {
             if (value == false) {
               await Provider.of<ContractProvider>(context, listen: false)
                   .getBscBalance();
@@ -236,7 +239,7 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          await contract.getPending(hash, nodeClient: contract.ethClient).then((value) async {
+          await contract.getEthPending(hash).then((value) async {
             if (value == false) {
               await Provider.of<ContractProvider>(context, listen: false)
                   .getBscBalance();

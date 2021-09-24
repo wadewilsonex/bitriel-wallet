@@ -15,43 +15,6 @@ class _PresaleState extends State<Presale> {
 
   PresaleModel _model = PresaleModel();
 
-  // Future<void> approve() async {
-  //   final contract = Provider.of<ContractProvider>(context, listen: false);
-
-  //   await dialogBox().then((value) async {
-  //     try {
-  //       final res = await getPrivateKey(value);
-
-  //       if (res != null) {
-  //         dialogLoading(context);
-  //         final hash = await contract.approvePresale(res);
-  //         if (hash != null) {
-  //           contract.getBscBalance();
-  //           Navigator.pop(context);
-  //           enableAnimation('approved balance to Presale.', 'Continue Presale', () {
-  //             Navigator.pop(context);
-  //             if (_PresaleKey.currentState.validate()) {
-  //               FocusScopeNode currentFocus = FocusScope.of(context);
-
-  //               if (!currentFocus.hasPrimaryFocus) {
-  //                 currentFocus.unfocus();
-  //               }
-
-  //               validatePresale();
-
-  //               // successDialog('');
-
-  //             }
-  //           });
-  //         }
-  //       }
-  //     } catch (e) {
-  //       Navigator.pop(context);
-  //       await customDialog('Oops', e.message.toString());
-  //     }
-  //   });
-  // }
-
   Future<String> approve(String pKey) async {
     String _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -98,60 +61,6 @@ class _PresaleState extends State<Presale> {
     }
 
     return _hash;
-
-    // await dialogBox().then((value) async {
-    //   try {
-    //     final res = await getPrivateKey(value);
-
-    //     if (res != null) {
-    //       dialogLoading(context,
-    //           content:
-    //               "This processing may take a bit longer\nPlease wait a moment");
-
-    //       print("Has $hash");
-
-    //       if (hash != null) {
-
-    //         if (res != null) {
-    //           if (res) {
-    //             setState(() {});
-
-    //             contract.getBscBalance();
-    //             contract.getBscV2Balance();
-    //             Navigator.pop(context);
-    //             enableAnimation(
-    //                 'Presaleped ${_amountController.text} of SEL v1 to SEL v2.',
-    //                 'Go to wallet', () {
-    //               Navigator.pushNamedAndRemoveUntil(
-    //                   context, Home.route, ModalRoute.withName('/'));
-    //             });
-    //             _amountController.text = '';
-    //           } else {
-    //             Navigator.pop(context);
-    //             await customDialog('Transaction failed',
-    //                 'Something went wrong with your transaction.');
-    //           }
-    //         } else {
-    //           Navigator.pop(context);
-    //           await customDialog('Transaction failed',
-    //               'Something went wrong with your transaction.');
-    //         }
-
-    //         // if (res != null) {
-
-    //         // }
-    //       } else {
-    //         contract.getBscBalance();
-    //         contract.getBscV2Balance();
-    //         Navigator.pop(context);
-    //       }
-    //     }
-    //   } catch (e) {
-    //     print("Error $e");
-    //     Navigator.pop(context);
-    //     await customDialog('Opps', e.toString().toString());
-    //   }
-    //  });
   }
 
   Future<void> approveAndPresale() async {
@@ -210,55 +119,6 @@ class _PresaleState extends State<Presale> {
     });
   }
 
-  Future<void> PresaleWithoutAp() async {
-    // final contract = Provider.of<ContractProvider>(context, listen: false);
-    // await dialogBox().then((value) async {
-    //   try {
-    //     final res = await getPrivateKey(value);
-
-    //     if (res != null) {
-    //       dialogLoading(context);
-    //       // final hash = await contract.Presale(_amountController.text, res);
-    //       if (hash != null) {
-    //         await Future.delayed(const Duration(seconds: 7));
-    //         final res = await contract.getPending(hash, nodeClient: contract.bscClient);
-
-    //         if (res != null) {
-    //           if (res) {
-    //             setState(() {});
-
-    //             await contract.getBscBalance();
-    //             await contract.getBscV2Balance();
-    //             Navigator.pop(context);
-    //             enableAnimation(
-    //                 'Presaleped ${_amountController.text} of SEL v1 to SEL v2.',
-    //                 'Go to wallet', () {
-    //               Navigator.pushNamedAndRemoveUntil(
-    //                   context, Home.route, ModalRoute.withName('/'));
-    //             });
-    //             _amountController.text = '';
-    //           } else {
-    //             Navigator.pop(context);
-    //             await customDialog('Transaction failed',
-    //                 'Something went wrong with your transaction.');
-    //           }
-    //         } else {
-    //           Navigator.pop(context);
-    //           await customDialog('Transaction failed',
-    //               'Something went wrong with your transaction.');
-    //         }
-    //       } else {
-    //         contract.getBscBalance();
-    //         contract.getBscV2Balance();
-    //         Navigator.pop(context);
-    //       }
-    //     }
-    //   } catch (e) {
-    //     Navigator.pop(context);
-    //     await customDialog('Opps', e.message.toString());
-    //   }
-    // });
-  }
 
   Future<void> confirmFunction() async {
     dialogLoading(context);
@@ -272,7 +132,7 @@ class _PresaleState extends State<Presale> {
     } else {
       Navigator.pop(context);
       print('Presale without approve');
-      PresaleWithoutAp();
+      // PresaleWithoutAp();
     }
   }
 
@@ -280,8 +140,7 @@ class _PresaleState extends State<Presale> {
     String privateKey;
     final encrytKey = await StorageServices().readSecure('private');
     try {
-      privateKey =
-          await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }
@@ -304,7 +163,7 @@ class _PresaleState extends State<Presale> {
           'Insufficient Balance', 'Your loaded balance is not enough to Presale.');
     } else {
       Navigator.pop(context);
-      confirmDialog(_model.amountController.text, Presale);
+      // confirmDialog(_model.amountController.text, Presale);
     }
   }
 
@@ -413,13 +272,12 @@ class _PresaleState extends State<Presale> {
                             Navigator.pop(context);
                           },
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.grey[300]),
-                              foregroundColor: MaterialStateProperty.all(
-                                  hexaCodeToColor(AppColors.secondary)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)))),
+                            backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+                            foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
+                              )
+                          ),
                           child: Text(
                             'Close',
                             style: TextStyle(
@@ -453,85 +311,6 @@ class _PresaleState extends State<Presale> {
                       )
                     ],
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> confirmDialog(String amount, Function Presale) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          content: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  const MyText(
-                    text: 'Presaleping',
-                    //color: '#000000',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  SvgPicture.asset(
-                    'assets/icons/arrow.svg',
-                    height: 100,
-                    width: 100,
-                    color: hexaCodeToColor(AppColors.secondary),
-                  ),
-                  const MyText(
-                    text: 'SEL v1 to SEL v2',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    top: 40,
-                    bottom: 8.0,
-                  ),
-                  MyText(
-                    text: '$amount of SEL v1',
-                    fontSize: 16,
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 60,
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        confirmFunction();
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              hexaCodeToColor(AppColors.secondary)),
-                          foregroundColor: MaterialStateProperty.all(
-                              hexaCodeToColor(AppColors.secondary)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)))),
-                      child: Text(
-                        'CONFIRM',
-                        style: TextStyle(
-                          color: hexaCodeToColor('#ffffff'),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -591,21 +370,5 @@ class _PresaleState extends State<Presale> {
         submitPresale: submitPresale
       ),
     );
-  }
-
-  void fetchMax() async {
-    dialogLoading(context, content: 'Fetching Balance');
-
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-
-    await contract.getBscBalance();
-
-    setState(() {
-      _model.amountController.text = contract.listContract[0].balance;
-      _model.enableBtn = true;
-    });
-
-    // Close Dialog
-    Navigator.pop(context);
   }
 }

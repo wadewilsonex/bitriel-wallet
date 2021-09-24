@@ -11,6 +11,7 @@ class TransactionInfo {
   String estAmountPrice;
   String estGasFeePrice;
   String estTotalPrice;
+  String feeNetworkSymbol;
 
   TransactionInfo({
     this.coinSymbol,
@@ -24,5 +25,6 @@ class TransactionInfo {
     this.estAmountPrice,
     this.estGasFeePrice,
     this.estTotalPrice,
+    this.feeNetworkSymbol,
   });
 }

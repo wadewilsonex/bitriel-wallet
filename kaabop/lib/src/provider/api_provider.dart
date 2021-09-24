@@ -26,30 +26,36 @@ class ApiProvider with ChangeNotifier {
   AccountM accountM = AccountM();
 
   SmartContractModel nativeM = SmartContractModel(
-      id: 'selendra',
-      logo: 'assets/SelendraCircle-White.png',
-      symbol: 'SEL',
-      balance: '0.0',
-      org: 'Testnet',
-      lineChartModel: LineChartModel());
+    id: 'selendra',
+    logo: 'assets/SelendraCircle-White.png',
+    symbol: 'SEL',
+    name: "SELENDRA",
+    balance: '0.0',
+    org: 'Testnet',
+    lineChartModel: LineChartModel()
+  );
 
   SmartContractModel dot = SmartContractModel(
-      id: 'polkadot',
-      symbol: 'DOT',
-      logo: 'assets/icons/polkadot.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      lineChartModel: LineChartModel());
+    id: 'polkadot',
+    symbol: 'DOT',
+    name: "Polkadot",
+    logo: 'assets/icons/polkadot.png',
+    org: '',
+    balance: '0.0',
+    isContain: false,
+    lineChartModel: LineChartModel()
+  );
 
   SmartContractModel btc = SmartContractModel(
-      id: 'bitcoin',
-      symbol: 'BTC',
-      logo: 'assets/btc_logo.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      lineChartModel: LineChartModel());
+    id: 'bitcoin',
+    symbol: 'BTC',
+    name: "Bitcoin",
+    logo: 'assets/btc_logo.png',
+    org: '',
+    balance: '0.0',
+    isContain: false,
+    lineChartModel: LineChartModel()
+  );
 
   bool _isConnected = false;
 
@@ -141,8 +147,7 @@ class ApiProvider with ChangeNotifier {
     return trxSize.toString();
   }
 
-  Future<int> sendTxBtc(BuildContext context, String from, String to,
-      double amount, String wif) async {
+  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
     int totalSatoshi = 0;
     int input = 0;
     final alice = ECPair.fromWIF(wif);
@@ -170,8 +175,7 @@ class ApiProvider with ChangeNotifier {
     final totaltoSend = (amount * bitcoinSatFmt).floor();
 
     if (totalSatoshi < totaltoSend) {
-      await customDialog(context,
-          'You do not have enough in your wallet to send that much.', 'Opps');
+      await customDialog(context, 'You do not have enough in your wallet to send that much.', 'Opps');
     }
 
     final fee = calTrxSize(input, 2) * 88;
@@ -197,8 +201,7 @@ class ApiProvider with ChangeNotifier {
     return response;
   }
 
-  Future<void> customDialog(
-      BuildContext context, String text1, String text2) async {
+  Future<void> customDialog(BuildContext context, String text1, String text2) async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -224,10 +227,11 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<int> pushTx(String hex) async {
-    final res =
-        await http.post('https://api.smartbit.com.au/v1/blockchain/pushtx',
-            //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: json.encode({"hex": hex}));
+    final res = await http.post(
+      'https://api.smartbit.com.au/v1/blockchain/pushtx',
+      //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: json.encode({"hex": hex})
+    );
     return res.statusCode;
   }
 
@@ -236,8 +240,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<dynamic> getAddressUxto(String address) async {
-    final res =
-        await http.get('https://blockstream.info/api/address/$address/utxo');
+    final res = await http.get('https://blockstream.info/api/address/$address/utxo');
 
     return jsonDecode(res.body);
   }

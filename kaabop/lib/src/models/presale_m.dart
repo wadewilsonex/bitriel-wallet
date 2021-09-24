@@ -14,4 +14,7 @@ class PresaleModel {
   int rateIndex = 1;
 
   bool canSubmit = false;
+
+  // Property for support token
+  
 }
