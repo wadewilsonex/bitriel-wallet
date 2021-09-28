@@ -565,6 +565,31 @@ class MyTabBar extends StatelessWidget {
   }
 }
 
+Future<void> customDialog(BuildContext context, String text1, String text2) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            child: Text(text2, textAlign: TextAlign.center),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 /* Trigger Snack Bar Function */
 void snackBar(BuildContext context, String contents) {
   final snackbar = SnackBar(

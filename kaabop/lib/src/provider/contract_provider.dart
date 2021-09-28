@@ -39,14 +39,14 @@ class ContractProvider with ChangeNotifier {
   bool cancelStream = false;
   StreamSubscription<String> streamSubscription;
 
-  // To Get Member Variable
+  /// To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
 
   List<SmartContractModel> listContract = [
-    // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
+    /// (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
       id: 'selendra',
-      address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
+      address: '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030',//'0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
       logo: 'assets/SelendraCircle-Blue.png',
       symbol: 'SEL',
       name: "SELENDRA",
@@ -57,7 +57,7 @@ class ContractProvider with ChangeNotifier {
     // SEL V2
     SmartContractModel(
       id: 'selendra v2',
-      address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
+      address: '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C',//'0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
       logo: 'assets/SelendraCircle-Blue.png',
       symbol: 'SEL 2',
       name: "SELENDRA",
@@ -69,7 +69,7 @@ class ContractProvider with ChangeNotifier {
     // KIWIGO
     SmartContractModel(
       id: 'kiwigo',
-      address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',//'0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
+      address: '0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314', //'0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
       logo: 'assets/Kiwi-GO-White-1.png',
       symbol: 'KGO',
       name: "KIWIGO",
@@ -100,46 +100,8 @@ class ContractProvider with ChangeNotifier {
     ),
   ];
 
+  /// List For Display Asset After sort 
   List<SmartContractModel> sortListContract = [];
-
-  // SmartContractModel bscNative = SmartContractModel(
-  //   id: 'selendra',
-  //   logo: 'assets/SelendraCircle-Blue.png',
-  //   symbol: 'SEL',
-  //   org: 'BEP-20',
-  //   isContain: true,
-  // );
-  // SmartContractModel bscNativeV2 = SmartContractModel(
-  //   id: 'selendra v2',
-  //   logo: 'assets/SelendraCircle-Blue.png',
-  //   symbol: 'SEL (v2)',
-  //   org: 'BEP-20',
-  //   isContain: true,
-  // );
-
-  // SmartContractModel kgoNative = SmartContractModel(
-  //   id: 'kiwigo',
-  //   logo: 'assets/Kiwi-GO-White-1.png',
-  //   symbol: 'KGO',
-  //   org: 'BEP-20',
-  //   isContain: true,
-  // );
-
-  // SmartContractModel etherNative = SmartContractModel(
-  //   id: 'ethereum',
-  //   logo: 'assets/eth.png',
-  //   symbol: 'ETH',
-  //   org: '',
-  //   isContain: true,
-  // );
-
-  // SmartContractModel bnbNative = SmartContractModel(
-  //   id: 'binance smart chain',
-  //   logo: 'assets/bnb.png',
-  //   symbol: 'BNB',
-  //   org: 'Smart Chain',
-  //   isContain: true,
-  // );
 
   /// This Function Run After BTC, DOT and SEL Testnet fetched
   ///
@@ -151,25 +113,27 @@ class ContractProvider with ChangeNotifier {
       api.nativeM,
     ]);
 
-    // print(listContract);
-
     notifyListeners();
   }
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN, _httpClient,
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN, _httpClient,
     socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlTN).cast<String>();
     });
+
+    // notifyListeners();
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN, _httpClient,
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN, _httpClient,
     socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN).cast<String>();
     });
+
+    notifyListeners();
   }
 
   Future<void> initSelClient() async {
@@ -178,6 +142,8 @@ class ContractProvider with ChangeNotifier {
     socketConnector: () {
       return IOWebSocketChannel.connect(AppConfig.networkList[0].wsUrlTN).cast<String>();
     });
+    
+    notifyListeners();
   }
 
   /// Sort Asset Portoflio, And aslo add api property
@@ -186,12 +152,12 @@ class ContractProvider with ChangeNotifier {
 
     sortListContract.clear();
 
-    // Added List Contract Into SortListContract
+    /// Added List Contract Into SortListContract
     listContract.forEach((element) {
       sortListContract.addAll({element});
     });
     
-    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+    /// Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
     addApiProviderProperty(api);
 
     if (sortListContract.isNotEmpty) {
@@ -210,44 +176,41 @@ class ContractProvider with ChangeNotifier {
     return null;
   }
 
-  Future<bool> getPending(String txHash,
-      {@required Web3Client nodeClient}) async {
+  Future<bool> getPending(String txHash, {@required Web3Client nodeClient}) async {
     // Re-Initialize
     std = null;
 
     await initBscClient();
 
     await _bscClient
-        .addedBlocks()
-        .asyncMap((_) async {
-          try {
-            // This Method Will Run Again And Again Until we return something
-            await nodeClient.getTransactionReceipt(txHash).then((d) {
-              // Give Value To std When Request Successfully
-              if (d != null) {
-                std = d.status;
-              }
-            });
-
-            // Return Value For True Value And Method GetTrxReceipt Also Terminate
-            if (std != null) return std;
-          } on FormatException catch (e) {
-            // This Error Because can't Convert Hexadecimal number to integer.
-            // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
-            // Example-Error: 0xc, 0x3a, ...
-            // Example-Success: 0x1, 0x2, 0,3 ...
-
-            // return True For Facing This FormatException
-            if (e.message.toString() == 'Invalid radix-10 number') {
-              std = true;
-              return std;
+      .addedBlocks()
+      .asyncMap((_) async {
+        try {
+          // This Method Will Run Again And Again Until we return something
+          await nodeClient.getTransactionReceipt(txHash).then((d) {
+            // Give Value To std When Request Successfully
+            if (d != null) {
+              std = d.status;
             }
-          } catch (e) {
-            // print("Error $e");
+          });
+
+          // Return Value For True Value And Method GetTrxReceipt Also Terminate
+          if (std != null) return std;
+        } on FormatException catch (e) {
+          // This Error Because can't Convert Hexadecimal number to integer.
+          // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+          // Example-Error: 0xc, 0x3a, ...
+          // Example-Success: 0x1, 0x2, 0,3 ...
+
+          // return True For Facing This FormatException
+          if (e.message.toString() == 'Invalid radix-10 number') {
+            std = true;
+            return std;
           }
-        })
-        .where((receipt) => receipt != null)
-        .first;
+        } catch (e) {
+          // print("Error $e");
+        }
+      }).where((receipt) => receipt != null).first;
 
     return std;
   }
@@ -426,8 +389,6 @@ class ContractProvider with ChangeNotifier {
     return gasPrice;
   }
 
-  Future<void> getBtcMaxGas() async {}
-
   Future<String> getBnbMaxGas(String reciever, String amount) async {
     await initBscClient();
     final ethAddr = await StorageServices().readSecure('etherAdd');
@@ -466,9 +427,8 @@ class ContractProvider with ChangeNotifier {
     return maxGas.toString();
   }
 
-  Future<String> getBep20MaxGas(
-      String contractAddr, String reciever, String amount) async {
-    initBscClient();
+  Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount) async {
+    await initBscClient();
     final bep20Contract = await initBsc(contractAddr);
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
@@ -564,8 +524,7 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
-      data: ethFunction
-          .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
+      data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
     );
 
     final swap = await _bscClient.sendTransaction(
@@ -623,18 +582,17 @@ class ContractProvider with ChangeNotifier {
     
     final res = await query(listContract[2].address, 'decimals', []);
     listContract[2].chainDecimal = res[0].toString();
+    print("getKgoDecimal ${listContract[2].chainDecimal}");
 
     notifyListeners();
   }
 
   Future<void> getKgoBalance() async {
-
     
     listContract[2].isContain = true;
 
     if (ethAdd != '') {
-      final res = await query(listContract[2].address, 'balanceOf',
-          [EthereumAddress.fromHex(ethAdd)]);
+      final res = await query(listContract[2].address, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
       listContract[2].balance = Fmt.bigIntToDouble(
         res[0] as BigInt,
@@ -700,6 +658,7 @@ class ContractProvider with ChangeNotifier {
       EthereumAddress.fromHex(ethAddr),
     );
     listContract[4].balance = balance.getValueInUnit(EtherUnit.ether).toString();
+    print("BNB");
     // Assign Line Graph Chart
     listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
@@ -792,7 +751,7 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initBscClient();
+    await initBscClient();
     final credentials = await _bscClient.credentialsFromPrivateKey(
       privateKey.substring(2),
     );

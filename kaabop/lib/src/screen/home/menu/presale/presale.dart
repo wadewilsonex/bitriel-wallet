@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
+import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/body_presale.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/des_presale.dart';
 
@@ -37,7 +38,7 @@ class _PresaleState extends State<Presale> {
     return _hash;
   }
 
-  Future<String> Presale(String pKey) async {
+  Future<String> presale(String pKey) async {
     String _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -50,8 +51,7 @@ class _PresaleState extends State<Presale> {
       Navigator.pop(context);
       // print(e.message);
 
-      if (e.message.toString() ==
-          'insufficient funds for gas * price + value') {
+      if (e.message.toString() == 'insufficient funds for gas * price + value') {
         await customDialog('Opps', 'Insufficient funds for gas');
       } else {
         await customDialog('Transaction failed',
@@ -85,10 +85,10 @@ class _PresaleState extends State<Presale> {
             print(resAllow);
 
             if (resAllow.toString() != '0') {
-              final PresaleHash = await Presale(res);
+              final presaleHash = await presale(res);
 
-              if (PresaleHash != null) {
-                final isSuccess = await contract.getPending(PresaleHash, nodeClient: contract.bscClient);
+              if (presaleHash != null) {
+                final isSuccess = await contract.getPending(presaleHash, nodeClient: contract.bscClient);
 
                 if (isSuccess) {
                   Navigator.pop(context);
@@ -159,16 +159,14 @@ class _PresaleState extends State<Presale> {
         double.parse(contract.listContract[0].balance) == 0) {
       // Close Loading
       Navigator.pop(context);
-      customDialog(
-          'Insufficient Balance', 'Your loaded balance is not enough to Presale.');
+      customDialog('Insufficient Balance', 'Your loaded balance is not enough to Presale.');
     } else {
       Navigator.pop(context);
       // confirmDialog(_model.amountController.text, Presale);
     }
   }
 
-  Future enableAnimation(
-      String operationText, String btnText, Function onPressed) async {
+  Future enableAnimation(String operationText, String btnText, Function onPressed) async {
     setState(() {
       _model.success = true;
     });
@@ -323,11 +321,11 @@ class _PresaleState extends State<Presale> {
   void rateChange(int index){
     _model.rateIndex = index;
     if (index == 1){
-      _model.rate = "10";
+      _model.rate = 10;
     } else if (index == 2){
-      _model.rate = "20";
+      _model.rate = 20;
     } else {
-      _model.rate = "30";
+      _model.rate = 30;
     }
 
     setState((){});
@@ -341,16 +339,74 @@ class _PresaleState extends State<Presale> {
     }
   }
 
-  void submitPresale() async {
+  void onChangedDropDown(String value){
+    _model.symbol = value;
+    for (int i = 0; i<_model.listSupportToken.length; i++){
+      if (_model.listSupportToken[i]['symbol'] == value){
+        _model.tokenIndex = i;
+      }
+    }
+    setState(() { });
+  }
+
+  Future<void> priceChecker() async {
+    final presale = Provider.of<PresaleProvider>(context, listen: false);
+    print(double.parse(_model.amountController.text));
+    print(_model.listSupportToken[_model.tokenIndex]['price']);
+    _model.totalInvestment = double.parse(_model.amountController.text) * _model.listSupportToken[_model.tokenIndex]['price'];
+    await presale.minInvestment().then((value) async {
+      /// The minInvestment function return value type _BigIntImpl
+      /// 
+      /// To Convert To Double we need to use toDouble()
+      if (_model.totalInvestment < value[0].toDouble()){
+
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: Text('Message'),
+              ),
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text("Your order amount less than minimum investment!"),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        print(double.parse(_model.amountController.text));
+        print(_model.rate);
+        await presale.orderBnbToken(context: context, amount: double.parse(_model.amountController.text), discountRate: _model.rate);
+      }
+    });
+  }
+
+  Future<void> submitPresale() async {
     if (_model.canSubmit == false){
       snackBar(context, "Please fill out all field");
     } else {
-      // await Component
+      await priceChecker();
     }
+  }
+
+  void initMethod() async {
+    _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken);
+
+    setState(() {});
   }
 
   @override
   void initState() {
+    initMethod();
     super.initState();
   }
 
@@ -367,6 +423,7 @@ class _PresaleState extends State<Presale> {
         model: _model,
         onChanged: onChanged,
         rateChange: rateChange,
+        onChangedDropDown: onChangedDropDown,
         submitPresale: submitPresale
       ),
     );

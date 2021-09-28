@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/component.dart';
+import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
+import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/des_presale.dart';
 
 class BodyPresale extends StatelessWidget{
 
   final PresaleModel model;
   final Function onChanged;
+  final Function onChangedDropDown;
   final Function rateChange;
   final Function submitPresale;
 
-  BodyPresale({this.model, this.onChanged, this.rateChange, this.submitPresale});
+  BodyPresale({this.model, this.onChanged, this.onChangedDropDown, this.rateChange, this.submitPresale});
 
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final contract = Provider.of<ContractProvider>(context);
+    final presale = Provider.of<PresaleProvider>(context);
+    print(model.listSupportToken);
     return BodyScaffold(
       height: MediaQuery.of(context).size.height,
       child: Stack(
@@ -58,7 +63,7 @@ class BodyPresale extends StatelessWidget{
 
                       MyText(
                         width: double.infinity,
-                        text: "1 yr vesting: 10% discount \n2 yr vesting: 20% discount \n3 yr vesting: 30% discount:",
+                        text: "1 year vesting: 10% discount \n2 year vesting: 20% discount \n3 year vesting: 30% discount:",
                         // contract.listContract[0].balance == null
                         //     ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
                         //     : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
@@ -198,32 +203,12 @@ class BodyPresale extends StatelessWidget{
                                       fontSize: 18.0
                                     ),
                                     decoration: InputDecoration(
-                                      suffixIcon: GestureDetector(
-                                        onTap: () {
-                                          // fetchMax();
-                                        },
-                                        child: Row(
-                                          
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset('assets/bnb.png', width: 30, height: 30,),
-                                            MyText(
-                                              left: 5,
-                                              textAlign: TextAlign.right,
-                                              text: 'BNB',
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: AppColors.secondarytext,
-                                            )
-                                          ]
-                                        ),
-                                      ),
                                       prefixIconConstraints: BoxConstraints(
                                         minWidth: 0,
                                         minHeight: 0,
                                       ),
                                       border: InputBorder.none,
-                                      hintText: '0.00',
+                                      hintText: 'Input balance',
                                       hintStyle: TextStyle(
                                         fontSize: 20.0,
                                         color: isDarkTheme
@@ -243,14 +228,54 @@ class BodyPresale extends StatelessWidget{
                               ),
 
                               Divider(),
+ 
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: MyText(left: 16, text: "Price: ${model.listSupportToken[model.tokenIndex]['price'] ?? ''}", color: AppColors.blackColor, textAlign: TextAlign.left, fontWeight: FontWeight.bold),
+                                  ),
+                                  Flexible(
+                                    flex: 0,
+                                    child: Theme(
+                                      data: ThemeData(
+                                        canvasColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteColorHexa)
+                                      ),
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 16),
+                                        child: DropdownButton(
+                                          underline: Container(),
+                                          value: model.symbol,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: isDarkTheme
+                                              ? hexaCodeToColor( AppColors.darkSecondaryText)
+                                              : hexaCodeToColor(AppColors.textColor),
+                                          ),
+                                          items: model.listSupportToken.map<DropdownMenuItem<String>>((e) {
+                                            return DropdownMenuItem(
+                                              value: "${e['symbol']}",
+                                              child: Text("${e['symbol']}") 
+                                            );
+                                          }).toList(),
+                                          onChanged: (String value){
+                                            onChangedDropDown(value);
+                                          },
+                                        )
+                                      )
+                                    )
+                                  )
+                                ]
+                              ),
 
                               Container(
                                 padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
                                 child: Row(
                                   children: [
                                     MyText(
-                                      text: "Discount Rate",
+                                      text: "Discount Rate:",
                                       color: AppColors.blackColor,
+                                      fontWeight: FontWeight.bold
                                     ),
 
                                     Expanded(child: Container()),
@@ -274,7 +299,10 @@ class BodyPresale extends StatelessWidget{
                       MyFlatButton(
                         edgeMargin: const EdgeInsets.only(bottom: 16, top: 42, left: 32, right: 32),
                         textButton: 'CONTRIBUTE',
-                        action: submitPresale
+                        action: () async {
+                          await submitPresale();
+                        }
+                        // submitPresale
                         // !model.enableBtn
                         //   ? null
                         //   : () async {
