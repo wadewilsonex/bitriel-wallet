@@ -50,8 +50,15 @@ class StorageServices {
     return _preferences;
   }
 
-  static Future<void> assetData() async {
-    final List<SmartContractModel> assetData = [];
+  static Future<void> assetData(context) async {
+    final listContract =
+        Provider.of<ContractProvider>(context, listen: false).listContract;
+
+    print(listContract.length);
+
+    final res = SmartContractModel.encode(listContract);
+
+    await _preferences.setString('assetData', res);
   }
 
   static Future<SharedPreferences> addTxHistory(
@@ -182,6 +189,15 @@ class StorageServices {
     _decode = jsonEncode(_data);
     _preferences.setString(_path, _decode);
     return _preferences;
+  }
+
+  static Future<dynamic> fetchAsset(String _path) async {
+    _preferences = await SharedPreferences.getInstance();
+
+    final res = SmartContractModel.decode(_preferences.getString(_path));
+
+    return res;
+    //return _preferences.getString(_path);
   }
 
   static Future<dynamic> fetchData(String _path) async {

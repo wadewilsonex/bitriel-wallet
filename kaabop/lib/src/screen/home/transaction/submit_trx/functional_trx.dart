@@ -225,6 +225,7 @@ class TrxFunctional {
 
         if (hash != null) {
           txInfo.hash = hash;
+          txInfo.scanUrl = AppConfig.networkList[3].scanMn + txInfo.hash;
           txInfo.timeStamp =
               DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:wallet_apps/src/components/component.dart';
 
 import '../../../../../index.dart';
@@ -101,6 +102,10 @@ class ActivityDetail extends StatelessWidget {
               child: FlatButton(
                 onPressed: () {
                   // method.qrShare(keyQrShare, wallet);
+
+                  if (trxInfo.scanUrl != null) {
+                    Share.share(trxInfo.scanUrl);
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

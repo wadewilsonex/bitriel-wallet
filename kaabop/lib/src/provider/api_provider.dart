@@ -58,33 +58,36 @@ class ApiProvider with ChangeNotifier {
   AccountM accountM = AccountM();
 
   SmartContractModel nativeM = SmartContractModel(
-      id: 'selendra',
-      logo: 'assets/SelendraCircle-White.png',
-      symbol: 'SEL',
-      balance: '0.0',
-      org: 'Testnet',
-      listActivity: [],
-      lineChartModel: LineChartModel());
+    id: 'selendra',
+    logo: 'assets/SelendraCircle-White.png',
+    symbol: 'SEL',
+    balance: '0.0',
+    org: 'Testnet',
+    listActivity: [],
+    lineChartModel: LineChartModel(),
+  );
 
   SmartContractModel dot = SmartContractModel(
-      id: 'polkadot',
-      symbol: 'DOT',
-      logo: 'assets/icons/polkadot.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      listActivity: [],
-      lineChartModel: LineChartModel());
+    id: 'polkadot',
+    symbol: 'DOT',
+    logo: 'assets/icons/polkadot.png',
+    org: '',
+    balance: '0.0',
+    isContain: false,
+    listActivity: [],
+    lineChartModel: LineChartModel(),
+  );
 
   SmartContractModel btc = SmartContractModel(
-      id: 'bitcoin',
-      symbol: 'BTC',
-      logo: 'assets/btc_logo.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      listActivity: [],
-      lineChartModel: LineChartModel());
+    id: 'bitcoin',
+    symbol: 'BTC',
+    logo: 'assets/btc_logo.png',
+    org: '',
+    balance: '0.0',
+    isContain: false,
+    listActivity: [],
+    lineChartModel: LineChartModel(),
+  );
 
   bool _isConnected = false;
   String btcAdd = '';

@@ -1,7 +1,7 @@
 import 'package:wallet_apps/src/models/asset_m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 
-class SmartContractModel {
+class CoinModel {
   String id;
   String chainDecimal;
   String symbol;
@@ -17,7 +17,7 @@ class SmartContractModel {
 
   LineChartModel lineChartModel;
 
-  SmartContractModel(
+  CoinModel(
       {this.id,
       this.chainDecimal,
       this.symbol,

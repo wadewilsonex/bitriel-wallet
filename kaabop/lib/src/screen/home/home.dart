@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
@@ -11,11 +12,6 @@ class Home extends StatefulWidget {
   //const Home({this.apiConnected});
 
   static const route = '/home';
-
-  // @override
-  // State<StatefulWidget> createState() {
-  //   return HomeState();
-  // }
 
   @override
   HomeState createState() => HomeState();
@@ -42,8 +38,65 @@ class HomeState extends State<Home>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+      // Handle this case
+      // print('resume');
+
+      // final res = await StorageServices.fetchAsset('assetData');
+      // // print('res $res');
+
+      // debugPrint(res, wrapWidth: 1024);
+
+      // final res1 = SmartContractModel.decode(res);
+
+      // print(res1[2].symbol);
+
+      // print(res1[2].marketData.id);
+
+      // print('lineChartData: ${res1[2].lineChartData}');
+      // break;
+      case AppLifecycleState.inactive:
+        // Handle this case
+        print('inactive');
+
+        break;
+      case AppLifecycleState.paused:
+        // Handle this case
+        print('paused');
+        onPause();
+
+        break;
+      case AppLifecycleState.detached:
+        // TODO: Handle this case.
+        print('detached');
+        break;
+    }
+  }
+
+  onPause() async {
+    // var contractProvider =
+    //     Provider.of<ContractProvider>(context, listen: false);
+    await StorageServices.assetData(context);
+
+    // final contract =
+    //     Provider.of<ContractProvider>(context, listen: false).listContract;
+    // final res = SmartContractModel.encode(contract);
+
+    // print(res);
+
+    // final res1 = SmartContractModel.decode(res);
+
+    // print(res1[0].symbol);
+    // await StorageServices.setData('Hello', 'assetData');
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    print('dispose');
     super.dispose();
   }
 
@@ -56,6 +109,12 @@ class HomeState extends State<Home>
           .subscribeEthbalance();
     });
     super.didChangeDependencies();
+  }
+
+  void save() async {
+    var list = jsonEncode(ContractProvider().listContract);
+
+    await StorageServices.setData(list, 'assetData');
   }
 
   Future<void> toReceiveToken() async {
@@ -160,8 +219,6 @@ class HomeState extends State<Home>
 
       // AnnotatedRegion Use For System Icon Above SafeArea
       body: Column(children: [
-       
-       
         SafeArea(child: homeAppBar(context)),
         Divider(
           height: 2,

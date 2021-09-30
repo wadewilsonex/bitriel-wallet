@@ -17,6 +17,7 @@ class TransactionInfo {
   String estAmountPrice;
   String estGasFeePrice;
   String estTotalPrice;
+  String scanUrl;
 
   TransactionInfo({
     this.hash,
@@ -34,5 +35,6 @@ class TransactionInfo {
     this.estAmountPrice,
     this.estGasFeePrice,
     this.estTotalPrice,
+    this.scanUrl,
   });
 }

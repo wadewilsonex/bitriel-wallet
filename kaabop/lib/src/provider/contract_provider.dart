@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
@@ -39,55 +38,62 @@ class ContractProvider with ChangeNotifier {
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
 
+  List<SmartContractModel> savedAssetList = [];
+
   List<SmartContractModel> listContract = [
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB)
     SmartContractModel(
-        id: 'selendra',
-        address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
-        logo: 'assets/SelendraCircle-Blue.png',
-        symbol: 'SEL',
-        org: 'BEP-20',
-        isContain: true,
-        listActivity: [],
-        lineChartModel: LineChartModel()),
+      id: 'selendra',
+      address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
+      logo: 'assets/SelendraCircle-Blue.png',
+      symbol: 'SEL',
+      org: 'BEP-20',
+      isContain: true,
+      listActivity: [],
+      lineChartModel: LineChartModel(),
+    ),
     // SEL V2
     SmartContractModel(
-        id: 'selendra v2',
-        address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
-        logo: 'assets/SelendraCircle-Blue.png',
-        symbol: 'SEL (v2)',
-        org: 'BEP-20',
-        isContain: true,
-        listActivity: [],
-        lineChartModel: LineChartModel()),
+      id: 'selendra v2',
+      address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
+      logo: 'assets/SelendraCircle-Blue.png',
+      symbol: 'SEL (v2)',
+      org: 'BEP-20',
+      isContain: true,
+      listActivity: [],
+      lineChartModel: LineChartModel(),
+    ),
     // KIWIGO
     SmartContractModel(
-        id: 'kiwigo',
-        address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
-        logo: 'assets/Kiwi-GO-White-1.png',
-        symbol: 'KGO',
-        org: 'BEP-20',
-        isContain: true,
-        listActivity: [],
-        lineChartModel: LineChartModel()),
+      id: 'kiwigo',
+      address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
+      logo: 'assets/Kiwi-GO-White-1.png',
+      symbol: 'KGO',
+      org: 'BEP-20',
+      isContain: true,
+      listActivity: [],
+      lineChartModel: LineChartModel(),
+    ),
     // Ethereum
     SmartContractModel(
-        id: 'ethereum',
-        logo: 'assets/eth.png',
-        symbol: 'ETH',
-        org: '',
-        isContain: true,
-        listActivity: [],
-        lineChartModel: LineChartModel()),
+      id: 'ethereum',
+      logo: 'assets/eth.png',
+      symbol: 'ETH',
+      org: '',
+      isContain: true,
+      listActivity: [],
+      lineChartModel: LineChartModel(),
+    ),
     //BNB
     SmartContractModel(
-        id: 'binance smart chain',
-        logo: 'assets/bnb.png',
-        symbol: 'BNB',
-        org: 'Smart Chain',
-        isContain: true,
-        listActivity: [],
-        lineChartModel: LineChartModel()),
+      id: 'binance smart chain',
+      logo: 'assets/bnb.png',
+      symbol: 'BNB',
+      org: 'Smart Chain',
+      isContain: true,
+      listActivity: [],
+      lineChartModel: LineChartModel(),
+    ),
   ];
 
   List<SmartContractModel> sortListContract = [];
@@ -105,6 +111,16 @@ class ContractProvider with ChangeNotifier {
 
   ContractProvider() {
     initSwapContract();
+  }
+
+  Future<void> setSavedList() async {
+    final saved = await StorageServices.fetchAsset('assetData');
+
+    savedAssetList = List.from(saved);
+
+    print('my symbol: ${savedAssetList[0].symbol}');
+
+    notifyListeners();
   }
 
   Future<void> initBscClient() async {

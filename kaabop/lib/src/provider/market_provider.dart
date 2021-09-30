@@ -86,6 +86,8 @@ class MarketProvider with ChangeNotifier {
         if (response.statusCode == 200) {
           final jsonResponse = await convert.jsonDecode(response.body);
 
+          // print('jsonDecode $jsonResponse');
+
           final res = parseMarketData(response.body);
 
           //final market = Market.fromJson(jsonResponse);

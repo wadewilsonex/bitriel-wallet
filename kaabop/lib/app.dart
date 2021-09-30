@@ -39,6 +39,7 @@ class AppState extends State<App> {
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+        await contractProvider.setSavedList();
         // await contractProvider.setupNetwork();
 
         await apiProvider.connectPolNon();
@@ -83,7 +84,7 @@ class AppState extends State<App> {
 
         // var list = json.encode(contractProvider.listContract.length);
 
-        await StorageServices.removeKey('assetData');
+        //  await StorageServices.removeKey('assetData');
 
         //await StorageServices.setData(list, 'assetData');
 

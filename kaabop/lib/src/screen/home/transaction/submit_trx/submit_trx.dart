@@ -413,9 +413,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "ETH":
-                  await trxFunc.sendTxEther(
-                      _scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text);
+                  await trxFunc.sendTxEvm(trxFunc.contract.eth, txInfo);
                   break;
 
                 case "BTC":
