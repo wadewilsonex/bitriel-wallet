@@ -221,11 +221,11 @@ class _SwapState extends State<Swap> {
 
     if (res.toString() == '0') {
       Navigator.pop(context);
-      approveAndSwap();
+      await approveAndSwap();
     } else {
       Navigator.pop(context);
       print('swap without approve');
-      swapWithoutAp();
+      await swapWithoutAp();
     }
   }
 
@@ -310,8 +310,7 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -451,9 +450,9 @@ class _SwapState extends State<Swap> {
                     height: 60,
                     width: 200,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pop(context);
-                        confirmFunction();
+                        await confirmFunction();
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

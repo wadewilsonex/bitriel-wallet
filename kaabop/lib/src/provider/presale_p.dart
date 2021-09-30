@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
@@ -16,24 +17,117 @@ class PresaleProvider with ChangeNotifier {
 
   /// 
   Future<void> orderBnbToken({@required BuildContext context, @required double amount, @required int discountRate}) async {
+    print("AMount $amount");
+    print("Discount rate $discountRate");
+    try {
 
-    final res = await AppServices.getPrivateKey("1234", context); 
-    final credentials = await _contractP.bscClient.credentialsFromPrivateKey(res);
-    final preFunction = _deployedContract.function('order');
+      final privateKey = await AppServices.getPrivateKey("1111", context);
+      final credentials = await _contractP.bscClient.credentialsFromPrivateKey(privateKey);
+      final myContractAddr = await StorageServices().readSecure('etherAdd');
+      print("myContractAddr $myContractAddr");
 
-    final order = _contractP.bscClient.call(contract: _deployedContract, function: preFunction, params: [
-        amount,
-        discountRate
-      ]);
-    // .sendTransaction(
-    //   credentials, 
-    //   Transaction.callContract(contract: _deployedContract, function: preFunction, parameters: [
-    //     amount,
-    //     discountRate
-    //   ])
-    // );
+      final preFunction = _deployedContract.function('order');
+      print("preFunction");
+      // final gasPrice = await _contractP.bscClient.getGasPrice();
+      // final maxGas = await _contractP.bscClient.estimateGas(
+      //   sender: EthereumAddress.fromHex(myContractAddr),
+      //   to: _deployedContract.address,
+      //   value: EtherAmount.inWei(BigInt.from(amount)),
+      //   // data: preFunction.encodeCall([
+      //   //   // BigInt.from(amount * pow(10, 18))]
+      //   //   number
+      //   // ]),
+      // );
+      // print("maxGas ${[BigInt.from(amount * pow(10, 18))]}");
+      // print("Function ${preFunction.encodeCall([BigInt.from(100000000000000000)])}");
+      // final hash = await approve(privateKey);
 
-    // _contractP.getPending();    
+      // BUSD Contract
+      // final ercDeploy = await _contractP.initBsc("0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee");
+      // print("ercDeploy $ercDeploy");
+
+      // final approve = ercDeploy.function('approve');
+
+      // final maxGas = await _contractP.bscClient.estimateGas(
+      //   sender: EthereumAddress.fromHex(myContractAddr),
+      //   to: ercDeploy.address,
+      //   data: approve.encodeCall(
+      //     [
+      //       EthereumAddress.fromHex(_presaleContract),
+      //       BigInt.parse('1000000000000000042420637374017961984'),
+      //     ],
+      //   ),
+      // );
+
+
+      // final gasPrice = await _contractP.bscClient.getGasPrice();
+
+      // final approveRes = await _contractP.bscClient.sendTransaction(
+      //   credentials,
+      //   Transaction.callContract(
+      //     contract: ercDeploy,
+      //     function: approve,
+      //     gasPrice: gasPrice,
+      //     maxGas: maxGas.toInt(),
+      //     parameters: [
+      //       EthereumAddress.fromHex(_presaleContract),
+      //       BigInt.parse('1000000000000000042420637374017961984'),
+      //     ],
+      //   ),
+      //   fetchChainIdFromNetworkId: true,
+      // );
+
+      // print("Approve res $approveRes");
+
+      // final approveStatus = await _contractP.getPending(approveRes, nodeClient: _contractP.bscClient);
+      // print("approveStatus $approveStatus");
+
+      // final allowance = await _contractP.query(
+      //   "0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee",
+      //   'allowance',
+      //   [
+      //     EthereumAddress.fromHex(myContractAddr), // Correct
+      //     EthereumAddress.fromHex(_presaleContract) // Correct
+      //   ],
+      // );
+
+      // print("Allowance $allowance");
+
+      final order = await _contractP.bscClient.sendTransaction(
+        credentials, 
+        Transaction.callContract(
+          contract: _deployedContract, 
+          function: preFunction, 
+          // gasPrice: gasPrice,
+          // maxGas: maxGas.toInt(),
+          parameters: [
+            EthereumAddress.fromHex("0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee"),
+            BigInt.from(amount),
+            BigInt.from(discountRate)
+          ]
+        ),
+        fetchChainIdFromNetworkId: true
+      );
+
+      // _contractP.getPending();    
+    } catch (e) {
+      print("Error orderBnbToken $e");
+    }
+  }
+
+  Future<String> approve(String pKey) async {
+    String _hash;
+
+    try {
+      final hash = await _contractP.approveSwap(pKey);
+      print("Has $hash");
+
+      if (hash != null) {
+        _hash = hash;
+      }
+    } catch (e) {
+    }
+    return _hash;
   }
   
   /* --------------------------Read Contract--------------------- */

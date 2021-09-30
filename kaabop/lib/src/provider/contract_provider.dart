@@ -786,7 +786,7 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initEtherClient();
+    await initEtherClient();
     final credentials = await _etherClient.credentialsFromPrivateKey(
       privateKey.substring(2),
     );
@@ -819,7 +819,7 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initBscClient();
+    await initBscClient();
 
     final contract = await initBsc(contractAddr);
     final txFunction = contract.function('transfer');
@@ -862,12 +862,11 @@ class ContractProvider with ChangeNotifier {
     String reciever,
     String amount,
   ) async {
-    initEtherClient();
+    await initEtherClient();
 
     final contract = await initEtherContract(contractAddr);
     final txFunction = contract.function('transfer');
-    final credentials =
-        await _etherClient.credentialsFromPrivateKey(privateKey);
+    final credentials = await _etherClient.credentialsFromPrivateKey(privateKey);
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
