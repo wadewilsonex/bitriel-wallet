@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/presale_p.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,9 @@ void main() {
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider<PresaleProvider>(
+          create: (context) => PresaleProvider(),
         ),
       ],
       child: App(),

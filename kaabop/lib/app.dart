@@ -22,63 +22,71 @@ class AppState extends State<App> {
       MarketProvider().fetchTokenMarketPrice(context);
 
       await initApi();
-      clearOldBtcAddr();
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getEtherAddr();
+      // clearOldBtcAddr();
     });
 
     super.initState();
   }
 
   Future<void> initApi() async {
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    try {
 
-    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
-      if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+      final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+      final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
-        await contractProvider.getEtherAddr();
+      await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
 
-        await getSavedContractToken();
-        await getEtherSavedContractToken();
+        if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+          await contractProvider.getEtherAddr();
 
-        await apiProvider.getAddressIcon();
-        await apiProvider.getCurrentAccount();
+          await getSavedContractToken();
+          await getEtherSavedContractToken();
 
-        await contractProvider.getBscBalance();
-        await contractProvider.getBscV2Balance();
-        // await isKgoContain();
-        await contractProvider.getEtherBalance();
-        await contractProvider.getBnbBalance();
+          await apiProvider.getAddressIcon();
+          await apiProvider.getCurrentAccount();
 
-        // This Method Is Also Request Dot Contract
-        await apiProvider.connectPolNon();
-        await isBtcContain();
+          await contractProvider.getBscBalance();
+          await contractProvider.getBscV2Balance();
+          await isKgoContain();
+          await contractProvider.getEtherBalance();
+          await contractProvider.getBnbBalance();
 
-        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        // contractProvider.addApiProviderProperty(apiProvider);
-        
-        // Sort Contract Asset  
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
-        
-        // Ready To Display Asset Portfolio
-        Provider.of<ContractProvider>(context, listen: false).setReady();
-      }
+          // This Method Is Also Request Dot Contract
+          await apiProvider.connectPolNon();
+          print("connectPolNon");
+          await isBtcContain();
 
-      await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
-        if (value != null) {
+          print("Finish fetch");
 
-          if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-            await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-          }
+          // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+          contractProvider.addApiProviderProperty(apiProvider);
+          
+          // Sort Contract Asset  
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
+          
+          // Ready To Display Asset Portfolio
+          Provider.of<ContractProvider>(context, listen: false).setReady();
+
         }
-      });
 
-    });
+        await Provider.of<ApiProvider>(context, listen: false)
+            .connectNode()
+            .then((value) async {
+          if (value != null) {
+            if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+              await Provider.of<ApiProvider>(context, listen: false)
+                  .getChainDecimal();
+            }
+          }
+        });
+      });
+    } catch (e) {
+      print("Error init app.dart $e");
+    }
   }
 
   void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
       'SEL v2 (BEP-20)',
     );
@@ -93,16 +101,14 @@ class AppState extends State<App> {
   }
 
   Future<void> getSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
 
     if (res != null) {
       for (final i in res) {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -111,17 +117,16 @@ class AppState extends State<App> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (BEP-20)');
+        
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
   }
 
   Future<void> getEtherSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
-
+    print("getEtherSaved $res");
     if (res != null) {
       for (final i in res) {
         final symbol =
@@ -148,14 +153,11 @@ class AppState extends State<App> {
     final res = await StorageServices.fetchData('bech32');
 
     if (res != null) {
-      Provider.of<ApiProvider>(context, listen: false)
-          .isBtcAvailable('contain');
+      Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
-      Provider.of<ApiProvider>(context, listen: false)
-          .setBtcAddr(res.toString());
+      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      await Provider.of<ApiProvider>(context, listen: false)
-          .getBtcBalance(res.toString());
+      await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString());
     }
   }
 
@@ -169,12 +171,9 @@ class AppState extends State<App> {
   Future<void> isKgoContain() async {
     try {
 
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoDecimal();
-      //     .then((value) async {
-      //   await Provider.of<ContractProvider>(context, listen: false)
-      //       .getKgoBalance();
-      // });
+      await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
+        await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+      });
     } catch (e) {
       // print("Error KGO $e");
     }

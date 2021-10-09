@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class MenuBody extends StatelessWidget {
   final Map<String, dynamic> userInfo;
@@ -72,6 +73,13 @@ class MenuBody extends StatelessWidget {
           subIndex: 3,
           onTap: () {
             Navigator.push(context, RouteAnimation(enterPage: Swap()));
+          },
+        ),
+        MyListTile(
+          index: 2,
+          subIndex: 4,
+          onTap: () {
+            Navigator.push(context, RouteAnimation(enterPage: Presale()));
           },
         ),
         // MyListTile(

@@ -5,8 +5,10 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 
 class AssetItem extends StatelessWidget {
+
   final String asset;
   final String tokenSymbol;
+  final String name;
   final String org;
   final String balance;
   final String marketPrice;
@@ -20,10 +22,12 @@ class AssetItem extends StatelessWidget {
   AssetItem(this.asset, this.tokenSymbol, this.org, this.balance, this.color,
       {this.marketPrice,
       this.priceChange24h,
+      this.name,
       this.size,
       this.lineChartData,
       this.prepareLineData,
-      this.lineChartModel});
+      this.lineChartModel
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +40,17 @@ class AssetItem extends StatelessWidget {
 
     return rowDecorationStyle(
         color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkCard)
-            : hexaCodeToColor(AppColors.whiteHexaColor),
+          ? hexaCodeToColor(AppColors.darkCard)
+          : hexaCodeToColor(AppColors.whiteHexaColor),
         child: Row(
           children: <Widget>[
+
             // Asset Logo
             Container(
               width: 65, //size ?? 65,
               height: 65, //size ?? 65,
               padding: const EdgeInsets.all(6),
-              margin: const EdgeInsets.only(right: 20),
+              // margin: const EdgeInsets.only(right: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
               ),
@@ -61,61 +66,88 @@ class AssetItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MyText(
-                    text: tokenSymbol ?? '',
-                    fontWeight: FontWeight.bold,
-                    color: isDarkTheme
-                      ? AppColors.whiteColorHexa
-                      : AppColors.textColor,
-                    bottom: 4.0,
+                  
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.end,
+                  //   children: [
+
+                      
+                      
+                  //     MyText(
+                  //       text: '$tokenSymbol ' ?? '',
+                  //       fontWeight: FontWeight.bold,
+                  //       color: isDarkTheme
+                  //         ? AppColors.whiteColorHexa
+                  //         : AppColors.textColor,
+                  //       bottom: 4.0,
+                  //     ),
+                      
+                  //   ]
+                  // ),
+                  Text.rich(
+                    TextSpan(
+                      text: '$tokenSymbol ' ?? '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: hexaCodeToColor(isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                        ),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: name ?? '',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: hexaCodeToColor(isDarkTheme
+                              ? AppColors.darkSecondaryText
+                              : AppColors.darkSecondaryText,
+                            ),
+                          ),
+                        )
+                      ]
+                    )
                   ),
+
                   if (marketPrice == null)
                     if (org == '')
                       Container()
                     else
                       MyText(
-                      text: org,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                        ? AppColors.darkSecondaryText
-                        : AppColors.darkSecondaryText,
-                    )
+                        text: org,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.darkSecondaryText,
+                      )
                   else
                     Row(
                       children: [
-                        // tokenSymbol == "KGO"
-                        // ? MyText(
-                        //   text: '\$ ${marketPrice.substring(0, 8)}' ?? '',
-                        //   fontSize: 12,
-                        //   fontWeight: FontWeight.bold,
-                        //   color: isDarkTheme
-                        //     ? AppColors.darkSecondaryText
-                        //     : AppColors.darkSecondaryText,
-                        // )
-                        // :
                         MyText(
                           text: '\$ $marketPrice' ?? '',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: isDarkTheme
-                              ? AppColors.darkSecondaryText
-                              : AppColors.darkSecondaryText,
+                            ? AppColors.darkSecondaryText
+                            : AppColors.darkSecondaryText,
                         ),
 
                         const SizedBox(width: 6.0),
                         Flexible(
                           child: MyText(
                             text: priceChange24h.substring(0, 1) == '-'
-                                ? '$priceChange24h%'
-                                : '+$priceChange24h%',
+                              ? '$priceChange24h%'
+                              : '+$priceChange24h%',
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: priceChange24h.substring(0, 1) == '-'
-                                ? '#FF0000'
-                                : isDarkTheme
-                                    ? '#00FF00'
-                                    : '#66CD00',
+                              ? '#FF0000'
+                              : isDarkTheme
+                                ? '#00FF00'
+                                : '#66CD00',
                           ),
                         ),
                       ],
@@ -125,63 +157,54 @@ class AssetItem extends StatelessWidget {
             ),
 
             // Graph Chart
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0),
-              child: SizedBox(
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.16,
-                child: lineChartData == null ||
-                        lineChartModel.leftTitlesInterval == 0
-                    ? LineChart(avgData(context))
-                    : LineChart(mainData(context)),
-              ),
+                child: lineChartData == null || lineChartModel.leftTitlesInterval == 0
+                  ? LineChart(avgData(context))
+                  : LineChart(mainData(context)
+                ),
+              )
             ),
 
             // Total Amount
-            Expanded(
-              child: Container(
-                // margin: const EdgeInsets.only(right: 8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText(
-                      width: double.infinity,
-                      text: double.parse(balance).toStringAsFixed(4) ?? '0',
-                      fontWeight: FontWeight.bold,                    
-                      textAlign: TextAlign.right,
-                      color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                      bottom: 4.0,
-                    ),
-                    MyText(
-                      width: double.infinity,
-                      text: balance != AppString.loadingPattern &&
-                              marketPrice != null
-                          ? '\$${lineChartModel.totalUsd}'
-                          : '\$0.00',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.right,
-                      overflow: TextOverflow.ellipsis,
-                      color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.darkSecondaryText,
-                    )
-                  ],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                MyText(
+                  // width: double.infinity,
+                  text: double.parse(balance).toStringAsFixed(6),
+                  textAlign: TextAlign.right,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkTheme
+                    ? AppColors.whiteColorHexa
+                    : AppColors.textColor,
+                  bottom: 4.0,
                 ),
-              ),
-
-              //
+                MyText(
+                  // width: double.infinity,
+                  text: balance != AppString.loadingPattern && marketPrice != null
+                    ? '\$${lineChartModel.totalUsd}'
+                    : '\$0.00',
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.right,
+                  overflow: TextOverflow.ellipsis,
+                  color: isDarkTheme
+                    ? AppColors.darkSecondaryText
+                    : AppColors.darkSecondaryText,
+                )
+              ],
             ),
           ],
         ));
   }
 
   LineChartData avgData(BuildContext context) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     // print(lineChartModel.values.length);
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
@@ -267,8 +290,8 @@ class AssetItem extends StatelessWidget {
 
           isCurved: true,
           colors: isDarkTheme
-              ? [hexaCodeToColor('#00FF00')]
-              : [hexaCodeToColor('#66CD00')],
+            ? [hexaCodeToColor('#00FF00')]
+            : [hexaCodeToColor('#66CD00')],
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(

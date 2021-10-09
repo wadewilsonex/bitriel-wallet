@@ -3,10 +3,8 @@ import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
 
-
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
-
   static final globalKey = GlobalKey<NavigatorState>();
 
   static int timeStampConvertor(String userDate) {
@@ -16,23 +14,31 @@ class AppUtils {
     return dateTime.millisecondsSinceEpoch;
   }
 
-  static String timeStampToDateTime(String timeStamp) { /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
-    final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
-    return formatDate(
-      parse, 
-      [ yyyy, '/', mm, '/', dd, ' ', hh, ':', nn, ':', ss, ' ', am]
-    ); /* Return Real Date Time */
+  static String timeStampToDateTime(String timeStamp) {
+    /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
+    //final parse = DateTime.parse(timeStamp);
+    print(timeStamp);
+
+    var dt = DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp) * 1000);
+    //  print(DateFormat.yMMMMEEEEd().format(dt));
+    // .toLocal(); /* Parse Time Stamp String to DateTime Format */
+    return DateFormat('dd/MM/yyyy, HH:mm a').format(dt);
+
+    // return formatDate(
+    //   parse,
+    //   [ yyyy, '/', mm, '/', dd, ' ', hh, ':', nn, ':', ss, ' ', am]
+    // ); /* Return Real Date Time */
   }
 
-  static String timeStampToDate(String timeStamp){
-    final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
+  static String timeStampToDate(String timeStamp) {
+    final parse = DateTime.parse(timeStamp)
+        .toLocal(); /* Parse Time Stamp String to DateTime Format */
     return formatDate(
-      parse, 
-      [ yyyy, '/', mm, '/', dd]
-    ); /* Return Real Date Time */
+        parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
   }
 
-  static int convertHexaColor(String colorhexcode) { /* Convert Hexa Color */
+  static int convertHexaColor(String colorhexcode) {
+    /* Convert Hexa Color */
     String colornew = '0xFF$colorhexcode';
     colornew = colornew.replaceAll('#', '');
     final colorint = int.parse(colornew);
@@ -45,6 +51,4 @@ class AppUtils {
     final parse = int.parse(convert);
     return parse;
   }
-
-
 }

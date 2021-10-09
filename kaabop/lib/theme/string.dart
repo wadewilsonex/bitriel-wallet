@@ -74,4 +74,15 @@ class AppString {
       '🚀 Swap rewards: this is part of the airdrop 2. For example, if you have 100 SEL v1, after swapped you will have 200 SEL v2 to keep and use in the future.';
   static const String swapThirdNote =
       '🚀 SEL v2 will be the utility token for Selendra with cross-chains capability. This meant that SEL v2 will be able to perform on both Selendra network as well as other network such as Polygon, Ethereum, BSC.';
+
+  // Presale contents
+  static const String header = "How it works";
+  static const String contents = """
+A very simple and easy method for participation in a presale Please follow the steps:
+1. Connect you metamask wallet.
+2. Enter the contribution amount in BNB.
+3. Press Contribute.
+
+OFFICIAL SELENDRA TOKEN ADDRESS : 0xF3840e453f751ecA77467da08781C58C1A156B04
+  """;
 }

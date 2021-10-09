@@ -7,7 +7,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
-import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
@@ -20,39 +19,6 @@ class ApiProvider with ChangeNotifier {
 
   double amount = 0.0008;
 
-  static List<TokenModel> listToken = [
-    // TokenModel(
-    //   logo: 'assets/FingerPrint1.png',
-    //   symbol: 'ATD',
-    //   org: 'KOOMPI',
-    //   color: Colors.black,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/koompi_white_logo.png',
-    //   symbol: 'KMPI',
-    //   org: 'KOOMPI',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/icons/polkadot.png',
-    //   symbol: 'DOT',
-    //   org: '',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/bnb-2.png',
-    //   symbol: 'BNB',
-    //   org: 'Smart Chain',
-    //   color: Colors.transparent,
-    // ),
-    // TokenModel(
-    //   logo: 'assets/SelendraCircle-Blue.png',
-    //   symbol: 'SEL',
-    //   org: 'BEP-20',
-    //   color: Colors.transparent,
-    // ),
-  ];
-
   ContractProvider contractProvider;
 
   AccountM accountM = AccountM();
@@ -61,6 +27,7 @@ class ApiProvider with ChangeNotifier {
       id: 'selendra',
       logo: 'assets/SelendraCircle-White.png',
       symbol: 'SEL',
+      name: "SELENDRA",
       balance: '0.0',
       org: 'Testnet',
       lineChartModel: LineChartModel());
@@ -68,6 +35,7 @@ class ApiProvider with ChangeNotifier {
   SmartContractModel dot = SmartContractModel(
       id: 'polkadot',
       symbol: 'DOT',
+      name: "Polkadot",
       logo: 'assets/icons/polkadot.png',
       org: '',
       balance: '0.0',
@@ -77,6 +45,7 @@ class ApiProvider with ChangeNotifier {
   SmartContractModel btc = SmartContractModel(
       id: 'bitcoin',
       symbol: 'BTC',
+      name: "Bitcoin",
       logo: 'assets/btc_logo.png',
       org: '',
       balance: '0.0',
@@ -84,6 +53,7 @@ class ApiProvider with ChangeNotifier {
       lineChartModel: LineChartModel());
 
   bool _isConnected = false;
+
   String btcAdd = '';
 
   bool get isConnected => _isConnected;
@@ -94,7 +64,7 @@ class ApiProvider with ChangeNotifier {
       keyring.setSS58(42);
       await sdk.init(keyring);
     } catch (e) {
-      // print("Error initApi $e");
+      print("Error initApi $e");
     }
   }
 
@@ -108,7 +78,6 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.connectNode(keyring, [node]);
 
     if (res != null) {
-      print('connected');
       _isConnected = true;
     }
 
@@ -347,6 +316,7 @@ class ApiProvider with ChangeNotifier {
     nativeM.chainDecimal = res[0].toString();
 
     await subscribeBalance();
+
     notifyListeners();
   }
 

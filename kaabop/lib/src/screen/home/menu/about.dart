@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/components/component.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../index.dart';
@@ -9,15 +8,21 @@ import '../../../../index.dart';
 class About extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<void> _launchInBrowser(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-        headers: <String, String>{'my_header_key': 'my_header_value'},
-      );
-    } else {
-      throw 'Could not launch $url';
+    try {
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: false,
+          headers: <String, String>{'my_header_key': 'my_header_value'},
+        );
+      } else {
+        throw 'Could not launch $url';
+      }
+    } on PlatformException catch (e) {
+      // print("My PlatformException $e");
+    } catch (e) {
+      // print("Error _launchInBrowser $e");
     }
   }
 

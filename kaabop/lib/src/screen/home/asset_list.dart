@@ -150,8 +150,9 @@ class AssetList extends StatelessWidget {
         Consumer<ContractProvider>(
           builder: (context, value, child) {
             return Column(children: [
-
-              for (int index = 0; index < value.sortListContract.length; index++)
+              for (int index = 0;
+                  index < value.sortListContract.length;
+                  index++)
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -165,6 +166,7 @@ class AssetList extends StatelessWidget {
                           tokenSymbol:
                               value.sortListContract[index].symbol ?? '',
                           org: value.sortListContract[index].org,
+                          marketData: value.sortListContract[index].marketData,
                           marketPrice:
                               value.sortListContract[index].marketPrice,
                           priceChange24h:
@@ -180,6 +182,7 @@ class AssetList extends StatelessWidget {
                     value.sortListContract[index].balance ??
                         AppString.loadingPattern,
                     Colors.transparent,
+                    name: value.sortListContract[index].name,
                     marketPrice: value.sortListContract[index].marketPrice,
                     priceChange24h:
                         value.sortListContract[index].change24h ?? '',
@@ -231,6 +234,7 @@ class AssetList extends StatelessWidget {
                           child: AssetItem(
                             'assets/circle.png',
                             value.token[index].symbol ?? '',
+                            // value.token[index].symbol,
                             value.token[index].org ?? '',
                             value.token[index].balance ??
                                 AppString.loadingPattern,

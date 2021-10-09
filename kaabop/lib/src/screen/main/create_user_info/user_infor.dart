@@ -51,60 +51,64 @@ class MyUserInfoState extends State<MyUserInfo> {
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> switchBiometric(bool switchValue) async {
-    // _localAuth = LocalAuthentication();
+    
+    bool available = await AppServices().checkBiometrics(context);
 
-    // await _localAuth.canCheckBiometrics.then((value) async {
-    //   if (value == false) {
-    //     snackBar(context, "Your device doesn't have finger print");
-    //   } else {
-    //     if (switchValue) {
-    //       await authenticateBiometric(_localAuth).then((values) async {
-    //         if (_menuModel.authenticated) {
-    //           setState(() {
-    //             _menuModel.switchBio = switchValue;
-    //           });
-    //           await StorageServices.saveBio(_menuModel.switchBio);
-    //         }
-    //       });
-    //     } else {
-    //       await authenticateBiometric(_localAuth).then((values) async {
-    //         if (_menuModel.authenticated) {
-    //           setState(() {
-    //             _menuModel.switchBio = switchValue;
-    //           });
-    //           await StorageServices.removeKey('bio');
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
-
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: MyText(
-              text: "Oops",
-              fontWeight: FontWeight.w600,
+    try {
+      // Avaible To
+      if (available) {
+        // Switch Enable
+        if (switchValue) {
+          await authenticateBiometric(_localAuth).then((values) async {
+            if (_menuModel.authenticated) {
+              setState(() {
+                _menuModel.switchBio = switchValue;
+              });
+              await StorageServices.saveBio(_menuModel.switchBio);
+            }
+          });
+        }
+        // Switch Disable
+        else {
+          await authenticateBiometric(_localAuth).then((values) async {
+            if (_menuModel.authenticated) {
+              setState(() {
+                _menuModel.switchBio = switchValue;
+              });
+              await StorageServices.removeKey('bio');
+            }
+          });
+        }
+      } else {
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+      }
+    } catch (e) {
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            title: Align(
+              child: MyText(
+                text: "Oops",
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text("This feature has not implemented yet!",
-                textAlign: TextAlign.center),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+            content: Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: Text(e.toString(), textAlign: TextAlign.center),
             ),
-          ],
-        );
-      },
-    );
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
@@ -195,6 +199,7 @@ class MyUserInfoState extends State<MyUserInfo> {
     dialogLoading(context);
 
     try {
+      await addBtcWallet();
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
@@ -244,12 +249,18 @@ class MyUserInfoState extends State<MyUserInfo> {
           // // Ready To Display Asset Portfolio
           Provider.of<ContractProvider>(context, listen: false).setReady();
           
-          print("getChainDecimal");
-          await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+          await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
+            if (value != null) {
+
+              if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+                await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+              }
+            }
+          });
 
           // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
           await enableScreenshot();
-          await successDialog(context, "created your account.");
+          await successDialog(context, "Created your account.");
         },
       );
     } catch (e) {

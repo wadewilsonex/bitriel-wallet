@@ -28,16 +28,12 @@ abstract class PolkawalletPlugin implements PolkawalletPluginBase {
   final recoveryEnabled = false;
 
   /// Plugin should retrieve [networkState] & [networkConst] while start
-  NetworkStateData get networkState =>
-      NetworkStateData.fromJson(Map<String, dynamic>.from(
-          _cache.read(_getNetworkCacheKey(net_state_cache_key)) ?? {}));
-  Map get networkConst =>
-      _cache.read(_getNetworkCacheKey(net_const_cache_key)) ?? {};
+  NetworkStateData get networkState => NetworkStateData.fromJson(Map<String, dynamic>.from(_cache.read(_getNetworkCacheKey(net_state_cache_key)) ?? {}));
+  Map get networkConst => _cache.read(_getNetworkCacheKey(net_const_cache_key)) ?? {};
 
   GetStorage get _cache => GetStorage(sdk_cache_key);
   String _getNetworkCacheKey(String key) => '${key}_${basic.name}';
-  String _getBalanceCacheKey(String pubKey) =>
-      '${balance_cache_key}_${basic.name}_$pubKey';
+  String _getBalanceCacheKey(String pubKey) => '${balance_cache_key}_${basic.name}_$pubKey';
 
   Future<void> updateNetworkState() async {
     final state = await Future.wait([

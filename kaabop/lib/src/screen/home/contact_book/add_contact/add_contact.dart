@@ -1,5 +1,4 @@
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/add_contact/add_contact_body.dart';

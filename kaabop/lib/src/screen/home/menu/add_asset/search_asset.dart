@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:wallet_apps/theme/color.dart';
 
 class SearchAsset extends SearchDelegate {
+  
   final Function added;
   final List<TokenModel> token;
   SearchAsset({this.added, this.token});
@@ -70,7 +71,7 @@ class SearchAsset extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     final List<TokenModel> searchProducts = query.isEmpty
         ? []
-        : ApiProvider.listToken
+        : ContractProvider().listContract
             .where(
               (element) => element.symbol.toLowerCase().startsWith(
                     query.toLowerCase(),
@@ -107,7 +108,7 @@ class SearchAsset extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     final List<TokenModel> searchProducts = query.isEmpty
         ? []
-        : ApiProvider.listToken
+        : ContractProvider().listContract
             .where(
               (element) => element.symbol.toLowerCase().startsWith(
                     query.toLowerCase(),

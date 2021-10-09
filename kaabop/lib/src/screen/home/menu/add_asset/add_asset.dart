@@ -28,31 +28,6 @@ class AddAssetState extends State<AddAsset> {
     super.initState();
   }
 
-  // Future<void> dialog(String text1, String text2, {Widget action}) async {
-  //   await showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         shape:
-  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-  //         title: Align(
-  //           child: Text(text1),
-  //         ),
-  //         content: Padding(
-  //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-  //           child: Text(text2),
-  //         ),
-  //         actions: <Widget>[
-  //           FlatButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text('Close'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Future<bool> validateEtherAddress(String address) async {
     final res = await ApiProvider.sdk.api.validateEtherAddr(address);
     return res;
@@ -230,7 +205,6 @@ class AddAssetState extends State<AddAsset> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: globalKey,
       body: Stack(

@@ -31,6 +31,7 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
+    // deleteAcc();
     super.initState();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
@@ -49,10 +50,29 @@ class HomeState extends State<Home>
     });
   }
 
+  void deleteAcc() async {
+      // await Provider.of<ContractProvider>(context, listen: false).unsubscribeNetwork();
+
+      await ApiProvider.sdk.api.keyring.deleteAccount(
+        ApiProvider.keyring,
+        ApiProvider.keyring.keyPairs[0],
+      );
+
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
+      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      await Future.delayed(Duration(seconds: 2), (){});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+  }
+
   void marketInitializer() async {
 
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     // print(apiProvider.)
     // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
@@ -214,8 +234,7 @@ class HomeState extends State<Home>
         height: 65,
         child: FloatingActionButton(
           elevation: 0,
-          backgroundColor:
-              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+          backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
               context,

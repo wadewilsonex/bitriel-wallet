@@ -4,9 +4,8 @@ import 'package:provider/provider.dart';
 import '../../index.dart';
 
 class WalletProvider with ChangeNotifier {
-
   final List<PortfolioM> _portfolioM = [];
-  
+
   List<Map<String, String>> availableToken = [];
 
   List<String> listSymbol = [
@@ -37,30 +36,29 @@ class WalletProvider with ChangeNotifier {
   // 2. Divide Each Data With Total To Get Float
   // 3. Take Eacher Data Divided To Multple By 100 To Get Percentage
   // For Pie Chart
-  Future<void> fillWithMarketData(context){
-
+  Future<void> fillWithMarketData(context) {
     _portfolioM.clear();
     dataMap.clear();
 
     double temp = 0.0, total = 0.0, percen = 0.0;
 
     final market = Provider.of<MarketProvider>(context, listen: false);
-    
+
     // Find Total Of All Asset
     market.sortDataMarket.forEach((element) {
-      if (element['current_price'].runtimeType.toString() == 'int'){
+      if (element['current_price'].runtimeType.toString() == 'int') {
         // To Convert Integer To Double By Plus With .0
         total = total + ((element['current_price']) + .0);
-      } else total += element['current_price'];
+      } else
+        total += element['current_price'];
     });
 
     // Loop Add Eacher Asset From Market
-    for (int i = 0; i < market.sortDataMarket.length; i++){
-
+    for (int i = 0; i < market.sortDataMarket.length; i++) {
       // Divide Value With Total Of Asset
-      temp = (market.sortDataMarket[i]['current_price']+.0) / total;
+      temp = (market.sortDataMarket[i]['current_price'] + .0) / total;
       percen = temp * 100;
-      
+
       // Use Round To Round Number
       _portfolioM.add(PortfolioM(
         color: pieColorList[i],
@@ -70,10 +68,11 @@ class WalletProvider with ChangeNotifier {
 
       // This Variable For Pie Chart Data
       dataMap.addAll({
-        market.sortDataMarket[i]['symbol']: double.parse(percen.toStringAsFixed(4))
+        market.sortDataMarket[i]['symbol']:
+            double.parse(percen.toStringAsFixed(4))
       });
     }
-    
+
     notifyListeners();
     return null;
   }
@@ -140,7 +139,6 @@ class WalletProvider with ChangeNotifier {
   }
 
   Future<void> getPortfolio() async {
-    
     _portfolioM.clear();
     dataMap.clear();
 
@@ -150,34 +148,14 @@ class WalletProvider with ChangeNotifier {
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
-        // print(availableToken[i]['symbol']);
-        // print(availableToken.length);
         temp = double.parse(availableToken[i]['balance']) / total;
-        // percen = temp * 100;
 
-        // print(percen);
-
-        // if (total == 0.0) {
-          _portfolioM.add(
-            PortfolioM(
+        _portfolioM.add(
+          PortfolioM(
               color: pieColorList[i],
               symbol: availableToken[i]['symbol'],
-              percentage: percen.toStringAsFixed(2)
-            ),
-          );
-        // } else {
-        //   percen = temp * 100;
-
-        //   _portfolioM.add(PortfolioM(
-        //     color: pieColorList[i],
-        //     symbol: availableToken[i]['symbol'],
-        //     percentage: percen.toStringAsFixed(2),
-        //   ));
-
-        //   dataMap.addAll({
-        //     availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
-        //   });
-        // }
+              percentage: percen.toStringAsFixed(2)),
+        );
       }
     });
 

@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/screen/home/menu/add_asset/search_asset.dart';
 
 class AddAssetBody extends StatelessWidget {
+
   final ModelAsset assetM;
   final String tokenSymbol;
   final String initialValue;
@@ -68,6 +69,7 @@ class AddAssetBody extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
+
               const SizedBox(
                 height: 20.0,
               ),
@@ -77,8 +79,7 @@ class AddAssetBody extends StatelessWidget {
                 height: 200,
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Form(
                   key: assetM.formStateAsset,
                   child: Column(
@@ -138,20 +139,20 @@ class AddAssetBody extends StatelessWidget {
                       // ),
 
                       Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                         height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                            color: hexaCodeToColor(isDarkTheme
-                                ? AppColors.darkCard
-                                : AppColors.whiteHexaColor),
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(
-                                width: initialValue != null ? 1 : 0,
-                                color: initialValue != null
-                                    ? hexaCodeToColor(AppColors.secondary)
-                                    : Colors.transparent)),
+                          color: hexaCodeToColor(isDarkTheme
+                            ? AppColors.darkCard
+                            : AppColors.whiteHexaColor),
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            width: initialValue != null ? 1 : 0,
+                            color: initialValue != null
+                              ? hexaCodeToColor(AppColors.secondary)
+                              : Colors.transparent)
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -159,16 +160,17 @@ class AddAssetBody extends StatelessWidget {
                               left: 16.0,
                               text: 'Select Network',
                               color: isDarkTheme
-                                  ? AppColors.whiteHexaColor
-                                  : AppColors.darkCard,
+                                ? AppColors.whiteHexaColor
+                                : AppColors.darkCard,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: ReuseDropDown(
                                 style: TextStyle(
-                                    color: hexaCodeToColor(isDarkTheme
-                                        ? AppColors.whiteHexaColor
-                                        : AppColors.darkCard)),
+                                  color: hexaCodeToColor(isDarkTheme
+                                    ? AppColors.whiteHexaColor
+                                    : AppColors.darkCard)
+                                ),
                                 initialValue: initialValue,
                                 itemsList: const [
                                   'Ethereum',
@@ -187,14 +189,13 @@ class AddAssetBody extends StatelessWidget {
                         pBottom: 16.0,
                         labelText: "Token Contract Address",
                         textInputFormatter: [
-                          LengthLimitingTextInputFormatter(
-                              TextField.noMaxLength)
+                          LengthLimitingTextInputFormatter(TextField.noMaxLength)
                         ],
                         controller: assetM.controllerAssetCode,
                         focusNode: assetM.nodeAssetCode,
                         validateField: (value) => value.isEmpty
-                            ? 'Please fill in token contract address'
-                            : null,
+                          ? 'Please fill in token contract address'
+                          : null,
                         onChanged: onChanged,
                         onSubmit: onSubmit,
                       ),
@@ -239,9 +240,10 @@ class AddAssetBody extends StatelessWidget {
                           onTap: () async {
                             final _response = await Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                    builder: (context) => QrScanner()));
-                            // transitionRoute(QrScanner()));
+                                MaterialPageRoute(builder: (context) => QrScanner()
+                              )
+                            );
+                            
                             if (_response != null) {
                               qrRes(_response.toString());
                             }
@@ -266,6 +268,7 @@ class AddAssetBody extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 40.0),
+
       MyFlatButton(
         textButton: "Submit",
         edgeMargin: const EdgeInsets.only(left: 66, right: 66),
