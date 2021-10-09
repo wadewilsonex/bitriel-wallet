@@ -461,7 +461,8 @@ class _PresaleState extends State<Presale> {
 
     print('allowance: $res');
 
-    if (res.toString() == '0') {
+    if (res.toString() == '0' ||
+        res.toString() != '1000000000000000042420637374017961984') {
       await approveAndOrderToken(
           pKey,
           _model.listSupportToken[_model.tokenIndex]['tokenAddress'],
