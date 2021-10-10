@@ -48,10 +48,13 @@ class _PresaleBodyState extends State<PresaleBody> {
       widget.model.balance = tokenBalance;
     }
 
-    presale.calEstimateSel(
-        widget.model.amountController.text,
-        widget.model.listSupportToken[widget.model.tokenIndex]['price'],
-        widget.model.rate);
+    if (widget.model.amountController.text != null ||
+        widget.model.amountController.text != '') {
+      presale.calEstimateSel(
+          widget.model.amountController.text,
+          widget.model.listSupportToken[widget.model.tokenIndex]['price'],
+          widget.model.rate);
+    }
     setState(() {});
   }
 
@@ -66,10 +69,13 @@ class _PresaleBodyState extends State<PresaleBody> {
 
     widget.onRateChange(res);
 
-    presale.calEstimateSel(
-        widget.model.amountController.text,
-        widget.model.listSupportToken[widget.model.tokenIndex]['price'],
-        widget.model.rate);
+    if (widget.model.amountController.text != null ||
+        widget.model.amountController.text != '') {
+      presale.calEstimateSel(
+          widget.model.amountController.text,
+          widget.model.listSupportToken[widget.model.tokenIndex]['price'],
+          widget.model.rate);
+    }
 
     return res;
   }
