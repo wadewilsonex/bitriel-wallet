@@ -360,21 +360,32 @@ class PresaleProvider with ChangeNotifier {
 
     double _estSel = 0.00;
 
-    switch (discountRate) {
-      case 10:
-        _estSel = double.parse(amt) * assetPrice / 0.027;
-        break;
-      case 20:
-        _estSel = double.parse(amt) * assetPrice / 0.025;
-        break;
-      case 30:
-        _estSel = double.parse(amt) * assetPrice / 0.021;
-        break;
+    final isValid = _isNumeric(amt);
+
+    if (isValid != null && isValid) {
+      switch (discountRate) {
+        case 10:
+          _estSel = double.parse(amt) * assetPrice / 0.027;
+          break;
+        case 20:
+          _estSel = double.parse(amt) * assetPrice / 0.025;
+          break;
+        case 30:
+          _estSel = double.parse(amt) * assetPrice / 0.021;
+          break;
+      }
+
+      estSel = _estSel;
     }
 
-    estSel = _estSel;
-
     notifyListeners();
+  }
+
+  bool _isNumeric(String str) {
+    if (str == null) {
+      return false;
+    }
+    return double.tryParse(str) != null;
   }
 
   void setInitEstSel() {
