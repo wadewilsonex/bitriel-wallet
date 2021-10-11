@@ -144,8 +144,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> initSwapContract() async {
     await initBscClient();
     print('initSwap Contract');
-    final _contract = await AppUtils.contractfromAssets(
-        AppConfig.bep20Path, AppConfig.swapPath);
+    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Path, "0xE5DD12570452057fc85B8cE9820aD676390f865B");
     _swap = new ContractService(_bscClient, _contract);
   }
 

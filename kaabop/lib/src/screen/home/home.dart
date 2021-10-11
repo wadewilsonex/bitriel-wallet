@@ -17,8 +17,8 @@ class Home extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindingObserver {
+  
   MenuModel menuModel = MenuModel();
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
@@ -27,6 +27,7 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
+    // _deleteAccount();
     super.initState();
     Timer(const Duration(seconds: 2), () {
       PortfolioServices().setPortfolio(context);
@@ -35,6 +36,26 @@ class HomeState extends State<Home>
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  Future<void> _deleteAccount() async {
+    final _currentAcc = ApiProvider.keyring.keyPairs[0];
+    try {
+      await ApiProvider.sdk.api.keyring.deleteAccount(
+        ApiProvider.keyring,
+        _currentAcc,
+      );
+      Navigator.pop(context);
+      AppServices.clearStorage();
+      StorageServices().clearSecure();
+      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      Navigator.pushAndRemoveUntil(context,
+          RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+    } catch (e) {
+      // await dialog(context, e.toString(), 'Opps');
+    }
   }
 
   @override

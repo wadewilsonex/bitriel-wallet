@@ -99,8 +99,9 @@ class ApiProvider with ChangeNotifier {
       await keyring.init();
       keyring.setSS58(42);
       await sdk.init(keyring);
+      print("Finish init sdk");
     } catch (e) {
-      // print("Error initApi $e");
+      print("Error initApi $e");
     }
   }
 
@@ -127,7 +128,7 @@ class ApiProvider with ChangeNotifier {
   Future<NetworkParams> connectPolNon() async {
     final node = NetworkParams();
     node.name = 'Polkadot(Live, hosted by PatractLabs)';
-    node.endpoint = AppConfig.networkList[1].wsUrlMN;
+    node.endpoint = AppConfig.networkList[1].wsUrlTN;
     node.ss58 = 0;
 
     // final node1 = NetworkParams();
@@ -393,6 +394,8 @@ class ApiProvider with ChangeNotifier {
     final res = await sdk.api.account.getPubKeyIcons(
       [keyring.keyPairs[0].pubKey],
     );
+
+    print("getAddressIcon $res");
 
     accountM.addressIcon = res.toString();
     notifyListeners();

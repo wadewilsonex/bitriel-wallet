@@ -14,17 +14,17 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+
   @override
   void initState() {
     MarketProvider().fetchTokenMarketPrice(context);
     readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       initApi();
 
       clearOldBtcAddr();
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getEtherAddr();
     });
 
     super.initState();
@@ -32,55 +32,55 @@ class AppState extends State<App> {
 
   Future<void> initApi() async {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
-
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    print("run function initApi");
     await Provider.of<ApiProvider>(context, listen: false)
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+        
+        print("finish initApi");
+        await apiProvider.getAddressIcon();
+        await apiProvider.getCurrentAccount();
         await contractProvider.setSavedList();
-        // await contractProvider.setupNetwork();
+        // // await contractProvider.setupNetwork();
 
         await apiProvider.connectPolNon();
         await apiProvider.connectNode();
 
-        await getSavedContractToken();
-        await getEtherSavedContractToken();
+        // await getSavedContractToken();
+        // await getEtherSavedContractToken();
 
-        await apiProvider.getAddressIcon();
-        await apiProvider.getCurrentAccount();
+        // // await contractProvider.getBscBalance();
+        // // await contractProvider.getBscV2Balance();s
+        // //await isKgoContain();
 
-        // await contractProvider.getBscBalance();
-        // await contractProvider.getBscV2Balance();s
-        //await isKgoContain();
+        // await contractProvider.kgoTokenWallet();
+        // await contractProvider.selTokenWallet();
+        // await contractProvider.selv2TokenWallet();
 
-        await contractProvider.kgoTokenWallet();
-        await contractProvider.selTokenWallet();
-        await contractProvider.selv2TokenWallet();
+        // await contractProvider.ethWallet();
+        // await contractProvider.bnbWallet();
 
-        await contractProvider.ethWallet();
-        await contractProvider.bnbWallet();
+        // // This Method Is Also Request Dot Contract
 
-        // This Method Is Also Request Dot Contract
+        // await isBtcContain();
 
-        await isBtcContain();
+        // // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+        // contractProvider.addApiProviderProperty(apiProvider);
 
-        // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        contractProvider.addApiProviderProperty(apiProvider);
+        // // Sort After MarketPrice Filled Into Asset
+        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        // Sort After MarketPrice Filled Into Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+        // await Provider.of<MarketProvider>(context, listen: false)
+        //     .fetchTokenMarketPrice(context);
 
-        // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        await Provider.of<MarketProvider>(context, listen: false)
-            .fetchTokenMarketPrice(context);
+        // await Provider.of<WalletProvider>(context, listen: false)
+        //     .fillWithMarketData(context);
+        // contractProvider.setReady();
 
-        await Provider.of<WalletProvider>(context, listen: false)
-            .fillWithMarketData(context);
-        contractProvider.setReady();
-
-        print(contractProvider.listContract.length);
+        // print(contractProvider.listContract.length);
 
         // var list = json.encode(contractProvider.listContract.length);
 
