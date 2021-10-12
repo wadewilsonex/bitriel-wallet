@@ -41,6 +41,7 @@ class _PresaleState extends State<Presale> {
                 context, Home.route, ModalRoute.withName('/'));
           });
           _model.amountController.text = '';
+          presale.initEstSel();
           presale.setListOrder();
           setState(() {});
         } else {
@@ -107,6 +108,7 @@ class _PresaleState extends State<Presale> {
                 context, Home.route, ModalRoute.withName('/'));
           });
           _model.amountController.text = '';
+          presale.initEstSel();
           presale.setListOrder();
           setState(() {});
         } else {
@@ -395,7 +397,10 @@ class _PresaleState extends State<Presale> {
       /// To Convert To Double we need to use toDouble()
       ///
 
-      if (double.parse(_model.amountController.text) < value.first.toDouble()) {
+      final res = presale.calAmtPrice(_model.amountController.text,
+          _model.listSupportToken[_model.tokenIndex]['price']);
+
+      if (res < value.first.toDouble()) {
         await showDialog(
           context: context,
           builder: (context) {
@@ -427,7 +432,11 @@ class _PresaleState extends State<Presale> {
           //get user pKey
           final privateKey = await AppServices.getPrivateKey(res, context);
 
-          if (privateKey != null) {
+          print('privateKey :$privateKey');
+
+          if (privateKey != null &&
+              privateKey !=
+                  'Failed to get string encoded: \'Decrypt failure.\'.') {
             if (_model.tokenIndex == 0) {
               await contract.getBnbBalance();
 

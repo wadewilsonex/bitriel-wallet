@@ -104,6 +104,8 @@ class PresaleProvider with ChangeNotifier {
           await _contractP.bscClient.credentialsFromPrivateKey(privateKey);
 
       final orderToken = contract.function('orderToken');
+
+      print(amount * pow(10, 18));
       final order = await _contractP.bscClient.sendTransaction(
           credentials,
           Transaction.callContract(
@@ -352,6 +354,11 @@ class PresaleProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void initEstSel() {
+    estSel = 0.00;
+    notifyListeners();
+  }
+
   void calEstimateSel(String amt, double assetPrice, int discountRate) {
     //  Ex: BNB amount * BNB price / SEL price after discount
     //   10% disc = 0.027 USD per SEL
@@ -379,6 +386,18 @@ class PresaleProvider with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  double calAmtPrice(String amt, double assetPrice) {
+    double _estSel = 0.00;
+
+    final isValid = _isNumeric(amt);
+
+    if (isValid) {
+      _estSel = double.parse(amt) * assetPrice;
+    }
+
+    return _estSel;
   }
 
   bool _isNumeric(String str) {
