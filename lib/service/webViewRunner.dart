@@ -34,6 +34,8 @@ class WebViewRunner {
 
     _web = FlutterWebviewPlugin();
 
+    // await _web.close();
+
     /// cancel another plugin's listener before launch
     if (_subscription != null) {
       _subscription.cancel();

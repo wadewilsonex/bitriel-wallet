@@ -366,8 +366,11 @@ class _PresaleState extends State<Presale> {
     final presale = Provider.of<PresaleProvider>(context, listen: false);
 
     //presale.calEstimateSel(, 429.000, _model.rate);
-    presale.calEstimateSel(_model.amountController.text,
-        _model.listSupportToken[_model.tokenIndex]['price'], _model.rate);
+    if (_model.amountController.text != null ||
+        _model.amountController.text != '') {
+      presale.calEstimateSel(_model.amountController.text,
+          _model.listSupportToken[_model.tokenIndex]['price'], _model.rate);
+    }
   }
 
   void onChangedDropDown(String value) {

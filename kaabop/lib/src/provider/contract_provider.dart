@@ -125,14 +125,19 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> initEtherClient() async {
-    _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN, _httpClient,
-        socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN)
-          .cast<String>();
-    });
+    try {
 
-    notifyListeners();
+      _httpClient = Client();
+      _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN, _httpClient,
+          socketConnector: () {
+        return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN)
+            .cast<String>();
+      });
+
+      notifyListeners();
+    } catch (e){
+      print("Error init ether client $e");
+    }
   }
 
   Future<void> initSelClient() async {
@@ -328,14 +333,15 @@ class ContractProvider with ChangeNotifier {
     await initEtherClient();
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
-    final EtherAmount ethbalance =
-        await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
+    print("getEtherBalance address $ethAddr");
+    final EtherAmount ethbalance = await _etherClient.getBalance(EthereumAddress.fromHex(ethAddr));
+    print("Eth ethbalance $ethbalance");
     listContract[3].balance =
         ethbalance.getValueInUnit(EtherUnit.ether).toString();
 
     listContract[3].lineChartModel =
         LineChartModel().prepareGraphChart(listContract[3]);
-
+    print("What's wrong");
     notifyListeners();
   }
 
@@ -693,6 +699,8 @@ class ContractProvider with ChangeNotifier {
     try {
       final ethAddr = await StorageServices().readSecure('etherAdd');
       ethAdd = ethAddr;
+
+      print("EthAdd $ethAdd");
 
       notifyListeners();
     } catch (e) {

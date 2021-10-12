@@ -39,20 +39,27 @@ class AppState extends State<App> {
         if (ApiProvider.keyring.keyPairs.isNotEmpty) {
           await contractProvider.getEtherAddr();
 
-          await getSavedContractToken();
-          await getEtherSavedContractToken();
+          // await getSavedContractToken();
+          // print("Finish getSavedContractToken");
+          // await getEtherSavedContractToken();
+          // print("Finish getEtherSavedContractToken");
 
-          await apiProvider.getAddressIcon();
-          await apiProvider.getCurrentAccount();
+          // await apiProvider.getAddressIcon();
+          // await apiProvider.getCurrentAccount();
+          // print("Finish account");
 
-          await contractProvider.getBscBalance();
-          await contractProvider.getBscV2Balance();
-          await isKgoContain();
-          await contractProvider.getEtherBalance();
+          // await contractProvider.getBscBalance();
+          // print("Finish getBscBalance");
+          // await contractProvider.getBscV2Balance();
+          // print("Finish getBscV2Balance");
+          // await isKgoContain();
+          // print("Finish isKgoContain");
+          // await contractProvider.getEtherBalance();
+          print("Finish getEtherBalance");
           await contractProvider.getBnbBalance();
 
           // This Method Is Also Request Dot Contract
-          await apiProvider.connectPolNon();
+          // await apiProvider.connectPolNon();
           print("connectPolNon");
           await isBtcContain();
 
@@ -175,7 +182,7 @@ class AppState extends State<App> {
         await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
       });
     } catch (e) {
-      // print("Error KGO $e");
+      print("Error KGO $e");
     }
   }
 
