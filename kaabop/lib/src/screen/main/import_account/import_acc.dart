@@ -12,6 +12,7 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
+
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -27,8 +28,7 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
     AppServices.noInternetConnection(globalKey);
-    _importAccModel.mnemonicCon.text =
-        'neglect vocal merry giant busy tribe liberty supreme face network machine maple';
+    _importAccModel.mnemonicCon.text = 'neglect vocal merry giant busy tribe liberty supreme face network machine maple';
     super.initState();
   }
 

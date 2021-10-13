@@ -114,13 +114,22 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> setSavedList() async {
-    final saved = await StorageServices.fetchAsset('assetData');
+    try {
 
-    savedAssetList = List.from(saved);
+      final saved = await StorageServices.fetchAsset('assetData');
 
-    print('my symbol: ${savedAssetList[0].symbol}');
+      print("setSavedList $saved");
+      if (saved != null) {
 
-    notifyListeners();
+        savedAssetList = List.from(saved);
+
+        print('my symbol: ${savedAssetList[0].symbol}');
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("Error setSavedList $e");
+    }
   }
 
   Future<void> initBscClient() async {

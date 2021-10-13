@@ -43,41 +43,39 @@ class AppState extends State<App> {
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();
         await contractProvider.setSavedList();
-        // // await contractProvider.setupNetwork();
+        // await contractProvider.setupNetwork();
 
-        await apiProvider.connectPolNon();
-        await apiProvider.connectNode();
+        // await apiProvider.connectPolNon();
+        // await apiProvider.connectNode();
 
         // await getSavedContractToken();
         // await getEtherSavedContractToken();
 
-        // // await contractProvider.getBscBalance();
-        // // await contractProvider.getBscV2Balance();s
+        // await contractProvider.getBscBalance();
+        // await contractProvider.getBscV2Balance();
         // //await isKgoContain();
 
         // await contractProvider.kgoTokenWallet();
         // await contractProvider.selTokenWallet();
         // await contractProvider.selv2TokenWallet();
 
-        // await contractProvider.ethWallet();
+        await contractProvider.ethWallet();
         // await contractProvider.bnbWallet();
 
         // // This Method Is Also Request Dot Contract
 
-        // await isBtcContain();
+        await isBtcContain();
 
         // // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        // contractProvider.addApiProviderProperty(apiProvider);
+        contractProvider.addApiProviderProperty(apiProvider);
 
         // // Sort After MarketPrice Filled Into Asset
-        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        // await Provider.of<MarketProvider>(context, listen: false)
-        //     .fetchTokenMarketPrice(context);
+        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
-        // await Provider.of<WalletProvider>(context, listen: false)
-        //     .fillWithMarketData(context);
+        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
         // contractProvider.setReady();
 
         // print(contractProvider.listContract.length);
@@ -86,7 +84,7 @@ class AppState extends State<App> {
 
         //  await StorageServices.removeKey('assetData');
 
-        //await StorageServices.setData(list, 'assetData');
+        await StorageServices.setData(contractProvider.listContract, 'assetData');
 
         // final res = await StorageServices.fetchData('assetData');
         // print('res $res');

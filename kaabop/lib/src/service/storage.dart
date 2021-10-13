@@ -32,8 +32,7 @@ class StorageServices {
     return _preferences;
   }
 
-  static Future<SharedPreferences> addMoreData(
-      Map<String, dynamic> _data, String _path) async {
+  static Future<SharedPreferences> addMoreData(Map<String, dynamic> _data, String _path) async {
     List<Map<String, dynamic>> ls = [];
     _preferences = await SharedPreferences.getInstance();
     if (_preferences.containsKey(_path)) {
@@ -51,10 +50,9 @@ class StorageServices {
   }
 
   static Future<void> assetData(context) async {
-    final listContract =
-        Provider.of<ContractProvider>(context, listen: false).listContract;
+    final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
 
-    print(listContract.length);
+    print("assetData $listContract");
 
     final res = SmartContractModel.encode(listContract);
 
@@ -192,11 +190,23 @@ class StorageServices {
   }
 
   static Future<dynamic> fetchAsset(String _path) async {
-    _preferences = await SharedPreferences.getInstance();
+    try {
 
-    final res = SmartContractModel.decode(_preferences.getString(_path));
+      _preferences = await SharedPreferences.getInstance();
 
-    return res;
+      _decode = _preferences.getString(_path);
+
+      print("fetchAsset $_decode");
+      if (_decode != null){
+
+        final res = SmartContractModel.decode(_decode);
+
+        return res;
+      }
+
+    } catch (e) {
+      print("Error fetchAsset $e");
+    }
     //return _preferences.getString(_path);
   }
 
