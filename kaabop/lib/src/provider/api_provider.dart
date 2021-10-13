@@ -61,8 +61,11 @@ class ApiProvider with ChangeNotifier {
   Future<void> initApi() async {
     try {
       await keyring.init();
+      print("Finish keyring init");
       keyring.setSS58(42);
+      print("Finish setSS58");
       await sdk.init(keyring);
+      print("Finish sdk");
     } catch (e) {
       print("Error initApi $e");
     }
@@ -352,12 +355,17 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getAddressIcon() async {
-    final res = await sdk.api.account.getPubKeyIcons(
-      [keyring.keyPairs[0].pubKey],
-    );
+    try {
 
-    accountM.addressIcon = res.toString();
-    notifyListeners();
+      final res = await sdk.api.account.getPubKeyIcons(
+        [keyring.keyPairs[0].pubKey],
+      );
+
+      accountM.addressIcon = res.toString();
+      notifyListeners();
+    } catch (e) {
+      print("getAddressIcon $e");
+    }
   }
 
   Future<void> getCurrentAccount() async {

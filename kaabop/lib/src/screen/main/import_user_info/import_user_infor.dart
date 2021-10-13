@@ -79,16 +79,16 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             await StorageServices().writeSecure('private', res);
           }
         }
-        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        // await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-        await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-        await isKgoContain();
-        await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
-        await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+        // await isKgoContain();
+        // await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-        // This Method Is Also Request Dot Contract
-        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+        // // This Method Is Also Request Dot Contract
+        // await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
         await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();

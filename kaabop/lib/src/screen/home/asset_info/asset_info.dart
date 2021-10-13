@@ -281,18 +281,6 @@ class _AssetInfoState extends State<AssetInfo> {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _globalKey,
-      // floatingActionButton: widget.tokenSymbol != "ATD"
-      //     ? Container()
-      //     : FloatingActionButton(
-      //         onPressed: () {
-      //          /// qrRes();
-      //         },
-      //         backgroundColor: hexaCodeToColor(AppColors.secondary),
-      //         child: const Icon(
-      //           Icons.location_on,
-      //           size: 30,
-      //         ),
-      //       ),
       body: BodyScaffold(
         isSafeArea: true,
         bottom: 0,
@@ -475,6 +463,18 @@ class _AssetInfoState extends State<AssetInfo> {
                                 ),
                               ],
                             ),
+
+                          MyText(
+                            text:
+                                '${widget.balance}${' ${widget.tokenSymbol}'}',
+                            //AppColors.secondarytext,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: isDarkTheme
+                                ? AppColors.whiteColorHexa
+                                : AppColors.textColor,
+                          ),
                           Container(
                             margin: const EdgeInsets.only(top: 40),
                             padding: widget.tokenSymbol == 'ATD'
