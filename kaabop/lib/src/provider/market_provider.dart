@@ -155,7 +155,6 @@ class MarketProvider with ChangeNotifier {
         }
       }
     }
-    print('finish market price');
 
     notifyListeners();
   }

@@ -113,7 +113,8 @@ class ContractProvider with ChangeNotifier {
     initSwapContract();
   }
 
-  Future<void> setSavedList() async {
+  Future<bool> setSavedList() async {
+
     try {
 
       final saved = await StorageServices.fetchAsset('assetData');
@@ -123,13 +124,18 @@ class ContractProvider with ChangeNotifier {
 
         savedAssetList = List.from(saved);
 
-        print('my symbol: ${savedAssetList[0].symbol}');
+        listContract = savedAssetList;
+        
+        notifyListeners();
+
+        print("notifyListeners");
+        return true;
       }
 
-      notifyListeners();
     } catch (e) {
       print("Error setSavedList $e");
     }
+    return false;
   }
 
   Future<void> initBscClient() async {
@@ -230,8 +236,7 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateNativeTxStt(
-      NativeService nativeService, TransactionInfo info, int index) async {
+  Future<void> updateNativeTxStt(NativeService nativeService, TransactionInfo info, int index) async {
     await nativeService.listenTransfer(info.hash).then((value) {
       print('Stt: $value');
       var item = listContract[index]
@@ -293,58 +298,71 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> bnbWallet() async {
-    await initBscClient();
-    _bnb = new NativeService(_bscClient);
+    try {
 
-    final balance = await _bnb.getBalance(getEthAddr(ethAdd));
+      await initBscClient();
+      
+      _bnb = new NativeService(_bscClient);
 
-    print('bnb balance: $balance');
+      final balance = await _bnb.getBalance(getEthAddr(ethAdd));
 
-    listContract[4].balance = balance.toString();
+      print('bnb balance: $balance');
 
-    listContract[4].lineChartModel =
-        LineChartModel().prepareGraphChart(listContract[3]);
+      listContract[4].balance = balance.toString();
+
+      // listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
+    } catch (e) {
+      print("Error bnbWallet $e");
+    }
   }
 
   void addApiProviderProperty(ApiProvider api) {
-    listContract.addAll([
-      api.btc,
-      api.dot,
-      api.nativeM,
-    ]);
+    if (listContract.length == 5){
+      listContract.addAll([
+        api.btc,
+        api.dot,
+        api.nativeM,
+      ]);
+    }
 
     notifyListeners();
   }
 
   // Sort Asset Portoflio
   Future<void> sortAsset() {
-    sortListContract.clear();
-    listContract.forEach((element) {
-      sortListContract.addAll({element});
-    });
 
-    print('sort list length ${sortListContract.length}');
+    try {
 
-    if (sortListContract.isNotEmpty) {
-      SmartContractModel tmp = SmartContractModel();
-      for (int i = 0; i < sortListContract.length; i++) {
-        for (int j = i + 1; j < sortListContract.length; j++) {
-          tmp = sortListContract[i];
-          print('tmp ${tmp.logo}');
-          if ((double.parse(sortListContract[j].balance)) >
-              (double.parse(tmp.balance))) {
-            sortListContract[i] = sortListContract[j];
-            sortListContract[j] = tmp;
+      sortListContract.clear();
+      
+      listContract.forEach((element) {
+        sortListContract.addAll({element});
+        print(element.symbol);
+      });
+
+      print('sort list length ${sortListContract.length}');
+
+      if (sortListContract.isNotEmpty) {
+        SmartContractModel tmp = SmartContractModel();
+        for (int i = 0; i < sortListContract.length; i++) {
+          for (int j = i + 1; j < sortListContract.length; j++) {
+            tmp = sortListContract[i];
+            // print('sortListContract balance ${double.parse(sortListContract[j].balance)}');
+            // print('tmp balance ${double.parse(tmp.balance)}');
+            if ( (double.parse(sortListContract[j].balance)) > (double.parse(tmp.balance)) ) {
+              sortListContract[i] = sortListContract[j];
+              sortListContract[j] = tmp;
+            }
           }
         }
-      }
 
-      notifyListeners();
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Error sortAsset $e");
     }
 
     print('sort finish');
-
-    return null;
   }
 
   void subscribeBscbalance(BuildContext context) async {

@@ -64,7 +64,6 @@ class WelcomeBody extends StatelessWidget {
                   const EdgeInsets.only(left: 42, right: 42, bottom: 16),
               textButton: AppString.createAccTitle,
               action: () {
-                print("Why");
                 // Navigator.pushNamed(context, AppText.contentBackup);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ContentsBackup()));

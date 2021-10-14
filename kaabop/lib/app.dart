@@ -33,61 +33,71 @@ class AppState extends State<App> {
   Future<void> initApi() async {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    print("run function initApi");
     await Provider.of<ApiProvider>(context, listen: false)
         .initApi()
         .then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
         
-        print("finish initApi");
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();
-        await contractProvider.setSavedList();
-        // await contractProvider.setupNetwork();
+        await contractProvider.setSavedList().then((value) async {
+          // If Data Already Exist
+          if (value){
 
-        // await apiProvider.connectPolNon();
-        // await apiProvider.connectNode();
+            // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+            contractProvider.addApiProviderProperty(apiProvider);
 
-        // await getSavedContractToken();
-        // await getEtherSavedContractToken();
+            // Sort After MarketPrice Filled Into Asset
+            await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        // await contractProvider.getBscBalance();
-        // await contractProvider.getBscV2Balance();
-        // //await isKgoContain();
+            contractProvider.setReady();
+          }
+          
+          // await contractProvider.setupNetwork();
 
-        // await contractProvider.kgoTokenWallet();
-        // await contractProvider.selTokenWallet();
-        // await contractProvider.selv2TokenWallet();
+          // await apiProvider.connectPolNon();
+          // await apiProvider.connectNode();
 
-        await contractProvider.ethWallet();
-        // await contractProvider.bnbWallet();
+          // await getSavedContractToken();
+          // await getEtherSavedContractToken();
+          //await isKgoContain();`
 
-        // // This Method Is Also Request Dot Contract
+          await contractProvider.kgoTokenWallet();
+          await contractProvider.selTokenWallet();
+          await contractProvider.selv2TokenWallet();
 
-        await isBtcContain();
+          // await contractProvider.ethWallet();
+          await contractProvider.bnbWallet();
 
-        // // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-        contractProvider.addApiProviderProperty(apiProvider);
+          // This Method Is Also Request Dot Contract
 
-        // // Sort After MarketPrice Filled Into Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+          await isBtcContain();
 
-        // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+          // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+          contractProvider.addApiProviderProperty(apiProvider);
 
-        // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-        // contractProvider.setReady();
+          // // // Sort After MarketPrice Filled Into Asset
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        // print(contractProvider.listContract.length);
+          // // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+          await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
-        // var list = json.encode(contractProvider.listContract.length);
+          await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
 
-        //  await StorageServices.removeKey('assetData');
+          contractProvider.setReady();
 
-        await StorageServices.setData(contractProvider.listContract, 'assetData');
+          // // print(contractProvider.listContract.length);
 
-        // final res = await StorageServices.fetchData('assetData');
-        // print('res $res');
+          // // var list = json.encode(contractProvider.listContract.length);
+
+          // //  await StorageServices.removeKey('assetData');
+
+          // await StorageServices.setData(contractProvider.listContract, 'assetData');
+          await StorageServices.assetData(context);
+
+          final res = await StorageServices.fetchData('assetData');
+          print('res $res');
+        });
       }
     });
   }

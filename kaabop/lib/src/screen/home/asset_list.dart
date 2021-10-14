@@ -152,6 +152,16 @@ class AssetList extends StatelessWidget {
               for (int index = 0;
                   index < value.sortListContract.length;
                   index++)
+                  // Column(
+                  //   children: [
+                  //     Text(value.sortListContract[index].logo.toString()),
+                  //     Text(value.sortListContract[index].symbol.toString()),
+                  //     Text(value.sortListContract[index].org.toString()),
+                  //     Text(value.sortListContract[index].balance.toString()),
+                  //     Text(value.sortListContract[index].marketPrice.toString()),
+                  //     Text(value.sortListContract[index].lineChartModel.toString())
+                  //   ],
+                  // )
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -182,15 +192,12 @@ class AssetList extends StatelessWidget {
                     value.sortListContract[index].logo,
                     value.sortListContract[index].symbol ?? '',
                     value.sortListContract[index].org,
-                    value.sortListContract[index].balance ??
-                        AppString.loadingPattern,
+                    value.sortListContract[index].balance ?? AppString.loadingPattern,
                     Colors.transparent,
-                    marketPrice: value.sortListContract[index].marketPrice,
-                    priceChange24h:
-                        value.sortListContract[index].change24h ?? '',
-                    lineChartData: value.sortListContract[index].lineChartData,
-                    lineChartModel:
-                        value.sortListContract[index].lineChartModel,
+                    marketPrice: value.sortListContract[index].marketPrice ?? '',
+                    priceChange24h: value.sortListContract[index].change24h,
+                    lineChartData: value.sortListContract[index].lineChartData ?? [],
+                    lineChartModel: value.sortListContract[index].lineChartModel ?? LineChartModel(),
                   ),
                 )
             ]);

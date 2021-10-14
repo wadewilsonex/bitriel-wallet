@@ -27,14 +27,10 @@ class AssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (balance != AppString.loadingPattern && marketPrice != null) {
-      var res = double.parse(balance) * double.parse(marketPrice);
-      lineChartModel.totalUsd = res.toStringAsFixed(2);
-    }
-
-    if (tokenSymbol == "KGO") {
-      print(double.parse(marketPrice));
-    }
+    // if (balance != AppString.loadingPattern && marketPrice != null) {
+    //   var res = double.parse(balance ?? '0') * double.parse(marketPrice ?? '0');
+    //   lineChartModel.totalUsd = res.toStringAsFixed(2);
+    // }
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
@@ -93,9 +89,10 @@ class AssetItem extends StatelessWidget {
                   else
                     Row(
                       children: [
+                        
                         tokenSymbol == "KGO"
                             ? MyText(
-                                text: '\$ ${marketPrice.substring(0, 8)}' ?? '',
+                                text: "\$ $marketPrice",
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: isDarkTheme
@@ -103,7 +100,7 @@ class AssetItem extends StatelessWidget {
                                     : AppColors.darkSecondaryText,
                               )
                             : MyText(
-                                text: '\$ $marketPrice' ?? '',
+                                text: marketPrice != null ? '\$ $marketPrice' : '',
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: isDarkTheme
@@ -112,16 +109,18 @@ class AssetItem extends StatelessWidget {
                               ),
                         const SizedBox(width: 6.0),
                         MyText(
-                          text: priceChange24h.substring(0, 1) == '-'
-                              ? '$priceChange24h%'
-                              : '+$priceChange24h%',
+                          text: priceChange24h != null ? priceChange24h.substring(0, 1) == '-'
+                              ?  '$priceChange24h%'
+                              : '+$priceChange24h%' 
+                            : '',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: priceChange24h.substring(0, 1) == '-'
+                          color:  priceChange24h != null ? priceChange24h.substring(0, 1) == '-'
                               ? '#FF0000'
                               : isDarkTheme
                                   ? '#00FF00'
-                                  : '#66CD00',
+                                  : '#66CD00' 
+                            : '#00FF00',
                         ),
                       ],
                     ),

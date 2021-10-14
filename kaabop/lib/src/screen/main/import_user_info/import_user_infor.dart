@@ -74,37 +74,36 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           }
         }
 
-        // await Provider.of<ContractProvider>(context, listen: false)
-        //     .getEtherAddr();
-        // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+        await Provider.of<ContractProvider>(context, listen: false)
+            .getEtherAddr();
+        final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
-        // final contract = Provider.of<ContractProvider>(context, listen: false);
+        final contract = Provider.of<ContractProvider>(context, listen: false);
 
-        // await contract.kgoTokenWallet();
-        // await contract.selTokenWallet();
-        // await contract.selv2TokenWallet();
-        // await contract.bnbWallet();
+        await contract.kgoTokenWallet();
+        await contract.selTokenWallet();
+        await contract.selv2TokenWallet();
+        await contract.bnbWallet();
         // await contract.ethWallet();
 
         // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
-        // contract.addApiProviderProperty(apiProvider);
+        contract.addApiProviderProperty(apiProvider);
 
-        // // Provider.of<MarketProvider>(context, listen: false)
-        // //     .fetchTokenMarketPrice(context);
-        // Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        // Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        Provider.of<MarketProvider>(context, listen: false)
+            .fetchTokenMarketPrice(context);
+        Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         // // // // Ready To Display Asset Portfolio
-        // Provider.of<ContractProvider>(context, listen: false).setReady();
+        Provider.of<ContractProvider>(context, listen: false).setReady();
 
         // // print("getChainDecimal");
 
         // Navigator.pop(context);
 
-        // await Provider.of<WalletProvider>(context, listen: false)
-        //     .fillWithMarketData(context);
+        await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
 
         await successDialog(context, "imported your account.");
       }

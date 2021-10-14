@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:wallet_apps/index.dart';
 
 class LineChartModel {
+
   final int divider = 5;
 
   final int leftLabelsCount = 6;
@@ -26,6 +27,9 @@ class LineChartModel {
   ];
 
   LineChartModel prepareGraphChart(SmartContractModel contract) {
+
+    print("contract.lineChartModel.values ${contract.lineChartModel.values}");
+    
     contract.lineChartModel.values.clear();
 
     double minY = double.maxFinite;
@@ -33,6 +37,7 @@ class LineChartModel {
 
     // To Prevent Null Of Line Chart
     if (contract.lineChartData != null) {
+
       contract.lineChartModel.values.addAll(contract.lineChartData.map((price) {
         if (minY > price.last) minY = price.last;
         if (maxY < price.last) maxY = price.last;
