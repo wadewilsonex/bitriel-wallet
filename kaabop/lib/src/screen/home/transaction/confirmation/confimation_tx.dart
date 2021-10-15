@@ -4,10 +4,12 @@ import 'package:wallet_apps/index.dart';
 class ConfirmationTx extends StatelessWidget {
   final TransactionInfo trxInfo;
   final Function clickSend;
+  final String gasFeetoEther;
   const ConfirmationTx({
     Key key,
     this.trxInfo,
     this.clickSend,
+    this.gasFeetoEther,
   }) : super(key: key);
 
   @override
@@ -228,3 +230,17 @@ class ConfirmationTx extends StatelessWidget {
     );
   }
 }
+
+
+// MyText(
+//                           top: 8.0,
+//                           width: MediaQuery.of(context).size.width / 1.5,
+//                           text: trxInfo.coinSymbol == 'BTC'
+//                               ? ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther '
+//                               : ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther  ${trxInfo.feeNetworkSymbol}',
+//                           fontSize: 18.0,
+//                           overflow: TextOverflow.ellipsis,
+//                           fontWeight: FontWeight.bold,
+//                           color: AppColors.secondary,
+//                           //fontWeight: FontWeight.bold,
+//                         ),

@@ -18,7 +18,10 @@ class MenuHeader extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppString.accountView);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Account())
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(left: 16),
@@ -129,10 +132,11 @@ class MyListTile extends StatelessWidget {
       enabled: enable,
       onTap: onTap,
       leading: SvgPicture.asset(
-          MenuModel.listTile[index]['sub'][subIndex]['icon'].toString(),
-          color: isDarkTheme ? Colors.white : Colors.black,
-          width: 30,
-          height: 30),
+        MenuModel.listTile[index]['sub'][subIndex]['icon'].toString(),
+        color: isDarkTheme ? Colors.white : Colors.black,
+        width: 30,
+        height: 30
+      ),
       title: MyText(
         text: MenuModel.listTile[index]['sub'][subIndex]['subTitle'].toString(),
         color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,

@@ -5,7 +5,7 @@ class Menu extends StatefulWidget {
   final Map<String, dynamic> _userData;
 
   const Menu(
-    this._userData,
+    this._userData
   );
 
   @override
@@ -170,7 +170,7 @@ class MenuState extends State<Menu> {
               userInfo: widget._userData,
               model: _menuModel,
               enablePassword: enablePassword,
-              switchBio: switchBiometric,
+              switchBio: switchBiometric
             ),
           ),
         ),

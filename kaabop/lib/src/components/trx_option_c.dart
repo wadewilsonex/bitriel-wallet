@@ -1,7 +1,5 @@
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:polkawallet_sdk/kabob_sdk.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -117,7 +115,7 @@ class TrxOptionMethod {
   ) async {
     final String _response = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => QrScanner()));
-
+    print("scanQR $_response");
     //print("Scan qr reponse $_response");
     if (_response != null) {
       await Navigator.push(

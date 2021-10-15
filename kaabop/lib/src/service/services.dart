@@ -156,4 +156,16 @@ class AppServices {
 
     return canCheckBiometrics;
   }
+
+  static Future<String> getPrivateKey(String pin, BuildContext context) async {
+    String privateKey;
+    try {
+      final encrytKey = await StorageServices().readSecure('private');
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encrytKey, pin);
+    } catch (e) {
+      await customDialog(context, 'Opps', 'PIN verification failed');
+      return e;
+    }
+    return privateKey;
+  }
 }

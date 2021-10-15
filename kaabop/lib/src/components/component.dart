@@ -51,6 +51,8 @@ class Component {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                       ),
+                      width: 60,
+                      height: 60,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +62,7 @@ class Component {
                               backgroundColor: Colors.transparent,
                               valueColor: AlwaysStoppedAnimation(
                                   hexaCodeToColor(AppColors.secondary))),
-                          contents == null
+                          contents != null
                               ? MyText(
                                   top: 10,
                                   left: 10,
@@ -196,9 +198,9 @@ class MyText extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              fontWeight: fontWeight,
-              color: Color(AppUtils.convertHexaColor(color)),
-              fontSize: fontSize),
+            fontWeight: fontWeight,
+            color: Color(AppUtils.convertHexaColor(color)),
+            fontSize: fontSize),
           textAlign: textAlign,
           overflow: overflow,
         ),
@@ -384,8 +386,8 @@ class BodyScaffold extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: height,
           color: isDarkTheme
-              ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-              : Color(AppUtils.convertHexaColor('f5f5f5')),
+            ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+            : Color(AppUtils.convertHexaColor("#F5F5F5")),
           padding: EdgeInsets.fromLTRB(left, top, right, bottom),
           child: isSafeArea ? SafeArea(child: child) : child,
         ));
@@ -562,6 +564,31 @@ class MyTabBar extends StatelessWidget {
     );
   }
 }
+
+Future<void> customDialog(BuildContext context, String text1, String text2) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            child: Text(text2, textAlign: TextAlign.center),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 /* Trigger Snack Bar Function */
 void snackBar(BuildContext context, String contents) {

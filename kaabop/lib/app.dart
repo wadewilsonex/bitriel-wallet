@@ -137,6 +137,7 @@ class AppState extends State<App> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
+
         Provider.of<WalletProvider>(context, listen: false)
             .addTokenSymbol('${symbol[0]} (BEP-20)');
       }
@@ -147,7 +148,7 @@ class AppState extends State<App> {
     final contractProvider =
         Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
-
+    print("getEtherSaved $res");
     if (res != null) {
       for (final i in res) {
         final symbol =

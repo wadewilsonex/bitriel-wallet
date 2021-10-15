@@ -7,7 +7,7 @@ class LineChartModel {
 
   final int leftLabelsCount = 6;
 
-  List<FlSpot> values = [];
+  List<FlSpot> values = List<FlSpot>.empty(growable: true);
 
   double minX = 0;
 
@@ -29,11 +29,8 @@ class LineChartModel {
   LineChartModel prepareGraphChart(SmartContractModel contract) {
 
     print("contract.lineChartModel.values ${contract.lineChartModel.values}");
-    
-    contract.lineChartModel.values.clear();
 
-    double minY = double.maxFinite;
-    double maxY = double.minPositive;
+    contract.lineChartModel.values = List<FlSpot>.empty(growable: true);
 
     // To Prevent Null Of Line Chart
     if (contract.lineChartData != null) {

@@ -13,7 +13,6 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-
   KeyPairData _currentAcc;
   final TextEditingController _pinController = TextEditingController();
   final TextEditingController _oldPinController = TextEditingController();
@@ -69,13 +68,17 @@ class _AccountState extends State<Account> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           // title: const Align(
           //   child: Text('Are you sure to delete your account'),
           // ),
           content: const Padding(
             padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: MyText(text: 'Are you sure to delete your account?', width: 80,),
+            child: MyText(
+              text: 'Are you sure to delete your account?',
+              width: 80,
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -83,8 +86,11 @@ class _AccountState extends State<Account> {
               child: const MyText(text: 'Close', color: AppColors.blackColor),
             ),
             TextButton(
-              onPressed: _deleteAccount,
-              child: const MyText(text: 'Delete', color: AppColors.redColor),
+              onPressed: () async => await _deleteAccount(),
+              child: const MyText(
+                  text: 'Delete',
+                  color: AppColors.redColor,
+                  fontWeight: FontWeight.w700),
             ),
             // action
           ],
@@ -94,20 +100,25 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _deleteAccount() async {
+    dialogLoading(context);
     try {
       await ApiProvider.sdk.api.keyring.deleteAccount(
         ApiProvider.keyring,
         _currentAcc,
       );
-      Navigator.pop(context);
-      AppServices.clearStorage();
-      StorageServices().clearSecure();
+
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
       //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      await Future.delayed(Duration(seconds: 2), () {});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
       Navigator.pushAndRemoveUntil(context,
           RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
+      // print(e.toString());
       // await dialog(context, e.toString(), 'Opps');
     }
   }
@@ -133,7 +144,7 @@ class _AccountState extends State<Account> {
                 child: Text(pairs['seed'].toString()),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),
@@ -142,7 +153,6 @@ class _AccountState extends State<Account> {
             );
           },
         );
-
       } else {
         //await dialog(context, 'Incorrect Pin', 'Backup Key');
       }
@@ -174,7 +184,7 @@ class _AccountState extends State<Account> {
               child: Text('You pin has changed!!'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -258,174 +268,178 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contract = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: _loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Column(
-          children: [
-
-            MyAppBar(
-              title: "Account",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
-                    : hexaCodeToColor(AppColors.whiteHexaColor),
-                  boxShadow: [
-                    shadow(context)
-                  ]
-                ),
-                child: Column(
-                  children: [
-                    Container(
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                children: [
+                  MyAppBar(
+                    title: "Account",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 25,
-                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
-                      ),
+                          borderRadius: BorderRadius.circular(5),
+                          color: isDarkTheme
+                              ? hexaCodeToColor(AppColors.darkCard)
+                              : hexaCodeToColor(AppColors.whiteHexaColor),
+                          boxShadow: [shadow(context)]),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
-                          Row(
-                            children: [
-                              Consumer<ApiProvider>(
-                                builder: (context, value, child) {
-                                  return Container(
-                                    alignment: Alignment.centerLeft,
-                                    margin: const EdgeInsets.only(
-                                      right: 16,
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 25,
+                              bottom: 25,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: isDarkTheme
+                                  ? hexaCodeToColor(AppColors.darkCard)
+                                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Consumer<ApiProvider>(
+                                      builder: (context, value, child) {
+                                        return Container(
+                                          alignment: Alignment.centerLeft,
+                                          margin: const EdgeInsets.only(
+                                            right: 16,
+                                          ),
+                                          width: 70,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: SvgPicture.string(
+                                            value.accountM.addressIcon,
+                                          ),
+                                        );
+                                      },
                                     ),
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(5),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        MyText(
+                                          text: _currentAcc.name,
+                                          color: isDarkTheme
+                                              ? AppColors.whiteColorHexa
+                                              : AppColors.textColor,
+                                          fontSize: 20,
+                                        ),
+                                      ],
                                     ),
-                                    child: SvgPicture.string(
-                                      value.accountM.addressIcon,
+                                    Expanded(
+                                      child: Container(),
                                     ),
-                                  );
-                                },
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              AccountC().showBackup(
+                                context,
+                                _backupKey,
+                                _pinController,
+                                _pinNode,
+                                onChangedBackup,
+                                onSubmit,
+                                submitBackUpKey,
+                              );
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(right: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: [
-                                  MyText(
-                                    text: _currentAcc.name,
-                                    color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-                                    fontSize: 20,
-                                  ),
-                                ],
+                              height: 70,
+                              child: MyText(
+                                text: 'Backup Key',
+                                color: isDarkTheme
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Expanded(
-                                child: Container(),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              AccountC().showChangePin(
+                                context,
+                                _changePinKey,
+                                _oldPinController,
+                                _newPinController,
+                                _oldNode,
+                                _newNode,
+                                onChangedChangePin,
+                                onSubmitChangePin,
+                                submitChangePin,
+                              );
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(right: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            ],
+                              height: 70,
+                              child: MyText(
+                                text: 'Change Pin',
+                                color: isDarkTheme
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () async {
+                              // await contract.unsubscribeNetwork();
+                              await deleteAccout();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(right: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              height: 70,
+                              child: const MyText(
+                                text: 'Delete Account',
+                                color: "#FF0000",
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        AccountC().showBackup(
-                          context,
-                          _backupKey,
-                          _pinController,
-                          _pinNode,
-                          onChangedBackup,
-                          onSubmit,
-                          submitBackUpKey,
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        height: 70,
-                        child:  MyText(
-                          text: 'Backup Key',
-                          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {
-                        AccountC().showChangePin(
-                          context,
-                          _changePinKey,
-                          _oldPinController,
-                          _newPinController,
-                          _oldNode,
-                          _newNode,
-                          onChangedChangePin,
-                          onSubmitChangePin,
-                          submitChangePin,
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        height: 70,
-                        child: MyText(
-                          text: 'Change Pin',
-                          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: deleteAccout,
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        height: 70,
-                        child: const MyText(
-                          text: 'Delete Account',
-                          color: "#FF0000",
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

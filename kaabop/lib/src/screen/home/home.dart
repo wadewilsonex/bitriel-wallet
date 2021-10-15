@@ -29,13 +29,66 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   void initState() {
     // _deleteAccount();
     super.initState();
-    Timer(const Duration(seconds: 2), () {
-      PortfolioServices().setPortfolio(context);
-    });
+    // Timer(const Duration(seconds: 2), () {
+    //   PortfolioServices().setPortfolio(context);
+    // });
+    if (mounted){
+      marketInitializer();
+    }
 
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    });
+  }
+
+  void deleteAcc() async {
+      // await Provider.of<ContractProvider>(context, listen: false).unsubscribeNetwork();
+
+      await ApiProvider.sdk.api.keyring.deleteAccount(
+        ApiProvider.keyring,
+        ApiProvider.keyring.keyPairs[0],
+      );
+
+      await AppServices.clearStorage();
+      await StorageServices().clearSecure();
+      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      await Future.delayed(Duration(seconds: 2), (){});
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+      
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+  }
+
+  void marketInitializer() async {
+
+    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+
+    // print(apiProvider.)
+    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+    // Provider.of<ContractProvider>(context).addApiProviderProperty(apiProvider);
+
+    // Sort After MarketPrice Filled Into Asset
+    // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+    // Ready To Display Asset Portfolio
+    // Provider.of<ContractProvider>(context, listen: false).setReady();
+
+    /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
+    await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
+    await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+
+    // setState(() {
+      
+    // });
+
   }
 
   Future<void> _deleteAccount() async {
@@ -121,16 +174,10 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
-    });
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // }
 
   void save() async {
     var list = jsonEncode(ContractProvider().listContract);
@@ -230,7 +277,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return Scaffold(
       key: _homeM.globalKey,
       drawer: Theme(
@@ -262,8 +308,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
         height: 65,
         child: FloatingActionButton(
           elevation: 0,
-          backgroundColor:
-              hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+          backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
               context,

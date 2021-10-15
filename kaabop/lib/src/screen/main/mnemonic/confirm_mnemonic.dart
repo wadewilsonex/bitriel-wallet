@@ -156,7 +156,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                       color: isDarkTheme
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
-                      bottom: 12,
+                      bottom: 12, 
                     ),
                   ),
 
@@ -177,6 +177,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                       child: MyText(
                         text: AppString.reset,
                         bottom: 16,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.secondarytext,
                       ),
                     ),

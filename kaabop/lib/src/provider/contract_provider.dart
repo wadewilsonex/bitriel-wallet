@@ -15,6 +15,7 @@ import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
+
   Client _httpClient;
   Web3Client _bscClient, _etherClient;
 
@@ -103,8 +104,10 @@ class ContractProvider with ChangeNotifier {
   ContractService get getKgo => _kgo;
   ContractService get getSwap => _swap;
 
-  NativeService get bnb => _bnb;
-  NativeService get eth => _eth;
+  NativeService get getBnb => _bnb;
+  NativeService get getEth => _eth;
+
+  get bscClient => _bscClient;
 
   EthereumAddress getEthAddr(String address) =>
       EthereumAddress.fromHex(address);
@@ -436,6 +439,16 @@ class ContractProvider with ChangeNotifier {
     final String abiCode = await rootBundle.loadString('assets/abi/swap.json');
     final contract = DeployedContract(
       ContractAbi.fromJson(abiCode, 'Swap'),
+      EthereumAddress.fromHex(contractAddr),
+    );
+
+    return contract;
+  }
+
+  Future<DeployedContract> initBsc(String contractAddr) async {
+    final String abiCode = await rootBundle.loadString('assets/abi/abi.json');
+    final contract = DeployedContract(
+      ContractAbi.fromJson(abiCode, 'BEP-20'),
       EthereumAddress.fromHex(contractAddr),
     );
 

@@ -74,8 +74,6 @@ class WalletProvider with ChangeNotifier {
       });
     }
 
-    print('finish fill');
-
     notifyListeners();
     return null;
   }
@@ -120,7 +118,6 @@ class WalletProvider with ChangeNotifier {
   void clearPortfolio() {
     availableToken.clear();
     _portfolioM.clear();
-    availableToken.clear();
     dataMap.clear();
     notifyListeners();
   }
@@ -152,33 +149,14 @@ class WalletProvider with ChangeNotifier {
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
-        // print(availableToken[i]['symbol']);
-        // print(availableToken.length);
         temp = double.parse(availableToken[i]['balance']) / total;
-        // percen = temp * 100;
 
-        // print(percen);
-
-        // if (total == 0.0) {
         _portfolioM.add(
           PortfolioM(
               color: pieColorList[i],
               symbol: availableToken[i]['symbol'],
               percentage: percen.toStringAsFixed(2)),
         );
-        // } else {
-        //   percen = temp * 100;
-
-        //   _portfolioM.add(PortfolioM(
-        //     color: pieColorList[i],
-        //     symbol: availableToken[i]['symbol'],
-        //     percentage: percen.toStringAsFixed(2),
-        //   ));
-
-        //   dataMap.addAll({
-        //     availableToken[i]['symbol']: double.parse(percen.toStringAsFixed(4))
-        //   });
-        // }
       }
     });
 

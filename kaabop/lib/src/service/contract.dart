@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/models/IContract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractService implements IContractService {
+  
   final Web3Client _client;
   final DeployedContract _contract;
 

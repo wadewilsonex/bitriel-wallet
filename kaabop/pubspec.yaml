@@ -103,8 +103,6 @@ dependencies:
   #Contact
   contacts_service: ^0.4.6 
   fluttercontactpicker: 
-
-
   
   #animation
   flare_flutter:
@@ -154,6 +152,7 @@ flutter:
     - assets/
     - assets/abi/
     - assets/icons/
+    - assets/token_logo/
   
 
     # Animation Flare

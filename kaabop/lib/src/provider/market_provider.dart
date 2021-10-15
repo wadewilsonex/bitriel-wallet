@@ -29,8 +29,7 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<List<double>>> fetchLineChartData(String id) async {
     List<List<double>> prices;
-    final res = await http.get(Uri.parse(
-        'https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
+    final res = await http.get(Uri.parse( 'https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
 
     if (res.statusCode == 200) {
       final data = await jsonDecode(res.body);
@@ -50,18 +49,14 @@ class MarketProvider with ChangeNotifier {
     switch (asset) {
       case 'KGO':
         marketPrice = contract.listContract[2].marketPrice;
-        print(contract.listContract[2].marketPrice);
         break;
       case 'BTC':
-        print(api.btc.marketPrice);
         marketPrice = api.btc.marketPrice;
         break;
       case 'ETH':
-        print(contract.listContract[3].marketPrice);
         marketPrice = contract.listContract[3].marketPrice;
         break;
       case 'BNB':
-        print(contract.listContract[4].marketPrice);
         marketPrice = contract.listContract[4].marketPrice;
         break;
     }
@@ -69,6 +64,7 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     sortDataMarket.clear();
@@ -140,7 +136,6 @@ class MarketProvider with ChangeNotifier {
           }
         }
       } catch (e) {
-        // contract.setReady();
       }
     }
 

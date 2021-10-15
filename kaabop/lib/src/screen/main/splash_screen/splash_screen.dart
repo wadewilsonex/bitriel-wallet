@@ -2,6 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -11,57 +12,63 @@ class MySplashScreen extends StatefulWidget {
   }
 }
 
-class MySplashScreenState extends State<MySplashScreen>
-    with SingleTickerProviderStateMixin {
+class MySplashScreenState extends State<MySplashScreen> with SingleTickerProviderStateMixin {
+
   AnimationController controller;
   Animation<double> animation;
 
   Future<void> getCurrentAccount() async {
-    await Future.delayed(const Duration(milliseconds: 2000), () async {
-      final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
+    try {
 
-      print('list length ${ls.length}');
+      await Future.delayed(const Duration(milliseconds: 1000), () async {
+        final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
-      if (ls.isEmpty) {
-        Navigator.pushReplacement(
-            context, RouteAnimation(enterPage: Welcome()));
-      } else {
-        final ethAddr = await StorageServices().readSecure('etherAdd');
+        print(ls.length);
 
-        if (ethAddr == null) {
-          await dialogSuccess(
-            context,
-            const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Text(
-                  'Please reimport your seed phrases to add support to new update.',
-                  textAlign: TextAlign.center,
-                )),
-            const Text('New Update!'),
-            action: TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  RouteAnimation(
-                    enterPage: const ImportAcc(
-                      reimport: 'reimport',
-                    ),
-                  ),
-                );
-              },
-              child: const MyText(
-                  text: 'Continue', color: AppColors.secondarytext),
-            ),
-          );
+        if (ls.isEmpty) {
+          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
         } else {
-          checkBio();
-          // checkBio();
+
+          final ethAddr = await StorageServices().readSecure('etherAdd');
+
+          if (ethAddr == null) {
+            await dialogSuccess(
+              context,
+              const Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Text(
+                    'Please reimport your seed phrases to add support to new update.',
+                    textAlign: TextAlign.center,
+                  )),
+              const Text('New Update!'),
+              action: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    RouteAnimation(
+                      enterPage: const ImportAcc(
+                        reimport: 'reimport',
+                      ),
+                    ),
+                  );
+                },
+                child: const MyText(
+                    text: 'Continue', color: AppColors.secondarytext),
+              ),
+            );
+          } else {
+            await checkBio();
+            // checkBio();
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      print("Splash screen $e");
+    }
   }
 
   Future<void> checkBio() async {
+
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure('passcode');
@@ -91,6 +98,7 @@ class MySplashScreenState extends State<MySplashScreen>
           ),
         );
       } else {
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
         Navigator.pushReplacementNamed(context, Home.route);
       }
     }
@@ -106,6 +114,7 @@ class MySplashScreenState extends State<MySplashScreen>
           ),
         );
       } else {
+        print("Check BiO");
         Navigator.pushReplacementNamed(context, Home.route);
       }
     });

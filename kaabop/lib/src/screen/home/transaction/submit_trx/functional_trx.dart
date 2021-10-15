@@ -104,33 +104,35 @@ class TrxFunctional {
   /* ------------------Transaction--------------- */
 
   Future<void> sendTxBnb(String reciever, String amount) async {
-    if (privateKey != null) {
-      final txinfo = TransactionInfo(
-          privateKey: privateKey,
-          receiver: contract.getEthAddr(reciever),
-          amount: amount);
+    try{
+      if (privateKey != null) {
+        final txinfo = TransactionInfo(
+            privateKey: privateKey,
+            receiver: contract.getEthAddr(reciever),
+            amount: amount);
 
-      final hash = await contract.bnb.sendTx(txInfo);
+        final hash = await contract.getBnb.sendTx(txInfo);
 
-      // final hash = await contract.sendTxBnb(privateKey, reciever, amount);
+        // final hash = await contract.sendTxBnb(privateKey, reciever, amount);
 
-      if (hash != null) {
-        print('hash $hash');
-        // final status = await contract.bnb.listenTransfer(hash);
-        // if (!status) {
-        //   Navigator.pop(context);
-        //   await customDialog('Transaction failed',
-        //       'Something went wrong with your transaction.');
-        // } else {
-        //   enableAnimation();
-        // }
-      } else {
-        throw hash;
+        if (hash != null) {
+          print('hash $hash');
+          // final status = await contract.bnb.listenTransfer(hash);
+          // if (!status) {
+          //   Navigator.pop(context);
+          //   await customDialog('Transaction failed',
+          //       'Something went wrong with your transaction.');
+          // } else {
+          //   enableAnimation();
+          // }
+        } else {
+          // Close Dialog
+          Navigator.pop(context);
+          await customDialog("Oops", "The PIN you entered is incorrect");
+        }
       }
-    } else {
-      // Close Dialog
-      Navigator.pop(context);
-      await customDialog("Oops", "The PIN you entered is incorrect");
+    } catch (e) {
+      print("sendTxBnb $e");
     }
   }
 
@@ -159,9 +161,9 @@ class TrxFunctional {
             privateKey: privateKey,
             receiver: contract.getEthAddr(reciever),
             amount: amount);
-        final hash = await contract.eth.sendTx(txInfo);
+        final hash = await contract.getEth.sendTx(txInfo);
         if (hash != null) {
-          final status = await contract.eth.listenTransfer(hash);
+          final status = await contract.getEth.listenTransfer(hash);
 
           if (!status) {
             Navigator.pop(context);
@@ -423,7 +425,7 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          final status = await contract.eth.listenTransfer(hash);
+          final status = await contract.getEth.listenTransfer(hash);
 
           if (!status) {
             Navigator.pop(context);
@@ -521,7 +523,6 @@ class TrxFunctional {
           pin,
           onStatusChange: (status) async {});
 
-      print('myhash: $hash');
       if (hash != null) {
         // await saveTxHistory(TxHistory(
         //   date: DateFormat.yMEd().add_jms().format(DateTime.now()).toString(),
@@ -588,8 +589,6 @@ class TrxFunctional {
           print('not enough');
           _enough = false;
         }
-
-        //if(api.selNative.balance < _scanPayM.controlAmount.text)
         break;
       case "DOT":
         print(api.dot.balance);

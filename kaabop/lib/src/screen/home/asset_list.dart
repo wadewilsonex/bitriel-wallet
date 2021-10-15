@@ -140,6 +140,7 @@ class AssetList extends StatelessWidget {
       }
     }
   }
+  // int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -194,10 +195,13 @@ class AssetList extends StatelessWidget {
                     value.sortListContract[index].org,
                     value.sortListContract[index].balance ?? AppString.loadingPattern,
                     Colors.transparent,
-                    marketPrice: value.sortListContract[index].marketPrice ?? '',
-                    priceChange24h: value.sortListContract[index].change24h,
-                    lineChartData: value.sortListContract[index].lineChartData ?? [],
-                    lineChartModel: value.sortListContract[index].lineChartModel ?? LineChartModel(),
+                    name: value.sortListContract[index].name,
+                    marketPrice: value.sortListContract[index].marketPrice,
+                    priceChange24h:
+                        value.sortListContract[index].change24h ?? '',
+                    lineChartData: value.sortListContract[index].lineChartData,
+                    lineChartModel:
+                        value.sortListContract[index].lineChartModel,
                   ),
                 )
             ]);
@@ -243,6 +247,7 @@ class AssetList extends StatelessWidget {
                           child: AssetItem(
                             'assets/circle.png',
                             value.token[index].symbol ?? '',
+                            // value.token[index].symbol,
                             value.token[index].org ?? '',
                             value.token[index].balance ??
                                 AppString.loadingPattern,

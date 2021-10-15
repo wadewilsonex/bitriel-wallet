@@ -454,6 +454,18 @@ class _AssetInfoState extends State<AssetInfo> {
                                 ),
                               ],
                             ),
+
+                          MyText(
+                            text:
+                                '${widget.balance}${' ${widget.tokenSymbol}'}',
+                            //AppColors.secondarytext,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: isDarkTheme
+                                ? AppColors.whiteColorHexa
+                                : AppColors.textColor,
+                          ),
                           Container(
                             margin: const EdgeInsets.only(top: 40),
                             padding: widget.tokenSymbol == 'ATD'
@@ -469,8 +481,8 @@ class _AssetInfoState extends State<AssetInfo> {
                                         width: 150,
                                         // ignore: deprecated_member_use
                                         child: FlatButton(
-                                          onPressed: () {
-                                            MyBottomSheet().trxOptions(
+                                          onPressed: () async {
+                                            await MyBottomSheet().trxOptions(
                                               context: context,
                                             );
                                           },

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
+import 'package:web3dart/credentials.dart';
 
 class ImportUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -19,6 +20,7 @@ class ImportUserInfo extends StatefulWidget {
 }
 
 class ImportUserInfoState extends State<ImportUserInfo> {
+
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
   LocalAuthentication _localAuth = LocalAuthentication();
@@ -42,7 +44,12 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
+
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
     try {
+      
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
@@ -59,51 +66,41 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       if (acc != null) {
-        addBtcWallet();
-
+        
+        await addBtcWallet();
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
-
         if (resPk != null) {
+
           await ContractProvider().extractAddress(resPk);
 
-          final res = await ApiProvider.keyring.store
-              .encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+          final res = await ApiProvider.keyring.store.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
 
           if (res != null) {
             await StorageServices().writeSecure('private', res);
           }
         }
+        // await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getEtherAddr();
-        final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+        // await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+        // await isKgoContain();
+        // await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+        // await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-        final contract = Provider.of<ContractProvider>(context, listen: false);
+        // // This Method Is Also Request Dot Contract
+        // await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
-        await contract.kgoTokenWallet();
-        await contract.selTokenWallet();
-        await contract.selv2TokenWallet();
-        await contract.bnbWallet();
-        // await contract.ethWallet();
-
-        // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-
-        contract.addApiProviderProperty(apiProvider);
-
-        Provider.of<MarketProvider>(context, listen: false)
-            .fetchTokenMarketPrice(context);
-        Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        
+        // // Sort Contract Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-        // // // // Ready To Display Asset Portfolio
+        
+        // // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
-
-        // // print("getChainDecimal");
-
-        // Navigator.pop(context);
-
-        await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+        
+        // print("getChainDecimal");
+        // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         await successDialog(context, "imported your account.");
       }
@@ -115,11 +112,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
-              child: Text('Message'),
+              child: Text('Oops'),
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.message.toString()),
+              child: Text(e.toString()),
             ),
             actions: <Widget>[
               TextButton(
@@ -132,6 +129,55 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> getSavedContractToken() async {
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final res = await StorageServices.fetchData('contractList');
+    print("getSavedContractToken $res");
+
+    if (res != null) {
+      for (final i in res) {
+        final symbol = await contractProvider.query(i.toString(), 'symbol', []);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
+
+        contractProvider.addContractToken(TokenModel(
+          contractAddr: i.toString(),
+          decimal: decimal[0].toString(),
+          symbol: symbol[0].toString(),
+          balance: balance[0].toString(),
+          org: 'BEP-20',
+        ));
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
+      }
+    }
+  }
+
+  Future<void> getEtherSavedContractToken() async {
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final res = await StorageServices.fetchData('ethContractList');
+
+    if (res != null) {
+      for (final i in res) {
+        final symbol =
+            await contractProvider.queryEther(i.toString(), 'symbol', []);
+        final decimal =
+            await contractProvider.queryEther(i.toString(), 'decimals', []);
+        final balance = await contractProvider.queryEther(i.toString(),
+            'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+
+        contractProvider.addContractToken(TokenModel(
+          contractAddr: i.toString(),
+          decimal: decimal[0].toString(),
+          symbol: symbol[0].toString(),
+          balance: balance[0].toString(),
+          org: 'ERC-20',
+        ));
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol('${symbol[0]} (ERC-20)');
+      }
     }
   }
 
@@ -154,21 +200,12 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       await StorageServices().writeSecure('btcwif', res);
     }
 
-    Provider.of<ApiProvider>(context, listen: false)
-        .getBtcBalance(hdWallet.address);
     Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+    await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address);
   }
-
-  // Future<void> isKgoContain() async {
-  //   Provider.of<ContractProvider>(context, listen: false)
-  //       .getKgoDecimal()
-  //       .then((value) {
-  //     Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-  //   });
-  // }
 
   // ignore: avoid_void_async
   void switchBiometric(bool switchValue) async {
@@ -318,7 +355,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   // Submit Profile User
   Future<void> submitProfile() async {
     // Show Loading Process
-    dialogLoading(context);
+    dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
     await _importFromMnemonic();
   }

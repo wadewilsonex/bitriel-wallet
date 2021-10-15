@@ -4,10 +4,8 @@ import 'package:wallet_apps/index.dart';
 class MyBottomSheet {
   dynamic response;
 
-  Future<dynamic> trxOptions(
-      {BuildContext context, List portfolioList, String asset}) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+  Future<dynamic> trxOptions({BuildContext context, List portfolioList, String asset}) {
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -15,8 +13,8 @@ class MyBottomSheet {
         return Container(
           decoration: BoxDecoration(
             color: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkBgd)
-                : hexaCodeToColor(AppColors.bgdColor),
+              ? hexaCodeToColor(AppColors.darkBgd)
+              : hexaCodeToColor(AppColors.bgdColor),
           ),
           height: 153,
           child: Column(
@@ -24,8 +22,8 @@ class MyBottomSheet {
               Align(
                 child: MyText(
                   color: isDarkTheme
-                      ? AppColors.whiteColorHexa
-                      : AppColors.textColor,
+                    ? AppColors.whiteColorHexa
+                    : AppColors.textColor,
                   top: 20,
                   bottom: 33,
                   text: "Transaction options",
@@ -39,15 +37,16 @@ class MyBottomSheet {
                       subTitle: "Scan wallet",
                       icon: "icons/qr_code.svg",
                       action: () async {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         try {
                           await TrxOptionMethod.scanQR(
                             context,
                             portfolioList,
                           );
                         } catch (e) {
-                          //  print(e.message);
+                          // print(e);
                         }
+                        
                       },
                     ),
                   ),

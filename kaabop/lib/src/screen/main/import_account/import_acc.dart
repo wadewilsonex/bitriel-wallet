@@ -12,7 +12,7 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
-
+  
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -55,8 +55,9 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> onSubmit() async => submit();
 
+  // Submit Mnemonic
   Future<void> submit() async {
-    validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
+    await validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
       if (value) {
         Navigator.push(
           context,
@@ -190,7 +191,7 @@ class ImportAccState extends State<ImportAcc> {
   Future<void> isDotContain() async {
     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
     // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-    Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+    await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
   }
 
   // Future<void> isBnbContain() async {
@@ -218,26 +219,26 @@ class ImportAccState extends State<ImportAcc> {
   // }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring
-        .checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: globalKey,
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: ImportAccBody(
-            reImport: widget.reimport,
-            importAccModel: _importAccModel,
-            onChanged: widget.reimport != null ? null : onChanged,
-            onSubmit: widget.reimport != null ? onSubmitIm : submit,
-            clearInput: clearInput,
-            enable: enable,
-            submit: widget.reimport != null ? onSubmitIm : submit,
-          ),
-        ));
+      key: globalKey,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: ImportAccBody(
+          reImport: widget.reimport,
+          importAccModel: _importAccModel,
+          onChanged: widget.reimport != null ? null : onChanged,
+          onSubmit: widget.reimport != null ? onSubmitIm : submit,
+          clearInput: clearInput,
+          enable: enable,
+          submit: widget.reimport != null ? onSubmitIm : submit,
+        ),
+      )
+    );
   }
 }

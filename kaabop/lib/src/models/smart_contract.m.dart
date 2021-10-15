@@ -4,10 +4,12 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import '../../index.dart';
 
 class SmartContractModel {
+
   String id;
   String address;
   String chainDecimal;
   String symbol;
+  String name;
   String balance;
   String logo;
   String type;
@@ -18,7 +20,6 @@ class SmartContractModel {
   bool isContain;
   List<TransactionInfo> listActivity = [];
   List<List<double>> lineChartData = [];
-
   LineChartModel lineChartModel;
 
   SmartContractModel({
@@ -26,10 +27,11 @@ class SmartContractModel {
     this.address,
     this.chainDecimal,
     this.symbol,
-    this.balance = '0',
+    this.name,
+    this.balance = '0.0',
     this.logo,
     this.type,
-    this.org,
+    this.org = '',
     this.marketData,
     this.marketPrice,
     this.change24h,
