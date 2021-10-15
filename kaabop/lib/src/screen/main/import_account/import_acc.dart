@@ -2,7 +2,6 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class ImportAcc extends StatefulWidget {
-
   final String reimport;
   const ImportAcc({this.reimport});
 
@@ -13,7 +12,6 @@ class ImportAcc extends StatefulWidget {
 }
 
 class ImportAccState extends State<ImportAcc> {
-  
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
@@ -57,7 +55,8 @@ class ImportAccState extends State<ImportAcc> {
 
   // Submit Mnemonic
   Future<void> submit() async {
-    await validateMnemonic(_importAccModel.mnemonicCon.text).then((value) async {
+    await validateMnemonic(_importAccModel.mnemonicCon.text)
+        .then((value) async {
       if (value) {
         Navigator.push(
           context,
@@ -79,7 +78,8 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> reImport() async {
     dialogLoading(context);
-    final isValidSeed = await validateMnemonic(_importAccModel.mnemonicCon.text);
+    final isValidSeed =
+        await validateMnemonic(_importAccModel.mnemonicCon.text);
     final isValidPw = await checkPassword(_importAccModel.pwCon.text);
 
     if (isValidSeed == false) {
@@ -87,7 +87,8 @@ class ImportAccState extends State<ImportAcc> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Opps'),
             ),
@@ -156,7 +157,7 @@ class ImportAccState extends State<ImportAcc> {
       Provider.of<ApiProvider>(context, listen: false).connectPolNon();
       Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
       Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-      Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+      // Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
       selV2();
 
@@ -192,41 +193,46 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> isBscContain() async {
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('SEL (BEP-20)');
+    Provider.of<WalletProvider>(context, listen: false)
+        .addTokenSymbol('SEL (BEP-20)');
     await Provider.of<ContractProvider>(context, listen: false).getSymbol();
-    await Provider.of<ContractProvider>(context, listen: false).getBscDecimal(0).then((value) async {
-      await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
+    await Provider.of<ContractProvider>(context, listen: false)
+        .getBscDecimal(0)
+        .then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false)
+          .getBscBalance();
     });
   }
 
   void selV2() async {
-    await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    await Provider.of<ContractProvider>(context, listen: false)
+        .getBscV2Balance();
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
       'SEL v2 (BEP-20)',
     );
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring
+        .checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: globalKey,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: ImportAccBody(
-          reImport: widget.reimport,
-          importAccModel: _importAccModel,
-          onChanged: widget.reimport != null ? null : onChanged,
-          onSubmit: widget.reimport != null ? onSubmitIm : submit,
-          clearInput: clearInput,
-          enable: enable,
-          submit: widget.reimport != null ? onSubmitIm : submit,
-        ),
-      )
-    );
+        key: globalKey,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          child: ImportAccBody(
+            reImport: widget.reimport,
+            importAccModel: _importAccModel,
+            onChanged: widget.reimport != null ? null : onChanged,
+            onSubmit: widget.reimport != null ? onSubmitIm : submit,
+            clearInput: clearInput,
+            enable: enable,
+            submit: widget.reimport != null ? onSubmitIm : submit,
+          ),
+        ));
   }
 }
