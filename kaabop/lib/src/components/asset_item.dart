@@ -194,7 +194,7 @@ class AssetItem extends StatelessWidget {
                 padding: EdgeInsets.only(left: 15, right: 15),
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.16,
-                child: lineChartData == null || lineChartModel.leftTitlesInterval == 0
+                child: lineChartData == null || lineChartModel == 0
                   ? LineChart(avgData(context))
                   : LineChart(mainData(context)
                 ),

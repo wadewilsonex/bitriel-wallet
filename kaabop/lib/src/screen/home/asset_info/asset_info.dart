@@ -376,7 +376,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
               // Under Line of AppBar
               SliverList(
-                  delegate: SliverChildListDelegate([
+                delegate: SliverChildListDelegate([
                 Divider(
                     height: 3,
                     color: isDarkTheme

@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
+  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -62,10 +63,14 @@ class ApiProvider with ChangeNotifier {
     try {
       await keyring.init();
       print("Finish keyring init");
+      print("After init keyring.store.list ${keyring.store.list}");
       keyring.setSS58(42);
-      print("Finish setSS58");
+      print("Finish setSS58 account ${keyring.allAccounts}");
+      print("After setSS58 account ${await keyring.ss58}");
+
+      // print("Before sdk ${await sdk.api.keyring ?? ''}");
       await sdk.init(keyring);
-      print("Finish sdk");
+      print("Finish sdk ${await sdk.api.keyring}");
     } catch (e) {
       print("Error initApi $e");
     }
@@ -93,7 +98,7 @@ class ApiProvider with ChangeNotifier {
   Future<NetworkParams> connectPolNon() async {
     final node = NetworkParams();
     node.name = 'Polkadot(Live, hosted by PatractLabs)';
-    node.endpoint = AppConfig.networkList[1].wsUrlTN;
+    node.endpoint = AppConfig.networkList[1].wsUrlMN;
     node.ss58 = 0;
 
     // final node1 = NetworkParams();
@@ -290,8 +295,8 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  void setBtcMarket(Market marketData, List<List<double>> lineChartData,
-      String currentPrice, String priceChange24h) {
+  void setBtcMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h) {
+
     btc.marketData = marketData;
     btc.marketPrice = currentPrice;
     btc.change24h = priceChange24h;

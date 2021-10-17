@@ -118,6 +118,8 @@ class ContractProvider with ChangeNotifier {
 
   Future<bool> setSavedList() async {
 
+    // await StorageServices.removeKey("assetData");
+
     try {
 
       final saved = await StorageServices.fetchAsset('assetData');
@@ -1071,8 +1073,7 @@ class ContractProvider with ChangeNotifier {
     return item.contractAddr;
   }
 
-  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart,
-      String currentPrice, String priceChange24h) {
+  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
     print('kgo all time high ${kgoMarket.ath}');
     listContract[2].marketData = kgoMarket;
     listContract[2].lineChartData = lineChart;

@@ -530,7 +530,7 @@ class _PresaleState extends State<Presale> {
 
   void initMethod() async {
     final contract = Provider.of<ContractProvider>(context, listen: false);
-    // await contract.getBnbBalance();
+    // await contract.getBnbBalances();
 
     _model.balance = double.parse(contract.listContract[4].balance);
     _model.listSupportToken =

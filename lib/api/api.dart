@@ -23,6 +23,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 /// * [ApiUOS], provides the offline-signature ability of polkawallet.
 /// * [ApiRecovery], the social-recovery module of Kusama network.
 class KabobApi {
+
   KabobApi(this.service);
 
   final SubstrateService service;
@@ -56,8 +57,7 @@ class KabobApi {
   NetworkParams get connectedNode => _connectedNode;
 
   /// connect to a list of nodes, return null if connect failed.
-  Future<NetworkParams> connectNode(
-      Keyring keyringStorage, List<NetworkParams> nodes) async {
+  Future<NetworkParams> connectNode(Keyring keyringStorage, List<NetworkParams> nodes) async {
     _connectedNode = null;
     final NetworkParams res = await service.webView.connectNode(nodes);
     // print('api');
@@ -65,13 +65,13 @@ class KabobApi {
       _connectedNode = res;
 
       // update indices of keyPairs after connect
-      keyring.updateIndicesMap(keyringStorage);
+      await keyring.updateIndicesMap(keyringStorage);
     }
     return res;
   }
 
-  Future<NetworkParams> connectNon(
-      Keyring keyringStorage, List<NetworkParams> nodes) async {
+  Future<NetworkParams> connectNon(Keyring keyringStorage, List<NetworkParams> nodes) async {
+    
     _connectedNode = null;
     final NetworkParams res = await service.webView.connectNon(nodes);
 
@@ -79,7 +79,7 @@ class KabobApi {
       _connectedNode = res;
 
       // update indices of keyPairs after connect
-      keyring.updateIndicesMap(keyringStorage);
+      await keyring.updateIndicesMap(keyringStorage);
     }
     return res;
   }

@@ -17,6 +17,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   AnimationController controller;
   Animation<double> animation;
 
+  // First Check
   Future<void> getCurrentAccount() async {
     try {
 
@@ -66,7 +67,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       print("Splash screen $e");
     }
   }
-
+  
   Future<void> checkBio() async {
 
     final bio = await StorageServices.readSaveBio();

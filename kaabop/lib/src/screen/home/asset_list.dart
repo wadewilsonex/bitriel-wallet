@@ -150,60 +150,58 @@ class AssetList extends StatelessWidget {
         Consumer<ContractProvider>(
           builder: (context, value, child) {
             return Column(children: [
-              for (int index = 0;
-                  index < value.sortListContract.length;
-                  index++)
-                  // Column(
-                  //   children: [
-                  //     Text(value.sortListContract[index].logo.toString()),
-                  //     Text(value.sortListContract[index].symbol.toString()),
-                  //     Text(value.sortListContract[index].org.toString()),
-                  //     Text(value.sortListContract[index].balance.toString()),
-                  //     Text(value.sortListContract[index].marketPrice.toString()),
-                  //     Text(value.sortListContract[index].lineChartModel.toString())
-                  //   ],
-                  // )
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      RouteAnimation(
-                        enterPage: AssetInfo(
-                          index: index,
-                          id: value.sortListContract[index].id,
-                          assetLogo: value.sortListContract[index].logo,
-                          balance: value.sortListContract[index].balance ??
-                              AppString.loadingPattern,
-                          tokenSymbol:
-                              value.sortListContract[index].symbol ?? '',
-                          org: value.sortListContract[index].org,
-                          marketData: value.sortListContract[index].marketData,
-                          marketPrice:
-                              value.sortListContract[index].marketPrice,
-                          transactionInfo: value
-                              .sortListContract[index].listActivity.reversed
-                              .toList(),
-                          priceChange24h:
-                              value.sortListContract[index].change24h,
-                        ),
-                      ),
-                    );
-                  },
-                  child: AssetItem(
-                    value.sortListContract[index].logo,
-                    value.sortListContract[index].symbol ?? '',
-                    value.sortListContract[index].org,
-                    value.sortListContract[index].balance ?? AppString.loadingPattern,
-                    Colors.transparent,
-                    name: value.sortListContract[index].name,
-                    marketPrice: value.sortListContract[index].marketPrice,
-                    priceChange24h:
-                        value.sortListContract[index].change24h ?? '',
-                    lineChartData: value.sortListContract[index].lineChartData,
-                    lineChartModel:
-                        value.sortListContract[index].lineChartModel,
-                  ),
-                )
+              for (int index = 0; index < value.sortListContract.length; index++)
+                  Column(
+                    children: [
+                      Text(value.sortListContract[index].logo.toString()),
+                      Text(value.sortListContract[index].symbol.toString()),
+                      Text(value.sortListContract[index].org.toString()),
+                      Text(value.sortListContract[index].balance.toString()),
+                      Text(value.sortListContract[index].marketPrice.toString()),
+                      Text(value.sortListContract[index].lineChartModel.toString())
+                    ],
+                  )
+                // GestureDetec[tor(
+                //   onTap: () {
+                //     Navigator.push(
+                //       context,
+                //       RouteAnimation(
+                //         enterPage: AssetInfo(
+                //           index: index,
+                //           id: value.sortListContract[index].id,
+                //           assetLogo: value.sortListContract[index].logo,
+                //           balance: value.sortListContract[index].balance ??
+                //               AppString.loadingPattern,
+                //           tokenSymbol:
+                //               value.sortListContract[index].symbol ?? '',
+                //           org: value.sortListContract[index].org,
+                //           marketData: value.sortListContract[index].marketData,
+                //           marketPrice:
+                //               value.sortListContract[index].marketPrice,
+                //           transactionInfo: value
+                //               .sortListContract[index].listActivity.reversed
+                //               .toList(),
+                //           priceChange24h:
+                //               value.sortListContract[index].change24h,
+                //         ),
+                //       ),
+                //     );
+                //   },
+                //   child: AssetItem(
+                //     value.sortListContract[index].logo,
+                //     value.sortListContract[index].symbol ?? '',
+                //     value.sortListContract[index].org,
+                //     value.sortListContract[index].balance ?? AppString.loadingPattern,
+                //     Colors.transparent,
+                //     name: value.sortListContract[index].name,
+                //     marketPrice: value.sortListContract[index].marketPrice,
+                //     priceChange24h:
+                //         value.sortListContract[index].change24h ?? '',
+                //     lineChartData: value.sortListContract[index].lineChartData,
+                //     lineChartModel:
+                //         value.sortListContract[index].lineChartModel,
+                //   ),
+                // )
             ]);
           },
         ),

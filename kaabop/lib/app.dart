@@ -32,10 +32,9 @@ class AppState extends State<App> {
 
   Future<void> initApi() async {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // await apiProvider.connectNode();
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    await Provider.of<ApiProvider>(context, listen: false)
-        .initApi()
-        .then((value) async {
+    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
         
         await apiProvider.getAddressIcon();
@@ -56,11 +55,10 @@ class AppState extends State<App> {
           // await contractProvider.setupNetwork();
 
           // await apiProvider.connectPolNon();
-          // await apiProvider.connectNode();
 
           // await getSavedContractToken();
           // await getEtherSavedContractToken();
-          //await isKgoContain();`
+          // await isKgoContain();`
 
           await contractProvider.kgoTokenWallet();
           await contractProvider.selTokenWallet();
@@ -73,30 +71,30 @@ class AppState extends State<App> {
 
           await isBtcContain();
 
-          // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-          contractProvider.addApiProviderProperty(apiProvider);
+          // // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
+          // contractProvider.addApiProviderProperty(apiProvider);
 
-          // // // Sort After MarketPrice Filled Into Asset
-          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+          // // // // Sort After MarketPrice Filled Into Asset
+          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-          // // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
+          // // // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
           await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
           await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
 
           contractProvider.setReady();
 
-          // // print(contractProvider.listContract.length);
+          // // // print(contractProvider.listContract.length);
 
-          // // var list = json.encode(contractProvider.listContract.length);
+          // // // var list = json.encode(contractProvider.listContract.length);
 
-          // //  await StorageServices.removeKey('assetData');
+          // // //  await StorageServices.removeKey('assetData');
 
           // await StorageServices.setData(contractProvider.listContract, 'assetData');
           await StorageServices.assetData(context);
 
-          final res = await StorageServices.fetchData('assetData');
-          print('res $res');
+          // final res = await StorageServices.fetchData('assetData');
+          // print('res $res');
         });
       }
     });
