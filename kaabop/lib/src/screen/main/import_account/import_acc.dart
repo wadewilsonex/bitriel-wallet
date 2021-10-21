@@ -154,10 +154,10 @@ class ImportAccState extends State<ImportAcc> {
       }
 
       Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+
       Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
       Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-      // Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
+      Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
 
       selV2();
 
@@ -175,6 +175,7 @@ class ImportAccState extends State<ImportAcc> {
           child: const Text('Continue'),
         ),
       );
+      Provider.of<ApiProvider>(context, listen: false).connectPolNon();
     } else {
       Navigator.pop(context);
     }

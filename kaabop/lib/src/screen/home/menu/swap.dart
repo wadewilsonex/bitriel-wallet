@@ -104,34 +104,31 @@ class _SwapState extends State<Swap> {
 
   Future<void> approveAndSwap() async {
     try {
-
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
       await dialogBox().then((value) async {
-
         final res = await AppServices.getPrivateKey(value, context);
 
         if (res != null) {
-          
-          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+          dialogLoading(context,
+              content:
+                  "This processing may take a bit longer\nPlease wait a moment");
           final approveHash = await approve(res);
-
-          print('Approve: $approveHash');
 
           if (approveHash != null) {
             // await Future.delayed(Duration(seconds: 10));
-            final approveStatus = await contract.getPending(approveHash, nodeClient: contract.bscClient);
-            print(' approve stat: $approveStatus');
+            final approveStatus = await contract.getPending(approveHash,
+                nodeClient: contract.bscClient);
 
             if (approveStatus) {
               final resAllow = await ContractProvider().checkAllowance();
-              print(resAllow);
 
               if (resAllow.toString() != '0') {
                 final swapHash = await swap(res);
 
                 if (swapHash != null) {
-                  final isSuccess = await contract.getPending(swapHash, nodeClient: contract.bscClient);
+                  final isSuccess = await contract.getPending(swapHash,
+                      nodeClient: contract.bscClient);
 
                   if (isSuccess) {
                     Navigator.pop(context);
@@ -145,22 +142,24 @@ class _SwapState extends State<Swap> {
                     setState(() {});
                   } else {
                     Navigator.pop(context);
-                    await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+                    await customDialog('Transaction failed',
+                        'Something went wrong with your transaction.');
                   }
                 }
               } else {
                 Navigator.pop(context);
-                await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+                await customDialog('Transaction failed',
+                    'Something went wrong with your transaction.');
               }
             } else {
               Navigator.pop(context);
-              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
+              await customDialog('Transaction failed',
+                  'Something went wrong with your transaction.');
             }
           }
         }
       });
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   Future<void> swapWithoutAp() async {
@@ -174,7 +173,8 @@ class _SwapState extends State<Swap> {
           final hash = await contract.swap(_amountController.text, res);
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 7));
-            final res = await contract.getPending(hash, nodeClient: contract.bscClient);
+            final res =
+                await contract.getPending(hash, nodeClient: contract.bscClient);
 
             if (res != null) {
               if (res) {
@@ -224,7 +224,7 @@ class _SwapState extends State<Swap> {
       await approveAndSwap();
     } else {
       Navigator.pop(context);
-      print('swap without approve');
+
       await swapWithoutAp();
     }
   }
@@ -268,15 +268,14 @@ class _SwapState extends State<Swap> {
   /* Show Pin Code For Fill Out */
   Future<String> dialogBox() async {
     final String _result = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Colors.transparent,
-          child: FillPin(),
-        );
-      }
-    );
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: Colors.transparent,
+            child: FillPin(),
+          );
+        });
     return _result;
   }
 
@@ -285,7 +284,8 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
           ),
@@ -305,12 +305,14 @@ class _SwapState extends State<Swap> {
   }
 
   // After Swap
-  Future<void> successDialog(String operationText, String btnText, Function onPressed) async {
+  Future<void> successDialog(
+      String operationText, String btnText, Function onPressed) async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -580,7 +582,9 @@ class _SwapState extends State<Swap> {
                                               LengthLimitingTextInputFormatter(
                                                 TextField.noMaxLength,
                                               ),
-                                              FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+                                              FilteringTextInputFormatter(
+                                                  RegExp(r"^\d+\.?\d{0,8}"),
+                                                  allow: true)
                                             ],
                                             controller: _amountController,
                                             keyboardType: Platform.isAndroid

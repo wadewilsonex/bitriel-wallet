@@ -105,7 +105,6 @@ class PresaleProvider with ChangeNotifier {
 
       final orderToken = contract.function('orderToken');
 
-      print(amount * pow(10, 18));
       final order = await _contractP.bscClient.sendTransaction(
           credentials,
           Transaction.callContract(
@@ -268,13 +267,12 @@ class PresaleProvider with ChangeNotifier {
   /// Get Price For Minimum investment
   Future<dynamic> minInvestment() async {
     try {
-      print('min');
       _deployedContract = await initPresaleContract();
 
       final preFunction = _deployedContract.function('minInvestment');
       var res = await _contractP.bscClient
           .call(contract: _deployedContract, function: preFunction, params: []);
-      print("Res $res");
+
       return res;
     } catch (e) {
       // print("getPriceToken $e");

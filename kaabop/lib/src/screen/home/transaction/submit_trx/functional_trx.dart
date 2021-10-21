@@ -388,71 +388,55 @@ class TrxFunctional {
     final contract = Provider.of<ContractProvider>(context, listen: false);
     switch (asset) {
       case "SEL":
-        print(api.nativeM.balance);
         final withoutComma = api.nativeM.balance.replaceAll(RegExp(','), '');
         if (double.parse(withoutComma) < double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
         break;
       case "DOT":
-        print(api.dot.balance);
         final withoutComma = api.dot.balance.replaceAll(RegExp(','), '');
         if (double.parse(withoutComma) < double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "BTC":
-        print(api.btc.balance);
         if (double.parse(api.btc.balance) < double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "SEL (BEP-20)":
-        print(contract.listContract[0].balance);
         if (double.parse(contract.listContract[0].balance) <
             double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "SEL v2 (BEP-20)":
-        print(contract.listContract[1].balance);
         if (double.parse(contract.listContract[1].balance) <
             double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "KGO (BEP-20)":
-        print(contract.listContract[2].balance);
         if (double.parse(contract.listContract[2].balance) <
             double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "BNB":
-        print(contract.listContract[4].balance);
         if (double.parse(contract.listContract[4].balance) <
             double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
         break;
       case "ETH":
-        print(contract.listContract[3].balance);
         if (double.parse(contract.listContract[3].balance) <
             double.parse(amount)) {
-          print('not enough');
           _enough = false;
         }
 
@@ -463,19 +447,16 @@ class TrxFunctional {
           final contractAddr = ContractProvider().findContractAddr(asset);
           final balance = await ContractProvider()
               .queryEther(contractAddr, 'balanceOf', []);
-          print(balance.first);
+
           if (double.parse(balance.first) < double.parse(amount)) {
-            print('not enough');
             _enough = false;
           }
         } else {
           final contractAddr = ContractProvider().findContractAddr(asset);
           final balance =
               await ContractProvider().query(contractAddr, 'balanceOf', []);
-          print(balance);
 
           if (double.parse(balance.first) < double.parse(amount)) {
-            print('not enough');
             _enough = false;
           }
         }
@@ -487,7 +468,7 @@ class TrxFunctional {
 
   Future<bool> validateAddr(String asset, String address) async {
     bool _isValid = false;
-    print('va;idate address');
+
     switch (asset) {
       case "SEL":
         final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
@@ -519,13 +500,11 @@ class TrxFunctional {
         asset == 'KGO (BEP-20)' ||
         asset == 'BNB') {
       final res = await ContractProvider().getBscGasPrice();
-      print('Fee $res');
 
       _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
     } else if (asset == 'ETH') {
       final res = await ContractProvider().getEthGasPrice();
 
-      print('ethergasprice $res');
       _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
     } else if (asset == 'BTC') {
       _gasPrice = '88';
@@ -562,8 +541,6 @@ class TrxFunctional {
     }
 
     final estGasFeePrice = (gasFee / pow(10, 9)) * double.parse(marketPrice);
-
-    print('gasfeeprice: $estGasFeePrice');
 
     return estGasFeePrice;
   }
@@ -603,7 +580,7 @@ class TrxFunctional {
     if (marketPrice != null)
       estPrice =
           (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
-    print(marketPrice);
+
     return [estPrice, marketPrice ?? '0']; //res.toStringAsFixed(2);
   }
 

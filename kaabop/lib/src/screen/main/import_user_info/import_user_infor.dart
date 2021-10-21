@@ -88,9 +88,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         await Provider.of<ContractProvider>(context, listen: false)
             .getBnbBalance();
 
-        // This Method Is Also Request Dot Contract
-        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-
         await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         await Provider.of<ApiProvider>(context, listen: false)
             .getCurrentAccount();
@@ -106,6 +103,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         await successDialog(context, "imported your account.");
+        // This Method Is Also Request Dot Contract
+        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
       }
     } catch (e) {
       await showDialog(
@@ -139,7 +138,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     final contractProvider =
         Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
-    print("getSavedContractToken $res");
 
     if (res != null) {
       for (final i in res) {

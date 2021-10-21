@@ -45,19 +45,14 @@ class AppState extends State<App> {
 
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
-
+          await contractProvider.getKgoBalance();
           await contractProvider.getBscBalance();
           await contractProvider.getBscV2Balance();
           await isKgoContain();
-          // await contractProvider.getEtherBalance();
+          await contractProvider.getEtherBalance();
           await contractProvider.getBnbBalance();
 
-          // This Method Is Also Request Dot Contract
-          await apiProvider.connectPolNon();
-          print("connectPolNon");
           await isBtcContain();
-
-          print("Finish fetch");
 
           // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
           contractProvider.addApiProviderProperty(apiProvider);
@@ -69,6 +64,8 @@ class AppState extends State<App> {
           // Ready To Display Asset Portfolio
           Provider.of<ContractProvider>(context, listen: false).setReady();
         }
+        // This Method Is Also Request Dot Contract
+        await apiProvider.connectPolNon();
 
         await Provider.of<ApiProvider>(context, listen: false)
             .connectNode()

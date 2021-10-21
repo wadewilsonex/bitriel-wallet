@@ -432,8 +432,6 @@ class _PresaleState extends State<Presale> {
           //get user pKey
           final privateKey = await AppServices.getPrivateKey(res, context);
 
-          print('privateKey :$privateKey');
-
           if (privateKey != null &&
               privateKey !=
                   'Failed to get string encoded: \'Decrypt failure.\'.') {
@@ -471,8 +469,6 @@ class _PresaleState extends State<Presale> {
     final res = await presale.checkAllowance(
         _model.listSupportToken[_model.tokenIndex]['tokenAddress']);
 
-    print('allowance: $res');
-
     if (res.toString() == '0' ||
         res.toString() != '1000000000000000042420637374017961984') {
       await approveAndOrderToken(
@@ -481,8 +477,6 @@ class _PresaleState extends State<Presale> {
           double.parse(_model.amountController.text),
           _model.rate);
     } else {
-      print('Presale without approve');
-
       await orderToken(
           _model.listSupportToken[_model.tokenIndex]['tokenAddress'],
           pKey,
@@ -539,6 +533,7 @@ class _PresaleState extends State<Presale> {
     await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
     //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
+    if (!mounted) return;
 
     setState(() {});
   }
