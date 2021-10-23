@@ -7,7 +7,7 @@ class ThemeProvider with ChangeNotifier {
   void changeMode() async {
     isDark = !isDark;
 
-    if (isDark) await StorageServices.setData('dark', 'dark');
+    if (isDark) await StorageServices.storeData('dark', 'dark');
 
     if (!isDark) await StorageServices.removeKey('dark');
 

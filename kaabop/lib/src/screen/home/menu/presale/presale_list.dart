@@ -233,8 +233,6 @@ class PresaleList extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: value.presaleOrderInfo.length,
                           itemBuilder: (context, index) {
-                            print(
-                                'canCLaim: ${value.presaleOrderInfo[index].isBefore}');
                             return value.presaleOrderInfo.isEmpty
                                 ? SvgPicture.asset(
                                     'assets/icons/no_data.svg',

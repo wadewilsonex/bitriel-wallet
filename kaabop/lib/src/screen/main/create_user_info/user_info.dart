@@ -4,6 +4,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/provider/provider.dart';
 
 class MyUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -226,29 +227,29 @@ class MyUserInfoState extends State<MyUserInfo> {
               await StorageServices().writeSecure('private', res);
             }
           }
+          await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+          await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-          await Provider.of<ContractProvider>(context, listen: false)
-              .getEtherAddr();
+          await ContractsBalance().getAllAssetBalance(context: context);
 
-          final contract =
-              Provider.of<ContractProvider>(context, listen: false);
+          // await Provider.of<ContractProvider>(context, listen: false)
+          //     .getEtherAddr();
 
-          await contract.kgoTokenWallet();
-          await contract.selTokenWallet();
-          await contract.selv2TokenWallet();
-          await contract.bnbWallet();
-          await contract.ethWallet();
+          // final contract =
+          //     Provider.of<ContractProvider>(context, listen: false);
 
-          Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+          // await contract.kgoTokenWallet();
+          // await contract.selTokenWallet();
+          // await contract.selv2TokenWallet();
+          // await contract.bnbWallet();
+          // await contract.ethWallet();
 
-          await addBtcWallet();
+          // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
-          Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-          Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-          await Provider.of<ContractProvider>(context, listen: false)
-              .sortAsset();
+          // await addBtcWallet();
+          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-          contract.setReady();
+          // contract.setReady();
 
           // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
           await enableScreenshot();
@@ -338,7 +339,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         .data
         .address;
 
-    await StorageServices.setData(bech32Address, 'bech32');
+    await StorageServices.storeData(bech32Address, 'bech32');
 
     final res = await ApiProvider.keyring.store
         .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);

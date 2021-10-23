@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
@@ -31,71 +32,17 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+    
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     // await apiProvider.connectNode();
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
+    await apiProvider.initApi().then((value) async {
+
       if (ApiProvider.keyring.keyPairs.isNotEmpty) {
         
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();
-        await contractProvider.setSavedList().then((value) async {
-          // If Data Already Exist
-          if (value){
-
-            // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-            contractProvider.addApiProviderProperty(apiProvider);
-
-            // Sort After MarketPrice Filled Into Asset
-            await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-            contractProvider.setReady();
-          }
-          
-          // await contractProvider.setupNetwork();
-
-          // await apiProvider.connectPolNon();
-
-          // await getSavedContractToken();
-          // await getEtherSavedContractToken();
-          // await isKgoContain();`
-
-          await contractProvider.kgoTokenWallet();
-          await contractProvider.selTokenWallet();
-          await contractProvider.selv2TokenWallet();
-
-          // await contractProvider.ethWallet();
-          await contractProvider.bnbWallet();
-
-          // This Method Is Also Request Dot Contract
-
-          await isBtcContain();
-
-          // // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-          // contractProvider.addApiProviderProperty(apiProvider);
-
-          // // // // Sort After MarketPrice Filled Into Asset
-          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-          // // // // Fetch and Fill Market Into Asset and Also Short Market Data By Price
-          await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-
-          await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-
-          contractProvider.setReady();
-
-          // // // print(contractProvider.listContract.length);
-
-          // // // var list = json.encode(contractProvider.listContract.length);
-
-          // // //  await StorageServices.removeKey('assetData');
-
-          // await StorageServices.setData(contractProvider.listContract, 'assetData');
-          await StorageServices.assetData(context);
-
-          // final res = await StorageServices.fetchData('assetData');
-          // print('res $res');
-        });
+        
+        await ContractsBalance().getAllAssetBalance(context: context);
       }
     });
   }
@@ -146,7 +93,6 @@ class AppState extends State<App> {
     final contractProvider =
         Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
-    print("getEtherSaved $res");
     if (res != null) {
       for (final i in res) {
         final symbol =
@@ -166,21 +112,6 @@ class AppState extends State<App> {
         Provider.of<WalletProvider>(context, listen: false)
             .addTokenSymbol('${symbol[0]} (ERC-20)');
       }
-    }
-  }
-
-  Future<void> isBtcContain() async {
-    final res = await StorageServices.fetchData('bech32');
-
-    if (res != null) {
-      Provider.of<ApiProvider>(context, listen: false)
-          .isBtcAvailable('contain');
-
-      Provider.of<ApiProvider>(context, listen: false)
-          .setBtcAddr(res.toString());
-      Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      await Provider.of<ApiProvider>(context, listen: false)
-          .getBtcBalance(res.toString());
     }
   }
 

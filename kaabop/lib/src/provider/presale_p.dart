@@ -15,8 +15,7 @@ class PresaleOrderInfo {
 }
 
 class PresaleProvider with ChangeNotifier {
-  final String _presaleContract =
-      "0xeBf7E248689534C2757a20DCfe7ffe0bb04b9e93"; //Testnet
+  final String _presaleContract = "0xeBf7E248689534C2757a20DCfe7ffe0bb04b9e93"; //Testnet
   DeployedContract _deployedContract;
   ContractProvider _contractP = ContractProvider();
 
@@ -29,8 +28,7 @@ class PresaleProvider with ChangeNotifier {
 
   /* --------------------------Write Contract--------------------- */
 
-  Future<String> redeem(
-      {@required String privateKey, @required int orderId}) async {
+  Future<String> redeem({@required String privateKey, @required int orderId}) async {
     String hash;
     try {
       await _contractP.initBscClient();
@@ -105,7 +103,6 @@ class PresaleProvider with ChangeNotifier {
 
       final orderToken = contract.function('orderToken');
 
-      print(amount * pow(10, 18));
       final order = await _contractP.bscClient.sendTransaction(
           credentials,
           Transaction.callContract(
@@ -175,8 +172,7 @@ class PresaleProvider with ChangeNotifier {
   /// Use Inside app.dart
   Future<DeployedContract> initPresaleContract() async {
     try {
-      final String abiCode =
-          await rootBundle.loadString('assets/abi/presale1.json');
+      final String abiCode = await rootBundle.loadString('assets/abi/presale1.json');
       final contract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'Presale'),
         EthereumAddress.fromHex(_presaleContract),
@@ -261,7 +257,7 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      print("getBNBToken $e");
+      print("Err getBNBToken $e");
     }
   }
 

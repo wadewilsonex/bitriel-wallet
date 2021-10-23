@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../index.dart';
 
 class AssetList extends StatelessWidget {
+
   final _formKey = GlobalKey<FormState>();
   final passphraseController = TextEditingController();
   final pinController = TextEditingController();
@@ -95,7 +96,7 @@ class AssetList extends StatelessWidget {
             .data
             .address;
 
-        await StorageServices.setData(bech32Address, 'bech32');
+        await StorageServices.storeData(bech32Address, 'bech32');
         final res = await ApiProvider.keyring.store
             .encryptPrivateKey(hdWallet.wif, pinController.text);
 
@@ -149,114 +150,92 @@ class AssetList extends StatelessWidget {
       children: [
         Consumer<ContractProvider>(
           builder: (context, value, child) {
-            return Column(children: [
-              for (int index = 0; index < value.sortListContract.length; index++)
-                  Column(
-                    children: [
-                      Text(value.sortListContract[index].logo.toString()),
-                      Text(value.sortListContract[index].symbol.toString()),
-                      Text(value.sortListContract[index].org.toString()),
-                      Text(value.sortListContract[index].balance.toString()),
-                      Text(value.sortListContract[index].marketPrice.toString()),
-                      Text(value.sortListContract[index].lineChartModel.toString())
-                    ],
+            return Column(
+              children: [
+                for (int index = 0; index < value.sortListContract.length; index++)
+                  // Column(
+                  //   children: [
+                  //     Text(value.sortListContract[index].logo.toString()),
+                  //     Text(value.sortListContract[index].symbol.toString()),
+                  //     Text(value.sortListContract[index].org.toString()),
+                  //     Text(value.sortListContract[index].balance.toString()),
+                  //     Text(value.sortListContract[index].marketPrice.toString()),
+                  //     Text(value.sortListContract[index].lineChartModel.toString())
+                  //   ],
+                  // )
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        RouteAnimation(
+                          enterPage: AssetInfo(
+                            index: index,
+                            scModel: value.sortListContract[index]
+                          ),
+                        ),
+                      );
+                    },
+                    child: AssetItem(
+                      scModel: value.sortListContract[index]
+                    ),
                   )
-                // GestureDetec[tor(
-                //   onTap: () {
-                //     Navigator.push(
-                //       context,
-                //       RouteAnimation(
-                //         enterPage: AssetInfo(
-                //           index: index,
-                //           id: value.sortListContract[index].id,
-                //           assetLogo: value.sortListContract[index].logo,
-                //           balance: value.sortListContract[index].balance ??
-                //               AppString.loadingPattern,
-                //           tokenSymbol:
-                //               value.sortListContract[index].symbol ?? '',
-                //           org: value.sortListContract[index].org,
-                //           marketData: value.sortListContract[index].marketData,
-                //           marketPrice:
-                //               value.sortListContract[index].marketPrice,
-                //           transactionInfo: value
-                //               .sortListContract[index].listActivity.reversed
-                //               .toList(),
-                //           priceChange24h:
-                //               value.sortListContract[index].change24h,
-                //         ),
-                //       ),
-                //     );
-                //   },
-                //   child: AssetItem(
-                //     value.sortListContract[index].logo,
-                //     value.sortListContract[index].symbol ?? '',
-                //     value.sortListContract[index].org,
-                //     value.sortListContract[index].balance ?? AppString.loadingPattern,
-                //     Colors.transparent,
-                //     name: value.sortListContract[index].name,
-                //     marketPrice: value.sortListContract[index].marketPrice,
-                //     priceChange24h:
-                //         value.sortListContract[index].change24h ?? '',
-                //     lineChartData: value.sortListContract[index].lineChartData,
-                //     lineChartModel:
-                //         value.sortListContract[index].lineChartModel,
-                //   ),
-                // )
-            ]);
+              ]
+            );
           },
         ),
 
         // ERC or Token After Added
-        Consumer<ContractProvider>(builder: (context, value, child) {
-          return value.token.isNotEmpty
-              ? Column(
-                  children: [
-                    for (int index = 0; index < value.token.length; index++)
-                      Dismissible(
-                        key: UniqueKey(),
-                        direction: DismissDirection.endToStart,
-                        background: DismissibleBackground(),
-                        onDismissed: (direct) {
-                          if (value.token[index].org == 'ERC-20') {
-                            value.removeEtherToken(
-                                value.token[index].symbol, context);
-                          } else {
-                            value.removeToken(
-                                value.token[index].symbol, context);
-                          }
+        // Consumer<ContractProvider>(builder: (context, value, child) {
+        //   return value.token.isNotEmpty
+        //       ? Column(
+        //           children: [
+        //             for (int index = 0; index < value.token.length; index++)
+        //               Dismissible(
+        //                 key: UniqueKey(),
+        //                 direction: DismissDirection.endToStart,
+        //                 background: DismissibleBackground(),
+        //                 onDismissed: (direct) {
+        //                   if (value.token[index].org == 'ERC-20') {
+        //                     value.removeEtherToken(
+        //                         value.token[index].symbol, context);
+        //                   } else {
+        //                     value.removeToken(
+        //                         value.token[index].symbol, context);
+        //                   }
 
-                          //setPortfolio();
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              RouteAnimation(
-                                enterPage: AssetInfo(
-                                  assetLogo: 'assets/circle.png',
-                                  balance: value.token[index].balance ??
-                                      AppString.loadingPattern,
-                                  tokenSymbol: value.token[index].symbol ?? '',
-                                  org: value.token[index].org,
-                                ),
-                              ),
-                            );
-                          },
-                          child: AssetItem(
-                            'assets/circle.png',
-                            value.token[index].symbol ?? '',
-                            // value.token[index].symbol,
-                            value.token[index].org ?? '',
-                            value.token[index].balance ??
-                                AppString.loadingPattern,
-                            Colors.transparent,
-                          ),
-                        ),
-                      )
-                  ],
-                )
-              : Container();
-        }),
+        //                   //setPortfolio();
+        //                 },
+        //                 child: GestureDetector(
+        //                   onTap: () {
+        //                     Navigator.push(
+        //                       context,
+        //                       RouteAnimation(
+        //                         enterPage: AssetInfo(
+        //                           index: index,
+        //                           assetLogo: 'assets/circle.png',
+        //                           balance: value.token[index].balance ??
+        //                               AppString.loadingPattern,
+        //                           tokenSymbol: value.token[index].symbol ?? '',
+        //                           org: value.token[index].org,
+        //                         ),
+        //                       ),
+        //                     );
+        //                   },
+        //                   child: AssetItem(
+        //                     'assets/circle.png',
+        //                     value.token[index].symbol ?? '',
+        //                     // value.token[index].symbol,
+        //                     value.token[index].org ?? '',
+        //                     value.token[index].balance ??
+        //                         AppString.loadingPattern,
+        //                     Colors.transparent,
+        //                   ),
+        //                 ),
+        //               )
+        //           ],
+        //         )
+        //       : Container();
+        // }),
       ],
     );
   }

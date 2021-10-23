@@ -20,6 +20,8 @@ class AppConfig {
 
   static const swapPath = 'assets/abi/swap.json';
 
+  static const atdPath = 'assets/abi/atd.json';
+
   /*google spreedsheet credential for claim airdrop */
   static const credentials = '';
 

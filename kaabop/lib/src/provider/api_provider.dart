@@ -62,15 +62,15 @@ class ApiProvider with ChangeNotifier {
   Future<void> initApi() async {
     try {
       await keyring.init();
-      print("Finish keyring init");
-      print("After init keyring.store.list ${keyring.store.list}");
+      // print("Finish keyring init");
+      // print("After init keyring.store.list ${keyring.store.list}");
       keyring.setSS58(42);
-      print("Finish setSS58 account ${keyring.allAccounts}");
-      print("After setSS58 account ${await keyring.ss58}");
+      // print("Finish setSS58 account ${keyring.allAccounts}");
+      // print("After setSS58 account ${await keyring.ss58}");
 
       // print("Before sdk ${await sdk.api.keyring ?? ''}");
       await sdk.init(keyring);
-      print("Finish sdk ${await sdk.api.keyring}");
+      // print("Finish sdk ${await sdk.api.keyring}");
     } catch (e) {
       print("Error initApi $e");
     }
@@ -234,10 +234,9 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<int> pushTx(String hex) async {
-    final res =
-        await http.post('https://api.smartbit.com.au/v1/blockchain/pushtx',
-            //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: json.encode({"hex": hex}));
+    final res = await http.post('https://api.smartbit.com.au/v1/blockchain/pushtx',
+      //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: json.encode({"hex": hex}));
     return res.statusCode;
   }
 

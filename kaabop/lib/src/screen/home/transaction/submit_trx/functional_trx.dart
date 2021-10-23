@@ -264,18 +264,20 @@ class TrxFunctional {
           context,
           RouteAnimation(
             enterPage: AssetInfo(
-              id: contract.listContract[0].id,
-              assetLogo: contract.listContract[0].logo,
-              balance:
-                  contract.listContract[0].balance ?? AppString.loadingPattern,
-              tokenSymbol: contract.listContract[0].symbol ?? '',
-              org: contract.listContract[0].org,
-              marketData: contract.listContract[0].marketData,
-              marketPrice: contract.listContract[0].marketPrice,
-              transactionInfo:
-                  contract.listContract[0].listActivity.reversed.toList(),
-              priceChange24h: contract.listContract[0].change24h,
-              showActivity: true,
+              index: 0,
+              scModel: contract.listContract[0],
+              // id: contract.listContract[0].id,
+              // assetLogo: contract.listContract[0].logo,
+              // balance:
+              //     contract.listContract[0].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[0].symbol ?? '',
+              // org: contract.listContract[0].org,
+              // marketData: contract.listContract[0].marketData,
+              // marketPrice: contract.listContract[0].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[0].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[0].change24h,
+              // showActivity: true,
             ),
           ),
         );
@@ -287,17 +289,19 @@ class TrxFunctional {
           context,
           RouteAnimation(
             enterPage: AssetInfo(
-              id: contract.listContract[1].id,
-              assetLogo: contract.listContract[1].logo,
-              balance:
-                  contract.listContract[1].balance ?? AppString.loadingPattern,
-              tokenSymbol: contract.listContract[1].symbol ?? '',
-              org: contract.listContract[1].org,
-              marketData: contract.listContract[1].marketData,
-              marketPrice: contract.listContract[1].marketPrice,
-              transactionInfo:
-                  contract.listContract[1].listActivity.reversed.toList(),
-              priceChange24h: contract.listContract[1].change24h,
+              index: 1,
+              scModel: contract.listContract[1]
+              // id: contract.listContract[1].id,
+              // assetLogo: contract.listContract[1].logo,
+              // balance:
+              //     contract.listContract[1].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[1].symbol ?? '',
+              // org: contract.listContract[1].org,
+              // marketData: contract.listContract[1].marketData,
+              // marketPrice: contract.listContract[1].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[1].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[1].change24h,
             ),
           ),
         );
@@ -311,17 +315,19 @@ class TrxFunctional {
           context,
           RouteAnimation(
             enterPage: AssetInfo(
-              id: contract.listContract[2].id,
-              assetLogo: contract.listContract[2].logo,
-              balance:
-                  contract.listContract[2].balance ?? AppString.loadingPattern,
-              tokenSymbol: contract.listContract[2].symbol ?? '',
-              org: contract.listContract[2].org,
-              marketData: contract.listContract[2].marketData,
-              marketPrice: contract.listContract[2].marketPrice,
-              transactionInfo:
-                  contract.listContract[2].listActivity.reversed.toList(),
-              priceChange24h: contract.listContract[2].change24h,
+              index: 2,
+              scModel: contract.listContract[2]
+              // id: contract.listContract[2].id,
+              // assetLogo: contract.listContract[2].logo,
+              // balance:
+              //     contract.listContract[2].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[2].symbol ?? '',
+              // org: contract.listContract[2].org,
+              // marketData: contract.listContract[2].marketData,
+              // marketPrice: contract.listContract[2].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[2].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[2].change24h,
             ),
           ),
         );
@@ -333,17 +339,19 @@ class TrxFunctional {
           context,
           RouteAnimation(
             enterPage: AssetInfo(
-              id: contract.listContract[3].id,
-              assetLogo: contract.listContract[3].logo,
-              balance:
-                  contract.listContract[3].balance ?? AppString.loadingPattern,
-              tokenSymbol: contract.listContract[3].symbol ?? '',
-              org: contract.listContract[3].org,
-              marketData: contract.listContract[3].marketData,
-              marketPrice: contract.listContract[3].marketPrice,
-              transactionInfo:
-                  contract.listContract[3].listActivity.reversed.toList(),
-              priceChange24h: contract.listContract[3].change24h,
+              index: 3,
+              scModel: contract.listContract[3]
+              // id: contract.listContract[3].id,
+              // assetLogo: contract.listContract[3].logo,
+              // balance:
+              //     contract.listContract[3].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[3].symbol ?? '',
+              // org: contract.listContract[3].org,
+              // marketData: contract.listContract[3].marketData,
+              // marketPrice: contract.listContract[3].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[3].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[3].change24h,
             ),
           ),
         );
@@ -355,17 +363,19 @@ class TrxFunctional {
           context,
           RouteAnimation(
             enterPage: AssetInfo(
-              id: contract.listContract[4].id,
-              assetLogo: contract.listContract[4].logo,
-              balance:
-                  contract.listContract[4].balance ?? AppString.loadingPattern,
-              tokenSymbol: contract.listContract[4].symbol ?? '',
-              org: contract.listContract[4].org,
-              marketData: contract.listContract[4].marketData,
-              marketPrice: contract.listContract[4].marketPrice,
-              transactionInfo:
-                  contract.listContract[4].listActivity.reversed.toList(),
-              priceChange24h: contract.listContract[4].change24h,
+              index: 4,
+              scModel: contract.listContract[4]
+              // id: contract.listContract[4].id,
+              // assetLogo: contract.listContract[4].logo,
+              // balance:
+              //     contract.listContract[4].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[4].symbol ?? '',
+              // org: contract.listContract[4].org,
+              // marketData: contract.listContract[4].marketData,
+              // marketPrice: contract.listContract[4].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[4].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[4].change24h,
             ),
           ),
         );

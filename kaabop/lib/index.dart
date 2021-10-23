@@ -146,14 +146,14 @@ export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';
 export 'package:wallet_apps/src/screen/main/import_account/import_acc.dart';
-export 'package:wallet_apps/src/screen/main/import_user_info/import_user_infor.dart';
+export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
 export 'package:wallet_apps/src/screen/main/local_auth/finger_print.dart';
 export 'package:wallet_apps/src/screen/main/create_user_info/user_info_body.dart';
 // Finger Print
 export 'package:wallet_apps/src/screen/main/splash_screen/splash_screen.dart';
 
 export 'package:wallet_apps/src/screen/main/import_account/import_acc_body.dart';
-export 'package:wallet_apps/src/screen/main/import_user_info/import_user_infor.dart';
+export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
 // Main Screeen
 export 'package:wallet_apps/src/screen/main/welcome/welcome.dart';
 export 'package:wallet_apps/src/screen/main/welcome/welcome_body.dart';
@@ -162,7 +162,7 @@ export 'package:wallet_apps/src/screen/home/asset_list.dart';
 
 export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
 
-export 'package:wallet_apps/src/screen/main/create_user_info/user_infor.dart';
+export 'package:wallet_apps/src/screen/main/create_user_info/user_info.dart';
 
 /* Local File */
 export 'package:wallet_apps/src/service/services.dart';

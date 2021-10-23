@@ -20,7 +20,7 @@ class SmartContractModel {
   bool isContain;
   List<TransactionInfo> listActivity = [];
   List<List<double>> lineChartData = [];
-  LineChartModel lineChartModel;
+  LineChartModel lineChartModel = LineChartModel();
 
   SmartContractModel({
     this.id,
@@ -34,8 +34,8 @@ class SmartContractModel {
     this.org = '',
     this.marketData,
     this.marketPrice,
-    this.change24h,
-    this.isContain,
+    this.change24h = '',
+    this.isContain, 
     this.listActivity,
     this.lineChartData,
     this.lineChartModel,

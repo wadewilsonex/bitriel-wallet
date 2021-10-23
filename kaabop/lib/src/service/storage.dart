@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
@@ -25,7 +26,7 @@ class StorageServices {
     await _storage.deleteAll();
   }
 
-  static Future<SharedPreferences> setData(dynamic _data, String _path) async {
+  static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
     _preferences = await SharedPreferences.getInstance();
     _decode = jsonEncode(_data);
     _preferences.setString(_path, _decode);
@@ -49,19 +50,20 @@ class StorageServices {
     return _preferences;
   }
 
-  static Future<void> assetData(context) async {
+  static Future<void> storeAssetData(context) async {
 
     final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
     
-    print("assetData $listContract");
+    listContract.forEach((element) {
+      print(element.name);
+    });
 
     final res = SmartContractModel.encode(listContract);
 
-    await _preferences.setString('assetData', res);
+    await _preferences.setString(DbKey.assetData, res);
   }
 
-  static Future<SharedPreferences> addTxHistory(
-      TxHistory txHistory, String key) async {
+  static Future<SharedPreferences> addTxHistory(TxHistory txHistory, String key) async {
     final List<TxHistory> txHistoryList = [];
     _preferences = await SharedPreferences.getInstance();
 
@@ -91,7 +93,7 @@ class StorageServices {
 
   static Future<void> saveEthContractAddr(String contractAddr) async {
     final List<String> contractAddrList = [];
-    final res = await fetchData('ethContractList');
+    final res = await fetchData(DbKey.ethContractList);
 
     if (res != null) {
       contractAddrList.clear();
@@ -99,17 +101,17 @@ class StorageServices {
         contractAddrList.add(i.toString());
       }
       contractAddrList.add(contractAddr);
-      await setData(contractAddrList, 'ethContractList');
+      await storeData(contractAddrList, DbKey.ethContractList);
     } else {
       contractAddrList.add(contractAddr);
 
-      await setData(contractAddrList, 'ethContractList');
+      await storeData(contractAddrList, DbKey.ethContractList);
     }
   }
 
   static Future<void> removeEthContractAddr(String contractAddr) async {
     List contractAddrList = [];
-    final res = await fetchData('ethContractList');
+    final res = await fetchData(DbKey.ethContractList);
 
     if (res != null) {
       contractAddrList = res as List;
@@ -117,9 +119,9 @@ class StorageServices {
       contractAddrList.removeWhere((element) => element == contractAddr);
 
       if (contractAddrList.isNotEmpty) {
-        await StorageServices.setData(contractAddrList, 'ethContractList');
+        await StorageServices.storeData(contractAddrList, DbKey.ethContractList);
       } else {
-        await removeKey('ethContractList');
+        await removeKey(DbKey.ethContractList);
       }
     }
   }
@@ -134,11 +136,11 @@ class StorageServices {
         contractAddrList.add(i.toString());
       }
       contractAddrList.add(contractAddr);
-      await setData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, 'contractList');
     } else {
       contractAddrList.add(contractAddr);
 
-      await setData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, 'contractList');
     }
   }
 
@@ -152,7 +154,7 @@ class StorageServices {
       contractAddrList.removeWhere((element) => element == contractAddr);
 
       if (contractAddrList.isNotEmpty) {
-        await StorageServices.setData(contractAddrList, 'contractList');
+        await StorageServices.storeData(contractAddrList, 'contractList');
       } else {
         await removeKey('contractList');
       }
@@ -197,7 +199,6 @@ class StorageServices {
 
       _decode = _preferences.getString(_path);
 
-      print("fetchAsset $_decode");
       if (_decode != null){
 
         final res = SmartContractModel.decode(_decode);

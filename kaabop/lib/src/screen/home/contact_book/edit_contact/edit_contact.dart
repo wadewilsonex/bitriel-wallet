@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/edit_contact/edit_contact_body.dart';
 
@@ -77,7 +78,7 @@ class _EditContactState extends State<EditContact> {
                       'memo': data.memo.text
                     });
                   }
-                  await StorageServices.setData(contactData, 'contactList');
+                  await StorageServices.storeData(contactData, DbKey.contactList);
 
                   Navigator.pop(context, true);
                 },

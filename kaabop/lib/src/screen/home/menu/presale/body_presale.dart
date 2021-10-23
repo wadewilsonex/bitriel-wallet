@@ -24,7 +24,6 @@ class BodyPresale extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final contract = Provider.of<ContractProvider>(context);
 
-    print(model.listSupportToken);
     return BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: Stack(

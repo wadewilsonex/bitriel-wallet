@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/contact_book_body.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/edit_contact/edit_contact.dart';
@@ -18,7 +19,7 @@ class _ContactBookState extends State<ContactBook> {
   Future<void> getContact() async {
     try {
       _contactBookModel.contactBookList = [];
-      final value = await StorageServices.fetchData('contactList');
+      final value = await StorageServices.fetchData(DbKey.contactList);
 
       if (value == null) {
         _contactBookModel.contactBookList = null;
@@ -70,7 +71,7 @@ class _ContactBookState extends State<ContactBook> {
     _contactBookModel.contactBookList.removeAt(index);
     //print("Empty ${_contactBookModel.contactBookList.isEmpty}");
     if (_contactBookModel.contactBookList.isEmpty) {
-      await StorageServices.removeKey('contactList');
+      await StorageServices.removeKey(DbKey.contactList);
       _contactBookModel.contactBookList = null;
 
       setState(() {});
@@ -83,7 +84,7 @@ class _ContactBookState extends State<ContactBook> {
           'memo': data.memo.text
         });
       }
-      await StorageServices.setData(contactData, 'contactList');
+      await StorageServices.storeData(contactData, DbKey.contactList);
       await getContact();
     }
   }

@@ -2,8 +2,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
+import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
@@ -32,83 +34,45 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
     // });
+
     if (mounted){
-      marketInitializer();
+      marketPriceInitializer();
     }
+    
 
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
   }
 
-  void deleteAcc() async {
-      // await Provider.of<ContractProvider>(context, listen: false).unsubscribeNetwork();
-
-      await ApiProvider.sdk.api.keyring.deleteAccount(
-        ApiProvider.keyring,
-        ApiProvider.keyring.keyPairs[0],
-      );
-
-      await AppServices.clearStorage();
-      await StorageServices().clearSecure();
-      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<ContractProvider>(context, listen: false).resetConObject();
-
-      await Future.delayed(Duration(seconds: 2), (){});
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+  void marketPriceInitializer() async {
+    try { 
       
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
-  }
+      final mkPro = await Provider.of<MarketProvider>(context, listen: false);
 
-  void marketInitializer() async {
+      await StorageServices.fetchData(DbKey.marketkPrice).then((value) async {
+        if (value != null){
 
-    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+          mkPro.sortDataMarket = List<Map<String, dynamic>>.from(value);
+          await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+        }
+      });
 
-    // print(apiProvider.)
-    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-    // Provider.of<ContractProvider>(context).addApiProviderProperty(apiProvider);
+      /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
+      await mkPro.fetchTokenMarketPrice(context);
 
-    // Sort After MarketPrice Filled Into Asset
-    // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+      await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
 
-    // Ready To Display Asset Portfolio
-    // Provider.of<ContractProvider>(context, listen: false).setReady();
-
-    /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
-    await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-
-    await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-
-    // setState(() {
-      
-    // });
-
-  }
-
-  Future<void> _deleteAccount() async {
-    try {
-      await ApiProvider.sdk.api.keyring.deleteAccount(
-        ApiProvider.keyring,
-        ApiProvider.keyring.keyPairs[0],
-      );
-      Navigator.pop(context);
-      await AppServices.clearStorage();
-      await StorageServices().clearSecure();
-      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
-      Provider.of<ContractProvider>(context, listen: false).resetConObject();
-      Navigator.pushAndRemoveUntil(context,
-          RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      await StorageServices.storeData(mkPro.sortDataMarket, DbKey.marketkPrice);
     } catch (e) {
-      // print("_deleteAccount $e");
-      // await dialog(context, e.toString(), 'Opps');
+      print("Error $e");
     }
+
   }
 
   @override
@@ -153,7 +117,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   onPause() async {
     // var contractProvider =
     //     Provider.of<ContractProvider>(context, listen: false);
-    await StorageServices.assetData(context);
+    await StorageServices.storeAssetData(context);
 
     // final contract =
     //     Provider.of<ContractProvider>(context, listen: false).listContract;
@@ -182,7 +146,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   void save() async {
     var list = jsonEncode(ContractProvider().listContract);
 
-    await StorageServices.setData(list, 'assetData');
+    await StorageServices.storeData(list, DbKey.assetData);
   }
 
   Future<void> toReceiveToken() async {

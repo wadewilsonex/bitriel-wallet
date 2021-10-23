@@ -13,9 +13,9 @@ class PortfolioRateModel {
     if (current != comingData){
       if (current != 0) {
         totalRate = comingData.round()-current.round();
-        await StorageServices.setData(totalRate, 'total_rate');
+        await StorageServices.storeData(totalRate, 'total_rate');
       }
-      await StorageServices.setData(comingData, 'current_amount');
+      await StorageServices.storeData(comingData, 'current_amount');
     }
     // No Transaction That Make Value Change And Display Previous Rate
     else {

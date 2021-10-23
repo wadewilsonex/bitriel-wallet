@@ -24,8 +24,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       await Future.delayed(const Duration(milliseconds: 1000), () async {
         final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
-        print(ls.length);
-
         if (ls.isEmpty) {
           Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
         } else {
@@ -64,7 +62,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         }
       });
     } catch (e) {
-      print("Splash screen $e");
+      print("Error Splash screen $e");
     }
   }
   
@@ -115,7 +113,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
           ),
         );
       } else {
-        print("Check BiO");
         Navigator.pushReplacementNamed(context, Home.route);
       }
     });

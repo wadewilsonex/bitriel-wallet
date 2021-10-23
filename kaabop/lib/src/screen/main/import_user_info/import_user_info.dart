@@ -3,6 +3,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:web3dart/credentials.dart';
 
@@ -89,17 +90,18 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         // // This Method Is Also Request Dot Contract
         // await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-
+//1
         await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
         await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
         
-        // // Sort Contract Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        await ContractsBalance().getAllAssetBalance(context: context);
+//2
+        // // // Sort Contract Asset
+        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
         
-        // // Ready To Display Asset Portfolio
-        Provider.of<ContractProvider>(context, listen: false).setReady();
+        // // // Ready To Display Asset Portfolio
+        // Provider.of<ContractProvider>(context, listen: false).setReady();
         
-        // print("getChainDecimal");
         // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         await successDialog(context, "imported your account.");
@@ -109,8 +111,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Oops'),
             ),
@@ -135,7 +136,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   Future<void> getSavedContractToken() async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
-    print("getSavedContractToken $res");
 
     if (res != null) {
       for (final i in res) {
@@ -191,7 +191,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         .data
         .address;
 
-    await StorageServices.setData(bech32Address, 'bech32');
+    await StorageServices.storeData(bech32Address, 'bech32');
 
     final res = await ApiProvider.keyring.store
         .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
