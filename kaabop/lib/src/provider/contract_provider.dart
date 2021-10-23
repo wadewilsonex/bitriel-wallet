@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:polkawallet_sdk/kabob_sdk.dart';
@@ -96,15 +97,15 @@ class ContractProvider with ChangeNotifier {
         org: 'Smart Chain',
         isContain: true,
         lineChartModel: LineChartModel()),
-    SmartContractModel(
-        id: 'REKREAY',
-        address: '0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0',
-        logo: 'assets/rekreay.png',
-        symbol: 'REKREAY',
-        name: "REKREAY",
-        org: 'BEP-20',
-        isContain: true,
-        lineChartModel: LineChartModel()),
+    // SmartContractModel(
+    //     id: 'REKREAY',
+    //     address: '0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0',
+    //     logo: 'assets/token_logo/rekreay.png',
+    //     symbol: 'REKREAY',
+    //     name: "REKREAY",
+    //     org: 'BEP-20',
+    //     isContain: true,
+    //     lineChartModel: LineChartModel()),
   ];
 
   /// List For Display Asset After sort
@@ -720,6 +721,8 @@ class ContractProvider with ChangeNotifier {
     try {
       final ethAddr = await StorageServices().readSecure('etherAdd');
       ethAdd = ethAddr;
+
+      print(ethAddr);
 
       notifyListeners();
     } catch (e) {

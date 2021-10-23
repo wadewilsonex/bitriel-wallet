@@ -39,16 +39,26 @@ class AppState extends State<App> {
           .then((value) async {
         if (ApiProvider.keyring.keyPairs.isNotEmpty) {
           await contractProvider.getEtherAddr();
+          await Provider.of<ApiProvider>(context, listen: false)
+              .connectNode()
+              .then((value) async {
+            if (value != null) {
+              if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+                await Provider.of<ApiProvider>(context, listen: false)
+                    .getChainDecimal();
+              }
+            }
+          });
 
-          await getSavedContractToken();
-          await getEtherSavedContractToken();
+          // await getSavedContractToken();
+          // await getEtherSavedContractToken();
 
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
-          await contractProvider.getKgoBalance();
+          //await contractProvider.getKgoBalance();
           await contractProvider.getBscBalance();
           await contractProvider.getBscV2Balance();
-          await isKgoContain();
+          // await isKgoContain();
           await contractProvider.getEtherBalance();
           await contractProvider.getBnbBalance();
 
@@ -65,18 +75,7 @@ class AppState extends State<App> {
           Provider.of<ContractProvider>(context, listen: false).setReady();
         }
         // This Method Is Also Request Dot Contract
-        await apiProvider.connectPolNon();
-
-        await Provider.of<ApiProvider>(context, listen: false)
-            .connectNode()
-            .then((value) async {
-          if (value != null) {
-            if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-              await Provider.of<ApiProvider>(context, listen: false)
-                  .getChainDecimal();
-            }
-          }
-        });
+        // await apiProvider.connectPolNon();
       });
     } catch (e) {
       print("Error init app.dart $e");
