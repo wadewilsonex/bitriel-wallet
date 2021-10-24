@@ -57,10 +57,13 @@ class LineChartModel {
       }
     }
 
-    print("prepareGraphChart");
-    print("${contract.symbol}");
-    print(contract.lineChartModel.leftTitlesInterval);
-    print(contract.lineChartModel.values.length);
+    print(contract.symbol);
+    print("prepareGraphChart ${contract.lineChartModel.leftTitlesInterval}");
+    print("prepareGraphChart ${contract.lineChartModel.values.length}");
+    print("minX ${contract.lineChartModel.minX}");
+    print("maxX ${contract.lineChartModel.maxX}");
+    print("minY ${contract.lineChartModel.minY}");
+    print("maxY ${contract.lineChartModel.maxY}");
 
     return contract.lineChartModel;
   }
