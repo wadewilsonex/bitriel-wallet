@@ -4,7 +4,7 @@ import 'package:wallet_apps/src/provider/atd_pro.dart';
 class ContractsBalance {
   
   /// The function get all asset information 
-  Future<void> getAllAssetBalance({@required BuildContext context}) async {
+  Future<void> getAllAssetBalance({@required BuildContext context, bool isRefresh}) async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 

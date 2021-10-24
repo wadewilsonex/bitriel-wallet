@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
@@ -186,6 +187,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   }
 
   Future<void> scrollRefresh() async {
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     final market = Provider.of<MarketProvider>(context, listen: false);
@@ -193,49 +195,51 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     contract.isReady = false;
     setState(() {});
 
-    await PortfolioServices().setPortfolio(context);
+    ContractsBalance().getAllAssetBalance(context: context);
 
-    if (contract.listContract[0].isContain) {
-      await contract.selTokenWallet();
-    }
+    // await PortfolioServices().setPortfolio(context);
 
-    if (contract.listContract[1].isContain) {
-      await contract.selv2TokenWallet();
-    }
+    // if (contract.listContract[0].isContain) {
+    //   await contract.selTokenWallet();
+    // }
 
-    if (contract.listContract[2].isContain) {
-      await contract.kgoTokenWallet();
-    }
+    // if (contract.listContract[1].isContain) {
+    //   await contract.selv2TokenWallet();
+    // }
 
-    if (contract.listContract[3].isContain) {
-      await contract.ethWallet();
-    }
+    // if (contract.listContract[2].isContain) {
+    //   await contract.kgoTokenWallet();
+    // }
 
-    if (contract.listContract[4].isContain) {
-      await contract.bnbWallet();
-    }
+    // if (contract.listContract[3].isContain) {
+    //   await contract.ethWallet();
+    // }
 
-    if (api.btc.isContain) {
-      await api.getBtcBalance(api.btcAdd);
-    }
+    // if (contract.listContract[4].isContain) {
+    //   await contract.bnbWallet();
+    // }
 
-    // Sort Each Asset Portfolio
-    await contract.sortAsset();
+    // if (api.btc.isContain) {
+    //   await api.getBtcBalance(api.btcAdd);
+    // }
 
-    if (contract.token.isNotEmpty) {
-      await contract.fetchNonBalance();
-      await contract.fetchEtherNonBalance();
-    }
+    // // Sort Each Asset Portfolio
+    // await contract.sortAsset();
 
-    // To Disable Asset Loading
-    contract.setReady();
+    // if (contract.token.isNotEmpty) {
+    //   await contract.fetchNonBalance();
+    //   await contract.fetchEtherNonBalance();
+    // }
+
+    // // To Disable Asset Loading
+    // contract.setReady();
 
     /* -----------------------Pie Chart----------------------- */
     // Fetch 5 Asset From Market
-    market.fetchTokenMarketPrice(context).then((value) async {
-      // Fill 5 Asset Into Pie Chart
-      await wallet.fillWithMarketData(context);
-    });
+    // market.fetchTokenMarketPrice(context).then((value) async {
+    //   // Fill 5 Asset Into Pie Chart
+    //   await wallet.fillWithMarketData(context);
+    // });
   }
 
   @override

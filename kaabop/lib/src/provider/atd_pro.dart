@@ -39,6 +39,7 @@ class Attendance extends ChangeNotifier {
     ); //.balance = balance.toString();
 
     contractPro.listContract[5].balance = balance[0].toString();
+    contractPro.listContract[5].lineChartModel = LineChartModel().prepareGraphChart(contractPro.listContract[5]);
     notifyListeners();
     return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
   }
