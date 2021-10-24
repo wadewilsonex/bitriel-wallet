@@ -32,23 +32,16 @@ class WalletSDK {
 
       _service = SubstrateService();
 
-      if (_service.keyring == null) print("Hello my null");
-      else print("Hello my not null");
-
       await _service.init(
         keyring,
         webViewParam: webView,
         jsCode: jsCode,
         onInitiated: () async {
-          print("Hello onInitiated");
           // inject keyPairs after webView launched
-          await _service.keyring.injectKeyPairsToWebView(keyring).then((value) {
-            print("After injectKeyPairsToWebView $value");
-          });
+          await _service.keyring.injectKeyPairsToWebView(keyring);
 
           // and initiate pubKeyIconsMap
           await api.keyring.updatePubKeyIconsMap(keyring);
-          print("After updatePubKeyIconsMap");
 
           if (!c.isCompleted) {
             c.complete();
@@ -57,9 +50,7 @@ class WalletSDK {
       );
 
       api = KabobApi(_service);
-      print("After kabobapi");
       api.init();
-      print("After api.init");
       return c.future;
     } catch (e) {
       print("Error WalletSDK $e");

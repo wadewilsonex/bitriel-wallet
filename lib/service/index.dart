@@ -43,10 +43,7 @@ class SubstrateService {
     uos = ServiceUOS(this);
     recovery = ServiceRecovery(this);
 
-    print("before _web.toString() ${_web.toString()}");
-    // _web = webViewParam ?? WebViewRunner();
-    _web = WebViewRunner();
-    print("after _web.toString() ${_web.toString()}");
+    _web = webViewParam ?? WebViewRunner();
     
     await _web.launch(keyring, keyringStorage, onInitiated, jsCode: jsCode);
   }

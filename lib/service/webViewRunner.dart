@@ -35,8 +35,8 @@ class WebViewRunner {
     _web = FlutterWebviewPlugin();
 
     // if (keyringStorage.allAccounts.isNotEmpty){
-    // //   print("Keyring storage ${keyringStorage.allAccounts.isEmpty}");
-       await _web.close();
+    // // //   print("Keyring storage ${keyringStorage.allAccounts.isEmpty}");
+    //    await _web.close();
     // }
 
     /// cancel another plugin's listener before launch
