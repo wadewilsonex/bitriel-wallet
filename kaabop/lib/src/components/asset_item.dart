@@ -134,6 +134,7 @@ class AssetItem extends StatelessWidget {
               height: 50,
               width: MediaQuery.of(context).size.width / 3.5,
               child: 
+              // Text("${scModel.lineChartModel.values}")
               // Text("${scModel.symbol} ${scModel.lineChartModel.values == null} ${scModel.lineChartModel.values.isEmpty}")
               scModel.lineChartModel == null || scModel.lineChartModel.values.isEmpty
                 ? LineChart(sampleLineChart(context))
@@ -332,7 +333,7 @@ class AssetItem extends StatelessWidget {
           },
           reservedSize: 28,
           margin: 12,
-          interval: scModel.lineChartModel.leftTitlesInterval ?? 6.0
+          interval: scModel.symbol == 'BNB' ? 3.0 : 6.0 //scModel.lineChartModel.leftTitlesInterval ?? 6.0
         ),
       ),
       borderData: FlBorderData(show: false, border: Border.all(color: const Color(0xff37434d), width: 1)),
