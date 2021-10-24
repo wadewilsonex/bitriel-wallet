@@ -57,6 +57,11 @@ class LineChartModel {
       }
     }
 
+    print("prepareGraphChart");
+    print("${contract.symbol}");
+    print(contract.lineChartModel.leftTitlesInterval);
+    print(contract.lineChartModel.values.length);
+
     return contract.lineChartModel;
   }
 }

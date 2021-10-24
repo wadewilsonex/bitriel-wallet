@@ -45,11 +45,11 @@ class AppState extends State<App> {
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
 
-          // await contractProvider.getBscBalance();
-          // await contractProvider.getBscV2Balance();
+          await contractProvider.getBscBalance();
+          await contractProvider.getBscV2Balance();
           // await isKgoContain();
-          // // await contractProvider.getEtherBalance();
-          // await contractProvider.getBnbBalance();
+          await contractProvider.getEtherBalance();
+          await contractProvider.getBnbBalance();
 
           // This Method Is Also Request Dot Contract
           // await apiProvider.connectPolNon();
