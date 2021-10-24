@@ -80,7 +80,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             await StorageServices().writeSecure('private', res);
           }
         }
-        // await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
         // await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
         // await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();

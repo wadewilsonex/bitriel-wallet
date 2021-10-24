@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
 
@@ -167,5 +168,36 @@ class AppServices {
       return e;
     }
     return privateKey;
+  }
+
+  static List<List<double>> flListToList(List<FlSpot> flList) {
+    List<List<double>> tmp = [];
+    flList.forEach((element) {
+      tmp.add(
+        List.from([
+          element.x,
+          element.y
+        ])
+      );
+    });
+
+    return tmp;
+  }
+  static List<dynamic> jsonToFlList(dynamic flJson) {
+    print("jsonToFlList $flJson");
+    print("jsonToFlList ${flJson.runtimeType}");
+    List<FlSpot> tmp = [];
+    // contract.lineChartList.map((price) {
+    //   if (minY > price.last) minY = price.last;
+    //   if (maxY < price.last) maxY = price.last;
+
+    //   return FlSpot(price.first, price.last);
+    // }).toList()
+    flJson.forEach((element) {
+      tmp.add(
+        FlSpot(element[0], element[1])
+      );
+    });
+    return tmp;
   }
 }

@@ -267,11 +267,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
         ),
       ]),
 
-      floatingActionButton: Container(
-        width: 65,
-        height: 65,
-        child: FloatingActionButton(
-          elevation: 0,
+      floatingActionButton: FloatingActionButton(
+          elevation: 10,
           backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
@@ -286,7 +283,26 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
             color: Colors.white,
           ),
         ),
-      ),
+      // Container(
+      //   width: 65,
+      //   height: 65,
+      //   child: FloatingActionButton(
+      //     elevation: 0,
+      //     backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+      //     onPressed: () async {
+      //       await TrxOptionMethod.scanQR(
+      //         context,
+      //         _homeM.portfolioList,
+      //       );
+      //     },
+      //     child: SvgPicture.asset(
+      //       'assets/icons/qr_code.svg',
+      //       width: 30,
+      //       height: 30,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,

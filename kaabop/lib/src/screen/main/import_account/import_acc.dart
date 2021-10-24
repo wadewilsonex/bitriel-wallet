@@ -42,7 +42,6 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool> validateMnemonic(String mnemonic) async {
-    print(ApiProvider.sdk.api);
     try {
       final res = await ApiProvider.sdk.api.keyring.validateMnemonic(mnemonic);
       return res;

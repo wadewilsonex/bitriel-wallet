@@ -7,30 +7,9 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 class AssetItem extends StatelessWidget {
 
   final SmartContractModel scModel;
-  // final String asset;
-  // final String tokenSymbol;
-  // final String name;
-  // final String org;
-  // final String balance;
-  // final String marketPrice;
-  // final String priceChange24h;
-  // final Color color;
-  // final double size;
-  // final List<List<double>> lineChartData;
-  // final Function prepareLineData;
-  // final LineChartModel lineChartModel;
 
   AssetItem({
     @required this.scModel
-    // this.asset, this.tokenSymbol, this.org, this.balance, this.color,
-    //   {this.marketPrice,
-    //   this.priceChange24h,
-    //   this.name,
-    //   this.size,
-    //   this.lineChartData,
-    //   this.prepareLineData,
-    //   this.lineChartModel
-    // }
   });
 
   @override
@@ -72,30 +51,32 @@ class AssetItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text.rich(
-                    TextSpan(
-                      text: '${scModel.symbol} ' ?? '',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: hexaCodeToColor(isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                        ),
-                      ),
-                      children: [
-                        TextSpan(
-                          text: scModel.name,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: hexaCodeToColor(isDarkTheme
-                              ? AppColors.darkSecondaryText
-                              : AppColors.darkSecondaryText,
-                            ),
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        text: '${scModel.symbol} ' ?? '',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: hexaCodeToColor(isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
                           ),
-                        )
-                      ]
+                        ),
+                        children: [
+                          TextSpan(
+                            text: scModel.name,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: hexaCodeToColor(isDarkTheme
+                                ? AppColors.darkSecondaryText
+                                : AppColors.darkSecondaryText,
+                              ),
+                            ),
+                          )
+                        ]
+                      )
                     )
                   ),
 
@@ -144,18 +125,19 @@ class AssetItem extends StatelessWidget {
             ),
 
             // Graph Chart
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 5, right: 15),
-                height: 50,
-                width: MediaQuery.of(context).size.width * 0.16,
-                child: LineChart(sampleLineChart(context))//Text("${scModel.lineChartData} ${scModel.change24h.runtimeType}")
-                // Text("${scModel.lineChartModel}")
-                // scModel.lineChartData == null
-                //   ? LineChart(sampleLineChart(context))
-                //   : Text("${scModel.change24h} ${scModel.change24h.runtimeType}")// : LineChart(mainData(context))
-                // ,
-              )
+            // Container(
+            //   width: 50,
+            //   child: Text(scModel.lineChartModel.values != null ? scModel.lineChartModel.values.toString() : '')
+            // ),
+            Container(
+              padding: EdgeInsets.only(left: 5, right: 10),
+              height: 50,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: 
+              // Text("${scModel.symbol} ${scModel.lineChartModel.values == null} ${scModel.lineChartModel.values.isEmpty}")
+              scModel.lineChartModel == null || scModel.lineChartModel.values.isEmpty
+                ? LineChart(sampleLineChart(context))
+                : LineChart(mainData(context))
             ),
 
             // Total Amount
@@ -173,19 +155,6 @@ class AssetItem extends StatelessWidget {
                     : AppColors.textColor,
                   bottom: 4.0,
                 ),
-                // MyText(
-                //   // width: double.infinity,
-                //   text: scModel.balance != AppString.loadingPattern && scModel.marketPrice != null
-                //     ? '\$${scModel.lineChartModel.totalUsd}'
-                //     : '\$0.00',
-                //   fontSize: 14,
-                //   fontWeight: FontWeight.bold,
-                //   textAlign: TextAlign.right,
-                //   overflow: TextOverflow.ellipsis,
-                //   color: isDarkTheme
-                //     ? AppColors.darkSecondaryText
-                //     : AppColors.darkSecondaryText,
-                // )
               ],
             ),
           ],
@@ -363,7 +332,7 @@ class AssetItem extends StatelessWidget {
           },
           reservedSize: 28,
           margin: 12,
-          interval: scModel.lineChartModel.leftTitlesInterval
+          interval: scModel.lineChartModel.leftTitlesInterval ?? 6.0
         ),
       ),
       borderData: FlBorderData(show: false, border: Border.all(color: const Color(0xff37434d), width: 1)),
@@ -375,12 +344,12 @@ class AssetItem extends StatelessWidget {
         LineChartBarData(
           spots: scModel.lineChartModel.values,
           isCurved: true,
-          // colors: double.parse(scModel.change24h).isNegative
-          //   ? [hexaCodeToColor('#FF0000')]
-          //   : isDarkTheme
-          //     ? [hexaCodeToColor('#00FF00')]
-          //     : [hexaCodeToColor('#66CD00')]
-          // ,
+          colors: double.parse(scModel.change24h).isNegative
+            ? [hexaCodeToColor('#FF0000')]
+            : isDarkTheme
+              ? [hexaCodeToColor('#00FF00')]
+              : [hexaCodeToColor('#66CD00')]
+          ,
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -391,16 +360,16 @@ class AssetItem extends StatelessWidget {
             //gradientColorStops: const [0.25, 0.5, 0.75],
             gradientFrom: const Offset(0.2, 1.2),
             gradientTo: const Offset(0.2, 0),
-            // colors: (double.parse(scModel.change24h).isNegative)
-            // ? [
-            //     Colors.white.withOpacity(0.2),
-            //     hexaCodeToColor('#FF0000').withOpacity(0.2)
-            //   ]
-            // : [
-            //     Colors.white.withOpacity(0.2),
-            //     hexaCodeToColor('#00FF00').withOpacity(0.2),
-            //   ]
-            // ,
+            colors: (double.parse(scModel.change24h).isNegative)
+            ? [
+                Colors.white.withOpacity(0.2),
+                hexaCodeToColor('#FF0000').withOpacity(0.2)
+              ]
+            : [
+                Colors.white.withOpacity(0.2),
+                hexaCodeToColor('#00FF00').withOpacity(0.2),
+              ]
+            ,
           ),
         ),
       ],

@@ -70,7 +70,7 @@ class ApiProvider with ChangeNotifier {
 
       // print("Before sdk ${await sdk.api.keyring ?? ''}");
       await sdk.init(keyring);
-      // print("Finish sdk ${await sdk.api.keyring}");
+      print("Finish sdk ${await sdk.api.keyring}");
     } catch (e) {
       print("Error initApi $e");
     }
@@ -282,7 +282,7 @@ class ApiProvider with ChangeNotifier {
     dot.marketData = marketData;
     dot.marketPrice = currentPrice;
     dot.change24h = priceChange24h;
-    dot.lineChartData = lineChartData ?? [];
+    dot.lineChartList = lineChartData ?? [];
 
     notifyListeners();
   }
@@ -299,7 +299,7 @@ class ApiProvider with ChangeNotifier {
     btc.marketData = marketData;
     btc.marketPrice = currentPrice;
     btc.change24h = priceChange24h;
-    btc.lineChartData = lineChartData ?? [];
+    btc.lineChartList = lineChartData ?? [];
 
     notifyListeners();
   }

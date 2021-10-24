@@ -54,9 +54,11 @@ class StorageServices {
 
     final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
     
-    listContract.forEach((element) {
-      print(element.name);
-    });
+    // print("storeAssetData");
+    // listContract.forEach((element) {
+    //   print("${element.name} ${element.change24h}");
+    //   print("${element.name} ${element.marketPrice}");
+    // });
 
     final res = SmartContractModel.encode(listContract);
 

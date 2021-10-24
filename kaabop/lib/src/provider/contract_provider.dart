@@ -137,21 +137,13 @@ class ContractProvider with ChangeNotifier {
 
   Future<bool> setSavedList() async {
 
-    // await StorageServices.removeKey("assetData");
-
     try {
 
       final saved = await StorageServices.fetchAsset(DbKey.assetData);
 
       if (saved != null) {
 
-        savedAssetList = List<SmartContractModel>.from(saved);
-
-        savedAssetList.forEach((element) {
-          print("${element.name}");
-        });
-
-        listContract = savedAssetList;
+        listContract = List<SmartContractModel>.from(saved);
         
         notifyListeners();
         return true;
@@ -192,52 +184,6 @@ class ContractProvider with ChangeNotifier {
   //   final _contract = await AppUtils.contractfromAssets(AppConfig.atdPath, "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26");
   //   _swap = new ContractService(_bscClient, _contract);
   // }
-
-  Future<void> selTokenWallet() async {
-    await initBscClient();
-    final contract = await AppUtils.contractfromAssets(
-        AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
-    //final contract = await initBsc(listContract[0].address);
-    _selToken = new ContractService(_bscClient, contract);
-
-    //print(contract.address);
-
-    final balance = await _selToken.getTokenBalance(getEthAddr(ethAdd));
-
-    final chainDecimal = await _selToken.getChainDecimal();
-
-    listContract[0].balance = Fmt.bigIntToDouble(
-      balance,
-      int.parse(chainDecimal.toString()),
-    ).toString();
-
-    listContract[0].chainDecimal = chainDecimal.toString();
-    notifyListeners();
-  }
-
-  Future<void> selv2TokenWallet() async {
-    // await initBscClient();
-    // final contract = await AppUtils.contractfromAssets(
-    //     AppConfig.bep20Path, listContract[1].address);
-    // //final contract = await initBsc(listContract[1].address);
-    // _selV2 = new ContractService(_bscClient, contract);
-
-    // final balance = await _selV2.getTokenBalance(getEthAddr(ethAdd));
-    // print('selV2: $balance');
-
-    // final chainDecimal = await _selV2.getChainDecimal();
-
-    listContract[1].balance = '0';
-
-    // listContract[1].balance = Fmt.bigIntToDouble(
-    //   balance,
-    //   int.parse(chainDecimal.toString()),
-    // ).toString();
-
-    listContract[1].chainDecimal = '18'; //chainDecimal.toString();
-    listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]); //chainDecimal.toString();
-    // notifyListeners();
-  }
 
   void addListActivity(TransactionInfo info, int index,
       {ContractService contractService, NativeService nativeService}) async {
@@ -282,6 +228,53 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> selTokenWallet() async {
+    await initBscClient();
+    final contract = await AppUtils.contractfromAssets(
+        AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
+    //final contract = await initBsc(listContract[0].address);
+    _selToken = new ContractService(_bscClient, contract);
+
+    //print(contract.address);
+
+    final balance = await _selToken.getTokenBalance(getEthAddr(ethAdd));
+
+    final chainDecimal = await _selToken.getChainDecimal();
+
+    listContract[0].balance = Fmt.bigIntToDouble(
+      balance,
+      int.parse(chainDecimal.toString()),
+    ).toString();
+
+    listContract[0].chainDecimal = chainDecimal.toString();
+    listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
+    notifyListeners();
+  }
+
+  Future<void> selv2TokenWallet() async {
+    // await initBscClient();
+    // final contract = await AppUtils.contractfromAssets(
+    //     AppConfig.bep20Path, listContract[1].address);
+    // //final contract = await initBsc(listContract[1].address);
+    // _selV2 = new ContractService(_bscClient, contract);
+
+    // final balance = await _selV2.getTokenBalance(getEthAddr(ethAdd));
+    // print('selV2: $balance');
+
+    // final chainDecimal = await _selV2.getChainDecimal();
+
+    listContract[1].balance = '0';
+
+    // listContract[1].balance = Fmt.bigIntToDouble(
+    //   balance,
+    //   int.parse(chainDecimal.toString()),
+    // ).toString();
+
+    listContract[1].chainDecimal = '18'; //chainDecimal.toString();
+    listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]); //chainDecimal.toString();
+    notifyListeners();
+  }
+
   Future<void> kgoTokenWallet() async {
     // await initBscClient();
     // final contract = await AppUtils.contractfromAssets(
@@ -303,7 +296,8 @@ class ContractProvider with ChangeNotifier {
     listContract[2].chainDecimal = '18'; // chainDecimal.toString();
 
     listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
-    // notifyListeners();
+
+    notifyListeners();
   }
 
   Future<void> ethWallet() async {
@@ -315,6 +309,8 @@ class ContractProvider with ChangeNotifier {
     listContract[3].balance = balance.toString();
 
     listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
+
+    notifyListeners();
   }
 
   Future<void> bnbWallet() async {
@@ -329,6 +325,8 @@ class ContractProvider with ChangeNotifier {
       listContract[4].balance = balance.toString();
 
       listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
+
+      notifyListeners();
     } catch (e) {
       print("Error bnbWallet $e");
     }
@@ -1082,7 +1080,7 @@ class ContractProvider with ChangeNotifier {
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
     listContract[2].marketData = kgoMarket;
-    listContract[2].lineChartData = lineChart;
+    listContract[2].lineChartList = lineChart;
     listContract[2].marketPrice = currentPrice;
     listContract[2].change24h = priceChange24h;
 
@@ -1093,7 +1091,7 @@ class ContractProvider with ChangeNotifier {
     listContract[3].marketData = ethMarket;
     listContract[3].marketPrice = currentPrice;
     listContract[3].change24h = priceChange24h;
-    listContract[3].lineChartData = lineChart;
+    listContract[3].lineChartList = lineChart;
 
     notifyListeners();
   }
@@ -1102,7 +1100,7 @@ class ContractProvider with ChangeNotifier {
     listContract[4].marketData = bnbMarket;
     listContract[4].marketPrice = currentPrice;
     listContract[4].change24h = priceChange24h;
-    listContract[4].lineChartData = lineChart;
+    listContract[4].lineChartList = lineChart;
 
     notifyListeners();
   }

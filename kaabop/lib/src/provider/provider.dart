@@ -7,9 +7,6 @@ class ContractsBalance {
   Future<void> getAllAssetBalance({@required BuildContext context}) async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      contractProvider.listContract.forEach((element) {
-        print(element.symbol);
-      });
 
     await contractProvider.setSavedList().then((value) async {
 
