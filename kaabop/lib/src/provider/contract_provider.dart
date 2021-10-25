@@ -166,10 +166,9 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN, _httpClient,
-        socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN)
-          .cast<String>();
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN, _httpClient,
+      socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN).cast<String>();
     });
   }
 
@@ -616,8 +615,7 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _bscClient.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr),
       to: contract.address,
-      data: ethFunction
-          .encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
+      data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
     );
 
     final swap = await _bscClient.sendTransaction(
@@ -636,28 +634,35 @@ class ContractProvider with ChangeNotifier {
     return swap;
   }
 
-  Future<List> queryEther(
-      String contractAddress, String functionName, List args) async {
-    await initEtherClient();
-    final contract =
-        await AppUtils.contractfromAssets(AppConfig.erc20Path, contractAddress);
-    //final contract = await initEtherContract(contractAddress);
+  Future<List> queryEther(String contractAddress, String functionName, List args) async {
+    try {
 
-    final ethFunction = contract.function(functionName);
+      await initEtherClient();
+      final contract = await AppUtils.contractfromAssets(AppConfig.erc20Path, contractAddress);
+      //final contract = await initEtherContract(contractAddress);
 
-    final res = await _etherClient.call(
-      contract: contract,
-      function: ethFunction,
-      params: args,
-    );
-    return res;
+      final ethFunction = contract.function(functionName);
+
+      print("ethFunction $ethFunction");
+
+      final res = await _etherClient.call(
+        contract: contract,
+        function: ethFunction,
+        params: args,
+      );
+      print("Res $res");
+
+      return res;
+    } catch (e) {
+      print("Error queryEther $e");
+    }
+    return null;
   }
 
-  Future<List> query(
-      String contractAddress, String functionName, List args) async {
-    initBscClient();
-    final contract =
-        await AppUtils.contractfromAssets(AppConfig.bep20Path, contractAddress);
+  Future<List> query(String contractAddress, String functionName, List args) async {
+
+    await initBscClient();
+    final contract = await AppUtils.contractfromAssets(AppConfig.bep20Path, contractAddress);
     // final contract = await initBsc(contractAddress);
     final ethFunction = contract.function(functionName);
 
@@ -670,7 +675,8 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> extractAddress(String privateKey) async {
-    initBscClient();
+
+    await initBscClient();
 
     print('privateKey: $privateKey');
     final credentials = await _bscClient.credentialsFromPrivateKey(
@@ -692,14 +698,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> fetchNonBalance() async {
-    initBscClient();
+    await initBscClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {
         final contractAddr = findContractAddr(token[i].symbol);
         final decimal = await query(contractAddr, 'decimals', []);
 
-        final balance = await query(
-            contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+        final balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
         token[i].balance = Fmt.bigIntToDouble(
           balance[0] as BigInt,
@@ -712,7 +717,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> fetchEtherNonBalance() async {
-    initEtherClient();
+    await initEtherClient();
     for (int i = 0; i < token.length; i++) {
       if (token[i].org == 'ERC-20') {
         final contractAddr = findContractAddr(token[i].symbol);
@@ -887,35 +892,32 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  Future<void> addToken(String symbol, BuildContext context,
-      {String contractAddr, String network}) async {
+  Future<void> addToken(String symbol, BuildContext context, {String contractAddr, String network}) async {
     if (symbol == 'SEL') {
       if (!listContract[0].isContain) {
         listContract[0].isContain = true;
 
         await StorageServices.saveBool('SEL', true);
 
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol("$symbol (BEP-20)");
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol("$symbol (BEP-20)");
 
         // await getSymbol();
         // await getBscDecimal();
         // await getBscBalance();
       }
     } else if (symbol == 'BNB') {
+
       if (!listContract[4].isContain) {
         listContract[4].isContain = true;
 
         await StorageServices.saveBool('BNB', true);
 
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol(symbol);
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
 
         // await getBscDecimal();
         // await getBnbBalance();
 
-        listContract[4].lineChartModel =
-            LineChartModel().prepareGraphChart(listContract[0]);
+        listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
       }
     } else if (symbol == 'DOT') {
       if (!ApiProvider().dot.isContain) {
@@ -923,13 +925,12 @@ class ContractProvider with ChangeNotifier {
 
         await ApiProvider().connectPolNon();
         //Provider.of<ApiProvider>(context, listen: false).isDotContain();
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol(symbol);
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
       }
     } else if (symbol == 'KGO') {
       if (!ApiProvider().dot.isContain) {
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('KGO (BEP-20)');
+
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('KGO (BEP-20)');
         // await Provider.of<ContractProvider>(context, listen: false)
         //     .getKgoSymbol();
         // await Provider.of<ContractProvider>(context, listen: false)
@@ -940,82 +941,105 @@ class ContractProvider with ChangeNotifier {
         // });
       }
     } else {
+      
       if (network != null) {
-        if (network == 'Ethereum') {
-          final symbol = await queryEther(contractAddr, 'symbol', []);
-          final decimal = await queryEther(contractAddr, 'decimals', []);
-          final balance = await queryEther(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-          final TokenModel mToken = TokenModel();
+        final symbol = await query(contractAddr, 'symbol', []);
+        final name = await query(contractAddr, 'name', []);
+        final decimal = await query(contractAddr, 'decimals', []);
+        final balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-          mToken.symbol = symbol.first.toString();
-          mToken.decimal = decimal.first.toString();
-          mToken.balance = balance.first.toString();
-          mToken.contractAddr = contractAddr;
-          mToken.org = 'ERC-20';
+        final tmpBalance = Fmt.bigIntToDouble(
+          balance[0] as BigInt,
+          int.parse(decimal[0].toString()),
+        ).toString();
 
-          if (token.isEmpty) {
-            addContractToken(mToken);
+        // if (network == 'Ethereum') {
 
-            await StorageServices.saveEthContractAddr(contractAddr);
-            Provider.of<WalletProvider>(context, listen: false)
-                .addTokenSymbol('${symbol[0]} (ERC-20)');
-          }
+        //   final TokenModel mToken = TokenModel();
 
-          if (token.isNotEmpty) {
-            if (!token.contains(mToken)) {
-              addContractToken(mToken);
+        //   mToken.symbol = symbol.first.toString();
+        //   mToken.decimal = decimal.first.toString();
+        //   mToken.balance = balance.first.toString();
+        //   mToken.contractAddr = contractAddr;
+        //   mToken.org = 'ERC-20';
 
-              await StorageServices.saveEthContractAddr(contractAddr);
-              Provider.of<WalletProvider>(context, listen: false)
-                  .addTokenSymbol('${symbol[0]} (ERC-20)');
-            }
-          }
-        } else {
-          final symbol = await query(contractAddr, 'symbol', []);
-          final decimal = await query(contractAddr, 'decimals', []);
-          final balance = await query(
-              contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+        //   if (token.isEmpty) {
+        //     await addContractToken(mToken);
 
-          if (token.isNotEmpty) {
-            final TokenModel item = token.firstWhere(
-                (element) =>
-                    element.symbol.toLowerCase() ==
-                    symbol[0].toString().toLowerCase(),
-                orElse: () => null);
+        //     await StorageServices.saveEthContractAddr(contractAddr);
+        //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
+        //   }
 
-            if (item == null) {
-              addContractToken(
-                TokenModel(
-                  contractAddr: contractAddr,
-                  decimal: decimal[0].toString(),
-                  symbol: symbol[0].toString(),
-                  balance: balance[0].toString(),
-                  org: 'BEP-20',
-                ),
-              );
+        //   if (token.isNotEmpty) {
+        //     if (!token.contains(mToken)) {
+        //       addContractToken(mToken);
 
-              await StorageServices.saveContractAddr(contractAddr);
-              Provider.of<WalletProvider>(context, listen: false)
-                  .addTokenSymbol('${symbol[0]} (BEP-20)');
-            }
-          } else {
-            token.add(
-              TokenModel(
-                  contractAddr: contractAddr,
-                  decimal: decimal[0].toString(),
-                  symbol: symbol[0].toString(),
-                  balance: balance[0].toString(),
-                  org: 'BEP-20'),
-            );
+        //       await StorageServices.saveEthContractAddr(contractAddr);
+        //       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
+        //     }
+        //   }
+        // } else {
+        //   print("symbol ${symbol[0]}");
+        //   print("name ${name[0]}");
+        //   print("decimal ${decimal[0]}");
+        //   print("balance ${balance[0]}");
 
-            await StorageServices.saveContractAddr(contractAddr);
-            Provider.of<WalletProvider>(context, listen: false)
-                .addTokenSymbol(symbol[0].toString());
-          }
-        }
+        //   // if (token.isNotEmpty) {
+        //   //   final TokenModel item = token.firstWhere(
+        //   //     (element) => element.symbol.toLowerCase() == symbol[0].toString().toLowerCase(), orElse: () => null
+        //   //   );
+
+        //   //   if (item == null) {
+        //   //     await addContractToken(
+        //   //       TokenModel(
+        //   //         contractAddr: contractAddr,
+        //   //         decimal: decimal[0].toString(),
+        //   //         symbol: symbol[0].toString(),
+        //   //         balance: balance[0].toString(),
+        //   //         org: 'BEP-20',
+        //   //       ),
+        //   //     );
+
+        //   //     await StorageServices.saveContractAddr(contractAddr);
+        //   //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
+        //   //   }
+        //   // } else {
+        //   //   token.add(
+        //   //     TokenModel(
+        //   //       contractAddr: contractAddr,
+        //   //       decimal: decimal[0].toString(),
+        //   //       symbol: symbol[0].toString(),
+        //   //       balance: balance[0].toString(),
+        //   //       org: 'BEP-20'
+        //   //     ),
+        //   //   );
+
+        //   //   await StorageServices.saveContractAddr(contractAddr);
+        //   //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol[0].toString());
+        //   // }
+        // }
+
+        SmartContractModel newContract = SmartContractModel(
+          id: name[0].toLowerCase(),
+          name: name[0],
+          symbol: symbol[0],
+          address: contractAddr,
+          org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+          isContain: true,
+          logo: 'assets/circle.png',
+          chainDecimal: decimal[0].toString(),
+          listActivity: [],
+          balance: tmpBalance.toString(),
+          lineChartModel: LineChartModel(),
+        );
+        
+        newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
+        
+        listContract.add(newContract);
       }
     }
+    
     notifyListeners();
   }
 
@@ -1029,13 +1053,10 @@ class ContractProvider with ChangeNotifier {
     if (mContractAddr != null) {
       await StorageServices.removeEthContractAddr(mContractAddr);
       token.removeWhere(
-        (element) => element.symbol.toLowerCase().startsWith(
-              symbol.toLowerCase(),
-            ),
+        (element) => element.symbol.toLowerCase().startsWith(symbol.toLowerCase()),
       );
 
-      Provider.of<WalletProvider>(context, listen: false)
-          .removeTokenSymbol(symbol);
+      Provider.of<WalletProvider>(context, listen: false).removeTokenSymbol(symbol);
     }
     notifyListeners();
   }

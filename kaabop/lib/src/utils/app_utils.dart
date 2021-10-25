@@ -8,8 +8,7 @@ import 'package:web3dart/web3dart.dart';
 class AppUtils {
   static final globalKey = GlobalKey<NavigatorState>();
 
-  static Future<DeployedContract> contractfromAssets(
-      String path, String contractAddr) async {
+  static Future<DeployedContract> contractfromAssets(String path, String contractAddr) async {
     final String contractJson = await rootBundle.loadString(path);
     return DeployedContract(
       ContractAbi.fromJson(contractJson, 'contract'),

@@ -153,16 +153,6 @@ class AssetList extends StatelessWidget {
             return Column(
               children: [
                 for (int index = 0; index < value.sortListContract.length; index++)
-                  // Column(
-                  //   children: [
-                  //     Text(value.sortListContract[index].logo.toString()),
-                  //     Text(value.sortListContract[index].symbol.toString()),
-                  //     Text(value.sortListContract[index].org.toString()),
-                  //     Text(value.sortListContract[index].balance.toString()),
-                  //     Text(value.sortListContract[index].marketPrice.toString()),
-                  //     Text(value.sortListContract[index].lineChartModel.toString())
-                  //   ],
-                  // )
                   GestureDetector(
                     onTap: () {
                       Navigator.push(

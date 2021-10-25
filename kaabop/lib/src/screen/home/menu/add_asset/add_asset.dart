@@ -11,13 +11,16 @@ class AddAsset extends StatefulWidget {
 }
 
 class AddAssetState extends State<AddAsset> {
+
   final ModelAsset _modelAsset = ModelAsset();
 
   final FlareControls _flareController = FlareControls();
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
+
   FlareControls flareController = FlareControls();
-  String _tokenSymbol = '', initialValue = 'Ethereum';
+  
+  String _tokenSymbol = '', initialValue = 'Binance Smart Chain';
 
   @override
   void initState() {
@@ -40,8 +43,7 @@ class AddAssetState extends State<AddAsset> {
 
   void validateAllFieldNotEmpty() {
     // Validator 1 : All Field Not Empty
-    if (_modelAsset.controllerAssetCode.text.isNotEmpty &&
-        _modelAsset.controllerIssuer.text.isNotEmpty) {
+    if (_modelAsset.controllerAssetCode.text.isNotEmpty &&  _modelAsset.controllerIssuer.text.isNotEmpty) {
       validateAllFieldNoError();
     } else if (_modelAsset.enable) {
       enableButton(false);
@@ -49,8 +51,7 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void validateAllFieldNoError() {
-    if (_modelAsset.responseAssetCode == null &&
-        _modelAsset.responseIssuer == null) {
+    if (_modelAsset.responseAssetCode == null && _modelAsset.responseIssuer == null) {
       enableButton(true); // Enable Button If All Field Not Empty
     } else if (_modelAsset.enable) {
       enableButton(false);
@@ -65,60 +66,74 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> addAsset() async {
-    dialogLoading(context);
-    if (_modelAsset.match) {
-      // Provider.of<ContractProvider>(context, listen: false)
-      //     .addToken(ContractProvider().kmpi.symbol, context);
-    } else {
-      Provider.of<ContractProvider>(context, listen: false).addToken(
+    
+    try {
+
+      dialogLoading(context);
+      print("_modelAsset.match ${_modelAsset.match}");
+      if (_modelAsset.match) {
+        // Provider.of<ContractProvider>(context, listen: false)
+        //     .addToken(ContractProvider().kmpi.symbol, context);
+      } else {
+        
+      }
+      await Provider.of<ContractProvider>(context, listen: false).addToken(
         _tokenSymbol,
         context,
         network: initialValue,
         contractAddr: _modelAsset.controllerAssetCode.text,
       );
+      await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+      /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+      await StorageServices.storeAssetData(context);
+
+      await enableAnimation();
+    } catch (e) {
+      print("Error addAsset $e");
     }
-    await enableAnimation();
   }
 
   Future<void> submitAsset() async {
-    setState(() {
-      _modelAsset.loading = true;
-    });
 
-    final resEther =
-        await validateEtherAddress(_modelAsset.controllerAssetCode.text);
-    final res = await validateAddress(_modelAsset.controllerAssetCode.text);
+    print("initialValue $initialValue");
+    print("_modelAsset.controllerAssetCode.text ${_modelAsset.controllerAssetCode.text}");
+    try {
+    
+      setState(() {
+        _modelAsset.loading = true;
+      });
 
-    if (res || resEther) {
-      if (res) {
-        if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
-          setState(() {
-            _modelAsset.match = true;
-            _modelAsset.loading = false;
-          });
-        }
-      } else {
-        if (initialValue == 'Ethereum') {
-          searchEtherContract();
-        } else {
-          final res =
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .query(_modelAsset.controllerAssetCode.text, 'symbol', []);
-          if (res != null) {
+      final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
+      final res = await validateAddress(_modelAsset.controllerAssetCode.text);
+
+      if (res || resEther) {
+        if (res) {
+          if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
             setState(() {
-              _tokenSymbol = res[0].toString();
+              _modelAsset.match = true;
               _modelAsset.loading = false;
             });
           }
+        } else {
+          if (initialValue == 'Ethereum') {
+            await searchEtherContract();
+          } else {
+            final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
+            if (res != null) {
+              setState(() {
+                _tokenSymbol = res[0].toString();
+                _modelAsset.loading = false;
+              });
+            }
+          }
         }
-      }
-    } else {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+      } else {
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
               title: Align(
                 child: Text('Opps'),
               ),
@@ -131,28 +146,33 @@ class AddAssetState extends State<AddAsset> {
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),
-              ]);
-        },
-      );
-      //await dialog('Invalid token contract address!', 'Opps');
-      setState(() {
-        _modelAsset.loading = false;
-      });
+              ]
+            );
+          },
+        );
+        //await dialog('Invalid token contract address!', 'Opps');
+        setState(() {
+          _modelAsset.loading = false;
+        });
+      }
+    } catch (e) {
+      print("Error submitAsset $e");
     }
   }
 
   Future<void> searchEtherContract() async {
     try {
-      final res = await Provider.of<ContractProvider>(context, listen: false)
-          .queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
-
+      final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
+      print("searchEtherContract $res");
       if (res != null) {
         setState(() {
           _tokenSymbol = res[0].toString();
           _modelAsset.loading = false;
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      print("Error searchEtherContract $e");
+    }
   }
 
   void onSubmit() {
@@ -191,6 +211,7 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> enableAnimation() async {
+
     Navigator.pop(context);
     setState(() {
       _modelAsset.added = true;
@@ -198,8 +219,7 @@ class AddAssetState extends State<AddAsset> {
     flareController.play('Checkmark');
 
     Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }
 
@@ -221,10 +241,9 @@ class AddAssetState extends State<AddAsset> {
             onSubmit: onSubmit,
             submitAsset: submitAsset,
           ),
-          if (_modelAsset.added == false)
-            Container()
-          else
-            BackdropFilter(
+          (_modelAsset.added == false)
+          ? Container()
+          : BackdropFilter(
               // Fill Blur Background
               filter: ImageFilter.blur(
                 sigmaX: 5.0,
@@ -234,8 +253,7 @@ class AddAssetState extends State<AddAsset> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: CustomAnimation.flareAnimation(_flareController,
-                        "assets/animation/check.flr", "Checkmark"),
+                    child: CustomAnimation.flareAnimation(_flareController, "assets/animation/check.flr", "Checkmark"),
                   ),
                 ],
               ),
