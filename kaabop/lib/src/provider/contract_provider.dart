@@ -5,6 +5,7 @@ import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/config/app_config.dart';
+import 'package:wallet_apps/src/constants/asset_path.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
@@ -45,75 +46,75 @@ class ContractProvider with ChangeNotifier {
   List<SmartContractModel> listContract = [
     // (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB) (5 ATT)
     
-    SmartContractModel(
-      id: 'selendra',
-      name: "SELENDRA",
-      address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
-      logo: 'assets/SelendraCircle-Blue.png',
-      symbol: 'SEL',
-      org: 'BEP-20',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
-    // SEL V2
-    SmartContractModel(
-      id: 'selendra v2',
-      name: "SELENDRA",
-      address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
-      logo: 'assets/SelendraCircle-Blue.png',
-      symbol: 'SEL (v2)',
-      org: 'BEP-20',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
-    // KIWIGO
-    SmartContractModel(
-      id: 'kiwigo',
-      name: "KIWIGO",
-      address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
-      logo: 'assets/Kiwi-GO-White-1.png',
-      symbol: 'KGO',
-      org: 'BEP-20',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
-    // Ethereum
-    SmartContractModel(
-      id: 'ethereum',
-      name: "Ethereum",
-      logo: 'assets/eth.png',
-      symbol: 'ETH',
-      org: '',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
-    //BNB
-    SmartContractModel(
-      id: 'binance smart chain',
-      name: "Binance Coin",
-      logo: 'assets/bnb.png',
-      symbol: 'BNB',
-      org: 'Smart Chain',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
-    // Attendance Token
-    SmartContractModel(
-      id: 'attendant',
-      name: "ATTENDANT",
-      address: "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26",
-      logo: 'assets/attd_fingerprint.png',
-      symbol: 'ATT',
-      org: 'BEP-20',
-      isContain: true,
-      listActivity: [],
-      lineChartModel: LineChartModel(),
-    ),
+    // SmartContractModel(
+    //   id: 'selendra',
+    //   name: "SELENDRA",
+    //   address: '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a',
+    //   logo: 'assets/SelendraCircle-Blue.png',
+    //   symbol: 'SEL',
+    //   org: 'BEP-20',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
+    // // SEL V2
+    // SmartContractModel(
+    //   id: 'selendra v2',
+    //   name: "SELENDRA",
+    //   address: '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C',
+    //   logo: 'assets/SelendraCircle-Blue.png',
+    //   symbol: 'SEL (v2)',
+    //   org: 'BEP-20',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
+    // // KIWIGO
+    // SmartContractModel(
+    //   id: 'kiwigo',
+    //   name: "KIWIGO",
+    //   address: '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773',
+    //   logo: 'assets/Kiwi-GO-White-1.png',
+    //   symbol: 'KGO',
+    //   org: 'BEP-20',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
+    // // Ethereum
+    // SmartContractModel(
+    //   id: 'ethereum',
+    //   name: "Ethereum",
+    //   logo: 'assets/eth.png',
+    //   symbol: 'ETH',
+    //   org: '',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
+    // //BNB
+    // SmartContractModel(
+    //   id: 'binance smart chain',
+    //   name: "Binance Coin",
+    //   logo: 'assets/bnb.png',
+    //   symbol: 'BNB',
+    //   org: 'Smart Chain',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
+    // // Attendance Token
+    // SmartContractModel(
+    //   id: 'attendant',
+    //   name: "ATTENDANT",
+    //   address: "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26",
+    //   logo: 'assets/attd_fingerprint.png',
+    //   symbol: 'ATT',
+    //   org: 'BEP-20',
+    //   isContain: true,
+    //   listActivity: [],
+    //   lineChartModel: LineChartModel(),
+    // ),
   ];
 
   List<SmartContractModel> sortListContract = [];
@@ -133,9 +134,48 @@ class ContractProvider with ChangeNotifier {
 
   ContractProvider() {
     initSwapContract();
+    initJson();
+  }
+
+  void initJson() async {
+
+    print("initJson");
+    try {
+
+      final json = await rootBundle.loadString(AssetPath.contractJson);
+      final decode = jsonDecode(json);
+      
+      listContract.clear();
+      
+      decode.forEach((value){
+        listContract.add(
+          SmartContractModel(
+            id: value['id'],
+            name: value["name"],
+            logo: value["logo"],
+            symbol: value["symbol"],
+            org: value["org"],
+            isContain: value["isContain"],
+            listActivity: [],
+            lineChartModel: LineChartModel(),
+          )
+        );
+      });
+
+      listContract.forEach((element) {
+        print("Tmp ${element.isContain.runtimeType}");
+        print("Symbol ${element.symbol}");
+        print("balance ${element.balance}");
+      });
+
+    } catch (e) {
+      print("Error initJson $e");
+    }
   }
 
   Future<bool> setSavedList() async {
+
+    print("setSavedList");
 
     try {
 
@@ -144,6 +184,10 @@ class ContractProvider with ChangeNotifier {
       if (saved != null) {
 
         listContract = List<SmartContractModel>.from(saved);
+        
+        listContract.forEach((data){
+          print(data.symbol);
+        });
         
         notifyListeners();
         return true;
@@ -410,6 +454,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> isBtcContain(ApiProvider apiPro, BuildContext context) async {
+
     final res = await StorageServices.fetchData('bech32');
 
     if (res != null) {
@@ -437,7 +482,7 @@ class ContractProvider with ChangeNotifier {
 
   void unsubscribeNetwork() async {
     print('canel stream');
-    streamSubscriptionBsc.cancel();
+    await streamSubscriptionBsc.cancel();
 
     //await streamSubscriptionEth.cancel();
     notifyListeners();
@@ -643,14 +688,11 @@ class ContractProvider with ChangeNotifier {
 
       final ethFunction = contract.function(functionName);
 
-      print("ethFunction $ethFunction");
-
       final res = await _etherClient.call(
         contract: contract,
         function: ethFunction,
         params: args,
       );
-      print("Res $res");
 
       return res;
     } catch (e) {
@@ -893,7 +935,9 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> addToken(String symbol, BuildContext context, {String contractAddr, String network}) async {
+    
     if (symbol == 'SEL') {
+      
       if (!listContract[0].isContain) {
         listContract[0].isContain = true;
 
@@ -921,6 +965,7 @@ class ContractProvider with ChangeNotifier {
       }
     } else if (symbol == 'DOT') {
       if (!ApiProvider().dot.isContain) {
+        
         await StorageServices.saveBool('DOT', true);
 
         await ApiProvider().connectPolNon();
@@ -943,16 +988,38 @@ class ContractProvider with ChangeNotifier {
     } else {
       
       if (network != null) {
+        
+        dynamic symbol;
+        dynamic name;
+        dynamic decimal;
+        dynamic balance;
+        dynamic tmpBalance;
 
-        final symbol = await query(contractAddr, 'symbol', []);
-        final name = await query(contractAddr, 'name', []);
-        final decimal = await query(contractAddr, 'decimals', []);
-        final balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+        if (network == 'Ethereum'){
+          
+          symbol = await queryEther(contractAddr, 'symbol', []);
+          name = await queryEther(contractAddr, 'name', []);
+          decimal = await queryEther(contractAddr, 'decimals', []);
+          balance = await queryEther(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
 
-        final tmpBalance = Fmt.bigIntToDouble(
-          balance[0] as BigInt,
-          int.parse(decimal[0].toString()),
-        ).toString();
+          tmpBalance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            int.parse(decimal[0].toString()),
+          ).toString(); 
+
+        } else if (network == 'Binance Smart Chain'){
+
+          symbol = await query(contractAddr, 'symbol', []);
+          name = await query(contractAddr, 'name', []);
+          decimal = await query(contractAddr, 'decimals', []);
+          balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+
+          tmpBalance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            int.parse(decimal[0].toString()),
+          ).toString();
+          
+        }
 
         // if (network == 'Ethereum') {
 
@@ -1037,6 +1104,17 @@ class ContractProvider with ChangeNotifier {
         newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
         
         listContract.add(newContract);
+        print(newContract.id);
+        print(newContract.name);
+        print(newContract.symbol);
+        print(newContract.address);
+        print(newContract.org);
+        print(newContract.isContain);
+        print(newContract.logo);
+        print(newContract.chainDecimal);
+        print(newContract.listActivity);
+        print(newContract.balance);
+        print(newContract.lineChartModel);
       }
     }
     
@@ -1134,6 +1212,8 @@ class ContractProvider with ChangeNotifier {
 
   void resetConObject() {
     token.clear();
+    sortListContract.clear();
+    initJson();
     notifyListeners();
   }
 }

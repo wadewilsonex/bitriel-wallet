@@ -70,7 +70,6 @@ class ApiProvider with ChangeNotifier {
 
       // print("Before sdk ${await sdk.api.keyring ?? ''}");
       await sdk.init(keyring);
-      print("Finish sdk ${await sdk.api.keyring}");
     } catch (e) {
       print("Error initApi $e");
     }

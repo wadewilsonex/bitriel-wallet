@@ -50,15 +50,14 @@ class StorageServices {
     return _preferences;
   }
 
-  static Future<void> storeAssetData(context) async {
+  static Future<void> storeAssetData(BuildContext context) async {
 
     final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
     
-    // print("storeAssetData");
-    // listContract.forEach((element) {
-    //   print("${element.name} ${element.change24h}");
-    //   print("${element.name} ${element.marketPrice}");
-    // });
+    print("storeAssetData");
+    listContract.forEach((element) {
+      print("${element.name} ${element.change24h}");
+    });
 
     final res = SmartContractModel.encode(listContract);
 

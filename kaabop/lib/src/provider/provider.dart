@@ -9,10 +9,10 @@ class ContractsBalance {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
     await contractProvider.setSavedList().then((value) async {
+      // print("setSavedList $value");
 
       // If Data Already Exist
       if (value){
-        print(value);
 
         // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
         contractProvider.addApiProviderProperty(apiProvider);
@@ -55,6 +55,7 @@ class ContractsBalance {
       
       /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
       await StorageServices.storeAssetData(context);
+      print("Already storeAssetData");
       
     });
   }

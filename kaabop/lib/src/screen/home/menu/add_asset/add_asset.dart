@@ -66,38 +66,68 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> addAsset() async {
+
+    bool isMatch = false;
     
     try {
 
       dialogLoading(context);
-      print("_modelAsset.match ${_modelAsset.match}");
-      if (_modelAsset.match) {
-        // Provider.of<ContractProvider>(context, listen: false)
-        //     .addToken(ContractProvider().kmpi.symbol, context);
-      } else {
+
+      await Provider.of<ContractProvider>(context, listen: false).listContract.forEach((element) async {
+        if (_modelAsset.controllerAssetCode.text == element.address){
+          isMatch = true;
+        }
+      });
+
+      if (isMatch){
+
+        Navigator.pop(context);
         
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: Text('Oops'),
+              ),
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text(
+                "This contract address already in your list",
+                textAlign: TextAlign.center
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        await Provider.of<ContractProvider>(context, listen: false).addToken(
+            _tokenSymbol,
+            context,
+            network: initialValue,
+            contractAddr: _modelAsset.controllerAssetCode.text,
+          );
+
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+          /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+          await StorageServices.storeAssetData(context);
+          await enableAnimation();
       }
-      await Provider.of<ContractProvider>(context, listen: false).addToken(
-        _tokenSymbol,
-        context,
-        network: initialValue,
-        contractAddr: _modelAsset.controllerAssetCode.text,
-      );
-      await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-      /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
-      await StorageServices.storeAssetData(context);
-
-      await enableAnimation();
     } catch (e) {
       print("Error addAsset $e");
     }
   }
 
   Future<void> submitAsset() async {
-
-    print("initialValue $initialValue");
-    print("_modelAsset.controllerAssetCode.text ${_modelAsset.controllerAssetCode.text}");
     try {
     
       setState(() {
@@ -116,19 +146,24 @@ class AddAssetState extends State<AddAsset> {
             });
           }
         } else {
+
           if (initialValue == 'Ethereum') {
+            print("Ethereum");
             await searchEtherContract();
           } else {
+            print("BSC");
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
             if (res != null) {
-              setState(() {
-                _tokenSymbol = res[0].toString();
-                _modelAsset.loading = false;
-              });
+              _tokenSymbol = res[0].toString();
             }
           }
+          setState(() {
+          
+            _modelAsset.loading = false;
+          });
         }
       } else {
+        
         await showDialog(
           context: context,
           builder: (context) {
@@ -156,6 +191,36 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
+      setState(() {
+      
+        _modelAsset.loading = false;
+      });
+
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            title: Align(
+              child: Text('Oops'),
+            ),
+            content: Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: Text(
+              "$e",
+              textAlign: TextAlign.center
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
       print("Error submitAsset $e");
     }
   }

@@ -268,8 +268,7 @@ class PresaleProvider with ChangeNotifier {
       _deployedContract = await initPresaleContract();
 
       final preFunction = _deployedContract.function('minInvestment');
-      var res = await _contractP.bscClient
-          .call(contract: _deployedContract, function: preFunction, params: []);
+      var res = await _contractP.bscClient.call(contract: _deployedContract, function: preFunction, params: []);
       print("Res $res");
       return res;
     } catch (e) {

@@ -22,12 +22,12 @@ class AssetList extends StatelessWidget {
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring
-        .checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 
   Future<void> onSubmit(BuildContext context) async {
+
     if (_formKey.currentState.validate()) {
       dialogLoading(context);
       final isValidSeed = await validateMnemonic(passphraseController.text);
@@ -97,8 +97,7 @@ class AssetList extends StatelessWidget {
             .address;
 
         await StorageServices.storeData(bech32Address, 'bech32');
-        final res = await ApiProvider.keyring.store
-            .encryptPrivateKey(hdWallet.wif, pinController.text);
+        final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, pinController.text);
 
         if (res != null) {
           await StorageServices().writeSecure('btcwif', res);
