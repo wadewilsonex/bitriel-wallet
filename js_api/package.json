@@ -19,18 +19,18 @@
     "url": "https://github.com/polkawallet-io/js_api/issues"
   },
   "scripts": {
-    "clean": "rm -rf dist/*",
+    "clean": "rm -rf dist/",
     "build": "webpack -p --mode production",
     "build-dev": "webpack -d --mode development"
   },
   "resolutions": {
-    "@polkadot/api": "^5.5.2"
+    "@polkadot/api": "^6.0.1"
   },
   "dependencies": {
-    "@polkadot/api": "^5.5.2",
-    "@polkadot/api-contract": "^5.5.2",
-    "@polkadot/ui-shared": "^0.82.1",
-    "bn.js": "^5.1.2",
+    "@polkadot/api": "^6.3.1",
+    "@polkadot/api-contract": "^6.3.1",
+    "@polkadot/ui-shared": "^0.85.5",
+    "bn.js": "^5.2.0",
     "ethers": "^5.4.2",
     "oo7-substrate": "^0.8.0",
     "secp256k1": "^3.8.0",

@@ -40,9 +40,9 @@ class AppConfig {
         // wsUrlMN:
         //     'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
         httpUrlTN:
-            'https://rinkeby.infura.io/v3/992eee6b65b44b0f8a314f0118bf8c0b', // 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+            'https://rinkeby.infura.io/v3/8f6fa91629a0466784ecee0e7fc552b8', //'https://rinkeby.infura.io/v3/992eee6b65b44b0f8a314f0118bf8c0b', // 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
         wsUrlTN:
-            'wss://rinkeby.infura.io/ws/v3/992eee6b65b44b0f8a314f0118bf8c0b' //'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+            'wss://rinkeby.infura.io/ws/v3/8f6fa91629a0466784ecee0e7fc552b8' //'wss://rinkeby.infura.io/ws/v3/992eee6b65b44b0f8a314f0118bf8c0b' //'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
         ),
     NetworkParams(
         httpUrlMN: 'https://bsc-dataseed.binance.org/',

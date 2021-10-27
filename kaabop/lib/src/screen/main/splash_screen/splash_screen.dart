@@ -14,23 +14,22 @@ class MySplashScreen extends StatefulWidget {
   }
 }
 
-class MySplashScreenState extends State<MySplashScreen> with SingleTickerProviderStateMixin {
-
+class MySplashScreenState extends State<MySplashScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> animation;
 
   Future<void> getCurrentAccount() async {
     try {
-
       await Future.delayed(const Duration(milliseconds: 1000), () async {
         final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
         print(ls.length);
 
         if (ls.isEmpty) {
-          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+          Navigator.pushReplacement(
+              context, RouteAnimation(enterPage: Welcome()));
         } else {
-
           final ethAddr = await StorageServices().readSecure('etherAdd');
 
           if (ethAddr == null) {
@@ -70,7 +69,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   Future<void> checkBio() async {
-
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure('passcode');
@@ -116,7 +114,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
           ),
         );
       } else {
-        print("Check BiO");
         Navigator.pushReplacementNamed(context, Home.route);
       }
     });

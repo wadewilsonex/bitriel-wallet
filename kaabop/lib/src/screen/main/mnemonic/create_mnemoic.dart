@@ -30,9 +30,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
 
   Future<void> enableScreenShot() async {
     try {
-      await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
-        print("Value $value");
-      });
+      await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
     } catch (e) {}
 
     Navigator.pop(context);

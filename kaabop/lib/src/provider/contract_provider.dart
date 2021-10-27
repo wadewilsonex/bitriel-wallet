@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:polkawallet_sdk/kabob_sdk.dart';
@@ -77,6 +78,7 @@ class ContractProvider with ChangeNotifier {
         org: 'BEP-20',
         isContain: true,
         lineChartModel: LineChartModel()),
+
     // Ethereum
     SmartContractModel(
         id: 'ethereum',
@@ -95,6 +97,15 @@ class ContractProvider with ChangeNotifier {
         org: 'Smart Chain',
         isContain: true,
         lineChartModel: LineChartModel()),
+    // SmartContractModel(
+    //     id: 'REKREAY',
+    //     address: '0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0',
+    //     logo: 'assets/token_logo/rekreay.png',
+    //     symbol: 'REKREAY',
+    //     name: "REKREAY",
+    //     org: 'BEP-20',
+    //     isContain: true,
+    //     lineChartModel: LineChartModel()),
   ];
 
   /// List For Display Asset After sort
@@ -657,6 +668,23 @@ class ContractProvider with ChangeNotifier {
 
       listContract[2].lineChartModel =
           LineChartModel().prepareGraphChart(listContract[2]);
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> getRRBalance() async {
+    if (ethAdd != '') {
+      final res = await query(listContract[5].address, 'balanceOf',
+          [EthereumAddress.fromHex(ethAdd)]);
+
+      listContract[5].balance = Fmt.bigIntToDouble(
+        res[0] as BigInt,
+        int.parse('0'),
+      ).toString();
+
+      // listContract[2].lineChartModel =
+      //     LineChartModel().prepareGraphChart(listContract[2]);
     }
 
     notifyListeners();

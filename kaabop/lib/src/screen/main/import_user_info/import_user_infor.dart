@@ -20,7 +20,6 @@ class ImportUserInfo extends StatefulWidget {
 }
 
 class ImportUserInfoState extends State<ImportUserInfo> {
-
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
   LocalAuthentication _localAuth = LocalAuthentication();
@@ -44,12 +43,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
-
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider =
+        Provider.of<ContractProvider>(context, listen: false);
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
     try {
-      
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
@@ -66,14 +64,13 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       if (acc != null) {
-        
         await addBtcWallet();
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
         if (resPk != null) {
-
           await ContractProvider().extractAddress(resPk);
 
-          final res = await ApiProvider.keyring.store.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+          final res = await ApiProvider.keyring.store
+              .encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
 
           if (res != null) {
             await StorageServices().writeSecure('private', res);
@@ -91,18 +88,22 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         // await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
         await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-        
+        await Provider.of<ApiProvider>(context, listen: false)
+            .getCurrentAccount();
+
         // // Sort Contract Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
-        
+        await Provider.of<ContractProvider>(context, listen: false)
+            .sortAsset(context);
+
         // // Ready To Display Asset Portfolio
         Provider.of<ContractProvider>(context, listen: false).setReady();
-        
+
         // print("getChainDecimal");
         // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         await successDialog(context, "imported your account.");
+        // This Method Is Also Request Dot Contract
+        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
       }
     } catch (e) {
       await showDialog(
@@ -133,15 +134,17 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> getSavedContractToken() async {
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider =
+        Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
-    print("getSavedContractToken $res");
 
     if (res != null) {
       for (final i in res) {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
-        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final decimal =
+            await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf',
+            [EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -150,13 +153,15 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
-        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
+        Provider.of<WalletProvider>(context, listen: false)
+            .addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
   }
 
   Future<void> getEtherSavedContractToken() async {
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider =
+        Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
 
     if (res != null) {
@@ -182,16 +187,19 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> addBtcWallet() async {
-    
     final seed = bip39.mnemonicToSeed(widget.passPhrase);
     final hdWallet = HDWallet.fromSeed(seed);
     final keyPair = ECPair.fromWIF(hdWallet.wif);
 
-    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
+    final bech32Address = new P2WPKH(
+            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
+        .data
+        .address;
 
     await StorageServices.setData(bech32Address, 'bech32');
 
-    final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
+    final res = await ApiProvider.keyring.store
+        .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
 
     if (res != null) {
       await StorageServices().writeSecure('btcwif', res);
@@ -201,12 +209,16 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-    await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address);
+    await Provider.of<ApiProvider>(context, listen: false)
+        .getBtcBalance(hdWallet.address);
   }
 
   Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false).getKgoDecimal().then((value) async {
-      await Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+    await Provider.of<ContractProvider>(context, listen: false)
+        .getKgoDecimal()
+        .then((value) async {
+      await Provider.of<ContractProvider>(context, listen: false)
+          .getKgoBalance();
     });
   }
 
@@ -240,7 +252,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           });
         }
       } else {
-        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context,
+            "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
       await showDialog(
@@ -357,7 +370,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   // Submit Profile User
   Future<void> submitProfile() async {
     // Show Loading Process
-    dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+    dialogLoading(context,
+        content: "This processing may take a bit longer\nPlease wait a moment");
 
     await _importFromMnemonic();
   }

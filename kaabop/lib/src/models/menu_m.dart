@@ -25,7 +25,7 @@ class MenuModel {
       ]
     },
     {
-      'title': "Airdrop",
+      'title': "SEL Events",
       'sub': [
         {'icon': "assets/icons/form.svg", 'subTitle': 'Claim SEL'},
         {'icon': "assets/icons/form.svg", 'subTitle': 'Claim KGO'},
