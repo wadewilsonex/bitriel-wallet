@@ -3,6 +3,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/components/component.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/menu/account_c.dart';
 import '../../../../index.dart';
 
@@ -68,11 +69,7 @@ class _AccountState extends State<Account> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          // title: const Align(
-          //   child: Text('Are you sure to delete your account'),
-          // ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: const Padding(
             padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: MyText(
@@ -88,9 +85,10 @@ class _AccountState extends State<Account> {
             TextButton(
               onPressed: () async => await _deleteAccount(),
               child: const MyText(
-                  text: 'Delete',
-                  color: AppColors.redColor,
-                  fontWeight: FontWeight.w700),
+                text: 'Delete',
+                color: AppColors.redColor,
+                fontWeight: FontWeight.w700
+              ),
             ),
             // action
           ],
@@ -100,6 +98,7 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _deleteAccount() async {
+
     dialogLoading(context);
     try {
       await ApiProvider.sdk.api.keyring.deleteAccount(
@@ -108,6 +107,7 @@ class _AccountState extends State<Account> {
       );
 
       await AppServices.clearStorage();
+
       await StorageServices().clearSecure();
       //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
@@ -115,8 +115,7 @@ class _AccountState extends State<Account> {
       await Future.delayed(Duration(seconds: 2), () {});
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
-      Navigator.pushAndRemoveUntil(context,
-          RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
       // print(e.toString());
       // await dialog(context, e.toString(), 'Opps');
@@ -224,12 +223,6 @@ class _AccountState extends State<Account> {
         },
       );
 
-      // await dialog(
-      //   context,
-      //   'Change Failed',
-      //   'Opps',
-      // );
-
       setState(() {
         _loading = false;
       });
@@ -261,6 +254,7 @@ class _AccountState extends State<Account> {
 
   @override
   void initState() {
+
     _currentAcc = ApiProvider.keyring.keyPairs[0];
     super.initState();
   }

@@ -153,6 +153,7 @@ flutter:
     - assets/abi/
     - assets/icons/
     - assets/token_logo/
+    - assets/json/
   
 
     # Animation Flare

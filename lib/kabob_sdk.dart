@@ -9,6 +9,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 /// SDK launchs a hidden webView to run polkadot.js/api for interacting
 /// with the substrate-based block-chain network.
 class WalletSDK {
+  
   KabobApi api;
 
   SubstrateService _service;
@@ -24,28 +25,35 @@ class WalletSDK {
     WebViewRunner webView,
     String jsCode,
   }) async {
-    final c = Completer();
 
-    _service = SubstrateService();
-    await _service.init(
-      keyring,
-      webViewParam: webView,
-      jsCode: jsCode,
-      onInitiated: () {
-        // inject keyPairs after webView launched
-        _service.keyring.injectKeyPairsToWebView(keyring);
+    try {
 
-        // and initiate pubKeyIconsMap
-        api.keyring.updatePubKeyIconsMap(keyring);
+      final c = Completer();
 
-        if (!c.isCompleted) {
-          c.complete();
-        }
-      },
-    );
+      _service = SubstrateService();
 
-    api = KabobApi(_service);
-    api.init();
-    return c.future;
+      await _service.init(
+        keyring,
+        webViewParam: webView,
+        jsCode: jsCode,
+        onInitiated: () async {
+          // inject keyPairs after webView launched
+          await _service.keyring.injectKeyPairsToWebView(keyring);
+
+          // and initiate pubKeyIconsMap
+          await api.keyring.updatePubKeyIconsMap(keyring);
+
+          if (!c.isCompleted) {
+            c.complete();
+          }
+        },
+      );
+
+      api = KabobApi(_service);
+      api.init();
+      return c.future;
+    } catch (e) {
+      print("Error WalletSDK $e");
+    }
   }
 }

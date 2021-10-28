@@ -3,6 +3,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:web3dart/credentials.dart';
 
@@ -76,7 +77,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
             await StorageServices().writeSecure('private', res);
           }
         }
-        // await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
         // await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
         // await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
@@ -86,19 +87,18 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         // // This Method Is Also Request Dot Contract
         // await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-
+//1
         await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false)
-            .getCurrentAccount();
-
-        // // Sort Contract Asset
-        await Provider.of<ContractProvider>(context, listen: false)
-            .sortAsset(context);
-
-        // // Ready To Display Asset Portfolio
-        Provider.of<ContractProvider>(context, listen: false).setReady();
-
-        // print("getChainDecimal");
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        
+        await ContractsBalance().getAllAssetBalance(context: context);
+//2
+        // // // Sort Contract Asset
+        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        
+        // // // Ready To Display Asset Portfolio
+        // Provider.of<ContractProvider>(context, listen: false).setReady();
+        
         // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
 
         await successDialog(context, "imported your account.");
@@ -110,8 +110,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: const Align(
               child: Text('Oops'),
             ),
@@ -196,7 +195,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         .data
         .address;
 
-    await StorageServices.setData(bech32Address, 'bech32');
+    await StorageServices.storeData(bech32Address, 'bech32');
 
     final res = await ApiProvider.keyring.store
         .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
@@ -209,17 +208,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-    await Provider.of<ApiProvider>(context, listen: false)
-        .getBtcBalance(hdWallet.address);
-  }
-
-  Future<void> isKgoContain() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) async {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoBalance();
-    });
+    await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address, context: context);
   }
 
   // ignore: avoid_void_async

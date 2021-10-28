@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../index.dart';
 
 class WalletProvider with ChangeNotifier {
+  
   final List<PortfolioM> _portfolioM = [];
 
   List<Map<String, String>> availableToken = [];
@@ -36,44 +37,49 @@ class WalletProvider with ChangeNotifier {
   // 2. Divide Each Data With Total To Get Float
   // 3. Take Eacher Data Divided To Multple By 100 To Get Percentage
   // For Pie Chart
-  Future<void> fillWithMarketData(context) {
-    _portfolioM.clear();
-    dataMap.clear();
+  Future<void> fillWithMarketData(BuildContext context) {
+    try {
 
-    double temp = 0.0, total = 0.0, percen = 0.0;
+      _portfolioM.clear();
+      dataMap.clear();
 
-    final market = Provider.of<MarketProvider>(context, listen: false);
+      double temp = 0.0, total = 0.0, percen = 0.0;
 
-    // Find Total Of All Asset
-    market.sortDataMarket.forEach((element) {
-      if (element['current_price'].runtimeType.toString() == 'int') {
-        // To Convert Integer To Double By Plus With .0
-        total = total + ((element['current_price']) + .0);
-      } else
-        total += element['current_price'];
-    });
+      final market = Provider.of<MarketProvider>(context, listen: false);
 
-    // Loop Add Eacher Asset From Market
-    for (int i = 0; i < market.sortDataMarket.length; i++) {
-      // Divide Value With Total Of Asset
-      temp = (market.sortDataMarket[i]['current_price'] + .0) / total;
-      percen = temp * 100;
-
-      // Use Round To Round Number
-      _portfolioM.add(PortfolioM(
-        color: pieColorList[i],
-        symbol: market.sortDataMarket[i]['symbol'].toUpperCase(),
-        percentage: percen.toStringAsFixed(2),
-      ));
-
-      // This Variable For Pie Chart Data
-      dataMap.addAll({
-        market.sortDataMarket[i]['symbol']:
-            double.parse(percen.toStringAsFixed(4))
+      // Find Total Of All Asset
+      market.sortDataMarket.forEach((element) {
+        if (element['current_price'].runtimeType.toString() == 'int') {
+          // To Convert Integer To Double By Plus With .0
+          total = total + ((element['current_price']) + .0);
+        } else
+          total += element['current_price'];
       });
-    }
 
-    notifyListeners();
+      // Loop Add Eacher Asset From Market
+      for (int i = 0; i < market.sortDataMarket.length; i++) {
+
+        // Divide Value With Total Of Asset
+        temp = (market.sortDataMarket[i]['current_price'] + .0) / total;
+        percen = temp * 100;
+
+        // Use Round To Round Number
+        _portfolioM.add(PortfolioM(
+          color: pieColorList[i],
+          symbol: market.sortDataMarket[i]['symbol'].toUpperCase(),
+          percentage: percen.toStringAsFixed(2),
+        ));
+
+        // This Variable For Pie Chart Data
+        dataMap.addAll({
+          market.sortDataMarket[i]['symbol']:double.parse(percen.toStringAsFixed(4))
+        });
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("Error fillWithMarketData $e");
+    }
     return null;
   }
 

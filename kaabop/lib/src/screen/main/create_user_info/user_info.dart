@@ -4,6 +4,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/provider/provider.dart';
 
 class MyUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -226,37 +227,29 @@ class MyUserInfoState extends State<MyUserInfo> {
               await StorageServices().writeSecure('private', res);
             }
           }
-          
-          await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
           await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
           await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-          await Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-          await Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-          await isKgoContain();
-          await Provider.of<ContractProvider>(context, listen: false).getEtherBalance();
-          await Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
+          await ContractsBalance().getAllAssetBalance(context: context);
 
-          // This Method Is Also Request Dot Contract
-          await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-          
-          await addBtcWallet();
-          
-          // // Sort Contract Asset
-          await Provider.of<ContractProvider>(context, listen: false).sortAsset(context);
-          
-          // // Ready To Display Asset Portfolio
-          Provider.of<ContractProvider>(context, listen: false).setReady();
-          
-          await Provider.of<ApiProvider>(context, listen: false).connectNode().then((value) async {
-            if (value != null) {
+          // await Provider.of<ContractProvider>(context, listen: false)
+          //     .getEtherAddr();
 
-              if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-                await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-              }
-            }
-          });
+          // final contract =
+          //     Provider.of<ContractProvider>(context, listen: false);
+
+          // await contract.kgoTokenWallet();
+          // await contract.selTokenWallet();
+          // await contract.selv2TokenWallet();
+          // await contract.bnbWallet();
+          // await contract.ethWallet();
+
+          // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+
+          // await addBtcWallet();
+          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+
+          // contract.setReady();
 
           // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
           await enableScreenshot();
@@ -290,10 +283,10 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   void selV2() async {
-    Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-      'SEL v2 (BEP-20)',
-    );
+    // Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+    //   'SEL v2 (BEP-20)',
+    // );
   }
   // Future<void> isDotContain() async {
   //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
@@ -346,7 +339,7 @@ class MyUserInfoState extends State<MyUserInfo> {
         .data
         .address;
 
-    await StorageServices.setData(bech32Address, 'bech32');
+    await StorageServices.storeData(bech32Address, 'bech32');
 
     final res = await ApiProvider.keyring.store
         .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
@@ -355,21 +348,20 @@ class MyUserInfoState extends State<MyUserInfo> {
       await StorageServices().writeSecure('btcwif', res);
     }
 
-    Provider.of<ApiProvider>(context, listen: false)
-        .getBtcBalance(hdWallet.address);
+    Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address, context: context);
     Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
   }
 
-  Future<void> isKgoContain() async {
-    Provider.of<ContractProvider>(context, listen: false)
-        .getKgoDecimal()
-        .then((value) {
-      Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-    });
-  }
+  // Future<void> isKgoContain() async {
+  //   Provider.of<ContractProvider>(context, listen: false)
+  //       .getKgoDecimal()
+  //       .then((value) {
+  //     Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
+  //   });
+  // }
 
   PopupMenuItem item(Map<String, dynamic> list) {
     return PopupMenuItem(

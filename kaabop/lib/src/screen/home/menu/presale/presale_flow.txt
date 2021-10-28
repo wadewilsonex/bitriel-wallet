@@ -11,3 +11,10 @@
 4. process: input_amount * (token_price / 100000000) >= min_investment
     false: Display Dialog Fail and stop.
     true: Display Dialog Success and done.
+
+
+Error: 
+    presale_body line 41
+    presale_list line 159-178
+    presale line 101-119, 143-151, 442, 503, 533
+

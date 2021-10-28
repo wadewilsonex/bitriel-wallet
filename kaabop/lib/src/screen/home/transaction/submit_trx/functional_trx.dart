@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/service/contract.dart';
+import 'package:wallet_apps/src/service/native.dart';
 import 'package:web3dart/web3dart.dart';
 
 class TrxFunctional {
@@ -16,6 +18,8 @@ class TrxFunctional {
   String privateKey;
 
   ContractProvider contract;
+
+  TransactionInfo txInfo;
 
   final BuildContext context;
 
@@ -100,31 +104,32 @@ class TrxFunctional {
   /* ------------------Transaction--------------- */
 
   Future<void> sendTxBnb(String reciever, String amount) async {
-    try {
+    try{
       if (privateKey != null) {
-        final hash = await contract.sendTxBnb(privateKey, reciever, amount);
+        final txinfo = TransactionInfo(
+            privateKey: privateKey,
+            receiver: contract.getEthAddr(reciever),
+            amount: amount);
+
+        final hash = await contract.getBnb.sendTx(txInfo);
+
+        // final hash = await contract.sendTxBnb(privateKey, reciever, amount);
 
         if (hash != null) {
-          await contract
-              .getPending(hash, nodeClient: contract.bscClient)
-              .then((value) async {
-            if (value == false) {
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .getBscBalance();
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            } else {
-              enableAnimation();
-            }
-          });
+          print('hash $hash');
+          // final status = await contract.bnb.listenTransfer(hash);
+          // if (!status) {
+          //   Navigator.pop(context);
+          //   await customDialog('Transaction failed',
+          //       'Something went wrong with your transaction.');
+          // } else {
+          //   enableAnimation();
+          // }
         } else {
-          throw hash;
+          // Close Dialog
+          Navigator.pop(context);
+          await customDialog("Oops", "The PIN you entered is incorrect");
         }
-      } else {
-        // Close Dialog
-        Navigator.pop(context);
-        await customDialog("Oops", "The PIN you entered is incorrect");
       }
     } catch (e) {
       print("sendTxBnb $e");
@@ -152,17 +157,21 @@ class TrxFunctional {
   Future<void> sendTxEther(String reciever, String amount) async {
     try {
       if (privateKey != null) {
-        final hash = await contract.sendTxEther(privateKey, reciever, amount);
+        final txInfo = TransactionInfo(
+            privateKey: privateKey,
+            receiver: contract.getEthAddr(reciever),
+            amount: amount);
+        final hash = await contract.getEth.sendTx(txInfo);
         if (hash != null) {
-          await contract.getEthPending(hash).then((value) async {
-            if (value == false) {
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            } else {
-              enableAnimation();
-            }
-          });
+          final status = await contract.getEth.listenTransfer(hash);
+
+          if (!status) {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          } else {
+            enableAnimation();
+          }
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -179,52 +188,239 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxBsc(String contractAddr, String chainDecimal,
-      String reciever, String amount) async {
-    try {
-      if (privateKey != null) {
-        final hash = await contract.sendTxBsc(
-          contractAddr,
-          chainDecimal,
-          privateKey,
-          reciever,
-          amount,
+  Future<void> sendTxEvm(
+      NativeService coinService, TransactionInfo txInfo) async {
+    if (txInfo.privateKey != null) {
+      try {
+        print('sendTxEvm');
+        final hash = await coinService.sendTx(txInfo);
+
+        print('mhash: $hash');
+
+        if (hash != null) {
+          txInfo.hash = hash;
+          txInfo.timeStamp =
+              DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+
+          navigateAssetInfo(txInfo, nativeService: coinService);
+        }
+      } catch (e) {
+        Navigator.pop(context);
+        print('myerro $e');
+        if (e.message.toString() ==
+            'insufficient funds for gas * price + value') {
+          await customDialog('Opps', 'Insufficient funds for gas');
+        } else {
+          await customDialog('Opps', e.message.toString());
+        }
+      }
+    }
+  }
+
+  Future<void> sendTxBep20(
+      ContractService tokenService, TransactionInfo txInfo) async {
+    print('send bep20');
+
+    if (txInfo.privateKey != null) {
+      try {
+        final hash = await tokenService.sendToken(txInfo);
+
+        if (hash != null) {
+          txInfo.hash = hash;
+          txInfo.scanUrl = AppConfig.networkList[3].scanMn + txInfo.hash;
+          txInfo.timeStamp =
+              DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+
+          navigateAssetInfo(txInfo, tokenService: tokenService);
+        }
+      } catch (e) {
+        Navigator.pop(context);
+        print('myerro $e');
+        if (e.message.toString() ==
+            'insufficient funds for gas * price + value') {
+          await customDialog('Opps', 'Insufficient funds for gas');
+        } else {
+          await customDialog('Opps', e.message.toString());
+        }
+      }
+    }
+  }
+
+  // void navigateNativeInfo() {
+  //   switch ()
+  // }
+
+  void navigateAssetInfo(TransactionInfo info,
+      {ContractService tokenService, NativeService nativeService}) {
+    switch (info.coinSymbol) {
+      case "SEL (BEP-20)":
+        print('navigation asset');
+        contract.addListActivity(info, 0, contractService: tokenService);
+
+        Navigator.pushNamedAndRemoveUntil(
+            context, Home.route, ModalRoute.withName('/'));
+
+        Navigator.push(
+          context,
+          RouteAnimation(
+            enterPage: AssetInfo(
+              index: 0,
+              scModel: contract.listContract[0],
+              // id: contract.listContract[0].id,
+              // assetLogo: contract.listContract[0].logo,
+              // balance:
+              //     contract.listContract[0].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[0].symbol ?? '',
+              // org: contract.listContract[0].org,
+              // marketData: contract.listContract[0].marketData,
+              // marketPrice: contract.listContract[0].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[0].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[0].change24h,
+              // showActivity: true,
+            ),
+          ),
+        );
+        break;
+      case "SEL v2 (BEP-20)":
+        contract.addListActivity(info, 1, contractService: tokenService);
+
+        Navigator.push(
+          context,
+          RouteAnimation(
+            enterPage: AssetInfo(
+              index: 1,
+              scModel: contract.listContract[1]
+              // id: contract.listContract[1].id,
+              // assetLogo: contract.listContract[1].logo,
+              // balance:
+              //     contract.listContract[1].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[1].symbol ?? '',
+              // org: contract.listContract[1].org,
+              // marketData: contract.listContract[1].marketData,
+              // marketPrice: contract.listContract[1].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[1].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[1].change24h,
+            ),
+          ),
         );
 
-        if (hash != null) {
-          await contract
-              .getPending(hash, nodeClient: contract.bscClient)
-              .then((value) async {
-            if (value == false) {
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .getBscBalance();
-              Navigator.pop(context);
-              await customDialog(
-                  'Transaction failed', 'insufficient funds for gas');
-            } else {
-              enableAnimation();
-            }
-          });
-        } else {
-          Navigator.pop(context);
-          await customDialog('Opps', 'Something went wrong!');
-        }
-      }
-      // Res equal NULL
-      else {
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      print(e.message.toString());
-      if (e.message.toString() ==
-          'insufficient funds for gas * price + value') {
-        await customDialog('Opps', 'Insufficient funds for gas');
-      } else {
-        await customDialog('Opps', e.message.toString());
-      }
+        break;
+
+      case "KGO (BEP-20)":
+        contract.addListActivity(info, 2, contractService: tokenService);
+
+        Navigator.push(
+          context,
+          RouteAnimation(
+            enterPage: AssetInfo(
+              index: 2,
+              scModel: contract.listContract[2]
+              // id: contract.listContract[2].id,
+              // assetLogo: contract.listContract[2].logo,
+              // balance:
+              //     contract.listContract[2].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[2].symbol ?? '',
+              // org: contract.listContract[2].org,
+              // marketData: contract.listContract[2].marketData,
+              // marketPrice: contract.listContract[2].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[2].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[2].change24h,
+            ),
+          ),
+        );
+        break;
+      case "ETH":
+        contract.addListActivity(info, 3, nativeService: nativeService);
+
+        Navigator.push(
+          context,
+          RouteAnimation(
+            enterPage: AssetInfo(
+              index: 3,
+              scModel: contract.listContract[3]
+              // id: contract.listContract[3].id,
+              // assetLogo: contract.listContract[3].logo,
+              // balance:
+              //     contract.listContract[3].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[3].symbol ?? '',
+              // org: contract.listContract[3].org,
+              // marketData: contract.listContract[3].marketData,
+              // marketPrice: contract.listContract[3].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[3].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[3].change24h,
+            ),
+          ),
+        );
+        break;
+      case "BNB":
+        contract.addListActivity(info, 4, nativeService: nativeService);
+
+        Navigator.push(
+          context,
+          RouteAnimation(
+            enterPage: AssetInfo(
+              index: 4,
+              scModel: contract.listContract[4]
+              // id: contract.listContract[4].id,
+              // assetLogo: contract.listContract[4].logo,
+              // balance:
+              //     contract.listContract[4].balance ?? AppString.loadingPattern,
+              // tokenSymbol: contract.listContract[4].symbol ?? '',
+              // org: contract.listContract[4].org,
+              // marketData: contract.listContract[4].marketData,
+              // marketPrice: contract.listContract[4].marketPrice,
+              // transactionInfo:
+              //     contract.listContract[4].listActivity.reversed.toList(),
+              // priceChange24h: contract.listContract[4].change24h,
+            ),
+          ),
+        );
+        break;
     }
   }
+
+  void updateTxStatus() {}
+
+  // Future<void> sendTxBsc(String contractAddr, String chainDecimal,
+  //     String reciever, String amount) async {
+  //   try {
+  //     if (privateKey != null) {
+  //       final txInfo = TransactionInfo(privateKey: privateKey,receiver: contract.getEthAddr(reciever),amount: amount);
+  //       final hash = await contract.g
+
+  //       if (hash != null) {
+  //         final status = await contract.getSelToken.listenTransfer(hash);
+  //         if (!status) {
+  //           Navigator.pop(context);
+  //           await customDialog(
+  //               'Transaction failed', 'insufficient funds for gas');
+  //         } else {
+  //           enableAnimation();
+  //         }
+  //       } else {
+  //         Navigator.pop(context);
+  //         await customDialog('Opps', 'Something went wrong!');
+  //       }
+  //     }
+  //     // Res equal NULL
+  //     else {
+  //       Navigator.pop(context);
+  //     }
+  //   } catch (e) {
+  //     Navigator.pop(context);
+  //     print(e.message.toString());
+  //     if (e.message.toString() ==
+  //         'insufficient funds for gas * price + value') {
+  //       await customDialog('Opps', 'Insufficient funds for gas');
+  //     } else {
+  //       await customDialog('Opps', e.message.toString());
+  //     }
+  //   }
+  // }
 
   Future<void> sendTxErc(String contractAddr, String chainDecimal,
       String reciever, String amount) async {
@@ -239,17 +435,26 @@ class TrxFunctional {
         );
 
         if (hash != null) {
-          await contract.getEthPending(hash).then((value) async {
-            if (value == false) {
-              await Provider.of<ContractProvider>(context, listen: false)
-                  .getBscBalance();
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            } else {
-              enableAnimation();
-            }
-          });
+          final status = await contract.getEth.listenTransfer(hash);
+
+          if (!status) {
+            Navigator.pop(context);
+            await customDialog('Transaction failed',
+                'Something went wrong with your transaction.');
+          } else {
+            enableAnimation();
+          }
+          // await contract.getPending(hash).then((value) async {
+          //   if (value == false) {
+          //     // await Provider.of<ContractProvider>(context, listen: false)
+          //     //     .getBscBalance();
+          //     Navigator.pop(context);
+          //     await customDialog('Transaction failed',
+          //         'Something went wrong with your transaction.');
+          //   } else {
+          //     enableAnimation();
+          //   }
+          // });
         } else {
           Navigator.pop(context);
           await customDialog('Opps', 'Something went wrong!');
@@ -597,8 +802,15 @@ class TrxFunctional {
         maxGas = await contract.getEthMaxGas(reciever, amount);
         break;
       case 'SEL (BEP-20)':
+
+        //  final contract = await AppUtils.contractfromAssets(
+        //   AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
+        // maxGas = await contract.getBep20MaxGas(
+        //     contract.listContract[0].address, reciever, amount);
+
         maxGas = await contract.getBep20MaxGas(
-            contract.listContract[0].address, reciever, amount);
+            '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
+
         break;
       case 'SEL v2 (BEP-20)':
         maxGas = await contract.getBep20MaxGas(

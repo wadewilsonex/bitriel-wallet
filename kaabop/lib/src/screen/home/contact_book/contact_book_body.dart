@@ -58,8 +58,8 @@ class _ContactBookBodyState extends State<ContactBookBody> {
         MyAppBar(
           title: AppString.contactAppBarTitle,
           color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkCard)
-            : hexaCodeToColor(AppColors.whiteHexaColor),
+              ? hexaCodeToColor(AppColors.darkCard)
+              : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {
             Navigator.pop(context);
           },

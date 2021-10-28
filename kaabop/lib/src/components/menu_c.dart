@@ -12,6 +12,7 @@ class MenuHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final acc = Provider.of<ApiProvider>(context).accountM;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
@@ -42,9 +43,10 @@ class MenuHeader extends StatelessWidget {
                           : Colors.grey.shade400,
                         shape: BoxShape.circle,
                       ),
-                      child: SvgPicture.string(acc.addressIcon ?? 'hello world'),
+                      child: acc.addressIcon != null ? SvgPicture.string(acc.addressIcon) : Container(),
                     ),
                   ),
+                  
                   const SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

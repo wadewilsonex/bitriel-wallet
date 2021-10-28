@@ -17,12 +17,11 @@ class MarketProvider with ChangeNotifier {
 
   List<Map<String, dynamic>> sortDataMarket = [];
 
-  Market parseMarketData(String responseBody) {
+  Market parseMarketData(List<Map<String, dynamic>> responseBody) {
     Market data;
-    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
-    for (var i in parsed) {
-      data = Market.fromJson(i as Map<String, dynamic>);
+    for (var i in responseBody) {
+      data = Market.fromJson(i);
     }
     return data;
   }
@@ -71,17 +70,17 @@ class MarketProvider with ChangeNotifier {
 
     for (int i = 0; i < id.length; i++) {
       try {
-        
+
         final response = await http.get('${AppConfig.coingeckoBaseUrl}${id[i]}');
-        sortDataMarket.addAll({await json.decode(response.body)[0]});
-        final lineChartData = await fetchLineChartData(id[i]);
 
-        if (response.statusCode == 200) {
-          final jsonResponse = await convert.jsonDecode(response.body);
+        final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
 
-          final res = parseMarketData(response.body);
+        if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
+          sortDataMarket.addAll({jsonResponse[0]});
 
-          //final market = Market.fromJson(jsonResponse);
+          final lineChartData = await fetchLineChartData(id[i]);
+
+          final res = parseMarketData(jsonResponse);
 
           if (i == 0) {
             contract.setkiwigoMarket(
@@ -106,38 +105,36 @@ class MarketProvider with ChangeNotifier {
               res,
               lineChartData,
               jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
+              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
             );
           } else if (i == 3) {
-            api.setDotMarket(
+            await api.setDotMarket(
               res,
               lineChartData,
               jsonResponse[0]['current_price'].toString(),
               jsonResponse[0]['price_change_percentage_24h']
                   .toStringAsFixed(2)
                   .toString(),
+              context: context
             );
           } else if (i == 4) {
-            api.setBtcMarket(
+            await api.setBtcMarket(
               res,
               lineChartData,
               jsonResponse[0]['current_price'].toString(),
               jsonResponse[0]['price_change_percentage_24h']
                   .toStringAsFixed(2)
                   .toString(),
+              context: context
             );
           }
         }
+
+        notifyListeners();
       } catch (e) {
+        print("error market $e");
       }
     }
-
-    // Fill Market Price Into Asset
-    // for (int i = 0; i< sortDataMarket.length; i++){
-    //   contract.listContract[i].marketPrice = sortDataMarket[i]['current_price'];
-    // }
 
     // Sort Market Price
     Map<String, dynamic> tmp = {};

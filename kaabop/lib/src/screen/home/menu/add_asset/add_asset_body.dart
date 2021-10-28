@@ -173,8 +173,8 @@ class AddAssetBody extends StatelessWidget {
                                 ),
                                 initialValue: initialValue,
                                 itemsList: const [
-                                  'Ethereum',
-                                  'Binance Smart Chain'
+                                  'Binance Smart Chain',
+                                  'Ethereum'
                                 ],
                                 onChanged: (value) {
                                   onChangeDropDown(value);
@@ -278,8 +278,7 @@ class AddAssetBody extends StatelessWidget {
     ]);
   }
 
-  Widget portFolioItemRow(BuildContext context, bool isDark, String logo,
-      String tokenSymbol, Color color, Function addAsset) {
+  Widget portFolioItemRow(BuildContext context, bool isDark, String logo, String tokenSymbol, Color color, Function addAsset) {
     return rowDecorationStyle(
       context,
       isDark,

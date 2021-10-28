@@ -1,12 +1,12 @@
 import 'package:wallet_apps/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
-  
   static String _decode;
   static SharedPreferences _preferences;
-  
+
   final _storage = const FlutterSecureStorage();
 
   Future<String> readSecure(String key) async {
@@ -26,15 +26,14 @@ class StorageServices {
     await _storage.deleteAll();
   }
 
-  static Future<SharedPreferences> setData(dynamic _data, String _path) async {
+  static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
     _preferences = await SharedPreferences.getInstance();
     _decode = jsonEncode(_data);
     _preferences.setString(_path, _decode);
     return _preferences;
   }
 
-  static Future<SharedPreferences> addMoreData(
-      Map<String, dynamic> _data, String _path) async {
+  static Future<SharedPreferences> addMoreData(Map<String, dynamic> _data, String _path) async {
     List<Map<String, dynamic>> ls = [];
     _preferences = await SharedPreferences.getInstance();
     if (_preferences.containsKey(_path)) {
@@ -51,13 +50,20 @@ class StorageServices {
     return _preferences;
   }
 
-  static Future<SharedPreferences> addTxHistory(
-      TxHistory txHistory, String key) async {
+  static Future<void> storeAssetData(BuildContext context) async {
+
+    final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
+
+    final res = SmartContractModel.encode(listContract);
+
+    await _preferences.setString(DbKey.assetData, res);
+  }
+
+  static Future<SharedPreferences> addTxHistory(TxHistory txHistory, String key) async {
     final List<TxHistory> txHistoryList = [];
     _preferences = await SharedPreferences.getInstance();
 
     await StorageServices.fetchData('txhistory').then((value) {
-      //print('My value $value');
       if (value != null) {
         for (final i in value) {
           txHistoryList.add(TxHistory(
@@ -82,7 +88,7 @@ class StorageServices {
 
   static Future<void> saveEthContractAddr(String contractAddr) async {
     final List<String> contractAddrList = [];
-    final res = await fetchData('ethContractList');
+    final res = await fetchData(DbKey.ethContractList);
 
     if (res != null) {
       contractAddrList.clear();
@@ -90,17 +96,17 @@ class StorageServices {
         contractAddrList.add(i.toString());
       }
       contractAddrList.add(contractAddr);
-      await setData(contractAddrList, 'ethContractList');
+      await storeData(contractAddrList, DbKey.ethContractList);
     } else {
       contractAddrList.add(contractAddr);
 
-      await setData(contractAddrList, 'ethContractList');
+      await storeData(contractAddrList, DbKey.ethContractList);
     }
   }
 
   static Future<void> removeEthContractAddr(String contractAddr) async {
     List contractAddrList = [];
-    final res = await fetchData('ethContractList');
+    final res = await fetchData(DbKey.ethContractList);
 
     if (res != null) {
       contractAddrList = res as List;
@@ -108,9 +114,9 @@ class StorageServices {
       contractAddrList.removeWhere((element) => element == contractAddr);
 
       if (contractAddrList.isNotEmpty) {
-        await StorageServices.setData(contractAddrList, 'ethContractList');
+        await StorageServices.storeData(contractAddrList, DbKey.ethContractList);
       } else {
-        await removeKey('ethContractList');
+        await removeKey(DbKey.ethContractList);
       }
     }
   }
@@ -125,11 +131,11 @@ class StorageServices {
         contractAddrList.add(i.toString());
       }
       contractAddrList.add(contractAddr);
-      await setData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, 'contractList');
     } else {
       contractAddrList.add(contractAddr);
 
-      await setData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, 'contractList');
     }
   }
 
@@ -143,7 +149,7 @@ class StorageServices {
       contractAddrList.removeWhere((element) => element == contractAddr);
 
       if (contractAddrList.isNotEmpty) {
-        await StorageServices.setData(contractAddrList, 'contractList');
+        await StorageServices.storeData(contractAddrList, 'contractList');
       } else {
         await removeKey('contractList');
       }
@@ -179,6 +185,26 @@ class StorageServices {
     _decode = jsonEncode(_data);
     _preferences.setString(_path, _decode);
     return _preferences;
+  }
+
+  static Future<dynamic> fetchAsset(String _path) async {
+    try {
+
+      _preferences = await SharedPreferences.getInstance();
+
+      _decode = _preferences.getString(_path);
+
+      if (_decode != null){
+
+        final res = SmartContractModel.decode(_decode);
+
+        return res;
+      }
+
+    } catch (e) {
+      print("Error fetchAsset $e");
+    }
+    //return _preferences.getString(_path);
   }
 
   static Future<dynamic> fetchData(String _path) async {

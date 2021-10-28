@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:web3dart/credentials.dart';
 
 class SubmitTrx extends StatefulWidget {
   final String _walletKey;
@@ -113,7 +114,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     } else if (_scanPayM.nodeAmount.hasFocus) {
       FocusScope.of(context).requestFocus(_scanPayM.nodeMemo);
     } else {
-      if (_scanPayM.enable == true) clickSend();
+      if (_scanPayM.enable == true) clickSend(trxFunc.txInfo);
     }
   }
 
@@ -161,9 +162,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     if (_scanPayM.formStateKey.currentState.validate()) {
       // Navigator.pushNamed(context, AppString.confirmationTxView);
 
-      final isValid = await trxFunc.validateAddr(
-          _scanPayM.asset, _scanPayM.controlReceiverAddress.text);
-      print('isValid: $isValid');
+      final isValid = await trxFunc.validateAddr(_scanPayM.asset, _scanPayM.controlReceiverAddress.text);
 
       if (!isValid) {
         Navigator.pop(context);
@@ -218,9 +217,9 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             // print(res);
 
-            TransactionInfo txInfo = TransactionInfo(
+            trxFunc.txInfo = TransactionInfo(
               coinSymbol: _scanPayM.asset,
-              to: _scanPayM.controlReceiverAddress.text,
+              receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
               amount: _scanPayM.controlAmount.text,
               gasPrice: gasPrice,
               feeNetworkSymbol:
@@ -242,15 +241,16 @@ class SubmitTrxState extends State<SubmitTrx> {
               context,
               RouteAnimation(
                 enterPage: ConfirmationTx(
-                  trxInfo: txInfo,
+                  trxInfo: trxFunc.txInfo,
                   clickSend: clickSend,
                   gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
                 ),
               ),
             );
           } else {
+
             Navigator.pop(context);
-            clickSend();
+            clickSend(trxFunc.txInfo);
           }
         }
 
@@ -315,7 +315,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     }
   }
 
-  Future<void> clickSend() async {
+  Future<void> clickSend(TransactionInfo txInfo) async {
     try {
       if (_scanPayM.formStateKey.currentState.validate()) {
         /* Send payment */
@@ -365,9 +365,26 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               await trxFunc.customDialog('Opps', 'PIN verification failed');
             }
+
             // Pin Correct And Response With Private Key
             else if (trxFunc.privateKey != null) {
-              /* -------------Processing Transactioin----------- */
+
+              trxFunc.txInfo.coinSymbol = _scanPayM.asset;
+              trxFunc.txInfo.privateKey = trxFunc.privateKey;
+              trxFunc.txInfo.amount = _scanPayM.controlAmount.text;
+              trxFunc.txInfo.receiver = trxFunc.contract.getEthAddr(
+                _scanPayM.controlReceiverAddress.text,
+              );
+
+              // txInfo = TransactionInfo(
+              //   coinSymbol: _scanPayM.asset,
+              //   privateKey: trxFunc.privateKey,
+              //   amount: _scanPayM.controlAmount.text,
+              //   receiver: trxFunc.contract.getEthAddr(
+              //     _scanPayM.controlReceiverAddress.text,
+              //   ),
+              // );
+              // /* -------------Processing Transaction----------- */
               switch (_scanPayM.asset) {
                 case "SEL":
                   await trxFunc.sendTx(_scanPayM.controlReceiverAddress.text,
@@ -387,50 +404,53 @@ class SubmitTrxState extends State<SubmitTrx> {
                   break;
 
                 case "SEL (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[0].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                        trxFunc.contract.listContract[0].address,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
-                  }
+                  await trxFunc.sendTxBep20(
+                      trxFunc.contract.getSelToken, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[0].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //       trxFunc.contract.listContract[0].address,
+                  //       chainDecimal[0].toString(),
+                  //       _scanPayM.controlReceiverAddress.text,
+                  //       _scanPayM.controlAmount.text);
+                  // }
                   break;
                 case "SEL v2 (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[1].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                      trxFunc.contract.listContract[1].address,
-                      chainDecimal[0].toString(),
-                      _scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text,
-                    );
-                  }
+                  await trxFunc.sendTxBep20(trxFunc.contract.getSelv2, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[1].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //     trxFunc.contract.listContract[1].address,
+                  //     chainDecimal[0].toString(),
+                  //     _scanPayM.controlReceiverAddress.text,
+                  //     _scanPayM.controlAmount.text,
+                  //   );
+                  // }
                   break;
 
                 case "KGO (BEP-20)":
-                  final chainDecimal = await ContractProvider().query(
-                      trxFunc.contract.listContract[2].address, 'decimals', []);
-                  if (chainDecimal != null) {
-                    await trxFunc.sendTxBsc(
-                        trxFunc.contract.listContract[2].address,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
-                  }
+                  await trxFunc.sendTxBep20(trxFunc.contract.getKgo, txInfo);
+                  // final chainDecimal = await ContractProvider().query(
+                  //     trxFunc.contract.listContract[2].address, 'decimals', []);
+                  // if (chainDecimal != null) {
+                  //   await trxFunc.sendTxBsc(
+                  //       trxFunc.contract.listContract[2].address,
+                  //       chainDecimal[0].toString(),
+                  //       _scanPayM.controlReceiverAddress.text,
+                  //       _scanPayM.controlAmount.text);
+                  // }
                   break;
 
                 case "BNB":
-                  await trxFunc.sendTxBnb(_scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text);
+                  await trxFunc.sendTxEvm(trxFunc.contract.getBnb, txInfo);
+                  // await trxFunc.sendTxBnb(_scanPayM.controlReceiverAddress.text,
+                  //     _scanPayM.controlAmount.text);
                   break;
 
                 case "ETH":
-                  await trxFunc.sendTxEther(
-                      _scanPayM.controlReceiverAddress.text,
-                      _scanPayM.controlAmount.text);
+                  await trxFunc.sendTxEvm(trxFunc.contract.getEth, txInfo);
                   break;
 
                 case "BTC":
@@ -454,11 +474,12 @@ class SubmitTrxState extends State<SubmitTrx> {
                         ContractProvider().findContractAddr(_scanPayM.asset);
                     final chainDecimal = await ContractProvider()
                         .query(contractAddr, 'decimals', []);
-                    await trxFunc.sendTxBsc(
-                        contractAddr,
-                        chainDecimal[0].toString(),
-                        _scanPayM.controlReceiverAddress.text,
-                        _scanPayM.controlAmount.text);
+                    //await trxFunc.sendTxBep20(tokenService, txInfo)
+                    // await trxFunc.sendTxBsc(
+                    //     contractAddr,
+                    //     chainDecimal[0].toString(),
+                    //     _scanPayM.controlReceiverAddress.text,
+                    //     _scanPayM.controlAmount.text);
                   }
 
                   break;
@@ -513,7 +534,6 @@ class SubmitTrxState extends State<SubmitTrx> {
               children: <Widget>[
                 Consumer<WalletProvider>(
                   builder: (context, value, child) {
-                    print("My symbol length ${value.listSymbol.length}");
                     return SubmitTrxBody(
                       enableInput: widget.enableInput,
                       scanPayM: _scanPayM,

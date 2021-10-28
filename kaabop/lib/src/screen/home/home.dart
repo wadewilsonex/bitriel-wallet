@@ -2,27 +2,26 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
+import 'package:wallet_apps/src/provider/atd_pro.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
- // final bool apiConnected;
+  // final bool apiConnected;
   // ignore: avoid_positional_boolean_parameters
   //const Home({this.apiConnected});
 
   static const route = '/home';
 
-  // @override
-  // State<StatefulWidget> createState() {
-  //   return HomeState();
-  // }
-
   @override
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindingObserver {
+  
   MenuModel menuModel = MenuModel();
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
@@ -31,73 +30,111 @@ class HomeState extends State<Home>
 
   @override
   void initState() {
-    // deleteAcc();
+    // _deleteAccount();
     super.initState();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
     // });
-    if (mounted){
-      marketInitializer();
-    }
+
+    // if (mounted){
+    //   marketPriceInitializer();
+    // }
 
     AppServices.noInternetConnection(_homeM.globalKey);
 
     WidgetsBinding.instance.addObserver(this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
-      Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
   }
 
-  void deleteAcc() async {
-      // await Provider.of<ContractProvider>(context, listen: false).unsubscribeNetwork();
-
-      await ApiProvider.sdk.api.keyring.deleteAccount(
-        ApiProvider.keyring,
-        ApiProvider.keyring.keyPairs[0],
-      );
-
-      await AppServices.clearStorage();
-      await StorageServices().clearSecure();
-      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
-      Provider.of<ContractProvider>(context, listen: false).resetConObject();
-
-      await Future.delayed(Duration(seconds: 2), (){});
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+  void marketPriceInitializer() async {
+    try { 
       
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      final mkPro = await Provider.of<MarketProvider>(context, listen: false);
+
+      await StorageServices.fetchData(DbKey.marketkPrice).then((value) async {
+        if (value != null){
+
+          mkPro.sortDataMarket = List<Map<String, dynamic>>.from(value);
+          await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+        }
+      });
+
+      /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
+      await mkPro.fetchTokenMarketPrice(context);
+
+      await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+
+      await StorageServices.storeData(mkPro.sortDataMarket, DbKey.marketkPrice);
+    } catch (e) {
+      print("Error $e");
+    }
+
   }
 
-  void marketInitializer() async {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+      // Handle this case
+      // print('resume');
 
-    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+      // final res = await StorageServices.fetchAsset('assetData');
+      // // print('res $res');
 
-    // print(apiProvider.)
-    // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-    // Provider.of<ContractProvider>(context).addApiProviderProperty(apiProvider);
+      // debugPrint(res, wrapWidth: 1024);
 
-    // Sort After MarketPrice Filled Into Asset
-    // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+      // final res1 = SmartContractModel.decode(res);
 
-    // Ready To Display Asset Portfolio
-    // Provider.of<ContractProvider>(context, listen: false).setReady();
+      // print(res1[2].symbol);
 
-    /// Fetch and Fill Market Into Asset and Also Short Market Data By Price
-    await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+      // print(res1[2].marketData.id);
 
-    await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
+      // print('lineChartData: ${res1[2].lineChartData}');
+      // break;
+      case AppLifecycleState.inactive:
+        // Handle this case
+        print('inactive');
 
-    // setState(() {
-      
-    // });
+        break;
+      case AppLifecycleState.paused:
+        // Handle this case
+        print('paused');
+        onPause();
 
+        break;
+      case AppLifecycleState.detached:
+        // TODO: Handle this case.
+        print('detached');
+        break;
+    }
+  }
+
+  onPause() async {
+    // var contractProvider =
+    //     Provider.of<ContractProvider>(context, listen: false);
+    await StorageServices.storeAssetData(context);
+
+    // final contract =
+    //     Provider.of<ContractProvider>(context, listen: false).listContract;
+    // final res = SmartContractModel.encode(contract);
+
+    // print(res);
+
+    // final res1 = SmartContractModel.decode(res);
+
+    // print(res1[0].symbol);
+    // await StorageServices.setData('Hello', 'assetData');
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    print('dispose');
     super.dispose();
   }
 
@@ -105,6 +142,12 @@ class HomeState extends State<Home>
   // void didChangeDependencies() {
   //   super.didChangeDependencies();
   // }
+
+  void save() async {
+    var list = jsonEncode(ContractProvider().listContract);
+
+    await StorageServices.storeData(list, DbKey.assetData);
+  }
 
   Future<void> toReceiveToken() async {
     await Navigator.pushNamed(context, AppString.recieveWalletView);
@@ -143,6 +186,7 @@ class HomeState extends State<Home>
   }
 
   Future<void> scrollRefresh() async {
+
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
     final market = Provider.of<MarketProvider>(context, listen: false);
@@ -150,54 +194,51 @@ class HomeState extends State<Home>
     contract.isReady = false;
     setState(() {});
 
-    await PortfolioServices().setPortfolio(context);
+    ContractsBalance().getAllAssetBalance(context: context);
 
-    if (contract.listContract[0].isContain) {
-      await contract.getBscBalance();
-    }
+    // await PortfolioServices().setPortfolio(context);
 
-    if (contract.listContract[1].isContain) {
-      await contract.getBscV2Balance();
-    }
+    // if (contract.listContract[0].isContain) {
+    //   await contract.selTokenWallet();
+    // }
 
-    if (contract.listContract[2].isContain) {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoDecimal()
-          .then((value) async {
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoBalance();
-      });
-    }
+    // if (contract.listContract[1].isContain) {
+    //   await contract.selv2TokenWallet();
+    // }
 
-    if (contract.listContract[3].isContain) {
-      await contract.getEtherBalance();
-    }
+    // if (contract.listContract[2].isContain) {
+    //   await contract.kgoTokenWallet();
+    // }
 
-    if (contract.listContract[4].isContain) {
-      await contract.getBnbBalance();
-    }
+    // if (contract.listContract[3].isContain) {
+    //   await contract.ethWallet();
+    // }
 
-    if (api.btc.isContain) {
-      await api.getBtcBalance(api.btcAdd);
-    }
+    // if (contract.listContract[4].isContain) {
+    //   await contract.bnbWallet();
+    // }
 
-    // Sort Each Asset Portfolio
-    await contract.sortAsset(context);
+    // if (api.btc.isContain) {
+    //   await api.getBtcBalance(api.btcAdd);
+    // }
 
-    if (contract.token.isNotEmpty) {
-      await contract.fetchNonBalance();
-      await contract.fetchEtherNonBalance();
-    }
+    // // Sort Each Asset Portfolio
+    // await contract.sortAsset();
 
-    // To Disable Asset Loading
-    contract.setReady();
+    // if (contract.token.isNotEmpty) {
+    //   await contract.fetchNonBalance();
+    //   await contract.fetchEtherNonBalance();
+    // }
+
+    // // To Disable Asset Loading
+    // contract.setReady();
 
     /* -----------------------Pie Chart----------------------- */
     // Fetch 5 Asset From Market
-    market.fetchTokenMarketPrice(context).then((value) async {
-      // Fill 5 Asset Into Pie Chart
-      await wallet.fillWithMarketData(context);
-    });
+    // market.fetchTokenMarketPrice(context).then((value) async {
+    //   // Fill 5 Asset Into Pie Chart
+    //   await wallet.fillWithMarketData(context);
+    // });
   }
 
   @override
@@ -229,11 +270,8 @@ class HomeState extends State<Home>
         ),
       ]),
 
-      floatingActionButton: Container(
-        width: 65,
-        height: 65,
-        child: FloatingActionButton(
-          elevation: 0,
+      floatingActionButton: FloatingActionButton(
+          elevation: 10,
           backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
           onPressed: () async {
             await TrxOptionMethod.scanQR(
@@ -248,7 +286,26 @@ class HomeState extends State<Home>
             color: Colors.white,
           ),
         ),
-      ),
+      // Container(
+      //   width: 65,
+      //   height: 65,
+      //   child: FloatingActionButton(
+      //     elevation: 0,
+      //     backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+      //     onPressed: () async {
+      //       await TrxOptionMethod.scanQR(
+      //         context,
+      //         _homeM.portfolioList,
+      //       );
+      //     },
+      //     child: SvgPicture.asset(
+      //       'assets/icons/qr_code.svg',
+      //       width: 30,
+      //       height: 30,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,

@@ -15,8 +15,10 @@ class ConfirmationTx extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final startPart = trxInfo.to.substring(0, 5);
-    final endPart = trxInfo.to.substring(trxInfo.to.length - 4);
+    final addr = AppUtils.addrFmt(trxInfo.receiver.toString());
+
+    print('fmt $addr');
+
     return Scaffold(
       body: BodyScaffold(
         child: Column(
@@ -76,7 +78,7 @@ class ConfirmationTx extends StatelessWidget {
                     ),
                     MyText(
                       textAlign: TextAlign.left,
-                      text: '${startPart + '...' + endPart}',
+                      text: addr ?? '',
                       fontSize: 16.0,
                       bottom: 8.0,
                       overflow: TextOverflow.ellipsis,
@@ -185,12 +187,8 @@ class ConfirmationTx extends StatelessWidget {
                       ),
                       MyText(
                         top: 8.0,
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        text: trxInfo.coinSymbol == 'BTC'
-                            ? ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther '
-                            : ' ${trxInfo.amount} ${trxInfo.coinSymbol.substring(0, 3)} + $gasFeetoEther  ${trxInfo.feeNetworkSymbol}',
-                        fontSize: 18.0,
-                        overflow: TextOverflow.ellipsis,
+                        text: trxInfo.totalAmt,
+                        fontSize: 32.0,
                         fontWeight: FontWeight.bold,
                         color: AppColors.secondary,
                         //fontWeight: FontWeight.bold,
@@ -214,7 +212,7 @@ class ConfirmationTx extends StatelessWidget {
                       const EdgeInsets.only(left: 42, right: 42, bottom: 16),
                   textButton: AppString.confirm,
                   action: () {
-                    clickSend();
+                    clickSend(trxInfo);
                   },
                 ),
               ],

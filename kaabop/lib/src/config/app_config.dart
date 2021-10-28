@@ -11,12 +11,18 @@ class AppConfig {
   static const spreedSheetId = '1hFKqaUe1q_6A-b-_ZnEAC574d51fCi1bTWQKCluHF2E';
 
   /*Coingecko api url fetch asset price */
-  static const coingeckoBaseUrl =
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
+  static const coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
-  static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
+  static const erc20Path = 'assets/abi/erc20.json';
 
-  static const selv2MainnetAddr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+  static const bep20Path = 'assets/abi/bep20.json';
+
+  static const swapPath = 'assets/abi/swap.json';
+
+  static const atdPath = 'assets/abi/atd.json';
+
+  /*google spreedsheet credential for claim airdrop */
+  static const credentials = '';
 
   static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
 
@@ -35,23 +41,22 @@ class AppConfig {
       ss58: 42,
     ),
     NetworkParams(
-        // httpUrlMN:
-        //     'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
-        // wsUrlMN:
-        //     'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
-        httpUrlTN:
-            'https://rinkeby.infura.io/v3/8f6fa91629a0466784ecee0e7fc552b8', //'https://rinkeby.infura.io/v3/992eee6b65b44b0f8a314f0118bf8c0b', // 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
-        wsUrlTN:
-            'wss://rinkeby.infura.io/ws/v3/8f6fa91629a0466784ecee0e7fc552b8' //'wss://rinkeby.infura.io/ws/v3/992eee6b65b44b0f8a314f0118bf8c0b' //'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
-        ),
+      httpUrlMN: 'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      wsUrlMN: 'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      httpUrlTN: 'https://rinkeby.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      wsUrlTN: 'wss://rinkeby.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
+      scanMn: 'https://etherscan.io/tx/',
+      scanTN: 'https://rinkeby.etherscan.io/tx',
+    ),
     NetworkParams(
-        httpUrlMN: 'https://bsc-dataseed.binance.org/',
-        wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
-        httpUrlTN: 'https://data-seed-prebsc-2-s1.binance.org:8545',
-        wsUrlTN: "wss://testnet-dex.binance.org/api/ws")
+      httpUrlMN: 'https://bsc-dataseed.binance.org/',
+      wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
+      httpUrlTN: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+      wsUrlTN: 'wss://bsc-ws-node.nariox.org:443',
+      scanMn: 'https://bscscan.com/tx/',
+      scanTN: 'https://testnet.bscscan.com/tx/',
+    )
   ];
-
-  static const String credentials = '';
 
   //static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
 

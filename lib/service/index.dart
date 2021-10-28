@@ -44,6 +44,7 @@ class SubstrateService {
     recovery = ServiceRecovery(this);
 
     _web = webViewParam ?? WebViewRunner();
+    
     await _web.launch(keyring, keyringStorage, onInitiated, jsCode: jsCode);
   }
 }

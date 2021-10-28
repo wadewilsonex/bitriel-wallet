@@ -12,6 +12,7 @@ class Presale extends StatefulWidget {
 }
 
 class _PresaleState extends State<Presale> {
+  
   PresaleModel _model = PresaleModel();
 
   Future<String> order(String pKey) async {
@@ -29,8 +30,8 @@ class _PresaleState extends State<Presale> {
       );
 
       if (hash != null) {
-        final stt =
-            await contract.getPending(hash, nodeClient: contract.bscClient);
+
+        final stt = await contract.getBnb.listenTransfer(hash);
 
         if (stt) {
           Navigator.pop(context);
@@ -83,39 +84,39 @@ class _PresaleState extends State<Presale> {
   //   return _hash;
   // }
 
-  Future<void> orderToken(String suppTokenAddr, String privateKey,
-      double amount, int discountRate) async {
+  Future<void> orderToken(String suppTokenAddr, String privateKey, double amount, int discountRate) async {
     try {
       final presale = Provider.of<PresaleProvider>(context, listen: false);
       final contract = Provider.of<ContractProvider>(context, listen: false);
       final hash = await presale.orderUsingToken(
-          context: context,
-          suppTokenAddr: suppTokenAddr,
-          privateKey: privateKey,
-          amount: amount,
-          discountRate: discountRate);
+        context: context,
+        suppTokenAddr: suppTokenAddr,
+        privateKey: privateKey,
+        amount: amount,
+        discountRate: discountRate
+      );
 
       if (hash != null) {
-        final stt =
-            await contract.getPending(hash, nodeClient: contract.bscClient);
 
-        if (stt) {
-          Navigator.pop(context);
-          enableAnimation(
-              'contributed ${_model.amountController.text} of ${_model.listSupportToken[_model.tokenIndex]['symbol']}.',
-              'Go to wallet', () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, Home.route, ModalRoute.withName('/'));
-          });
-          _model.amountController.text = '';
-          presale.initEstSel();
-          presale.setListOrder();
-          setState(() {});
-        } else {
-          Navigator.pop(context);
-          await customDialog('Transaction failed',
-              'Something went wrong with your transaction.');
-        }
+        // final stt = await contract.getPending(hash, nodeClient: contract.bscClient);
+
+        // if (stt) {
+        //   Navigator.pop(context);
+        //   enableAnimation(
+        //       'contributed ${_model.amountController.text} of ${_model.listSupportToken[_model.tokenIndex]['symbol']}.',
+        //       'Go to wallet', () {
+        //     Navigator.pushNamedAndRemoveUntil(
+        //         context, Home.route, ModalRoute.withName('/'));
+        //   });
+        //   _model.amountController.text = '';
+        //   presale.initEstSel();
+        //   presale.setListOrder();
+        //   setState(() {});
+        // } else {
+        //   Navigator.pop(context);
+        //   await customDialog('Transaction failed',
+        //       'Something went wrong with your transaction.');
+        // }
       }
     } catch (e) {
       Navigator.pop(context);
@@ -138,16 +139,16 @@ class _PresaleState extends State<Presale> {
     final approveHash = await presale.approvePresale(privateKey, tokenAddress);
 
     if (approveHash != null) {
-      final stt = await contract.getPending(approveHash,
-          nodeClient: contract.bscClient);
+      // final stt = await contract.getPending(approveHash,
+      //     nodeClient: contract.bscClient);
 
-      if (stt) {
-        await orderToken(tokenAddress, privateKey, amount, discountRate);
-      } else {
-        Navigator.pop(context);
-        await customDialog('Transaction failed',
-            'Something went wrong with your transaction.');
-      }
+      // if (stt) {
+      //   await orderToken(tokenAddress, privateKey, amount, discountRate);
+      // } else {
+      //   Navigator.pop(context);
+      //   await customDialog('Transaction failed',
+      //       'Something went wrong with your transaction.');
+      // }
     }
   }
 
@@ -436,7 +437,7 @@ class _PresaleState extends State<Presale> {
               privateKey !=
                   'Failed to get string encoded: \'Decrypt failure.\'.') {
             if (_model.tokenIndex == 0) {
-              await contract.getBnbBalance();
+              // await contract.getBnbBalance();
 
               if (double.parse(contract.listContract[4].balance) <
                   double.parse(_model.amountController.text)) {
@@ -493,7 +494,7 @@ class _PresaleState extends State<Presale> {
     } else {
       if (_model.tokenIndex == 0) {
         dialogLoading(context);
-        await contract.getBnbBalance();
+        // await contract.getBnbBalance();
 
         if (double.parse(contract.listContract[4].balance) <
             double.parse(_model.amountController.text)) {
@@ -523,7 +524,7 @@ class _PresaleState extends State<Presale> {
 
   void initMethod() async {
     final contract = Provider.of<ContractProvider>(context, listen: false);
-    await contract.getBnbBalance();
+    // await contract.getBnbBalances();
 
     _model.balance = double.parse(contract.listContract[4].balance);
     _model.listSupportToken =

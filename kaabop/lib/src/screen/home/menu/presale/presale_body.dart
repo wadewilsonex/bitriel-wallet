@@ -38,7 +38,7 @@ class _PresaleBodyState extends State<PresaleBody> {
 
     if (widget.model.tokenIndex == 0) {
       final contract = Provider.of<ContractProvider>(context, listen: false);
-      await contract.getBnbBalance();
+      // await contract.getBnbBalance();
 
       widget.model.balance = double.parse(contract.listContract[4].balance);
     } else {

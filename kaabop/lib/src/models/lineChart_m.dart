@@ -3,42 +3,87 @@ import 'package:wallet_apps/index.dart';
 
 class LineChartModel {
 
-  final int divider = 5;
+  int divider;
 
-  final int leftLabelsCount = 6;
+  int leftLabelsCount;
 
-  List<FlSpot> values = List<FlSpot>.empty(growable: true);
+  List<FlSpot> values = [];
 
-  double minX = 0;
+  double minX;
 
-  double maxX = 0;
+  double maxX;
 
-  double minY = 0;
+  double minY;
 
-  double maxY = 0;
+  double maxY;
 
-  double leftTitlesInterval = 0;
+  double leftTitlesInterval;
 
-  String totalUsd = '';
+  String totalUsd;
 
   List<Color> gradientColors = [
     hexaCodeToColor(AppColors.secondary),
     hexaCodeToColor("#00ff6b")
   ];
 
+  LineChartModel({
+    this.divider = 5,
+    this.leftLabelsCount = 6,
+    this.values,
+    this.minX = 0,
+    this.maxX = 0,
+    this.minY = 0,
+    this.maxY = 0,
+    this.leftTitlesInterval = 0,
+    this.totalUsd,
+  });
+
+  factory LineChartModel.fromJson(Map<String, dynamic> json){
+    return LineChartModel(
+      divider: json['divider'].toInt() ?? 5,
+      leftLabelsCount: json['leftLabelsCount'].toInt() ?? 6,
+      values: json['value'] != [] ? AppServices.jsonToFlList(json['value']) : null,
+      minX: json['minX'],
+      maxX: json['maxX'],
+      minY: json['minY'],
+      maxY: json['maxY'],
+      leftTitlesInterval: json['leftTitlesInterval'].toDouble() ?? 0.0,
+      totalUsd: json['totalUsd']
+    );
+  }
+
+  static Map<String, dynamic> toJson(LineChartModel line) => {
+    'divider': line.divider ?? 5.0,
+    'leftLabelsCount': line.leftLabelsCount ?? 6.0,
+    'value': line.values != null ? AppServices.flListToList(line.values) : [],
+    'minX': line.minX,
+    'maxX': line.maxX,
+    'minY': line.minY,
+    'maxY': line.maxY,
+    'leftTitlesInterval': line.leftTitlesInterval ?? 0.0,
+    'totalUsd': line.totalUsd ?? '',    
+  };
+
   LineChartModel prepareGraphChart(SmartContractModel contract) {
 
-    if (contract.lineChartModel.values != null) {
-
-      contract.lineChartModel.values = List<FlSpot>.empty(growable: true);
-
-      double minY = double.maxFinite;
-      double maxY = double.minPositive;
+    contract.lineChartModel = LineChartModel();
+    contract.lineChartModel.values = [];
+    contract.lineChartModel.divider = 5;
+    
+      if (contract.symbol == 'DOT'){
+        print("contract.lineChartModel.values ${contract.lineChartModel.values}");
+        print("contract.lineChartModel.divider ${contract.lineChartModel.divider}");
+      }
+    try {
 
       // To Prevent Null Of Line Chart
-      if (contract.lineChartData != null){
+      if (contract.lineChartList != null){
+
+        double minY = double.maxFinite;
+        double maxY = double.minPositive;
+
         contract.lineChartModel.values.addAll(
-          contract.lineChartData.map((price) {
+          contract.lineChartList.map((price) {
             if (minY > price.last) minY = price.last;
             if (maxY < price.last) maxY = price.last;
 
@@ -47,23 +92,18 @@ class LineChartModel {
         );
 
         contract.lineChartModel.minX = contract.lineChartModel.values.first.x;
+
         contract.lineChartModel.maxX = contract.lineChartModel.values.last.x;
-        contract.lineChartModel.minY = (minY / contract.lineChartModel.divider).floorToDouble() * contract.lineChartModel.divider;
 
-        contract.lineChartModel.maxY = (maxY / contract.lineChartModel.divider).ceilToDouble() * contract.lineChartModel.divider;
+        contract.lineChartModel.minY = (minY / contract.lineChartModel.divider) * contract.lineChartModel.divider;//(minY * (contract.lineChartModel.divider ?? 5)).floorToDouble() * (contract.lineChartModel.divider ?? 5);
+ 
+        contract.lineChartModel.maxY = (maxY / contract.lineChartModel.divider) * contract.lineChartModel.divider;//(maxY / (contract.lineChartModel.divider ?? 5)).ceilToDouble() * (contract.lineChartModel.divider ?? 5);
 
-        contract.lineChartModel.leftTitlesInterval = ((contract.lineChartModel.maxY - contract.lineChartModel.minY) / (contract.lineChartModel.leftLabelsCount - 1)).floorToDouble();
-
+        contract.lineChartModel.leftTitlesInterval = ((contract.lineChartModel.maxY - contract.lineChartModel.minY) / (contract.lineChartModel.leftLabelsCount - 1));//((contract.lineChartModel.maxY - contract.lineChartModel.minY) / ( (contract.lineChartModel.leftLabelsCount ?? 6) - 1)).floorToDouble();
       }
+    } catch (e) {
+      print("Error prepareGraphChart $e");
     }
-
-    print(contract.symbol);
-    print("prepareGraphChart ${contract.lineChartModel.leftTitlesInterval}");
-    print("prepareGraphChart ${contract.lineChartModel.values.length}");
-    print("minX ${contract.lineChartModel.minX}");
-    print("maxX ${contract.lineChartModel.maxX}");
-    print("minY ${contract.lineChartModel.minY}");
-    print("maxY ${contract.lineChartModel.maxY}");
 
     return contract.lineChartModel;
   }

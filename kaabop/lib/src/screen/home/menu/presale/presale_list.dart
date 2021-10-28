@@ -156,26 +156,26 @@ class PresaleList extends StatelessWidget {
               await preSale.redeem(privateKey: privateKey, orderId: orderId);
 
           if (redeemHash != null) {
-            final stt = await contract.getPending(redeemHash,
-                nodeClient: contract.bscClient);
+            // final stt = await contract.getPending(redeemHash,
+            //     nodeClient: contract.bscClient);
 
-            if (stt) {
-              Navigator.pop(context);
-              successDialog(context, 'redeemed.', 'Go to wallet', () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, Home.route, ModalRoute.withName('/'));
-              });
-              // enableAnimation(
-              //     'contributed ${_model.amountController.text} of ${_model.listSupportToken[_model.tokenIndex]['symbol']}.',
-              //     'Go to wallet', () {
-              //   Navigator.pushNamedAndRemoveUntil(
-              //       context, Home.route, ModalRoute.withName('/'));
-              // });
-            } else {
-              Navigator.pop(context);
-              await customDialog(context, 'Transaction failed',
-                  'Something went wrong with your transaction.');
-            }
+            // if (stt) {
+            //   Navigator.pop(context);
+            //   successDialog(context, 'redeemed.', 'Go to wallet', () {
+            //     Navigator.pushNamedAndRemoveUntil(
+            //         context, Home.route, ModalRoute.withName('/'));
+            //   });
+            //   // enableAnimation(
+            //   //     'contributed ${_model.amountController.text} of ${_model.listSupportToken[_model.tokenIndex]['symbol']}.',
+            //   //     'Go to wallet', () {
+            //   //   Navigator.pushNamedAndRemoveUntil(
+            //   //       context, Home.route, ModalRoute.withName('/'));
+            //   // });
+            // } else {
+            //   Navigator.pop(context);
+            //   await customDialog(context, 'Transaction failed',
+            //       'Something went wrong with your transaction.');
+            // }
           }
         } catch (e) {
           Navigator.pop(context);
@@ -233,8 +233,6 @@ class PresaleList extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: value.presaleOrderInfo.length,
                           itemBuilder: (context, index) {
-                            print(
-                                'canCLaim: ${value.presaleOrderInfo[index].isBefore}');
                             return value.presaleOrderInfo.isEmpty
                                 ? SvgPicture.asset(
                                     'assets/icons/no_data.svg',

@@ -60,10 +60,11 @@ class _AssetDetailState extends State<AssetDetail> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return Container(
-      margin: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      child: Container(
+        margin: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -5,28 +5,42 @@ import 'package:latlong/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
+import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import '../../../../index.dart';
 import 'asset_detail.dart';
 
 class AssetInfo extends StatefulWidget {
-  final String id;
-  final String assetLogo;
-  final String balance;
-  final String tokenSymbol;
-  final String org;
-  final String marketPrice;
-  final String priceChange24h;
-  final Market marketData;
+  final int index;
+  final SmartContractModel scModel;
 
-  const AssetInfo(
-      {this.id,
-      this.assetLogo,
-      this.balance,
-      this.tokenSymbol,
-      this.org,
-      this.marketPrice,
-      this.priceChange24h,
-      this.marketData});
+  // final String id;
+  // final String assetLogo;
+  // final String balance;
+  // final String tokenSymbol;
+  // final String org;
+  // final String marketPrice;
+  // final String priceChange24h;
+  // final Market marketData;
+  final List<TransactionInfo> transactionInfo;
+  final bool showActivity;
+
+  const AssetInfo({
+    @required this.index,
+    @required this.scModel,
+    this.transactionInfo,
+    this.showActivity
+    // this.id,
+    // this.assetLogo,
+    // this.balance,
+    // this.tokenSymbol,
+    // this.org,
+    // this.marketPrice,
+    // this.priceChange24h,
+    // this.marketData,
+    // this.transactionInfo,
+    // this.showActivity,
+  });
+
   @override
   _AssetInfoState createState() => _AssetInfoState();
 }
@@ -35,7 +49,7 @@ class _AssetInfoState extends State<AssetInfo> {
   final FlareControls _flareController = FlareControls();
   final ModelScanPay _scanPayM = ModelScanPay();
   final GetWalletMethod _method = GetWalletMethod();
-  PageController controller;
+  PageController controller = PageController();
   String totalUsd = '';
 
   int _tabIndex = 0;
@@ -116,7 +130,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
   Future<void> _refresh() async {
     await Future.delayed(const Duration(seconds: 3)).then((value) {
-      if (widget.tokenSymbol == "ATD") {
+      if (widget.scModel.symbol == "ATD") {
         // Provider.of<ContractProvider>(context, listen: false).getAStatus();
         getCheckInList();
         getCheckOutList();
@@ -259,7 +273,11 @@ class _AssetInfoState extends State<AssetInfo> {
   @override
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
-    controller = PageController();
+
+    if (widget.showActivity != null) {
+      _tabIndex = 1;
+      controller = PageController(initialPage: 1);
+    }
 
     super.initState();
   }
@@ -272,11 +290,6 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.balance != AppString.loadingPattern &&
-        widget.marketPrice != null) {
-      var res = double.parse(widget.balance) * double.parse(widget.marketPrice);
-      totalUsd = res.toStringAsFixed(2);
-    }
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
@@ -295,8 +308,8 @@ class _AssetInfoState extends State<AssetInfo> {
                 automaticallyImplyLeading: false,
                 leading: Container(),
                 backgroundColor: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
-                    : Colors.white,
+                  ? hexaCodeToColor(AppColors.darkCard)
+                  : Colors.white,
                 flexibleSpace: Column(children: [
                   Expanded(
                       child: Padding(
@@ -310,8 +323,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   },
                                   child: Container(
                                       alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.only(
-                                          right: 15, left: 10),
+                                      padding: const EdgeInsets.only(right: 16),
                                       child: Icon(
                                           Platform.isAndroid
                                               ? Icons.arrow_back
@@ -330,7 +342,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Image.asset(
-                                  widget.assetLogo,
+                                  widget.scModel.logo,
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -339,9 +351,9 @@ class _AssetInfoState extends State<AssetInfo> {
                                 color: isDarkTheme
                                     ? AppColors.whiteHexaColor
                                     : AppColors.blackColor,
-                                text: widget.id == null
-                                    ? widget.tokenSymbol
-                                    : widget.id.toUpperCase(),
+                                text: widget.scModel.id == null
+                                    ? widget.scModel.symbol
+                                    : widget.scModel.id.toUpperCase(),
                               ),
 
                               Expanded(child: Container()),
@@ -352,7 +364,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   child: MyText(
                                     fontSize: 16.0,
                                     text:
-                                        widget.org == 'BEP-20' ? 'BEP-20' : '',
+                                        widget.scModel.org == 'BEP-20' ? 'BEP-20' : '',
                                     color: isDarkTheme
                                         ? AppColors.whiteHexaColor
                                         : AppColors.darkCard,
@@ -364,7 +376,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
               // Under Line of AppBar
               SliverList(
-                  delegate: SliverChildListDelegate([
+                delegate: SliverChildListDelegate([
                 Divider(
                     height: 3,
                     color: isDarkTheme
@@ -382,33 +394,12 @@ class _AssetInfoState extends State<AssetInfo> {
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
-                          // if (widget.tokenSymbol == "ATD")
-                          //   Align(
-                          //     alignment: Alignment.topRight,
-                          //     child: Consumer<ContractProvider>(
-                          //       builder: (context, value, child) {
-                          //         return MyText(
-                          //           textAlign: TextAlign.right,
-                          //           text: value.atd.status
-                          //               ? 'Status: Check-In'
-                          //               : 'Status: Check-out',
-                          //           fontSize: 16.0,
-                          //           right: 16.0,
-                          //           color: isDarkTheme
-                          //               ? AppColors.whiteColorHexa
-                          //               : AppColors.textColor,
-                          //         );
-                          //       },
-                          //     ),
-                          //   )
-                          // else
-                          //   Container(),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                           MyText(
                             text:
-                                '${widget.balance}${' ${widget.tokenSymbol}'}',
+                                '${widget.scModel.balance}${' ${widget.scModel.symbol}'}',
                             //AppColors.secondarytext,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -419,8 +410,8 @@ class _AssetInfoState extends State<AssetInfo> {
                           ),
                           MyText(
                             top: 8.0,
-                            text: widget.balance != AppString.loadingPattern &&
-                                    widget.marketPrice != null
+                            text: widget.scModel.balance != AppString.loadingPattern &&
+                                    widget.scModel.marketPrice != null
                                 ? '≈ \$$totalUsd'
                                 : '≈ \$0.00',
 
@@ -431,14 +422,14 @@ class _AssetInfoState extends State<AssetInfo> {
                             //fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 8.0),
-                          if (widget.marketPrice == null)
+                          if (widget.scModel.marketPrice == null)
                             Container()
                           else
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 MyText(
-                                  text: '\$ ${widget.marketPrice}' ?? '',
+                                  text: '\$ ${widget.scModel.marketPrice}' ?? '',
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
@@ -447,14 +438,14 @@ class _AssetInfoState extends State<AssetInfo> {
                                 ),
                                 const SizedBox(width: 6.0),
                                 MyText(
-                                  text: widget.priceChange24h.substring(0, 1) ==
+                                  text: widget.scModel.change24h.substring(0, 1) ==
                                           '-'
-                                      ? '${widget.priceChange24h}%'
-                                      : '+${widget.priceChange24h}%',
+                                      ? '${widget.scModel.change24h}%'
+                                      : '+${widget.scModel.change24h}%',
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color:
-                                      widget.priceChange24h.substring(0, 1) ==
+                                      widget.scModel.change24h.substring(0, 1) ==
                                               '-'
                                           ? '#FF0000'
                                           : isDarkTheme
@@ -465,75 +456,90 @@ class _AssetInfoState extends State<AssetInfo> {
                             ),
 
                           MyText(
-                            text:
-                                '${widget.balance}${' ${widget.tokenSymbol}'}',
+                            text: '${widget.scModel.balance}${' ${widget.scModel.symbol}'}',
                             //AppColors.secondarytext,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: isDarkTheme
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
                           ),
                           Container(
                             margin: const EdgeInsets.only(top: 40),
-                            padding: widget.tokenSymbol == 'ATD'
+                            padding: widget.scModel.symbol == 'ATD'
                                 ? const EdgeInsets.symmetric()
                                 : const EdgeInsets.symmetric(vertical: 16.0),
-                            child: widget.tokenSymbol == 'ATD'
-                                ? Container()
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 50,
-                                        width: 150,
-                                        // ignore: deprecated_member_use
-                                        child: FlatButton(
-                                          onPressed: () async {
-                                            await MyBottomSheet().trxOptions(
-                                              context: context,
-                                            );
-                                          },
-                                          color: hexaCodeToColor(
-                                              AppColors.secondary),
-                                          disabledColor: Colors.grey[700],
-                                          focusColor: hexaCodeToColor(
-                                              AppColors.secondary),
-                                          child: const MyText(
-                                              text: 'Transfer',
-                                              color: AppColors.whiteColorHexa),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16.0),
-                                      SizedBox(
-                                        height: 50,
-                                        width: 150,
-                                        // ignore: deprecated_member_use
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            AssetInfoC().showRecieved(
-                                              context,
-                                              _method,
-                                              symbol: widget.tokenSymbol,
-                                              org: widget.org,
-                                            );
-                                          },
-                                          color: hexaCodeToColor(
-                                            AppColors.secondary,
-                                          ),
-                                          disabledColor: Colors.grey[700],
-                                          focusColor: hexaCodeToColor(
-                                            AppColors.secondary,
-                                          ),
-                                          child: const MyText(
-                                            text: 'Recieved',
-                                            color: AppColors.whiteColorHexa,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 150,
+                                  // ignore: deprecated_member_use
+                                  child: FlatButton(
+                                    onPressed: () async {
+
+                                      if(widget.scModel.symbol != 'ATT') {
+                                        
+                                        await MyBottomSheet().trxOptions(
+                                          context: context,
+                                        );
+                                      } else {
+                                        dialogLoading(context);
+                                        await Future.delayed(Duration(milliseconds: 1300), (){});
+                                        // Close Loading
+                                        Navigator.pop(context);
+                                        await successDialog(context, "check in!");
+                                      }
+                                    },
+                                    color: hexaCodeToColor(AppColors.secondary),
+                                    disabledColor: Colors.grey[700],
+                                    focusColor: hexaCodeToColor(AppColors.secondary),
+                                    child: MyText(
+                                      text: widget.scModel.symbol == 'ATT' ? 'Check In' : 'Transfer',
+                                      color: AppColors.whiteColorHexa
+                                    ),
                                   ),
+                                ),
+                                const SizedBox(width: 16.0),
+                                SizedBox(
+                                  height: 50,
+                                  width: 150,
+                                  // ignore: deprecated_member_use
+                                  child: FlatButton(
+                                    onPressed: () async {
+                                      if(widget.scModel.symbol != 'ATT') {
+                                        AssetInfoC().showRecieved(
+                                          context,
+                                          _method,
+                                          symbol: widget.scModel.symbol,
+                                          org: widget.scModel.org,
+                                        );
+                                        
+                                      } else {
+                                        dialogLoading(context);
+                                        await Future.delayed(Duration(milliseconds: 1300), (){});
+                                        // Close Loading
+                                        Navigator.pop(context);
+                                        await successDialog(context, "check out!");
+                                      }
+                                    },
+                                    color: hexaCodeToColor(
+                                      AppColors.secondary,
+                                    ),
+                                    disabledColor: Colors.grey[700],
+                                    focusColor: hexaCodeToColor(
+                                      AppColors.secondary,
+                                    ),
+                                    child: MyText(
+                                      text: widget.scModel.symbol == 'ATT' ? 'Check Out' : 'Recieved',
+                                      color: AppColors.whiteColorHexa,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -628,12 +634,12 @@ class _AssetInfoState extends State<AssetInfo> {
               onPageChange(index);
             },
             children: <Widget>[
-              if (widget.marketData != null)
+              if (widget.scModel.marketData != null)
                 Container(
                   color: isDarkTheme
                       ? hexaCodeToColor(AppColors.darkCard)
                       : hexaCodeToColor(AppColors.whiteHexaColor),
-                  child: AssetDetail(widget.marketData),
+                  child: AssetDetail(widget.scModel.marketData),
                 )
               else
                 Container(
@@ -648,17 +654,49 @@ class _AssetInfoState extends State<AssetInfo> {
                     ),
                   ),
                 ),
-              Container(
-                color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
-                    : hexaCodeToColor(AppColors.whiteHexaColor),
-                child: Center(
-                    child: SvgPicture.asset(
-                  'assets/icons/no_data.svg',
-                  width: 150,
-                  height: 150,
-                )),
-              ),
+              Consumer<ContractProvider>(builder: (context, value, child) {
+                return widget.transactionInfo.isEmpty
+                    ? Container(
+                        color: isDarkTheme
+                          ? hexaCodeToColor(AppColors.darkCard)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        child: Center(
+                            child: SvgPicture.asset(
+                          'assets/icons/no_data.svg',
+                          width: 150,
+                          height: 150,
+                        )),
+                      )
+                    : Container(
+                        color: isDarkTheme
+                            ? hexaCodeToColor(AppColors.darkCard)
+                            : hexaCodeToColor(AppColors.whiteColorHexa),
+                        child: ActivityList(
+                          transactionInfo: widget.transactionInfo,
+                        )
+                        // child: SingleChildScrollView(
+                        //   physics: NeverScrollableScrollPhysics(),
+                        //   child: Column(
+                        //     children: [
+                        //       ActivityItem(),
+                        //       ActivityItem(),
+                        //       ActivityItem(),
+                        //     ],
+                        //   ),
+                        // ),
+                        );
+              })
+              // Container(
+              //   color: isDarkTheme
+              //       ? hexaCodeToColor(AppColors.darkCard)
+              //       : hexaCodeToColor(AppColors.whiteHexaColor),
+              //   child: Center(
+              //       child: SvgPicture.asset(
+              //     'assets/icons/no_data.svg',
+              //     width: 150,
+              //     height: 150,
+              //   )),
+              // ),
             ],
           ),
         ),

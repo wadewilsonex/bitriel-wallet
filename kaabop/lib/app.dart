@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class App extends StatefulWidget {
+  
   @override
   State<StatefulWidget> createState() {
     return AppState();
@@ -14,80 +16,44 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+
   @override
   void initState() {
+    MarketProvider().fetchTokenMarketPrice(context);
     readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      MarketProvider().fetchTokenMarketPrice(context);
-
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       await initApi();
-      // clearOldBtcAddr();
+
+      clearOldBtcAddr();
     });
 
     super.initState();
   }
 
   Future<void> initApi() async {
-    try {
+    
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // await apiProvider.connectNode();
+    await apiProvider.initApi().then((value) async {
 
-      final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-
-      await Provider.of<ApiProvider>(context, listen: false).initApi().then((value) async {
-
-        if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-          await contractProvider.getEtherAddr();
-          await Provider.of<ApiProvider>(context, listen: false)
-              .connectNode()
-              .then((value) async {
-            if (value != null) {
-              if (ApiProvider.keyring.keyPairs.isNotEmpty) {
-                await Provider.of<ApiProvider>(context, listen: false)
-                    .getChainDecimal();
-              }
-            }
-          });
-
-          // await getSavedContractToken();
-          // await getEtherSavedContractToken();
-
-          await apiProvider.getAddressIcon();
-          await apiProvider.getCurrentAccount();
-          //await contractProvider.getKgoBalance();
-          await contractProvider.getBscBalance();
-          await contractProvider.getBscV2Balance();
-          // await isKgoContain();
-          await contractProvider.getEtherBalance();
-          await contractProvider.getBnbBalance();
-
-          await isBtcContain();
-
-          // Add BTC, DOT, SEL testnet Into listContract of Contract Provider's Property
-          contractProvider.addApiProviderProperty(apiProvider);
-
-          // Sort Contract Asset';bBH
-          await Provider.of<ContractProvider>(context, listen: false)
-              .sortAsset(context);
-
-          // Ready To Display Asset Portfolio
-          Provider.of<ContractProvider>(context, listen: false).setReady();
-        }
-        // This Method Is Also Request Dot Contract
-        // await apiProvider.connectPolNon();
-      });
-    } catch (e) {
-      print("Error init app.dart $e");
-    }
+      if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+        
+        await apiProvider.getAddressIcon();
+        await apiProvider.getCurrentAccount();
+        
+        await ContractsBalance().getAllAssetBalance(context: context);
+      }
+    });
   }
 
-  void selV2() async {
-    await Provider.of<ContractProvider>(context, listen: false)
-        .getBscV2Balance();
-    Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-      'SEL v2 (BEP-20)',
-    );
-  }
+  // void selV2() async {
+  //   Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
+  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
+  //     'SEL v2 (BEP-20)',
+  //   );
+  // }
 
   void readTheme() async {
     final res = await StorageServices.fetchData('dark');
@@ -98,17 +64,14 @@ class AppState extends State<App> {
   }
 
   Future<void> getSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('contractList');
 
     if (res != null) {
       for (final i in res) {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',
-            [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -128,7 +91,6 @@ class AppState extends State<App> {
     final contractProvider =
         Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
-    print("getEtherSaved $res");
     if (res != null) {
       for (final i in res) {
         final symbol =
@@ -151,38 +113,10 @@ class AppState extends State<App> {
     }
   }
 
-  Future<void> isBtcContain() async {
-    final res = await StorageServices.fetchData('bech32');
-
-    if (res != null) {
-      Provider.of<ApiProvider>(context, listen: false)
-          .isBtcAvailable('contain');
-
-      Provider.of<ApiProvider>(context, listen: false)
-          .setBtcAddr(res.toString());
-      Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      await Provider.of<ApiProvider>(context, listen: false)
-          .getBtcBalance(res.toString());
-    }
-  }
-
   clearOldBtcAddr() async {
     final res = await StorageServices.fetchData('btcaddress');
     if (res != null) {
       await StorageServices.removeKey('btcaddress');
-    }
-  }
-
-  Future<void> isKgoContain() async {
-    try {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .getKgoDecimal()
-          .then((value) async {
-        await Provider.of<ContractProvider>(context, listen: false)
-            .getKgoBalance();
-      });
-    } catch (e) {
-      print("Error KGO $e");
     }
   }
 
@@ -203,6 +137,7 @@ class AppState extends State<App> {
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
+                    debugShowCheckedModeBanner: false,
                     routes: {
                       Home.route: (_) => Home(),
                     },

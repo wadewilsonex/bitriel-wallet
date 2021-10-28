@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../index.dart';
 
 class AssetList extends StatelessWidget {
+
   final _formKey = GlobalKey<FormState>();
   final passphraseController = TextEditingController();
   final pinController = TextEditingController();
@@ -21,12 +22,12 @@ class AssetList extends StatelessWidget {
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring
-        .checkPassword(ApiProvider.keyring.current, pin);
+    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
     return res;
   }
 
   Future<void> onSubmit(BuildContext context) async {
+
     if (_formKey.currentState.validate()) {
       dialogLoading(context);
       final isValidSeed = await validateMnemonic(passphraseController.text);
@@ -95,16 +96,15 @@ class AssetList extends StatelessWidget {
             .data
             .address;
 
-        await StorageServices.setData(bech32Address, 'bech32');
-        final res = await ApiProvider.keyring.store
-            .encryptPrivateKey(hdWallet.wif, pinController.text);
+        await StorageServices.storeData(bech32Address, 'bech32');
+        final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, pinController.text);
 
         if (res != null) {
           await StorageServices().writeSecure('btcwif', res);
         }
 
         Provider.of<ApiProvider>(context, listen: false)
-            .getBtcBalance(hdWallet.address);
+            .getBtcBalance(hdWallet.address, context: context);
         Provider.of<ApiProvider>(context, listen: false)
             .isBtcAvailable('contain');
 
@@ -140,7 +140,6 @@ class AssetList extends StatelessWidget {
       }
     }
   }
-  // int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -149,103 +148,96 @@ class AssetList extends StatelessWidget {
       children: [
         Consumer<ContractProvider>(
           builder: (context, value, child) {
-            return Column(children: [
-              for (int index = 0;
-                  index < value.sortListContract.length;
-                  index++)
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      RouteAnimation(
-                        enterPage: AssetInfo(
-                          id: value.sortListContract[index].id,
-                          assetLogo: value.sortListContract[index].logo,
-                          balance: value.sortListContract[index].balance ??
-                              AppString.loadingPattern,
-                          tokenSymbol:
-                              value.sortListContract[index].symbol ?? '',
-                          org: value.sortListContract[index].org,
-                          marketData: value.sortListContract[index].marketData,
-                          marketPrice:
-                              value.sortListContract[index].marketPrice,
-                          priceChange24h:
-                              value.sortListContract[index].change24h,
+            return Column(
+              children: [
+                for (int index = 0; index < value.sortListContract.length; index++)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        RouteAnimation(
+                          enterPage: AssetInfo(
+                            index: index,
+                            scModel: value.sortListContract[index]
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  child: AssetItem(
-                    value.sortListContract[index].logo,
-                    value.sortListContract[index].symbol ?? '',
-                    value.sortListContract[index].org,
-                    value.sortListContract[index].balance ??
-                        AppString.loadingPattern,
-                    Colors.transparent,
-                    name: value.sortListContract[index].name,
-                    marketPrice: value.sortListContract[index].marketPrice,
-                    priceChange24h:
-                        value.sortListContract[index].change24h ?? '',
-                    lineChartData: value.sortListContract[index].lineChartData,
-                    lineChartModel:
-                        value.sortListContract[index].lineChartModel,
-                  ),
-                )
-            ]);
+                      );
+                    },
+                    child: AssetItem(
+                      scModel: value.sortListContract[index]
+                    )
+                    // Column(
+                    //   children: [
+                    //     Text(value.sortListContract[index].id),
+                    //     Text(value.sortListContract[index].symbol),
+                    //     Text(value.sortListContract[index].name),
+                    //     Text(value.sortListContract[index].logo),
+                    //     Text(value.sortListContract[index].org),
+                    //     Text(value.sortListContract[index].balance),
+                    //     Text(value.sortListContract[index].isContain.toString()),
+                    //     Text(value.sortListContract[index].lineChartList == null ? "Hello" : value.sortListContract[index].lineChartList.length.toString()),
+                    //     Text(value.sortListContract[index].lineChartModel.toString()),
+                      
+                    //   ],
+                    // ),
+                  )
+              ]
+            );
           },
         ),
 
         // ERC or Token After Added
-        Consumer<ContractProvider>(builder: (context, value, child) {
-          return value.token.isNotEmpty
-              ? Column(
-                  children: [
-                    for (int index = 0; index < value.token.length; index++)
-                      Dismissible(
-                        key: UniqueKey(),
-                        direction: DismissDirection.endToStart,
-                        background: DismissibleBackground(),
-                        onDismissed: (direct) {
-                          if (value.token[index].org == 'ERC-20') {
-                            value.removeEtherToken(
-                                value.token[index].symbol, context);
-                          } else {
-                            value.removeToken(
-                                value.token[index].symbol, context);
-                          }
+        // Consumer<ContractProvider>(builder: (context, value, child) {
+        //   return value.token.isNotEmpty
+        //       ? Column(
+        //           children: [
+        //             for (int index = 0; index < value.token.length; index++)
+        //               Dismissible(
+        //                 key: UniqueKey(),
+        //                 direction: DismissDirection.endToStart,
+        //                 background: DismissibleBackground(),
+        //                 onDismissed: (direct) {
+        //                   if (value.token[index].org == 'ERC-20') {
+        //                     value.removeEtherToken(
+        //                         value.token[index].symbol, context);
+        //                   } else {
+        //                     value.removeToken(
+        //                         value.token[index].symbol, context);
+        //                   }
 
-                          //setPortfolio();
-                        },
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              RouteAnimation(
-                                enterPage: AssetInfo(
-                                  assetLogo: 'assets/circle.png',
-                                  balance: value.token[index].balance ??
-                                      AppString.loadingPattern,
-                                  tokenSymbol: value.token[index].symbol ?? '',
-                                  org: value.token[index].org,
-                                ),
-                              ),
-                            );
-                          },
-                          child: AssetItem(
-                            'assets/circle.png',
-                            value.token[index].symbol ?? '',
-                            // value.token[index].symbol,
-                            value.token[index].org ?? '',
-                            value.token[index].balance ??
-                                AppString.loadingPattern,
-                            Colors.transparent,
-                          ),
-                        ),
-                      )
-                  ],
-                )
-              : Container();
-        }),
+        //                   //setPortfolio();
+        //                 },
+        //                 child: GestureDetector(
+        //                   onTap: () {
+        //                     Navigator.push(
+        //                       context,
+        //                       RouteAnimation(
+        //                         enterPage: AssetInfo(
+        //                           index: index,
+        //                           assetLogo: 'assets/circle.png',
+        //                           balance: value.token[index].balance ??
+        //                               AppString.loadingPattern,
+        //                           tokenSymbol: value.token[index].symbol ?? '',
+        //                           org: value.token[index].org,
+        //                         ),
+        //                       ),
+        //                     );
+        //                   },
+        //                   child: AssetItem(
+        //                     'assets/circle.png',
+        //                     value.token[index].symbol ?? '',
+        //                     // value.token[index].symbol,
+        //                     value.token[index].org ?? '',
+        //                     value.token[index].balance ??
+        //                         AppString.loadingPattern,
+        //                     Colors.transparent,
+        //                   ),
+        //                 ),
+        //               )
+        //           ],
+        //         )
+        //       : Container();
+        // }),
       ],
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/scheduler.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
@@ -19,12 +17,11 @@ class MySplashScreenState extends State<MySplashScreen>
   AnimationController controller;
   Animation<double> animation;
 
+  // First Check
   Future<void> getCurrentAccount() async {
     try {
       await Future.delayed(const Duration(milliseconds: 1000), () async {
         final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
-
-        print(ls.length);
 
         if (ls.isEmpty) {
           Navigator.pushReplacement(
@@ -64,10 +61,10 @@ class MySplashScreenState extends State<MySplashScreen>
         }
       });
     } catch (e) {
-      print("Splash screen $e");
+      print("Error Splash screen $e");
     }
   }
-
+  
   Future<void> checkBio() async {
     final bio = await StorageServices.readSaveBio();
 

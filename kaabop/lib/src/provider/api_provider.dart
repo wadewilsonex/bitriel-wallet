@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
+  
   static WalletSDK sdk = WalletSDK();
   static Keyring keyring = Keyring();
 
@@ -61,32 +62,37 @@ class ApiProvider with ChangeNotifier {
   Future<void> initApi() async {
     try {
       await keyring.init();
-      print("Finish keyring init");
       keyring.setSS58(42);
-      print("Finish setSS58");
       await sdk.init(keyring);
-      print("Finish sdk");
     } catch (e) {
       print("Error initApi $e");
     }
   }
 
   Future<NetworkParams> connectNode() async {
-    final node = NetworkParams();
+    try {
 
-    node.name = 'Indranet hosted By Selendra';
-    node.endpoint = AppConfig.networkList[0].wsUrlTN;
-    node.ss58 = AppConfig.networkList[0].ss58;
+      print("Connect node");
+      final node = NetworkParams();
 
-    final res = await sdk.api.connectNode(keyring, [node]);
+      node.name = 'Indranet hosted By Selendra';
+      node.endpoint = AppConfig.networkList[0].wsUrlTN;
+      node.ss58 = AppConfig.networkList[0].ss58;
 
-    if (res != null) {
-      _isConnected = true;
+      final res = await sdk.api.connectNode(keyring, [node]);
+      print('connecting node');
+      if (res != null) {
+        _isConnected = true;
+        await getChainDecimal();
+      }
+
+      notifyListeners();
+
+      return res;
+    } catch (e) {
+      print("Error connectNode $e");
     }
-
-    notifyListeners();
-
-    return res;
+    return null;
   }
 
   Future<NetworkParams> connectPolNon() async {
@@ -118,7 +124,8 @@ class ApiProvider with ChangeNotifier {
   }
 
   void setBtcAddr(String btcAddress) {
-    btcAdd = btcAddress;
+    print("setBtcAddr $btcAddress");
+    // btcAdd = btcAddress;
     notifyListeners();
   }
 
@@ -228,10 +235,9 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<int> pushTx(String hex) async {
-    final res =
-        await http.post('https://api.smartbit.com.au/v1/blockchain/pushtx',
-            //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: json.encode({"hex": hex}));
+    final res = await http.post('https://api.smartbit.com.au/v1/blockchain/pushtx',
+      //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: json.encode({"hex": hex}));
     return res.statusCode;
   }
 
@@ -240,31 +246,35 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<dynamic> getAddressUxto(String address) async {
-    final res =
-        await http.get('https://blockstream.info/api/address/$address/utxo');
+    final res = await http.get('https://blockstream.info/api/address/$address/utxo');
 
     return jsonDecode(res.body);
   }
 
-  Future<void> getBtcBalance(String address) async {
-    int totalSatoshi = 0;
-    final res = await getAddressUxto(address);
+  Future<void> getBtcBalance(String address, {@required BuildContext context}) async {
+    final contract = await Provider.of<ContractProvider>(context, listen: false);
+    try {
+      int totalSatoshi = 0;
+      final res = await getAddressUxto(address);
 
-    if (res.length == 0) {
-      btc.balance = '0';
-    } else {
-      for (final i in res) {
-        if (i['status']['confirmed'] == true) {
-          totalSatoshi += int.parse(i['value'].toString());
+      if (res.length == 0) {
+        btc.balance = '0';
+      } else {
+        for (final i in res) {
+          if (i['status']['confirmed'] == true) {
+            totalSatoshi += int.parse(i['value'].toString());
+          }
         }
+
+        btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
       }
 
-      btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
+      contract.listContract[6].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[6]);
+
+      notifyListeners();
+    } catch (e) {
+      print("Err getBtcBalance $e");
     }
-
-    btc.lineChartModel = LineChartModel().prepareGraphChart(btc);
-
-    notifyListeners();
   }
 
   void isDotContain() {
@@ -272,12 +282,17 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDotMarket(Market marketData, List<List<double>> lineChartData,
-      String currentPrice, String priceChange24h) {
-    dot.marketData = marketData;
-    dot.marketPrice = currentPrice;
-    dot.change24h = priceChange24h;
-    dot.lineChartData = lineChartData ?? [];
+  Future<void> setDotMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext context}) async {
+    // dot.marketData = marketData;
+    // dot.marketPrice = currentPrice;
+    // dot.change24h = priceChange24h;
+    // dot.lineChartList = lineChartData ?? [];
+
+    final contract = await Provider.of<ContractProvider>(context, listen: false);
+    contract.listContract[5].marketData = marketData;
+    contract.listContract[5].marketPrice = currentPrice;
+    contract.listContract[5].change24h = priceChange24h;
+    contract.listContract[5].lineChartList = lineChartData ?? [];
 
     notifyListeners();
   }
@@ -289,13 +304,18 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  void setBtcMarket(Market marketData, List<List<double>> lineChartData,
-      String currentPrice, String priceChange24h) {
-    btc.marketData = marketData;
-    btc.marketPrice = currentPrice;
-    btc.change24h = priceChange24h;
-    btc.lineChartData = lineChartData ?? [];
+  Future<void> setBtcMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext context}) async {
 
+    // btc.marketData = marketData;
+    // btc.marketPrice = currentPrice;
+    // btc.change24h = priceChange24h;
+    // btc.lineChartList = lineChartData ?? [];
+
+    final contract = await Provider.of<ContractProvider>(context, listen: false);
+    contract.listContract[6].marketData = marketData;
+    contract.listContract[6].marketPrice = currentPrice;
+    contract.listContract[6].change24h = priceChange24h;
+    contract.listContract[6].lineChartList = lineChartData ?? [];
     notifyListeners();
   }
 
@@ -334,24 +354,36 @@ class ApiProvider with ChangeNotifier {
     });
   }
 
-  Future<void> getDotChainDecimal() async {
-    final res = await sdk.api.getNChainDecimal();
-    dot.chainDecimal = res[0].toString();
-    await subscribeDotBalance();
+  Future<void> getDotChainDecimal({@required BuildContext context}) async {
+    try {
+      final contract = await Provider.of<ContractProvider>(context, listen: false);
+      final res = await sdk.api.getNChainDecimal();
+      print("contract.listContract[5].chainDecimal ${contract.listContract[5].chainDecimal}");
+      contract.listContract[5].chainDecimal = res[0].toString();
+      await subscribeDotBalance(context: context);
 
-    notifyListeners();
+      notifyListeners();
+    } catch (e) {
+      print("Err getDotChainDecimal $e");
+    }
   }
 
-  Future<void> subscribeDotBalance() async {
-    await sdk.api.account.subscribeNBalance(keyring.current.address, (res) {
-      dot.balance = Fmt.balance(
-        res.freeBalance.toString(),
-        int.parse(dot.chainDecimal),
-      );
+  Future<void> subscribeDotBalance({@required BuildContext context}) async {
+    try {
 
-      dot.lineChartModel = LineChartModel().prepareGraphChart(dot);
-      notifyListeners();
-    });
+      final contract = await Provider.of<ContractProvider>(context, listen: false);
+      await sdk.api.account.subscribeNBalance(keyring.current.address, (res) {
+        contract.listContract[5].balance = Fmt.balance(
+          res.freeBalance.toString(),
+          int.parse(contract.listContract[5].chainDecimal),
+        );
+
+        contract.listContract[5].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[5]);
+        notifyListeners();
+      });
+    } catch (e) {
+      print("Error subscribeDotBalance $e");
+    }
   }
 
   Future<void> getAddressIcon() async {
@@ -364,7 +396,7 @@ class ApiProvider with ChangeNotifier {
       accountM.addressIcon = res.toString();
       notifyListeners();
     } catch (e) {
-      print("getAddressIcon $e");
+      print("Error get icon from address $e");
     }
   }
 
