@@ -195,7 +195,7 @@ class ImportAccState extends State<ImportAcc> {
           child: const Text('Continue'),
         ),
       );
-      Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+      Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
     } else {
       Navigator.pop(context);
     }
@@ -204,7 +204,7 @@ class ImportAccState extends State<ImportAcc> {
   Future<void> isDotContain() async {
     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
     // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-    await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+    await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
   }
 
   Future<bool> checkPassword(String pin) async {

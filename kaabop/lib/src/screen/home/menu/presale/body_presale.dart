@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/component.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
-import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/des_presale.dart';
 
 class BodyPresale extends StatelessWidget {

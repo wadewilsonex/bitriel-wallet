@@ -75,7 +75,7 @@ class _AddContactState extends State<AddContact> {
                   "Successfully add new contact!\n Please check your contact book"),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context, true);

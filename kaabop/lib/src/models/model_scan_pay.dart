@@ -8,6 +8,7 @@ class ModelScanPay {
   /* Scan Pay */
   String pin;
   String asset;
+  int assetValue;
   String responseWallet, responseAmount, responseMemo;
   String loadingDot = "";
 

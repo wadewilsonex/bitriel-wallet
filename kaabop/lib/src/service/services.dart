@@ -80,8 +80,7 @@ class AppServices {
 
   // ignore: avoid_void_async
   static Future<void> clearStorage() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }
 
@@ -139,7 +138,7 @@ class AppServices {
                     textAlign: TextAlign.center),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),

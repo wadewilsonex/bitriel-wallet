@@ -20,7 +20,13 @@ class AddAssetState extends State<AddAsset> {
 
   FlareControls flareController = FlareControls();
   
-  String _tokenSymbol = '', initialValue = 'Binance Smart Chain';
+  String _tokenSymbol = '';
+  int initialValue = 0;
+
+  List<Map<String, dynamic>> networkSymbol = [
+    {"symbol": "Binance Smart Chain", "index": 0},
+    {"symbol":"Ethereum", "index": 1}
+  ];
 
   @override
   void initState() {
@@ -108,18 +114,19 @@ class AddAssetState extends State<AddAsset> {
           },
         );
       } else {
+        
         await Provider.of<ContractProvider>(context, listen: false).addToken(
-            _tokenSymbol,
-            context,
-            network: initialValue,
-            contractAddr: _modelAsset.controllerAssetCode.text,
-          );
+          _tokenSymbol,
+          context,
+          network: networkSymbol[initialValue]['symbol'],
+          contractAddr: _modelAsset.controllerAssetCode.text,
+        );
 
-          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-          /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
-          await StorageServices.storeAssetData(context);
-          await enableAnimation();
+        /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+        await StorageServices.storeAssetData(context);
+        await enableAnimation();
       }
     } catch (e) {
       print("Error addAsset $e");
@@ -254,7 +261,7 @@ class AddAssetState extends State<AddAsset> {
 
   void onChangeDropDown(String network) {
     setState(() {
-      initialValue = network;
+      initialValue = int.parse(network);
     });
   }
 
@@ -292,7 +299,7 @@ class AddAssetState extends State<AddAsset> {
         children: [
           AddAssetBody(
             assetM: _modelAsset,
-            initialValue: initialValue,
+            initialValue: initialValue.toString(),
             onChangeDropDown: onChangeDropDown,
             addAsset: addAsset,
             popScreen: popScreen,
@@ -300,6 +307,7 @@ class AddAssetState extends State<AddAsset> {
             qrRes: qrRes,
             tokenSymbol: _tokenSymbol,
             onSubmit: onSubmit,
+            networkSymbol: networkSymbol,
             submitAsset: submitAsset,
           ),
           (_modelAsset.added == false)

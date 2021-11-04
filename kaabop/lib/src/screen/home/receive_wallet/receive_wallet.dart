@@ -12,17 +12,19 @@ class ReceiveWallet extends StatefulWidget {
 }
 
 class ReceiveWalletState extends State<ReceiveWallet> {
+  
   GlobalKey<ScaffoldState> _globalKey;
   final GlobalKey _keyQrShare = GlobalKey();
 
   final GetWalletMethod _method = GetWalletMethod();
   String name = 'username';
   String wallet = 'wallet address';
-  String initialValue = 'SEL';
+  int initialValue = 0;
 
   @override
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
+    findSEL();
 
     AppServices.noInternetConnection(_globalKey);
     super.initState();
@@ -35,9 +37,21 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     super.didChangeDependencies();
   }
 
+  void findSEL(){
+
+    final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+    for(int i = 0; i< listCon.length; i++){
+      if (listCon[i].symbol == 'SEL'){
+        initialValue = i;
+        setState(() { });
+        break;
+      }
+    }
+  }
+
   void onChanged(String value) {
     setState(() {
-      initialValue = value;
+      initialValue = int.parse(value);
     });
 
     changedEthAdd(value);

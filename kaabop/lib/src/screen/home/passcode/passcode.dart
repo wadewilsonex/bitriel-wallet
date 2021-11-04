@@ -465,7 +465,6 @@ class ReuseKeyBoardNum extends StatelessWidget {
   const ReuseKeyBoardNum(this.n, this.onPressed);
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       width: 100,
       height: 70.0,

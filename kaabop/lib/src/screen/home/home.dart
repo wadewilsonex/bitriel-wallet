@@ -1,11 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/coin.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
-import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
@@ -30,7 +27,6 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
 
   @override
   void initState() {
-    // _deleteAccount();
     super.initState();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
@@ -146,7 +142,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   void save() async {
     var list = jsonEncode(ContractProvider().listContract);
 
-    await StorageServices.storeData(list, DbKey.assetData);
+    await StorageServices.storeData(list, DbKey.listContract);
   }
 
   Future<void> toReceiveToken() async {
@@ -188,15 +184,19 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
   Future<void> scrollRefresh() async {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
-    final api = Provider.of<ApiProvider>(context, listen: false);
-    final market = Provider.of<MarketProvider>(context, listen: false);
-    final wallet = Provider.of<WalletProvider>(context, listen: false);
+    // final api = Provider.of<ApiProvider>(context, listen: false);
+    // final market = Provider.of<MarketProvider>(context, listen: false);
+    // final wallet = Provider.of<WalletProvider>(context, listen: false);
     contract.isReady = false;
     setState(() {});
-
-    ContractsBalance().getAllAssetBalance(context: context);
-
-    // await PortfolioServices().setPortfolio(context);
+    // contract.listContract.forEach((element) {
+    //   print("contract ${element.symbol}");
+    // });
+    // ContractsBalance().getAllAssetBalance(context: context);
+  
+    await PortfolioServices().setPortfolio(context);
+    
+    await ContractsBalance().refetchContractBalance(context: context);
 
     // if (contract.listContract[0].isContain) {
     //   await contract.selTokenWallet();
@@ -231,7 +231,7 @@ class HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindin
     // }
 
     // // To Disable Asset Loading
-    // contract.setReady();
+    contract.setReady();
 
     /* -----------------------Pie Chart----------------------- */
     // Fetch 5 Asset From Market

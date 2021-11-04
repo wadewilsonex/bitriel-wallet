@@ -11,7 +11,7 @@ class ReceiveWalletBody extends StatelessWidget {
   final Function(String) onChanged;
   final String name;
   final String wallet;
-  final String initialValue;
+  final int initialValue;
   final String assetInfo;
 
   const ReceiveWalletBody({
@@ -75,9 +75,10 @@ class ReceiveWalletBody extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
+                          
                           QrViewTitle(
                             assetInfo: assetInfo,
-                            initialValue: initialValue,
+                            initialValue: initialValue.toString(),
                             onChanged: onChanged,
                           ),
 

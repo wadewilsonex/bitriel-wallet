@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
@@ -56,7 +57,7 @@ class AppState extends State<App> {
   // }
 
   void readTheme() async {
-    final res = await StorageServices.fetchData('dark');
+    final res = await StorageServices.fetchData(DbKey.themeMode);
 
     if (res != null) {
       Provider.of<ThemeProvider>(context, listen: false).changeMode();
@@ -64,8 +65,9 @@ class AppState extends State<App> {
   }
 
   Future<void> getSavedContractToken() async {
+    
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('contractList');
+    final res = await StorageServices.fetchData(DbKey.contactList);
 
     if (res != null) {
       for (final i in res) {

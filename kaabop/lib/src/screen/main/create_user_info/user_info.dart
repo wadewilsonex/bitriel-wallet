@@ -17,6 +17,7 @@ class MyUserInfo extends StatefulWidget {
 }
 
 class MyUserInfoState extends State<MyUserInfo> {
+
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
   final MenuModel _menuModel = MenuModel();
@@ -197,7 +198,7 @@ class MyUserInfoState extends State<MyUserInfo> {
   // Submit Profile User
   Future<void> submitAcc() async {
     // Show Loading Process
-    dialogLoading(context);
+    dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
     try {
       await addBtcWallet();
@@ -215,47 +216,48 @@ class MyUserInfoState extends State<MyUserInfo> {
         acc: json,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
+
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
-          if (resPk != null) {
-            await ContractProvider().extractAddress(resPk);
-            final res = await ApiProvider.keyring.store.encryptPrivateKey(
-              resPk,
-              _userInfoM.confirmPasswordCon.text,
-            );
 
-            if (res != null) {
-              await StorageServices().writeSecure('private', res);
-            }
+        if (resPk != null) {
+          await ContractProvider().extractAddress(resPk);
+          final res = await ApiProvider.keyring.store.encryptPrivateKey(
+            resPk,
+            _userInfoM.confirmPasswordCon.text,
+          );
+
+          if (res != null) {
+            await StorageServices().writeSecure('private', res);
           }
-          await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-          await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+        }
+        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
 
-          await ContractsBalance().getAllAssetBalance(context: context);
+        await ContractsBalance().getAllAssetBalance(context: context);
 
-          // await Provider.of<ContractProvider>(context, listen: false)
-          //     .getEtherAddr();
+        // await Provider.of<ContractProvider>(context, listen: false)
+        //     .getEtherAddr();
 
-          // final contract =
-          //     Provider.of<ContractProvider>(context, listen: false);
+        // final contract =
+        //     Provider.of<ContractProvider>(context, listen: false);
 
-          // await contract.kgoTokenWallet();
-          // await contract.selTokenWallet();
-          // await contract.selv2TokenWallet();
-          // await contract.bnbWallet();
-          // await contract.ethWallet();
+        // await contract.kgoTokenWallet();
+        // await contract.selTokenWallet();
+        // await contract.selv2TokenWallet();
+        // await contract.bnbWallet();
+        // await contract.ethWallet();
 
-          // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+        // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
 
-          // await addBtcWallet();
-          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        // await addBtcWallet();
+        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-          // contract.setReady();
+        // contract.setReady();
 
-          // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
-          await enableScreenshot();
-          await successDialog(context, "Created your account.");
-        },
-      );
+        // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
+        await enableScreenshot();
+        await successDialog(context, "Account is created.");
+      });
     } catch (e) {
       await showDialog(
         context: context,
@@ -334,22 +336,20 @@ class MyUserInfoState extends State<MyUserInfo> {
     final hdWallet = HDWallet.fromSeed(seed);
 
     final keyPair = ECPair.fromWIF(hdWallet.wif);
-    final bech32Address = new P2WPKH(
-            data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
+    final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
         .data
         .address;
 
     await StorageServices.storeData(bech32Address, 'bech32');
 
-    final res = await ApiProvider.keyring.store
-        .encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
+    final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
 
     if (res != null) {
       await StorageServices().writeSecure('btcwif', res);
     }
 
     Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address, context: context);
-    Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
+    Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');

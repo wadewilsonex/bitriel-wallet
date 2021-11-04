@@ -88,29 +88,34 @@ class _PresaleBodyState extends State<PresaleBody> {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
+          
           MyAppBar(
-            tile: FlatButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20)),
-                      ),
-                      builder: (context) {
-                        return PresaleList();
-                      });
-                },
-                child: MyText(
-                    text: 'Activity',
-                    color: isDarkTheme
-                        ? AppColors.whiteHexaColor //AppColors.darkCard
-                        : AppColors.darkCard)),
+            tile: TextButton(
+              onPressed: () async {
+                await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                  builder: (context) {
+                    return PresaleList();
+                  }
+                );
+              },
+              child: MyText(
+                text: 'Activity',
+                right: 20,
+                color: isDarkTheme
+                  ? AppColors.whiteHexaColor //AppColors.darkCard
+                  : AppColors.darkCard,
+                fontWeight: FontWeight.w600
+              )
+            ),
             title: "Presale",
             color: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkCard)
-                : hexaCodeToColor(AppColors.whiteHexaColor),
+              ? hexaCodeToColor(AppColors.darkCard)
+              : hexaCodeToColor(AppColors.whiteHexaColor),
             onPressed: () {
               presale.setInitEstSel();
               Navigator.pop(context);

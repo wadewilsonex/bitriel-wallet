@@ -267,15 +267,16 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                       SizedBox(
                         height: 50,
                         width: 140,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                             Navigator.pushNamedAndRemoveUntil(
                                 context, Home.route, ModalRoute.withName('/'));
                           },
-                          color: hexaCodeToColor(AppColors.secondary),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                          ),
                           child: Text(
                             'Continue',
                             style: TextStyle(
@@ -384,11 +385,12 @@ Future dialogEvent(
                     SizedBox(
                       height: 50,
                       width: 100,
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: onClosed,
-                        color: Colors.grey[50],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.grey[50]),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
+                        ),
                         child: Text(
                           'Cancel',
                           style: TextStyle(
@@ -402,11 +404,12 @@ Future dialogEvent(
                     SizedBox(
                       height: 50,
                       width: 100,
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: onClaim,
-                        color: hexaCodeToColor(AppColors.secondary),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
+                        ),
                         child: Text(
                           'Claim',
                           style: TextStyle(

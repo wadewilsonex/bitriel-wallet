@@ -90,11 +90,7 @@ class AssetList extends StatelessWidget {
         final seed = bip39.mnemonicToSeed(passphraseController.text);
         final hdWallet = HDWallet.fromSeed(seed);
         final keyPair = ECPair.fromWIF(hdWallet.wif);
-        final bech32Address = new P2WPKH(
-                data: new PaymentData(pubkey: keyPair.publicKey),
-                network: bitcoin)
-            .data
-            .address;
+        final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
 
         await StorageServices.storeData(bech32Address, 'bech32');
         final res = await ApiProvider.keyring.store.encryptPrivateKey(hdWallet.wif, pinController.text);
@@ -103,15 +99,12 @@ class AssetList extends StatelessWidget {
           await StorageServices().writeSecure('btcwif', res);
         }
 
-        Provider.of<ApiProvider>(context, listen: false)
-            .getBtcBalance(hdWallet.address, context: context);
-        Provider.of<ApiProvider>(context, listen: false)
-            .isBtcAvailable('contain');
+        await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address, context: context);
+        Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
-        Provider.of<ApiProvider>(context, listen: false)
-            .setBtcAddr(bech32Address);
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('BTC');
+        Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+
         Navigator.pop(context);
         Navigator.pop(context);
 

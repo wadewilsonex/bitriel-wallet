@@ -16,8 +16,7 @@ class ContractService implements IContractService {
   ContractFunction _symbolFunction() => _contract.function('symbol');
   ContractFunction _decimalFunction() => _contract.function('decimals');
 
-  Future<List> _queryContract(
-      DeployedContract contract, ContractFunction function, List args) async {
+  Future<List> _queryContract(DeployedContract contract, ContractFunction function, List args) async {
     final res = await _client.call(
       contract: contract,
       function: function,
@@ -46,7 +45,6 @@ class ContractService implements IContractService {
   @override
   Future<bool> listenTransfer(String txHash) async {
     bool std;
-    StreamSubscription subscribeEvent;
 
     await _client
         .addedBlocks()
@@ -130,14 +128,13 @@ class ContractService implements IContractService {
 
       final credentials = await getCredentials(trxInfo.privateKey);
 
-      final txInfo =
-          TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount);
+      final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount);
 
       final sender = await credentials.extractAddress();
 
       final maxGas = await getMaxGas(sender, txInfo);
 
-      final decimal = await getChainDecimal();
+      // final decimal = await getChainDecimal();
 
       final res = await _client.sendTransaction(
         credentials,
@@ -157,6 +154,8 @@ class ContractService implements IContractService {
     } catch (e) {
       print("Err sendToken $e");
     }
+
+    return null;
   }
 
   @override
@@ -185,5 +184,17 @@ class ContractService implements IContractService {
     );
 
     return maxGas;
+  }
+
+  static List<Map<String, dynamic>> getConSymbol(List<SmartContractModel> ls){
+    List<Map<String, dynamic>> tmp = [];
+    for (int i = 0; i < ls.length; i++){
+      tmp.add({
+        "symbol": ls[i].symbol,
+        "index": i
+      });
+    }
+
+    return tmp;
   }
 }

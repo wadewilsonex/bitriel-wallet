@@ -9,6 +9,7 @@ import 'package:wallet_apps/src/service/native.dart';
 import 'package:web3dart/web3dart.dart';
 
 class TrxFunctional {
+
   ApiProvider api;
 
   String pin;
@@ -27,8 +28,7 @@ class TrxFunctional {
 
   final Function validateAddress;
 
-  TrxFunctional.init(
-      {this.context, this.enableAnimation, this.validateAddress});
+  TrxFunctional.init({this.context, this.enableAnimation, this.validateAddress});
 
   /*  ---------------Message-------------- */
   Future<void> customDialog(String text1, String text2) async {
@@ -36,8 +36,7 @@ class TrxFunctional {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
               text: text1,
@@ -73,8 +72,7 @@ class TrxFunctional {
     // String privateKey;
 
     try {
-      privateKey =
-          await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
       // Navigator.pop(context);
       // print('1');
@@ -86,8 +84,7 @@ class TrxFunctional {
 
   Future<String> getPrivateKey(String pin) async {
     try {
-      privateKey =
-          await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
+      privateKey = await ApiProvider.keyring.store.decryptPrivateKey(encryptKey, pin);
     } catch (e) {
       // Navigator.pop(context);
       // print('2');
@@ -106,10 +103,12 @@ class TrxFunctional {
   Future<void> sendTxBnb(String reciever, String amount) async {
     try{
       if (privateKey != null) {
+
         final txinfo = TransactionInfo(
-            privateKey: privateKey,
-            receiver: contract.getEthAddr(reciever),
-            amount: amount);
+          privateKey: privateKey,
+          receiver: contract.getEthAddr(reciever),
+          amount: amount
+        );
 
         final hash = await contract.getBnb.sendTx(txInfo);
 
@@ -132,7 +131,7 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      print("sendTxBnb $e");
+      print("err sendTxBnb $e");
     }
   }
 
@@ -188,8 +187,7 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxEvm(
-      NativeService coinService, TransactionInfo txInfo) async {
+  Future<void> sendTxEvm(NativeService coinService, TransactionInfo txInfo) async {
     if (txInfo.privateKey != null) {
       try {
         print('sendTxEvm');
@@ -199,16 +197,13 @@ class TrxFunctional {
 
         if (hash != null) {
           txInfo.hash = hash;
-          txInfo.timeStamp =
-              DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
-
-          navigateAssetInfo(txInfo, nativeService: coinService);
+          txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+          print("Start navigateAssetInfo");
+          await navigateAssetInfo(txInfo, nativeService: coinService);
         }
       } catch (e) {
-        Navigator.pop(context);
-        print('myerro $e');
-        if (e.message.toString() ==
-            'insufficient funds for gas * price + value') {
+        print('Err sendTxEvm $e');
+        if (e.message.toString() == 'insufficient funds for gas * price + value') {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
           await customDialog('Opps', e.message.toString());
@@ -217,32 +212,34 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxBep20(
-      ContractService tokenService, TransactionInfo txInfo) async {
+  Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
     print('send bep20');
 
-    if (txInfo.privateKey != null) {
-      try {
-        final hash = await tokenService.sendToken(txInfo);
+    try {
 
-        if (hash != null) {
-          txInfo.hash = hash;
-          txInfo.scanUrl = AppConfig.networkList[3].scanMn + txInfo.hash;
-          txInfo.timeStamp =
-              DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+      if (txInfo.privateKey != null) {
+        try {
+          final hash = await tokenService.sendToken(txInfo);
 
-          navigateAssetInfo(txInfo, tokenService: tokenService);
-        }
-      } catch (e) {
-        Navigator.pop(context);
-        print('myerro $e');
-        if (e.message.toString() ==
-            'insufficient funds for gas * price + value') {
-          await customDialog('Opps', 'Insufficient funds for gas');
-        } else {
-          await customDialog('Opps', e.message.toString());
+          if (hash != null) {
+            txInfo.hash = hash;
+            txInfo.scanUrl = AppConfig.networkList[3].scanMn + txInfo.hash;
+            txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+
+            await navigateAssetInfo(txInfo, tokenService: tokenService);
+          }
+        } catch (e) {
+          // Navigator.pop(context);
+          print('Error sendTxBep20 $e');
+          if (e.message.toString() == 'insufficient funds for gas * price + value') {
+            await customDialog('Opps', 'Insufficient funds for gas');
+          } else {
+            await customDialog('Opps', e.message.toString());
+          }
         }
       }
+    } catch (e) {
+      print("Error sendTxBep20 $e");
     }
   }
 
@@ -250,136 +247,140 @@ class TrxFunctional {
   //   switch ()
   // }
 
-  void navigateAssetInfo(TransactionInfo info,
-      {ContractService tokenService, NativeService nativeService}) {
-    switch (info.coinSymbol) {
-      case "SEL (BEP-20)":
-        print('navigation asset');
-        contract.addListActivity(info, 0, contractService: tokenService);
+  Future<void> navigateAssetInfo(TransactionInfo info, {ContractService tokenService, NativeService nativeService}) async {
+    try {
+      switch (info.coinSymbol) {
+        case "SEL (BEP-20)":
+          print('navigation asset');
+          await contract.addListActivity(info, 0, contractService: tokenService);
 
-        Navigator.pushNamedAndRemoveUntil(
-            context, Home.route, ModalRoute.withName('/'));
+          // Navigator.push(
+          //   context,
+          //   RouteAnimation(
+          //     enterPage: AssetInfo(
+          //       index: 0,
+          //       scModel: contract.listContract[0],
+          //       // id: contract.listContract[0].id,
+          //       // assetLogo: contract.listContract[0].logo,
+          //       // balance:
+          //       //     contract.listContract[0].balance ?? AppString.loadingPattern,
+          //       // tokenSymbol: contract.listContract[0].symbol ?? '',
+          //       // org: contract.listContract[0].org,
+          //       // marketData: contract.listContract[0].marketData,
+          //       // marketPrice: contract.listContract[0].marketPrice,
+          //       // transactionInfo:
+          //       //     contract.listContract[0].listActivity.reversed.toList(),
+          //       // priceChange24h: contract.listContract[0].change24h,
+          //       // showActivity: true,
+          //     ),
+          //   ),
+          // );
+          break;
+        case "SEL v2 (BEP-20)":
+          await contract.addListActivity(info, 1, contractService: tokenService);
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: AssetInfo(
-              index: 0,
-              scModel: contract.listContract[0],
-              // id: contract.listContract[0].id,
-              // assetLogo: contract.listContract[0].logo,
-              // balance:
-              //     contract.listContract[0].balance ?? AppString.loadingPattern,
-              // tokenSymbol: contract.listContract[0].symbol ?? '',
-              // org: contract.listContract[0].org,
-              // marketData: contract.listContract[0].marketData,
-              // marketPrice: contract.listContract[0].marketPrice,
-              // transactionInfo:
-              //     contract.listContract[0].listActivity.reversed.toList(),
-              // priceChange24h: contract.listContract[0].change24h,
-              // showActivity: true,
-            ),
-          ),
-        );
-        break;
-      case "SEL v2 (BEP-20)":
-        contract.addListActivity(info, 1, contractService: tokenService);
+          // Navigator.push(
+          //   context,
+          //   RouteAnimation(
+          //     enterPage: AssetInfo(
+          //       index: 1,
+          //       scModel: contract.listContract[1]
+          //       // id: contract.listContract[1].id,
+          //       // assetLogo: contract.listContract[1].logo,
+          //       // balance:
+          //       //     contract.listContract[1].balance ?? AppString.loadingPattern,
+          //       // tokenSymbol: contract.listContract[1].symbol ?? '',
+          //       // org: contract.listContract[1].org,
+          //       // marketData: contract.listContract[1].marketData,
+          //       // marketPrice: contract.listContract[1].marketPrice,
+          //       // transactionInfo:
+          //       //     contract.listContract[1].listActivity.reversed.toList(),
+          //       // priceChange24h: contract.listContract[1].change24h,
+          //     ),
+          //   ),
+          // );
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: AssetInfo(
-              index: 1,
-              scModel: contract.listContract[1]
-              // id: contract.listContract[1].id,
-              // assetLogo: contract.listContract[1].logo,
-              // balance:
-              //     contract.listContract[1].balance ?? AppString.loadingPattern,
-              // tokenSymbol: contract.listContract[1].symbol ?? '',
-              // org: contract.listContract[1].org,
-              // marketData: contract.listContract[1].marketData,
-              // marketPrice: contract.listContract[1].marketPrice,
-              // transactionInfo:
-              //     contract.listContract[1].listActivity.reversed.toList(),
-              // priceChange24h: contract.listContract[1].change24h,
-            ),
-          ),
-        );
+          break;
 
-        break;
+        case "KGO (BEP-20)":
+          await contract.addListActivity(info, 2, contractService: tokenService);
 
-      case "KGO (BEP-20)":
-        contract.addListActivity(info, 2, contractService: tokenService);
+          // Navigator.push(
+          //   context,
+          //   RouteAnimation(
+          //     enterPage: AssetInfo(
+          //       index: 2,
+          //       scModel: contract.listContract[2]
+          //       // id: contract.listContract[2].id,
+          //       // assetLogo: contract.listContract[2].logo,
+          //       // balance:
+          //       //     contract.listContract[2].balance ?? AppString.loadingPattern,
+          //       // tokenSymbol: contract.listContract[2].symbol ?? '',
+          //       // org: contract.listContract[2].org,
+          //       // marketData: contract.listContract[2].marketData,
+          //       // marketPrice: contract.listContract[2].marketPrice,
+          //       // transactionInfo:
+          //       //     contract.listContract[2].listActivity.reversed.toList(),
+          //       // priceChange24h: contract.listContract[2].change24h,
+          //     ),
+          //   ),
+          // );
+          break;
+        case "ETH":
+          await contract.addListActivity(info, 3, nativeService: nativeService);
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: AssetInfo(
-              index: 2,
-              scModel: contract.listContract[2]
-              // id: contract.listContract[2].id,
-              // assetLogo: contract.listContract[2].logo,
-              // balance:
-              //     contract.listContract[2].balance ?? AppString.loadingPattern,
-              // tokenSymbol: contract.listContract[2].symbol ?? '',
-              // org: contract.listContract[2].org,
-              // marketData: contract.listContract[2].marketData,
-              // marketPrice: contract.listContract[2].marketPrice,
-              // transactionInfo:
-              //     contract.listContract[2].listActivity.reversed.toList(),
-              // priceChange24h: contract.listContract[2].change24h,
-            ),
-          ),
-        );
-        break;
-      case "ETH":
-        contract.addListActivity(info, 3, nativeService: nativeService);
+          // Navigator.push(
+          //   context,
+          //   RouteAnimation(
+          //     enterPage: AssetInfo(
+          //       index: 3,
+          //       scModel: contract.listContract[3]
+          //       // id: contract.listContract[3].id,
+          //       // assetLogo: contract.listContract[3].logo,
+          //       // balance:
+          //       //     contract.listContract[3].balance ?? AppString.loadingPattern,
+          //       // tokenSymbol: contract.listContract[3].symbol ?? '',
+          //       // org: contract.listContract[3].org,
+          //       // marketData: contract.listContract[3].marketData,
+          //       // marketPrice: contract.listContract[3].marketPrice,
+          //       // transactionInfo:
+          //       //     contract.listContract[3].listActivity.reversed.toList(),
+          //       // priceChange24h: contract.listContract[3].change24h,
+          //     ),
+          //   ),
+          // );
+          break;
+        case "BNB":
+          print("BNB addListActivity");
+          await contract.addListActivity(info, 4, nativeService: nativeService);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: AssetInfo(
-              index: 3,
-              scModel: contract.listContract[3]
-              // id: contract.listContract[3].id,
-              // assetLogo: contract.listContract[3].logo,
-              // balance:
-              //     contract.listContract[3].balance ?? AppString.loadingPattern,
-              // tokenSymbol: contract.listContract[3].symbol ?? '',
-              // org: contract.listContract[3].org,
-              // marketData: contract.listContract[3].marketData,
-              // marketPrice: contract.listContract[3].marketPrice,
-              // transactionInfo:
-              //     contract.listContract[3].listActivity.reversed.toList(),
-              // priceChange24h: contract.listContract[3].change24h,
-            ),
-          ),
-        );
-        break;
-      case "BNB":
-        contract.addListActivity(info, 4, nativeService: nativeService);
+          // Navigator.push(
+          //   context,
+          //   RouteAnimation(
+          //     enterPage: AssetInfo(
+          //       index: 4,
+          //       scModel: contract.listContract[4]
+          //       // id: contract.listContract[4].id,
+          //       // assetLogo: contract.listContract[4].logo,
+          //       // balance:
+          //       //     contract.listContract[4].balance ?? AppString.loadingPattern,
+          //       // tokenSymbol: contract.listContract[4].symbol ?? '',
+          //       // org: contract.listContract[4].org,
+          //       // marketData: contract.listContract[4].marketData,
+          //       // marketPrice: contract.listContract[4].marketPrice,
+          //       // transactionInfo:
+          //       //     contract.listContract[4].listActivity.reversed.toList(),
+          //       // priceChange24h: contract.listContract[4].change24h,
+          //     ),
+          //   ),
+          // );
+          break;
+      }
 
-        Navigator.push(
-          context,
-          RouteAnimation(
-            enterPage: AssetInfo(
-              index: 4,
-              scModel: contract.listContract[4]
-              // id: contract.listContract[4].id,
-              // assetLogo: contract.listContract[4].logo,
-              // balance:
-              //     contract.listContract[4].balance ?? AppString.loadingPattern,
-              // tokenSymbol: contract.listContract[4].symbol ?? '',
-              // org: contract.listContract[4].org,
-              // marketData: contract.listContract[4].marketData,
-              // marketPrice: contract.listContract[4].marketPrice,
-              // transactionInfo:
-              //     contract.listContract[4].listActivity.reversed.toList(),
-              // priceChange24h: contract.listContract[4].change24h,
-            ),
-          ),
-        );
-        break;
+      // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+    } catch (e){
+      print("Err navigateAssetInfo $e");
     }
   }
 
@@ -587,167 +588,206 @@ class TrxFunctional {
     return mhash;
   }
 
-  Future<bool> checkBalanceofCoin(String asset, String amount) async {
+  Future<bool> checkBalanceofCoin(String asset, String amount, int index) async {
+
     bool _enough = true;
-    final api = Provider.of<ApiProvider>(context, listen: false);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    switch (asset) {
-      case "SEL":
-        final withoutComma = api.nativeM.balance.replaceAll(RegExp(','), '');
-        if (double.parse(withoutComma) < double.parse(amount)) {
-          _enough = false;
-        }
-        break;
-      case "DOT":
-        final withoutComma = api.dot.balance.replaceAll(RegExp(','), '');
-        if (double.parse(withoutComma) < double.parse(amount)) {
-          _enough = false;
-        }
+    try {
+      final api = Provider.of<ApiProvider>(context, listen: false);
+      final contract = Provider.of<ContractProvider>(context, listen: false);
+      // switch (asset) {
+      //   case "SEL":
+      //     final withoutComma = api.nativeM.balance.replaceAll(RegExp(','), '');
+      //     if (double.parse(withoutComma) < double.parse(amount)) {
+      //       _enough = false;
+      //     }
+      //     break;
+      //   case "DOT":
+      //     final withoutComma = contract.listContract[5].balance.replaceAll(RegExp(','), '');
+      //     if (double.parse(withoutComma) < double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "BTC":
-        if (double.parse(api.btc.balance) < double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
+      //   case "BTC":
+      //     if (double.parse(contract.listContract[6].balance) < double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "SEL (BEP-20)":
-        if (double.parse(contract.listContract[0].balance) <
-            double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
+      //   case "SEL (BEP-20)":
+      //     if (double.parse(contract.listContract[0].balance) <
+      //         double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "SEL v2 (BEP-20)":
-        if (double.parse(contract.listContract[1].balance) <
-            double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
+      //   case "SEL v2 (BEP-20)":
+      //     if (double.parse(contract.listContract[1].balance) <
+      //         double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "KGO (BEP-20)":
-        if (double.parse(contract.listContract[2].balance) <
-            double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
+      //   case "KGO (BEP-20)":
+      //     if (double.parse(contract.listContract[2].balance) <
+      //         double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "BNB":
-        if (double.parse(contract.listContract[4].balance) <
-            double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
+      //   case "ETH":
+      //     if (double.parse(contract.listContract[3].balance) <
+      //         double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-        break;
-      case "ETH":
-        if (double.parse(contract.listContract[3].balance) <
-            double.parse(amount)) {
-          _enough = false;
-        }
+      //     break;
 
-        break;
+      //   case "BNB":
+      //     if (double.parse(contract.listContract[4].balance) < double.parse(amount)) {
+      //       _enough = false;
+      //     }
 
-      default:
-        if (asset.contains('ERC-20')) {
-          final contractAddr = ContractProvider().findContractAddr(asset);
-          final balance = await ContractProvider()
-              .queryEther(contractAddr, 'balanceOf', []);
+      //     break;
 
-          if (double.parse(balance.first) < double.parse(amount)) {
-            _enough = false;
-          }
-        } else {
-          final contractAddr = ContractProvider().findContractAddr(asset);
-          final balance =
-              await ContractProvider().query(contractAddr, 'balanceOf', []);
+      //   default:
+      //     if (asset.contains('ERC-20')) {
+      //       final contractAddr = ContractProvider().findContractAddr(asset);
+      //       final balance = await ContractProvider().queryEther(contractAddr, 'balanceOf', []);
 
-          if (double.parse(balance.first) < double.parse(amount)) {
-            _enough = false;
-          }
-        }
+      //       if (double.parse(balance.first) < double.parse(amount)) {
+      //         _enough = false;
+      //       }
+      //     } else {
 
-        break;
+      //       print("BEP-20 ${contract.sortListContract[index].address}");
+      //       // final contractAddr = ContractProvider().findContractAddr(asset);
+      //       // print("Found $contractAddr");
+      //       dynamic balance = await ContractProvider().query(contract.sortListContract[index].address, 'balanceOf', [EthereumAddress.fromHex(contract.ethAdd)]);
+            
+      //       print("Balance $balance");
+      //       print(contract.sortListContract[index].chainDecimal.toString());
+      //       balance = Fmt.bigIntToDouble(
+      //         balance[0] as BigInt,
+      //         int.parse(contract.sortListContract[index].chainDecimal.toString()),
+      //       ).toString();
+
+      //       print("After Balance $balance");
+      //       if (double.parse(balance) < double.parse(amount)) {
+      //         _enough = false;
+      //       }
+      //     }
+
+      //     break;
+      // }
+      print("double.parse(contract.sortListContract[index].balance) ${double.parse(contract.sortListContract[index].balance)}");
+      if (double.parse(contract.sortListContract[index].balance) < double.parse(amount)) {
+        _enough = false;
+      }
+      print("_enough $_enough");
+    } catch (e) {
+      print("Error checkBalanceofCoin $e");
     }
     return _enough;
   }
 
   Future<bool> validateAddr(String asset, String address) async {
+
     bool _isValid = false;
 
-    switch (asset) {
-      case "SEL":
-        final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
-        _isValid = res;
+    try {
 
-        break;
-      case "DOT":
-        final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
-        _isValid = res;
-        break;
-      case "BTC":
-        final res = await ApiProvider().validateBtcAddr(address);
-        _isValid = res;
-        break;
+      switch (asset) {
+        case "SEL":
+          final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
+          _isValid = res;
 
-      default:
-        final res = await ContractProvider().validateEvmAddr(address);
-        _isValid = res;
-        break;
+          break;
+        case "DOT":
+          final res = await ApiProvider.sdk.api.keyring.validateAddress(address);
+          _isValid = res;
+          break;
+        case "BTC":
+          final res = await ApiProvider().validateBtcAddr(address);
+          _isValid = res;
+          break;
+
+        default:
+          final res = await ContractProvider().validateEvmAddr(address);
+          _isValid = res;
+          break;
+      }
+
+      return _isValid;
+    } catch (e) {
+      return _isValid;
     }
-
-    return _isValid;
   }
 
   Future<String> getNetworkGasPrice(String asset) async {
-    String _gasPrice;
-    if (asset == 'SEL (BEP-20)' ||
-        asset == 'SEL v2 (BEP-20)' ||
-        asset == 'KGO (BEP-20)' ||
-        asset == 'BNB') {
-      final res = await ContractProvider().getBscGasPrice();
 
-      _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
-    } else if (asset == 'ETH') {
-      final res = await ContractProvider().getEthGasPrice();
+    try {
 
-      _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
-    } else if (asset == 'BTC') {
-      _gasPrice = '88';
+      String _gasPrice;
+      // if (asset == 'SEL (BEP-20)' || asset == 'SEL v2 (BEP-20)' || asset == 'KGO (BEP-20)' || asset == 'BNB') {
+      // } else 
+      if (asset == 'ETH') {
+        final res = await ContractProvider().getEthGasPrice();
+
+        _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
+      } else if (asset == 'BTC') {
+        _gasPrice = '88';
+      } else {
+
+        final res = await ContractProvider().getBscGasPrice();
+
+        _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
+      }
+      // else if (asset == 'SEL') {
+      //   final res = await ContractProvider().getSelGasPrice();
+      //   _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
+      // }
+
+      return _gasPrice;
+    } catch (e){
+      print("Error getNetworkGasPrice $e");
     }
-    // else if (asset == 'SEL') {
-    //   final res = await ContractProvider().getSelGasPrice();
-    //   _gasPrice = res.getValueInUnit(EtherUnit.gwei).toString();
-    // }
 
-    return _gasPrice;
+    return null;
   }
 
   Future<double> estGasFeePrice(double gasFee, String asset) async {
-    String marketPrice;
 
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    final api = Provider.of<ApiProvider>(context, listen: false);
+    try {
 
-    await MarketProvider().fetchTokenMarketPrice(context);
+      String marketPrice;
 
-    switch (asset) {
-      case 'BTC':
-        marketPrice = api.btc.marketData.currentPrice;
-        break;
-      case 'ETH':
-        marketPrice = contract.listContract[3].marketData.currentPrice;
-        break;
-      // case 'SEL':
-      //   marketPrice = null;
-      //   break;
-      default:
-        marketPrice = contract.listContract[4].marketData.currentPrice;
-        break;
+      final contract = Provider.of<ContractProvider>(context, listen: false);
+
+      await MarketProvider().fetchTokenMarketPrice(context);
+
+      switch (asset) {
+        
+        case 'BTC':
+          marketPrice = contract.listContract[6].marketData.currentPrice;
+          break;
+        case 'ETH':
+          marketPrice = contract.listContract[3].marketData.currentPrice;
+          break;
+        // case 'SEL':
+        //   marketPrice = null;
+        //   break;
+        default:
+          marketPrice = contract.listContract[4].marketData.currentPrice;
+          break;
+      }
+
+      final estGasFeePrice = (gasFee / pow(10, 9)) * double.parse(marketPrice);
+
+      return estGasFeePrice;
+    } catch (e) {
+      print("Error estGasFeePrice $e");
     }
-
-    final estGasFeePrice = (gasFee / pow(10, 9)) * double.parse(marketPrice);
-
-    return estGasFeePrice;
   }
 
   Future<List> calPrice(String asset, String amount) async {
@@ -760,9 +800,7 @@ class TrxFunctional {
     await MarketProvider().fetchTokenMarketPrice(context);
 
     switch (asset) {
-      case 'BTC':
-        marketPrice = api.btc.marketData.currentPrice;
-        break;
+      
       case 'KGO (BEP-20)':
         marketPrice = contract.listContract[2].marketData.currentPrice;
         break;
@@ -773,7 +811,10 @@ class TrxFunctional {
         marketPrice = contract.listContract[4].marketData.currentPrice;
         break;
       case 'DOT':
-        marketPrice = api.dot.marketData.currentPrice;
+        marketPrice = contract.listContract[5].marketData.currentPrice;
+        break;
+      case 'BTC':
+        marketPrice = contract.listContract[6].marketData.currentPrice;
         break;
       default:
         estPrice = '\$0.00';
@@ -783,46 +824,56 @@ class TrxFunctional {
     //print(contract.)
 
     if (marketPrice != null)
-      estPrice =
-          (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
+      estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
     return [estPrice, marketPrice ?? '0']; //res.toStringAsFixed(2);
   }
 
-  Future<String> estMaxGas(String asset, String reciever, String amount) async {
+  Future<String> estMaxGas(BuildContext context, String asset, String reciever, String amount, int index) async {
+
+
     String maxGas;
-    final contract = ContractProvider();
+    final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = ApiProvider();
+    
+    try {
 
-    switch (asset) {
-      case 'BTC':
-        maxGas = await api.calBtcMaxGas();
-        break;
-      case 'ETH':
-        maxGas = await contract.getEthMaxGas(reciever, amount);
-        break;
-      case 'SEL (BEP-20)':
+      switch (asset) {
+        case 'BTC':
+          maxGas = await api.calBtcMaxGas();
+          break;
+        case 'ETH':
+          maxGas = await contract.getEthMaxGas(reciever, amount);
+          break;
+        case 'SEL (BEP-20)':
 
-        //  final contract = await AppUtils.contractfromAssets(
-        //   AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
-        // maxGas = await contract.getBep20MaxGas(
-        //     contract.listContract[0].address, reciever, amount);
+          //  final contract = await AppUtils.contractfromAssets(
+          //   AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
+          // maxGas = await contract.getBep20MaxGas(
+          //     contract.listContract[0].address, reciever, amount);
 
-        maxGas = await contract.getBep20MaxGas(
-            '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
+          maxGas = await contract.getBep20MaxGas('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
 
-        break;
-      case 'SEL v2 (BEP-20)':
-        maxGas = await contract.getBep20MaxGas(
-            contract.listContract[1].address, reciever, amount);
-        break;
-      case 'KGO (BEP-20)':
-        maxGas = await contract.getBep20MaxGas(
-            contract.listContract[2].address, reciever, amount);
-        break;
-      case 'BNB':
-        maxGas = await contract.getBnbMaxGas(reciever, amount);
-        break;
+          break;
+        case 'SEL v2 (BEP-20)':
+          maxGas = await contract.getBep20MaxGas(contract.listContract[1].address, reciever, amount);
+          break;
+        case 'KGO (BEP-20)':
+          maxGas = await contract.getBep20MaxGas(contract.listContract[2].address, reciever, amount);
+          break;
+        case 'BNB':
+          maxGas = await contract.getBnbMaxGas(reciever, amount);
+          break;
+        default: 
+          print("Default");
+          print("index $index");
+          print(contract.sortListContract[0].address);
+          print(contract.sortListContract[index].symbol);
+          maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address, reciever, amount);
+          break;
+      }
+    } catch (e) {
+      print("Error estMaxGas $e");
     }
     return maxGas;
   }

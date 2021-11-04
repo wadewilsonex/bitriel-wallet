@@ -179,12 +179,12 @@ class _ContactBookBodyState extends State<ContactBookBody> {
                                               "Do you really want to deleteContact this contact?"),
                                         ),
                                         actions: <Widget>[
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () =>
                                                 Navigator.pop(context),
                                             child: const Text('Close'),
                                           ),
-                                          FlatButton(
+                                          TextButton(
                                             onPressed: () async {
                                               await widget.deleteContact(index);
                                               Navigator.pop(context);

@@ -13,49 +13,32 @@ import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 class ApiProvider with ChangeNotifier {
   
   static WalletSDK sdk = WalletSDK();
+
   static Keyring keyring = Keyring();
 
   static const int bitcoinDigit = 8;
+
   num bitcoinSatFmt = pow(10, 8);
 
   double amount = 0.0008;
+
+  bool _isConnected = false;
+
+  String btcAdd = '';
 
   ContractProvider contractProvider;
 
   AccountM accountM = AccountM();
 
   SmartContractModel nativeM = SmartContractModel(
-      id: 'selendra',
-      logo: 'assets/SelendraCircle-White.png',
-      symbol: 'SEL',
-      name: "SELENDRA",
-      balance: '0.0',
-      org: 'Testnet',
-      lineChartModel: LineChartModel());
-
-  SmartContractModel dot = SmartContractModel(
-      id: 'polkadot',
-      symbol: 'DOT',
-      name: "Polkadot",
-      logo: 'assets/icons/polkadot.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      lineChartModel: LineChartModel());
-
-  SmartContractModel btc = SmartContractModel(
-      id: 'bitcoin',
-      symbol: 'BTC',
-      name: "Bitcoin",
-      logo: 'assets/btc_logo.png',
-      org: '',
-      balance: '0.0',
-      isContain: false,
-      lineChartModel: LineChartModel());
-
-  bool _isConnected = false;
-
-  String btcAdd = '';
+    id: 'selendra',
+    logo: 'assets/SelendraCircle-White.png',
+    symbol: 'SEL',
+    name: "SELENDRA",
+    balance: '0.0',
+    org: 'Testnet',
+    lineChartModel: LineChartModel()
+  );
 
   bool get isConnected => _isConnected;
 
@@ -64,12 +47,14 @@ class ApiProvider with ChangeNotifier {
       await keyring.init();
       keyring.setSS58(42);
       await sdk.init(keyring);
+
+      print("Finish sdk");
     } catch (e) {
       print("Error initApi $e");
     }
   }
 
-  Future<NetworkParams> connectNode() async {
+  Future<NetworkParams> connectSELNode({@required BuildContext context}) async {
     try {
 
       print("Connect node");
@@ -77,13 +62,15 @@ class ApiProvider with ChangeNotifier {
 
       node.name = 'Indranet hosted By Selendra';
       node.endpoint = AppConfig.networkList[0].wsUrlTN;
-      node.ss58 = AppConfig.networkList[0].ss58;
+      node.ss58 = 0;
+
+      print("Connect node setup");
 
       final res = await sdk.api.connectNode(keyring, [node]);
       print('connecting node');
       if (res != null) {
         _isConnected = true;
-        await getChainDecimal();
+        await getChainDecimal(context: context);
       }
 
       notifyListeners();
@@ -95,26 +82,36 @@ class ApiProvider with ChangeNotifier {
     return null;
   }
 
-  Future<NetworkParams> connectPolNon() async {
-    final node = NetworkParams();
-    node.name = 'Polkadot(Live, hosted by PatractLabs)';
-    node.endpoint = AppConfig.networkList[1].wsUrlMN;
-    node.ss58 = 0;
+  Future<NetworkParams> connectPolNon({@required BuildContext context}) async {
 
-    // final node1 = NetworkParams();
-    // node.name = 'Polkadot(Live, hosted by PatractLabs)';
-    // node.endpoint = 'wss://polkadot.elara.patract.io';
-    // node.ss58 = 0;
+    print("connectPolNon");
+    dynamic res;
+    try {
 
-    final res = await sdk.api.connectNon(keyring, [node]);
+      final node = NetworkParams();
+      node.name = 'Polkadot(Live, hosted by PatractLabs)';
+      node.endpoint = AppConfig.networkList[1].wsUrlTN;
+      node.ss58 = 0;
 
-    if (res != null) {
-      _isConnected = true;
+      // final node = NetworkParams();
+      // node.name = 'Polkadot(Live, hosted by PatractLabs)';
+      // node.endpoint = 'wss://polkadot.elara.patract.io';
+      // node.ss58 = 0;
 
-      await getDotChainDecimal();
+      res = await sdk.api.connectNode(keyring, [node]);
+
+      print("Finish connectPolNon");
+
+      if (res != null) {
+        _isConnected = true;
+
+        await getDotChainDecimal(context: context);
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("Erro connectPolNon $e");
     }
-
-    notifyListeners();
 
     return res;
   }
@@ -130,6 +127,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<String> calBtcMaxGas() async {
+    
     int input = 0;
 
     final from = await StorageServices.fetchData('bech32');
@@ -152,15 +150,12 @@ class ApiProvider with ChangeNotifier {
     return trxSize.toString();
   }
 
-  Future<int> sendTxBtc(BuildContext context, String from, String to,
-      double amount, String wif) async {
+  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
     int totalSatoshi = 0;
     int input = 0;
     final alice = ECPair.fromWIF(wif);
 
-    final p2wpkh = new P2WPKH(
-      data: new PaymentData(pubkey: alice.publicKey),
-    ).data;
+    final p2wpkh = new P2WPKH(data: new PaymentData(pubkey: alice.publicKey)).data;
 
     final txb = TransactionBuilder();
     txb.setVersion(1);
@@ -181,17 +176,17 @@ class ApiProvider with ChangeNotifier {
     final totaltoSend = (amount * bitcoinSatFmt).floor();
 
     if (totalSatoshi < totaltoSend) {
-      await customDialog(context,
-          'You do not have enough in your wallet to send that much.', 'Opps');
+      await customDialog(context, 'You do not have enough in your wallet to send that much.', 'Opps');
     }
 
     final fee = calTrxSize(input, 2) * 88;
 
     if (fee > (amount * bitcoinSatFmt).floor()) {
       await customDialog(
-          context,
-          "BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)",
-          'Opps');
+        context,
+        "BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)",
+        'Opps'
+      );
     }
 
     final change = totalSatoshi - ((amount * bitcoinSatFmt).floor() + fee);
@@ -208,8 +203,7 @@ class ApiProvider with ChangeNotifier {
     return response;
   }
 
-  Future<void> customDialog(
-      BuildContext context, String text1, String text2) async {
+  Future<void> customDialog(BuildContext context, String text1, String text2) async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -258,7 +252,7 @@ class ApiProvider with ChangeNotifier {
       final res = await getAddressUxto(address);
 
       if (res.length == 0) {
-        btc.balance = '0';
+        contract.listContract[6].balance = '0';
       } else {
         for (final i in res) {
           if (i['status']['confirmed'] == true) {
@@ -266,7 +260,7 @@ class ApiProvider with ChangeNotifier {
           }
         }
 
-        btc.balance = (totalSatoshi / bitcoinSatFmt).toString();
+        contract.listContract[6].balance = (totalSatoshi / bitcoinSatFmt).toString();
       }
 
       contract.listContract[6].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[6]);
@@ -277,8 +271,9 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  void isDotContain() {
-    dot.isContain = true;
+  void isDotContain({@required BuildContext context}) {
+    final con = Provider.of<ContractProvider>(context, listen: false);
+    con.listContract[5].isContain = true;
     notifyListeners();
   }
 
@@ -297,9 +292,10 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void isBtcAvailable(String contain) {
+  void isBtcAvailable(String contain, {@required BuildContext context}) {
+    final con = Provider.of<ContractProvider>(context, listen: false);
     if (contain != null) {
-      btc.isContain = true;
+      con.listContract[6].isContain = true;
       notifyListeners();
     }
   }
@@ -319,10 +315,10 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void dotIsNotContain() {
-    dot.isContain = false;
-    notifyListeners();
-  }
+  // void dotIsNotContain() {
+  //   dot.isContain = false;
+  //   notifyListeners();
+  // }
 
   Future<String> getPrivateKey(String mnemonic) async {
     final res = await ApiProvider.sdk.api.getPrivateKey(mnemonic);
@@ -334,20 +330,24 @@ class ApiProvider with ChangeNotifier {
     return res;
   }
 
-  Future<void> getChainDecimal() async {
-    final res = await sdk.api.getChainDecimal();
-    nativeM.chainDecimal = res[0].toString();
+  Future<void> getChainDecimal({@required BuildContext context}) async {
 
-    await subscribeBalance();
+    final contract = Provider.of<ContractProvider>(context, listen: false);
+
+    final res = await sdk.api.getChainDecimal();
+    contract.listContract[0].chainDecimal = res[0].toString();
+
+    await subscribeBalance(context: context);
 
     notifyListeners();
   }
 
-  Future<void> subscribeBalance() async {
+  Future<void> subscribeBalance({@required BuildContext context}) async {
+    final contract = Provider.of<ContractProvider>(context, listen: false);
     await sdk.api.account.subscribeBalance(keyring.current.address, (res) {
-      nativeM.balance = Fmt.balance(
+      contract.listContract[0].balance = Fmt.balance(
         res.freeBalance.toString(),
-        int.parse(nativeM.chainDecimal),
+        int.parse(contract.listContract[0].chainDecimal),
       );
 
       notifyListeners();
@@ -357,6 +357,7 @@ class ApiProvider with ChangeNotifier {
   Future<void> getDotChainDecimal({@required BuildContext context}) async {
     try {
       final contract = await Provider.of<ContractProvider>(context, listen: false);
+      print("contract.listContract[5].chainDecimal ${contract.listContract[5].chainDecimal}");
       final res = await sdk.api.getNChainDecimal();
       print("contract.listContract[5].chainDecimal ${contract.listContract[5].chainDecimal}");
       contract.listContract[5].chainDecimal = res[0].toString();
@@ -406,16 +407,17 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void resetNativeObj() {
-    accountM = AccountM();
-    nativeM = SmartContractModel(
-      id: 'selendra',
-      logo: 'assets/SelendraCircle-White.png',
-      symbol: 'SEL',
-      org: 'Testnet',
-    );
-    dot = SmartContractModel();
+  // void resetNativeObj({BuildContext context}) {
+  //   final contract = Provider.of<ContractPro>(context);
+  //   accountM = AccountM();
+  //   nativeM = SmartContractModel(
+  //     id: 'selendra',
+  //     logo: 'assets/SelendraCircle-White.png',
+  //     symbol: 'SEL',
+  //     org: 'Testnet',
+  //   );
+  //   dot = SmartContractModel();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }

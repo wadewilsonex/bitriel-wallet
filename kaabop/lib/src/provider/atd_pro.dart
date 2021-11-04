@@ -23,7 +23,7 @@ class Attendance extends ChangeNotifier {
     return null;
   }
 
-  Future<double> checkBalanceAdd({@required BuildContext context}) async {
+  Future<double> getAttBalance({@required BuildContext context}) async {
     try {
 
       final contractPro = Provider.of<ContractProvider>(context, listen: false);
@@ -41,6 +41,7 @@ class Attendance extends ChangeNotifier {
         ); //.balance = balance.toString();
 
         contractPro.listContract[7].balance = balance[0].toString();
+        
         contractPro.listContract[7].lineChartModel = LineChartModel().prepareGraphChart(contractPro.listContract[7]);
         
         notifyListeners();
@@ -49,6 +50,7 @@ class Attendance extends ChangeNotifier {
     } catch (e) {
       print("Err checkBalanceAdd $e");
     }
+    return null;
   }
 
 } 

@@ -9,7 +9,7 @@ class AppStyle {
     return ThemeData(
       scaffoldBackgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor("#F5F5F5"),
       appBarTheme: AppBarTheme(
-        textTheme: TextTheme(bodyText2: TextStyle(color: hexaCodeToColor(AppColors.appBarTextColor))),
+        toolbarTextStyle: TextStyle(color: hexaCodeToColor(AppColors.appBarTextColor)),
         color: Colors.transparent,
         iconTheme: IconThemeData(color: hexaCodeToColor(AppColors.appBarTextColor))
       ),

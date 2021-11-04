@@ -7,6 +7,7 @@ import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:web3dart/web3dart.dart';
 
 class NativeService implements INativeService {
+  
   final Web3Client _client;
 
   NativeService(this._client);
@@ -30,88 +31,91 @@ class NativeService implements INativeService {
   @override
   Future<bool> listenTransfer(String txHash) async {
     bool std;
-    StreamSubscription subscribeEvent;
+    // StreamSubscription subscribeEvent;
 
     print('myhash $txHash');
 
     // ignore: unused_local_variable
     // ignore: cancel_subscriptions
-    await _client
-        .addedBlocks()
-        .asyncMap((_) async {
-          try {
-            // This Method Will Run Again And Again Until we return something
-            await _client.getTransactionReceipt(txHash).then((d) {
-              print('my stt ${d.status}');
-              // Give Value To std When Request Successfully
-              if (d != null) {
-                std = d.status;
+    await _client.addedBlocks().asyncMap((_) async {
+      try {
+        // This Method Will Run Again And Again Until we return something
+        await _client.getTransactionReceipt(txHash).then((d) {
+          print('my stt ${d}');
+          // Give Value To std When Request Successfully
+          if (d != null) {
+            std = d.status;
 
-                print('my status $std ');
-                //subscribeEvent.cancel();
-              }
-            });
-
-            // Return Value For True Value And Method GetTrxReceipt Also Terminate
-            if (std != null) return std;
-          } on FormatException catch (e) {
-            // This Error Because can't Convert Hexadecimal number to integer.
-            // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
-            // Example-Error: 0xc, 0x3a, ...
-            // Example-Success: 0x1, 0x2, 0,3 ...
-
-            // return True For Facing This FormatException
-            if (e.message.toString() == 'Invalid radix-10 number') {
-              std = true;
-              return std;
-            }
-          } catch (e) {
-            print("Error $e");
+            print('my status $std ');
+            //subscribeEvent.cancel();
           }
-        })
-        .where((receipt) => receipt != null)
-        .first;
+        });
+
+        // Return Value For True Value And Method GetTrxReceipt Also Terminate
+        if (std != null) return std;
+      } on FormatException catch (e) {
+        // This Error Because can't Convert Hexadecimal number to integer.
+        // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
+        // Example-Error: 0xc, 0x3a, ...
+        // Example-Success: 0x1, 0x2, 0,3 ...
+
+        // return True For Facing This FormatException
+        if (e.message.toString() == 'Invalid radix-10 number') {
+          std = true;
+          return std;
+        }
+      } catch (e) {
+        print("Error listenTransfer $e");
+      }
+    })
+    .where((receipt) => receipt != null)
+    .first;
 
     return std;
   }
 
   @override
   Future<String> sendTx(TransactionInfo trxInfo) async {
-    print('sendTx');
-    final credentials = await getCredentials(trxInfo.privateKey);
+    try {
 
-    final sender = await credentials.extractAddress();
+      print('sendTx');
+      final credentials = await getCredentials(trxInfo.privateKey);
 
-    print('sender $sender');
+      final sender = await credentials.extractAddress();
 
-    final maxGas = await getMaxGas(sender, trxInfo);
+      print('sender $sender');
 
-    print('mG $maxGas');
+      final maxGas = await getMaxGas(sender, trxInfo);
 
-    final res = await _client.sendTransaction(
-      credentials,
-      Transaction(
-        maxGas: maxGas.toInt(),
-        to: trxInfo.receiver,
-        value: EtherAmount.inWei(
-            BigInt.from(double.parse(trxInfo.amount) * pow(10, 18))),
-      ),
-      fetchChainIdFromNetworkId: true,
-    );
+      print('mG $maxGas');
 
-    print('res: $res');
+      final res = await _client.sendTransaction(
+        credentials,
+        Transaction(
+          maxGas: maxGas.toInt(),
+          to: trxInfo.receiver,
+          value: EtherAmount.inWei(
+              BigInt.from(double.parse(trxInfo.amount) * pow(10, 18))),
+        ),
+        fetchChainIdFromNetworkId: true,
+      );
 
-    return res;
+      print('res: $res');
+
+      return res;
+    } catch (e){
+      print("Err sendTx $e");
+    }
+
+    return null;
   }
 
   @override
-  Future<BigInt> getMaxGas(
-      EthereumAddress sender, TransactionInfo trxInfo) async {
+  Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: trxInfo.receiver,
-      value: EtherAmount.inWei(
-          BigInt.from(double.parse(trxInfo.amount) * pow(10, 18))),
+      value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount) * pow(10, 18))),
     );
 
     return maxGas;

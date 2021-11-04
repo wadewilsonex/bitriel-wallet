@@ -1,8 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-
 import 'package:pie_chart/pie_chart.dart';
-import 'package:wallet_apps/src/components/portfolio_c.dart';
 import 'package:wallet_apps/src/provider/wallet_provider.dart';
 
 class PortfolioBody extends StatelessWidget {

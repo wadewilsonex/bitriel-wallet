@@ -12,12 +12,13 @@ class HomeBody extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        
         // Pie Chart With List Asset Market
         // PortFolioCus(),
 
         Container(
-          // color: isDarkTheme ? hexaCodeToColor(AppColors) : Colors.white,
-          padding: EdgeInsets.only(bottom: 10, top: 10, left: 5, right: 5),
+          color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : Colors.white,
+          padding: EdgeInsets.only(bottom: 15, top: 15, left: 5, right: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -29,12 +30,15 @@ class HomeBody extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        shadow(context)
+                      ],
                       borderRadius: BorderRadius.circular(8.0),
-                      color: hexaCodeToColor(AppColors.secondary),
+                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Claim",
-                      color: AppColors.whiteColorHexa,
+                      color: AppColors.secondarytext,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -52,11 +56,14 @@ class HomeBody extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      color: hexaCodeToColor(AppColors.secondary),
+                      boxShadow: [
+                        shadow(context)
+                      ],
+                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Swap",
-                      color: AppColors.whiteColorHexa,
+                      color: AppColors.secondarytext,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -73,12 +80,15 @@ class HomeBody extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        shadow(context)
+                      ],
                       borderRadius: BorderRadius.circular(8.0),
-                      color: hexaCodeToColor(AppColors.secondary),
+                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Presale",
-                      color: AppColors.whiteColorHexa,
+                      color: AppColors.secondarytext,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -92,7 +102,7 @@ class HomeBody extends StatelessWidget {
         ),
         
         Divider(
-          height: 2,
+          height: 0.5,
           color: isDarkTheme ? Colors.black : Colors.grey.shade400,
         ),
 

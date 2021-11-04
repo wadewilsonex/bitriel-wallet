@@ -68,8 +68,7 @@ class _AssetInfoState extends State<AssetInfo> {
     });
     _flareController.play('Checkmark');
     Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }
 
@@ -106,52 +105,56 @@ class _AssetInfoState extends State<AssetInfo> {
     return _txHistoryModel.tx;
   }
 
-  Future<void> _deleteHistory(int index, String symbol) async {
-    final SharedPreferences _preferences =
-        await SharedPreferences.getInstance();
+  Future<void> deleteHistory(int index, String symbol) async {
+    try {
 
-    if (symbol == 'SEL') {
-      _txHistoryModel.tx.removeAt(index);
-    } else {
-      _txHistoryModel.txKpi.removeAt(index);
+      final SharedPreferences _preferences = await SharedPreferences.getInstance();
+
+      if (symbol == 'SEL') {
+        _txHistoryModel.tx.removeAt(index);
+      } else {
+        _txHistoryModel.txKpi.removeAt(index);
+      }
+
+      final newTxList = List.from(_txHistoryModel.tx)..addAll(_txHistoryModel.txKpi);
+
+      await clearOldHistory().then((value) async {
+        await _preferences.setString('txhistory', jsonEncode(newTxList));
+      });
+
+    } catch (e) {
+      print("Error _deleteHistory $e");
     }
-
-    final newTxList = List.from(_txHistoryModel.tx)
-      ..addAll(_txHistoryModel.txKpi);
-
-    await clearOldHistory().then((value) async {
-      await _preferences.setString('txhistory', jsonEncode(newTxList));
-    });
+    return null;
   }
 
   Future<void> clearOldHistory() async {
     await StorageServices.removeKey('txhistory');
   }
 
-  Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 3)).then((value) {
+  Future<void> refresh() async {
+    await Future.delayed(const Duration(seconds: 3)).then((value) async {
       if (widget.scModel.symbol == "ATD") {
         // Provider.of<ContractProvider>(context, listen: false).getAStatus();
-        getCheckInList();
-        getCheckOutList();
-        sortList();
+        await getCheckInList();
+        await getCheckOutList();
+        await sortList();
       }
     });
   }
 
   Future<void> getCheckInList() async {
-    final res = await ApiProvider.sdk.api
-        .getCheckInList(ApiProvider.keyring.keyPairs[0].address);
+
+    final res = await ApiProvider.sdk.api.getCheckInList(ApiProvider.keyring.keyPairs[0].address);
 
     setState(() {
       _checkInList.clear();
     });
+
     for (final i in res) {
       final String latlong = i['location'].toString();
 
-      await addressName(LatLng(double.parse(latlong.split(',')[0]),
-              double.parse(latlong.split(',')[1])))
-          .then((value) async {
+      await addressName(LatLng(double.parse(latlong.split(',')[0]), double.parse(latlong.split(',')[1]))).then((value) async {
         if (value != null) {
           await dateConvert(int.parse(i['time'].toString())).then((time) {
             setState(() {
@@ -167,8 +170,8 @@ class _AssetInfoState extends State<AssetInfo> {
   }
 
   Future<void> getCheckOutList() async {
-    final res = await ApiProvider.sdk.api
-        .getCheckOutList(ApiProvider.keyring.keyPairs[0].address);
+
+    final res = await ApiProvider.sdk.api.getCheckOutList(ApiProvider.keyring.keyPairs[0].address);
 
     setState(() {
       _checkOutList.clear();
@@ -390,35 +393,34 @@ class _AssetInfoState extends State<AssetInfo> {
                   <Widget>[
                     Container(
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                           MyText(
-                            text:
-                                '${widget.scModel.balance}${' ${widget.scModel.symbol}'}',
+                            text: '${widget.scModel.balance}${' ${widget.scModel.symbol}'}',
                             //AppColors.secondarytext,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: isDarkTheme
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
                           ),
+                          
                           MyText(
                             top: 8.0,
-                            text: widget.scModel.balance != AppString.loadingPattern &&
-                                    widget.scModel.marketPrice != null
-                                ? '≈ \$$totalUsd'
-                                : '≈ \$0.00',
+                            text: widget.scModel.balance != AppString.loadingPattern && widget.scModel.marketPrice != null
+                              ? '≈ \$$totalUsd'
+                              : '≈ \$0.00',
 
                             fontSize: 28,
                             color: isDarkTheme
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
                             //fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 8.0),
@@ -429,29 +431,39 @@ class _AssetInfoState extends State<AssetInfo> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 MyText(
-                                  text: '\$ ${widget.scModel.marketPrice}' ?? '',
+                                  text: widget.scModel.marketPrice != null ? '\$ ${widget.scModel.marketPrice}' : '',
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
-                                      ? AppColors.whiteColorHexa
-                                      : AppColors.textColor,
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
                                 ),
+
                                 const SizedBox(width: 6.0),
-                                MyText(
-                                  text: widget.scModel.change24h.substring(0, 1) ==
-                                          '-'
-                                      ? '${widget.scModel.change24h}%'
-                                      : '+${widget.scModel.change24h}%',
+                                widget.scModel.change24h != null && widget.scModel.change24h != ''
+                                ? MyText(
+                                  text: double.parse(widget.scModel.change24h).isNegative
+                                    ? '${widget.scModel.change24h}%'
+                                    : '+${widget.scModel.change24h}%',
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color:
-                                      widget.scModel.change24h.substring(0, 1) ==
-                                              '-'
-                                          ? '#FF0000'
-                                          : isDarkTheme
-                                              ? '#00FF00'
-                                              : '#66CD00',
-                                ),
+                                  color: double.parse(widget.scModel.change24h).isNegative
+                                    ? '#FF0000'
+                                    : isDarkTheme
+                                        ? '#00FF00'
+                                        : '#66CD00'
+                                        ,
+                                )
+                                : Flexible(
+                                  child: MyText(
+                                    text: widget.scModel.change24h,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkTheme
+                                      ? '#00FF00'
+                                      : '#66CD00',
+                                  )
+                                )
                               ],
                             ),
 
@@ -628,6 +640,7 @@ class _AssetInfoState extends State<AssetInfo> {
               ),
             ];
           },
+
           body: PageView(
             controller: controller,
             onPageChanged: (index) {
@@ -655,7 +668,7 @@ class _AssetInfoState extends State<AssetInfo> {
                   ),
                 ),
               Consumer<ContractProvider>(builder: (context, value, child) {
-                return widget.transactionInfo.isEmpty
+                return widget.transactionInfo == null
                     ? Container(
                         color: isDarkTheme
                           ? hexaCodeToColor(AppColors.darkCard)
@@ -668,9 +681,7 @@ class _AssetInfoState extends State<AssetInfo> {
                         )),
                       )
                     : Container(
-                        color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.darkCard)
-                            : hexaCodeToColor(AppColors.whiteColorHexa),
+                        color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                         child: ActivityList(
                           transactionInfo: widget.transactionInfo,
                         )

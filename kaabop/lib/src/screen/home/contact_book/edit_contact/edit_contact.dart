@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
@@ -62,11 +61,11 @@ class _EditContactState extends State<EditContact> {
               child: Text("Are you sure to edit this contact?"),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () async {
                   widget.contact[widget.index] = _addContactModel;
 
@@ -126,11 +125,10 @@ class _EditContactState extends State<EditContact> {
               ),
               content: Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text(
-                    "Successfully edit contact!\n Please check your contact book"),
+                child: Text("Successfully edit contact!\n Please check your contact book"),
               ),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Close'),
                 ),
@@ -203,7 +201,6 @@ class _EditContactState extends State<EditContact> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,

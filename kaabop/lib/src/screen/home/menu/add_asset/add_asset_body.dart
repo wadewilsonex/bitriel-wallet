@@ -9,6 +9,7 @@ class AddAssetBody extends StatelessWidget {
   final ModelAsset assetM;
   final String tokenSymbol;
   final String initialValue;
+  final List<Map<String, dynamic>> networkSymbol;
   final Function validateIssuer;
   final Function popScreen;
   final String Function(String) onChanged;
@@ -23,6 +24,7 @@ class AddAssetBody extends StatelessWidget {
     this.assetM,
     this.tokenSymbol,
     this.initialValue,
+    this.networkSymbol,
     this.validateIssuer,
     this.popScreen,
     this.onChanged,
@@ -37,6 +39,7 @@ class AddAssetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contract = Provider.of<ContractProvider>(context);
     return Column(children: [
       MyAppBar(
         title: "Add asset",
@@ -85,58 +88,6 @@ class AddAssetBody extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Container(
-                      //   /* Type of payment */
-                      //   margin: const EdgeInsets.only(
-                      //     bottom: 16.0,
-                      //     left: 16,
-                      //     right: 16,
-                      //   ),
-                      //   child: Container(
-                      //     padding: const EdgeInsets.only(
-                      //       top: 11.0,
-                      //       bottom: 11.0,
-                      //       left: 26.0,
-                      //       right: 14.0,
-                      //     ),
-                      //     decoration: BoxDecoration(
-                      //       color: hexaCodeToColor(AppColors.cardColor),
-                      //       borderRadius: BorderRadius.circular(size5),
-                      //     ),
-                      //     child: Row(
-                      //       children: <Widget>[
-                      //         const Expanded(
-                      //           child: MyText(
-                      //             text: 'Asset',
-                      //             textAlign: TextAlign.left,
-                      //           ),
-                      //         ),
-                      //         ReuseDropDown(
-                      //           initialValue: "Asset name",
-                      //           onChanged: (value) {},
-                      //           itemsList: [],
-                      //           style: TextStyle(
-                      //             color: hexaCodeToColor(AppColors.textColor),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // MyInputField(
-                      //   pBottom: 16.0,
-                      //   labelText: "Token Contract Address",
-                      //   textInputFormatter: [
-                      //     LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                      //   ],
-                      //   controller: assetM.controllerAssetCode,
-                      //   focusNode: assetM.nodeAssetCode,
-                      //   validateField: (value) => value.isEmpty
-                      //       ? 'Please fill in token contract address'
-                      //       : null,
-                      //   onChanged: onChanged,
-                      //   onSubmit: onSubmit,
-                      // ),
 
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -172,10 +123,7 @@ class AddAssetBody extends StatelessWidget {
                                     : AppColors.darkCard)
                                 ),
                                 initialValue: initialValue,
-                                itemsList: const [
-                                  'Binance Smart Chain',
-                                  'Ethereum'
-                                ],
+                                itemsList: networkSymbol,
                                 onChanged: (value) {
                                   onChangeDropDown(value);
                                 },
@@ -262,19 +210,20 @@ class AddAssetBody extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+
+              const SizedBox(height: 40.0),
+
+              MyFlatButton(
+                textButton: "Submit",
+                edgeMargin: const EdgeInsets.only(left: 66, right: 66),
+                hasShadow: assetM.enable,
+                action: assetM.enable ? submitAsset : null,
               )
             ],
           ),
         ),
       ),
-      const SizedBox(height: 40.0),
-
-      MyFlatButton(
-        textButton: "Submit",
-        edgeMargin: const EdgeInsets.only(left: 66, right: 66),
-        hasShadow: assetM.enable,
-        action: assetM.enable ? submitAsset : null,
-      )
     ]);
   }
 

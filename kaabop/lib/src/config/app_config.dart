@@ -38,6 +38,7 @@ class AppConfig {
     ),
     NetworkParams(
       wsUrlMN: 'wss://rpc.polkadot.io',
+      wsUrlTN: 'wss://westend-rpc.polkadot.io',
       ss58: 42,
     ),
     NetworkParams(

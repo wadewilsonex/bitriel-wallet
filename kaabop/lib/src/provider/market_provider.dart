@@ -1,4 +1,3 @@
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/provider/contract_provider.dart';
@@ -44,19 +43,18 @@ class MarketProvider with ChangeNotifier {
   Future<void> findMarketPrice(String asset) async {
     String marketPrice;
     final contract = ContractProvider();
-    final api = ApiProvider();
     switch (asset) {
       case 'KGO':
         marketPrice = contract.listContract[2].marketPrice;
-        break;
-      case 'BTC':
-        marketPrice = api.btc.marketPrice;
         break;
       case 'ETH':
         marketPrice = contract.listContract[3].marketPrice;
         break;
       case 'BNB':
         marketPrice = contract.listContract[4].marketPrice;
+        break;
+      case 'BTC':
+        marketPrice = contract.listContract[6].marketPrice;
         break;
     }
     return marketPrice;
@@ -122,9 +120,7 @@ class MarketProvider with ChangeNotifier {
               res,
               lineChartData,
               jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
+              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
               context: context
             );
           }
@@ -137,16 +133,16 @@ class MarketProvider with ChangeNotifier {
     }
 
     // Sort Market Price
-    Map<String, dynamic> tmp = {};
-    for (int i = 0; i < sortDataMarket.length; i++) {
-      for (int j = i + 1; j < sortDataMarket.length; j++) {
-        tmp = sortDataMarket[i];
-        if (sortDataMarket[j]['market_cap_rank'] < tmp['market_cap_rank']) {
-          sortDataMarket[i] = sortDataMarket[j];
-          sortDataMarket[j] = tmp;
-        }
-      }
-    }
+    // Map<String, dynamic> tmp = {};
+    // for (int i = 0; i < sortDataMarket.length; i++) {
+    //   for (int j = i + 1; j < sortDataMarket.length; j++) {
+    //     tmp = sortDataMarket[i];
+    //     if (sortDataMarket[j]['market_cap_rank'] < tmp['market_cap_rank']) {
+    //       sortDataMarket[i] = sortDataMarket[j];
+    //       sortDataMarket[j] = tmp;
+    //     }
+    //   }
+    // }
 
     notifyListeners();
   }

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class MenuBody extends StatelessWidget {
   final Map<String, dynamic> userInfo;
@@ -139,8 +138,8 @@ class MenuBody extends StatelessWidget {
           trailing: Consumer<ThemeProvider>(
             builder: (context, value, child) => Switch(
               value: value.isDark,
-              onChanged: (value) {
-                Provider.of<ThemeProvider>(context, listen: false).changeMode();
+              onChanged: (value) async {
+                await Provider.of<ThemeProvider>(context, listen: false).changeMode();
               },
             ),
           ),

@@ -76,8 +76,10 @@ class MenuState extends State<Menu> {
       final canCheck = await AppServices().checkBiometrics(context);
 
       if (canCheck == false) {
-        snackBar(context,
-            "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(
+          context,
+          "Your device doesn't have finger print! Set up to enable this feature"
+        );
       } else {
         // Check New Enable Bio
         if (switchValue) {
@@ -156,15 +158,14 @@ class MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(
         child: Container(
           color: isDarkTheme
-              ? hexaCodeToColor(AppColors.darkBgd)
-              : hexaCodeToColor(AppColors.bgdColor),
+            ? hexaCodeToColor(AppColors.darkBgd)
+            : hexaCodeToColor(AppColors.bgdColor),
           child: SingleChildScrollView(
             child: MenuBody(
               userInfo: widget._userData,

@@ -50,6 +50,7 @@ class SmartContractModel {
       type: json['type'],
       logo: json['logo'],
       org: json['org'],
+      chainDecimal: json['chainDecimal'],
       // marketData: Market.fromJson(json['market'] as Map<String, dynamic>),
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
       lineChartList: json['lineChartData'] != null
@@ -75,6 +76,7 @@ class SmartContractModel {
     'change24h': asset.change24h,
     'marketPrice': asset.marketPrice,
     'name': asset.name,
+    "chainDecimal": asset.chainDecimal,
     
     // 'listActivity': asset.listActivity,
 

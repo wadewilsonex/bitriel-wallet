@@ -503,8 +503,8 @@ class _SwapState extends State<Swap> {
                   MyAppBar(
                     title: "Swap SEL v2",
                     color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                      ? hexaCodeToColor(AppColors.darkCard)
+                      : hexaCodeToColor(AppColors.whiteHexaColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -515,8 +515,8 @@ class _SwapState extends State<Swap> {
                       MyText(
                         width: double.infinity,
                         text: contract.listContract[0].balance == null
-                            ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
-                            : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
+                          ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
+                          : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
                             ? AppColors.darkSecondaryText
@@ -534,11 +534,12 @@ class _SwapState extends State<Swap> {
                         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
-                            color: isDarkTheme
-                                ? hexaCodeToColor(AppColors.darkCard)
-                                : hexaCodeToColor(AppColors.whiteHexaColor),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [shadow(context)]),
+                          color: isDarkTheme
+                            ? hexaCodeToColor(AppColors.darkCard)
+                            : hexaCodeToColor(AppColors.whiteHexaColor),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [shadow(context)]
+                        ),
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
@@ -548,67 +549,59 @@ class _SwapState extends State<Swap> {
                                 padding: const EdgeInsets.all(16.0),
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkBgd)
-                                      : hexaCodeToColor(
-                                          AppColors.whiteColorHexa),
+                                    ? hexaCodeToColor(AppColors.darkBgd)
+                                    : hexaCodeToColor(AppColors.whiteColorHexa),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Form(
                                   key: _swapKey,
                                   child: Column(
                                     children: [
+                                      
                                       MyText(
                                         width: double.infinity,
                                         text: 'Amount',
                                         fontWeight: FontWeight.bold,
                                         color: isDarkTheme
-                                            ? AppColors.darkSecondaryText
-                                            : AppColors.textColor,
+                                          ? AppColors.darkSecondaryText
+                                          : AppColors.textColor,
                                         textAlign: TextAlign.left,
                                         overflow: TextOverflow.ellipsis,
                                         bottom: 4.0,
                                       ),
+
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment.bottomLeft,
                                           child: TextFormField(
                                             inputFormatters: [
-                                              LengthLimitingTextInputFormatter(
-                                                TextField.noMaxLength,
-                                              ),
-                                              FilteringTextInputFormatter(
-                                                  RegExp(r"^\d+\.?\d{0,8}"),
-                                                  allow: true)
+                                              LengthLimitingTextInputFormatter(TextField.noMaxLength),
+                                              FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
                                             ],
                                             controller: _amountController,
                                             keyboardType: Platform.isAndroid
-                                                ? TextInputType.number
-                                                : TextInputType.text,
-                                            textInputAction:
-                                                TextInputAction.done,
+                                              ? TextInputType.number
+                                              : TextInputType.text,
+                                            textInputAction: TextInputAction.done,
                                             style: TextStyle(
-                                                color: isDarkTheme
-                                                    ? hexaCodeToColor(AppColors
-                                                        .whiteColorHexa)
-                                                    : hexaCodeToColor(
-                                                        AppColors.textColor),
-                                                fontSize: 18.0),
+                                              color: isDarkTheme
+                                                ? hexaCodeToColor(AppColors.whiteColorHexa)
+                                                : hexaCodeToColor(AppColors.textColor),
+                                              fontSize: 18.0
+                                            ),
                                             decoration: InputDecoration(
                                               suffixIcon: GestureDetector(
-                                                onTap: () {
-                                                  fetchMax();
+                                                onTap: () async {
+                                                  await fetchMax();
                                                 },
                                                 child: MyText(
-                                                  textAlign: TextAlign.left,
                                                   text: 'Max',
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold,
-                                                  color:
-                                                      AppColors.secondarytext,
+                                                  color: AppColors.secondarytext,
                                                 ),
                                               ),
-                                              prefixIconConstraints:
-                                                  BoxConstraints(
+                                              prefixIconConstraints: BoxConstraints(
                                                 minWidth: 0,
                                                 minHeight: 0,
                                               ),
@@ -617,16 +610,13 @@ class _SwapState extends State<Swap> {
                                               hintStyle: TextStyle(
                                                 fontSize: 20.0,
                                                 color: isDarkTheme
-                                                    ? hexaCodeToColor(AppColors
-                                                        .darkSecondaryText)
-                                                    : hexaCodeToColor(
-                                                            AppColors.textColor)
-                                                        .withOpacity(0.3),
+                                                  ? hexaCodeToColor(AppColors.darkSecondaryText)
+                                                  : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
                                               ),
                                             ),
                                             validator: (value) => value.isEmpty
-                                                ? 'Please fill in amount'
-                                                : null,
+                                              ? 'Please fill in amount'
+                                              : null,
                                             /* Limit Length Of Text Input */
                                             onChanged: (String value) {
                                               if (value.isNotEmpty) {
@@ -702,7 +692,7 @@ class _SwapState extends State<Swap> {
     );
   }
 
-  void fetchMax() async {
+  Future<void> fetchMax() async {
     dialogLoading(context, content: 'Fetching Balance');
 
     final contract = Provider.of<ContractProvider>(context, listen: false);

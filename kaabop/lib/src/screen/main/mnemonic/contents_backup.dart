@@ -1,4 +1,3 @@
-import 'package:polkawallet_sdk/kabob_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 

@@ -2,7 +2,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -12,8 +11,8 @@ class MySplashScreen extends StatefulWidget {
   }
 }
 
-class MySplashScreenState extends State<MySplashScreen>
-    with SingleTickerProviderStateMixin {
+class MySplashScreenState extends State<MySplashScreen> with SingleTickerProviderStateMixin {
+
   AnimationController controller;
   Animation<double> animation;
 
@@ -24,8 +23,7 @@ class MySplashScreenState extends State<MySplashScreen>
         final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
         if (ls.isEmpty) {
-          Navigator.pushReplacement(
-              context, RouteAnimation(enterPage: Welcome()));
+          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
         } else {
           final ethAddr = await StorageServices().readSecure('etherAdd');
 
@@ -33,11 +31,12 @@ class MySplashScreenState extends State<MySplashScreen>
             await dialogSuccess(
               context,
               const Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Text(
-                    'Please reimport your seed phrases to add support to new update.',
-                    textAlign: TextAlign.center,
-                  )),
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  'Please reimport your seed phrases to add support to new update.',
+                  textAlign: TextAlign.center,
+                )
+              ),
               const Text('New Update!'),
               action: TextButton(
                 onPressed: () {
@@ -50,8 +49,7 @@ class MySplashScreenState extends State<MySplashScreen>
                     ),
                   );
                 },
-                child: const MyText(
-                    text: 'Continue', color: AppColors.secondarytext),
+                child: const MyText(text: 'Continue', color: AppColors.secondarytext),
               ),
             );
           } else {
@@ -66,6 +64,7 @@ class MySplashScreenState extends State<MySplashScreen>
   }
   
   Future<void> checkBio() async {
+    
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure('passcode');

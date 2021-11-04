@@ -3,22 +3,23 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 
 class PresaleList extends StatelessWidget {
+
   Future<String> dialogBox(BuildContext context) async {
     /* Show Pin Code For Fill Out */
     final String _result = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Material(
-            color: Colors.transparent,
-            child: FillPin(),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
     return _result;
   }
 
-  Future<void> customDialog(
-      BuildContext context, String text1, String text2) async {
+  Future<void> customDialog(BuildContext context, String text1, String text2) async {
     await showDialog(
       context: context,
       builder: (context) {
@@ -142,7 +143,6 @@ class PresaleList extends StatelessWidget {
 
   Future<void> submitRedeem(BuildContext context, int orderId) async {
     final preSale = Provider.of<PresaleProvider>(context, listen: false);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
 
     final pin = await dialogBox(context);
 
@@ -188,14 +188,13 @@ class PresaleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    bool _enabled = false;
     return SafeArea(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.7,
         decoration: BoxDecoration(
           color: isDarkTheme
-              ? hexaCodeToColor(AppColors.darkBgd)
-              : hexaCodeToColor(AppColors.bgdColor),
+            ? hexaCodeToColor(AppColors.darkBgd)
+            : hexaCodeToColor(AppColors.bgdColor),
           borderRadius: new BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),
@@ -203,6 +202,7 @@ class PresaleList extends StatelessWidget {
         ),
         child: Column(
           children: [
+
             SizedBox(height: 16.0),
             Container(
               height: 5,
@@ -212,114 +212,103 @@ class PresaleList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
+
             SizedBox(height: 24.0),
             MyText(
               width: double.infinity,
               fontSize: 22.0,
               text: "Presale Activity",
               color: isDarkTheme
-                  ? AppColors.darkSecondaryText
-                  : AppColors.textColor,
+                ? AppColors.darkSecondaryText
+                : AppColors.textColor,
               fontWeight: FontWeight.bold,
             ),
+
             SizedBox(height: 24.0),
             Expanded(
               child: Consumer<PresaleProvider>(
                 builder: (context, value, child) {
                   return Container(
-                      alignment: Alignment.bottomCenter,
-                      padding: const EdgeInsets.all(8.0),
-                      width: double.infinity,
-                      child: ListView.builder(
-                          itemCount: value.presaleOrderInfo.length,
-                          itemBuilder: (context, index) {
-                            return value.presaleOrderInfo.isEmpty
-                                ? SvgPicture.asset(
-                                    'assets/icons/no_data.svg',
-                                    width: 180,
-                                    height: 180,
-                                  )
-                                : Container(
-                                    margin: const EdgeInsets.only(
-                                        bottom: 16.0, left: 8.0, right: 8.0),
-                                    padding: const EdgeInsets.all(16.0),
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: isDarkTheme
-                                          ? hexaCodeToColor(AppColors.darkCard)
-                                          : hexaCodeToColor(
-                                              AppColors.whiteColorHexa),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        _customColumn(
-                                            context,
-                                            'Order Id : ${value.presaleOrderInfo[index].id}',
-                                            'Amount : ${value.presaleOrderInfo[index].amount}'),
-                                        _customColumn(
-                                          context,
-                                          '${value.presaleOrderInfo[index].redeemDateTime}',
-                                          '',
-                                          topTextSize: 14.0,
-                                          crossAxis: CrossAxisAlignment.end,
-                                          bottomWidget:
-                                              value.presaleOrderInfo[index]
-                                                      .isClaimed
-                                                  ? ElevatedButton(
-                                                      onPressed: null,
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty.all(
-                                                                hexaCodeToColor(
-                                                                        AppColors
-                                                                            .secondary)
-                                                                    .withOpacity(
-                                                                        0)),
-                                                      ),
-                                                      child: Text(
-                                                        'CLAIMED',
-                                                        style: TextStyle(
-                                                            color: hexaCodeToColor(
-                                                                AppColors
-                                                                    .secondary)),
-                                                      ),
-                                                    )
-                                                  : ElevatedButton(
-                                                      style: ButtonStyle(
-                                                        backgroundColor: MaterialStateProperty.all(!value
-                                                                .presaleOrderInfo[
-                                                                    index]
-                                                                .isBefore
-                                                            ? hexaCodeToColor(
-                                                                AppColors
-                                                                    .secondary)
-                                                            : hexaCodeToColor(
-                                                                    AppColors
-                                                                        .secondary)
-                                                                .withOpacity(
-                                                                    0)),
-                                                      ),
-                                                      onPressed: value
-                                                              .presaleOrderInfo[
-                                                                  index]
-                                                              .isBefore
-                                                          ? () {}
-                                                          : () => submitRedeem(
-                                                              context,
-                                                              value
-                                                                  .presaleOrderInfo[
-                                                                      index]
-                                                                  .id),
-                                                      child: Text('REDEEM'),
-                                                    ),
+                    alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: value.presaleOrderInfo.length,
+                      itemBuilder: (context, index) {
+                        return value.presaleOrderInfo.isEmpty
+                        ? SvgPicture.asset(
+                            'assets/icons/no_data.svg',
+                            width: 180,
+                            height: 180,
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(
+                                bottom: 16.0, left: 8.0, right: 8.0),
+                            padding: const EdgeInsets.all(16.0),
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              color: isDarkTheme
+                                  ? hexaCodeToColor(AppColors.darkCard)
+                                  : hexaCodeToColor(
+                                      AppColors.whiteColorHexa),
+                            ),
+                            child: Row(
+                              mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                              children: [
+                                _customColumn(
+                                  context,
+                                  'Order Id : ${value.presaleOrderInfo[index].id}',
+                                  'Amount : ${value.presaleOrderInfo[index].amount}'
+                                ),
+                                _customColumn(
+                                  context,
+                                  '${value.presaleOrderInfo[index].redeemDateTime}',
+                                  '',
+                                  topTextSize: 14.0,
+                                  crossAxis: CrossAxisAlignment.end,
+                                  bottomWidget:value.presaleOrderInfo[index].isClaimed
+                                  ? ElevatedButton(
+                                      onPressed: null,
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary).withOpacity(0)
                                         ),
-                                      ],
+                                      ),
+                                      child: Text(
+                                        'CLAIMED',
+                                        style: TextStyle(
+                                          color: hexaCodeToColor(AppColors.secondary)
+                                        ),
+                                      ),
+                                    )
+                                  : ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(
+                                      !value.presaleOrderInfo[index].isBefore
+                                        ? hexaCodeToColor(AppColors.secondary)
+                                        : Colors.grey[300]
+                                      ),
+                                      shadowColor: MaterialStateProperty.all(
+                                        !value.presaleOrderInfo[index].isBefore
+                                          ? hexaCodeToColor(AppColors.secondary)
+                                          : hexaCodeToColor(AppColors.secondary).withOpacity(0)
+                                      )
                                     ),
-                                  );
-                          }));
+                                    onPressed: value.presaleOrderInfo[index].isBefore
+                                    ? () {}
+                                    : () => submitRedeem(
+                                      context,
+                                      value.presaleOrderInfo[index].id
+                                    ),
+                                    child: Text('REDEEM'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      )
+                    );
                 },
               ),
             ),
@@ -329,8 +318,7 @@ class PresaleList extends StatelessWidget {
     );
   }
 
-  _customColumn(context, String topText, String bottomText,
-      {Widget bottomWidget, double topTextSize, CrossAxisAlignment crossAxis}) {
+  _customColumn(context, String topText, String bottomText, {Widget bottomWidget, double topTextSize, CrossAxisAlignment crossAxis}) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -346,14 +334,14 @@ class PresaleList extends StatelessWidget {
           text: topText,
         ),
         bottomWidget ??
-            MyText(
-              textAlign: TextAlign.left,
-              fontSize: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-              // fontWeight: FontWeight.w700,
-              text: bottomText,
-            ),
+          MyText(
+            textAlign: TextAlign.left,
+            fontSize: 16.0,
+            color:
+                isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            // fontWeight: FontWeight.w700,
+            text: bottomText,
+          ),
       ],
     );
   }

@@ -106,13 +106,19 @@ class _AccountState extends State<Account> {
         _currentAcc,
       );
 
+      final mode = await StorageServices.fetchData(DbKey.themeMode);
+
       await AppServices.clearStorage();
 
+      // Re-Save Mode
+      await StorageServices.storeData(mode, DbKey.themeMode);
+
       await StorageServices().clearSecure();
-      //Provider.of<WalletProvider>(context, listen: false).resetDatamap();
+      
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
 
       await Future.delayed(Duration(seconds: 2), () {});
+      
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
@@ -213,7 +219,7 @@ class _AccountState extends State<Account> {
               child: Text('Change Failed!!'),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Close'),
               ),
@@ -262,7 +268,6 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final contract = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -283,11 +288,12 @@ class _AccountState extends State<Account> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: isDarkTheme
-                              ? hexaCodeToColor(AppColors.darkCard)
-                              : hexaCodeToColor(AppColors.whiteHexaColor),
-                          boxShadow: [shadow(context)]),
+                        borderRadius: BorderRadius.circular(5),
+                        color: isDarkTheme
+                          ? hexaCodeToColor(AppColors.darkCard)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        boxShadow: [shadow(context)]
+                      ),
                       child: Column(
                         children: [
                           Container(
@@ -301,8 +307,8 @@ class _AccountState extends State<Account> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: isDarkTheme
-                                  ? hexaCodeToColor(AppColors.darkCard)
-                                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                                ? hexaCodeToColor(AppColors.darkCard)
+                                : hexaCodeToColor(AppColors.whiteHexaColor),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,14 +335,13 @@ class _AccountState extends State<Account> {
                                       },
                                     ),
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         MyText(
                                           text: _currentAcc.name,
                                           color: isDarkTheme
-                                              ? AppColors.whiteColorHexa
-                                              : AppColors.textColor,
+                                            ? AppColors.whiteColorHexa
+                                            : AppColors.textColor,
                                           fontSize: 20,
                                         ),
                                       ],
@@ -349,6 +354,7 @@ class _AccountState extends State<Account> {
                               ],
                             ),
                           ),
+                          
                           GestureDetector(
                             onTap: () {
                               AccountC().showBackup(

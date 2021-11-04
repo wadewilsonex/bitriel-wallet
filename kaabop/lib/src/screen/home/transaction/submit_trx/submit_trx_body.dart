@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 
 class SubmitTrxBody extends StatelessWidget {
   final bool enableInput;
@@ -9,10 +10,9 @@ class SubmitTrxBody extends StatelessWidget {
   final String Function(String) validateField;
   final Function onSubmit;
   final Function clickSend;
-  final void Function() validateSubmit;
-  final Function(String) resetAssetsDropDown;
+  final Function validateSubmit;
+  final Function(String) onChangeDropDown;
 
-  final List<String> list;
   final PopupMenuItem Function(Map<String, dynamic>) item;
   final Function pasteText;
 
@@ -25,45 +25,46 @@ class SubmitTrxBody extends StatelessWidget {
     this.onSubmit,
     this.clickSend,
     this.validateSubmit,
-    this.resetAssetsDropDown,
-    this.item,
-    this.list,
+    this.onChangeDropDown,
+    this.item
   });
 
   @override
   Widget build(BuildContext context) {
     final List<MyInputField> listInput = [
       MyInputField(
-          pBottom: 16,
-          labelText: "Receiver address",
-          textInputFormatter: [
-            LengthLimitingTextInputFormatter(TextField.noMaxLength),
-          ],
-          controller: scanPayM.controlReceiverAddress,
-          focusNode: scanPayM.nodeReceiverAddress,
-          validateField: (value) =>
-              value == null ? 'Please fill in receiver address' : null,
-          onChanged: onChanged,
-          onSubmit: () {}),
+        pBottom: 16,
+        labelText: "Receiver address",
+        textInputFormatter: [
+          LengthLimitingTextInputFormatter(TextField.noMaxLength),
+        ],
+        controller: scanPayM.controlReceiverAddress,
+        focusNode: scanPayM.nodeReceiverAddress,
+        validateField: (value) => value == null ? 'Please fill in receiver address' : null,
+        onChanged: onChanged,
+        onSubmit: () {}
+      ),
       MyInputField(
-          pBottom: 16,
-          labelText: "Amount",
-          textInputFormatter: [
-            LengthLimitingTextInputFormatter(
-              TextField.noMaxLength,
-            ),
-            FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
-          ],
-          inputType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
-          controller: scanPayM.controlAmount,
-          focusNode: scanPayM.nodeAmount,
-          validateField: validateField,
-          onChanged: onChanged,
-          onSubmit: () {}
-        ),
+        pBottom: 16,
+        labelText: "Amount",
+        textInputFormatter: [
+          LengthLimitingTextInputFormatter(
+            TextField.noMaxLength,
+          ),
+          FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+        ],
+        inputType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
+        controller: scanPayM.controlAmount,
+        focusNode: scanPayM.nodeAmount,
+        validateField: validateField,
+        onChanged: onChanged,
+        onSubmit: () {}
+      ),
     ];
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
+    final contract = Provider.of<ContractProvider>(context);
 
     return Column(
       children: [
@@ -123,9 +124,9 @@ class SubmitTrxBody extends StatelessWidget {
                               ),
                             ),
                             ReuseDropDown(
-                              initialValue: scanPayM.asset ?? "Asset name",
-                              onChanged: resetAssetsDropDown,
-                              itemsList: list,
+                              initialValue: scanPayM.assetValue.toString() ?? "Asset name",
+                              onChanged: onChangeDropDown,
+                              itemsList: ContractService.getConSymbol(contract.sortListContract),
                               style: TextStyle(
                                 color: isDarkTheme
                                   ? Colors.white
@@ -142,11 +143,13 @@ class SubmitTrxBody extends StatelessWidget {
                       //   scanPayM.asset ?? "Asset name",
                       //   list,
                       //   scanPayM,
-                      //   resetAssetsDropDown,
+                      //   onChangeDropDown,
                       //   item,
                       // ),
                     ),
+
                     listInput[1],
+                    
                     //listInput[2],
                     MyFlatButton(
                       textButton: "CONTINUE",

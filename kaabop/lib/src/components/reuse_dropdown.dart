@@ -9,7 +9,7 @@ class ReuseDropDown extends StatelessWidget {
   final Widget icon;
   final String initialValue;
   final TextStyle style;
-  final List<String> itemsList;
+  final List<Map<String, dynamic>> itemsList;
 
   const ReuseDropDown({
     this.onChanged,
@@ -36,10 +36,10 @@ class ReuseDropDown extends StatelessWidget {
         style: style,
         icon: icon,
         onChanged: onChanged,
-        items: itemsList.map<DropdownMenuItem<String>>((String value) {
+        items: itemsList.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value)
+            value: value['index'].toString(),
+            child: Text(value['symbol'])
           );
         }).toList(),
       ),

@@ -3,6 +3,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:web3dart/credentials.dart';
@@ -44,9 +45,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    // final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    // final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
     try {
       final json = await ApiProvider.sdk.api.keyring.importAccount(
@@ -103,9 +103,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         await successDialog(context, "imported your account.");
         // This Method Is Also Request Dot Contract
-        await Provider.of<ApiProvider>(context, listen: false).connectPolNon();
+        await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
       }
     } catch (e) {
+
+      Navigator.pop(context);
       await showDialog(
         context: context,
         builder: (context) {
@@ -127,23 +129,18 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           );
         },
       );
-
-      Navigator.pop(context);
     }
   }
 
   Future<void> getSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('contractList');
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    final res = await StorageServices.fetchData(DbKey.contactList);
 
     if (res != null) {
       for (final i in res) {
         final symbol = await contractProvider.query(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.query(i.toString(), 'decimals', []);
-        final balance = await contractProvider.query(i.toString(), 'balanceOf',
-            [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+        final decimal = await contractProvider.query(i.toString(), 'decimals', []);
+        final balance = await contractProvider.query(i.toString(), 'balanceOf',[EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),
@@ -152,8 +149,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (BEP-20)');
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
   }
@@ -204,7 +200,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       await StorageServices().writeSecure('btcwif', res);
     }
 
-    Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain');
+    Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
     Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');

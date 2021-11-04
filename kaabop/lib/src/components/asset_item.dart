@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/lineChart_m.dart';
 
 class AssetItem extends StatelessWidget {
 
@@ -80,24 +79,22 @@ class AssetItem extends StatelessWidget {
                     )
                   ),
 
-                  if (scModel.marketPrice == null)
-                    if (scModel.org == '')
-                      Container()
-                    else
-                      MyText(
-                        text: scModel.org,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.darkSecondaryText,
-                      )
+                  if (scModel.marketPrice.isEmpty)
+                    MyText(
+                      text: scModel.org,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.darkSecondaryText
+                        : AppColors.darkSecondaryText,
+                    )
                   else
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         MyText(
-                          text: '\$ ${scModel.marketPrice}' ?? '',
+                          text: scModel.marketPrice.isNotEmpty ? '\$ ${scModel.marketPrice}' : '',
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: isDarkTheme

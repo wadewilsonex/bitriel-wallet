@@ -104,7 +104,7 @@ class MyBottomSheet {
             child: Text(text2, textAlign: TextAlign.center,),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('Close'),
             ),

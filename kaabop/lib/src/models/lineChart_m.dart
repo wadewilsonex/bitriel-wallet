@@ -70,10 +70,6 @@ class LineChartModel {
     contract.lineChartModel.values = [];
     contract.lineChartModel.divider = 5;
     
-      if (contract.symbol == 'DOT'){
-        print("contract.lineChartModel.values ${contract.lineChartModel.values}");
-        print("contract.lineChartModel.divider ${contract.lineChartModel.divider}");
-      }
     try {
 
       // To Prevent Null Of Line Chart

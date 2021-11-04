@@ -348,8 +348,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                   MyAppBar(
                     title: 'Claim Airdrop',
                     color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                      ? hexaCodeToColor(AppColors.darkCard)
+                      : hexaCodeToColor(AppColors.whiteHexaColor),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -392,8 +392,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                             ),
                             MyInputField(
                               pBottom: 24,
-                              labelText:
-                                  "Phone Number (by submitting will get +5 \$SEL)",
+                              labelText: "Phone Number (by submitting will get +5 \$SEL)",
                               textInputFormatter: [
                                 LengthLimitingTextInputFormatter(
                                   TextField.noMaxLength,
@@ -403,15 +402,14 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               focusNode: _phoneFocusNode,
                               inputType: TextInputType.number,
                               validateField: (value) => value.isEmpty
-                                  ? 'Please fill in phone number'
-                                  : null,
+                                ? 'Please fill in phone number'
+                                : null,
                               onChanged: onChanged,
                               onSubmit: onSubmit,
                             ),
                             MyInputField(
                               pBottom: 8,
-                              labelText:
-                                  "Wallet Address (0xe0e5c149b9cdf9d2279b6ddfda9bc0a4a975285c)",
+                              labelText: "Wallet Address (0xe0e5c149b9cdf9d2279b6ddfda9bc0a4a975285c)",
                               textInputFormatter: [
                                 LengthLimitingTextInputFormatter(
                                   TextField.noMaxLength,
@@ -420,14 +418,13 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               controller: _walletController,
                               focusNode: _walletFocusNode,
                               validateField: (value) => value.isEmpty
-                                  ? 'Please fill in wallet address'
-                                  : null,
+                                ? 'Please fill in wallet address'
+                                : null,
                               onChanged: onChanged,
                               onSubmit: onSubmit,
                             ),
                             const MyText(
-                              text:
-                                  'Get Wallet (each address will get 100 \$SEL)',
+                              text: 'Get Wallet (each address will get 100 \$SEL)',
                               textAlign: TextAlign.left,
                               left: 16.0,
                               right: 16.0,
@@ -457,28 +454,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                             ),
-                            // MyInputField(
-                            //   pTop: 24.0,
-                            //   pBottom: 8,
-                            //   labelText: "Referral ID",
-                            //   textInputFormatter: [
-                            //     LengthLimitingTextInputFormatter(
-                            //       TextField.noMaxLength,
-                            //     ),
-                            //   ],
-                            //   suffix: GestureDetector(
-                            //     onTap: () {
-                            //       pasteDataToClipboard();
-                            //     },
-                            //     child: const MyText(
-                            //       text: 'PASTE',
-                            //     ),
-                            //   ),
-                            //   controller: _referralController,
-                            //   focusNode: _referralNode,
-                            //   onChanged: onChanged,
-                            //   onSubmit: onSubmit,
-                            // ),
+                            
                             const SizedBox(height: 20),
                             MyFlatButton(
                               textButton: "Claim Airdrop",
@@ -487,7 +463,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                 left: 66,
                                 right: 66,
                               ),
-                              hasShadow: true,
+                              hasShadow: _enableButton,
                               action: _enableButton ? submitForm : null,
                             ),
                             const SizedBox(height: 200),

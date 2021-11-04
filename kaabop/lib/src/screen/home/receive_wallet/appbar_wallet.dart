@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 
 class QrViewTitle extends StatelessWidget {
 
@@ -17,6 +18,7 @@ class QrViewTitle extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contract = Provider.of<ContractProvider>(context);
 
     return Padding(
       padding: EdgeInsets.only(bottom: 30),
@@ -44,7 +46,7 @@ class QrViewTitle extends StatelessWidget {
                 return ReuseDropDown(
                   initialValue: initialValue,
                   onChanged: onChanged,
-                  itemsList: value.listSymbol,
+                  itemsList: ContractService.getConSymbol(contract.sortListContract),
                   style: TextStyle(
                     color: isDarkTheme
                       ? hexaCodeToColor( AppColors.darkSecondaryText)

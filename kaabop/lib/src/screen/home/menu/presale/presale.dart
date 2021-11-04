@@ -87,7 +87,6 @@ class _PresaleState extends State<Presale> {
   Future<void> orderToken(String suppTokenAddr, String privateKey, double amount, int discountRate) async {
     try {
       final presale = Provider.of<PresaleProvider>(context, listen: false);
-      final contract = Provider.of<ContractProvider>(context, listen: false);
       final hash = await presale.orderUsingToken(
         context: context,
         suppTokenAddr: suppTokenAddr,
@@ -134,7 +133,6 @@ class _PresaleState extends State<Presale> {
   Future<void> approveAndOrderToken(String privateKey, String tokenAddress,
       double amount, int discountRate) async {
     final presale = Provider.of<PresaleProvider>(context, listen: false);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
 
     final approveHash = await presale.approvePresale(privateKey, tokenAddress);
 
@@ -507,13 +505,11 @@ class _PresaleState extends State<Presale> {
         }
       } else {
         dialogLoading(context);
-        final tokenBalance = await presale.checkTokenBalance(
-            _model.listSupportToken[_model.tokenIndex]['tokenAddress']);
+        final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken[_model.tokenIndex]['tokenAddress']);
 
         if (tokenBalance < double.parse(_model.amountController.text)) {
           Navigator.pop(context);
-          customDialog(
-              'Insufficient Balance', 'Your loaded balance is not enough.');
+          customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
         } else {
           Navigator.pop(context);
           await priceChecker();
@@ -527,9 +523,7 @@ class _PresaleState extends State<Presale> {
     // await contract.getBnbBalances();
 
     _model.balance = double.parse(contract.listContract[4].balance);
-    _model.listSupportToken =
-        await Provider.of<PresaleProvider>(context, listen: false)
-            .fetchAndFillPrice(_model.listSupportToken);
+    _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken);
 
     await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
@@ -541,7 +535,7 @@ class _PresaleState extends State<Presale> {
 
   @override
   void initState() {
-    initMethod();
+    if (mounted) initMethod();
     super.initState();
   }
 

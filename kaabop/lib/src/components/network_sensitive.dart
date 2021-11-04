@@ -36,7 +36,7 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
 
       _updateConnectionStatus(_result);
     } on PlatformException catch (e) {
-      // print("Error connectivity ${e.toString()}");
+      print("Error initConnectivity ${e.toString()}");
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -89,12 +89,12 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('CANCEL',
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () async {
                 final result = await _connectivity.checkConnectivity();
                 if (result != ConnectivityResult.none) {

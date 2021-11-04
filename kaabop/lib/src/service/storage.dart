@@ -27,9 +27,14 @@ class StorageServices {
   }
 
   static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
-    _preferences = await SharedPreferences.getInstance();
-    _decode = jsonEncode(_data);
-    _preferences.setString(_path, _decode);
+    try {
+
+      _preferences = await SharedPreferences.getInstance();
+      _decode = jsonEncode(_data);
+      _preferences.setString(_path, _decode);
+    } catch (e){
+      print("Error storeData $e");
+    }
     return _preferences;
   }
 
@@ -52,11 +57,13 @@ class StorageServices {
 
   static Future<void> storeAssetData(BuildContext context) async {
 
-    final listContract = Provider.of<ContractProvider>(context, listen: false).listContract;
+    final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    final res = SmartContractModel.encode(listContract);
+    final lsContract = SmartContractModel.encode(contract.listContract);
+    final adContract = SmartContractModel.encode(contract.addedContract);
 
-    await _preferences.setString(DbKey.assetData, res);
+    await _preferences.setString(DbKey.listContract, lsContract);
+    await _preferences.setString(DbKey.addedContract, adContract);
   }
 
   static Future<SharedPreferences> addTxHistory(TxHistory txHistory, String key) async {
@@ -123,7 +130,7 @@ class StorageServices {
 
   static Future<void> saveContractAddr(String contractAddr) async {
     final List<String> contractAddrList = [];
-    final res = await fetchData('contractList');
+    final res = await fetchData(DbKey.contactList);
 
     if (res != null) {
       contractAddrList.clear();
@@ -131,17 +138,17 @@ class StorageServices {
         contractAddrList.add(i.toString());
       }
       contractAddrList.add(contractAddr);
-      await storeData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, DbKey.contactList);
     } else {
       contractAddrList.add(contractAddr);
 
-      await storeData(contractAddrList, 'contractList');
+      await storeData(contractAddrList, DbKey.contactList);
     }
   }
 
   static Future<void> removeContractAddr(String contractAddr) async {
     List contractAddrList = [];
-    final res = await fetchData('contractList');
+    final res = await fetchData(DbKey.contactList);
 
     if (res != null) {
       contractAddrList = res as List;
@@ -149,9 +156,9 @@ class StorageServices {
       contractAddrList.removeWhere((element) => element == contractAddr);
 
       if (contractAddrList.isNotEmpty) {
-        await StorageServices.storeData(contractAddrList, 'contractList');
+        await StorageServices.storeData(contractAddrList, DbKey.contactList);
       } else {
-        await removeKey('contractList');
+        await removeKey(DbKey.contactList);
       }
     }
   }
