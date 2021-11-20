@@ -1,0 +1,6 @@
+framework module flutter_screenshot_switcher {
+  umbrella header "flutter_screenshot_switcher-umbrella.h"
+
+  export *
+  module * { export * }
+}

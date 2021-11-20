@@ -1,0 +1,6 @@
+framework module flutter_qr_scan {
+  umbrella header "flutter_qr_scan-umbrella.h"
+
+  export *
+  module * { export * }
+}
