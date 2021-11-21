@@ -33,12 +33,19 @@ class HomeBody extends StatelessWidget {
                       boxShadow: [
                         shadow(context)
                       ],
+                      gradient: LinearGradient(
+                        colors: [
+                          hexaCodeToColor('#92d0ff'),
+                          hexaCodeToColor('#00ccff'),
+                        ]
+                      ),
                       borderRadius: BorderRadius.circular(8.0),
-                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+                      // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Claim",
-                      color: AppColors.secondarytext,
+                      color: AppColors.whiteHexaColor,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -59,11 +66,21 @@ class HomeBody extends StatelessWidget {
                       boxShadow: [
                         shadow(context)
                       ],
-                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+                      gradient: LinearGradient(
+                        colors: [
+                          // hexaCodeToColor('#f39d0c'),
+                          // hexaCodeToColor('#ff7900'),
+
+                          hexaCodeToColor('#00ddff'),
+                          hexaCodeToColor('#00ffe0'),
+                        ]
+                      )
+                      // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Swap",
-                      color: AppColors.secondarytext,
+                      color: AppColors.whiteHexaColor,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -84,11 +101,18 @@ class HomeBody extends StatelessWidget {
                         shadow(context)
                       ],
                       borderRadius: BorderRadius.circular(8.0),
-                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+                      gradient: LinearGradient(
+                        colors: [
+                          hexaCodeToColor('#00ffe0'),
+                          hexaCodeToColor('#a7ffe3'),
+                        ]
+                      )
+                      // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
                       text: "Presale",
-                      color: AppColors.secondarytext,
+                      color: AppColors.whiteHexaColor,
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
