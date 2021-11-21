@@ -15,9 +15,7 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 // import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:http/http.dart' as http;
-import 'package:wallet_apps/src/service/index.dart';
 import 'package:wallet_apps/src/service/walletApi.dart';
-import 'package:wallet_apps/src/store/index.dart';
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
@@ -25,9 +23,6 @@ class ApiProvider with ChangeNotifier {
   static WalletSDK sdk = WalletSDK();
 
   static Keyring keyring = Keyring();
-
-  AppStore? _store;
-  AppService? _service;
 
   static const int bitcoinDigit = 8;
 
