@@ -1,6 +1,6 @@
 {
   "name": "vibration",
-  "version": "1.7.3",
+  "version": "1.7.4-nullsafety.0",
   "summary": "A plugin for handling Vibration API on iOS and Android devices",
   "description": "Handle vibration on iOS and Android",
   "homepage": "https://github.com/benjamindean/flutter_vibration",

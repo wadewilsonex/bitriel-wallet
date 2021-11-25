@@ -72,7 +72,7 @@ dependencies:
   store_redirect:
   share:
 
-  vibration:
+  vibration: ^1.7.4-nullsafety.0
  
   # Apps Configuration
   rename:
