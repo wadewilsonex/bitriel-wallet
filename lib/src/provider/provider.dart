@@ -21,9 +21,6 @@ class ContractsBalance {
 
       // await getSavedContractToken();
       // await getEtherSavedContractToken();
-
-      await apiProvider.connectSELNode(context: context);
-      await apiProvider.connectPolNon(context: context);
 //1
       await contractProvider.kgoTokenWallet();
       await contractProvider.selTokenWallet();

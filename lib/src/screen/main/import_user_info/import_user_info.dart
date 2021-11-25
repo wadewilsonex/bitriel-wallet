@@ -49,6 +49,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> _importFromMnemonic() async {
 
+    print("ApiProvider.sdk.api ${ApiProvider.sdk.api.connectedNode}");
+    // if (ApiProvider.sdk.api.connectedNode == null){
+    //   await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
+    // }
+
     try {
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,

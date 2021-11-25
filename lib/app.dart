@@ -39,7 +39,6 @@ class AppState extends State<App> {
     
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
-    // await apiProvider.connectNode();
     contractProvider.setSavedList().then((value) async {
       // If Data Already Exist
       if (value){

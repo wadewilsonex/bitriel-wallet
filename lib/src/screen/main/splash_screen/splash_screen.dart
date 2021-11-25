@@ -124,7 +124,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   @override
   void initState() {
-    // readTheme();
+    readTheme();
     getCurrentAccount();
 
     // final window = WidgetsBinding.instance.window;

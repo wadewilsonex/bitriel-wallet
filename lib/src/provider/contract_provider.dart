@@ -154,7 +154,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN!, _httpClient!,
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN!, _httpClient!,
         socketConnector: () {
       return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN!)
           .cast<String>();
@@ -163,15 +163,15 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN!, _httpClient!,
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN!, _httpClient!,
       socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN!).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN!).cast<String>();
     });
   }
 
   Future<void> initSwapContract() async {
     await initBscClient();
-    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Path, "0xE5DD12570452057fc85B8cE9820aD676390f865B");
+    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Path, AppConfig.swapMainnetAddr);
     _swap = new ContractService(_bscClient!, _contract);
   }
 
