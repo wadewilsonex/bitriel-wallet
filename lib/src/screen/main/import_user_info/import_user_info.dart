@@ -49,6 +49,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> _importFromMnemonic() async {
 
+    print("_importFromMnemonic ${widget.passPhrase}");
+
     try {
       final json = await ApiProvider.sdk.api.keyring.importAccount(
         ApiProvider.keyring,
@@ -57,8 +59,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         name: _userInfoM.userNameCon.text,
         password: _userInfoM.confirmPasswordCon.text,
       );
-      
-      print("importAccount $json");
 
       final acc = await ApiProvider.sdk.api.keyring.addAccount(
         ApiProvider.keyring,
@@ -67,38 +67,31 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      // print("addAccount $acc");
+      final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
-      if (acc != null) {
+      if (resPk != null) {
+        await ContractProvider().extractAddress(resPk);
 
-        final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
-        if (resPk != null) {
-          await ContractProvider().extractAddress(resPk);
-
-          final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
-
-          if (res != null) {
-            await StorageServices().writeSecure('private', res);
-          }
-        }
-//1
-        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-        await queryBtcData();
-        
-        await ContractsBalance().getAllAssetBalance(context: context);
-//2
-        // // // Sort Contract Asset
-        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-        
-        // // // Ready To Display Asset Portfolio
-        // Provider.of<ContractProvider>(context, listen: false).setReady();
-        
-        // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
-
-        await successDialog(context, "imported your account.");
-        // // This Method Is Also Request Dot Contract
+        final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+        await StorageServices().writeSecure('private', res);
       }
+//1
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+      await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+      await queryBtcData();
+      
+      await ContractsBalance().getAllAssetBalance(context: context);
+//2
+      // // // Sort Contract Asset
+      // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+      
+      // // // Ready To Display Asset Portfolio
+      // Provider.of<ContractProvider>(context, listen: false).setReady();
+      
+      // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+
+      await successDialog(context, "imported your account.");
     } catch (e) {
 
       Navigator.pop(context);

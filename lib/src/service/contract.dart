@@ -38,8 +38,13 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
-    final res = await _queryContract(_contract, _balanceFunction(), [from]);
-    return res.first as BigInt;
+    try {
+      final res = await _queryContract(_contract, _balanceFunction(), [from]);
+      return res.first as BigInt;
+    } catch (e) {
+      print("Error getTokenBalance $e");
+    }
+    return 0 as BigInt;
   }
 
   @override

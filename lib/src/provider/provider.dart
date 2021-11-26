@@ -11,8 +11,6 @@ class ContractsBalance {
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     final btcAddr = await StorageServices.fetchData('bech32');
 
-    print("BTC address $btcAddr");
-
     // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
 
     // await contractProvider.setSavedList().then((value) async {
@@ -21,9 +19,6 @@ class ContractsBalance {
 
       // await getSavedContractToken();
       // await getEtherSavedContractToken();
-
-      await apiProvider.connectSELNode(context: context);
-      await apiProvider.connectPolNon(context: context);
 //1
       await contractProvider.kgoTokenWallet();
       await contractProvider.selTokenWallet();
@@ -36,7 +31,6 @@ class ContractsBalance {
 //2
       // This Method Is Also Request Polkadot Contract
       await apiProvider.getBtcBalance(context: context);
-      // print("Btc");
 //4
       /// Fetch and Fill Market Price Into Asset
       // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
@@ -44,7 +38,7 @@ class ContractsBalance {
       // await isBtcContain(context: context);
 
       // Sort After MarketPrice Filled Into Asset
-      await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+      await contractProvider.sortAsset();
 
       contractProvider.setReady();
 
@@ -72,6 +66,7 @@ class ContractsBalance {
   Future<void> refetchContractBalance({@required BuildContext? context}) async {
 
     final conProvider = Provider.of<ContractProvider>(context!, listen: false);
+    final apiProvider = Provider.of<ApiProvider>(context!, listen: false);
     dynamic symbol;
     dynamic name;
     dynamic decimal;
@@ -80,18 +75,27 @@ class ContractsBalance {
 
     print("refetchContractBalance");
     
-    conProvider.addedContract.forEach((element) async {
-      print("Element ${element.symbol}");
-      if (element.org == "ERC-20"){
-        balance = await conProvider.queryEther(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-      } else {
-        balance = await conProvider.query(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    for (int i = 0; i< conProvider.sortListContract.length; i++){
+      balance = 0;
+      print("conProvider.sortListContract[i] ${conProvider.sortListContract[i].symbol} ${conProvider.sortListContract[i].org}");
+      if (conProvider.sortListContract[i].org == "ERC-20"){
+        balance = await conProvider.queryEther(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+      } else if (conProvider.sortListContract[i].org == "BEP-20") {
+        print("BEP-20 ${conProvider.sortListContract[i].address.toString()}");
+        balance = await conProvider.query(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+      } else if (conProvider.sortListContract[i].symbol == 'BNB') {
+        await conProvider.bnbWallet();
+      } else if (conProvider.sortListContract[i].symbol == 'DOT'){
+        await apiProvider.subscribeDotBalance(context: context);
+      } else if (conProvider.sortListContract[i].symbol == 'BTC') {
+        await apiProvider.getBtcBalance(context: context);
       }
-      element.balance = Fmt.bigIntToDouble(
-        balance[0] as BigInt,
-        int.parse(element.chainDecimal.toString()),
-      ).toString();
-    });
+      print("Balance ${balance.toString()}");
+      // conProvider.sortListContract[i].balance = Fmt.bigIntToDouble(
+      //   balance[0] as BigInt,
+      //   int.parse(conProvider.sortListContract[i].chainDecimal.toString()),
+      // ).toString();
+    }
 
     await StorageServices.storeAssetData(context);
     // if (network == 'Ethereum'){

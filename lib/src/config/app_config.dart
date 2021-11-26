@@ -13,18 +13,20 @@ class AppConfig {
   /*Coingecko api url fetch asset price */
   static const coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
 
-  static const erc20Path = 'assets/abi/erc20.json';
+  static const erc20Abi = 'assets/abi/erc20.json';
 
-  static const bep20Path = 'assets/abi/bep20.json';
+  static const bep20Abi = 'assets/abi/bep20.json';
 
-  static const swapPath = 'assets/abi/swap.json';
+  static const swapAbi = 'assets/abi/swap.json';
 
-  static const atdPath = 'assets/abi/atd.json';
+  static const atdAbi = 'assets/abi/atd.json';
 
   /*google spreedsheet credential for claim airdrop */
   static const credentials = '';
 
   static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
+
+  static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
 
   static const kmpiAddr = '5GZ9uD6RgN84bpBuic1HWq9AP7k2SSFtK9jCVkrncZsuARQU';
 
@@ -68,8 +70,6 @@ class AppConfig {
   //test 0x78F51cc2e297dfaC4c0D5fb3552d413DC3F71314
 
   static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
-
-  //static const swapTestContract = '0xE5DD12570452057fc85B8cE9820aD676390f865B';
 
   //static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
 
@@ -133,6 +133,10 @@ class DBkey {
 }
 
 class PresaleConfig {
+
+  String mainNet = '0x1f1c4e7408C1A1cF2583eD155C7b88274Cf6Ab22';
+  String testNet = '0xeBf7E248689534C2757a20DCfe7ffe0bb04b9e93';
+  
   // Presale Support Token
   // MainNet
   Map<String, dynamic> baseMain = {

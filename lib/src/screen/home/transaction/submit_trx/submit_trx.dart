@@ -468,9 +468,9 @@ class SubmitTrxState extends State<SubmitTrx> {
                   await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
                   break;
 
-                // case "BTC":
-                //   await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
-                //   break;
+                case "BTC":
+                  await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
+                  break;
 
                 default:
                 

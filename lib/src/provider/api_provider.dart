@@ -1,6 +1,7 @@
 import 'dart:math';
 // import 'package:flutter_aes_ecb_pkcs5_fork/flutter_aes_ecb_pkcs5_fork.dart';
 import 'package:aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.dart';
+import 'package:defichaindart/defichaindart.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
 import 'package:polkawallet_sdk/plugin/index.dart';
@@ -65,6 +66,9 @@ class ApiProvider with ChangeNotifier {
       await keyring.init([0, 42]);
       await sdk.init(keyring, jsCode: _jsCode);
 
+      connectPolNon(context: context);
+      connectSELNode(context: context);
+
     } catch (e) {
       print("Error initApi $e");
     }
@@ -93,13 +97,12 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
-    print("connectPolNon");
     dynamic res;
     try {
 
       final node = NetworkParams();
       node.name = 'Polkadot(Live, hosted by PatractLabs)';
-      node.endpoint = 'wss://westend-rpc.polkadot.io';//AppConfig.networkList[1].wsUrlTN;
+      node.endpoint = 'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
       node.ss58 = 0;
 
       // final node = NetworkParams();
@@ -116,94 +119,94 @@ class ApiProvider with ChangeNotifier {
       print("Error connectPolNon $e");
     }
 
-    return res;
+    return res ?? NetworkParams();
   }
 
-  // Future<bool> validateBtcAddr(String address) async {
-  //   return Address.validateAddress(address, bitcoin);
-  // }
+  Future<bool> validateBtcAddr(String address) async {
+    return Address.validateAddress(address, bitcoin);
+  }
 
   void setBtcAddr(String btcAddress) {
     btcAdd = btcAddress;
     notifyListeners();
   }
 
-  // Future<String> calBtcMaxGas() async {
+  Future<String> calBtcMaxGas() async {
     
-  //   int input = 0;
+    int input = 0;
 
-  //   final from = await StorageServices.fetchData('bech32');
+    final from = await StorageServices.fetchData('bech32');
 
-  //   final txb = TransactionBuilder();
-  //   txb.setVersion(1);
-  //   final res = await getAddressUxto(from);
+    final txb = TransactionBuilder();
+    txb.setVersion(1);
+    final res = await getAddressUxto(from);
 
-  //   if (res.length != 0) {
-  //     for (final i in res) {
-  //       if (i['status']['confirmed'] == true) {
-  //         txb.addInput(i['txid'], int.parse(i['vout'].toString()), null);
-  //         input++;
-  //       }
-  //     }
-  //   }
+    if (res.length != 0) {
+      for (final i in res) {
+        if (i['status']['confirmed'] == true) {
+          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null);
+          input++;
+        }
+      }
+    }
 
-  //   final trxSize = calTrxSize(input, 2);
+    final trxSize = calTrxSize(input, 2);
 
-  //   return trxSize.toString();
-  // }
+    return trxSize.toString();
+  }
 
-  // Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
-  //   int totalSatoshi = 0;
-  //   int input = 0;
-  //   final alice = ECPair.fromWIF(wif);
+  Future<int> sendTxBtc(BuildContext context, String from, String to, double amount, String wif) async {
+    int totalSatoshi = 0;
+    int input = 0;
+    final alice = ECPair.fromWIF(wif);
 
-  //   final p2wpkh = new P2WPKH(data: new PaymentData(pubkey: alice.publicKey)).data;
+    final p2wpkh = new P2WPKH(data: new PaymentData(pubkey: alice.publicKey)).data;
 
-  //   final txb = TransactionBuilder();
+    final txb = TransactionBuilder();
     
-  //   txb.setVersion(1);
+    txb.setVersion(1);
 
-  //   final res = await getAddressUxto(from);
+    final res = await getAddressUxto(from);
 
-  //   if (res.length != 0) {
-  //     for (final i in res) {
-  //       if (i['status']['confirmed'] == true) {
-  //         txb.addInput(i['txid'], int.parse(i['vout'].toString()), null, p2wpkh.output);
-  //         totalSatoshi += int.parse(i['value'].toString());
-  //         input++;
-  //       }
-  //     }
-  //   }
+    if (res.length != 0) {
+      for (final i in res) {
+        if (i['status']['confirmed'] == true) {
+          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null, p2wpkh!.output);
+          totalSatoshi += int.parse(i['value'].toString());
+          input++;
+        }
+      }
+    }
 
-  //   final totaltoSend = (amount * bitcoinSatFmt).floor();
+    final totaltoSend = (amount * bitcoinSatFmt).floor();
 
-  //   if (totalSatoshi < totaltoSend) {
-  //     await customDialog(context, 'You do not have enough in your wallet to send that much.', 'Opps');
-  //   }
+    if (totalSatoshi < totaltoSend) {
+      await customDialog(context, 'You do not have enough in your wallet to send that much.', 'Opps');
+    }
 
-  //   final fee = calTrxSize(input, 2) * 88;
+    final fee = calTrxSize(input, 2) * 88;
 
-  //   if (fee > (amount * bitcoinSatFmt).floor()) {
-  //     await customDialog(
-  //       context,
-  //       "BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)",
-  //       'Opps'
-  //     );
-  //   }
+    if (fee > (amount * bitcoinSatFmt).floor()) {
+      await customDialog(
+        context,
+        "BitCoin amount must be larger than the fee. (Ideally it should be MUCH larger)",
+        'Opps'
+      );
+    }
 
-  //   final change = totalSatoshi - ((amount * bitcoinSatFmt).floor() + fee);
+    final change = totalSatoshi - ((amount * bitcoinSatFmt).floor() + fee);
 
-  //   txb.addOutput(to, totaltoSend);
-  //   txb.addOutput(from, change);
+    txb.addOutput(to, totaltoSend);
+    txb.addOutput(from, change);
 
-  //   for (int i = 0; i < input; i++) {
-  //     txb.sign(vin: i, keyPair: alice);
-  //   }
+    for (int i = 0; i < input; i++) {
+      txb.sign(vin: i, keyPair: alice);
+    }
 
-  //   final response = await pushTx(txb.build().toHex());
+    final response = await pushTx(txb.build().toHex());
 
-  //   return response;
-  // }
+    return response;
+  }
 
   Future<void> customDialog(BuildContext context, String text1, String text2) async {
     await showDialog(
@@ -246,8 +249,6 @@ class ApiProvider with ChangeNotifier {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));
 
-      print("my btc ${jsonDecode(res.body)}");
-
       return jsonDecode(res.body);
     } catch (e){
       print("Err getAddressUxto $e");
@@ -256,13 +257,12 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> getBtcBalance({@required BuildContext? context}) async {
 
-    print("getBtcBalance");
     final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    print("getBtcBalance");
     try {
       int totalSatoshi = 0;
+      print("contract.listContract[6].address! ${contract.listContract[6].address!}");
       final res = await getAddressUxto(contract.listContract[6].address!);
-
-      print("btc $res");
 
       if (res.length == 0) {
         contract.listContract[6].balance = '0';
@@ -274,7 +274,6 @@ class ApiProvider with ChangeNotifier {
         }
 
         contract.listContract[6].balance = (totalSatoshi / bitcoinSatFmt).toString();
-        print("btc balance $contract.listContract[6].balance");
       }
 
       contract.listContract[6].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[6]);
@@ -352,8 +351,14 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<String> getPrivateKey(String mnemonic) async {
-    final res = await sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider.sdk.api.getPrivateKey(mnemonic);
-    return res;
+    try {
+
+      final res = await sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider.sdk.api.getPrivateKey(mnemonic);
+      return res;
+    } catch (e) {
+      print("Error getPrivateKey $e");
+    }
+    return '';
   }
 
   Future<bool> validateAddress(String address) async {
@@ -363,14 +368,12 @@ class ApiProvider with ChangeNotifier {
 
   // Connect SEL Chain
   Future<void> getSelNativeChainDecimal({@required BuildContext? context}) async {
-    print("getChainDecimal");
     try {
       
-      final contract = Provider.of<ContractProvider>(context!, listen: false);
+      // final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       final res = await sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
-      contract.listContract[0].chainDecimal = res[0].toString();
-      print("chain SEL ${res[0].toString()}");
+      nativeM.chainDecimal = res[0].toString();
       await subSELNativeBalance(context: context);
 
       notifyListeners();
@@ -382,11 +385,11 @@ class ApiProvider with ChangeNotifier {
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {
     try {
 
-      final contract = Provider.of<ContractProvider>(context!, listen: false);
+      // final contract = Provider.of<ContractProvider>(context!, listen: false);
       await sdk.api.account.subscribeBalance(keyring.current.address, (res) {
-        contract.listContract[0].balance = Fmt.balance(
+        nativeM.balance = Fmt.balance(
           res.freeBalance.toString(),
-          int.parse(contract.listContract[0].chainDecimal!),
+          int.parse(nativeM.chainDecimal!),
         );
 
         notifyListeners();
@@ -397,12 +400,10 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
-    print("getDotChainDecimal");
     try {
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       final res = await sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
       contract.listContract[5].chainDecimal = res[0].toString();
-      print("chain DOT ${res[0]}");
 
       await subscribeDotBalance(context: context);
 
@@ -413,7 +414,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> subscribeDotBalance({@required BuildContext? context}) async {
-    print("subscribeDotBalance");
     try {
 
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
@@ -426,8 +426,7 @@ class ApiProvider with ChangeNotifier {
           res.freeBalance.toString(),
           int.parse(contract.listContract[5].chainDecimal!),
         );
-
-        print(contract.listContract[5].balance);
+        print("subscribeDotBalance ${contract.listContract[5].balance}");
 
         contract.listContract[5].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[5]);
         notifyListeners();
@@ -454,6 +453,7 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> getCurrentAccount() async {
     accountM.address = keyring.current.address;
+    print("getCurrentAccount ${keyring.current.address}");
     accountM.name = keyring.current.name;
     notifyListeners();
   }
@@ -475,9 +475,15 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<String> encryptPrivateKey(String privateKey, String password) async {
-    final String key = Encrypt.passwordToEncryptKey(password);
-    final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
-    return encryted;
+    try {
+
+      final String key = Encrypt.passwordToEncryptKey(password);
+      final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+      return encryted;
+    } catch (e) {
+      print("Error encryptPrivateKey $e");
+    }
+    return '';
   }
 
   Future<Map> signAndSendDot(Map txInfo, String params, password, Function(String) onStatusChange) async {

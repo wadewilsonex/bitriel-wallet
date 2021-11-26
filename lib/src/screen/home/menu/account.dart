@@ -15,6 +15,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+
   KeyPairData? _currentAcc;
   final TextEditingController _pinController = TextEditingController();
   final TextEditingController _oldPinController = TextEditingController();
@@ -111,7 +112,7 @@ class _AccountState extends State<Account> {
 
       await AppServices.clearStorage();
 
-      // Re-Save Mode
+      // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
 
       await StorageServices().clearSecure();
@@ -132,7 +133,7 @@ class _AccountState extends State<Account> {
   Future<void> getBackupKey(String pass) async {
     Navigator.pop(context);
     try {
-      final pairs = await KeyringPrivateStore([2]).getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
+      final pairs = await KeyringPrivateStore([0, 42]).getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
 
       if (pairs!['seed'] != null) {
         await showDialog(
@@ -163,6 +164,7 @@ class _AccountState extends State<Account> {
       }
     } catch (e) {
       //await dialog(context, e.toString(), 'Opps');
+      print("Error getBackupKey $e");
     }
     _pinController.text = '';
   }

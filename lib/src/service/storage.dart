@@ -58,14 +58,18 @@ class StorageServices {
   }
 
   static Future<void> storeAssetData(BuildContext context) async {
+    try {
 
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+      final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    final lsContract = SmartContractModel.encode(contract.listContract);
-    final adContract = SmartContractModel.encode(contract.addedContract);
+      final lsContract = SmartContractModel.encode(contract.listContract);
+      final adContract = SmartContractModel.encode(contract.addedContract);
 
-    await _preferences!.setString(DbKey.listContract, lsContract);
-    await _preferences!.setString(DbKey.addedContract, adContract);
+      await _preferences!.setString(DbKey.listContract, lsContract);
+      await _preferences!.setString(DbKey.addedContract, adContract);
+    } catch (e) {
+      print("Error storeAssetData $e");
+    }
   }
 
   static Future<SharedPreferences> addTxHistory(TxHistory txHistory, String key) async {

@@ -127,23 +127,23 @@ class TrxFunctional {
     }
   }
 
-  // Future<void> sendTxBtc(String to, String amount) async {
-  //   final resAdd = await api!.validateBtcAddr(to);
+  Future<void> sendTxBtc(String to, String amount) async {
+    final resAdd = await api!.validateBtcAddr(to);
 
-  //   if (resAdd) {
-  //     final res = await api!.sendTxBtc(
-  //         context!, api!.btcAdd, to, double.parse(amount), privateKey!);
-  //     if (res == 200) {
-  //       enableAnimation!();
-  //     } else {
-  //       Navigator.pop(context!);
-  //       await customDialog('Opps', 'Something went wrong!');
-  //     }
-  //   } else {
-  //     Navigator.pop(context!);
-  //     await customDialog('Opps', 'Invalid Address');
-  //   }
-  // }
+    if (resAdd) {
+      final res = await api!.sendTxBtc(
+          context!, api!.btcAdd, to, double.parse(amount), privateKey!);
+      if (res == 200) {
+        enableAnimation!();
+      } else {
+        Navigator.pop(context!);
+        await customDialog('Opps', 'Something went wrong!');
+      }
+    } else {
+      Navigator.pop(context!);
+      await customDialog('Opps', 'Invalid Address');
+    }
+  }
 
   Future<void> sendTxEther(String reciever, String amount) async {
     try {
@@ -703,10 +703,10 @@ class TrxFunctional {
           final res = await ApiProvider().validateAddress(address);
           _isValid = res;
           break;
-        // case "BTC":
-        //   final res = await ApiProvider().validateBtcAddr(address);
-        //   _isValid = res;
-        //   break;
+        case "BTC":
+          final res = await ApiProvider().validateBtcAddr(address);
+          _isValid = res;
+          break;
 
         default:
           final res = await ContractProvider().validateEvmAddr(address);
@@ -836,9 +836,9 @@ class TrxFunctional {
     try {
 
       switch (asset) {
-        // case 'BTC':
-        //   maxGas = await api.calBtcMaxGas();
-        //   break;
+        case 'BTC':
+          maxGas = await api.calBtcMaxGas();
+          break;
         case 'ETH':
           maxGas = await contract.getEthMaxGas(reciever, amount);
           break;

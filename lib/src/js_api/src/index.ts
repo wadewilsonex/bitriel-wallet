@@ -24,7 +24,7 @@ function send(path: string, data: any) {
     console.log(path, data);
   }
 }
-send("log", "main js loaded");
+// send("log", "main js loaded");
 (<any>window).send = send;
 
 /**
@@ -111,7 +111,6 @@ async function callContract(api: ApiPromise) {
     const res = new ContractPromise(api, abi, ERC1400);
     (<any>window).apiContract = res;
     resolve(res.address);
-    send("log", `${res.address} contract connected success`);
   });
 }
 
@@ -125,7 +124,6 @@ async function initAttendant(api: ApiPromise) {
 
     (<any>window).aContract = res;
     resolve(res.address);
-    send("log", `${res.address} contract connected success`);
   });
 }
 
@@ -179,7 +177,6 @@ async function contractSymbol(apiContract: ContractPromise, from: string) {
 
       const result = await apiContract.query.symbol(from, 0, -1);
       resolve(result.output);
-      send("log", `${result.output} contract connected success`);
       return result.output.toString();
 
 
@@ -196,7 +193,7 @@ async function totalSupply(apiContract: ContractPromise, from: string) {
       const result = await apiContract.query.totalSupply(from, 0, -1);
 
       resolve(result);
-      send('log', result.output.toString);
+      // send('log', result.output.toString);
 
       return result.output.toString();
       // resolve(result);
@@ -214,7 +211,7 @@ async function balanceOf(apiContract: ContractPromise, from: string, who: string
       const result = await apiContract.query.balanceOf(from, 0, -1, who);
 
       resolve(result);
-      send('log', result.output.toString);
+      // send('log', result.output.toString);
 
       return result.output.toString;
       // resolve(result);
@@ -232,7 +229,7 @@ async function balanceOfByPartition(apiContract: ContractPromise, from: string, 
       const result = await apiContract.query.balanceOfByPartition(from, 0, -1, who, hash); //.query.balanceOfByPartition(from, 0, -1, who);
 
       resolve(result);
-      send('log', result.output.toString);
+      // send('log', result.output.toString);
 
       return result.output.toString;
       // resolve(result);
@@ -250,7 +247,7 @@ async function getPartitionHash(apiContract: ContractPromise, from: string) {
       const result = await apiContract.query.listOfPartition(from, 0, -1);
 
       resolve(result);
-      send('log', result.output.toString);
+      // send('log', result.output.toString);
 
       return result.output.toString;
       // resolve(result);
@@ -267,7 +264,7 @@ async function getHashBySymbol(apiContract: ContractPromise, from: string, symbo
       const result = await apiContract.query.getHashBySymbol(from, 0, -1, symbol);
 
       resolve(result.output);
-      send('log', result.output.toString);
+      // send('log', result.output.toString);
 
       return result.output.toString;
       // resolve(result);

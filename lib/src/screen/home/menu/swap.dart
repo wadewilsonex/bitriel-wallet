@@ -10,6 +10,7 @@ class Swap extends StatefulWidget {
 }
 
 class _SwapState extends State<Swap> {
+
   FlareControls flareController = FlareControls();
   final GlobalKey<FormState> _swapKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
@@ -56,19 +57,16 @@ class _SwapState extends State<Swap> {
   // }
 
   Future<String>? approve(String pKey) async {
+    print("approve");
     String? _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     try {
-      final hash = await contract.approveSwap(pKey);
-
-      if (hash != null) {
-        _hash = hash;
-      }
+      _hash = await contract.approveSwap(pKey);
+      print(_hash);
     } catch (e) {
       Navigator.pop(context);
-      if (e.toString() ==
-          'insufficient funds for gas * price + value') {
+      if (e.toString() == 'insufficient funds for gas * price + value') {
         await customDialog('Opps', 'Insufficient funds for gas');
       } else {
         await customDialog('Opps', e.toString());
@@ -78,24 +76,20 @@ class _SwapState extends State<Swap> {
   }
 
   Future<String>? swap(String pKey) async {
+    print("Swap");
     String? _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     try {
-      final hash = await contract.swap(_amountController!.text, pKey);
-      if (hash != null) {
-        _hash = hash;
-      }
+      _hash = await contract.swap(_amountController!.text, pKey);
     } catch (e) {
       Navigator.pop(context);
       // print(e.message);
 
-      if (e.toString() ==
-          'insufficient funds for gas * price + value') {
+      if (e.toString() == 'insufficient funds for gas * price + value') {
         await customDialog('Opps', 'Insufficient funds for gas');
       } else {
-        await customDialog('Transaction failed',
-            'Something went wrong with your transaction.');
+        await customDialog('Transaction failed', 'Something went wrong with your transaction.');
         // await customDialog('Opps', e.message.toString());
       }
     }
@@ -104,16 +98,15 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> approveAndSwap() async {
+    print("approveAndSwap");
     try {
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
       await dialogBox().then((value) async {
         final res = await AppServices.getPrivateKey(value, context);
-
+        print("res $res");
         if (res != null) {
-          dialogLoading(context,
-              content:
-                  "This processing may take a bit longer\nPlease wait a moment");
+          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
           final approveHash = await approve(res);
 
           if (approveHash != null) {
@@ -209,18 +202,24 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> confirmFunction() async {
-    dialogLoading(context);
-    final res = await ContractProvider().checkAllowance();
+    print("confirmFunction");
+    try {
 
-    print(res);
+      dialogLoading(context);
+      final res = await Provider.of<ContractProvider>(context, listen: false).checkAllowance();
 
-    if (res.toString() == '0') {
-      Navigator.pop(context);
-      await approveAndSwap();
-    } else {
-      Navigator.pop(context);
+      print(res);
 
-      await swapWithoutAp();
+      if (res.toString() == '0') {
+        Navigator.pop(context);
+        await approveAndSwap();
+      } else {
+        Navigator.pop(context);
+
+        await swapWithoutAp();
+      }
+    } catch (e) {
+      print("Error confirmFunction $e");
     }
   }
 
@@ -230,16 +229,13 @@ class _SwapState extends State<Swap> {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (double.parse(_amountController!.text) >
-            double.parse(contract.listContract[0].balance!) ||
-        double.parse(contract.listContract[0].balance!) == 0) {
+    if (double.parse(_amountController!.text) > double.parse(contract.listContract[0].balance!) ||  double.parse(contract.listContract[0].balance!) == 0) {
       // Close Loading
       Navigator.pop(context);
-      customDialog(
-          'Insufficient Balance', 'Your loaded balance is not enough to swap.');
+      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
     } else {
       Navigator.pop(context);
-      confirmDialog(_amountController!.text, swap);
+      await confirmDialog(_amountController!.text, await swap);
     }
   }
 
@@ -641,23 +637,21 @@ class _SwapState extends State<Swap> {
 
                               // Swap Button
                               MyFlatButton(
-                                edgeMargin:
-                                    const EdgeInsets.only(bottom: 16, top: 42),
+                                edgeMargin: const EdgeInsets.only(bottom: 16, top: 42),
                                 textButton: 'Swap',
                                 action: !_enableBtn
-                                    ? null
-                                    : () async {
-                                        if (_swapKey.currentState!.validate()) {
-                                          FocusScopeNode currentFocus =
-                                              FocusScope.of(context);
+                                  ? null
+                                  : () async {
+                                  if (_swapKey.currentState!.validate()) {
+                                    FocusScopeNode currentFocus = FocusScope.of(context);
 
-                                          if (!currentFocus.hasPrimaryFocus) {
-                                            currentFocus.unfocus();
-                                          }
+                                    if (!currentFocus.hasPrimaryFocus) {
+                                      currentFocus.unfocus();
+                                    }
 
-                                          validateSwap();
-                                        }
-                                      },
+                                    validateSwap();
+                                  }
+                                },
                               ),
                               SwapDescription(),
                             ],
