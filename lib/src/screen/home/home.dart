@@ -233,10 +233,10 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
         elevation: 10,
         backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
         onPressed: () async {
-          // await TrxOptionMethod.scanQR(
-          //   context,
-          //   _homeM.portfolioList,
-          // );
+          await TrxOptionMethod.scanQR(
+            context,
+            _homeM.portfolioList,
+          );
         },
         child: SvgPicture.asset(
           'assets/icons/qr_code.svg',

@@ -39,6 +39,7 @@ class MyBottomSheet {
                       icon: "icons/qr_code.svg",
                       action: () async {
                         // Navigator.pop(context);
+                        print("Qr");
                         try {
                           await TrxOptionMethod.scanQR(
                             context,

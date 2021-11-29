@@ -17,12 +17,19 @@ class ContractService implements IContractService {
   ContractFunction _decimalFunction() => _contract.function('decimals');
 
   Future<List> _queryContract(DeployedContract contract, ContractFunction function, List args) async {
-    final res = await _client.call(
-      contract: contract,
-      function: function,
-      params: args,
-    );
-    return res;
+    try {
+
+      final res = await _client.call(
+        contract: contract,
+        function: function,
+        params: args,
+      );
+      print("_queryContract res $res");
+      return res;
+    } catch (e) {
+      print("Error _queryContract $e");
+    }
+    return [];
   }
 
   @override
@@ -40,6 +47,7 @@ class ContractService implements IContractService {
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
     try {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
+      print("getTokenBalance $res");
       return res.first as BigInt;
     } catch (e) {
       print("Error getTokenBalance $e");
@@ -153,6 +161,7 @@ class ContractService implements IContractService {
             BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
           ],
         ),
+        chainId: null,
         fetchChainIdFromNetworkId: true,
       );
       

@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance {
@@ -20,7 +21,7 @@ class ContractsBalance {
       // await getSavedContractToken();
       // await getEtherSavedContractToken();
 //1
-      await contractProvider.kgoTokenWallet();
+      // await contractProvider.kgoTokenWallet();
       await contractProvider.selTokenWallet();
       await contractProvider.selv2TokenWallet();
 
@@ -66,7 +67,7 @@ class ContractsBalance {
   Future<void> refetchContractBalance({@required BuildContext? context}) async {
 
     final conProvider = Provider.of<ContractProvider>(context!, listen: false);
-    final apiProvider = Provider.of<ApiProvider>(context!, listen: false);
+    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     dynamic symbol;
     dynamic name;
     dynamic decimal;
@@ -82,7 +83,11 @@ class ContractsBalance {
         balance = await conProvider.queryEther(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
       } else if (conProvider.sortListContract[i].org == "BEP-20") {
         print("BEP-20 ${conProvider.sortListContract[i].address.toString()}");
-        balance = await conProvider.query(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+        if (conProvider.sortListContract[i].symbol == "KGO"){
+          // balance = await conProvider.getKgo.getTokenBalance(EthereumAddress.fromHex(conProvider.ethAdd));;
+        } else {
+          balance = await conProvider.query(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+        }
       } else if (conProvider.sortListContract[i].symbol == 'BNB') {
         await conProvider.bnbWallet();
       } else if (conProvider.sortListContract[i].symbol == 'DOT'){

@@ -16,7 +16,7 @@ let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
 
 function send(path: string, data: any) {
   if (window.location.href === "about:blank") {
-    PolkaWallet.postMessage(JSON.stringify({ path, data }));
+    // PolkaWallet.postMessage(JSON.stringify({ path, data }));
   } else {
     console.log(path, data);
   }

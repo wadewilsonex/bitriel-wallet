@@ -362,8 +362,15 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<bool> validateAddress(String address) async {
-    final res = await sdk.api.service.webView!.evalJavascript('keyring.validateAddress("$address")');
-    return res;
+    try {
+
+      final res = await sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
+      print("res $res");
+      return res;
+    } catch (e) {
+      print("Error validateAddress $e");
+    }
+    return false;
   }
 
   // Connect SEL Chain

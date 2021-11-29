@@ -37,34 +37,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 // your spreadsheet id
   static const _spreadsheetId = AppConfig.spreedSheetId;
 
-  // Future<void> dialog(String text1, String text2, {Widget action}) async {
-  //   await showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         shape:
-  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-  //         title: Align(
-  //           child: Text(text1),
-  //         ),
-  //         content: Padding(
-  //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-  //           child: Text(text2),
-  //         ),
-  //         actions: <Widget>[
-  //           FlatButton(
-  //             onPressed: () => Navigator.pop(context),
-  //             child: const Text('Close'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   bool validateEmail(String value) {
-    const Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    const Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     final RegExp regex = RegExp(pattern.toString());
     // ignore: avoid_bool_literals_in_conditional_expressions
     return (!regex.hasMatch(value)) ? false : true;
@@ -72,15 +46,13 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   String? onChangedEmail(String value) {
     if (_emailFocusNode!.hasFocus && _phoneController!.text.isNotEmpty) {
-      if (airdropKey.currentState!.validate()) {
-        setState(() {
-          _enableButton = true;
-        });
-      } else {
-        setState(() {
-          _enableButton = false;
-        });
-      }
+      setState(() {
+        _enableButton = true;
+      });
+    } else if (_enableButton){
+      setState(() {
+        _enableButton = false;
+      });
     }
     return null;
   }
@@ -89,11 +61,11 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     if (_emailFocusNode!.hasFocus) {
       FocusScope.of(context).requestFocus(_phoneFocusNode);
     } else {
-      if (airdropKey.currentState!.validate()) {
+      if (_emailFocusNode!.hasFocus && _phoneController!.text.isNotEmpty) {
         setState(() {
           _enableButton = true;
         });
-      } else {
+      } else if (_enableButton){
         setState(() {
           _enableButton = false;
         });
@@ -114,21 +86,21 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     if (_emailFocusNode!.hasFocus) {
       FocusScope.of(context).requestFocus(_phoneFocusNode);
     } else if (_emailFocusNode!.hasFocus && _phoneController!.text.isNotEmpty) {
-      if (airdropKey.currentState!.validate()) {
+      if (_emailFocusNode!.hasFocus && _phoneController!.text.isNotEmpty) {
         setState(() {
           _enableButton = true;
         });
-      } else {
+      } else if (_enableButton){
         setState(() {
           _enableButton = false;
         });
       }
     } else {
-      if (airdropKey.currentState!.validate()) {
+      if (_emailFocusNode!.hasFocus && _phoneController!.text.isNotEmpty) {
         setState(() {
           _enableButton = true;
         });
-      } else {
+      } else if (_enableButton){
         setState(() {
           _enableButton = false;
         });

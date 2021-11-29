@@ -79,29 +79,22 @@ class NativeService implements INativeService {
     String? res;
     try {
 
-      print('sendTx');
       final credentials = await getCredentials(trxInfo.privateKey!);
 
       final sender = await credentials.extractAddress();
 
-      print('sender $sender');
-
       final maxGas = await getMaxGas(sender, trxInfo);
-
-      print('mG $maxGas');
 
       res = await _client.sendTransaction(
         credentials,
         Transaction(
           maxGas: maxGas.toInt(),
           to: trxInfo.receiver,
-          value: EtherAmount.inWei(
-              BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
+          value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
         ),
+        chainId: null,
         fetchChainIdFromNetworkId: true,
       );
-
-      print('res: $res');
 
     } catch (e){
       print("Err sendTx $e");

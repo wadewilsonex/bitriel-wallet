@@ -9,7 +9,7 @@ class SubmitTrxBody extends StatelessWidget {
   final Function? onSubmit;
   final Function? clickSend;
   final Function? validateSubmit;
-  final String Function(String)? onChanged;
+  final Function? onChanged;
   final String Function(String)? validateField;
   final Function(String)? onChangeDropDown;
 
@@ -58,7 +58,9 @@ class SubmitTrxBody extends StatelessWidget {
         focusNode: scanPayM!.nodeAmount,
         validateField: validateField,
         onChanged: onChanged,
-        onSubmit: () {}
+        onSubmit: () async {
+          await validateSubmit!();
+        }
       ),
     ];
 

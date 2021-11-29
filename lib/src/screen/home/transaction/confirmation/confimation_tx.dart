@@ -18,8 +18,6 @@ class ConfirmationTx extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
 
-    print('fmt $addr');
-
     return Scaffold(
       body: Column(
         children: [

@@ -293,27 +293,30 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> kgoTokenWallet() async {
-    // try {
+    print("kgoTokenWallet");
+    try {
 
-    //   await initBscClient();
-    //   final contract = await AppUtils.contractfromAssets(AppConfig.bep20Path, listContract[2].address!);
-    //   //final contract = await initBsc(listContract[2].address);
-    //   _kgo = new ContractService(_bscClient!, contract);
+      await initBscClient();
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[2].address!);
+      //final contract = await initBsc(listContract[2].address);
+      _kgo = new ContractService(_bscClient!, contract);
 
-    //   final balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
-    //   final chainDecimal = await _kgo!.getChainDecimal();
+      final balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+      final chainDecimal = await _kgo!.getChainDecimal();
 
-    //   listContract[2].balance = Fmt.bigIntToDouble(
-    //     balance,
-    //     int.parse(chainDecimal.toString()),
-    //   ).toString();
+      listContract[2].balance = Fmt.bigIntToDouble(
+        balance,
+        int.parse(chainDecimal.toString()),
+      ).toString();
 
-    //   listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
+      listContract[2].chainDecimal = chainDecimal.toString();
 
-    //   notifyListeners();
-    // } catch (e) {
-    //   print("Err kgoTokenWallet $e");
-    // }
+      listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
+
+      notifyListeners();
+    } catch (e) {
+      print("Err kgoTokenWallet $e");
+    }
   }
 
   Future<void> ethWallet() async {
@@ -529,7 +532,6 @@ class ContractProvider with ChangeNotifier {
     bool _isValid = false;
     try {
       EthereumAddress.fromHex(address, enforceEip55: true);
-      // valid!
       _isValid = true;
     } on ArgumentError {
       // Not valid

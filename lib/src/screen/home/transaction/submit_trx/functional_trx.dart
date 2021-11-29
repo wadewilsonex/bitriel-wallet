@@ -242,7 +242,7 @@ class TrxFunctional {
   Future<void> navigateAssetInfo(TransactionInfo info, {ContractService? tokenService, NativeService? nativeService}) async {
     try {
       switch (info.coinSymbol) {
-        case "SEL (BEP-20)":
+        case "SEL":
           print('navigation asset');
           await contract!.addListActivity(info, 0, contractService: tokenService);
 
@@ -268,7 +268,7 @@ class TrxFunctional {
           //   ),
           // );
           break;
-        case "SEL v2 (BEP-20)":
+        case "SEL (v2)":
           await contract!.addListActivity(info, 1, contractService: tokenService);
 
           // Navigator.push(
@@ -294,7 +294,7 @@ class TrxFunctional {
 
           break;
 
-        case "KGO (BEP-20)":
+        case "KGO":
           await contract!.addListActivity(info, 2, contractService: tokenService);
 
           // Navigator.push(
@@ -345,7 +345,6 @@ class TrxFunctional {
         case "BNB":
           print("BNB addListActivity");
           await contract!.addListActivity(info, 4, nativeService: nativeService);
-          Navigator.push(context!, MaterialPageRoute(builder: (context) => Home()));
 
           // Navigator.push(
           //   context,
@@ -687,35 +686,47 @@ class TrxFunctional {
     return _enough;
   }
 
-  Future<bool> validateAddr(String asset, String address) async {
+  Future<bool> validateAddr(String asset, String address, {@required BuildContext? context, String? org} ) async {
 
     bool _isValid = false;
+    print("validateAddr");
+    print("Asset $asset");
+    print("address $address");
+    print("org $org");
 
+    final apiPro = Provider.of<ApiProvider>(context!, listen: false);
+    final conPro = Provider.of<ContractProvider>(context, listen: false);
     try {
 
       switch (asset) {
         case "SEL":
-          final res = await ApiProvider().validateAddress(address);
+          bool res = false;
+          if (org == 'BEP-20'){
+            res = await conPro.validateEvmAddr(address);
+          } else {
+            res = await apiPro.validateAddress(address);
+          }
           _isValid = res;
 
           break;
         case "DOT":
-          final res = await ApiProvider().validateAddress(address);
+          final res = await apiPro.validateAddress(address);
           _isValid = res;
           break;
         case "BTC":
-          final res = await ApiProvider().validateBtcAddr(address);
+          final res = await apiPro.validateBtcAddr(address);
           _isValid = res;
           break;
 
         default:
-          final res = await ContractProvider().validateEvmAddr(address);
+          final res = await conPro.validateEvmAddr(address);
           _isValid = res;
           break;
       }
 
       return _isValid;
     } catch (e) {
+      print("Erorr validateAddr $e");
       return _isValid;
     }
   }
