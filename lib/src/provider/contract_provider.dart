@@ -79,7 +79,7 @@ class ContractProvider with ChangeNotifier {
   NativeService get getBnb => _bnb!;
   NativeService get getEth => _eth!;
 
-  get bscClient => _bscClient;
+  Web3Client get bscClient => _bscClient!;
 
   Future<void> initBep20Service(String contract) async {
     final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contract);
@@ -864,6 +864,7 @@ class ContractProvider with ChangeNotifier {
           BigInt.from(double.parse(amount) * pow(10, 18)),
         ),
       ),
+      chainId: null,
       fetchChainIdFromNetworkId: true,
     );
 
@@ -898,6 +899,7 @@ class ContractProvider with ChangeNotifier {
         value:
             EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
       ),
+      chainId: null,
       fetchChainIdFromNetworkId: true,
     );
     return res;
@@ -984,6 +986,7 @@ class ContractProvider with ChangeNotifier {
           BigInt.from(double.parse(amount) * pow(10, 18))
         ],
       ),
+      chainId: null,
       fetchChainIdFromNetworkId: true,
     );
 

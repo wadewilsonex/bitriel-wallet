@@ -25,8 +25,7 @@ class PresaleList extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
           ),
@@ -45,14 +44,12 @@ class PresaleList extends StatelessWidget {
     );
   }
 
-  Future<void> successDialog(BuildContext context, String operationText,
-      String btnText, Function onPressed) async {
+  Future<void> successDialog(BuildContext context, String operationText, String btnText, Function onPressed) async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -228,9 +225,12 @@ class PresaleList extends StatelessWidget {
             ),
 
             SizedBox(height: 24.0),
+
+            // List Ordered Of Presale
             Expanded(
               child: Consumer<PresaleProvider>(
                 builder: (context, value, child) {
+
                   return Container(
                     alignment: Alignment.bottomCenter,
                     padding: const EdgeInsets.all(8.0),
@@ -240,21 +240,19 @@ class PresaleList extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return value.presaleOrderInfo.isEmpty
                         ? SvgPicture.asset(
-                            'assets/icons/no_data.svg',
-                            width: 180,
-                            height: 180,
-                          )
+                          'assets/icons/no_data.svg',
+                          width: 180,
+                          height: 180,
+                        )
                         : Container(
-                            margin: const EdgeInsets.only(
-                                bottom: 16.0, left: 8.0, right: 8.0),
+                            margin: const EdgeInsets.only(bottom: 16.0, left: 8.0, right: 8.0),
                             padding: const EdgeInsets.all(16.0),
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.0),
                               color: isDarkTheme
-                                  ? hexaCodeToColor(AppColors.darkCard)
-                                  : hexaCodeToColor(
-                                      AppColors.whiteColorHexa),
+                                ? hexaCodeToColor(AppColors.darkCard)
+                                : hexaCodeToColor(AppColors.whiteColorHexa),
                             ),
                             child: Row(
                               mainAxisAlignment:MainAxisAlignment.spaceBetween,

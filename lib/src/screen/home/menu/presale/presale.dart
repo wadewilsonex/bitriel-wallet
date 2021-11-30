@@ -17,6 +17,7 @@ class _PresaleState extends State<Presale> {
   PresaleModel _model = PresaleModel();
 
   Future<String>? order(String pKey) async {
+
     String? _hash;
     dialogLoading(context);
     final presale = Provider.of<PresaleProvider>(context, listen: false);
@@ -183,8 +184,7 @@ class _PresaleState extends State<Presale> {
     }
   }
 
-  Future enableAnimation(
-      String operationText, String btnText, Function onPressed) async {
+  Future enableAnimation(String operationText, String btnText, Function onPressed) async {
     setState(() {
       _model.success = true;
     });
@@ -204,14 +204,15 @@ class _PresaleState extends State<Presale> {
   Future<String> dialogBox() async {
     /* Show Pin Code For Fill Out */
     final String _result = await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return Material(
-            color: Colors.transparent,
-            child: FillPin(),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
     return _result;
   }
 
@@ -241,14 +242,12 @@ class _PresaleState extends State<Presale> {
   }
 
   // After Presale
-  Future<void> successDialog(
-      String operationText, String btnText, Function onPressed) async {
+  Future<void> successDialog(String operationText, String btnText, Function onPressed) async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -370,10 +369,8 @@ class _PresaleState extends State<Presale> {
     final presale = Provider.of<PresaleProvider>(context, listen: false);
 
     //presale.calEstimateSel(, 429.000, _model.rate);
-    if (_model.amountController.text != null ||
-        _model.amountController.text != '') {
-      presale.calEstimateSel(_model.amountController.text,
-          _model.listSupportToken![_model.tokenIndex]['price'], _model.rate);
+    if (_model.amountController.text != '') {
+      presale.calEstimateSel(_model.amountController.text, _model.listSupportToken![_model.tokenIndex]['price'], _model.rate);
     }
   }
 
@@ -388,68 +385,68 @@ class _PresaleState extends State<Presale> {
   }
 
   Future<void> priceChecker() async {
-    final presale = Provider.of<PresaleProvider>(context, listen: false);
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+    try {
 
-    _model.totalInvestment = double.parse(_model.amountController.text) *
-        _model.listSupportToken![_model.tokenIndex]['price'];
-    await presale.minInvestment().then((value) async {
-      /// The minInvestment function return value type _BigIntImpl
-      ///
-      /// To Convert To Double we need to use toDouble()
-      ///
+      final presale = Provider.of<PresaleProvider>(context, listen: false);
+      final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      final res = presale.calAmtPrice(_model.amountController.text,
-          _model.listSupportToken![_model.tokenIndex]['price']);
+      _model.totalInvestment = double.parse(_model.amountController.text) * _model.listSupportToken![_model.tokenIndex]['price'];
+      
+      await presale.minInvestment().then((value) async {
+        /// The minInvestment function return value type _BigIntImpl
+        ///
+        /// To Convert To Double we need to use toDouble()
+        ///
 
-      if (res < value.first.toDouble()) {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: Text('Message'),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text("Your order amount less than minimum investment!"),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
+        final res = presale.calAmtPrice(_model.amountController.text, _model.listSupportToken![_model.tokenIndex]['price']);
+
+        if (res < value.first.toDouble()) {
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                title: Align(
+                  child: Text('Message'),
                 ),
-              ],
-            );
-          },
-        );
-      } else {
-        //get user pin
-        final res = await dialogBox();
+                content: Padding(
+                  padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: Text("Your order amount less than minimum investment!"),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Close'),
+                  ),
+                ],
+              );
+            },
+          );
+        } 
+        // Can Order Presale
+        else {
+          //get user pin
+          final res = await dialogBox();
 
-        //check if pin null
-        if (res != null) {
+          //check if pin null
           //get user pKey
           final privateKey = await AppServices.getPrivateKey(res, context);
 
-          if (privateKey != null &&
-              privateKey !=
-                  'Failed to get string encoded: \'Decrypt failure.\'.') {
+          print("privateKey $privateKey");
+
+          if (privateKey != null && privateKey != 'Failed to get string encoded: \'Decrypt failure.\'.') {
             if (_model.tokenIndex == 0) {
               // await contract.getBnbBalance();
 
-              if (double.parse(contract.listContract[4].balance!) <
-                  double.parse(_model.amountController.text)) {
-                customDialog('Insufficient Balance',
-                    'Your loaded balance is not enough.');
+              if (double.parse(contract.listContract[4].balance!) < double.parse(_model.amountController.text)) {
+                customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
               } else {
+                print("Order");
                 await order(privateKey);
               }
             } else {
-              final tokenBalance = await presale.checkTokenBalance(
-                  _model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+              print("checkTokenBalance");
+              final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
 
               if (tokenBalance < double.parse(_model.amountController.text)) {
                 customDialog('Insufficient Balance',
@@ -460,80 +457,97 @@ class _PresaleState extends State<Presale> {
             }
           }
         }
-      }
-    });
+      });
+    } catch (e) {
+      print("Error priceChecker $e");
+    }
   }
 
   Future<void> checkIsAllownce(String pKey) async {
-    dialogLoading(context);
+    try {
 
-    final presale = Provider.of<PresaleProvider>(context, listen: false);
-    final res = await presale.checkAllowance(
-        _model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+      dialogLoading(context);
 
-    if (res.toString() == '0' ||
-        res.toString() != '1000000000000000042420637374017961984') {
-      await approveAndOrderToken(
+      final presale = Provider.of<PresaleProvider>(context, listen: false);
+      final res = await presale.checkAllowance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+
+      if (res.toString() == '0' || res.toString() != '1000000000000000042420637374017961984') {
+        await approveAndOrderToken(
           pKey,
           _model.listSupportToken![_model.tokenIndex]['tokenAddress'],
           double.parse(_model.amountController.text),
-          _model.rate);
-    } else {
-      await orderToken(
+          _model.rate
+        );
+      } else {
+        await orderToken(
           _model.listSupportToken![_model.tokenIndex]['tokenAddress'],
           pKey,
           double.parse(_model.amountController.text),
-          _model.rate);
+          _model.rate
+        );
+      }
+    } catch (e) {
+      print("Error checkIsAllownce $e");
     }
   }
 
   Future<void> submitPresale() async {
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    final presale = Provider.of<PresaleProvider>(context, listen: false);
-    if (_model.canSubmit == false) {
-      snackBar(context, "Please fill out all field");
-    } else {
-      if (_model.tokenIndex == 0) {
-        dialogLoading(context);
-        // await contract.getBnbBalance();
+    try {
 
-        if (double.parse(contract.listContract[4].balance!) <
-            double.parse(_model.amountController.text)) {
-          Navigator.pop(context);
-          customDialog(
-              'Insufficient Balance', 'Your loaded balance is not enough.');
-        } else {
-          Navigator.pop(context);
-          await priceChecker();
-        }
+      final contract = Provider.of<ContractProvider>(context, listen: false);
+      final presale = Provider.of<PresaleProvider>(context, listen: false);
+      if (_model.canSubmit == false) {
+        snackBar(context, "Please fill out all field");
       } else {
-        dialogLoading(context);
-        final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+        if (_model.tokenIndex == 0) {
+          dialogLoading(context);
+          // await contract.getBnbBalance();
 
-        if (tokenBalance < double.parse(_model.amountController.text)) {
-          Navigator.pop(context);
-          customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
+          if (double.parse(contract.listContract[4].balance!) <
+              double.parse(_model.amountController.text)) {
+            Navigator.pop(context);
+            customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
+          } else {
+            Navigator.pop(context);
+            await priceChecker();
+          }
         } else {
-          Navigator.pop(context);
-          await priceChecker();
+          dialogLoading(context);
+          final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+
+          if (tokenBalance < double.parse(_model.amountController.text)) {
+            Navigator.pop(context);
+            customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
+          } else {
+            Navigator.pop(context);
+            await priceChecker();
+          }
         }
       }
+    } catch (e) {
+      print("Error submitPresale $e");
     }
   }
 
   void initMethod() async {
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    // await contract.getBnbBalances();
+    try {
 
-    _model.balance = double.parse(contract.listContract[4].balance!);
-    _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
+      final contract = Provider.of<ContractProvider>(context, listen: false);
+      // await contract.getBnbBalances();
 
-    await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
+      _model.balance = double.parse(contract.listContract[4].balance!);
+      print("_model.balance ${_model.balance}");
+      _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
+      print("_model.listSupportToken ${_model.listSupportToken}");
+      await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
-    //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
-    if (!mounted) return;
+      //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
+      if (!mounted) return;
 
-    setState(() {});
+      setState(() {});
+    } catch (e) {
+      print("Error initMethod $e");
+    }
   }
 
   @override
@@ -557,13 +571,6 @@ class _PresaleState extends State<Presale> {
         onChange: onChanged,
         submitPresale: submitPresale,
       ),
-      // body: BodyPresale(
-      //   model: _model,
-      //   onChanged: onChanged,
-      //   rateChange: rateChange,
-      //   onChangedDropDown: onChangedDropDown,
-      //   submitPresale: submitPresale,
-      // ),
     );
   }
 }

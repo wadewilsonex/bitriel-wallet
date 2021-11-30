@@ -52,10 +52,15 @@ class AppUtils {
   }
 
   static String timeStampToDate(String timeStamp) {
-    final parse = DateTime.parse(timeStamp)
-        .toLocal(); /* Parse Time Stamp String to DateTime Format */
-    return formatDate(
-        parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
+    try {
+
+      final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
+      print("Parse $parse");
+      return formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
+    } catch (e) {
+      print("Error timeStampToDate $e");
+    }
+    return '';
   }
 
   static int convertHexaColor(String colorhexcode) {

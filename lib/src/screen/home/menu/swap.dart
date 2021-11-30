@@ -239,8 +239,7 @@ class _SwapState extends State<Swap> {
     }
   }
 
-  Future enableAnimation(
-      String operationText, String btnText, Function onPressed) async {
+  Future enableAnimation(String operationText, String btnText, Function onPressed) async {
     setState(() {
       _success = true;
     });

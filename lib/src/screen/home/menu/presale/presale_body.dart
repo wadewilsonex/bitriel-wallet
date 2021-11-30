@@ -134,8 +134,8 @@ class _PresaleBodyState extends State<PresaleBody> {
                     textAlign: TextAlign.left,
                     text: "Network: Binance Smart Chain",
                     color: isDarkTheme
-                        ? AppColors.darkSecondaryText
-                        : AppColors.textColor,
+                      ? AppColors.darkSecondaryText
+                      : AppColors.textColor,
                     fontWeight: FontWeight.bold,
                   ),
                   Container(
