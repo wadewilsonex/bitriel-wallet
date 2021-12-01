@@ -325,24 +325,28 @@ class PresaleList extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: crossAxis ?? CrossAxisAlignment.start,
       children: [
-        MyText(
-          width: 150,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.left,
-          fontSize: topTextSize ?? 16.0,
-          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-          //fontWeight: FontWeight.w700,
-          text: topText,
-        ),
-        bottomWidget ??
-          MyText(
+        Expanded(
+          child: MyText(
             textAlign: TextAlign.left,
-            fontSize: 16.0,
-            color:
-                isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            // fontWeight: FontWeight.w700,
-            text: bottomText,
-          ),
+            fontSize: topTextSize ?? 16.0,
+            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            //fontWeight: FontWeight.w700,
+            text: topText,
+          )
+        ),
+        Expanded(
+          child: Center(
+            child: bottomWidget ??
+            MyText(
+              textAlign: TextAlign.left,
+              fontSize: 16.0,
+              color:
+                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+              // fontWeight: FontWeight.w700,
+              text: bottomText,
+            )
+          )
+        ),
       ],
     );
   }

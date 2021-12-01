@@ -343,6 +343,7 @@ class PresaleProvider with ChangeNotifier {
   /* --------------------------Helper Function--------------------- */
 
   Future<void> setListOrder() async {
+    print("setListOrder");
     try {
 
       presaleOrderInfo.clear();
@@ -356,19 +357,17 @@ class PresaleProvider with ChangeNotifier {
           int.parse('18'),
         ).toStringAsFixed(6);
 
-        print("orderInfo[2] ${AppUtils.timeStampToDate(orderInfo[i].toString())}");
+        dynamic timeStamp = AppUtils().timeStampToDate(int.parse(orderInfo[2].toString()));
 
-        final timeStamp = AppUtils.timeStampToDateTime(orderInfo[2].toString());
         final isClaimed = orderInfo[3];
 
         DateTime date = DateTime.now();
 
-        var dt = DateTime.fromMillisecondsSinceEpoch(int.parse(orderInfo[2].toString()) * 1000);
+        var dt = DateTime.fromMillisecondsSinceEpoch(int.parse(orderInfo[2].toString()) * 10000);
 
         bool isBefore = date.isBefore(dt);
 
-        presaleOrderInfo.add(PresaleOrderInfo(int.parse(orderIds[i].toString()), amt, timeStamp, isBefore, isClaimed),
-        );
+        presaleOrderInfo.add(PresaleOrderInfo(int.parse(orderIds[i].toString()), amt, timeStamp, isBefore, isClaimed));
       }
       notifyListeners();
     } catch (e) {

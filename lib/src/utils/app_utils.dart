@@ -32,8 +32,7 @@ class AppUtils {
 
   static String timeStampToDateTime(String timeStamp) {
     /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
-    final parse = DateTime.parse(timeStamp)
-        .toLocal(); /* Parse Time Stamp String to DateTime Format */
+    final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
     return formatDate(parse, [
       yyyy,
       '/',
@@ -51,12 +50,28 @@ class AppUtils {
     ]); /* Return Real Date Time */
   }
 
-  static String timeStampToDate(String timeStamp) {
+  String timeStampToDate(int timeStamp) {
+    print("My timeStampToDate $timeStamp ${DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000)}");
     try {
 
-      final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
-      print("Parse $parse");
-      return formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
+      // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
+      final parse = new DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+      
+      return formatDate(parse, [
+        yyyy,
+        '/',
+        mm,
+        '/',
+        dd,
+        ' ',
+        hh,
+        ':',
+        nn,
+        ':',
+        ss,
+        ' ',
+        am
+      ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
       print("Error timeStampToDate $e");
     }
