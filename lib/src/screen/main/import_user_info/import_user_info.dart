@@ -60,7 +60,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      final acc = await ApiProvider.sdk.api.keyring.addAccount(
+      await ApiProvider.sdk.api.keyring.addAccount(
         ApiProvider.keyring,
         keyType: KeyType.mnemonic,
         acc: json!,
@@ -69,12 +69,12 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
       final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
-      if (resPk != null) {
-        await ContractProvider().extractAddress(resPk);
+      // if (resPk != null) {
+      // }
+      await ContractProvider().extractAddress(resPk);
 
-        final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
-        await StorageServices().writeSecure('private', res);
-      }
+      final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+      await StorageServices().writeSecure('private', res);
 //1
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();

@@ -38,13 +38,25 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<bool> validateEtherAddress(String address) async {
-    final res = await ApiProvider().validateEther(address);
-    return res;
+    try {
+
+      final res = await ApiProvider().validateEther(address);
+      return res;
+    } catch (e) {
+      print("Error validateEtherAddress $e");
+    }
+    return false;
   }
 
   Future<bool> validateAddress(String address) async {
-    final res = await ApiProvider().validateAddress(address);
-    return res;
+    try {
+
+      final res = await ApiProvider().validateAddress(address);
+      return res;
+    } catch (e) {
+      print("Error validateAddress $e");
+    }
+    return false;
   }
 
   void validateAllFieldNotEmpty() {
@@ -135,14 +147,17 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> submitAsset() async {
+    print("submitAsset");
     try {
     
       setState(() {
         _modelAsset.loading = true;
       });
 
-      final resEther = await validateEtherAddress(_modelAsset.controllerAssetCode.text);
-      final res = await validateAddress(_modelAsset.controllerAssetCode.text);
+      final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
+      print("resEther $resEther");
+      final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
+      print("res address $res");
 
       if (res || resEther) {
         if (res) {
@@ -158,9 +173,7 @@ class AddAssetState extends State<AddAsset> {
             await searchEtherContract();
           } else {
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
-            if (res != null) {
-              _tokenSymbol = res[0].toString();
-            }
+            _tokenSymbol = res[0].toString();
           }
           setState(() {
           
@@ -205,8 +218,7 @@ class AddAssetState extends State<AddAsset> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
               child: Text('Oops'),
             ),
@@ -251,7 +263,7 @@ class AddAssetState extends State<AddAsset> {
   }
 
   String? onChanged(String textChange) {
-    if (_modelAsset.formStateAsset.currentState!.validate()) {
+    if (_modelAsset.controllerAssetCode.text.isNotEmpty) {
       enableButton(true);
     } else {
       enableButton(false);

@@ -1,8 +1,10 @@
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
+import 'package:defichaindart/defichaindart.dart';
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:bip39/bip39.dart' as bip39;
 // import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
 
@@ -139,7 +141,6 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   String? onChanged(String value) {
-    _userInfoM.formStateAddUserInfo.currentState!.validate();
     validateAll();
     return null;
   }
@@ -219,21 +220,19 @@ class MyUserInfoState extends State<MyUserInfo> {
 
         final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
 
-        if (resPk != null) {
-          await ContractProvider().extractAddress(resPk);
-          final res = await ApiProvider().encryptPrivateKey(
-            resPk,
-            _userInfoM.confirmPasswordCon.text,
-          );
+      // if (resPk != null) {
+      // }
+      await ContractProvider().extractAddress(resPk);
 
-          if (res != null) {
-            await StorageServices().writeSecure('private', res);
-          }
-        }
-        await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-        await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-
-        await ContractsBalance().getAllAssetBalance(context: context);
+      final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+      await StorageServices().writeSecure('private', res);
+//1
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
+      await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
+      await queryBtcData();
+      
+      await ContractsBalance().getAllAssetBalance(context: context);
 
         // await Provider.of<ContractProvider>(context, listen: false)
         //     .getEtherAddr();
@@ -284,11 +283,35 @@ class MyUserInfoState extends State<MyUserInfo> {
     }
   }
 
-  void selV2() async {
-    // Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-    //   'SEL v2 (BEP-20)',
-    // );
+  Future<void> queryBtcData() async {
+
+    final contractPro = Provider.of<ContractProvider>(context, listen: false);
+    
+    try {
+      final seed = bip39.mnemonicToSeed(widget.passPhrase);
+      final hdWallet = HDWallet.fromSeed(seed);
+      
+      contractPro.listContract[6].address = hdWallet.address!;
+      
+      final keyPair = ECPair.fromWIF(hdWallet.wif!);
+
+      final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
+      await StorageServices.storeData(bech32Address, 'bech32');
+      await StorageServices.storeData(hdWallet.address, 'hdWallet');
+
+      final res = await ApiProvider().encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
+
+      await StorageServices().writeSecure('btcwif', res);
+
+      // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
+
+      // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
+      // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
+
+    } catch (e) {
+      print("Error queryBtcData $e");
+    }
   }
   // Future<void> isDotContain() async {
   //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
@@ -383,18 +406,10 @@ class MyUserInfoState extends State<MyUserInfo> {
         child: MyUserInfoBody(
           modelUserInfo: _userInfoM,
           onSubmit: onSubmit,
-          onChanged: (String? value) {
-            return onChanged(value!)!;
-          },
-          validateFirstName: (String? value){
-            return validateFirstName(value!)!;
-          },
-          validateMidName: (String? value){
-            return validatePassword(value!)!;
-          },
-          validateLastName: (String? value){
-            return validateConfirmPassword(value!)!;
-          },
+          onChanged: onChanged,
+          validateFirstName: validateFirstName,
+          validateMidName: validatePassword,
+          validateLastName: validateConfirmPassword,
           submitProfile: submitAcc,
           popScreen: popScreen,
           switchBio: switchBiometric,

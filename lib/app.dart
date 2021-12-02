@@ -43,8 +43,6 @@ class AppState extends State<App> {
       // If Data Already Exist
       if (value){
 
-        print("Cache");
-
         // Sort After MarketPrice Filled Into Asset
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 

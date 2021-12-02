@@ -16,7 +16,7 @@ class AddAssetBody extends StatelessWidget {
   final String Function(String)? onChanged;
   final String Function(String)? validateField;
   final Function? onSubmit;
-  final void Function()? submitAsset;
+  final Function? submitAsset;
   final Function? addAsset;
   final Function? qrRes;
   final Function? onChangeDropDown;
@@ -85,7 +85,7 @@ class AddAssetBody extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Form(
-                  key: assetM!.formStateAsset,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -219,7 +219,10 @@ class AddAssetBody extends StatelessWidget {
                 textButton: "Submit",
                 edgeMargin: const EdgeInsets.only(left: 66, right: 66),
                 hasShadow: assetM!.enable,
-                action: assetM!.enable ? submitAsset : null,
+                action: !assetM!.enable ? null : () async {
+                  print("Hello submit");
+                  await submitAsset!();
+                }//assetM!.enable ? submitAsset : null,
               )
             ],
           ),

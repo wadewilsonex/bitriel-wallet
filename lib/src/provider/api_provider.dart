@@ -261,7 +261,6 @@ class ApiProvider with ChangeNotifier {
     print("getBtcBalance");
     try {
       int totalSatoshi = 0;
-      print("contract.listContract[6].address! ${contract.listContract[6].address!}");
       final res = await getAddressUxto(contract.listContract[6].address!);
 
       if (res.length == 0) {
@@ -346,8 +345,16 @@ class ApiProvider with ChangeNotifier {
   }
   
   Future<bool> validateEther(String address) async {
-    dynamic res = sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
-    return res;
+    print("validateEther");
+    try {
+
+      dynamic res = await sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
+      print("$res");
+      return res;
+    } catch (e) {
+      print("Error validateEther $e");
+    }
+    return false;
   }
 
   Future<String> getPrivateKey(String mnemonic) async {

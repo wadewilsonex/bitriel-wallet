@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/provider/contract_provider.dart';
 import '../../index.dart';
 
 class MarketProvider with ChangeNotifier {
+
   List<String> id = [
     'kiwigo',
     'ethereum',

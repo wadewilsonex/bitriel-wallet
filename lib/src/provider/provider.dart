@@ -34,7 +34,7 @@ class ContractsBalance {
       await apiProvider.getBtcBalance(context: context);
 //4
       /// Fetch and Fill Market Price Into Asset
-      // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+      await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
       // await isBtcContain(context: context);
 
@@ -76,33 +76,44 @@ class ContractsBalance {
 
     print("refetchContractBalance");
     
-    for (int i = 0; i< conProvider.sortListContract.length; i++){
-      balance = 0;
-      print("conProvider.sortListContract[i] ${conProvider.sortListContract[i].symbol} ${conProvider.sortListContract[i].org}");
-      if (conProvider.sortListContract[i].org == "ERC-20"){
-        balance = await conProvider.queryEther(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-      } else if (conProvider.sortListContract[i].org == "BEP-20") {
-        print("BEP-20 ${conProvider.sortListContract[i].address.toString()}");
-        if (conProvider.sortListContract[i].symbol == "KGO"){
-          // balance = await conProvider.getKgo.getTokenBalance(EthereumAddress.fromHex(conProvider.ethAdd));;
-        } else {
-          balance = await conProvider.query(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-        }
-      } else if (conProvider.sortListContract[i].symbol == 'BNB') {
-        await conProvider.bnbWallet();
-      } else if (conProvider.sortListContract[i].symbol == 'DOT'){
-        await apiProvider.subscribeDotBalance(context: context);
-      } else if (conProvider.sortListContract[i].symbol == 'BTC') {
-        await apiProvider.getBtcBalance(context: context);
+    // for (int i = 0; i< conProvider.sortListContract.length; i++){
+    //   balance = 0;
+    //   print("conProvider.sortListContract[i] ${conProvider.sortListContract[i].symbol} ${conProvider.sortListContract[i].org}");
+    //   if (conProvider.sortListContract[i].org == "ERC-20"){
+    //     balance = await conProvider.queryEther(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    //   } else if (conProvider.sortListContract[i].org == "BEP-20") {
+    //     print("BEP-20 ${conProvider.sortListContract[i].address.toString()}");
+    //     if (conProvider.sortListContract[i].symbol == "KGO"){
+    //       // balance = await conProvider.getKgo.getTokenBalance(EthereumAddress.fromHex(conProvider.ethAdd));;
+    //     } else {
+    //       balance = await conProvider.query(conProvider.sortListContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    //     }
+    //   } else if (conProvider.sortListContract[i].symbol == 'BNB') {
+    //     await conProvider.bnbWallet();
+    //   } else if (conProvider.sortListContract[i].symbol == 'DOT'){
+    //     await apiProvider.subscribeDotBalance(context: context);
+    //   } else if (conProvider.sortListContract[i].symbol == 'BTC') {
+    //     await apiProvider.getBtcBalance(context: context);
+    //   }
+    //   print("Balance ${balance.toString()}");
+    // }
+    conProvider.addedContract.forEach((element) async {
+      print("Element ${element.symbol}");
+      if (element.org == "ERC-20"){
+        balance = await conProvider.queryEther(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+      } else {
+        balance = await conProvider.query(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
       }
-      print("Balance ${balance.toString()}");
-      // conProvider.sortListContract[i].balance = Fmt.bigIntToDouble(
-      //   balance[0] as BigInt,
-      //   int.parse(conProvider.sortListContract[i].chainDecimal.toString()),
-      // ).toString();
-    }
+      element.balance = Fmt.bigIntToDouble(
+        balance[0] as BigInt,
+        int.parse(element.chainDecimal.toString()),
+      ).toString();
+    });
+
+    await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
     await StorageServices.storeAssetData(context);
+
     // if (network == 'Ethereum'){
       
     //   symbol = await queryEther(contractAddr, 'symbol', []);

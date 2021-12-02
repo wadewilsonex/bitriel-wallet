@@ -140,8 +140,8 @@ class HomeBody extends StatelessWidget {
               )
             // Loading Data Effect Shimmer
             : MyShimmer(
-                isDarkTheme: isDarkTheme,
-              );
+              isDarkTheme: isDarkTheme,
+            );
         }),
       ],
     );

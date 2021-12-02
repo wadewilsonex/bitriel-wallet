@@ -7,12 +7,12 @@ class MyUserInfoBody extends StatelessWidget {
   final Function? popScreen;
   final Function? switchBio;
   final MenuModel? model;
-  final String Function(String)? onChanged;
-  final String Function(String)? validateFirstName;
-  final String Function(String)? validateMidName;
-  final String Function(String)? validateLastName;
-  final void Function()? submitProfile;
-  final PopupMenuItem Function(Map<String, dynamic>)? item;
+  final Function? onChanged;
+  final Function? validateFirstName;
+  final Function? validateMidName;
+  final Function? validateLastName;
+  final Function? submitProfile;
+  final Function? item;
 
   const MyUserInfoBody({
     this.modelUserInfo,
@@ -45,7 +45,7 @@ class MyUserInfoBody extends StatelessWidget {
         Container(
             margin: const EdgeInsets.only(top: 20),
             child: Form(
-              key: modelUserInfo!.formStateAddUserInfo,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -124,7 +124,9 @@ class MyUserInfoBody extends StatelessWidget {
                       ),
                       inputFormatters: [LengthLimitingTextInputFormatter(4)],
                       /* Limit Length Of Text Input */
-                      onChanged: onChanged,
+                      onChanged: (String? value){
+                        return onChanged!(value);
+                      },
                       onFieldSubmitted: (value) {
                         onSubmit!();
                       },
@@ -192,7 +194,9 @@ class MyUserInfoBody extends StatelessWidget {
                         ),
                         inputFormatters: [LengthLimitingTextInputFormatter(4)],
                         /* Limit Length Of Text Input */
-                        onChanged: onChanged,
+                        onChanged: (String? value){
+                          return onChanged!(value);
+                        },
                         onFieldSubmitted: (value) {
                           onSubmit!();
                         },
