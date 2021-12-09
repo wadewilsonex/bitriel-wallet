@@ -28,7 +28,7 @@ class ContractsBalance {
       await contractProvider.ethWallet();
       await contractProvider.bnbWallet();
 
-      await Attendance().getAttBalance(context: context);
+      // await Attendance().getAttBalance(context: context); // Disable For Mainnet
 //2
       // This Method Is Also Request Polkadot Contract
       await apiProvider.getBtcBalance(context: context);

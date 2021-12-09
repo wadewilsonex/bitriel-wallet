@@ -61,9 +61,11 @@ class AppConfig {
     )
   ];
 
-  //static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
+  static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
+  static const selV1TestnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
 
-  //static const selv2MainnetAddr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+  static const selv2MainnetAddr = '0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C';
+  static const selv2TestnetAddr = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
 
   //static const kgoAddr = '0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773';
 

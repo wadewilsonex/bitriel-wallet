@@ -89,7 +89,6 @@ class ContractProvider with ChangeNotifier {
   EthereumAddress getEthAddr(String address) => EthereumAddress.fromHex(address);
 
   ContractProvider() {
-    print("Init contractProvider ethAdd == '' ${ethAdd == ''}");
     initSwapContract();
     initJson();
   }
@@ -122,9 +121,9 @@ class ContractProvider with ChangeNotifier {
         );
       });
 
-      listContract.forEach((element) {
-        print("${element.symbol} ${element.balance}");
-      });
+      // listContract.forEach((element) {
+      //   print("${element.symbol} ${element.balance}");
+      // });
 
     } catch (e) {
       print("Error initJson $e");
@@ -159,24 +158,22 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN!, _httpClient!,
-        socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlTN!)
-          .cast<String>();
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN!, _httpClient!, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN!).cast<String>();
     });
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN!, _httpClient!,
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN!, _httpClient!,
       socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN!).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN!).cast<String>();
     });
   }
 
   Future<void> initSwapContract() async {
     await initBscClient();
-    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.swapTestContract);
+    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.swapMainnetAddr);
     _swap = new ContractService(_bscClient!, _contract);
   }
 
@@ -234,7 +231,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selV1MainnetAddr);//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
       //final contract = await initBsc(listContract[0].address);
       _selToken = new ContractService(_bscClient!, contract);
 
@@ -262,11 +259,10 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> selv2TokenWallet() async {
-    print("selV2TokenWallet");
     try {
 
       await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C');//listContract[1].address!);
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selv2MainnetAddr);//listContract[1].address!);
       //final contract = await initBsc(listContract[1].address);
       _selV2 = new ContractService(_bscClient!, contract);
 
@@ -285,7 +281,7 @@ class ContractProvider with ChangeNotifier {
       listContract[1].chainDecimal = chainDecimal.toString();
       listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]); //
       
-      listContract[1].address = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';chainDecimal.toString();
+      listContract[1].address = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
       notifyListeners();
     } catch (e) {
       print("Error selv2TokenWallet $e");
@@ -293,7 +289,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> kgoTokenWallet() async {
-    print("kgoTokenWallet");
     try {
 
       await initBscClient();
@@ -636,7 +631,7 @@ class ContractProvider with ChangeNotifier {
         to: contract.address,
         data: ethFunction.encodeCall(
           [
-            EthereumAddress.fromHex(AppConfig.swapTestContract),
+            EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
             BigInt.parse('1000000000000000042420637374017961984'),
           ],
         ),
@@ -651,7 +646,7 @@ class ContractProvider with ChangeNotifier {
           gasPrice: gasPrice,
           maxGas: maxGas.toInt(),
           parameters: [
-            EthereumAddress.fromHex(AppConfig.swapTestContract),
+            EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
             BigInt.parse('1000000000000000042420637374017961984'),
           ],
         ),
@@ -676,7 +671,7 @@ class ContractProvider with ChangeNotifier {
         'allowance',
         [
           EthereumAddress.fromHex(ethAddr!),
-          EthereumAddress.fromHex(AppConfig.swapTestContract)
+          EthereumAddress.fromHex(AppConfig.swapMainnetAddr)
         ],
       );
 
@@ -690,7 +685,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await initSwapSel(AppConfig.swapTestContract);
+      final contract = await initSwapSel(AppConfig.swapMainnetAddr);
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
 

@@ -21,11 +21,6 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin aes_ecb_pkcs5_flutter, com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin", e);
     }
     try {
-      flutterEngine.getPlugins().add(new design.codeux.biometric_storage.BiometricStoragePlugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin biometric_storage, design.codeux.biometric_storage.BiometricStoragePlugin", e);
-    }
-    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.connectivity.ConnectivityPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin connectivity, io.flutter.plugins.connectivity.ConnectivityPlugin", e);
@@ -123,7 +118,7 @@ public final class GeneratedPluginRegistrant {
     try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());
     } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin url_launcher, io.flutter.plugins.urllauncher.UrlLauncherPlugin", e);
+      Log.e(TAG, "Error registering plugin url_launcher_android, io.flutter.plugins.urllauncher.UrlLauncherPlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new com.benjaminabel.vibration.VibrationPlugin());

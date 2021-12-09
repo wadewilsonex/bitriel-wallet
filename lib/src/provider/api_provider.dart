@@ -39,10 +39,6 @@ class ApiProvider with ChangeNotifier {
 
   AccountM accountM = AccountM();
 
-  NetworkParams? _connectedNode;
-  
-  PolkawalletPlugin? _network;
-
   String? _jsCode;
 
   SmartContractModel nativeM = SmartContractModel(

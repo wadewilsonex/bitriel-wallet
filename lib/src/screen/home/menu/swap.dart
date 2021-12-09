@@ -568,65 +568,63 @@ class _SwapState extends State<Swap> {
                                         bottom: 4.0,
                                       ),
 
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.bottomLeft,
-                                          child: TextFormField(
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(TextField.noMaxLength),
-                                              FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
-                                            ],
-                                            controller: _amountController,
-                                            keyboardType: Platform.isAndroid
-                                              ? TextInputType.number
-                                              : TextInputType.text,
-                                            textInputAction: TextInputAction.done,
-                                            style: TextStyle(
-                                              color: isDarkTheme
-                                                ? hexaCodeToColor(AppColors.whiteColorHexa)
-                                                : hexaCodeToColor(AppColors.textColor),
-                                              fontSize: 18.0
-                                            ),
-                                            decoration: InputDecoration(
-                                              suffixIcon: GestureDetector(
-                                                onTap: () async {
-                                                  await fetchMax();
-                                                },
-                                                child: MyText(
-                                                  text: 'Max',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: AppColors.secondarytext,
-                                                ),
-                                              ),
-                                              prefixIconConstraints: BoxConstraints(
-                                                minWidth: 0,
-                                                minHeight: 0,
-                                              ),
-                                              border: InputBorder.none,
-                                              hintText: '0.00',
-                                              hintStyle: TextStyle(
-                                                fontSize: 20.0,
-                                                color: isDarkTheme
-                                                  ? hexaCodeToColor(AppColors.darkSecondaryText)
-                                                  : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
-                                              ),
-                                            ),
-                                            validator: (value) => value!.isEmpty
-                                              ? 'Please fill in amount'
-                                              : null,
-                                            /* Limit Length Of Text Input */
-                                            onChanged: (String value) {
-                                              if (value.isNotEmpty) {
-                                                setState(() {});
-                                                _enableBtn = true;
-                                              } else {
-                                                setState(() {});
-                                                _enableBtn = false;
-                                              }
-                                            },
-                                            onFieldSubmitted: (value) {},
+                                      Container(
+                                        // alignment: Alignment.bottomLeft,
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            LengthLimitingTextInputFormatter(TextField.noMaxLength),
+                                            FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+                                          ],
+                                          controller: _amountController,
+                                          keyboardType: Platform.isAndroid
+                                            ? TextInputType.number
+                                            : TextInputType.text,
+                                          textInputAction: TextInputAction.done,
+                                          style: TextStyle(
+                                            color: isDarkTheme
+                                              ? hexaCodeToColor(AppColors.whiteColorHexa)
+                                              : hexaCodeToColor(AppColors.textColor),
+                                            fontSize: 18.0
                                           ),
+                                          decoration: InputDecoration(
+                                            suffixIcon: GestureDetector(
+                                              onTap: () async {
+                                                await fetchMax();
+                                              },
+                                              child: MyText(
+                                                text: 'Max',
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.secondarytext,
+                                              ),
+                                            ),
+                                            prefixIconConstraints: BoxConstraints(
+                                              minWidth: 0,
+                                              minHeight: 0,
+                                            ),
+                                            border: InputBorder.none,
+                                            hintText: '0.00',
+                                            hintStyle: TextStyle(
+                                              fontSize: 20.0,
+                                              color: isDarkTheme
+                                                ? hexaCodeToColor(AppColors.darkSecondaryText)
+                                                : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
+                                            ),
+                                          ),
+                                          validator: (value) => value!.isEmpty
+                                            ? 'Please fill in amount'
+                                            : null,
+                                          /* Limit Length Of Text Input */
+                                          onChanged: (String value) {
+                                            if (value.isNotEmpty) {
+                                              setState(() {});
+                                              _enableBtn = true;
+                                            } else {
+                                              setState(() {});
+                                              _enableBtn = false;
+                                            }
+                                          },
+                                          onFieldSubmitted: (value) {},
                                         ),
                                       )
                                     ],

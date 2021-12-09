@@ -17,6 +17,7 @@
 #import "LocationServiceStreamHandler.h"
 #import "PermissionHandler.h"
 #import "PositionStreamHandler.h"
+#import "ActivityTypeMapper.h"
 #import "AuthorizationStatusMapper.h"
 #import "LocationAccuracyMapper.h"
 #import "LocationDistanceMapper.h"

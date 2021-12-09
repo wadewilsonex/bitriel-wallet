@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.16+39
+version: 3.0.0+40
 #6 feature
 #8 debug
 #1 refactor
@@ -89,7 +89,7 @@ dependencies:
   #     url: https://github.com/polkawallet-io/polkawallet_plugin_kusama.git
   #     ref: e9e7c2546a1a6241c55a064d2fa57987a9265051
   web_socket_channel:
-  biometric_storage:
+  # biometric_storage:
   get_storage: 
     # path: ../
   animations:
