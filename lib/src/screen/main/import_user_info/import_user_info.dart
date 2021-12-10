@@ -263,12 +263,13 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
     // Trigger Authentication By Finger Print
     // ignore: join_return_with_assignment
-    _menuModel!.authenticated = await _localAuth.authenticate(
-      localizedReason: 'Please complete the biometrics to proceed.',
-      stickyAuth: true,
-    );
+    // _menuModel!.authenticated = await _localAuth.authenticate(
+    //   localizedReason: 'Please complete the biometrics to proceed.',
+    //   stickyAuth: true,
+    // );
 
-    return _menuModel!.authenticated!;
+    // return _menuModel!.authenticated!;
+    return false;
   }
 
   void popScreen() {

@@ -4,6 +4,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case AppString.splashScreenView:
       return RouteAnimation(enterPage: MySplashScreen());
+    case AppString.localAuth:
+      return RouteAnimation(enterPage: FingerPrint());
     case AppString.accountView:
       return RouteAnimation(enterPage: Account());
     case AppString.contactBookView:

@@ -21,46 +21,46 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     try {
       await Future.delayed(const Duration(milliseconds: 1000), () async {
 
-        Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
-        // final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
+        // Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+        final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
 
-        // if (ls.isEmpty) {
-        //   Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
-        // } else {
-        //   final ethAddr = await StorageServices().readSecure('etherAdd');
+        if (ls.isEmpty) {
+          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+        } else {
+          final ethAddr = await StorageServices().readSecure('etherAdd');
 
-        //   print("ethAddr $ethAddr");
+          print("ethAddr $ethAddr");
 
-        //   if (ethAddr == null) {
-        //     await dialogSuccess(
-        //       context,
-        //       const Padding(
-        //         padding: EdgeInsets.only(left: 20, right: 20),
-        //         child: Text(
-        //           'Please reimport your seed phrases to add support to new update.',
-        //           textAlign: TextAlign.center,
-        //         )
-        //       ),
-        //       const Text('New Update!'),
-        //       action: TextButton(
-        //         onPressed: () {
-        //           Navigator.pushReplacement(
-        //             context,
-        //             RouteAnimation(
-        //               enterPage: const ImportAcc(
-        //                 reimport: 'reimport',
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //         child: const MyText(text: 'Continue', color: AppColors.secondarytext),
-        //       ),
-        //     );
-        //   } else {
-        //     await checkBio();
-        //     // checkBio();
-        //   }
-        // }
+          if (ethAddr == null) {
+            await dialogSuccess(
+              context,
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  'Please reimport your seed phrases to add support to new update.',
+                  textAlign: TextAlign.center,
+                )
+              ),
+              const Text('New Update!'),
+              action: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    RouteAnimation(
+                      enterPage: const ImportAcc(
+                        reimport: 'reimport',
+                      ),
+                    ),
+                  );
+                },
+                child: const MyText(text: 'Continue', color: AppColors.secondarytext),
+              ),
+            );
+          } else {
+            await checkBio();
+            // checkBio();
+          }
+        }
       });
     } catch (e) {
       print("Error Splash screen $e");

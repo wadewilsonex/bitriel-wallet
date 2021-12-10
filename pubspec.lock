@@ -352,7 +352,7 @@ packages:
       name: fl_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.40.5"
+    version: "0.40.6"
   flare_flutter:
     dependency: "direct main"
     description:
@@ -780,7 +780,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.7"
+    version: "2.0.8"
   path_provider_android:
     dependency: transitive
     description:
@@ -838,12 +838,12 @@ packages:
     source: hosted
     version: "3.4.0"
   permission_handler:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "8.3.0"
   permission_handler_platform_interface:
     dependency: transitive
     description:
@@ -997,7 +997,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.10"
   shared_preferences_android:
     dependency: transitive
     description:
@@ -1275,7 +1275,7 @@ packages:
       name: webview_flutter_wkwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.7.0"
+    version: "2.7.1"
   win32:
     dependency: transitive
     description:

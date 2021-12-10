@@ -81,7 +81,7 @@ dependencies:
 
   # Authentication & Verification
   local_auth:
-  permission_handler:
+  # permission_handler:
 
   #for secure wallet function
   # polkawallet_plugin_kusama:
@@ -95,9 +95,7 @@ dependencies:
   animations:
   provider:
   web3dart: 
-  # bitcoin_flutter:
   bip39:
-  # bip32:
   # dart_ecpair:
   defichaindart:
 
@@ -127,6 +125,7 @@ dependency_overrides:
      git:
        url: https://github.com/google/charts
        path: charts_flutter
+  permission_handler: ^8.3.0
   # flutter_aes_ecb_pkcs5_fork: ^0.1.4
 
 dev_dependencies:

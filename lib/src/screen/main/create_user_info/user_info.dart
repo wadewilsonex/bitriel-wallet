@@ -116,13 +116,14 @@ class MyUserInfoState extends State<MyUserInfo> {
   }
 
   Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
-    try {
-      // Trigger Authentication By Finger Print
-      _menuModel.authenticated =
-          await _localAuth.authenticate(localizedReason: '', stickyAuth: true);
-      // ignore: empty_catches
-    } on PlatformException {}
-    return _menuModel.authenticated!;
+    // try {
+    //   // Trigger Authentication By Finger Print
+    //   _menuModel.authenticated =
+    //       await _localAuth.authenticate(localizedReason: '', stickyAuth: true);
+    //   // ignore: empty_catches
+    // } on PlatformException {}
+    // return _menuModel.authenticated!;
+    return false;
   }
 
   void popScreen() {

@@ -154,12 +154,8 @@ class _AddContactState extends State<AddContact> {
         height: MediaQuery.of(context).size.height,
         child: AddContactBody(
           model: _addContactModel,
-          validateAddress: (String? value){
-            return validateAddress(value)!;
-          },
-          onChanged: (String? value){
-            return onChanged(value!)!;
-          },
+          validateAddress: validateAddress,
+          onChanged: onChanged,
           onSubmit: onSubmit,
           submitContact: submitContact,
         ),

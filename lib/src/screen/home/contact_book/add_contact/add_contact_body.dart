@@ -5,9 +5,9 @@ import 'package:wallet_apps/src/models/contact_book_m.dart';
 
 class AddContactBody extends StatelessWidget {
   final ContactBookModel? model;
-  final String Function(String)? validateAddress;
-  final void Function()? submitContact;
-  final String Function(String)? onChanged;
+  final Function? validateAddress;
+  final Function? submitContact;
+  final Function? onChanged;
   final Function? onSubmit;
 
   const AddContactBody({

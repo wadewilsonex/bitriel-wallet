@@ -115,45 +115,45 @@ class AppServices {
 
   Future<bool> checkBiometrics(BuildContext context) async {
     bool canCheckBiometrics = false;
-    try {
-      // Check For Support Device
-      bool support = await LocalAuthentication().isDeviceSupported();
-      if (support) {
-        canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
-      } else {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: MyText(
-                  text: "Oops",
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text("Your doesn't support finger print",
-                    textAlign: TextAlign.center),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
-      }
+    // try {
+    //   // Check For Support Device
+    //   bool support = await LocalAuthentication().isDeviceSupported();
+    //   if (support) {
+    //     canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
+    //   } else {
+    //     await showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           shape: RoundedRectangleBorder(
+    //               borderRadius: BorderRadius.circular(10.0)),
+    //           title: Align(
+    //             child: MyText(
+    //               text: "Oops",
+    //               fontWeight: FontWeight.w600,
+    //             ),
+    //           ),
+    //           content: Padding(
+    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+    //             child: Text("Your doesn't support finger print",
+    //                 textAlign: TextAlign.center),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               onPressed: () => Navigator.pop(context),
+    //               child: const Text('Close'),
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   }
 
-      // ignore: unused_catch_clause
-    } on PlatformException catch (e) {
-      // print("Erorr $e");
-      // canCheckBiometrics = false;
-    }
+    //   // ignore: unused_catch_clause
+    // } on PlatformException catch (e) {
+    //   // print("Erorr $e");
+    //   // canCheckBiometrics = false;
+    // }
 
     return canCheckBiometrics;
   }

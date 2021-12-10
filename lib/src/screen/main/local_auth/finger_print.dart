@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class FingerPrint extends StatefulWidget {
+
+  final String localAuth = "/localAuth";
   @override
   _FingerPrintState createState() => _FingerPrintState();
 }
