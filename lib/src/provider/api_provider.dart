@@ -2,28 +2,27 @@ import 'dart:math';
 // import 'package:flutter_aes_ecb_pkcs5_fork/flutter_aes_ecb_pkcs5_fork.dart';
 import 'package:aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.dart';
 import 'package:defichaindart/defichaindart.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
-import 'package:polkawallet_sdk/plugin/index.dart';
-// import 'package:polkawallet_sdk/kabob_sdk.dart';
+// import 'package:polkawallet_sdk/kabob__sdk.dart';
 import 'package:polkawallet_sdk/polkawallet_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/consts.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 // import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:http/http.dart' as http;
-import 'package:wallet_apps/src/service/walletApi.dart';
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
   
-  static WalletSDK sdk = WalletSDK();
+  WalletSDK _sdk = WalletSDK();
 
-  static Keyring keyring = Keyring();
+  Keyring _keyring = Keyring();
+
+  Keyring get getKeyring => _keyring;
+  WalletSDK get getSdk => _sdk;
 
   static const int bitcoinDigit = 8;
 
@@ -38,10 +37,6 @@ class ApiProvider with ChangeNotifier {
   ContractProvider? contractProvider;
 
   AccountM accountM = AccountM();
-
-  NetworkParams? _connectedNode;
-  
-  PolkawalletPlugin? _network;
 
   String? _jsCode;
 
@@ -63,11 +58,13 @@ class ApiProvider with ChangeNotifier {
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
-      await keyring.init([0, 42]);
-      await sdk.init(keyring, jsCode: _jsCode);
+      await _keyring.init([0, 42]);
+      await _sdk.init(_keyring, jsCode: _jsCode);
 
       connectPolNon(context: context);
       connectSELNode(context: context);
+      
+      notifyListeners();
 
     } catch (e) {
       print("Error initApi $e");
@@ -83,7 +80,7 @@ class ApiProvider with ChangeNotifier {
       node.endpoint = AppConfig.networkList[0].wsUrlTN;
       node.ss58 = 42;
 
-      final res = await sdk.api.connectNode(keyring, [node]);
+      final res = await _sdk.api.connectNode(_keyring, [node]);
 
       await getSelNativeChainDecimal(context: context!);
 
@@ -102,7 +99,7 @@ class ApiProvider with ChangeNotifier {
 
       final node = NetworkParams();
       node.name = 'Polkadot(Live, hosted by PatractLabs)';
-      node.endpoint = 'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
+      node.endpoint = AppConfig.networkList[1].wsUrlMN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
       node.ss58 = 0;
 
       // final node = NetworkParams();
@@ -110,7 +107,7 @@ class ApiProvider with ChangeNotifier {
       // node.endpoint = 'wss://polkadot.elara.patract.io';
       // node.ss58 = 0;
 
-      res = await sdk.api.connectNode(keyring, [node]);
+      res = await _sdk.api.connectNode(_keyring, [node]);
 
       await getDotChainDecimal(context: context!);
 
@@ -304,7 +301,7 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void isBtcAvailable(String contain, {@required BuildContext? context}) {
+  void isBtcAvailable(String? contain, {@required BuildContext? context}) {
     final con = Provider.of<ContractProvider>(context!, listen: false);
     if (contain != null) {
       con.listContract[6].isContain = true;
@@ -336,7 +333,7 @@ class ApiProvider with ChangeNotifier {
     dynamic res;
     try {
 
-      res = await sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
+      res = await _sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
       return res;
     } catch (e) {
       print("Error validateMnemonic $e");
@@ -348,7 +345,7 @@ class ApiProvider with ChangeNotifier {
     print("validateEther");
     try {
 
-      dynamic res = await sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
+      dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
       print("$res");
       return res;
     } catch (e) {
@@ -360,7 +357,7 @@ class ApiProvider with ChangeNotifier {
   Future<String> getPrivateKey(String mnemonic) async {
     try {
 
-      final res = await sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider.sdk.api.getPrivateKey(mnemonic);
+      final res = await _sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider._sdk.api.getPrivateKey(mnemonic);
       return res;
     } catch (e) {
       print("Error getPrivateKey $e");
@@ -371,7 +368,7 @@ class ApiProvider with ChangeNotifier {
   Future<bool> validateAddress(String address) async {
     try {
 
-      final res = await sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
+      final res = await _sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
       print("res $res");
       return res;
     } catch (e) {
@@ -386,7 +383,7 @@ class ApiProvider with ChangeNotifier {
       
       // final contract = Provider.of<ContractProvider>(context!, listen: false);
 
-      final res = await sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
+      final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
       nativeM.chainDecimal = res[0].toString();
       await subSELNativeBalance(context: context);
 
@@ -400,7 +397,7 @@ class ApiProvider with ChangeNotifier {
     try {
 
       // final contract = Provider.of<ContractProvider>(context!, listen: false);
-      await sdk.api.account.subscribeBalance(keyring.current.address, (res) {
+      await _sdk.api.account.subscribeBalance(_keyring.current.address, (res) {
         nativeM.balance = Fmt.balance(
           res.freeBalance.toString(),
           int.parse(nativeM.chainDecimal!),
@@ -416,7 +413,7 @@ class ApiProvider with ChangeNotifier {
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
     try {
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
-      final res = await sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
+      final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
       contract.listContract[5].chainDecimal = res[0].toString();
 
       await subscribeDotBalance(context: context);
@@ -432,9 +429,9 @@ class ApiProvider with ChangeNotifier {
 
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       // final msgChannel = 'NBalance';
-      // final code = 'account.getBalance(api, "${keyring.current.address}", "$msgChannel")';
+      // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
 
-      await sdk.api.account.subscribeBalance(keyring.current.address, (res){
+      await _sdk.api.account.subscribeBalance(_keyring.current.address, (res){
 
         contract.listContract[5].balance = Fmt.balance(
           res.freeBalance.toString(),
@@ -454,8 +451,8 @@ class ApiProvider with ChangeNotifier {
   Future<void> getAddressIcon() async {
     try {
 
-      final res = await sdk.api.account.getPubKeyIcons(
-        [keyring.keyPairs[0].pubKey!],
+      final res = await _sdk.api.account.getPubKeyIcons(
+        [_keyring.keyPairs[0].pubKey!],
       );
 
       accountM.addressIcon = res.toString();
@@ -466,19 +463,19 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount() async {
-    accountM.address = keyring.current.address;
-    print("getCurrentAccount ${keyring.current.address}");
-    accountM.name = keyring.current.name;
+    accountM.address = _keyring.current.address;
+    print("getCurrentAccount ${_keyring.current.address}");
+    accountM.name = _keyring.current.name;
     notifyListeners();
   }
 
   Future<List> getCheckInList(String attender) async {
-    final res = await sdk.api.service.webView!.evalJavascript('settings.getCheckInList(aContract,"$attender")');
+    final res = await _sdk.api.service.webView!.evalJavascript('settings.getCheckInList(aContract,"$attender")');
     return res;
   }
 
   Future<List> getCheckOutList(String attender) async {
-    final res = await sdk.api.service.webView!.evalJavascript('settings.getCheckOutList(aContract,"$attender")');
+    final res = await _sdk.api.service.webView!.evalJavascript('settings.getCheckOutList(aContract,"$attender")');
     return res;
   }
 
@@ -501,19 +498,19 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<Map> signAndSendDot(Map txInfo, String params, password, Function(String) onStatusChange) async {
-    final msgId = "onStatusChange${sdk.webView!.getEvalJavascriptUID()}";
-    sdk.webView!.addMsgHandler(msgId, onStatusChange);
-    final code = 'keyring.sendTx(apiNon, ${jsonEncode(txInfo)}, $params, "$password", "$msgId")';
+    final msgId = "onStatusChange${_sdk.webView!.getEvalJavascriptUID()}";
+    _sdk.webView!.addMsgHandler(msgId, onStatusChange);
+    final code = '_keyring.sendTx(apiNon, ${jsonEncode(txInfo)}, $params, "$password", "$msgId")';
 
-    final Map res = await sdk.webView!.evalJavascript(code);
-    sdk.webView!.removeMsgHandler(msgId);
+    final Map res = await _sdk.webView!.evalJavascript(code);
+    _sdk.webView!.removeMsgHandler(msgId);
 
     return res;
   }
 
   /// Generate a set of new mnemonic.
   Future<String> generateMnemonic() async {
-    final Map<String, dynamic> acc = await sdk.webView!.evalJavascript('keyring.gen()');
+    final Map<String, dynamic> acc = await _sdk.webView!.evalJavascript('_keyring.gen()');
     return acc['mnemonic'];
   }
 

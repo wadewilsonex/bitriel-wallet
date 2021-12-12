@@ -2,8 +2,6 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:polkawallet_sdk/polkawallet_sdk.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/config/app_config.dart';
 import 'package:wallet_apps/src/constants/asset_path.dart';
@@ -33,10 +31,6 @@ class ContractProvider with ChangeNotifier {
   Stream<String>? stream;
 
   List<TokenModel>? token = [];
-
-  final WalletSDK sdk = ApiProvider.sdk;
-
-  final Keyring keyring = ApiProvider.keyring;
 
   String ethAdd = '';
   bool? std;
@@ -773,7 +767,7 @@ class ContractProvider with ChangeNotifier {
 
     await initBscClient();
     print("extractAddress");
-    final credentials = await EthPrivateKey.fromHex(privateKey);
+    final EthPrivateKey? credentials = await EthPrivateKey.fromHex(privateKey);
 
     if (credentials != null) {
       final addr = await credentials.extractAddress();
@@ -994,6 +988,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> addToken(String symbol, BuildContext context, {String? contractAddr, String? network}) async {
+    
     try {
 
       if (symbol == 'SEL') {
@@ -1025,7 +1020,7 @@ class ContractProvider with ChangeNotifier {
           
           await StorageServices.saveBool('DOT', true);
 
-          await ApiProvider().connectPolNon(context: context);
+          await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
           //Provider.of<ApiProvider>(context, listen: false).isDotContain();
           Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
         }
@@ -1187,7 +1182,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> removeEtherToken(String symbol, BuildContext context) async {
-    final mContractAddr = findContractAddr(symbol);
+    final String? mContractAddr = findContractAddr(symbol);
     if (mContractAddr != null) {
       await StorageServices.removeEthContractAddr(mContractAddr);
       token!.removeWhere(

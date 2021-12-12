@@ -163,7 +163,7 @@ class AppServices {
     String privateKey;
     try {
       final encrytKey = await StorageServices().readSecure('private');
-      privateKey = await ApiProvider().decryptPrivateKey(encrytKey!, pin);
+      privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
       await customDialog(context, 'Opps', 'PIN verification failed');
       return e.toString();

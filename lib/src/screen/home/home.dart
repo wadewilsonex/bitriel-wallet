@@ -108,7 +108,6 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
         break;
       case AppLifecycleState.detached:
-        // TODO: Handle this case.
         print('detached');
         break;
     }

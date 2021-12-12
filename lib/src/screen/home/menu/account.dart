@@ -102,9 +102,12 @@ class _AccountState extends State<Account> {
   Future<void> _deleteAccount() async {
 
     dialogLoading(context);
+
+    final _api = await Provider.of<ApiProvider>(context, listen: false);
+    
     try {
-      await ApiProvider.sdk.api.keyring.deleteAccount(
-        ApiProvider.keyring,
+      await _api.getSdk.api.keyring.deleteAccount(
+        _api.getKeyring,
         _currentAcc!,
       );
 
@@ -132,8 +135,9 @@ class _AccountState extends State<Account> {
 
   Future<void> getBackupKey(String pass) async {
     Navigator.pop(context);
+    final _api = await Provider.of<ApiProvider>(context, listen: false);
     try {
-      final pairs = await KeyringPrivateStore([0, 42]).getDecryptedSeed(ApiProvider.keyring.keyPairs[0].pubKey, pass);
+      final pairs = await KeyringPrivateStore([0, 42]).getDecryptedSeed(_api.getKeyring.keyPairs[0].pubKey, pass);
 
       if (pairs!['seed'] != null) {
         await showDialog(
@@ -174,9 +178,9 @@ class _AccountState extends State<Account> {
     setState(() {
       _loading = true;
     });
-    final res = await ApiProvider.sdk.api.keyring
-        .changePassword(ApiProvider.keyring, oldPass, newPass);
-    if (res != null) {
+    final res = await Provider.of<ApiProvider>(context, listen: false);
+    final changePass = await res.getSdk.api.keyring.changePassword(res.getKeyring, oldPass, newPass);
+    if (changePass != null) {
       await showDialog(
         context: context,
         builder: (context) {
@@ -263,7 +267,7 @@ class _AccountState extends State<Account> {
   @override
   void initState() {
 
-    _currentAcc = ApiProvider.keyring.keyPairs[0];
+    _currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
     super.initState();
   }
 

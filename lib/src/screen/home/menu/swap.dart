@@ -162,7 +162,7 @@ class _SwapState extends State<Swap> {
 
         if (res != null) {
           dialogLoading(context);
-          final hash = await contract.swap(_amountController!.text, res);
+          final String? hash = await contract.swap(_amountController!.text, res);
           if (hash != null) {
             await Future.delayed(const Duration(seconds: 7));
             final res = await contract.getSwap.listenTransfer(hash);

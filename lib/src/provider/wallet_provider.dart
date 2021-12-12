@@ -148,13 +148,10 @@ class WalletProvider with ChangeNotifier {
     _portfolioM.clear();
     dataMap.clear();
 
-    double temp = 0.0;
-
     await getTotal().then((total) {
       double percen = 0.0;
 
       for (int i = 0; i < availableToken.length; i++) {
-        temp = double.parse(availableToken[i]['balance']!) / total;
 
         _portfolioM.add(
           PortfolioM(

@@ -46,8 +46,7 @@ class TrxOptionMethod {
     List<dynamic> listPortfolio,
   ) async {
     if (await Permission.contacts.request().isGranted) {
-      final PhoneContact _contact =
-          await FlutterContactPicker.pickPhoneContact();
+      final PhoneContact? _contact = await FlutterContactPicker.pickPhoneContact();
       // final Contact _contact = await ContactsService.openDeviceContactPicker();
       //Get Contact And Asign To Number Variable
 
@@ -114,7 +113,7 @@ class TrxOptionMethod {
     BuildContext context,
     List<dynamic> portfolioList,
   ) async {
-    final String _response = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
+    final String? _response = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
     //print("Scan qr reponse $_response");
     if (_response != null) {
       await Navigator.push(

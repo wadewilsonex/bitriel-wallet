@@ -60,11 +60,11 @@ class TrxFunctional {
 
   /* --------------Local Storage----------------- */
 
-  Future<String>? getBtcPrivateKey(String pin) async {
+  Future<String>? getBtcPrivateKey(String pin, {@required BuildContext? context}) async {
     // String privateKey;
 
     try {
-      privateKey = await ApiProvider().decryptPrivateKey(encryptKey!, pin);
+      privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
       // print('1');
@@ -74,9 +74,9 @@ class TrxFunctional {
     return privateKey!;
   }
 
-  Future<String>? getPrivateKey(String pin) async {
+  Future<String>? getPrivateKey(String pin, {@required BuildContext? context}) async {
     try {
-      privateKey = await ApiProvider().decryptPrivateKey(encryptKey!, pin);
+      privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
       // print('2');
@@ -96,7 +96,7 @@ class TrxFunctional {
     try{
       if (privateKey != null) {
 
-        final txinfo = TransactionInfo(
+        final TransactionInfo? txinfo = TransactionInfo(
           privateKey: privateKey,
           receiver: contract!.getEthAddr(reciever),
           amount: amount
@@ -418,7 +418,7 @@ class TrxFunctional {
       String reciever, String amount) async {
     try {
       if (privateKey != null) {
-        final hash = await contract!.sendTxEthCon(
+        final String? hash = await contract!.sendTxEthCon(
           contractAddr,
           chainDecimal,
           privateKey!,
@@ -498,21 +498,23 @@ class TrxFunctional {
     // }
   }
 
-  Future<String>? sendTx(String target, String amount) async {
+  Future<String>? sendTx(String target, String amount, {BuildContext? context}) async {
     String? mhash;
 
     //final res = await validateAddress(target);
 
+    final _api = Provider.of<ApiProvider>(context!, listen: false);
+
     final sender = TxSenderData(
-      ApiProvider.keyring.current.address,
-      ApiProvider.keyring.current.pubKey,
+      _api.getKeyring.current.address,
+      _api.getKeyring.current.pubKey,
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
 
     final chainDecimal =
-        Provider.of<ApiProvider>(context!, listen: false).nativeM.chainDecimal;
+        Provider.of<ApiProvider>(context, listen: false).nativeM.chainDecimal;
     try {
-      final hash = await ApiProvider.sdk.api.tx.signAndSend(
+      final Map? hash = await _api.getSdk.api.tx.signAndSend(
           txInfo,
           [
             target,
@@ -536,11 +538,11 @@ class TrxFunctional {
 
         await enableAnimation!();
       } else {
-        Navigator.pop(context!);
+        Navigator.pop(context);
         await customDialog('Opps', 'Something went wrong!');
       }
     } catch (e) {
-      Navigator.pop(context!);
+      Navigator.pop(context);
 
       print(e.toString());
       await customDialog('Opps', e.toString());
@@ -549,19 +551,20 @@ class TrxFunctional {
     return mhash!;
   }
 
-  Future<String>? sendTxDot(String target, String amount) async {
+  Future<String>? sendTxDot(String target, String amount, {@required BuildContext? context}) async {
     String? mhash;
+    final _api = Provider.of<ApiProvider>(context!, listen: false);
 
     final sender = TxSenderData(
-      ApiProvider.keyring.current.address,
-      ApiProvider.keyring.current.pubKey,
+      _api.getKeyring.current.address,
+      _api.getKeyring.current.pubKey,
     );
     final txInfo = TxInfoData('balances', 'transfer', sender);
 
     final Map tx = txInfo.toJson();
 
     try {
-      final hash = await ApiProvider().signAndSendDot(
+      final Map? hash = await _api.signAndSendDot(
           tx, 
           jsonEncode([target, pow(double.parse(amount) * 10, 12)]), 
           pin,
@@ -571,11 +574,11 @@ class TrxFunctional {
       if (hash != null) {
         await enableAnimation!();
       } else {
-        Navigator.pop(context!);
+        Navigator.pop(context);
         await customDialog('Opps', 'Something went wrong!');
       }
     } catch (e) {
-      Navigator.pop(context!);
+      Navigator.pop(context);
 
       await customDialog('Opps', e.toString());
     }
@@ -587,7 +590,6 @@ class TrxFunctional {
 
     bool _enough = true;
     try {
-      final api = Provider.of<ApiProvider>(context!, listen: false);
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       // switch (asset) {
       //   case "SEL":
@@ -803,7 +805,6 @@ class TrxFunctional {
     var estPrice;
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    final api = Provider.of<ApiProvider>(context!, listen: false);
 
     await MarketProvider().fetchTokenMarketPrice(context!);
 

@@ -87,7 +87,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   Future<bool> validateAddress(String address) async {
-    final res = await ApiProvider().validateAddress(address);
+    final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
     return res;
   }
 
@@ -114,7 +114,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       } else if (_scanPayM.nodeAmount.hasFocus) {
         FocusScope.of(context).requestFocus(_scanPayM.nodeMemo);
       } else {
-        if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!);
+        if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!, context: context);
       }
     } catch (e) {
       print("Error onSubmit $e");
@@ -260,7 +260,7 @@ class SubmitTrxState extends State<SubmitTrx> {
           } else {
 
             Navigator.pop(context);
-            await sendTrx(trxFunc!.txInfo!);
+            await sendTrx(trxFunc!.txInfo!, context: context);
           }
         }
 
@@ -271,7 +271,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   // Second Execute
-  Future<void> sendTrx(TransactionInfo txInfo) async {
+  Future<void> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
 
     try {
       
@@ -282,7 +282,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       // Start Loading Before Dialog Pin
       // Init member variables of Trx Functional
-      trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
+      trxFunc!.contract = Provider.of<ContractProvider>(context!, listen: false);
 
       print("{trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org}");
 
@@ -291,7 +291,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : 'private');
 
       // Show Dialog Fill PIN
-      await dialogBox().then((resPin) async {
+      await dialogBox().then((String? resPin) async {
         if (resPin != null) {
 
           // Second: Start Loading For Sending
@@ -302,11 +302,11 @@ class SubmitTrxState extends State<SubmitTrx> {
           /* ------------------Check and Get Private------------ */
           // Get Private Key Only BTC Contract
           if (_scanPayM.asset == 'BTC') {
-            trxFunc!.privateKey = await trxFunc!.getBtcPrivateKey(resPin);
+            trxFunc!.privateKey = await trxFunc!.getBtcPrivateKey(resPin, context: context);
           } 
           // Get Private Key For Other Contract
           else {
-            trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin);
+            trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
           }
 
           print("trxFunc!.privateKey ${trxFunc!.privateKey}");
@@ -359,7 +359,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 break;
 
               case "DOT":
-                await trxFunc!.sendTxDot(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
+                await trxFunc!.sendTxDot(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text, context: context);
                 break;
 
               // case "SEL":
@@ -453,7 +453,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     } catch (e) {
       print("Err sendTrx $e");
       //Close Dialog
-      Navigator.pop(context);
+      Navigator.pop(context!);
 
       // Condition For RPCError
       await trxFunc!.customDialog("Oops", "${e.runtimeType.toString() == 'RPCError' ? 'insufficient funds for gas' : e}");

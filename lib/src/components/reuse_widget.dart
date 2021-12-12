@@ -140,7 +140,7 @@ Widget customFlatButton(
     EdgeInsetsGeometry edgeMargin,
     EdgeInsetsGeometry edgePadding,
     BoxShadow boxShadow,
-    Function action) {
+    Function? action) {
   return Container(
     margin: edgeMargin,
     width: double.infinity,
@@ -150,10 +150,10 @@ Widget customFlatButton(
     // ignore: deprecated_member_use
     child: FlatButton(
       onPressed: action == null
-          ? null
-          : () {
-              action(context);
-            },
+      ? null
+      : () {
+          action(context);
+        },
       color: hexaCodeToColor(buttonColor),
       disabledTextColor: Colors.black54,
       disabledColor: Colors.grey[700],
@@ -960,7 +960,7 @@ Widget inputField(
 
 Widget customDropDown(
     String label,
-    List<Map<String, dynamic>> list,
+    List<Map<String, dynamic>>? list,
     dynamic _model,
     Function changeValue,
     PopupMenuItem Function(Map<String, dynamic>) item) {

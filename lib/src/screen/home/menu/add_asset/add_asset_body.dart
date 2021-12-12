@@ -40,7 +40,6 @@ class AddAssetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final contract = Provider.of<ContractProvider>(context);
     return Column(children: [
       MyAppBar(
         title: "Add asset",

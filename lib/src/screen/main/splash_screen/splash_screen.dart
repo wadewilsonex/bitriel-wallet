@@ -1,5 +1,4 @@
 import 'package:flutter/scheduler.dart';
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -18,12 +17,17 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
+
+    print("getCurrentAccount");
+    
     try {
-      await Future.delayed(const Duration(milliseconds: 1000), () async {
-        final List<KeyPairData> ls = ApiProvider.keyring.keyPairs.toList();
+      await Future.delayed(const Duration(seconds: 2), () async {
+        final List ls = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.toList();
 
         if (ls.isEmpty) {
-          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+          print("Welcome");
+          Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome())); 
+      // });
         } else {
           final ethAddr = await StorageServices().readSecure('etherAdd');
 

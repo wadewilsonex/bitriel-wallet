@@ -85,8 +85,7 @@ class WalletApi {
     String networkName,
     int appJSVersion,
   ) {
-    final String version =
-        jsStorage.read('$_jsCodeStorageVersionKey$networkName');
+    final String? version = jsStorage.read('$_jsCodeStorageVersionKey$networkName');
     if (version != null) {
       final updatedVersion = int.parse(version);
       return updatedVersion > appJSVersion ? updatedVersion : appJSVersion;
@@ -339,8 +338,7 @@ class WalletApi {
       "page": 0,
       "row": count,
     });
-    final Response res =
-        await post(Uri.parse(url), headers: post_headers, body: body);
+    final Response res = await post(Uri.parse(url), headers: post_headers, body: body);
     if (res.body != null) {
       final obj = await compute(jsonDecode, res.body);
       return obj['data'];

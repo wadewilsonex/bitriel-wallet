@@ -62,7 +62,7 @@ class ImportUserInfoBody extends StatelessWidget {
                         focusNode: modelUserInfo!.nodeFirstName,
                         validateField: validateFirstName,
                         onChanged: onChanged,
-                        // onSubmit: onSubmit,
+                        onSubmit: onSubmit,
                       ),
                       MyInputField(
                           labelText: "Pin",

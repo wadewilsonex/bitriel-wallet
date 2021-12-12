@@ -40,7 +40,7 @@ class AddAssetState extends State<AddAsset> {
   Future<bool> validateEtherAddress(String address) async {
     try {
 
-      final res = await ApiProvider().validateEther(address);
+      final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
       print("Error validateEtherAddress $e");
@@ -51,7 +51,7 @@ class AddAssetState extends State<AddAsset> {
   Future<bool> validateAddress(String address) async {
     try {
 
-      final res = await ApiProvider().validateAddress(address);
+      final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
       print("Error validateAddress $e");

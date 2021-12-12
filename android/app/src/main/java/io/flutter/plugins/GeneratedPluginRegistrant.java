@@ -46,11 +46,6 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin flutter_plugin_android_lifecycle, io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin", e);
     }
     try {
-      flutterEngine.getPlugins().add(new me.hetian.flutter_qr_reader.FlutterQrReaderPlugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin flutter_qr_scan, me.hetian.flutter_qr_reader.FlutterQrReaderPlugin", e);
-    }
-    try {
       flutterEngine.getPlugins().add(new be.appmire.flutter_screenshot_switcher.FlutterScreenshotSwitcherPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin flutter_screenshot_switcher, be.appmire.flutter_screenshot_switcher.FlutterScreenshotSwitcherPlugin", e);
@@ -74,11 +69,6 @@ public final class GeneratedPluginRegistrant {
       flutterEngine.getPlugins().add(new com.baseflow.geolocator.GeolocatorPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin geolocator_android, com.baseflow.geolocator.GeolocatorPlugin", e);
-    }
-    try {
-      flutterEngine.getPlugins().add(new io.flutter.plugins.imagepicker.ImagePickerPlugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin image_picker, io.flutter.plugins.imagepicker.ImagePickerPlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.localauth.LocalAuthPlugin());
@@ -119,11 +109,6 @@ public final class GeneratedPluginRegistrant {
       flutterEngine.getPlugins().add(new com.danieldallos.storeredirect.StoreRedirectPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin store_redirect, com.danieldallos.storeredirect.StoreRedirectPlugin", e);
-    }
-    try {
-      flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin url_launcher_android, io.flutter.plugins.urllauncher.UrlLauncherPlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new com.benjaminabel.vibration.VibrationPlugin());

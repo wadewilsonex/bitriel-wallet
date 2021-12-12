@@ -32,8 +32,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   void didChangeDependencies() {
-    name = Provider.of<ApiProvider>(context).accountM.name!;
-    wallet = Provider.of<ApiProvider>(context).accountM.address!;
+    name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
+    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
     super.didChangeDependencies();
   }
 
