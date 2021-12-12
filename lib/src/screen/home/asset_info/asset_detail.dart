@@ -21,7 +21,7 @@ class _AssetDetailState extends State<AssetDetail> {
 
   String marketCapChange24h = '';
 
-  String convert(String supply) {
+  String convert(String? supply) {
     var formatter = NumberFormat.decimalPattern();
 
     if (supply != null) {
@@ -31,7 +31,7 @@ class _AssetDetailState extends State<AssetDetail> {
       }
     }
 
-    return formatter.format(int.parse(supply));
+    return formatter.format(int.parse(supply!));
   }
 
   @override

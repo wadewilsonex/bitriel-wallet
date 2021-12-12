@@ -4,20 +4,20 @@ import 'package:intl/intl.dart';
 
 class Fmt {
   static String doubleFormat(
-    double value, {
-    int length = 4,
-    int round = 0,
-  }) {
+    double? value, 
+    {
+      int length = 4,
+      int round = 0,
+    }) {
     if (value == null) {
       return '~';
     }
-   final NumberFormat f =
-        NumberFormat(",##0${length > 0 ? '.' : ''}${'#' * length}", "en_US");
+   final NumberFormat f = NumberFormat(",##0${length > 0 ? '.' : ''}${'#' * length}", "en_US");
     return f.format(value);
   }
 
   static String balance(
-    String raw,
+    String? raw,
     int decimals, {
     int length = 4,
   }) {
@@ -29,7 +29,7 @@ class Fmt {
   }
 
   static String token(
-    BigInt value,
+    BigInt? value,
     int decimals, {
     int length = 4,
   }) {
@@ -39,7 +39,7 @@ class Fmt {
     return doubleFormat(bigIntToDouble(value, decimals), length: length);
   }
 
-  static BigInt balanceInt(String raw) {
+  static BigInt balanceInt(String? raw) {
     if (raw == null || raw.isEmpty) {
       return BigInt.zero;
     }
@@ -50,7 +50,7 @@ class Fmt {
     }
   }
 
-  static BigInt tokenInt(String value, int decimals) {
+  static BigInt tokenInt(String? value, int decimals) {
     if (value == null) {
       return BigInt.zero;
     }
@@ -70,7 +70,7 @@ class Fmt {
   }
   
 
-  static double bigIntToDouble(BigInt value, int decimals) {
+  static double bigIntToDouble(BigInt? value, int decimals) {
     if (value == null) {
       return 0;
     }

@@ -12,8 +12,8 @@ class AssetList extends StatelessWidget {
   final focus = FocusNode();
   final pinFocus = FocusNode();
 
-  Future<bool> validateMnemonic(String mnemonic) async {
-    dynamic res = await ApiProvider().validateMnemonic(mnemonic);
+  Future<bool> validateMnemonic(String mnemonic, {@required BuildContext? context}) async {
+    dynamic res = await Provider.of<ApiProvider>(context!, listen: false).validateMnemonic(mnemonic);
     return res;
   }
 
@@ -21,17 +21,19 @@ class AssetList extends StatelessWidget {
     return null;
   }
 
-  Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring.checkPassword(ApiProvider.keyring.current, pin);
-    return res;
+  Future<bool> checkPassword(String pin, {@required BuildContext? context}) async {
+
+    final res = await Provider.of<ApiProvider>(context!, listen: false);
+    bool checkPass = await res.getSdk.api.keyring.checkPassword(res.getKeyring.current, pin);
+    return checkPass;
   }
 
   Future<void> onSubmit(BuildContext context) async {
 
     if (_formKey.currentState!.validate()) {
       dialogLoading(context);
-      final isValidSeed = await validateMnemonic(passphraseController.text);
-      final isValidPw = await checkPassword(pinController.text);
+      final isValidSeed = await validateMnemonic(passphraseController.text, context: context);
+      final isValidPw = await checkPassword(pinController.text, context: context);
 
       if (isValidSeed == false) {
         Navigator.pop(context);

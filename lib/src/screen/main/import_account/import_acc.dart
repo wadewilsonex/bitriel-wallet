@@ -42,7 +42,7 @@ class ImportAccState extends State<ImportAcc> {
   Future<bool>? validateMnemonic(String mnemonic) async {
     dynamic res;
     try {
-      res = await ApiProvider().validateMnemonic(mnemonic);
+      res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(mnemonic);
       enable = res;
       setState((){});
       print("validateMnemonic $res");
@@ -94,6 +94,8 @@ class ImportAccState extends State<ImportAcc> {
     dialogLoading(context);
     final isValidSeed = await validateMnemonic(_importAccModel.mnemonicCon.text);
     final isValidPw = await checkPassword(_importAccModel.pwCon.text);
+
+    final _api = Provider.of<ApiProvider>(context, listen: false);
 
     if (isValidSeed == false) {
       await showDialog(
@@ -154,10 +156,10 @@ class ImportAccState extends State<ImportAcc> {
         enable = true;
       });
 
-      final resPk = await ApiProvider().getPrivateKey(_importAccModel.mnemonicCon.text);
+      final String? resPk = await _api.getPrivateKey(_importAccModel.mnemonicCon.text);
       if (resPk != null) {
         await ContractProvider().extractAddress(resPk);
-        final res = await ApiProvider().encryptPrivateKey(resPk, _importAccModel.pwCon.text);
+        final String? res = await _api.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
 
         if (res != null) {
           await StorageServices().writeSecure('private', res);
@@ -214,9 +216,9 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await ApiProvider.sdk.api.keyring
-        .checkPassword(ApiProvider.keyring.current, pin);
-    return res;
+    final res = await Provider.of<ApiProvider>(context, listen: false);
+    bool checkPass = await res.getSdk.api.keyring.checkPassword(res.getKeyring.current, pin);
+    return checkPass;
   }
 
   @override

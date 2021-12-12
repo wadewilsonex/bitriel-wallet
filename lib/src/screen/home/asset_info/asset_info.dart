@@ -9,7 +9,6 @@ import 'package:wallet_apps/src/models/tx_history.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import '../../../../index.dart';
 import 'asset_detail.dart';
-import 'package:geocoding/geocoding.dart';
 
 class AssetInfo extends StatefulWidget {
   final int? index;

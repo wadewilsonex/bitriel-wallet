@@ -49,11 +49,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>flutter_qr_scan.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>flutter_screenshot_switcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -75,11 +70,6 @@
 			<false/>
 		</dict>
 		<key>geolocator_apple.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>image_picker.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -124,11 +114,14 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+<<<<<<< HEAD
 		<key>url_launcher_ios.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
+=======
+>>>>>>> daveat
 		<key>vibration.xcscheme</key>
 		<dict>
 			<key>isShown</key>

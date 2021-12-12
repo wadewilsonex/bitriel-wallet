@@ -255,13 +255,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  cross_file:
-    dependency: transitive
-    description:
-      name: cross_file
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.2"
   crypto:
     dependency: transitive
     description:
@@ -304,13 +297,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.8.0"
-  dropdown_search:
-    dependency: transitive
-    description:
-      name: dropdown_search
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3"
   equatable:
     dependency: transitive
     description:
@@ -400,13 +386,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  flutter_qr_scan:
-    dependency: transitive
-    description:
-      name: flutter_qr_scan
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.7"
   flutter_screenshot_switcher:
     dependency: "direct main"
     description:
@@ -462,7 +441,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.23.0+1"
+    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -606,6 +585,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+<<<<<<< HEAD
   image_picker:
     dependency: transitive
     description:
@@ -627,6 +607,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+=======
+>>>>>>> daveat
   intl:
     dependency: "direct main"
     description:
@@ -766,14 +748,14 @@ packages:
       name: path_drawing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.1+1"
+    version: "1.0.0"
   path_parsing:
     dependency: transitive
     description:
       name: path_parsing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "1.0.0"
   path_provider:
     dependency: transitive
     description:
@@ -801,7 +783,7 @@ packages:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.4"
   path_provider_macos:
     dependency: transitive
     description:
@@ -900,13 +882,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.7"
-  polkawallet_ui:
-    dependency: "direct overridden"
-    description:
-      name: polkawallet_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.6"
   process:
     dependency: transitive
     description:
@@ -956,13 +931,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  qr_flutter_fork:
-    dependency: transitive
-    description:
-      name: qr_flutter_fork
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   quiver:
     dependency: transitive
     description:
@@ -997,7 +965,11 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.10"
+=======
+    version: "2.0.11"
+>>>>>>> daveat
   shared_preferences_android:
     dependency: transitive
     description:
@@ -1143,6 +1115,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+<<<<<<< HEAD
   url_launcher:
     dependency: transitive
     description:
@@ -1199,6 +1172,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+=======
+>>>>>>> daveat
   uuid:
     dependency: transitive
     description:

@@ -52,7 +52,7 @@ class AppState extends State<App> {
     
     await apiProvider.initApi(context: context).then((value) async {
 
-      if (ApiProvider.keyring.keyPairs.isNotEmpty) {
+      if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
         
         await apiProvider.getAddressIcon();
         await apiProvider.getCurrentAccount();

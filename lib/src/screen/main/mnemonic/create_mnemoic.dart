@@ -4,7 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 
 class CreateMnemonic extends StatefulWidget {
-  final String passPhrase;
+  final String? passPhrase;
   final List passPhraseList;
   const CreateMnemonic(this.passPhrase, this.passPhraseList);
 
@@ -134,7 +134,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ConfirmMnemonic(
-                      widget.passPhrase,
+                      widget.passPhrase!,
                       widget.passPhraseList,
                     ),
                   ),

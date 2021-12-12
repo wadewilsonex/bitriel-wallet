@@ -106,7 +106,7 @@ class _AddContactState extends State<AddContact> {
   }
 
   Future<bool> validateAddressF(String address) async {
-    final res = await ApiProvider().validateAddress(address);
+    final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
     return res;
   }
 

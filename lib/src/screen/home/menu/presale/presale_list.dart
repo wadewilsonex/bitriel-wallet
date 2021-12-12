@@ -144,7 +144,7 @@ class PresaleList extends StatelessWidget {
   Future<void> submitRedeem(BuildContext context, int orderId) async {
     final preSale = Provider.of<PresaleProvider>(context, listen: false);
 
-    final pin = await dialogBox(context);
+    final String? pin = await dialogBox(context);
 
     if (pin != null) {
       dialogLoading(context);

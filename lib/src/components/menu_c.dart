@@ -15,7 +15,7 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final acc = Provider.of<ApiProvider>(context).accountM;
+    final acc = Provider.of<ApiProvider>(context, listen: false).accountM;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return InkWell(

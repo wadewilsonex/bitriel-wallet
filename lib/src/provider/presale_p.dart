@@ -227,13 +227,11 @@ class PresaleProvider with ChangeNotifier {
     try {
       final myAddr = await StorageServices().readSecure('etherAdd');
       final preFunction = _deployedContract!.function('investorOrderIds');
-      final res = await _contractP.bscClient.call(
+      final List? res = await _contractP.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [EthereumAddress.fromHex("$myAddr")]
       );
-
-      print("getInvestorOrderIds ${res.first}");
 
       if (res != null) idRes = List.from(res.first);
     } catch (e) {
@@ -388,7 +386,7 @@ class PresaleProvider with ChangeNotifier {
 
     double _estSel = 0.00;
 
-    final isValid = _isNumeric(amt);
+    final bool? isValid = _isNumeric(amt);
 
     if (isValid != null && isValid) {
       switch (discountRate) {
@@ -421,7 +419,7 @@ class PresaleProvider with ChangeNotifier {
     return _estSel;
   }
 
-  bool _isNumeric(String str) {
+  bool _isNumeric(String? str) {
     if (str == null) {
       return false;
     }

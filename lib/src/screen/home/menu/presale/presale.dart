@@ -136,7 +136,7 @@ class _PresaleState extends State<Presale> {
       double amount, int discountRate) async {
     final presale = Provider.of<PresaleProvider>(context, listen: false);
 
-    final approveHash = await presale.approvePresale(privateKey, tokenAddress);
+    final String? approveHash = await presale.approvePresale(privateKey, tokenAddress);
 
     if (approveHash != null) {
       // final stt = await contract.getPending(approveHash,
@@ -156,8 +156,7 @@ class _PresaleState extends State<Presale> {
     String? privateKey;
     final encrytKey = await StorageServices().readSecure('private');
     try {
-      privateKey =
-          await ApiProvider().decryptPrivateKey(encrytKey!, pin);
+      privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }

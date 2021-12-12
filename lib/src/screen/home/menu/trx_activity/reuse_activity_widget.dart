@@ -2,7 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/index.dart';
 
 Widget buildListBody(
-  List<dynamic> _activity,
+  List<dynamic>? _activity,
 ) {
   return _activity != null
       ? _activity.isNotEmpty

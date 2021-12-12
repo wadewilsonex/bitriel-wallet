@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
-import 'package:wallet_apps/src/service/contract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance {
@@ -10,7 +9,7 @@ class ContractsBalance {
 
     final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
     final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final btcAddr = await StorageServices.fetchData('bech32');
+    // final btcAddr = await StorageServices.fetchData('bech32');
 
     // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
 
@@ -67,14 +66,7 @@ class ContractsBalance {
   Future<void> refetchContractBalance({@required BuildContext? context}) async {
 
     final conProvider = Provider.of<ContractProvider>(context!, listen: false);
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    dynamic symbol;
-    dynamic name;
-    dynamic decimal;
     dynamic balance;
-    dynamic tmpBalance;
-
-    print("refetchContractBalance");
     
     // for (int i = 0; i< conProvider.sortListContract.length; i++){
     //   balance = 0;

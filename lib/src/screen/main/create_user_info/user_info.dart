@@ -201,31 +201,32 @@ class MyUserInfoState extends State<MyUserInfo> {
   Future<void> submitAcc() async {
     // Show Loading Process
     dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+    final _api = await Provider.of<ApiProvider>(context, listen: false);
 
     try {
       await addBtcWallet();
-      final json = await ApiProvider.sdk.api.keyring.importAccount(
-        ApiProvider.keyring,
+      final json = await _api.getSdk.api.keyring.importAccount(
+        _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
         name: _userInfoM.userNameCon.text,
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      await ApiProvider.sdk.api.keyring.addAccount(
-        ApiProvider.keyring,
+      await _api.getSdk.api.keyring.addAccount(
+        _api.getKeyring,
         keyType: KeyType.mnemonic,
         acc: json!,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
 
-        final resPk = await ApiProvider().getPrivateKey(widget.passPhrase);
+        final resPk = await _api.getPrivateKey(widget.passPhrase);
 
       // if (resPk != null) {
       // }
       await ContractProvider().extractAddress(resPk);
 
-      final res = await ApiProvider().encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+      final res = await _api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
       await StorageServices().writeSecure('private', res);
 //1
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -300,7 +301,7 @@ class MyUserInfoState extends State<MyUserInfo> {
       await StorageServices.storeData(bech32Address, 'bech32');
       await StorageServices.storeData(hdWallet.address, 'hdWallet');
 
-      final res = await ApiProvider().encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
+      final res = await Provider.of<ApiProvider>(context, listen: false).encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
 
       await StorageServices().writeSecure('btcwif', res);
 
@@ -366,7 +367,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     // await StorageServices.storeData(bech32Address, 'bech32');
 
-    // final res = await ApiProvider().encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
+    // final res = await _api.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
 
     // if (res != null) {
     //   await StorageServices().writeSecure('btcwif', res);

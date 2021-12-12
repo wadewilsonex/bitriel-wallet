@@ -7,6 +7,7 @@ import '../../../../index.dart';
 class NavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _usr = Provider.of<ApiProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -60,7 +61,7 @@ class NavigationDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MyText(
-                                text: ApiProvider.keyring.current.name ?? '',
+                                text: _usr.getKeyring.current.name ?? '',
                                 color: "#FFFFFF",
                                 fontSize: 20,
                               ),

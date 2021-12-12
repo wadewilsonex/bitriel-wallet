@@ -51,6 +51,7 @@ class AssetInfoC {
         final _keyQrShare = GlobalKey();
         final _globalKey = GlobalKey<ScaffoldState>();
         final isDarkTheme = Provider.of<ThemeProvider>(mycontext).isDark;
+        final _api = Provider.of<ApiProvider>(context);
 
         return Scaffold(
           key: _globalKey,
@@ -69,13 +70,13 @@ class AssetInfoC {
                   } else if (symbol == 'BNB' || org == 'BEP-20') {
                     wallet = value.ethAdd;
                   } else {
-                    wallet = ApiProvider.keyring.current.address!;
+                    wallet = _api.getKeyring.current.address!;
                   }
                   return ReceiveWalletBody(
                     method: _method,
                     globalKey: _globalKey,
                     keyQrShare: _keyQrShare,
-                    name: ApiProvider.keyring.current.name,
+                    name: _api.getKeyring.current.name,
                     assetInfo: 'assetInfo',
                     wallet: wallet,
                     // wallet: symbol == 'BNB' || org == 'BEP-20'

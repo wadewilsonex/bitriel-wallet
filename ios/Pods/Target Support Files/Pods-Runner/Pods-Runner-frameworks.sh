@@ -113,6 +113,7 @@ install_dsym() {
       rsync --delete -av "${RSYNC_PROTECT_TMP_FILES[@]}" --links --filter "- CVS/" --filter "- .svn/" --filter "- .git/" --filter "- .hg/" --filter "- Headers" --filter "- PrivateHeaders" --filter "- Modules" "${DERIVED_FILES_DIR}/${basename}.dSYM" "${DWARF_DSYM_FOLDER_PATH}"
     else
       # The dSYM was not stripped at all, in this case touch a fake folder so the input/output paths from Xcode do not reexecute this script because the file is missing.
+      mkdir -p "${DWARF_DSYM_FOLDER_PATH}"
       touch "${DWARF_DSYM_FOLDER_PATH}/${basename}.dSYM"
     fi
   fi
@@ -182,13 +183,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity/connectivity.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_inappwebview/flutter_inappwebview.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/flutter_qr_scan/flutter_qr_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_screenshot_switcher/flutter_screenshot_switcher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/fluttercontactpicker/fluttercontactpicker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding/geocoding.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth/local_auth.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/package_info/package_info.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_ios/path_provider_ios.framework"
@@ -196,7 +195,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
+=======
+>>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi
@@ -208,13 +210,11 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity/connectivity.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_inappwebview/flutter_inappwebview.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/flutter_qr_scan/flutter_qr_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_screenshot_switcher/flutter_screenshot_switcher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/fluttercontactpicker/fluttercontactpicker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding/geocoding.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth/local_auth.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/package_info/package_info.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_ios/path_provider_ios.framework"
@@ -222,7 +222,10 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
+=======
+>>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi
@@ -234,13 +237,11 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/connectivity/connectivity.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/contacts_service/contacts_service.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_inappwebview/flutter_inappwebview.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/flutter_qr_scan/flutter_qr_scan.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_screenshot_switcher/flutter_screenshot_switcher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/fluttercontactpicker/fluttercontactpicker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geocoding/geocoding.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/geolocator_apple/geolocator_apple.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/local_auth/local_auth.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/package_info/package_info.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider_ios/path_provider_ios.framework"
@@ -248,7 +249,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
+<<<<<<< HEAD
   install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
+=======
+>>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi

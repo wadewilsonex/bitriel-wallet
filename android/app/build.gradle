@@ -27,6 +27,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 31
+<<<<<<< HEAD
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +37,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+=======
+>>>>>>> daveat
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -44,7 +47,11 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.selendra.secure_wallet"
+<<<<<<< HEAD
         minSdkVersion 20
+=======
+        minSdkVersion 23
+>>>>>>> daveat
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -54,7 +61,10 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+<<<<<<< HEAD
             minifyEnabled true
+=======
+>>>>>>> daveat
             signingConfig signingConfigs.debug
         }
     }
@@ -66,4 +76,10 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
+    // // Firebase
+    // implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    // implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    // implementation 'com.google.android.gms:play-services-auth-api-phone:17.4.0'
+    // implementation 'com.android.support:multidex:1.0.3'
 }

@@ -23,7 +23,6 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   FocusNode? _phoneFocusNode;
   FocusNode? _walletFocusNode;
   FocusNode? _socialFocusNode;
-  FocusNode? _referralNode;
 
   final airdropKey = GlobalKey<FormState>();
 
@@ -282,7 +281,6 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     _phoneFocusNode = FocusNode();
     _walletFocusNode = FocusNode();
     _socialFocusNode = FocusNode();
-    _referralNode = FocusNode();
 
     super.initState();
   }
