@@ -221,7 +221,6 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> selTokenWallet() async {
 
-    print("selNativeTokenWallet");
     try {
 
       await initBscClient();
@@ -229,11 +228,7 @@ class ContractProvider with ChangeNotifier {
       //final contract = await initBsc(listContract[0].address);
       _selToken = new ContractService(_bscClient!, contract);
 
-      print("ethAdd $ethAdd");
-
       final balance = await _selToken!.getTokenBalance(getEthAddr(ethAdd));
-
-      print("Balance $balance");
 
       final chainDecimal = await _selToken!.getChainDecimal();
 
@@ -261,11 +256,8 @@ class ContractProvider with ChangeNotifier {
       _selV2 = new ContractService(_bscClient!, contract);
 
       final balance = await _selV2!.getTokenBalance(getEthAddr(ethAdd));
-      print('selV2: $balance');
 
       final chainDecimal = await _selV2!.getChainDecimal();
-      
-      print("Sel v2 chain $chainDecimal");
 
       listContract[1].balance = Fmt.bigIntToDouble(
         balance,

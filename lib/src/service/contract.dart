@@ -24,7 +24,6 @@ class ContractService implements IContractService {
         function: function,
         params: args,
       );
-      print("_queryContract res $res");
       return res;
     } catch (e) {
       print("Error _queryContract $e");
@@ -47,7 +46,6 @@ class ContractService implements IContractService {
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
     try {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
-      print("getTokenBalance $res");
       return res.first as BigInt;
     } catch (e) {
       print("Error getTokenBalance $e");

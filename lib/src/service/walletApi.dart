@@ -331,8 +331,7 @@ class WalletApi {
     }
   }
 
-  static Future<Map> fetchBlocksFromSn(String relayChainName,
-      {int count = 1}) async {
+  static Future<Map> fetchBlocksFromSn(String relayChainName, {int count = 1}) async {
     final url = '${getSnEndpoint(relayChainName)}/blocks';
     final body = jsonEncode({
       "page": 0,

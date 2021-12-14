@@ -136,7 +136,7 @@ class DBkey {
 
 class PresaleConfig {
 
-  String mainNet = '0x1f1c4e7408C1A1cF2583eD155C7b88274Cf6Ab22';
+  String mainNet = '0xEbc71fA80a0B6D41c944Ed96289e530D0A92a31F';
   String testNet = '0xeBf7E248689534C2757a20DCfe7ffe0bb04b9e93';
   
   // Presale Support Token

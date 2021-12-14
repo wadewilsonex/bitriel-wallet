@@ -53,18 +53,20 @@ class ApiProvider with ChangeNotifier {
   bool get isConnected => _isConnected;
 
   Future<void> initApi({@required BuildContext? context}) async {
+
     try {
 
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
       await _keyring.init([0, 42]);
+      print("Finish keyring");
       await _sdk.init(_keyring, jsCode: _jsCode);
+      
+      notifyListeners();
 
       connectPolNon(context: context);
       connectSELNode(context: context);
-      
-      notifyListeners();
 
     } catch (e) {
       print("Error initApi $e");
@@ -88,7 +90,7 @@ class ApiProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      print("Error connectNode $e");
+      print("Error connectSELNode $e");
     }
     return null;
   }
@@ -255,7 +257,6 @@ class ApiProvider with ChangeNotifier {
   Future<void> getBtcBalance({@required BuildContext? context}) async {
 
     final contract = await Provider.of<ContractProvider>(context!, listen: false);
-    print("getBtcBalance");
     try {
       int totalSatoshi = 0;
       final res = await getAddressUxto(contract.listContract[6].address!);
@@ -464,7 +465,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> getCurrentAccount() async {
     accountM.address = _keyring.current.address;
-    print("getCurrentAccount ${_keyring.current.address}");
     accountM.name = _keyring.current.name;
     notifyListeners();
   }

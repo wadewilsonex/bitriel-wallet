@@ -81,13 +81,6 @@ dependencies:
 
   # Authentication & Verification
   local_auth:
-  # permission_handler:
-
-  #for secure wallet function
-  # polkawallet_plugin_kusama:
-  #   git:
-  #     url: https://github.com/polkawallet-io/polkawallet_plugin_kusama.git
-  #     ref: e9e7c2546a1a6241c55a064d2fa57987a9265051
   web_socket_channel:
   # biometric_storage:
   get_storage: 

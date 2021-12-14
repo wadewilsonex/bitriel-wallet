@@ -7,7 +7,7 @@ class Attendance extends ChangeNotifier {
 
   DeployedContract? attDeployContract;
   
-  Future<DeployedContract?> initPresaleContract() async {
+  Future<DeployedContract?> initAttContract() async {
     try {
       final String abiCode = await rootBundle.loadString('assets/abi/atd.json');
       final contract = DeployedContract(
@@ -18,7 +18,7 @@ class Attendance extends ChangeNotifier {
       notifyListeners();
       return contract;
     } catch (e) {
-      print("Error init presale contract $e");
+      print("Error initAttContract $e");
     }
     return null;
   }
@@ -30,7 +30,7 @@ class Attendance extends ChangeNotifier {
 
       // print(contractPro.listContract.length);
 
-      attDeployContract = await initPresaleContract();
+      attDeployContract = await initAttContract();
 
       final myAddr = await StorageServices().readSecure('etherAdd');
       if (myAddr != null){

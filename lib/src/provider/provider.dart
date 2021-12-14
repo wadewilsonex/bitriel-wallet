@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance {

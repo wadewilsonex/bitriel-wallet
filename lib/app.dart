@@ -36,30 +36,36 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+
+    try {
     
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
-    await contractProvider.setSavedList().then((value) async {
-      // If Data Already Exist
-      if (value){
+      final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+      final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
+      await contractProvider.setSavedList().then((value) async {
+        // If Data Already Exist
+        if (value){
 
-        // Sort After MarketPrice Filled Into Asset
-        await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+          // Sort After MarketPrice Filled Into Asset
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        contractProvider.setReady();
-      }
-    });
-    
-    await apiProvider.initApi(context: context).then((value) async {
+          contractProvider.setReady();
+        }
+      });
+      
+      print("initApi");
+      await apiProvider.initApi(context: context).then((value) async {
 
-      if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-        
-        await apiProvider.getAddressIcon();
-        await apiProvider.getCurrentAccount();
-        
-        await ContractsBalance().getAllAssetBalance(context: context);
-      }
-    });
+        if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+          
+          await apiProvider.getAddressIcon();
+          await apiProvider.getCurrentAccount();
+          
+          await ContractsBalance().getAllAssetBalance(context: context);
+        }
+      });
+    } catch (e) {
+      print("Error initApi $e");
+    }
   }
 
   // void selV2() async {

@@ -195,10 +195,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
-<<<<<<< HEAD
-  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
-=======
->>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi
@@ -222,10 +218,6 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
-<<<<<<< HEAD
-  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
-=======
->>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi
@@ -249,10 +241,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/share/share.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences_ios/shared_preferences_ios.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/store_redirect/store_redirect.framework"
-<<<<<<< HEAD
-  install_framework "${BUILT_PRODUCTS_DIR}/url_launcher_ios/url_launcher_ios.framework"
-=======
->>>>>>> daveat
   install_framework "${BUILT_PRODUCTS_DIR}/vibration/vibration.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/webview_flutter_wkwebview/webview_flutter_wkwebview.framework"
 fi

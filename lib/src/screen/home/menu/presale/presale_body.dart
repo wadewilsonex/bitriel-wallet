@@ -48,8 +48,7 @@ class _PresaleBodyState extends State<PresaleBody> {
       widget.model!.balance = tokenBalance;
     }
 
-    if (widget.model!.amountController.text != null ||
-        widget.model!.amountController.text != '') {
+    if (widget.model!.amountController.text != '') {
       presale.calEstimateSel(
           widget.model!.amountController.text,
           widget.model!.listSupportToken![widget.model!.tokenIndex]['price'],
@@ -69,8 +68,7 @@ class _PresaleBodyState extends State<PresaleBody> {
 
     widget.onRateChange!(res);
 
-    if (widget.model!.amountController.text != null ||
-        widget.model!.amountController.text != '') {
+    if (widget.model!.amountController.text != '') {
       presale.calEstimateSel(
           widget.model!.amountController.text,
           widget.model!.listSupportToken![widget.model!.tokenIndex]['price'],

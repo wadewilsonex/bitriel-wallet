@@ -38,7 +38,7 @@ class PresaleModel {
       }
     });
     // Add Another Supported Token
-    _preSaleConfig.test97Support.forEach((element) {
+    _preSaleConfig.main56Support.forEach((element) {
       listSupportToken!.addAll({
         {
           "symbol": element['symbol'],

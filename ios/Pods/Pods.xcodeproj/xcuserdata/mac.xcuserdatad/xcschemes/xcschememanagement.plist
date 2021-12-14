@@ -114,14 +114,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-<<<<<<< HEAD
-		<key>url_launcher_ios.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-=======
->>>>>>> daveat
 		<key>vibration.xcscheme</key>
 		<dict>
 			<key>isShown</key>

@@ -96,13 +96,13 @@ class TrxFunctional {
     try{
       if (privateKey != null) {
 
-        final TransactionInfo? txinfo = TransactionInfo(
-          privateKey: privateKey,
-          receiver: contract!.getEthAddr(reciever),
-          amount: amount
+        final hash = await contract!.getBnb.sendTx(
+          TransactionInfo(
+            privateKey: privateKey,
+            receiver: contract!.getEthAddr(reciever),
+            amount: amount
+          )
         );
-
-        final hash = await contract!.getBnb.sendTx(txInfo!);
 
         // final hash = await contract.sendTxBnb(privateKey, reciever, amount);
 

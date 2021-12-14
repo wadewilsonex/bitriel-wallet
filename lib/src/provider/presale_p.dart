@@ -18,7 +18,12 @@ class PresaleProvider with ChangeNotifier {
   
   final String _presaleContract = PresaleConfig().mainNet;
   DeployedContract? _deployedContract;
-  ContractProvider _contractP = ContractProvider();
+  ContractProvider? _contractP;
+  
+  set setConProvider(ContractProvider? con){
+    _contractP = con;
+    notifyListeners();
+  }
 
   double estSel = 0.00;
 
@@ -27,19 +32,23 @@ class PresaleProvider with ChangeNotifier {
   /// Property for support token
   PresaleConfig presaleConfig = PresaleConfig();
 
+  // PresaleProvider(){
+  //   initPresaleContract();
+  // }
+
   /* --------------------------Write Contract--------------------- */
 
   Future<String?> redeem({@required String? privateKey, @required int? orderId}) async {
     String? hash;
     try {
-      await _contractP.initBscClient();
+      await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
       final credentials = await EthPrivateKey.fromHex(privateKey!);
       // final myAddr = await StorageServices().readSecure('etherAdd');
 
       final redeemFunction = contract!.function('redeem');
-      final redeemHash = await _contractP.bscClient.sendTransaction(
+      final redeemHash = await _contractP!.bscClient.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: contract,
@@ -67,14 +76,14 @@ class PresaleProvider with ChangeNotifier {
     String? hash;
     try {
       
-      await _contractP.initBscClient();
+      await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
       final credentials = await EthPrivateKey.fromHex(privateKey!);
       // final myAddr = await StorageServices().readSecure('etherAdd');
 
       final orderFunction = contract!.function('order');
-      final orderHash = await _contractP.bscClient.sendTransaction(
+      final orderHash = await _contractP!.bscClient.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: contract,
@@ -105,14 +114,14 @@ class PresaleProvider with ChangeNotifier {
   }) async {
     String? hash;
     try {
-      await _contractP.initBscClient();
+      await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
       final credentials = await EthPrivateKey.fromHex(privateKey!);
 
       final orderToken = contract!.function('orderToken');
 
-      final order = await _contractP.bscClient.sendTransaction(
+      final order = await _contractP!.bscClient.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: contract,
@@ -138,17 +147,17 @@ class PresaleProvider with ChangeNotifier {
   Future<String> approvePresale(String privateKey, String tokenAddress) async {
     try {
 
-      await _contractP.initBscClient();
-      final contract = await _contractP.initBsc(tokenAddress);
+      await _contractP!.initBscClient();
+      final contract = await _contractP!.initBsc(tokenAddress);
       final ethFunction = contract!.function('approve');
 
       final credentials = await EthPrivateKey.fromHex(privateKey);
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
 
-      final gasPrice = await _contractP.bscClient.getGasPrice();
+      final gasPrice = await _contractP!.bscClient.getGasPrice();
 
-      final maxGas = await _contractP.bscClient.estimateGas(
+      final maxGas = await _contractP!.bscClient.estimateGas(
         sender: EthereumAddress.fromHex(ethAddr!),
         to: contract.address,
         data: ethFunction.encodeCall(
@@ -159,7 +168,7 @@ class PresaleProvider with ChangeNotifier {
         ),
       );
 
-      final approve = await _contractP.bscClient.sendTransaction(
+      final approve = await _contractP!.bscClient.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: contract,
@@ -188,17 +197,18 @@ class PresaleProvider with ChangeNotifier {
   ///
   /// Use Inside app.dart
   Future<DeployedContract?> initPresaleContract() async {
+    print("initPresaleContract");
     try {
       final String abiCode = await rootBundle.loadString('assets/abi/presale1.json');
-      final contract = DeployedContract(
+      _deployedContract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'Presale'),
         EthereumAddress.fromHex(_presaleContract),
       );
 
       notifyListeners();
-      return contract;
+      return _deployedContract;
     } catch (e) {
-      print("Error init presale contract $e");
+      print("Error initPresaleContract $e");
     }
     return null;
   }
@@ -227,7 +237,7 @@ class PresaleProvider with ChangeNotifier {
     try {
       final myAddr = await StorageServices().readSecure('etherAdd');
       final preFunction = _deployedContract!.function('investorOrderIds');
-      final List? res = await _contractP.bscClient.call(
+      final List? res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [EthereumAddress.fromHex("$myAddr")]
@@ -243,10 +253,10 @@ class PresaleProvider with ChangeNotifier {
 
   Future<dynamic> getOrders(int id) async {
     try {
-      await _contractP.initBscClient();
+      await _contractP!.initBscClient();
       _deployedContract = await initPresaleContract();
       final preFunction = _deployedContract!.function('orders');
-      final res = await _contractP.bscClient.call(
+      final res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [BigInt.from(id)]
@@ -260,9 +270,12 @@ class PresaleProvider with ChangeNotifier {
 
   /// This Function Use To Get Price And Multiply With Input Amount for Investment
   Future<dynamic> getPriceToken({@required String? supportedToken}) async {
+
+    print(supportedToken);
     try {
+      await _contractP!.initBscClient();
       final preFunction = _deployedContract!.function('getPriceToken');
-      var res = await _contractP.bscClient.call(
+      var res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [EthereumAddress.fromHex("$supportedToken")]
@@ -276,8 +289,12 @@ class PresaleProvider with ChangeNotifier {
   /// Get Price Only BNB
   Future<dynamic> getBNBPrice() async {
     try {
+      // await _contractP.initBscClient();
+      print("Finish init client");
+      print(_deployedContract ?? "Null");
       final preFunction = _deployedContract!.function('getPrice');
-      var res = await _contractP.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
+      print("preFunction");
+      var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
 
       return res;
     } catch (e) {
@@ -291,7 +308,7 @@ class PresaleProvider with ChangeNotifier {
       _deployedContract = await initPresaleContract();
 
       final preFunction = _deployedContract!.function('minInvestment');
-      var res = await _contractP.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
+      var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
       return res;
     } catch (e) {
       print("Error minInvestment $e");
@@ -300,37 +317,40 @@ class PresaleProvider with ChangeNotifier {
 
   /// This method run after fetch token per each
   Future<List<Map<String, dynamic>>> fetchAndFillPrice(List<Map<String, dynamic>> supportTokenList) async {
-    
-    await _contractP.initBscClient();
+    try {
 
-    _deployedContract = await initPresaleContract();
+      _deployedContract = await initPresaleContract();
 
-    for (int i = 0; i < supportTokenList.length; i++) {
-      if (i == 0) {
-        await getBNBPrice().then((value) {
-          supportTokenList[0].addAll({"price": double.parse(value[0].toString()) / pow(10, 8)});
-        });
-      } else {
-        await getPriceToken(supportedToken: supportTokenList[i]['tokenAddress']).then((value) {
-          supportTokenList[i].addAll({"price": double.parse(value[0].toString()) / pow(10, 8)});
-        });
+      for (int i = 0; i < supportTokenList.length; i++) {
+        print(supportTokenList[i]);
+        if (i == 0) {
+          await getBNBPrice().then((value) {
+            supportTokenList[0].addAll({"price": double.parse(value[0].toString()) / pow(10, 8)});
+          });
+        } else {
+          await getPriceToken(supportedToken: supportTokenList[i]['tokenAddress']).then((value) {
+            supportTokenList[i].addAll({"price": double.parse(value[0].toString()) / pow(10, 8)});
+          });
+        }
       }
+      notifyListeners();
+    } catch (e) {
+      print("Error fetchAndFillPrice $e");
     }
-    notifyListeners();
     return supportTokenList;
   }
 
   Future<dynamic> checkAllowance(String tokenAddress) async {
     
-    await _contractP.initBscClient();
+    await _contractP!.initBscClient();
 
-    final contract = await _contractP.initBsc(tokenAddress);
+    final contract = await _contractP!.initBsc(tokenAddress);
 
     final allowanceFunc = contract!.function('allowance');
 
     final ethAddr = await StorageServices().readSecure('etherAdd');
 
-    final res = await _contractP.bscClient.call(contract: contract, function: allowanceFunc, params: [
+    final res = await _contractP!.bscClient.call(contract: contract, function: allowanceFunc, params: [
       EthereumAddress.fromHex(ethAddr!),
       EthereumAddress.fromHex(_presaleContract),
     ]);
@@ -379,8 +399,8 @@ class PresaleProvider with ChangeNotifier {
   }
 
   void calEstimateSel(String amt, double assetPrice, int discountRate) {
-    //  Ex: BNB amount * BNB price / SEL price after discount
-    //   10% disc = 0.027 USD per SEL
+    // Ex: BNB amount * BNB price / SEL price after discount
+    // 10% disc = 0.027 USD per SEL
     // 20% disc = 0.025 USD per SEL
     // 30% disc = 0.021 USD per
 

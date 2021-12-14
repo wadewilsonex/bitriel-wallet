@@ -532,13 +532,16 @@ class _PresaleState extends State<Presale> {
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
+      final _presale = await Provider.of<PresaleProvider>(context, listen: false);
+      await _presale.initPresaleContract();
+      _presale.setConProvider = contract;
+      // _presale.getBNBPrice();
       // await contract.getBnbBalances();
 
       _model.balance = double.parse(contract.listContract[4].balance!);
-      print("_model.balance ${_model.balance}");
       _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
-      print("_model.listSupportToken ${_model.listSupportToken}");
-      await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
+      // print("_model.listSupportToken ${_model.listSupportToken}");
+      // await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
       //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
       if (!mounted) return;
