@@ -32,9 +32,9 @@ class PresaleModel {
     // Add BNB
     listSupportToken!.addAll({
       {
-        "symbol": _preSaleConfig.baseTest['symbol'],
-        "logo": _preSaleConfig.baseTest['logo'],
-        "tokenAddress": _preSaleConfig.baseTest['tokenAddress']
+        "symbol": _preSaleConfig.baseMain['symbol'],
+        "logo": _preSaleConfig.baseMain['logo'],
+        "tokenAddress": _preSaleConfig.baseMain['tokenAddress']
       }
     });
     // Add Another Supported Token

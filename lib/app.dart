@@ -23,7 +23,7 @@ class AppState extends State<App> {
   @override
   void initState() {
     MarketProvider().fetchTokenMarketPrice(context);
-    readTheme();
+    // readTheme();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -75,11 +75,19 @@ class AppState extends State<App> {
   //   );
   // }
 
-  void readTheme() async {
-    final res = await StorageServices.fetchData(DbKey.themeMode);
+  Future<void> readTheme() async {
+    print("readTheme");
+    try {
 
-    if (res != null) {
-      Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      final res = await StorageServices.fetchData(DbKey.themeMode);
+
+      print(res);
+
+      if (res != null) {
+        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      }
+    } catch (e){
+      print("Error readTheme $e");
     }
   }
 

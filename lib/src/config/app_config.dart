@@ -145,27 +145,32 @@ class PresaleConfig {
     "tokenAddress": "0x30bab6b88db781129c6a4e9b7926738e3314cf1c", // SEL
     "priceFeed": "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE", // BNB/USD
     "minInvestment": 1000,
+    "logo": "assets/token_logo/bnb.png",
     "symbol": "BNB"
   };
   List<Map<String, dynamic>> main56Support = [
     {
       "tokenAddress": "0xe9e7cea3dedca5984780bafc599bd69add087d56", // BUSD
       "priceFeed": "0xcBb98864Ef56E9042e7d2efef76141f15731B82f", // BUSD/USD
+      "logo": "assets/token_logo/busd.png",
       "symbol": "BUSD"
     },
     {
       "tokenAddress": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3", // DAI
       "priceFeed": "0x132d3C0B1D2cEa0BC552588063bdBb210FDeecfA", // DAI/USD
+      "logo": "assets/token_logo/dai.png",
       "symbol": "DAI"
     },
     {
       "tokenAddress": "0x55d398326f99059fF775485246999027B3197955", // USDT
       "priceFeed": "0xB97Ad0E74fa7d920791E90258A6E2085088b4320", // USDT/USD
+      "logo": "assets/token_logo/usdt.png",
       "symbol": "USDT"
     },
     {
       "tokenAddress": "0x2170ed0880ac9a755fd29b2688956bd959f933f8", // ETH
       "priceFeed": "0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e", // ETH/USD
+      "logo": "assets/token_logo/eth.png",
       "symbol": "ETH"
     }
   ];

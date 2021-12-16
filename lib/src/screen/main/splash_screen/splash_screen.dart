@@ -1,6 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -142,22 +143,29 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   void readTheme() async {
-    final res = await StorageServices.fetchData('dark');
-    final sysTheme = _checkIfDarkModeEnabled();
+    final res = await StorageServices.fetchData(DbKey.themeMode);
+    // final sysTheme = _checkIfDarkModeEnabled();
+
+    // print("sysTheme $sysTheme");
+    print("res $res");
 
     if (res != null) {
-      Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      await Provider.of<ThemeProvider>(context, listen: false).changeMode();
     } else {
-      if (sysTheme) {
-        Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      } else {
-        Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      }
+      Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
     }
+    //  else {
+    //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    //   // if (sysTheme) {
+    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    //   // } else {
+    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    //   // }
+    // }
   }
 
   void systemThemeChange() async {
-    final res = await StorageServices.fetchData('dark');
+    final res = await StorageServices.fetchData(DbKey.themeMode);
     final sysTheme = _checkIfDarkModeEnabled();
 
     if (res == null) {

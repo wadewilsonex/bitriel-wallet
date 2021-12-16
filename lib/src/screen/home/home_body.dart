@@ -35,7 +35,7 @@ class HomeBody extends StatelessWidget {
                       ],
                       gradient: LinearGradient(
                         colors: [
-                          hexaCodeToColor('#92d0ff'),
+                          hexaCodeToColor('#63b8f6'),
                           hexaCodeToColor('#00ccff'),
                         ]
                       ),
@@ -104,7 +104,7 @@ class HomeBody extends StatelessWidget {
                       gradient: LinearGradient(
                         colors: [
                           hexaCodeToColor('#00ffe0'),
-                          hexaCodeToColor('#a7ffe3'),
+                          hexaCodeToColor('#35d55e'),
                         ]
                       )
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
@@ -126,7 +126,7 @@ class HomeBody extends StatelessWidget {
         ),
         
         Divider(
-          height: 0.5,
+          height: 2,
           color: isDarkTheme ? Colors.black : Colors.grey.shade400,
         ),
 

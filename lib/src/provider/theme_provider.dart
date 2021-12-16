@@ -9,10 +9,16 @@ class ThemeProvider with ChangeNotifier {
     
     isDark = !isDark;
 
+    print("changeMode $isDark");
+
     if (isDark) await StorageServices.storeData('dark', DbKey.themeMode);
+    else if (isDark == false) await StorageServices.removeKey(DbKey.themeMode);
 
-    if (!isDark) await StorageServices.removeKey('dark');
+    notifyListeners();
+  }
 
+  set setTheme(bool theme){
+    isDark = theme;
     notifyListeners();
   }
 

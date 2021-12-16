@@ -167,8 +167,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
               child: Text('Opps'),
             ),
