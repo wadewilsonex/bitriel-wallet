@@ -9,7 +9,6 @@ import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
-
 class App extends StatefulWidget {
   
   @override
@@ -110,15 +109,13 @@ class AppState extends State<App> {
           org: 'BEP-20',
         ));
 
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (BEP-20)');
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
   }
 
   Future<void> getEtherSavedContractToken() async {
-    final contractProvider =
-        Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
     if (res != null) {
       for (final i in res) {
@@ -136,8 +133,7 @@ class AppState extends State<App> {
           balance: balance![0].toString(),
           org: 'ERC-20',
         ));
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (ERC-20)');
+        Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
       }
     }
   }
