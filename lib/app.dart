@@ -42,6 +42,7 @@ class AppState extends State<App> {
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
       await contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
+        // Setup Cache
         if (value){
 
           // Sort After MarketPrice Filled Into Asset
@@ -51,7 +52,6 @@ class AppState extends State<App> {
         }
       });
       
-      print("initApi");
       await apiProvider.initApi(context: context).then((value) async {
 
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
@@ -118,13 +118,12 @@ class AppState extends State<App> {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final res = await StorageServices.fetchData('ethContractList');
     if (res != null) {
+      
       for (final i in res) {
-        final symbol =
-            await contractProvider.queryEther(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.queryEther(i.toString(), 'decimals', []);
-        final balance = await contractProvider.queryEther(i.toString(),
-            'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+
+        final symbol = await contractProvider.queryEther(i.toString(), 'symbol', []);
+        final decimal = await contractProvider.queryEther(i.toString(), 'decimals', []);
+        final balance = await contractProvider.queryEther(i.toString(), 'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
 
         contractProvider.addContractToken(TokenModel(
           contractAddr: i.toString(),

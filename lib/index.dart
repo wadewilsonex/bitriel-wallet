@@ -21,7 +21,6 @@ export 'package:flutter/services.dart';
 export 'package:line_awesome_flutter/line_awesome_flutter.dart';
 export 'package:local_auth/local_auth.dart';
 export 'package:package_info/package_info.dart';
-export 'package:percent_indicator/percent_indicator.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';

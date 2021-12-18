@@ -32,13 +32,11 @@ dependencies:
  
   geolocator:
   geocoding:
-  # url_launcher:
-  
-  # latlong:
 
   gsheets:
   
-  # Database
+  # Storage
+  get_storage: 
   shared_preferences:
 
   # Backend
@@ -50,23 +48,18 @@ dependencies:
   # Image service
   intl:
 
+  ######## Permission Package ########
   # Camera
   qr_flutter: 
   qr_code_scanner:
 
   # Chart
-  flutter_circular_chart:
-  charts_flutter:
   fl_chart:
   pie_chart:
-
-  #Indicator
-  percent_indicator:
 
   # Icons
   line_awesome_flutter:
   pinput:
-  transparent_image:  
   date_format:
  
   store_redirect:
@@ -82,13 +75,12 @@ dependencies:
   # Authentication & Verification
   local_auth:
   web_socket_channel:
-  # biometric_storage:
-  get_storage: 
     # path: ../
   animations:
   provider:
   web3dart: 
   bip39:
+
   # dart_ecpair:
   defichaindart:
 
@@ -96,15 +88,12 @@ dependencies:
   flutter_screenshot_switcher:
 
   #Contact
-  contacts_service:
   fluttercontactpicker: 
   
   #animation
   flare_flutter:
   responsive_framework:
-  circular_check_box:
   flutter_launcher_icons:
-  timeline_tile:
   
 dependency_overrides:
     # git:

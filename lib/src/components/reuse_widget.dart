@@ -2,7 +2,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:timeline_tile/timeline_tile.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 
@@ -655,116 +654,116 @@ dialogLoading(BuildContext context, {String? content}) {
 }
 
 // For Approve
-processingDialog(BuildContext context, bool begin, bool middle, bool end) {
-  return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (context) {
-        return Material(
-          color: Colors.transparent,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  CircularProgressIndicator(
-                      backgroundColor: Colors.transparent,
-                      valueColor: AlwaysStoppedAnimation(
-                          hexaCodeToColor(AppColors.lightBlueSky))),
-                  MyText(text: "Processing"),
-                  Column(children: <Widget>[
-                    Expanded(
-                        child: TimelineTile(
-                      axis: TimelineAxis.vertical,
-                      alignment: TimelineAlign.start,
-                      isFirst: true,
-                      // afterLineStyle: begin == true ? LineStyle(color: hexaCodeToColor(AppColors.secondary) : LineStyle(),
-                      indicatorStyle: IndicatorStyle(
-                        width: 20,
-                        height: 20,
-                        indicator: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // color: AppServices.hexaCodeToColor(trackingProgress >= 0 ? AppColors.green : AppColors.lowBlack),
-                          ),
-                        ),
-                      ),
-                      // endChild: Padding(
-                      //   padding: EdgeInsets.only(left: 20),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       MyText(text: "${trackingProgress >= 0 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
-                      //       MyText(text: "${status[0]}", color: trackingProgress >= 0 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
-                      //     ],
-                      //   )
-                      // ),
-                    )),
-                    Expanded(
-                        child: TimelineTile(
-                      // If TrackingProgress == Tracking
-                      // beforeLineStyle: trackingProgress != 0 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
-                      // afterLineStyle: trackingProgress > 1 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
-                      alignment: TimelineAlign.start,
-                      indicatorStyle: IndicatorStyle(
-                          width: 20,
-                          height: 20,
-                          drawGap: true,
-                          indicator: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              // color: AppServices.hexaCodeToColor(trackingProgress >= 1 ? AppColors.green : AppColors.lowBlack),
-                            ),
-                          )),
-                      // endChild: Padding(
-                      //   padding: EdgeInsets.only(left: 20),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
+// processingDialog(BuildContext context, bool begin, bool middle, bool end) {
+//   return showDialog(
+//       barrierDismissible: true,
+//       context: context,
+//       builder: (context) {
+//         return Material(
+//           color: Colors.transparent,
+//           child: Stack(
+//             alignment: Alignment.center,
+//             children: <Widget>[
+//               Column(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: <Widget>[
+//                   CircularProgressIndicator(
+//                       backgroundColor: Colors.transparent,
+//                       valueColor: AlwaysStoppedAnimation(
+//                           hexaCodeToColor(AppColors.lightBlueSky))),
+//                   MyText(text: "Processing"),
+//                   Column(children: <Widget>[
+//                     Expanded(
+//                         child: TimelineTile(
+//                       axis: TimelineAxis.vertical,
+//                       alignment: TimelineAlign.start,
+//                       isFirst: true,
+//                       // afterLineStyle: begin == true ? LineStyle(color: hexaCodeToColor(AppColors.secondary) : LineStyle(),
+//                       indicatorStyle: IndicatorStyle(
+//                         width: 20,
+//                         height: 20,
+//                         indicator: Container(
+//                           decoration: BoxDecoration(
+//                             shape: BoxShape.circle,
+//                             // color: AppServices.hexaCodeToColor(trackingProgress >= 0 ? AppColors.green : AppColors.lowBlack),
+//                           ),
+//                         ),
+//                       ),
+//                       // endChild: Padding(
+//                       //   padding: EdgeInsets.only(left: 20),
+//                       //   child: Column(
+//                       //     crossAxisAlignment: CrossAxisAlignment.start,
+//                       //     mainAxisAlignment: MainAxisAlignment.center,
+//                       //     children: [
+//                       //       MyText(text: "${trackingProgress >= 0 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
+//                       //       MyText(text: "${status[0]}", color: trackingProgress >= 0 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
+//                       //     ],
+//                       //   )
+//                       // ),
+//                     )),
+//                     Expanded(
+//                         child: TimelineTile(
+//                       // If TrackingProgress == Tracking
+//                       // beforeLineStyle: trackingProgress != 0 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
+//                       // afterLineStyle: trackingProgress > 1 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
+//                       alignment: TimelineAlign.start,
+//                       indicatorStyle: IndicatorStyle(
+//                           width: 20,
+//                           height: 20,
+//                           drawGap: true,
+//                           indicator: Container(
+//                             decoration: BoxDecoration(
+//                               shape: BoxShape.circle,
+//                               // color: AppServices.hexaCodeToColor(trackingProgress >= 1 ? AppColors.green : AppColors.lowBlack),
+//                             ),
+//                           )),
+//                       // endChild: Padding(
+//                       //   padding: EdgeInsets.only(left: 20),
+//                       //   child: Column(
+//                       //     crossAxisAlignment: CrossAxisAlignment.start,
+//                       //     mainAxisAlignment: MainAxisAlignment.center,
+//                       //     children: [
 
-                      //       MyText(text: "${trackingProgress >= 1 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
-                      //       MyText(text: "${status[1]}", color: trackingProgress >= 1 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
-                      //     ],
-                      //   )
-                      // ),
-                    )),
-                    Expanded(
-                        child: TimelineTile(
-                      // beforeLineStyle: trackingProgress > 1 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
-                      // afterLineStyle: trackingProgress > 2 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
-                      alignment: TimelineAlign.start,
-                      indicatorStyle: IndicatorStyle(
-                          width: 20,
-                          height: 20,
-                          drawGap: true,
-                          indicator: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              // color: AppServices.hexaCodeToColor(trackingProgress >= 2 ? AppColors.green : AppColors.lowBlack),
-                            ),
-                          )),
-                      endChild: Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // MyText(text: "${trackingProgress >= 2 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
-                              // MyText(text: "${status[2]}", color:  trackingProgress >= 2 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
-                            ],
-                          )),
-                    )),
-                  ])
-                ],
-              )
-            ],
-          ),
-        );
-      });
-}
+//                       //       MyText(text: "${trackingProgress >= 1 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
+//                       //       MyText(text: "${status[1]}", color: trackingProgress >= 1 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
+//                       //     ],
+//                       //   )
+//                       // ),
+//                     )),
+//                     Expanded(
+//                         child: TimelineTile(
+//                       // beforeLineStyle: trackingProgress > 1 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
+//                       // afterLineStyle: trackingProgress > 2 ? LineStyle(color: AppServices.hexaCodeToColor(AppColors.green)) : LineStyle(),
+//                       alignment: TimelineAlign.start,
+//                       indicatorStyle: IndicatorStyle(
+//                           width: 20,
+//                           height: 20,
+//                           drawGap: true,
+//                           indicator: Container(
+//                             decoration: BoxDecoration(
+//                               shape: BoxShape.circle,
+//                               // color: AppServices.hexaCodeToColor(trackingProgress >= 2 ? AppColors.green : AppColors.lowBlack),
+//                             ),
+//                           )),
+//                       endChild: Padding(
+//                           padding: EdgeInsets.only(left: 20),
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               // MyText(text: "${trackingProgress >= 2 ? widget.topOrder!.dateTime.text : 'Estimating'}", color: AppColors.lowBlack,),
+//                               // MyText(text: "${status[2]}", color:  trackingProgress >= 2 ? AppColors.green : AppColors.lowBlack, fontWeight: FontWeight.bold),
+//                             ],
+//                           )),
+//                     )),
+//                   ])
+//                 ],
+//               )
+//             ],
+//           ),
+//         );
+//       });
+// }
 
 Widget logoSize(
   String logoName,
