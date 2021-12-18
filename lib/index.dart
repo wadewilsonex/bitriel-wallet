@@ -42,8 +42,8 @@ export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/sms_component.dart';
 export 'package:wallet_apps/src/components/trx_component.dart';
 export 'package:wallet_apps/src/components/trx_option_c.dart';
-export 'package:wallet_apps/src/config/app_config.dart';
-export 'package:wallet_apps/src/config/size_config/size_config.dart';
+export 'package:wallet_apps/core/config/app_config.dart';
+export 'package:wallet_apps/core/config/size_config/size_config.dart';
 export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
@@ -56,7 +56,7 @@ export 'package:wallet_apps/src/models/lineChart_m.dart';
 
 export 'package:wallet_apps/src/models/crypto_data.dart';
 
-export 'package:wallet_apps/src/utils/fmt.dart';
+export 'package:wallet_apps/core/utils/fmt.dart';
 export 'package:wallet_apps/src/models/home_m.dart';
 /* Menu */
 export 'package:wallet_apps/src/models/menu_m.dart';
@@ -157,11 +157,11 @@ export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
 export 'package:wallet_apps/src/screen/main/create_user_info/user_info.dart';
 
 /* Local File */
-export 'package:wallet_apps/src/service/services.dart';
-export 'package:wallet_apps/src/service/services.dart';
+export 'package:wallet_apps/core/service/services.dart';
+export 'package:wallet_apps/core/service/services.dart';
 //Service
-export 'package:wallet_apps/src/service/storage.dart';
-export 'package:wallet_apps/src/utils/app_utils.dart';
+export 'package:wallet_apps/core/service/storage.dart';
+export 'package:wallet_apps/core/utils/app_utils.dart';
 /* ---------------------Util------------------------ */
 export 'package:wallet_apps/theme/color.dart';
 export 'package:wallet_apps/theme/string.dart';

@@ -5,7 +5,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/service/portfolio_s.dart';
+import 'package:wallet_apps/core/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
   // final bool apiConnected;

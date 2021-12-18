@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/service/contract.dart';
-import 'package:wallet_apps/src/service/native.dart';
+import 'package:wallet_apps/core/service/contract.dart';
+import 'package:wallet_apps/core/service/native.dart';
 import 'package:web3dart/web3dart.dart';
 
 class TrxFunctional {
