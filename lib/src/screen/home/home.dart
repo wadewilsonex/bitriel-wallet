@@ -44,10 +44,8 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     WidgetsBinding.instance!.addObserver(this);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance(context);
-      await Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
+      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
   }
 
@@ -58,8 +56,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       await StorageServices.fetchData(DbKey.marketkPrice).then((value) async {
         if (value != null) {
           mkPro.sortDataMarket = List<Map<String, dynamic>>.from(value);
-          await Provider.of<WalletProvider>(context, listen: false)
-              .fillWithMarketData(context);
+          await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
         }
       });
 

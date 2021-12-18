@@ -21,9 +21,19 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin aes_ecb_pkcs5_flutter, com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new design.codeux.biometric_storage.BiometricStoragePlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin biometric_storage, design.codeux.biometric_storage.BiometricStoragePlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.connectivity.ConnectivityPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin connectivity, io.flutter.plugins.connectivity.ConnectivityPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new flutter.plugins.contactsservice.contactsservice.ContactsServicePlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin contacts_service, flutter.plugins.contactsservice.contactsservice.ContactsServicePlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new com.pichillilorenzo.flutter_inappwebview.InAppWebViewFlutterPlugin());

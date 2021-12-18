@@ -16,7 +16,7 @@ class PresaleOrderInfo {
 
 class PresaleProvider with ChangeNotifier {
   
-  final String _presaleContract = PresaleConfig().mainNet;
+  final String _presaleContract = PresaleConfig().testNet;
   DeployedContract? _deployedContract;
   ContractProvider? _contractP;
   

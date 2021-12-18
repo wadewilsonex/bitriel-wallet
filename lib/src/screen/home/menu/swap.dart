@@ -155,12 +155,15 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> swapWithoutAp() async {
+    print("swapWithoutAp");
     final contract = Provider.of<ContractProvider>(context, listen: false);
     await dialogBox().then((value) async {
       try {
         final res = await AppServices.getPrivateKey(value, context);
 
-        if (res != null) {
+        print("resswapWithoutAp $res");
+
+        if (res != '') {
           dialogLoading(context);
           final String? hash = await contract.swap(_amountController!.text, res);
           if (hash != null) {
@@ -170,23 +173,20 @@ class _SwapState extends State<Swap> {
             if (res != null) {
               if (res) {
                 setState(() {});
-                Navigator.pop(context);
-                enableAnimation(
-                    'swapped ${_amountController!.text} of SEL v1 to SEL v2.',
-                    'Go to wallet', () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Home.route, ModalRoute.withName('/'));
-                });
                 _amountController!.text = '';
+                Navigator.pop(context);
+                enableAnimation('swapped ${_amountController!.text} of SEL v1 to SEL v2.', 'Go to wallet', () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context, Home.route, ModalRoute.withName('/')
+                  );
+                });
               } else {
                 Navigator.pop(context);
-                await customDialog('Transaction failed',
-                    'Something went wrong with your transaction.');
+                await customDialog('Transaction failed', 'Something went wrong with your transaction.');
               }
             } else {
               Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
+              await customDialog('Transaction failed', 'Something went wrong with your transaction.');
             }
           } else {
             // contract.getBscBalance();
@@ -195,6 +195,7 @@ class _SwapState extends State<Swap> {
           }
         }
       } catch (e) {
+        print("Error swapWithoutAp $e");
         Navigator.pop(context);
         await customDialog('Opps', e.toString());
       }
@@ -553,79 +554,81 @@ class _SwapState extends State<Swap> {
                                 ),
                                 child: Form(
                                   key: _swapKey,
-                                  child: Column(
-                                    children: [
-                                      
-                                      MyText(
-                                        width: double.infinity,
-                                        text: 'Amount',
-                                        fontWeight: FontWeight.bold,
-                                        color: isDarkTheme
-                                          ? AppColors.darkSecondaryText
-                                          : AppColors.textColor,
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        bottom: 4.0,
-                                      ),
+                                    child: Column(
+                                      children: [
+                                        
+                                        MyText(
+                                          width: double.infinity,
+                                          text: 'Amount',
+                                          fontWeight: FontWeight.bold,
+                                          color: isDarkTheme
+                                            ? AppColors.darkSecondaryText
+                                            : AppColors.textColor,
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.ellipsis,
+                                          bottom: 4.0,
+                                        ),
 
-                                      Container(
-                                        // alignment: Alignment.bottomLeft,
-                                        child: TextFormField(
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(TextField.noMaxLength),
-                                            FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
-                                          ],
-                                          controller: _amountController,
-                                          keyboardType: Platform.isAndroid
-                                            ? TextInputType.number
-                                            : TextInputType.text,
-                                          textInputAction: TextInputAction.done,
-                                          style: TextStyle(
-                                            color: isDarkTheme
-                                              ? hexaCodeToColor(AppColors.whiteColorHexa)
-                                              : hexaCodeToColor(AppColors.textColor),
-                                            fontSize: 18.0
-                                          ),
-                                          decoration: InputDecoration(
-                                            suffixIcon: GestureDetector(
-                                              onTap: () async {
-                                                await fetchMax();
-                                              },
-                                              child: MyText(
-                                                text: 'Max',
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.secondarytext,
+                                        Flexible(
+                                          child: Container(
+                                          // alignment: Alignment.bottomLeft,
+                                          child: TextFormField(
+                                            inputFormatters: [
+                                              LengthLimitingTextInputFormatter(TextField.noMaxLength),
+                                              FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+                                            ],
+                                            controller: _amountController,
+                                            keyboardType: Platform.isAndroid
+                                              ? TextInputType.number
+                                              : TextInputType.text,
+                                            textInputAction: TextInputAction.done,
+                                            style: TextStyle(
+                                              color: isDarkTheme
+                                                ? hexaCodeToColor(AppColors.whiteColorHexa)
+                                                : hexaCodeToColor(AppColors.textColor),
+                                              fontSize: 18.0
+                                            ),
+                                            decoration: InputDecoration(
+                                              suffixIcon: GestureDetector(
+                                                onTap: () async {
+                                                  await fetchMax();
+                                                },
+                                                child: MyText(
+                                                  text: 'Max',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColors.secondarytext,
+                                                ),
+                                              ),
+                                              prefixIconConstraints: BoxConstraints(
+                                                minWidth: 0,
+                                                minHeight: 0,
+                                              ),
+                                              border: InputBorder.none,
+                                              hintText: '0.00',
+                                              hintStyle: TextStyle(
+                                                fontSize: 20.0,
+                                                color: isDarkTheme
+                                                  ? hexaCodeToColor(AppColors.darkSecondaryText)
+                                                  : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
                                               ),
                                             ),
-                                            prefixIconConstraints: BoxConstraints(
-                                              minWidth: 0,
-                                              minHeight: 0,
-                                            ),
-                                            border: InputBorder.none,
-                                            hintText: '0.00',
-                                            hintStyle: TextStyle(
-                                              fontSize: 20.0,
-                                              color: isDarkTheme
-                                                ? hexaCodeToColor(AppColors.darkSecondaryText)
-                                                : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
-                                            ),
+                                            validator: (value) => value!.isEmpty
+                                              ? 'Please fill in amount'
+                                              : null,
+                                            /* Limit Length Of Text Input */
+                                            onChanged: (String value) {
+                                              if (value.isNotEmpty) {
+                                                setState(() {});
+                                                _enableBtn = true;
+                                              } else {
+                                                setState(() {});
+                                                _enableBtn = false;
+                                              }
+                                            },
+                                            onFieldSubmitted: (value) {},
                                           ),
-                                          validator: (value) => value!.isEmpty
-                                            ? 'Please fill in amount'
-                                            : null,
-                                          /* Limit Length Of Text Input */
-                                          onChanged: (String value) {
-                                            if (value.isNotEmpty) {
-                                              setState(() {});
-                                              _enableBtn = true;
-                                            } else {
-                                              setState(() {});
-                                              _enableBtn = false;
-                                            }
-                                          },
-                                          onFieldSubmitted: (value) {},
-                                        ),
+                                        )
                                       )
                                     ],
                                   ),
@@ -634,7 +637,7 @@ class _SwapState extends State<Swap> {
 
                               // Swap Button
                               MyFlatButton(
-                                edgeMargin: const EdgeInsets.only(bottom: 16, top: 42),
+                                edgeMargin: const EdgeInsets.only(bottom: 16),
                                 textButton: 'Swap',
                                 action: !_enableBtn
                                   ? null

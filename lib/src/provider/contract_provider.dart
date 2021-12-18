@@ -15,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 
-
 // import 'package:bip39/bip39.dart' as bip39;
 // import 'package:defichaindart/defichaindart.dart';
 
@@ -152,22 +151,22 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> initBscClient() async {
     _httpClient = Client();
-    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlMN!, _httpClient!, socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN!).cast<String>();
+    _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN!, _httpClient!, socketConnector: () {
+      return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlTN!).cast<String>();
     });
   }
 
   Future<void> initEtherClient() async {
     _httpClient = Client();
-    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlMN!, _httpClient!,
+    _etherClient = Web3Client(AppConfig.networkList[2].httpUrlTN!, _httpClient!,
       socketConnector: () {
-      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlMN!).cast<String>();
+      return IOWebSocketChannel.connect(AppConfig.networkList[2].wsUrlTN!).cast<String>();
     });
   }
 
   Future<void> initSwapContract() async {
     await initBscClient();
-    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.swapMainnetAddr);
+    final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.swapTestContract);
     _swap = new ContractService(_bscClient!, _contract);
   }
 
@@ -224,7 +223,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selV1MainnetAddr);//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selV1TestnetAddr);//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
       //final contract = await initBsc(listContract[0].address);
       _selToken = new ContractService(_bscClient!, contract);
 
@@ -251,7 +250,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selv2MainnetAddr);//listContract[1].address!);
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, AppConfig.selv2TestnetAddr);//listContract[1].address!);
       //final contract = await initBsc(listContract[1].address);
       _selV2 = new ContractService(_bscClient!, contract);
 
@@ -617,7 +616,7 @@ class ContractProvider with ChangeNotifier {
         to: contract.address,
         data: ethFunction.encodeCall(
           [
-            EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
+            EthereumAddress.fromHex(AppConfig.swapTestContract),
             BigInt.parse('1000000000000000042420637374017961984'),
           ],
         ),
@@ -632,7 +631,7 @@ class ContractProvider with ChangeNotifier {
           gasPrice: gasPrice,
           maxGas: maxGas.toInt(),
           parameters: [
-            EthereumAddress.fromHex(AppConfig.swapMainnetAddr),
+            EthereumAddress.fromHex(AppConfig.swapTestContract),
             BigInt.parse('1000000000000000042420637374017961984'),
           ],
         ),
@@ -657,7 +656,7 @@ class ContractProvider with ChangeNotifier {
         'allowance',
         [
           EthereumAddress.fromHex(ethAddr!),
-          EthereumAddress.fromHex(AppConfig.swapMainnetAddr)
+          EthereumAddress.fromHex(AppConfig.swapTestContract)
         ],
       );
 
@@ -671,11 +670,13 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await initSwapSel(AppConfig.swapMainnetAddr);
+      final contract = await initSwapSel(AppConfig.swapTestContract);
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
 
       final gasPrice = await _bscClient!.getGasPrice();
+
+      print("gasPrice $gasPrice");
 
       final ethFunction = contract.function('swap');
 
@@ -686,6 +687,8 @@ class ContractProvider with ChangeNotifier {
         to: contract.address,
         data: ethFunction.encodeCall([BigInt.from(double.parse(amount) * pow(10, 18))]),
       );
+
+      print("maxGas $maxGas");
 
       final swap = await _bscClient!.sendTransaction(
         credentials,

@@ -40,8 +40,6 @@ class ContractsBalance {
       await contractProvider.sortAsset();
 
       contractProvider.setReady();
-
-      print("Finish setReady");
       
       /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
       await StorageServices.storeAssetData(context);
