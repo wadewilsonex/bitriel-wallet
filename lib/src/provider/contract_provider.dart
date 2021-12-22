@@ -114,10 +114,6 @@ class ContractProvider with ChangeNotifier {
         );
       });
 
-      // listContract.forEach((element) {
-      //   print("${element.symbol} ${element.balance}");
-      // });
-
     } catch (e) {
       print("Error initJson $e");
     }
@@ -508,10 +504,10 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> validateEvmAddr(String address) async {
-
+    print("validateEvmAddr");
     bool _isValid = false;
     try {
-      EthereumAddress.fromHex(address, enforceEip55: true);
+      EthereumAddress.fromHex(address);
       _isValid = true;
     } on ArgumentError {
       // Not valid

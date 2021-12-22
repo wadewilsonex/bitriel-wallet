@@ -34,17 +34,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>biometric_storage.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>connectivity.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>contacts_service.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

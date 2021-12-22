@@ -1,8 +1,10 @@
 import 'dart:ui';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:web3dart/web3dart.dart';
 
 class Swap extends StatefulWidget {
   @override
@@ -18,6 +20,8 @@ class _SwapState extends State<Swap> {
   TextEditingController? _amountController;
 
   bool _success = false, _enableBtn = false;
+
+  String? gasPerTrx;
 
   // Future<void> approve() async {
   //   final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -125,10 +129,9 @@ class _SwapState extends State<Swap> {
                   if (isSuccess!) {
                     Navigator.pop(context);
                     enableAnimation(
-                        'swapped ${_amountController!.text} of SEL v1 to SEL v2.',
-                        'Go to wallet', () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Home.route, ModalRoute.withName('/'));
+                      'swapped ${_amountController!.text} of SEL v1 to SEL v2.',
+                      'Go to wallet', () {
+                      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
                     });
                     _amountController!.text = '';
                     setState(() {});
@@ -157,11 +160,10 @@ class _SwapState extends State<Swap> {
   Future<void> swapWithoutAp() async {
     print("swapWithoutAp");
     final contract = Provider.of<ContractProvider>(context, listen: false);
+    print("contract.listContract[1].address! ${contract.listContract[1].address!}");
     await dialogBox().then((value) async {
       try {
         final res = await AppServices.getPrivateKey(value, context);
-
-        print("resswapWithoutAp $res");
 
         if (res != '') {
           dialogLoading(context);
@@ -229,6 +231,15 @@ class _SwapState extends State<Swap> {
     dialogLoading(context);
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
+
+    final maxGas = await contract.getBep20MaxGas(contract.listContract[0].address!, "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3", _amountController!.text);
+    print("maxGas $maxGas");
+    final EtherAmount? ress = await contract.getBscGasPrice();
+    final gasPrice = ress!.getValueInUnit(EtherUnit.gwei).toString();
+    final gasFee = double.parse(maxGas) * double.parse(gasPrice);
+    final estGasFeePrice = (gasFee / pow(10, 9)).toString();
+    gasPerTrx = estGasFeePrice;
+    setState(() { });
 
     if (double.parse(_amountController!.text) > double.parse(contract.listContract[0].balance!) ||  double.parse(contract.listContract[0].balance!) == 0) {
       // Close Loading
@@ -435,9 +446,17 @@ class _SwapState extends State<Swap> {
                     bottom: 8.0,
                   ),
                   MyText(
-                    text: '$amount of SEL v1',
+                    textAlign: TextAlign.left,
+                    text: 'Amount: $amount of SEL v1',
                     fontSize: 16,
                   ),
+                  
+                  MyText(
+                    textAlign: TextAlign.left,
+                    text: 'Fee: $gasPerTrx',
+                    fontSize: 16,
+                  ),
+
                   SizedBox(
                     height: 50,
                   ),

@@ -167,7 +167,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       var gasPrice;
       dialogLoading(context);
       final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: contract.sortListContract[_scanPayM.assetValue!].org);
-      
+      print("isValid $isValid");
       if (!isValid) {
         Navigator.pop(context);
         await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
@@ -191,6 +191,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         }
 
         if (isValid) {
+          print("getNetworkGasPrice");
           gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
         }
 
@@ -217,14 +218,19 @@ class SubmitTrxState extends State<SubmitTrx> {
             print("maxGas $estAmtPrice");
 
             final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+            print("gasFee $gasFee");
 
             var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+            print("gasFeeToEther $e");
 
-            final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
+            final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, _scanPayM.assetValue!);
+            print("estGasFeePrice $estGasFeePrice");
 
             final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
 
             final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+
+            print("estToSendPrice $estToSendPrice");
 
             final estTotalPrice = estGasFeePrice! + estToSendPrice;
 
@@ -390,21 +396,10 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               case "KGO":
                 await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);
-                // final chainDecimal = await ContractProvider().query(
-                //     trxFunc.contract.listContract[2].address, 'decimals', []);
-                // if (chainDecimal != null) {
-                //   await trxFunc.sendTxBsc(
-                //       trxFunc.contract.listContract[2].address,
-                //       chainDecimal[0].toString(),
-                //       _scanPayM.controlReceiverAddress.text,
-                //       _scanPayM.controlAmount.text);
-                // }
                 break;
 
               case "BNB":
                 await trxFunc!.sendTxEvm(trxFunc!.contract!.getBnb, txInfo);
-                // await trxFunc.sendTxBnb(_scanPayM.controlReceiverAddress.text,
-                //     _scanPayM.controlAmount.text);
                 break;
 
               case "ETH":

@@ -53,7 +53,7 @@ class ApiProvider with ChangeNotifier {
 
     try {
 
-      await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
+      await rootBundle.loadString('lib/core/js/dist/main.js').then((String js) {
         _jsCode = js;
       });
       await _keyring.init([0, 42]);

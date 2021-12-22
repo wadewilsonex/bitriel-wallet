@@ -765,7 +765,7 @@ class TrxFunctional {
     return _gasPrice!;
   }
 
-  Future<dynamic>? estGasFeePrice(double gasFee, String asset) async {
+  Future<dynamic>? estGasFeePrice(double gasFee, String asset, int index) async {
 
     String? marketPrice;
     try {
@@ -854,30 +854,12 @@ class TrxFunctional {
         case 'ETH':
           maxGas = await contract.getEthMaxGas(reciever, amount);
           break;
-        case 'SEL (BEP-20)':
-
-          //  final contract = await AppUtils.contractfromAssets(
-          //   AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
-          // maxGas = await contract.getBep20MaxGas(
-          //     contract.listContract[0].address, reciever, amount);
-
-          maxGas = await contract.getBep20MaxGas('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
-
-          break;
-        case 'SEL v2 (BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[1].address!, reciever, amount);
-          break;
-        case 'KGO (BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[2].address!, reciever, amount);
-          break;
         case 'BNB':
           maxGas = await contract.getBnbMaxGas(reciever, amount);
           break;
-        default: 
-          print("Default");
-          print("index $index");
-          print(contract.sortListContract[0].address);
-          print(contract.sortListContract[index].symbol);
+        default:
+          print("contract.sortListContract[index].address! ${contract.sortListContract[index].address!}");
+          print("reciever $reciever");
           maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
           break;
       }

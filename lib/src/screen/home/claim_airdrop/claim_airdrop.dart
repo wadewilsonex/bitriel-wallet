@@ -5,6 +5,7 @@ import 'package:gsheets/gsheets.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/components/network_sensitive.dart';
+import 'package:wallet_apps/src/provider/airdrop_p.dart';
 
 import '../../../../index.dart';
 
@@ -14,6 +15,7 @@ class ClaimAirDrop extends StatefulWidget {
 }
 
 class _ClaimAirDropState extends State<ClaimAirDrop> {
+
   TextEditingController? _emailController;
   TextEditingController? _phoneController;
   TextEditingController? _walletController;
@@ -30,6 +32,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   bool _enableButton = false;
   bool _submitted = false;
+
+  AirDropProvider? _airDropProvider;
 
   // ignore: unnecessary_raw_strings
 
@@ -268,6 +272,16 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     setState(() {});
   }
 
+  void initAirDrop() async {
+    await Future.delayed(Duration(milliseconds: 100), () async {
+
+      _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
+      await _airDropProvider!.initContract();
+      _airDropProvider!.setConProvider = Provider.of<ContractProvider>(context, listen: false);
+      await _airDropProvider!.airdropTokenAddress();
+    });
+  }
+
   @override
   void initState() {
     _emailController = TextEditingController();
@@ -280,6 +294,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     _phoneFocusNode = FocusNode();
     _walletFocusNode = FocusNode();
     _socialFocusNode = FocusNode();
+
+    initAirDrop();
 
     super.initState();
   }

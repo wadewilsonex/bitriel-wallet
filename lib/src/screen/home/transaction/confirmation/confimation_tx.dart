@@ -212,7 +212,7 @@ class ConfirmationTx extends StatelessWidget {
                     edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
                     textButton: AppString.confirm,
                     action: () async {
-                      await sendTrx!(trxInfo);
+                      await sendTrx!(trxInfo, context: context);
                     },
                   )
                 ],
