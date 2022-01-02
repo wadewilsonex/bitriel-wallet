@@ -158,7 +158,7 @@ class AppServices {
     return canCheckBiometrics;
   }
 
-  static Future<String> getPrivateKey(String pin, BuildContext context) async {
+  static Future<String>? getPrivateKey(String pin, BuildContext context) async {
     print("getPrivateKey");
     String? privateKey = '';
     try {

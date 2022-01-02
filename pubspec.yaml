@@ -86,6 +86,7 @@ dependencies:
 
   flutter_secure_storage:
   flutter_screenshot_switcher:
+  mongo_dart:
 
   #Contact
   fluttercontactpicker: 

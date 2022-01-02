@@ -71,6 +71,8 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
+    
+    print("connectSELNode");
     try {
 
       final node = NetworkParams();
@@ -377,29 +379,32 @@ class ApiProvider with ChangeNotifier {
 
   // Connect SEL Chain
   Future<void> getSelNativeChainDecimal({@required BuildContext? context}) async {
+    print("getSelNativeChainDecimal");
     try {
       
-      // final contract = Provider.of<ContractProvider>(context!, listen: false);
+      final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
-      nativeM.chainDecimal = res[0].toString();
+      contract.listContract[8].chainDecimal = res[0].toString();
       await subSELNativeBalance(context: context);
 
       notifyListeners();
     } catch (e) {
-      print("Error getChainDecimal $e");
+      print("Error getSelNativeChainDecimal $e");
     }
   }
 
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {
     try {
 
-      // final contract = Provider.of<ContractProvider>(context!, listen: false);
+      final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res) {
-        nativeM.balance = Fmt.balance(
+        contract.listContract[8].balance = Fmt.balance(
           res.freeBalance.toString(),
-          int.parse(nativeM.chainDecimal!),
+          int.parse(contract.listContract[8].chainDecimal!),
         );
+
+        print("contract.listContract[8].balance ${contract.listContract[8].balance}");
 
         notifyListeners();
       });

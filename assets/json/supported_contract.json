@@ -68,5 +68,13 @@
         "symbol": "ATT",
         "org": "BEP-20",
         "isContain": true
+    },
+    {
+        "id": "selendra",
+        "name": "SELENDRA",
+        "logo": "assets/SelendraCircle-Blue.png",
+        "symbol": "SEL",
+        "org": "Testnet",
+        "isContain": true
     }
 ]

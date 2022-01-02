@@ -1,6 +1,6 @@
 {
   "name": "fluttercontactpicker",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "summary": "Interact with native OS contact pickers using Flutter",
   "description": "Interact with native OS contact pickers using Flutter",
   "homepage": "https://github.com/DRSchlaubi/contact_picker",

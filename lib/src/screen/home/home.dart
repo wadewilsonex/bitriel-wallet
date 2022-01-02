@@ -27,7 +27,11 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   @override
   void initState() {
-    print("Hello home");
+    List<int> list = '0x12'.codeUnits;
+    Uint8List bytes = Uint8List.fromList(list);
+    String string = String.fromCharCodes(bytes);
+    print("bytes $bytes");
+    print("string $string");
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};

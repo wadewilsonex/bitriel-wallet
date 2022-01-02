@@ -147,24 +147,33 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   Future<void> submitForm() async {
     dialogLoading(context);
-    final gsheets = GSheets(AppConfig.credentials);
+    // final gsheets = GSheets(AppConfig.credentials);
     // fetch spreadsheet by its id
-    final ss = await gsheets.spreadsheet(_spreadsheetId);
+    // final ss = await gsheets.spreadsheet(_spreadsheetId);
     // get worksheet by its title
 
-    final sheet = ss.worksheetById(0);
+    // final sheet = ss.worksheetById(0);
 
     try {
-      await sheet!.values.appendRow([
-        _emailController!.text,
-        _phoneController!.text,
-        _walletController!.text,
-        _socialController!.text,
-        _referralController!.text
-      ]);
+      await _airDropProvider!.signMessage(context).then((value) async {
+        print("value $value");
+        if (value != '' && value != null){
+          await enableAnimation();
+        } else {
+          Navigator.pop(context);
+        }
+      });
+      // await sheet!.values.appendRow([
+      //   _emailController!.text,
+      //   _phoneController!.text,
+      //   _walletController!.text,
+      //   _socialController!.text,
+      //   _referralController!.text
+      // ]);
 
-      enableAnimation();
+      // enableAnimation();
     } catch (e) {
+      print("Error submitForm $e");
       Navigator.pop(context);
 
       await showDialog(
@@ -177,7 +186,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text('Something went wrong. Try again'),
+              child: Text(e.toString()),
             ),
             actions: <Widget>[
               TextButton(
@@ -188,10 +197,6 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
           );
         },
       );
-      // await dialog(
-      //   'Something went wrong. Try again.',
-      //   'Opps',
-      // );
     }
 
     //final res = await findAddress(_walletController.text);
@@ -258,8 +263,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     // Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
     Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }
 
@@ -273,12 +277,15 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   }
 
   void initAirDrop() async {
+    print("initAirDrop");
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 100), () async {
 
       _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
       await _airDropProvider!.initContract();
       _airDropProvider!.setConProvider = Provider.of<ContractProvider>(context, listen: false);
       await _airDropProvider!.airdropTokenAddress();
+      // await _airDropProvider!.signMessage(context);
     });
   }
 
@@ -440,7 +447,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                 right: 66,
                               ),
                               hasShadow: _enableButton,
-                              action: _enableButton ? submitForm : null,
+                              action: submitForm//_enableButton ? submitForm : null,
                             ),
                             const SizedBox(height: 200),
                           ],

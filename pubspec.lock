@@ -56,7 +56,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.8.2"
   auth_header:
     dependency: transitive
     description:
@@ -64,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  basic_utils:
+    dependency: transitive
+    description:
+      name: basic_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.9.4"
   bip32_defichain:
     dependency: transitive
     description:
@@ -92,13 +99,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  bson:
+    dependency: transitive
+    description:
+      name: bson
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   build:
     dependency: transitive
     description:
       name: build
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   build_config:
     dependency: transitive
     description:
@@ -126,7 +147,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -226,14 +247,14 @@ packages:
       name: contact_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.1"
+    version: "4.6.0"
   contact_picker_web:
     dependency: transitive
     description:
       name: contact_picker_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.1"
+    version: "4.6.0"
   convert:
     dependency: transitive
     description:
@@ -437,7 +458,7 @@ packages:
       name: fluttercontactpicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.1"
+    version: "4.6.0"
   geocoding:
     dependency: "direct main"
     description:
@@ -647,7 +668,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.11"
   meta:
     dependency: transitive
     description:
@@ -668,7 +689,21 @@ packages:
       name: mobx
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.6+1"
+  mongo_dart:
+    dependency: "direct main"
+    description:
+      name: mongo_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.4"
+  mongo_dart_query:
+    dependency: transitive
+    description:
+      name: mongo_dart_query
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   nested:
     dependency: transitive
     description:
@@ -724,7 +759,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.11"
   path_provider_ios:
     dependency: transitive
     description:
@@ -767,6 +802,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
   permission_handler:
     dependency: "direct overridden"
     description:
@@ -830,6 +872,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.7"
+  pool:
+    dependency: transitive
+    description:
+      name: pool
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.0"
   process:
     dependency: transitive
     description:
@@ -879,6 +928,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  rational:
+    dependency: transitive
+    description:
+      name: rational
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.1"
   rename:
     dependency: "direct main"
     description:
@@ -893,6 +949,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  sasl_scram:
+    dependency: transitive
+    description:
+      name: sasl_scram
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
+  saslprep:
+    dependency: transitive
+    description:
+      name: saslprep
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   share:
     dependency: "direct main"
     description:
@@ -1023,7 +1093,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   typed_data:
     dependency: transitive
     description:
@@ -1038,6 +1108,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  unorm_dart:
+    dependency: transitive
+    description:
+      name: unorm_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   uuid:
     dependency: transitive
     description:
@@ -1051,7 +1128,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   vibration:
     dependency: "direct main"
     description:
@@ -1066,6 +1143,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.3-nullsafety.0"
+  vy_string_utils:
+    dependency: transitive
+    description:
+      name: vy_string_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   watcher:
     dependency: transitive
     description:
@@ -1121,7 +1205,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.3"
   xdg_directories:
     dependency: transitive
     description:

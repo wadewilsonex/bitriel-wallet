@@ -96,6 +96,8 @@ class ContractProvider with ChangeNotifier {
       final decode = jsonDecode(json);
       
       listContract.clear();
+
+      print("initJson decode $decode");
       
       decode.forEach((value){
         listContract.add(
