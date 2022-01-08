@@ -1,9 +1,12 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wallet_apps/core/service/helper_graphql.dart';
+import 'package:wallet_apps/core/service/mongo_s.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
+import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/core/service/portfolio_s.dart';
 
@@ -27,30 +30,18 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   @override
   void initState() {
-    List<int> list = '0x12'.codeUnits;
-    Uint8List bytes = Uint8List.fromList(list);
-    String string = String.fromCharCodes(bytes);
-    print("bytes $bytes");
-    print("string $string");
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
-    // Timer(const Duration(seconds: 2), () {
-    //   PortfolioServices().setPortfolio(context);
-    // });
-
-    // if (mounted){
-    //   marketPriceInitializer();
-    // }
 
     AppServices.noInternetConnection(_homeM.globalKey!);
 
-    WidgetsBinding.instance!.addObserver(this);
+    // WidgetsBinding.instance!.addObserver(this);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
-      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    //   await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+    //   await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    // });
   }
 
   void marketPriceInitializer() async {

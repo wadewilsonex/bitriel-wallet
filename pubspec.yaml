@@ -44,6 +44,7 @@ dependencies:
   connectivity:
   connectivity_wrapper:
   async:
+  url_launcher:
 
   # Image service
   intl:
@@ -95,6 +96,7 @@ dependencies:
   flare_flutter:
   responsive_framework:
   flutter_launcher_icons:
+  graphql_flutter:
   
 dependency_overrides:
     # git:
@@ -151,6 +153,7 @@ flutter:
     - assets/
     - assets/abi/
     - assets/icons/
+    - assets/logo/
     - assets/token_logo/
     - assets/json/
   

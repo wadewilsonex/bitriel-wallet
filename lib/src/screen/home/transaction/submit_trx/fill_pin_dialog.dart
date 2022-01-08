@@ -77,7 +77,7 @@ class FillPinState extends State<FillPin> {
             alignment: Alignment.centerRight,
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context, '');
               },
               child: const MyText(text: "Close"),
             ),

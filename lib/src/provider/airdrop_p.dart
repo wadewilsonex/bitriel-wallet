@@ -1,17 +1,40 @@
 import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart' as http;
+
+enum SocialMedia {facebook, twitter, telegram}
 
 class AirDropProvider with ChangeNotifier {
 
+  final text = "Claim \$SEL tokens airdrop via airdropv2.selendra.org. follow us on Twitter twitter.com/selendrachain and Telegram t.me/selendrachain. #Selendra #Blockchain #SmartContract #OpenSource https://airdropv2.selendra.org/";
+
+  dynamic urls;
+
   final String contract = "0xb0DB809A5e28be3981771B5bbD6066E7996845Ca";
+
+  String? _token;
+
+  bool? isRegister;
+
+  set setToken(String tk) {
+    _token = tk;
+    notifyListeners();
+  }
+  String get getToken => _token!;
 
   DeployedContract? _deployedContract;
   ContractProvider? _contractP;
 
   AirDropProvider(){
     initContract();
+    urls = {
+      SocialMedia.twitter: 'https://twitter.com/intent/tweet?text=$text',
+      SocialMedia.facebook: 'http://m.facebook.com/sharer.php?t=$text',
+      SocialMedia.telegram: 'https://t.me/share/url?text=$text',
+    };
   }
 
   /// Assign contract provider parameter
@@ -29,7 +52,6 @@ class AirDropProvider with ChangeNotifier {
         ContractAbi.fromJson(abi, "AirdropClaim"),
         EthereumAddress.fromHex(contract)
       );
-      
       notifyListeners();
     } catch (e){
       print("Error initContract $e");
@@ -57,6 +79,24 @@ class AirDropProvider with ChangeNotifier {
     } catch (e) {
       print("Error airdropTokenAddress $e");
     }
+  }
+
+  Future<String> getTrxFee() async {
+    print("getTrxFee ${_contractP!.ethAdd}");
+    try {
+
+      dynamic res = await _contractP!.bscClient.estimateGas(
+        sender: EthereumAddress.fromHex(contract),
+        to: EthereumAddress.fromHex(_contractP!.ethAdd),
+        value: EtherAmount.inWei(BigInt.from(5 * pow(1, 18
+        )))
+      );
+      res = (res / BigInt.from(pow(10, 9)));
+      print(res);
+    } catch (e) {
+      print("Error getTrxFee $e");
+    }
+    return '';
   }
 
   Future<dynamic> signMessage(BuildContext context) async {
@@ -97,21 +137,19 @@ class AirDropProvider with ChangeNotifier {
       //   ]
       // );
 
-      // print("Amount ${BigInt.parse(amount!)}");
-      // print("Amount $expiredDate");
-      // print("Amount ${BigInt.parse(v!)}");
-      // print("R $r");
-      // print("S $s");
-      // print("Utf8 ${utf8.encode(r!)}");
-      // print("Utf8 ${utf8.encode(s!)}");
+      print("Amount ${BigInt.parse(amount!)}");
+      print("expiredDate ${expiredDate.runtimeType}");
+      print("V ${v!}");
+      print("R ${r!.length}");
+      print("S ${s!.length}");
 
       final getPin = await Component.pinDialogBox(context!);
 
-      final privateKey = await AppServices.getPrivateKey(getPin, context);
+      final privateKey = getPin != '' ? await AppServices.getPrivateKey(getPin, context) : getPin;
 
-      print("privateKey $privateKey");
+      print("privateKey ${privateKey!.isEmpty}");
 
-      if (privateKey != null || privateKey != ''){
+      if (privateKey != ''){
 
         final credentials = await EthPrivateKey.fromHex(privateKey!);
 
@@ -122,11 +160,11 @@ class AirDropProvider with ChangeNotifier {
             function: preFunction,
             // maxGas: 2145000,
             parameters: [
-              BigInt.parse(amount!),
+              BigInt.parse(amount),
               BigInt.from(expiredDate!),
-              BigInt.parse(v!),
-              Uint8List.fromList(r!),//rHash.hashString(HashType.SHA256,  )),
-              Uint8List.fromList(s!)//rHash.hashString(HashType.SHA256, s ))
+              BigInt.parse(v),
+              Uint8List.fromList(r),//rHash.hashString(HashType.SHA256,  )),
+              Uint8List.fromList(s)//rHash.hashString(HashType.SHA256, s ))
             ]
           ),
           chainId: null,
@@ -136,17 +174,181 @@ class AirDropProvider with ChangeNotifier {
         print("my res $res");
         return res;
       }
-    }  
-    on FormatException catch (f){
-      print("hello format ${f.message}");
-      print("Error format airdropTokenAddress $e");
     }
     catch (e) {
-      print("Error airdropTokenAddress $e");
-      return ''; 
+      print("Error airdrop_p.dart $e");
+
+      throw Exception(e);
     }
   
     return '';
+  }
+
+
+  Future<void> signUp() async {
+    print("Sign Up ${_contractP!.ethAdd}");
+    try {
+      await http.post(
+        Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
+        headers: {"Content-Type": "application/json; charset=utf-8"},
+        body: json.encode({
+          "email": "${_contractP!.ethAdd}@gmail.com",
+          "password": '123456',
+          "wallet": "${_contractP!.ethAdd}"
+        })
+      ).then((value) async {
+        final res = json.decode(value.body);
+        print("Hello value ${value.body}");
+        if (res['success']){
+          await signIn();
+        }
+
+        print("My token e${_token}");
+      });
+
+      // var db = Db(AppConfig.mongoUrl);
+      // await db.open().then((value) {
+      //   print("Hello my db openDb $value");
+      // });
+      // print("Done connect to mongo");
+    } catch (e) {
+      print("Error signUp $e");
+    }
+  }
+
+  Future<void> signIn() async {
+    print("Sign In ${_contractP!.ethAdd}");
+    try {
+      await http.post(
+        Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
+        headers: {"Content-Type": "application/json; charset=utf-8"},
+        body: json.encode({
+          "email": "${_contractP!.ethAdd}@gmail.com",
+          "password": '123456',
+        })
+      ).then((value) async {
+        final res = json.decode(value.body);
+        print("Hello value ${value.body.contains('error')}");
+        if (!res['success']){
+          await signUp();
+        } else {
+          setToken = res['token'];
+        }
+      });
+
+      print(_token);
+
+      // var db = Db(AppConfig.mongoUrl);
+      // await db.open().then((value) {
+      //   print("Hello my db openDb $value");
+      // });
+      // print("Done connect to mongo");
+    } catch (e) {
+      print("Error signIn $e");
+    }
+  }
+
+  Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
+    print("encodeRS");
+    final apiPro = await Provider.of<ApiProvider>(context, listen: false);
+    return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
+    // .then((value) async {
+    //   print("resolve $value");
+    //   return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
+    // });
+  }
+
+  Future<dynamic> signToDb() async {
+    print("signToDbs ${_contractP!.ethAdd}");
+    // print("getToken $getToken");
+    try {
+
+      final res = await StorageServices.fetchData(DbKey.signData);
+      // For First Time Sign
+      if (res == null){
+        
+        final res = await http.post(
+          Uri.parse('https://airdropv2-api.selendra.org/sign'),
+          headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+          body: json.encode({
+            "wallet": "${_contractP!.ethAdd}",
+          })
+        );
+
+        // http.Response res = http.Response(
+        //   json.encode({'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}}), 
+        //   200
+        // ); 
+
+        print("From Api ${(res.body)}");
+        
+        if (res.statusCode == 200){
+          // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
+          // if (map['data']['attempt'] == 1){
+
+          //   map.addAll({
+          //     'first': true
+          //   });
+          // }
+
+          // First Sign Data
+          await StorageServices.storeData(json.decode(res.body), DbKey.signData);
+        }
+
+        print("Finish storeData");
+
+        return json.decode(res.body)['data'];
+      } else {
+        print("From DB $res");
+        // Check If Time To Re Sign
+        if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date'])) {
+          print("Is time to api");
+          await StorageServices.removeKey(DbKey.signData);
+          return await signToDb();
+        } else {
+          return res['data'];
+        }
+      }
+
+      // var db = Db(AppConfig.mongoUrl);
+      // await db.open().then((value) {
+      //   print("Hello my db openDb $value");
+      // });
+      // print("Done connect to mongo");
+    } catch (e) {
+      print("Error signToDb $e");
+    }
+  }
+  
+  Future<bool> isClaimOut(Map<String ,dynamic>value, Map<String ,dynamic> byte32, {@required BuildContext? context}) async {
+    try {
+
+      await claim(context: context, amount: value['amount'], expiredDate: int.parse(value["Date"]), v: value['v'], r: List<int>.from(byte32['rr']), s: List<int>.from(byte32['ss']) );
+      return true;
+    } catch (e) {
+      await showDialog(
+        context: context!,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            title: Align(
+              child: Text('Opps'),
+            ),
+            content: Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              child: Text("${e.toString()} ${value['attempt'] < 2 ? '\nPlease wait until second claim available' : ''}"),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return false;
   }
 
 }

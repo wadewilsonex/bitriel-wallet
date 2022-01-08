@@ -234,6 +234,6 @@ class StorageServices {
 
   static Future<void> removeKey(String path) async {
     _preferences = await SharedPreferences.getInstance();
-    _preferences!.remove(path);
+    await _preferences!.remove(path);
   }
 }

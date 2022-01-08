@@ -5,7 +5,12 @@ import 'package:gsheets/gsheets.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/components/network_sensitive.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wallet_apps/src/screen/home/claim_airdrop/intro_airdrop.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:date_format/date_format.dart';
 
 import '../../../../index.dart';
 
@@ -34,6 +39,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   bool _submitted = false;
 
   AirDropProvider? _airDropProvider;
+
+  double iconSize = 50;
 
   // ignore: unnecessary_raw_strings
 
@@ -128,53 +135,188 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     return false;
   }
 
-  // Future<int> countRefTime(String address) async{
-  //   final gsheets = GSheets(AppConfig.credentials);
-  //   // fetch spreadsheet by its id
-  //   final ss = await gsheets.spreadsheet(_spreadsheetId);
-  //   // get worksheet by its title
-
-  //   final sheet = ss.worksheetById(0);
-  //   final value = await sheet.values.map.allRows();
-
-  //   for (final i in value) {
-  //     if (i['Wallet'].toLowerCase() == address.toLowerCase()) {
-  //       return true;
-  //     }
-  //   }
-  //   return 0;
-  // }
-
   Future<void> submitForm() async {
     dialogLoading(context);
     // final gsheets = GSheets(AppConfig.credentials);
     // fetch spreadsheet by its id
     // final ss = await gsheets.spreadsheet(_spreadsheetId);
     // get worksheet by its title
+    Map<String, dynamic> dbSignData = {};
 
     // final sheet = ss.worksheetById(0);
-
+    print("submitForm");
     try {
-      await _airDropProvider!.signMessage(context).then((value) async {
-        print("value $value");
-        if (value != '' && value != null){
-          await enableAnimation();
-        } else {
-          Navigator.pop(context);
-        }
-      });
-      // await sheet!.values.appendRow([
-      //   _emailController!.text,
-      //   _phoneController!.text,
-      //   _walletController!.text,
-      //   _socialController!.text,
-      //   _referralController!.text
-      // ]);
+      await Provider.of<AirDropProvider>(context, listen: false).signToDb().then((value) async {
 
-      // enableAnimation();
+        int date = int.parse(value['Date']);
+
+        final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+        bool claimOut = await _airDropProvider!.isClaimOut(value, byte32, context: context);
+        print("claimOut $claimOut");
+        if ( claimOut && value['attempt'] < 2 && DateTime.now().millisecondsSinceEpoch > date){
+          print("Claim Success");
+
+          // Close Dialog
+          Navigator.pop(context);
+
+          await enableAnimation();
+        }
+
+        // print("After $value");
+
+        // if (value != null){
+
+        //   int date = int.parse(value['Date']);
+
+        //   print((DateTime.now().millisecondsSinceEpoch - date));
+
+        //   print("DateTime.now().millisecondsSinceEpoch > date ${DateTime.now().millisecondsSinceEpoch > date}");
+
+        //   print("DateTime.now().millisecondsSinceEpoch ${DateTime.now().millisecondsSinceEpoch}");
+
+        //   dbSignData = await StorageServices.fetchData(DbKey.signData);
+
+        //   print("dbSignData['first'] ${dbSignData}");
+
+        //   if (value['attempt'] == 1){
+            
+        //     // In case No fee to do transaction Reuse old hash.
+        //     // Reuse Because First Time Sign To DB will take long time to response and Response 504
+        //     if (dbSignData.containsKey('isErrorFee')){
+        //       print("isErrorFee");
+        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+        //       await claim(value, byte32);
+
+        //       // In Case Have Fee and Success Claim With Old Hash
+        //       // Need to remove isErrorFee key
+        //       dbSignData.remove('isErrorFee');
+        //       await StorageServices.storeData(dbSignData, DbKey.signData);
+        //     }
+
+        //     else if (DateTime.now().millisecondsSinceEpoch > date){
+        //       print("DateTime.now().millisecondsSinceEpoch > date");
+        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+        //       await claim(value, byte32);
+        //     } 
+        //     // Condition Prevent Message From First Time Sign 
+        //     else if (dbSignData['first'] == false) {
+        //       await showDialog(
+        //         context: context,
+        //         builder: (context) {
+        //           return AlertDialog(
+        //             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        //             title: Align(
+        //               child: Text('Message'),
+        //             ),
+        //             content: Padding(
+        //               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        //               child: Text("Please wait for 1 hour.\nYour remain time is ${
+        //                 (date - DateTime.now().millisecondsSinceEpoch)
+        //                 // formatDate( DateTime.parse( (DateTime.now().millisecondsSinceEpoch - date).toString() ).toLocal(), [
+        //                 //   ':',
+        //                 //   nn,
+        //                 //   ':',
+        //                 //   ss,
+        //                 // ])
+        //               }", textAlign: TextAlign.center),
+        //             ),
+        //             actions: <Widget>[
+        //               TextButton(
+        //                 onPressed: () => Navigator.pop(context),
+        //                 child: const Text('Close'),
+        //               ),
+        //             ],
+        //           );
+        //         },
+        //       );
+        //     }
+
+        //     // This condition for only first time
+        //     if (dbSignData['first'] == true){
+        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+        //       await claim(value, byte32);
+              
+        //       // Update And Restore Sign Data
+        //       dbSignData['first'] = false;
+        //       await StorageServices.storeData(dbSignData, DbKey.signData);
+        //     }
+        //   }
+
+
+
+
+        
+
+          // if ( dbSignData['first'] == true && DateTime.now().millisecondsSinceEpoch > date && value['attempt'] < 2){
+
+          //   final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+          //   await claim(value, byte32);
+          // } else if ( DateTime.now().millisecondsSinceEpoch < date && value['attempt'] < 2 ) {
+
+          //   await showDialog(
+          //     context: context,
+          //     builder: (context) {
+          //       return AlertDialog(
+          //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          //         title: Align(
+          //           child: Text('Message'),
+          //         ),
+          //         content: Padding(
+          //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          //           child: Text("Please wait for 1 hour.\nYour remain time is ${
+          //             (date - DateTime.now().millisecondsSinceEpoch)
+          //             // formatDate( DateTime.parse( (DateTime.now().millisecondsSinceEpoch - date).toString() ).toLocal(), [
+          //             //   ':',
+          //             //   nn,
+          //             //   ':',
+          //             //   ss,
+          //             // ])
+          //           }", textAlign: TextAlign.center),
+          //         ),
+          //         actions: <Widget>[
+          //           TextButton(
+          //             onPressed: () => Navigator.pop(context),
+          //             child: const Text('Close'),
+          //           ),
+          //         ],
+          //       );
+          //     },
+          //   );
+          // } else if (value['attempt'] == 2){
+          //   await showDialog(
+          //     context: context,
+          //     builder: (context) {
+          //       return AlertDialog(
+          //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          //         title: Align(
+          //           child: Text('Oops'),
+          //         ),
+          //         content: Padding(
+          //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          //           child: Text("You had claimed out.", textAlign: TextAlign.center),
+          //         ),
+          //         actions: <Widget>[
+          //           TextButton(
+          //             onPressed: () => Navigator.pop(context),
+          //             child: const Text('Close'),
+          //           ),
+          //         ],
+          //       );
+          //     },
+          //   );
+          // }
+        // }
+      });
+
+      // Close Dialog
+      Navigator.pop(context);
+
     } catch (e) {
       print("Error submitForm $e");
       Navigator.pop(context);
+      
+      dbSignData.addAll({'isErrorFee': true});
+      await StorageServices.storeData(dbSignData, DbKey.signData);
 
       await showDialog(
         context: context,
@@ -199,60 +341,19 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       );
     }
 
-    //final res = await findAddress(_walletController.text);
-
-    // if (res) {
-    //   Navigator.pop(context);
-    //   await dialog(
-    //       context,
-    //       const Text('You have already submitted to claim the airdrop.'),
-    //       const Text('Opps'));
-    // } else {
-    //   final resReferal = await findAddress(_referralController.text);
-    //   if (resReferal) {
-
-    //   } else {
-    //     Navigator.pop(context);
-    //     await dialog(
-    //         context,
-    //         const Text('Invalid Referral ID'),
-    //         const Text('Opps'));
-    //   }
-    // }
-
-    // for (final i in value) {
-    //   if (i['Wallet'].toLowerCase() == _walletController.text.toLowerCase()) {
-    //     Navigator.pop(context);
-    //     await dialog(
-    //         context,
-    //         const Text('You have already submitted to claim the airdrop.'),
-    //         const Text('Opps'));
-    //   } else {
-    //     print('submitt');
-    //     // try {
-    //     //   await sheet.values.appendRow([
-    //     //     _emailController.text,
-    //     //     _phoneController.text,
-    //     //     _walletController.text,
-    //     //     _socialController.text ?? '',
-    //     //     _referralController.text ?? ''
-    //     //   ]);
-
-    //     //   enableAnimation();
-    //     // } catch (e) {
-    //     //   Navigator.pop(context);
-    //     //   await dialog(
-    //     //     context,
-    //     //     const Text('Something went wrong. Try again.'),
-    //     //     const Text('Opps'),
-    //     //   );
-    //     // }
-    //   }
-    // }
   }
 
+  // Future<dynamic> claim(Map<String ,dynamic>value, Map<String ,dynamic> byte32) async {
+  //   return await _airDropProvider!.claim(context: context, amount: value['amount'], expiredDate: int.parse(value["Date"]), v: value['v'], r: List<int>.from(byte32['rr']), s: List<int>.from(byte32['ss']) ).then((value) async {
+        
+  //     if (value != ''){
+        
+  //       enableAnimation();
+  //     }
+  //   });
+  // }
+
   Future<void> enableAnimation() async {
-    Navigator.pop(context);
     flareController.play('Checkmark');
 
     setState(() {
@@ -271,13 +372,13 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
 
     _referralController!.text = data!.text!;
-    _referralController!.selection = TextSelection.fromPosition(
-        TextPosition(offset: _referralController!.text.length));
+    _referralController!.selection = TextSelection.fromPosition(TextPosition(offset: _referralController!.text.length));
     setState(() {});
   }
 
   void initAirDrop() async {
     print("initAirDrop");
+    await StorageServices.fetchData(DbKey.signData).then((value) => print(value));
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 100), () async {
 
@@ -285,6 +386,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       await _airDropProvider!.initContract();
       _airDropProvider!.setConProvider = Provider.of<ContractProvider>(context, listen: false);
       await _airDropProvider!.airdropTokenAddress();
+      await _airDropProvider!.signIn();
+      // await _airDropProvider!.getTrxFee();
       // await _airDropProvider!.signMessage(context);
     });
   }
@@ -320,6 +423,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   Widget build(BuildContext context) {
     _walletController!.text = Provider.of<ContractProvider>(context).ethAdd;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final contractPro = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: NetworkSensitive(
         child: BodyScaffold(
@@ -328,6 +432,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
             children: [
               Column(
                 children: [
+
                   MyAppBar(
                     title: 'Claim Airdrop',
                     color: isDarkTheme
@@ -337,6 +442,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                       Navigator.pop(context);
                     },
                   ),
+
                   Expanded(
                     child: Form(
                       key: airdropKey,
@@ -344,103 +450,167 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
+                            // Container(
+                            //   padding: const EdgeInsets.all(20),
+                            //   width: MediaQuery.of(context).size.width,
+                            //   child: ClipRRect(
+                            //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                            //     child: Image.asset(
+                            //       'assets/bep20.png',
+                            //       height: 180,
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
+                            // ),
+                            
                             Container(
-                              padding: const EdgeInsets.all(20),
-                              width: MediaQuery.of(context).size.width,
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0)),
-                                child: Image.asset(
-                                  'assets/bep20.png',
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                ),
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: isDarkTheme
+                                  ? hexaCodeToColor(AppColors.darkCard)
+                                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [shadow(context)]
+                              ),
+                              child: Column(
+                                children: [
+
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      color: 
+                                      isDarkTheme
+                                        ? hexaCodeToColor(AppColors.darkBgd)
+                                        : Colors.grey[300],//hexaCodeToColor(AppColors.whiteColorHexa),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        
+                                        MyText(
+                                          width: double.infinity,
+                                          text: 'Address',
+                                          fontWeight: FontWeight.bold,
+                                          color: isDarkTheme
+                                            ? AppColors.darkSecondaryText
+                                            : AppColors.textColor,
+                                          textAlign: TextAlign.left,
+                                          bottom: 10.0,
+                                        ),
+
+                                        MyText(
+                                          width: double.infinity,
+                                          text: contractPro.ethAdd,
+                                          fontWeight: FontWeight.bold,
+                                          color: isDarkTheme
+                                            ? AppColors.darkSecondaryText
+                                            : AppColors.textColor,
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 24,
+                                          bottom: 4.0,
+                                        )
+
+                                      ],
+                                    ),
+                                  ),
+
+                                  MyText(
+                                    top: 16.0,
+                                    width: double.infinity,
+                                    text: "🟢 Status: 50 SEL available to claim",
+                                    fontWeight: FontWeight.bold,
+                                    textAlign: TextAlign.left,
+                                    color: isDarkTheme
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ]
                               ),
                             ),
-                            MyInputField(
-                              pBottom: 24,
-                              labelText:
-                                  "Email (by submitting will get +5 \$SEL)",
-                              inputType: TextInputType.emailAddress,
-                              textInputFormatter: [
-                                LengthLimitingTextInputFormatter(
-                                  TextField.noMaxLength,
+
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  top: 16.0,
+                                  pBottom: 16.0,
+                                  left: 16.0,
+                                  width: double.infinity,
+                                  text: "Share the airdrop with your friends and family",
+                                  fontWeight: FontWeight.bold,
+                                  color: isDarkTheme
+                                    ? AppColors.darkSecondaryText
+                                    : AppColors.textColor,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  bottom: 4.0,
                                 ),
-                              ],
-                              controller: _emailController,
-                              focusNode: _emailFocusNode,
-                              validateField: validateEmailField,
-                              onChanged: onChangedEmail,
-                              onSubmit: onSubmit,
+                                
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                                        padding: MaterialStateProperty.all(EdgeInsets.all(8)),
+                                        shape: MaterialStateProperty.all(CircleBorder())
+                                      ),
+                                      onPressed: () async {
+                                        final social = _airDropProvider!.urls[SocialMedia.twitter];
+                                        if (await canLaunch(social)){
+                                          await launch(social);
+                                        }
+                                      }, 
+                                      child: SvgPicture.asset("assets/logo/twitter.svg", width: iconSize, height: iconSize,),
+                                    ),
+
+                                    SizedBox(width: 10,),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                                        padding: MaterialStateProperty.all(EdgeInsets.all(8)),
+                                        shape: MaterialStateProperty.all(CircleBorder())
+                                      ),
+                                      onPressed: () async {
+                                        final social = _airDropProvider!.urls[SocialMedia.facebook];
+                                        if (await canLaunch(social)){
+                                          await launch(social);
+                                        }
+                                      }, 
+                                      child: SvgPicture.asset("assets/logo/facebook.svg", width: iconSize, height: iconSize),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                                        padding: MaterialStateProperty.all(EdgeInsets.all(8)),
+                                        shape: MaterialStateProperty.all(CircleBorder())
+                                      ),
+                                      onPressed: () async {
+                                        final social = _airDropProvider!.urls[SocialMedia.telegram];
+                                        if (await canLaunch(social)){
+                                          await launch(social);
+                                        }
+                                      }, 
+                                      child: SvgPicture.asset("assets/logo/telegram.svg", width: iconSize, height: iconSize),
+                                    )
+                                  ],
+                                )
+                                
+                              ]
                             ),
-                            MyInputField(
-                              pBottom: 24,
-                              labelText: "Phone Number (by submitting will get +5 \$SEL)",
-                              textInputFormatter: [
-                                LengthLimitingTextInputFormatter(
-                                  TextField.noMaxLength,
-                                ),
-                              ],
-                              controller: _phoneController,
-                              focusNode: _phoneFocusNode,
-                              inputType: TextInputType.number,
-                              validateField: (value) => value.isEmpty
-                                ? 'Please fill in phone number'
-                                : null,
-                              onChanged: onChanged,
-                              onSubmit: onSubmit,
-                            ),
-                            MyInputField(
-                              pBottom: 8,
-                              labelText: "Wallet Address (0xe0e5c149b9cdf9d2279b6ddfda9bc0a4a975285c)",
-                              textInputFormatter: [
-                                LengthLimitingTextInputFormatter(
-                                  TextField.noMaxLength,
-                                ),
-                              ],
-                              controller: _walletController,
-                              focusNode: _walletFocusNode,
-                              validateField: (value) => value.isEmpty
-                                ? 'Please fill in wallet address'
-                                : null,
-                              onChanged: onChanged,
-                              onSubmit: onSubmit,
-                            ),
-                            const MyText(
-                              text: 'Get Wallet (each address will get 100 \$SEL)',
-                              textAlign: TextAlign.left,
-                              left: 16.0,
-                              right: 16.0,
-                              fontSize: 16.0,
-                            ),
-                            MyInputField(
-                              pTop: 24.0,
-                              pBottom: 8,
-                              labelText: "Social Post Links (optional)",
-                              textInputFormatter: [
-                                LengthLimitingTextInputFormatter(
-                                  TextField.noMaxLength,
-                                ),
-                              ],
-                              controller: _socialController,
-                              focusNode: _socialFocusNode,
-                              onChanged: onChanged,
-                              onSubmit: onSubmit,
-                            ),
-                            MyText(
-                              text: AppString.claimAirdropNote,
-                              textAlign: TextAlign.start,
-                              left: 16.0,
-                              right: 16.0,
-                              fontSize: 16.0,
-                              color: isDarkTheme
-                                  ? AppColors.whiteColorHexa
-                                  : AppColors.textColor,
-                            ),
+
+                            AirDropDes(),
                             
                             const SizedBox(height: 20),
                             MyFlatButton(
-                              textButton: "Claim Airdrop",
+                              textButton: "Claim",
                               edgeMargin: const EdgeInsets.only(
                                 top: 40,
                                 left: 66,

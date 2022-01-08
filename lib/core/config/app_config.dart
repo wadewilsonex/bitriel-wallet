@@ -24,6 +24,7 @@ class AppConfig {
 
   /*google spreedsheet credential for claim airdrop */
   static const credentials = '';
+  static const mongoUrl = "mongodb+srv://@airdropv2-api.selendra.org/selendraAirdrop?retryWrites=true&w=majority";
 
   static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
 
@@ -130,7 +131,6 @@ class AppConfig {
   // https://sld_marketnet-api.selendra.com/pub/v1
 
 }
-
 class DBkey {
   static String supportedToken = "supportedToken";
 }

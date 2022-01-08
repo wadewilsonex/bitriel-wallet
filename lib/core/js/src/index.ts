@@ -123,6 +123,24 @@ async function signMessage(candidate){
   });
 }
 
+async function encodeHextoByte(r, s){
+
+  console.log("Before");
+  console.log("r",r);
+  console.log("s",s);
+
+  const rr = web3Utils.hexToBytes(r);
+  const ss = web3Utils.hexToBytes(s);
+
+  console.log("After");
+  console.log("rr",rr);
+  console.log("ss",ss);
+
+  return new Promise(async (resolve, reject) => {
+    resolve({rr, ss});
+  });
+}
+
 async function getChainDecimal(api: ApiPromise) {
   return new Promise(async (resolve, reject) => {
     const res = api.registry.chainDecimals;
@@ -353,7 +371,8 @@ const settings = {
   getNetworkProperties,
   // generate external links to polkascan/subscan/polkassembly...
   genLinks,
-  signMessage
+  signMessage,
+  encodeHextoByte
 };
 
 (<any>window).settings = settings;

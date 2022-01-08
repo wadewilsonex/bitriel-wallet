@@ -167,7 +167,6 @@ class AppServices {
     } catch (e) {
       await customDialog(context, 'Opps', 'PIN verification failed');
     }
-    print("resprivateKey $privateKey");
     return privateKey!;
   }
 

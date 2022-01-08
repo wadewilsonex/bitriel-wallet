@@ -1,3 +1,4 @@
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
@@ -5,8 +6,10 @@ import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initHiveForFlutter();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

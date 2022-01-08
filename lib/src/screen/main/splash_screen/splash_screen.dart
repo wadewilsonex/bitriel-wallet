@@ -27,13 +27,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
         await StorageServices().readSecure('private')!.then((String? value) async {
-          print("My value $value");
           if (value == null || value.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
           } else {
             final ethAddr = await StorageServices().readSecure('etherAdd');
-
-            print("ethAddr $ethAddr");
 
             if (ethAddr == null) {
               await dialogSuccess(
@@ -73,14 +70,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
-    print("checkBio");
     
     final bio = await StorageServices.readSaveBio();
-    print("bio $bio");
 
     final passCode = await StorageServices().readSecure('passcode');
 
-    print("password $passCode");
     await StorageServices().readSecure('private')!.then((value) {});
 
     if (bio && passCode != '') {
@@ -108,7 +102,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => ClaimAirDrop()));
         Navigator.pushReplacementNamed(context, Home.route);
       }
     }
@@ -147,7 +141,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     // final sysTheme = _checkIfDarkModeEnabled();
 
     // print("sysTheme $sysTheme");
-    print("res $res");
+    // print("res $res");
 
     if (res != null) {
       await Provider.of<ThemeProvider>(context, listen: false).changeMode();

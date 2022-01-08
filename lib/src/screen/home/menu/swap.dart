@@ -411,8 +411,7 @@ class _SwapState extends State<Swap> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           content: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             child: SingleChildScrollView(
@@ -420,6 +419,7 @@ class _SwapState extends State<Swap> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  
                   SizedBox(
                     height: 20,
                   ),

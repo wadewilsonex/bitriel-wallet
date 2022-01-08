@@ -5,6 +5,7 @@ class DbKey{
   static String ethContractList = "ethContractList";
   static String contactList = "contactList";
   static String defContactList = "defaultContactList";
+  static String signData = "signData";
   
   static String themeMode = "themeMode";
 }
