@@ -13,6 +13,13 @@ class HomeBody extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+
+        ElevatedButton(
+          onPressed: () async {
+            await StorageServices.removeKey(DbKey.signData);
+          }, 
+          child: Text("Clear Sign")
+        ),
         
         // Pie Chart With List Asset Market
         // PortFolioCus(),

@@ -113,12 +113,15 @@ class _AccountState extends State<Account> {
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
 
+      final signData = await StorageServices.fetchData(DbKey.signData);
+
       await AppServices.clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
 
-      await StorageServices().clearSecure();
+      await StorageServices.storeData(signData, DbKey.signData);
+
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
 
@@ -126,6 +129,7 @@ class _AccountState extends State<Account> {
       
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
+      await StorageServices().clearSecure();
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
       print("_deleteAccount ${e.toString()}");

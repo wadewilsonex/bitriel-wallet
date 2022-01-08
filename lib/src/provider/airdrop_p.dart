@@ -18,6 +18,14 @@ class AirDropProvider with ChangeNotifier {
   String? _token;
 
   bool? isRegister;
+  
+  String _privateKey = '';
+
+  set setPrivateKey(String pk){
+    _privateKey = pk;
+    notifyListeners();
+  }
+  String get getPrivateKey => _privateKey;
 
   set setToken(String tk) {
     _token = tk;
@@ -143,15 +151,11 @@ class AirDropProvider with ChangeNotifier {
       print("R ${r!.length}");
       print("S ${s!.length}");
 
-      final getPin = await Component.pinDialogBox(context!);
+      print("privateKey ${_privateKey.isEmpty}");
 
-      final privateKey = getPin != '' ? await AppServices.getPrivateKey(getPin, context) : getPin;
+      if (_privateKey != ''){
 
-      print("privateKey ${privateKey!.isEmpty}");
-
-      if (privateKey != ''){
-
-        final credentials = await EthPrivateKey.fromHex(privateKey!);
+        final credentials = await EthPrivateKey.fromHex(_privateKey);
 
         final res = await _contractP!.bscClient.sendTransaction(
           credentials,
@@ -263,7 +267,9 @@ class AirDropProvider with ChangeNotifier {
     // print("getToken $getToken");
     try {
 
-      final res = await StorageServices.fetchData(DbKey.signData);
+      dynamic res = await StorageServices.fetchData(DbKey.signData);
+
+      print("res $res");
       // For First Time Sign
       if (res == null){
         
@@ -299,12 +305,14 @@ class AirDropProvider with ChangeNotifier {
 
         return json.decode(res.body)['data'];
       } else {
-        print("From DB $res");
+        // print("From DB $res");
+        // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
         // Check If Time To Re Sign
-        if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date'])) {
+        if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
           print("Is time to api");
           await StorageServices.removeKey(DbKey.signData);
           return await signToDb();
+
         } else {
           return res['data'];
         }
@@ -321,34 +329,19 @@ class AirDropProvider with ChangeNotifier {
   }
   
   Future<bool> isClaimOut(Map<String ,dynamic>value, Map<String ,dynamic> byte32, {@required BuildContext? context}) async {
-    try {
-
-      await claim(context: context, amount: value['amount'], expiredDate: int.parse(value["Date"]), v: value['v'], r: List<int>.from(byte32['rr']), s: List<int>.from(byte32['ss']) );
+    dynamic res = await claim(context: context, amount: value['amount'], expiredDate: int.parse(value["Date"]), v: value['v'], r: List<int>.from(byte32['rr']), s: List<int>.from(byte32['ss']) );
+    if (res != ''){
+      return false;
+    } else {
+      // For wrong password
       return true;
-    } catch (e) {
-      await showDialog(
-        context: context!,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Opps'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text("${e.toString()} ${value['attempt'] < 2 ? '\nPlease wait until second claim available' : ''}"),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
     }
-    return false;
+    // try {
+
+    // } catch (e) {
+      
+    // }
+    // return true;
   }
 
 }

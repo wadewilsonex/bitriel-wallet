@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -41,6 +42,12 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   AirDropProvider? _airDropProvider;
 
   double iconSize = 50;
+
+  String amount = '0';
+
+  String pin = '';
+
+  Map<String, dynamic>? value;
 
   // ignore: unnecessary_raw_strings
 
@@ -136,6 +143,14 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   }
 
   Future<void> submitForm() async {
+    
+    if (pin == '') pin = await Component.pinDialogBox(context);
+  
+    print("_airDropProvider!.getPrivateKey ${_airDropProvider!.getPrivateKey}");
+
+    await fetchSigned();
+
+    _airDropProvider!.setPrivateKey = (pin != '' ? await AppServices.getPrivateKey(pin, context) : pin)!;
     dialogLoading(context);
     // final gsheets = GSheets(AppConfig.credentials);
     // fetch spreadsheet by its id
@@ -146,212 +161,141 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     // final sheet = ss.worksheetById(0);
     print("submitForm");
     try {
-      await Provider.of<AirDropProvider>(context, listen: false).signToDb().then((value) async {
+      print("Value $value");
+      int date = int.parse(value!['Date']);
 
-        int date = int.parse(value['Date']);
+      final byte32 = await _airDropProvider!.encodeRS(context, value!['r'], value!['s']);
+      bool claimOut = await _airDropProvider!.isClaimOut(value!, byte32, context: context);
+      // bool claimOut = false;
+      print("claimOut $claimOut");
+      if ( claimOut == false && DateTime.now().millisecondsSinceEpoch < date){
+        print("Claim Success");
 
-        final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
-        bool claimOut = await _airDropProvider!.isClaimOut(value, byte32, context: context);
-        print("claimOut $claimOut");
-        if ( claimOut && value['attempt'] < 2 && DateTime.now().millisecondsSinceEpoch > date){
-          print("Claim Success");
+        // Close Dialog
+        Navigator.pop(context);
 
-          // Close Dialog
-          Navigator.pop(context);
+        await enableAnimation();
+      } else {
+        // Close Dialog
+        Navigator.pop(context);
+      }
 
-          await enableAnimation();
-        }
+      // print("After $value");
 
-        // print("After $value");
+      // if (value != null){
 
-        // if (value != null){
+      //   int date = int.parse(value['Date']);
 
-        //   int date = int.parse(value['Date']);
+      //   print((DateTime.now().millisecondsSinceEpoch - date));
 
-        //   print((DateTime.now().millisecondsSinceEpoch - date));
+      //   print("DateTime.now().millisecondsSinceEpoch > date ${DateTime.now().millisecondsSinceEpoch > date}");
 
-        //   print("DateTime.now().millisecondsSinceEpoch > date ${DateTime.now().millisecondsSinceEpoch > date}");
+      //   print("DateTime.now().millisecondsSinceEpoch ${DateTime.now().millisecondsSinceEpoch}");
 
-        //   print("DateTime.now().millisecondsSinceEpoch ${DateTime.now().millisecondsSinceEpoch}");
+      //   dbSignData = await StorageServices.fetchData(DbKey.signData);
 
-        //   dbSignData = await StorageServices.fetchData(DbKey.signData);
+      //   print("dbSignData['first'] ${dbSignData}");
 
-        //   print("dbSignData['first'] ${dbSignData}");
+      //   if (value['attempt'] == 1){
+          
+      //     // In case No fee to do transaction Reuse old hash.
+      //     // Reuse Because First Time Sign To DB will take long time to response and Response 504
+      //     if (dbSignData.containsKey('isErrorFee')){
+      //       print("isErrorFee");
+      //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+      //       await claim(value, byte32);
 
-        //   if (value['attempt'] == 1){
+      //       // In Case Have Fee and Success Claim With Old Hash
+      //       // Need to remove isErrorFee key
+      //       dbSignData.remove('isErrorFee');
+      //       await StorageServices.storeData(dbSignData, DbKey.signData);
+      //     }
+
+      //     else if (DateTime.now().millisecondsSinceEpoch > date){
+      //       print("DateTime.now().millisecondsSinceEpoch > date");
+      //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+      //       await claim(value, byte32);
+      //     } 
+      //     // Condition Prevent Message From First Time Sign 
+      //     else if (dbSignData['first'] == false) {
+      //       await showDialog(
+      //         context: context,
+      //         builder: (context) {
+      //           return AlertDialog(
+      //             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      //             title: Align(
+      //               child: Text('Message'),
+      //             ),
+      //             content: Padding(
+      //               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+      //               child: Text("Please wait for 1 hour.\nYour remain time is ${
+      //                 (date - DateTime.now().millisecondsSinceEpoch)
+      //                 // formatDate( DateTime.parse( (DateTime.now().millisecondsSinceEpoch - date).toString() ).toLocal(), [
+      //                 //   ':',
+      //                 //   nn,
+      //                 //   ':',
+      //                 //   ss,
+      //                 // ])
+      //               }", textAlign: TextAlign.center),
+      //             ),
+      //             actions: <Widget>[
+      //               TextButton(
+      //                 onPressed: () => Navigator.pop(context),
+      //                 child: const Text('Close'),
+      //               ),
+      //             ],
+      //           );
+      //         },
+      //       );
+      //     }
+
+      //     // This condition for only first time
+      //     if (dbSignData['first'] == true){
+      //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
+      //       await claim(value, byte32);
             
-        //     // In case No fee to do transaction Reuse old hash.
-        //     // Reuse Because First Time Sign To DB will take long time to response and Response 504
-        //     if (dbSignData.containsKey('isErrorFee')){
-        //       print("isErrorFee");
-        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
-        //       await claim(value, byte32);
-
-        //       // In Case Have Fee and Success Claim With Old Hash
-        //       // Need to remove isErrorFee key
-        //       dbSignData.remove('isErrorFee');
-        //       await StorageServices.storeData(dbSignData, DbKey.signData);
-        //     }
-
-        //     else if (DateTime.now().millisecondsSinceEpoch > date){
-        //       print("DateTime.now().millisecondsSinceEpoch > date");
-        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
-        //       await claim(value, byte32);
-        //     } 
-        //     // Condition Prevent Message From First Time Sign 
-        //     else if (dbSignData['first'] == false) {
-        //       await showDialog(
-        //         context: context,
-        //         builder: (context) {
-        //           return AlertDialog(
-        //             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        //             title: Align(
-        //               child: Text('Message'),
-        //             ),
-        //             content: Padding(
-        //               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //               child: Text("Please wait for 1 hour.\nYour remain time is ${
-        //                 (date - DateTime.now().millisecondsSinceEpoch)
-        //                 // formatDate( DateTime.parse( (DateTime.now().millisecondsSinceEpoch - date).toString() ).toLocal(), [
-        //                 //   ':',
-        //                 //   nn,
-        //                 //   ':',
-        //                 //   ss,
-        //                 // ])
-        //               }", textAlign: TextAlign.center),
-        //             ),
-        //             actions: <Widget>[
-        //               TextButton(
-        //                 onPressed: () => Navigator.pop(context),
-        //                 child: const Text('Close'),
-        //               ),
-        //             ],
-        //           );
-        //         },
-        //       );
-        //     }
-
-        //     // This condition for only first time
-        //     if (dbSignData['first'] == true){
-        //       final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
-        //       await claim(value, byte32);
-              
-        //       // Update And Restore Sign Data
-        //       dbSignData['first'] = false;
-        //       await StorageServices.storeData(dbSignData, DbKey.signData);
-        //     }
-        //   }
-
-
-
-
-        
-
-          // if ( dbSignData['first'] == true && DateTime.now().millisecondsSinceEpoch > date && value['attempt'] < 2){
-
-          //   final byte32 = await _airDropProvider!.encodeRS(context, value['r'], value['s']);
-          //   await claim(value, byte32);
-          // } else if ( DateTime.now().millisecondsSinceEpoch < date && value['attempt'] < 2 ) {
-
-          //   await showDialog(
-          //     context: context,
-          //     builder: (context) {
-          //       return AlertDialog(
-          //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          //         title: Align(
-          //           child: Text('Message'),
-          //         ),
-          //         content: Padding(
-          //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          //           child: Text("Please wait for 1 hour.\nYour remain time is ${
-          //             (date - DateTime.now().millisecondsSinceEpoch)
-          //             // formatDate( DateTime.parse( (DateTime.now().millisecondsSinceEpoch - date).toString() ).toLocal(), [
-          //             //   ':',
-          //             //   nn,
-          //             //   ':',
-          //             //   ss,
-          //             // ])
-          //           }", textAlign: TextAlign.center),
-          //         ),
-          //         actions: <Widget>[
-          //           TextButton(
-          //             onPressed: () => Navigator.pop(context),
-          //             child: const Text('Close'),
-          //           ),
-          //         ],
-          //       );
-          //     },
-          //   );
-          // } else if (value['attempt'] == 2){
-          //   await showDialog(
-          //     context: context,
-          //     builder: (context) {
-          //       return AlertDialog(
-          //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          //         title: Align(
-          //           child: Text('Oops'),
-          //         ),
-          //         content: Padding(
-          //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          //           child: Text("You had claimed out.", textAlign: TextAlign.center),
-          //         ),
-          //         actions: <Widget>[
-          //           TextButton(
-          //             onPressed: () => Navigator.pop(context),
-          //             child: const Text('Close'),
-          //           ),
-          //         ],
-          //       );
-          //     },
-          //   );
-          // }
-        // }
-      });
-
-      // Close Dialog
-      Navigator.pop(context);
+      //       // Update And Restore Sign Data
+      //       dbSignData['first'] = false;
+      //       await StorageServices.storeData(dbSignData, DbKey.signData);
+      //     }
+      //   }
 
     } catch (e) {
-      print("Error submitForm $e");
+      print("Error submitForm ${e}");
       Navigator.pop(context);
-      
-      dbSignData.addAll({'isErrorFee': true});
-      await StorageServices.storeData(dbSignData, DbKey.signData);
 
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Opps'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString()),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
+      if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
+        print("Re submit");
+        await StorageServices.removeKey(DbKey.signData);
+        await submitForm();
+      } else {
+
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: Text('Opps'),
               ),
-            ],
-          );
-        },
-      );
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text(e.toString()),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+
+      }
     }
 
   }
-
-  // Future<dynamic> claim(Map<String ,dynamic>value, Map<String ,dynamic> byte32) async {
-  //   return await _airDropProvider!.claim(context: context, amount: value['amount'], expiredDate: int.parse(value["Date"]), v: value['v'], r: List<int>.from(byte32['rr']), s: List<int>.from(byte32['ss']) ).then((value) async {
-        
-  //     if (value != ''){
-        
-  //       enableAnimation();
-  //     }
-  //   });
-  // }
 
   Future<void> enableAnimation() async {
     flareController.play('Checkmark');
@@ -363,8 +307,11 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     // Provider.of<ContractProvider>(context, listen: false).getBscBalance();
     // Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
-    Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+    Timer(const Duration(seconds: 3), () {
+      setState(() {
+        _submitted = false;
+      });
+    //   Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     });
   }
 
@@ -387,8 +334,15 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       _airDropProvider!.setConProvider = Provider.of<ContractProvider>(context, listen: false);
       await _airDropProvider!.airdropTokenAddress();
       await _airDropProvider!.signIn();
-      // await _airDropProvider!.getTrxFee();
-      // await _airDropProvider!.signMessage(context);
+      
+    });
+  }
+
+  Future<void> fetchSigned() async {
+    value = await Provider.of<AirDropProvider>(context, listen: false).signToDb();
+
+    setState(() {
+      amount = value!['amount'];
     });
   }
 
@@ -522,7 +476,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                   MyText(
                                     top: 16.0,
                                     width: double.infinity,
-                                    text: "🟢 Status: 50 SEL available to claim",
+                                    text: " 🟢 Status: ${amount == '0' ? '0' : (amount.replaceRange(2, amount.length, ''))} SEL available to claim",
                                     fontWeight: FontWeight.bold,
                                     textAlign: TextAlign.left,
                                     color: isDarkTheme
