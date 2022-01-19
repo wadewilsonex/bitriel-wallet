@@ -1,4 +1,7 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
@@ -420,12 +423,14 @@ class BodyScaffold extends StatelessWidget {
 
 class MyIconButton extends StatelessWidget {
   final String? icon;
+  final String? subTitle;
   final double? iconSize;
   final Function? onPressed;
   // final EdgeInsetsGeometry padding;
 
   const MyIconButton({
     this.icon,
+    this.subTitle,
     this.iconSize,
     // this.padding = const EdgeInsets.all(0),
     this.onPressed,
@@ -434,18 +439,26 @@ class MyIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return InkWell(
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      onTap: (){
+    return TextButton(
+      // highlightColor: Colors.transparent,
+      // splashColor: Colors.transparent,
+      onPressed: (){
         onPressed!();
       },
-      child: SvgPicture.asset(
-        'assets/icons/$icon',
-        width: iconSize ?? 30,
-        height: iconSize ?? 30,
-        color: isDarkTheme ? Colors.white : Colors.black,
-      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          
+          SvgPicture.asset(
+            'assets/icons/$icon',
+            width: iconSize ?? 30,
+            height: iconSize ?? 30,
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+
+          MyText(top: 5, text: subTitle ?? '', fontSize: 16,)
+        ],
+      )
     );
   }
 }
@@ -677,5 +690,94 @@ class MyPinput extends StatelessWidget {
         onSubmit: onSubmit,
       ),
     );
+  }
+}
+
+class FrostedGlassBox extends StatelessWidget{
+
+  final double? width, height;
+  final String? color1, color2;
+  final Widget? child;
+
+  const FrostedGlassBox({
+    Key? key, 
+    @required this.width, 
+    @required this.height, 
+    @required this.child,
+    this.color1, 
+    this.color2
+  });
+
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      width: width!,
+      height: height!,
+      child: Stack(
+        children: [
+
+          Container(
+            height: height,
+            width: width,
+            // margin: EdgeInsets.all(10),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  hexaCodeToColor(color1!),
+                  hexaCodeToColor(color2!),
+                ]
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+              // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+            ),
+          ),
+
+          BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 7.0,
+              sigmaY: 7.0,
+            ),
+            child: Container(
+              width: width, height: height,
+              child: Text("  ")
+            ),
+          ),
+
+          Opacity(
+            opacity: 0.2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset("assets/noise.png", width: width, height: height, fit: BoxFit.cover)
+            ),
+          ),
+
+          Center(child: child!)
+          // Container(
+          //   decoration: BoxDecoration(
+          //     boxShadow: [
+          //       BoxShadow(
+          //         color: Colors.black.withOpacity(0.25), blurRadius: 30
+          //       )
+          //     ],
+          //     border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.0),
+          //     borderRadius:  BorderRadius.circular(20),
+          //     gradient: LinearGradient(
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //       colors: [
+          //         Colors.white.withOpacity(0.5),
+          //         Colors.white.withOpacity(0.2),
+          //       ]
+          //     )
+          //   ),
+          //   child: child
+          // )
+        ],
+      )
+    );
+
   }
 }

@@ -17,6 +17,7 @@ class SmartContractModel {
   Market? marketData;
   String? marketPrice;
   String? change24h;
+  bool? show;
   bool? isContain;
   List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
@@ -35,6 +36,7 @@ class SmartContractModel {
     this.marketData,
     this.marketPrice = '',
     this.change24h = '',
+    this.show, 
     this.isContain, 
     this.listActivity,
     this.lineChartList,
@@ -59,7 +61,8 @@ class SmartContractModel {
       change24h: json['change24h'],
       marketPrice: json['marketPrice'],
       name: json['name'],
-      lineChartModel: json['lineChartModel'] == null ? LineChartModel() : LineChartModel.fromJson(json['lineChartModel'])
+      lineChartModel: json['lineChartModel'] == null ? LineChartModel() : LineChartModel.fromJson(json['lineChartModel']),
+      show: json['show']
     );
   }
 
@@ -80,7 +83,8 @@ class SmartContractModel {
     
     // 'listActivity': asset.listActivity,
 
-    'lineChartModel': LineChartModel.toJson(asset.lineChartModel!)
+    'lineChartModel': LineChartModel.toJson(asset.lineChartModel!),
+    'show': asset.show
   };
 
   static String encode(List<SmartContractModel> assets) => json.encode(

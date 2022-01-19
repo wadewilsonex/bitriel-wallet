@@ -24,9 +24,11 @@ export 'package:package_info/package_info.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
+export 'package:flutter_svg/svg.dart';
 //Component
 export 'package:wallet_apps/src/components/animation.dart';
 export 'package:wallet_apps/src/components/bottom_sheet.dart';
+export 'package:wallet_apps/src/components/effect_c.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';

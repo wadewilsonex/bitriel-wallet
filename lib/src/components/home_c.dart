@@ -334,15 +334,19 @@ Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16})
 }
 
 class MyBottomAppBar extends StatelessWidget {
+
+  final int? pageIndex;
   final bool? apiStatus;
   final HomeModel? homeM;
   final Function? scanReceipt;
   final Function? toReceiveToken;
   final Function? fillAddress;
   final Function? contactPiker;
-  final void Function()? openDrawer;
+  final Function? openDrawer;
+  final Function? onTapChanged;
 
   const MyBottomAppBar({
+    this.pageIndex,
     this.apiStatus,
     this.homeM,
     this.scanReceipt,
@@ -350,6 +354,7 @@ class MyBottomAppBar extends StatelessWidget {
     this.fillAddress,
     this.contactPiker,
     this.openDrawer,
+    @required this.onTapChanged
   });
 
   @override
@@ -358,54 +363,64 @@ class MyBottomAppBar extends StatelessWidget {
     return BottomAppBar(
       elevation: 10,
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
-      shape: const CircularNotchedRectangle(),
+        ? hexaCodeToColor(AppColors.darkCard)
+        : hexaCodeToColor(AppColors.whiteHexaColor),
+      // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(
-        height: 65,
+        height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-                child: MyIconButton(
-              icon: 'telegram.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      await MyBottomSheet().trxOptions(
-                        context: context,
-                        portfolioList: homeM!.portfolioList,
-                      );
-                    },
-            )),
-            Expanded(
-                child: MyIconButton(
-              icon: 'wallet.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      toReceiveToken!();
-                    },
-            )),
-            Expanded(child: Container()),
-            Expanded(
               child: MyIconButton(
-                icon: 'contact_list.svg',
-                iconSize: 26,
+                icon: 'compass.svg',
+                subTitle: "Discover",
+                iconSize: 36,
                 onPressed: !apiStatus!
-                    ? null
-                    : () async {
-                        Navigator.pushNamed(context, AppString.contactBookView);
-                      },
-              ),
+                ? null
+                : () async {
+
+                  // onTapChanged!(0);
+                  await MyBottomSheet().trxOptions(
+                    context: context,
+                    portfolioList: homeM!.portfolioList,
+                  );
+                },
+              )
             ),
+
             Expanded(
               child: MyIconButton(
-                icon: 'menu.svg',
-                iconSize: 27,
+              icon: 'wallet.svg', //'Wallet'
+              subTitle: "Wallet",
+              // iconSize: 36,
+              onPressed: !apiStatus!
+              ? null
+              : () async {
+                // onTapChanged!(1);
+                toReceiveToken!();
+              },
+            )),
+
+            // Expanded(
+            //   // flex: 2,
+            //   child: MyIconButton(
+            //     icon: 'contact_list.svg', //'Send/Receive',
+            //     // iconSize: 26,
+            //     onPressed: !apiStatus!
+            //     ? null
+            //     : () async {
+            //       // onTapChanged!(2);
+            //       Navigator.pushNamed(context, AppString.contactBookView);
+            //     },
+            //   ),
+            // ),
+            Expanded(
+              child: MyIconButton(
+                icon: 'more.svg',
+                subTitle: "More",
+                // iconSize: 27,
                 onPressed: !apiStatus! ? null : openDrawer,
               ),
             )
@@ -432,8 +447,7 @@ Widget fabsButton(
     duration: duration!,
     opacity: visible! ? 1.0 : 0.0,
     child: Transform.translate(
-      offset: Offset.fromDirection(AppServices.getRadienFromDegree(radien!),
-          double.parse(degOneTranslationAnimation!.value.toString()) * distance!),
+      offset: Offset.fromDirection(AppServices.getRadienFromDegree(radien!), double.parse(degOneTranslationAnimation!.value.toString()) * distance!),
       child: IconButton(
         icon: Icon(icon, color: Colors.white),
         onPressed: onPressed,

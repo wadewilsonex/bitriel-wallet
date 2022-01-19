@@ -95,8 +95,8 @@ class ReceiveWalletBody extends StatelessWidget {
                             bottom: 16,
                             top: 16,
                             color: isDarkTheme
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
                           ),
                           MyText(
                             width: 300,

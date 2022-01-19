@@ -1,6 +1,7 @@
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/search_c.dart';
+import 'package:wallet_apps/src/provider/search_p.dart';
 
 class MyBottomSheet {
   dynamic response;
@@ -95,8 +96,7 @@ class MyBottomSheet {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1),
           ),
@@ -144,6 +144,81 @@ class MyBottomSheet {
               )
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Future<dynamic> listToken({@required BuildContext? context, @required Function? query }){
+    final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState){
+            return SafeArea(
+              child: Container(
+                decoration: BoxDecoration(color: hexaCodeToColor(AppColors.bgdColor)),
+                height: MediaQuery.of(context).size.height / 1.2,
+                child: Column(
+                  children: [
+
+                    Container(
+                      color: isDarkTheme ? hexaCodeToColor("#2C2C2D") : Colors.white,
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: MyText(
+                                  top: 10,
+                                  bottom: 33,
+                                  text: "Tokens",
+                                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                                ),
+                              ),
+
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: MyText(text: "Done", fontWeight: FontWeight.w700, color: AppColors.blueColor)),
+                              )
+                            ],
+                          ),
+
+                          SearchComponent(query: query, setState: setState)
+                        ],
+                      ),
+                    ),
+
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          
+                          // List Asset
+                          Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return SearchItem(lsItem: provider.listContract, mySetState: setState,);
+                            }
+                          ),
+
+                          // Items Searched
+                          Consumer<SearchProvider>(
+                            builder: (context, provider, widget){
+                              return provider.getSchLs.isNotEmpty ? SearchItem(lsItem: provider.getSchLs, mySetState: setState) : Container();
+                            }
+                          ),
+                        ],
+                      )
+                    )
+                    
+                  ],
+                ),
+              ),
+            );
+          }
         );
       },
     );

@@ -209,7 +209,7 @@ class ContractService implements IContractService {
     List<Map<String, dynamic>> tmp = [];
     for (int i = 0; i < ls.length; i++){
       tmp.add({
-        "symbol": ls[i].symbol,
+        "symbol": "${ls[i].symbol} ${ls[i].org != '' ? '(${ls[i].org})' : ''}",
         "index": i
       });
     }

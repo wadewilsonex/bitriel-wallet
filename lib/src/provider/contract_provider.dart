@@ -111,6 +111,7 @@ class ContractProvider with ChangeNotifier {
             isContain: value["isContain"],
             listActivity: [],
             lineChartList: value['lineChartData'],
+            show: value['show'],
             lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
           )
         );
@@ -123,7 +124,10 @@ class ContractProvider with ChangeNotifier {
 
   Future<bool> setSavedList() async {
     try {
+      // await StorageServices.removeKey(DbKey.listContract);
+      // await StorageServices.removeKey(DbKey.addedContract);
 
+      // Fetch List Contract From DB and Map Into listContract Variable
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
         if (value != null) {
 
@@ -131,6 +135,7 @@ class ContractProvider with ChangeNotifier {
         }
       });
 
+      // Fetch List added Contract From DB and Map Into addedContract Variable
       await StorageServices.fetchAsset(DbKey.addedContract).then((value) {
         if (value != null) {
 
@@ -354,11 +359,11 @@ class ContractProvider with ChangeNotifier {
       sortListContract.clear();
       
       listContract.forEach((element) {
-        sortListContract.addAll({element});
+        if (element.show!) sortListContract.addAll({element});
       });
 
       addedContract.forEach((element) {
-        sortListContract.addAll({element});
+        if (element.show!) sortListContract.addAll({element});
       });
 
       if (sortListContract.isNotEmpty) {

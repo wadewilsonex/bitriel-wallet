@@ -22,148 +22,149 @@ class AssetItem extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return rowDecorationStyle(
-        color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
-        child: Row(
-          children: <Widget>[
+      color: isDarkTheme
+        ? hexaCodeToColor(AppColors.blackColor)
+        : hexaCodeToColor(AppColors.whiteHexaColor),
+      child: Row(
+        children: <Widget>[
 
-            // Asset Logo
-            Container(
-              width: 65, //size ?? 65,
-              height: 65, //size ?? 65,
-              padding: const EdgeInsets.all(6),
-              // margin: const EdgeInsets.only(right: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Image.asset(
-                scModel!.logo!,
-                fit: BoxFit.contain,
-              ),
+          // Asset Logo
+          Container(
+            width: 65, //size ?? 65,
+            height: 65, //size ?? 65,
+            padding: const EdgeInsets.all(6),
+            // margin: const EdgeInsets.only(right: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
             ),
+            child: Image.asset(
+              scModel!.logo!,
+              fit: BoxFit.contain,
+            ),
+          ),
 
-            // Asset Name
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          // Asset Name
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-                  Flexible(
-                    child: Text.rich(
-                      TextSpan(
-                        text: scModel!.symbol != null ? '${scModel!.symbol}' : '',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: hexaCodeToColor(isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                          ),
+                Flexible(
+                  child: Text.rich(
+                    TextSpan(
+                      text: scModel!.symbol != null ? '${scModel!.symbol}' : '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: hexaCodeToColor(isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                         ),
-                        children: [
-                          TextSpan(
-                            text: scModel!.name!,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: hexaCodeToColor(isDarkTheme
-                                ? AppColors.darkSecondaryText
-                                : AppColors.darkSecondaryText,
-                              ),
-                            ),
-                          )
-                        ]
-                      )
-                    )
-                  ),
-
-                  if (scModel!.marketPrice!.isEmpty)
-                    MyText(
-                      text: scModel!.org,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                        ? AppColors.darkSecondaryText
-                        : AppColors.darkSecondaryText,
-                    )
-                  else
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      ),
                       children: [
+                        TextSpan(
+                          text: scModel!.name!,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: hexaCodeToColor(isDarkTheme
+                              ? AppColors.darkSecondaryText
+                              : AppColors.darkSecondaryText,
+                            ),
+                          ),
+                        )
+                      ]
+                    )
+                  )
+                ),
 
-                        MyText(
-                          text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '',
+                if (scModel!.marketPrice!.isEmpty)
+                  MyText(
+                    text: scModel!.org,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                      ? AppColors.darkSecondaryText
+                      : AppColors.darkSecondaryText,
+                  )
+                else
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      MyText(
+                        text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '',
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme
+                          ? AppColors.darkSecondaryText
+                          : AppColors.darkSecondaryText,
+                      ),
+
+                      const SizedBox(width: 6.0),
+                      scModel!.change24h != null && scModel!.change24h != ''
+                      ? Flexible(
+                        child: MyText(
+                          text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: double.parse(scModel!.change24h!).isNegative
+                            ? '#FF0000'
+                            : isDarkTheme
+                              ? '#00FF00'
+                              : '#66CD00',
+                        ),
+                      )
+                      : Flexible(
+                        child: MyText(
+                          text: scModel!.change24h,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.darkSecondaryText,
+                            ? '#00FF00'
+                            : '#66CD00',
                         ),
-
-                        const SizedBox(width: 6.0),
-                        scModel!.change24h != null && scModel!.change24h != ''
-                        ? Flexible(
-                          child: MyText(
-                            text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: double.parse(scModel!.change24h!).isNegative
-                              ? '#FF0000'
-                              : isDarkTheme
-                                ? '#00FF00'
-                                : '#66CD00',
-                          ),
-                        )
-                        : Flexible(
-                          child: MyText(
-                            text: scModel!.change24h,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDarkTheme
-                              ? '#00FF00'
-                              : '#66CD00',
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-
-            // Graph Chart
-            Container(
-              padding: EdgeInsets.only(left: 5, right: 10),
-              height: 50,
-              width: MediaQuery.of(context).size.width / 3.5,
-              child: 
-              scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
-                ? LineChart(sampleLineChart(context))
-                : LineChart(mainData(context))
-              // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
-              
-            ),
-
-            // Total Amount
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                MyText(
-                  // width: double.infinity,
-                  text: double.parse(scModel!.balance!).toStringAsFixed(6),
-                  textAlign: TextAlign.right,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                  bottom: 4.0,
-                ),
+                      ),
+                    ],
+                  ),
               ],
             ),
-          ],
-        ));
+          ),
+
+          // Graph Chart
+          Container(
+            padding: EdgeInsets.only(left: 5, right: 10),
+            height: 50,
+            width: MediaQuery.of(context).size.width / 3.5,
+            child: 
+            scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
+              ? LineChart(sampleLineChart(context))
+              : LineChart(mainData(context))
+            // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
+            
+          ),
+
+          // Total Amount
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              MyText(
+                // width: double.infinity,
+                text: double.parse(scModel!.balance!).toStringAsFixed(6),
+                textAlign: TextAlign.right,
+                fontWeight: FontWeight.bold,
+                color: isDarkTheme
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+                bottom: 4.0,
+              ),
+            ],
+          ),
+        ],
+      )
+    );
   }
 
   LineChartData sampleLineChart(BuildContext context) {

@@ -2,6 +2,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/discover/discover.dart';
+import 'package:wallet_apps/src/screen/home/transaction/send.dart';
+import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -102,8 +105,8 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => ClaimAirDrop()));
-        Navigator.pushReplacementNamed(context, Home.route);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Send()));
+        // Navigator.pushReplacementNamed(context, Home.route);
       }
     }
   }
@@ -137,6 +140,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   void readTheme() async {
+    
     final res = await StorageServices.fetchData(DbKey.themeMode);
     // final sysTheme = _checkIfDarkModeEnabled();
 
@@ -146,8 +150,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     if (res != null) {
       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
     } else {
-      Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+      Provider.of<ThemeProvider>(context, listen: false).setTheme = true;
     }
+
+    // await StorageServices.removeKey(DbKey.themeMode);
+
+
     //  else {
     //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
     //   // if (sysTheme) {

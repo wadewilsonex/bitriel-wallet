@@ -1,6 +1,7 @@
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 // import 'package:bip39/bip39.dart' as bip39;
 import 'package:provider/provider.dart';
+import 'package:wallet_apps/src/provider/search_p.dart';
 
 import '../../../index.dart';
 
@@ -138,102 +139,32 @@ class AssetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Consumer<ContractProvider>(
-          builder: (context, value, child) {
-            return Column(
-              children: [
-                for (int index = 0; index < value.sortListContract.length; index++)
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        RouteAnimation(
-                          enterPage: AssetInfo(
-                            index: index,
-                            scModel: value.sortListContract[index]
-                          ),
-                        ),
-                      );
-                    },
-                    child: AssetItem(
-                      scModel: value.sortListContract[index]
-                    )
-                    // Column(
-                    //   children: [
-                    //     Text(value.sortListContract[index].id),
-                    //     Text(value.sortListContract[index].symbol),
-                    //     Text(value.sortListContract[index].name),
-                    //     Text(value.sortListContract[index].logo),
-                    //     Text(value.sortListContract[index].org),
-                    //     Text(value.sortListContract[index].balance),
-                    //     Text(value.sortListContract[index].isContain.toString()),
-                    //     Text(value.sortListContract[index].lineChartList == null ? "Hello" : value.sortListContract[index].lineChartList.length.toString()),
-                    //     Text(value.sortListContract[index].lineChartModel.toString()),
-                      
-                    //   ],
-                    // ),
-                  )
-              ]
-            );
-          },
-        ),
-
-        // ERC or Token After Added
-        // Consumer<ContractProvider>(builder: (context, value, child) {
-        //   return value.token.isNotEmpty
-        //       ? Column(
-        //           children: [
-        //             for (int index = 0; index < value.token.length; index++)
-        //               Dismissible(
-        //                 key: UniqueKey(),
-        //                 direction: DismissDirection.endToStart,
-        //                 background: DismissibleBackground(),
-        //                 onDismissed: (direct) {
-        //                   if (value.token[index].org == 'ERC-20') {
-        //                     value.removeEtherToken(
-        //                         value.token[index].symbol, context);
-        //                   } else {
-        //                     value.removeToken(
-        //                         value.token[index].symbol, context);
-        //                   }
-
-        //                   //setPortfolio();
-        //                 },
-        //                 child: GestureDetector(
-        //                   onTap: () {
-        //                     Navigator.push(
-        //                       context,
-        //                       RouteAnimation(
-        //                         enterPage: AssetInfo(
-        //                           index: index,
-        //                           assetLogo: 'assets/circle.png',
-        //                           balance: value.token[index].balance ??
-        //                               AppString.loadingPattern,
-        //                           tokenSymbol: value.token[index].symbol ?? '',
-        //                           org: value.token[index].org,
-        //                         ),
-        //                       ),
-        //                     );
-        //                   },
-        //                   child: AssetItem(
-        //                     'assets/circle.png',
-        //                     value.token[index].symbol ?? '',
-        //                     // value.token[index].symbol,
-        //                     value.token[index].org ?? '',
-        //                     value.token[index].balance ??
-        //                         AppString.loadingPattern,
-        //                     Colors.transparent,
-        //                   ),
-        //                 ),
-        //               )
-        //           ],
-        //         )
-        //       : Container();
-        // }),
-      ],
+    final schPro = Provider.of<SearchProvider>(context);
+    print(schPro.getSchLs.isEmpty);
+    return Consumer<ContractProvider>(
+      builder: (context, value, child) {
+        return Column(
+          children: [
+            for (int index = 0; index < value.sortListContract.length; index++)
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    RouteAnimation(
+                      enterPage: AssetInfo(
+                        index: index,
+                        scModel: value.sortListContract[index]
+                      ),
+                    ),
+                  );
+                },
+                child: AssetItem(
+                  scModel: value.sortListContract[index]
+                )
+              )
+          ]
+        );
+      },
     );
   }
 }

@@ -5,6 +5,7 @@ class AppColors {
 
   /* Grey color code */
   static const String greyCode = "#818181";
+  static const String grey = "#737373";
   static const String darkGrey = "#302f34";
 
   /* Background Color */
@@ -18,7 +19,7 @@ class AppColors {
   static const String redColor = "#FF0000";
 
   //dark theme
-  static const String darkBgd = "#090D28";
+  static const String darkBgd = "#1C1C1D";
   static const String darkCard = "#181C35";
   static const String darkText = "#08B952";
   static const String darkSecondaryText = "B3B3B3";

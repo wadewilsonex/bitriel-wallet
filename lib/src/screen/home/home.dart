@@ -28,6 +28,8 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   String status = '';
 
+  int page = 0;
+
   @override
   void initState() {
     super.initState();
@@ -191,6 +193,12 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     contract.setReady();
   }
 
+  void onTapChanged(int index){
+    setState(() {
+      page = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -236,12 +244,13 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
           color: Colors.white,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,
         homeM: _homeM,
         toReceiveToken: toReceiveToken,
         openDrawer: openMyDrawer,
+        onTapChanged: onTapChanged,
       ),
     );
   }

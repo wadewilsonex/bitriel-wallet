@@ -1,9 +1,11 @@
 /* This file hold app configurations. */
 import 'package:wallet_apps/src/models/network_params.dart';
+const double paddingSize = 20;
 
 class AppConfig {
   // QR Embedded
   static String logoQrEmbedded = "assets/SelendraQr-1.png";
+
   /* Transaction Acivtiy */
   static String logoTrxActivity = 'assets/images/sld_logo.png';
 
@@ -62,6 +64,8 @@ class AppConfig {
       scanTN: 'https://testnet.bscscan.com/tx/',
     )
   ];
+
+  static String iconPath = "assets/icons/";
 
   static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
   static const selV1TestnetAddr = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
