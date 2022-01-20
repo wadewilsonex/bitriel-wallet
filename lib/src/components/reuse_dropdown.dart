@@ -41,7 +41,7 @@ class ReuseDropDown extends StatelessWidget {
         items: itemsList!.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
             value: value['index'].toString(),
-            child: Text(value['symbol'])
+            child: Text(value['symbol'], style: TextStyle(fontSize: 15),)
           );
         }).toList(),
       ),

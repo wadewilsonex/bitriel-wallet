@@ -29,7 +29,9 @@ class SearchItem extends StatelessWidget{
 
   final Function? mySetState;
 
-  SearchItem({@required this.lsItem, this.mySetState});
+  final Function? onTap;
+
+  SearchItem({@required this.lsItem, this.mySetState, this.onTap});
   
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -40,6 +42,9 @@ class SearchItem extends StatelessWidget{
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
           return InkWell(
+            onTap: (){
+              onTap!();
+            },
             child: Padding(
               padding: EdgeInsets.only(bottom: paddingSize),
               child: Row(
@@ -131,7 +136,9 @@ class SearchItemTrx extends StatelessWidget{
 
   final Function? mySetState;
 
-  SearchItemTrx({@required this.lsItem, this.mySetState});
+  final Function? onTap;
+
+  SearchItemTrx({@required this.lsItem, this.mySetState, this.onTap});
   
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -143,7 +150,7 @@ class SearchItemTrx extends StatelessWidget{
         itemBuilder: (context, index){
           return InkWell(
             onTap: (){
-
+              onTap!();
             },
             child: Padding(
               padding: EdgeInsets.only(bottom: paddingSize),

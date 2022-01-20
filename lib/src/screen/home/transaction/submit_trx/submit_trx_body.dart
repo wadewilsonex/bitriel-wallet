@@ -2,6 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/core/service/contract.dart';
+import 'package:wallet_apps/src/components/send_c.dart';
 
 class SubmitTrxBody extends StatelessWidget {
   final bool? enableInput;
@@ -31,9 +32,18 @@ class SubmitTrxBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
+    final contract = Provider.of<ContractProvider>(context);
+
+    const double textSize = 15;
+
     final List<MyInputField> listInput = [
       MyInputField(
-        pBottom: 16,
+        isBorder: false,
+        pLeft: 0, pRight: 0,
+        // pBottom: 16,
         labelText: "Receiver address",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(TextField.noMaxLength),
@@ -42,10 +52,12 @@ class SubmitTrxBody extends StatelessWidget {
         focusNode: scanPayM!.nodeReceiverAddress,
         validateField: (value) => value == null ? 'Please fill in receiver address' : null,
         onChanged: onChanged,
-        onSubmit: () {}
+        onSubmit: () {},
+        // suffix: ,
       ),
       MyInputField(
-        pBottom: 16,
+        isBorder: false,
+        pLeft: 0, pRight: 0,
         labelText: "Amount",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(
@@ -64,112 +76,135 @@ class SubmitTrxBody extends StatelessWidget {
       ),
     ];
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    return BodyScaffold(
+      height: MediaQuery.of(context).size.height,
+      left: paddingSize, right: paddingSize,
+      child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
 
-    final contract = Provider.of<ContractProvider>(context);
-
-    return Column(
-      children: [
-        MyAppBar(
-          title: "Send wallet",
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        Expanded(
-          child: Center(
-            child: BodyScaffold(
-              child: Form(
-                key: scanPayM!.formStateKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-
-                    listInput[0],
-                    
-                    /* Type of payment */
-                    Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 16.0,
-                        left: 16,
-                        right: 16,
-                      ),
-
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 11.0,
-                          bottom: 11.0,
-                          left: 26.0,
-                          right: 14.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.darkCard)
-                            : hexaCodeToColor(AppColors.whiteHexaColor),
-                          borderRadius: BorderRadius.circular(size5),
-                          border: Border.all(
-                            width: scanPayM!.asset != null ? 1 : 0,
-                            color: scanPayM!.asset != null
-                              ? hexaCodeToColor(AppColors.secondary)
-                              : Colors.transparent
-                          ),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: MyText(
-                                text: 'Asset',
-                                textAlign: TextAlign.left,
-                                color: isDarkTheme
-                                  ? AppColors.darkSecondaryText
-                                  : AppColors.textColor,
-                              ),
-                            ),
-                            ReuseDropDown(
-                              initialValue: scanPayM!.assetValue.toString(),
-                              onChanged: onChangeDropDown,
-                              itemsList: ContractService.getConSymbol(contract.sortListContract),
-                              style: TextStyle(
-                                color: isDarkTheme
-                                  ? Colors.white
-                                  : hexaCodeToColor(AppColors.blackColor),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // child: customDropDown(
-                      //   scanPayM.asset ?? "Asset name",
-                      //   list,
-                      //   scanPayM,
-                      //   onChangeDropDown,
-                      //   item,
-                      // ),
-                    ),
-
-                    listInput[1],
-                    
-                    //listInput[2],
-                    MyFlatButton(
-                      textButton: "CONTINUE",
-                      edgeMargin: const EdgeInsets.only(
-                        top: 40,
-                        left: 66,
-                        right: 66,
-                      ),
-                      hasShadow: scanPayM!.enable,
-                      action: scanPayM!.enable ? validateSubmit : null,
-                    ),
-                  ],
-                ),
+            MyAppBar(
+              title: "Send",
+              trailing: IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.close)
               ),
             ),
-          ),
-        )
-      ],
+
+            SendComponent(
+              margin: EdgeInsets.only(bottom: 30),
+              label: "Receive Address",
+              txtFormField: listInput[0],
+              trailing1: MyText(
+                text: "Paste",
+                fontWeight: FontWeight.w700,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                fontSize: textSize,
+              ),
+              trailing2: SvgPicture.asset(AppConfig.iconPath+"qr.svg", width: 20, height: 20),
+            ),
+            
+            /* Type of payment */
+            // Container(
+            //   margin: const EdgeInsets.only(
+            //     bottom: 16.0,
+            //     left: 16,
+            //     right: 16,
+            //   ),
+
+            //   child: Container(
+            //     padding: const EdgeInsets.only(
+            //       top: 11.0,
+            //       bottom: 11.0,
+            //       left: 20.0,
+            //       right: 14.0,
+            //     ),
+            //     decoration: BoxDecoration(
+            //       color: isDarkTheme
+            //         ? hexaCodeToColor(AppColors.lowGrey)
+            //         : hexaCodeToColor(AppColors.whiteHexaColor),
+            //       borderRadius: BorderRadius.circular(size5),
+            //       border: Border.all(
+            //         width: scanPayM!.asset != null ? 1 : 0,
+            //         color: hexaCodeToColor(AppColors.whiteColorHexa)
+            //         // scanPayM!.asset != null
+            //         //   ? hexaCodeToColor(AppColors.secondary)
+            //         //   : Colors.transparent
+            //       ),
+            //     ),
+            //     child: Row(
+            //       children: <Widget>[
+            //         Expanded(
+            //           child: MyText(
+            //             text: 'Asset',
+            //             textAlign: TextAlign.left,
+            //             color: isDarkTheme
+            //               ? AppColors.darkSecondaryText
+            //               : AppColors.textColor,
+            //             fontSize: 15,
+            //           ),
+            //         ),
+            //         ReuseDropDown(
+            //           initialValue: scanPayM!.assetValue.toString(),
+            //           onChanged: onChangeDropDown,
+            //           itemsList: ContractService.getConSymbol(contract.sortListContract),
+            //           style: TextStyle(
+            //             color: isDarkTheme
+            //               ? Colors.white
+            //               : hexaCodeToColor(AppColors.blackColor),
+            //             fontSize: 18,
+            //             fontWeight: FontWeight.w600
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+
+            // ),
+
+            SendComponent(
+              margin: EdgeInsets.only(bottom: 20),
+              label: "Amount",
+              txtFormField: listInput[1],
+              trailing1: MyText(
+                text: "USD",
+                fontWeight: FontWeight.w700,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                fontSize: textSize,
+              ),
+              trailing2: MyText(
+                text: "SEL",
+                fontWeight: FontWeight.w700,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                fontSize: textSize,
+              ),
+            ),
+            
+            MyText(
+              // left: 10,
+              text: " ≈ 416.66 SEL",
+              fontSize: textSize,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+            ),
+
+            Expanded(child: Container()),
+            
+            //listInput[2],
+            MyFlatButton(
+              textButton: "Next",
+              fontSize: 14,
+              edgePadding: EdgeInsets.only(top: 10, bottom: 10),
+              // edgeMargin: const EdgeInsets.only(
+              //   top: 40,
+              // ),
+              hasShadow: scanPayM!.enable,
+              action: scanPayM!.enable ? validateSubmit : null,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

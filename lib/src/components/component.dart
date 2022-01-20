@@ -160,8 +160,8 @@ class MyFlatButton extends StatelessWidget {
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: MyText(
-          pTop: 20,
-          pBottom: 20,
+          pTop: 10,
+          pBottom: 10,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
@@ -317,7 +317,7 @@ class MyAppBar extends StatelessWidget {
   final String? title;
   final Function? onPressed;
   final Color? color;
-  final Widget? tile;
+  final Widget? trailing;
 
   const MyAppBar({
     this.pLeft = 0,
@@ -328,7 +328,7 @@ class MyAppBar extends StatelessWidget {
     @required this.title,
     this.color,
     this.onPressed,
-    this.tile
+    this.trailing
   });
 
   @override
@@ -341,7 +341,7 @@ class MyAppBar extends StatelessWidget {
         margin: margin,
         decoration: BoxDecoration(
           color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkCard)
+            ? hexaCodeToColor(AppColors.lowGrey)
             : hexaCodeToColor(AppColors.whiteHexaColor),
           boxShadow: [shadow(context)]
         ),
@@ -376,7 +376,7 @@ class MyAppBar extends StatelessWidget {
                 ),
               ],
             ),
-            tile ?? Container()
+            trailing ?? Container()
           ],
         )
       )

@@ -88,7 +88,7 @@ class _PresaleBodyState extends State<PresaleBody> {
         children: [
           
           MyAppBar(
-            tile: TextButton(
+            trailing: TextButton(
               onPressed: () async {
                 await showModalBottomSheet(
                   context: context,

@@ -6,6 +6,7 @@ class AppColors {
   /* Grey color code */
   static const String greyCode = "#818181";
   static const String grey = "#737373";
+  static const String lowGrey = "#2C2C2D";
   static const String darkGrey = "#302f34";
 
   /* Background Color */

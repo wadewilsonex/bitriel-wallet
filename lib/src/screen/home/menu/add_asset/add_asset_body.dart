@@ -46,7 +46,7 @@ class AddAssetBody extends StatelessWidget {
         onPressed: () {
           Navigator.pop(context);
         },
-        tile: Padding(
+        trailing: Padding(
           padding: const EdgeInsets.only(right: 30.0),
           child: IconButton(
             /* Menu Icon */

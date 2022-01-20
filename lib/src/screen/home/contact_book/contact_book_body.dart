@@ -37,7 +37,7 @@ class _ContactBookBodyState extends State<ContactBookBody> {
           onPressed: () {
             Navigator.pop(context);
           },
-          tile: Expanded(
+          trailing: Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               // ignore: deprecated_member_use
