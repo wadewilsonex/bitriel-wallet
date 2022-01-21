@@ -103,11 +103,12 @@ class MyInputField extends StatelessWidget {
           /* Enable Border But Not Show Error */
           border: errorOutline(),
           /* Show Error And Red Border */
-          focusedBorder: myTextInputBorder(
-            isDarkTheme
-            ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
-            : hexaCodeToColor(AppColors.secondary)
-          ),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+          // myTextInputBorder(
+          //   isDarkTheme
+          //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
+          //   : hexaCodeToColor(AppColors.secondary)
+          // ),
           /* Default Focuse Border Color*/
           focusColor: hexaCodeToColor(isDarkTheme ? "#ffffff" : AppColors.textColor),
           /* Border Color When Focusing */

@@ -105,7 +105,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx("Hello", true, [])));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmationTx(
+          trxInfo: TransactionInfo(),
+          sendTrx: (){},
+          gasFeetoEther: "0.0",
+        )));
         // Navigator.pushReplacementNamed(context, Home.route);
       }
     }

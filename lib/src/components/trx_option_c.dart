@@ -3,6 +3,7 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
 
 class MyBottomSheetItem extends StatelessWidget {
   final String? subTitle;

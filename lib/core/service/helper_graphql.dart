@@ -1,49 +1,49 @@
 
 
-import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:graphql_flutter/graphql_flutter.dart';
 
-class GraphQlHelper {
+// class GraphQlHelper {
 
-  GraphQLClient? client;
+//   GraphQLClient? client;
 
-  QueryResult? result;
+//   QueryResult? result;
 
-  GraphQlHelper(){
-    client = clientToQuery();
-  }
+//   GraphQlHelper(){
+//     client = clientToQuery();
+//   }
 
-  Future<QueryResult> mutation({String? schema, Map<String, dynamic>? variable}) async {
-    result = await client!.mutate(
-      MutationOptions(
-        document: gql(schema!),
-        variables: variable!
-      )
-    );
-    return result!;
-  }
+//   Future<QueryResult> mutation({String? schema, Map<String, dynamic>? variable}) async {
+//     result = await client!.mutate(
+//       MutationOptions(
+//         document: gql(schema!),
+//         variables: variable!
+//       )
+//     );
+//     return result!;
+//   }
 
-  Future<QueryResult> query({String? schema, Map<String, dynamic>? variable}) async {
-    result = await client!.query(
-      QueryOptions(
-        document: gql(schema!),
-        variables: variable ?? {}
-      )
-    );
+//   Future<QueryResult> query({String? schema, Map<String, dynamic>? variable}) async {
+//     result = await client!.query(
+//       QueryOptions(
+//         document: gql(schema!),
+//         variables: variable ?? {}
+//       )
+//     );
 
-    print("Query result $result");
-    return result!;
-  }
+//     print("Query result $result");
+//     return result!;
+//   }
 
-}
+// }
 
-GraphQLClient clientToQuery() {
-  //   AuthLink authLink = AuthLink(
-  //    getToken: () async => 'Bearer $token',
-  //  );
+// GraphQLClient clientToQuery() {
+//   //   AuthLink authLink = AuthLink(
+//   //    getToken: () async => 'Bearer $token',
+//   //  );
 
-  //  final Link link = authLink.concat(httpLink);
-   return GraphQLClient(
-     cache: GraphQLCache(store: HiveStore(),),
-     link: HttpLink("https://airdropv2-api.selendra.org")
-   );
- }
+//   //  final Link link = authLink.concat(httpLink);
+//    return GraphQLClient(
+//      cache: GraphQLCache(store: HiveStore(),),
+//      link: HttpLink("https://airdropv2-api.selendra.org")
+//    );
+//  }

@@ -6,7 +6,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:connectivity_for_web/connectivity_for_web.dart';
-import 'package:connectivity_plus_web/connectivity_plus_web.dart';
 import 'package:contact_picker_web/contact_picker_web.dart';
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:geolocator_web/geolocator_web.dart';
@@ -19,7 +18,6 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 // ignore: public_member_api_docs
 void registerPlugins(Registrar registrar) {
   ConnectivityPlugin.registerWith(registrar);
-  ConnectivityPlusPlugin.registerWith(registrar);
   FlutterContactPickerPlugin.registerWith(registrar);
   FlutterSecureStorageWeb.registerWith(registrar);
   GeolocatorPlugin.registerWith(registrar);

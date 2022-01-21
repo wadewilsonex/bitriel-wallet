@@ -95,7 +95,8 @@ dependencies:
   flare_flutter:
   responsive_framework:
   flutter_launcher_icons:
-  graphql_flutter:
+  clipboard:
+  slide_to_confirm:
   
 dependency_overrides:
     # git:

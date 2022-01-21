@@ -1,11 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:clipboard/clipboard.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
+import 'package:wallet_apps/src/screen/home/transaction/cfm_trx/cfm_trx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 
 class SubmitTrx extends StatefulWidget {
@@ -473,9 +474,10 @@ class SubmitTrxState extends State<SubmitTrx> {
     );
   }
 
-  void pasteText() async {
-    ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
-    _scanPayM.controlReceiverAddress.text = cdata!.text!;
+  Future<void> pasteText() async {
+    // ClipboardData? cdata = await Clipboard.getData(Clipboard.kTextPlain);
+    // _scanPayM.controlReceiverAddress.text = cdata!.text!;
+    _scanPayM.controlReceiverAddress.text = await FlutterClipboard.paste();
     setState(() {});
   }
 

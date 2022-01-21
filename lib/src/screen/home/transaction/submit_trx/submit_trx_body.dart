@@ -1,8 +1,9 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/core/service/contract.dart';
-import 'package:wallet_apps/src/components/send_c.dart';
+import 'package:clipboard/clipboard.dart';
 
 class SubmitTrxBody extends StatelessWidget {
   final bool? enableInput;
@@ -85,12 +86,14 @@ class SubmitTrxBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
-            MyAppBar(
-              title: "Send",
+            SendAppBar(
+              title: "SEND",
               trailing: IconButton(
+                padding: EdgeInsets.zero,
                 onPressed: (){},
-                icon: Icon(Icons.close)
+                icon: Icon(Icons.close, size: 30, color: Colors.white)
               ),
+              margin: EdgeInsets.only(bottom: 30),
             ),
 
             SendComponent(
@@ -100,10 +103,13 @@ class SubmitTrxBody extends StatelessWidget {
               trailing1: MyText(
                 text: "Paste",
                 fontWeight: FontWeight.w700,
-                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                color: AppColors.blueColor,
                 fontSize: textSize,
               ),
               trailing2: SvgPicture.asset(AppConfig.iconPath+"qr.svg", width: 20, height: 20),
+              onPressedTrailing1: () async {
+                pasteText!();
+              }
             ),
             
             /* Type of payment */
@@ -180,11 +186,21 @@ class SubmitTrxBody extends StatelessWidget {
                 color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
                 fontSize: textSize,
               ),
+              onPressedTrailing2: () async {
+                try {
+                  await TrxOptionMethod.scanQR(
+                    context,
+                    Provider.of<ContractProvider>(context, listen: false).sortListContract,
+                  );
+                } catch (e) {
+                  // print(e);
+                }
+              },
             ),
             
             MyText(
               // left: 10,
-              text: " ≈ 416.66 SEL",
+              text: " ≈ ${scanPayM!.priceToSel.toString()} SEL",
               fontSize: textSize,
               color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
             ),
@@ -193,9 +209,10 @@ class SubmitTrxBody extends StatelessWidget {
             
             //listInput[2],
             MyFlatButton(
+              height: 100,
               textButton: "Next",
-              fontSize: 14,
-              edgePadding: EdgeInsets.only(top: 10, bottom: 10),
+              fontSize: 13,
+              edgePadding: EdgeInsets.only(top: 20, bottom: 20),
               // edgeMargin: const EdgeInsets.only(
               //   top: 40,
               // ),

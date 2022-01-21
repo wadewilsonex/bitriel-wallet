@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/search_c.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
 
@@ -18,6 +19,15 @@ class SendBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
+              SendAppBar(
+                title: "SEND",
+                trailing: IconButton(
+                  onPressed: (){},
+                  icon: Icon(Icons.close, size: 30, color: Colors.white)
+                ),
+                margin: EdgeInsets.only(bottom: 30),
+              ),
               
               MyText(
                 textAlign: TextAlign.left,

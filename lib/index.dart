@@ -25,11 +25,12 @@ export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
 export 'package:flutter_svg/svg.dart';
-//Component
+
+/* Component File */
+export 'package:wallet_apps/src/components/send_c.dart';
 export 'package:wallet_apps/src/components/animation.dart';
 export 'package:wallet_apps/src/components/bottom_sheet.dart';
 export 'package:wallet_apps/src/components/effect_c.dart';
-/* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
 export 'package:wallet_apps/src/components/home_c.dart';
@@ -71,6 +72,7 @@ export 'package:wallet_apps/src/models/m_import_acc.dart';
 export 'package:wallet_apps/src/models/atd.dart';
 export 'package:wallet_apps/src/models/kmpi.dart';
 export 'package:wallet_apps/src/models/smart_contract.m.dart';
+export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
 
 export 'package:wallet_apps/src/models/checkin.m.dart';
 
@@ -131,11 +133,10 @@ export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details
 export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/trx_history_detail_body.dart';
 export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet.dart';
 export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet_body.dart';
-export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx_body.dart';
-export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
+export 'package:wallet_apps/src/screen/home/transaction/cfm_trx/cfm_trx.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';

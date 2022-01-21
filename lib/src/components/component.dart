@@ -160,6 +160,7 @@ class MyFlatButton extends StatelessWidget {
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: MyText(
+          fontSize: fontSize,
           pTop: 10,
           pBottom: 10,
           text: textButton!,
@@ -307,7 +308,6 @@ class MyCircularImage extends StatelessWidget {
     );
   }
 }
-
 class MyAppBar extends StatelessWidget {
   final double? pLeft;
   final double? pTop;
@@ -341,7 +341,7 @@ class MyAppBar extends StatelessWidget {
         margin: margin,
         decoration: BoxDecoration(
           color: isDarkTheme
-            ? hexaCodeToColor(AppColors.lowGrey)
+            ? Colors.transparent//hexaCodeToColor(AppColors.lowGrey)
             : hexaCodeToColor(AppColors.whiteHexaColor),
           boxShadow: [shadow(context)]
         ),
