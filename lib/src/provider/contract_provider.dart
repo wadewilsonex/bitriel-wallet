@@ -40,9 +40,9 @@ class ContractProvider with ChangeNotifier {
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
 
-  /// (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB) (5 DOT)
+  /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
   /// 
-  /// (6 BTC) (7 ATT) (8 SEL Testnet)
+  /// (6 DOT) (7 BTC) (8 ATT) (9 SEL Testnet)
   List<SmartContractModel> listContract = [];
 
   /// This property for ERC-20 and BEP-20 contract added
@@ -115,9 +115,9 @@ class ContractProvider with ChangeNotifier {
         );
       });
 
-      // listContract.forEach((element) {
-      //   print("${element.symbol} ${element.balance}");
-      // });
+      listContract.forEach((element) {
+        print("${element.symbol} ${element.balance}");
+      });
 
     } catch (e) {
       print("Error initJson $e");
@@ -232,14 +232,14 @@ class ContractProvider with ChangeNotifier {
 
       final chainDecimal = await _selToken!.getChainDecimal();
 
-      listContract[0].balance = Fmt.bigIntToDouble(
+      listContract[1].balance = Fmt.bigIntToDouble(
         balance,
         int.parse(chainDecimal.toString()),
       ).toString();
 
-      listContract[0].chainDecimal = chainDecimal.toString();
-      listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
-      listContract[0].address = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+      listContract[1].chainDecimal = chainDecimal.toString();
+      listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]);
+      listContract[1].address = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
       
       notifyListeners();
     } catch (e) {
@@ -259,15 +259,14 @@ class ContractProvider with ChangeNotifier {
 
       final chainDecimal = await _selV2!.getChainDecimal();
 
-      listContract[1].balance = Fmt.bigIntToDouble(
+      listContract[2].balance = Fmt.bigIntToDouble(
         balance,
         int.parse(chainDecimal.toString()),
       ).toString();
 
-      listContract[1].chainDecimal = chainDecimal.toString();
-      listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]); //
-      
-      listContract[1].address = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
+      listContract[2].chainDecimal = chainDecimal.toString();
+      listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]); 
+      listContract[2].address = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
       notifyListeners();
     } catch (e) {
       print("Error selv2TokenWallet $e");
@@ -278,21 +277,20 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[2].address!);
+      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[3].address!);
       //final contract = await initBsc(listContract[2].address);
       _kgo = new ContractService(_bscClient!, contract);
 
       final balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
       final chainDecimal = await _kgo!.getChainDecimal();
 
-      listContract[2].balance = Fmt.bigIntToDouble(
+      listContract[3].balance = Fmt.bigIntToDouble(
         balance,
         int.parse(chainDecimal.toString()),
       ).toString();
 
-      listContract[2].chainDecimal = chainDecimal.toString();
-
-      listContract[2].lineChartModel = LineChartModel().prepareGraphChart(listContract[2]);
+      listContract[3].chainDecimal = chainDecimal.toString();
+      listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
 
       notifyListeners();
     } catch (e) {
@@ -309,9 +307,8 @@ class ContractProvider with ChangeNotifier {
 
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
 
-      listContract[3].balance = balance.toString();
-
-      listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
+      listContract[4].balance = balance.toString();
+      listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
       notifyListeners();
     } catch (e) {
@@ -328,27 +325,14 @@ class ContractProvider with ChangeNotifier {
 
       final balance = await _bnb!.getBalance(getEthAddr(ethAdd));
 
-      listContract[4].balance = balance.toString();
-
-      listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
+      listContract[5].balance = balance.toString();
+      listContract[5].lineChartModel = LineChartModel().prepareGraphChart(listContract[5]);
 
       notifyListeners();
     } catch (e) {
       print("Error bnbWallet $e");
     }
   }
-
-  // void addApiProviderProperty(ApiProvider api) {
-  //   // if (listContract.length == 5){
-  //   //   listContract.addAll([
-  //   //     api.btc,
-  //   //     api.dot,
-  //   //     api.nativeM,
-  //   //   ]);
-
-  //   //   notifyListeners();
-  //   // }
-  // }
 
   // Sort Asset Portoflio
   Future? sortAsset() {
@@ -380,6 +364,10 @@ class ContractProvider with ChangeNotifier {
 
         notifyListeners();
       }
+
+      listContract.forEach((element) {
+        print("${element.symbol} ${element.balance}");
+      });
       
     } catch (e) {
       print("Error sortAsset $e");
@@ -600,7 +588,6 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await initBscClient();
-      print("approveSwap ${listContract[0].address!}");
       final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[0].address!);
       // final contract = await initBsc(listContract[0].address);
       final ethFunction = contract.function('approve');
@@ -978,53 +965,53 @@ class ContractProvider with ChangeNotifier {
     
     try {
 
-      if (symbol == 'SEL') {
+      // if (symbol == 'SEL') {
         
-        if (!listContract[0].isContain!) {
-          listContract[0].isContain = true;
+      //   if (!listContract[0].isContain!) {
+      //     listContract[0].isContain = true;
 
-          await StorageServices.saveBool('SEL', true);
+      //     await StorageServices.saveBool('SEL', true);
 
-          Provider.of<WalletProvider>(context, listen: false).addTokenSymbol("$symbol (BEP-20)");
+      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol("$symbol (BEP-20)");
 
-        }
-      } else if (symbol == 'BNB') {
+      //   }
+      // } else if (symbol == 'BNB') {
 
-        if (!listContract[4].isContain!) {
-          listContract[4].isContain = true;
+      //   if (!listContract[4].isContain!) {
+      //     listContract[4].isContain = true;
 
-          await StorageServices.saveBool('BNB', true);
+      //     await StorageServices.saveBool('BNB', true);
 
-          Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
+      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
 
-          // await getBscDecimal();
-          // await getBnbBalance();
+      //     // await getBscDecimal();
+      //     // await getBnbBalance();
 
-          listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
-        }
-      } else if (symbol == 'DOT') {
-        if (!listContract[5].isContain!) {
+      //     listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
+      //   }
+      // } else if (symbol == 'DOT') {
+      //   if (!listContract[5].isContain!) {
           
-          await StorageServices.saveBool('DOT', true);
+      //     await StorageServices.saveBool('DOT', true);
 
-          await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
-          //Provider.of<ApiProvider>(context, listen: false).isDotContain();
-          Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
-        }
-      } else if (symbol == 'KGO') {
-        if (!listContract[5].isContain!) {
+      //     await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
+      //     //Provider.of<ApiProvider>(context, listen: false).isDotContain();
+      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
+      //   }
+      // } else if (symbol == 'KGO') {
+      //   if (!listContract[5].isContain!) {
 
-          Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('KGO (BEP-20)');
-          // await Provider.of<ContractProvider>(context, listen: false)
-          //     .getKgoSymbol();
-          // await Provider.of<ContractProvider>(context, listen: false)
-          //     .getKgoDecimal()
-          //     .then((value) async {
-          //   await Provider.of<ContractProvider>(context, listen: false)
-          //       .getKgoBalance();
-          // });
-        }
-      } else {
+      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('KGO (BEP-20)');
+      //     // await Provider.of<ContractProvider>(context, listen: false)
+      //     //     .getKgoSymbol();
+      //     // await Provider.of<ContractProvider>(context, listen: false)
+      //     //     .getKgoDecimal()
+      //     //     .then((value) async {
+      //     //   await Provider.of<ContractProvider>(context, listen: false)
+      //     //       .getKgoBalance();
+      //     // });
+      //   }
+      // } else {
         
         if (network != null) {
           
@@ -1155,7 +1142,7 @@ class ContractProvider with ChangeNotifier {
           
           addedContract.add(newContract);
         }
-      }
+      // }
       
       notifyListeners();
     } catch (e) {
@@ -1221,28 +1208,28 @@ class ContractProvider with ChangeNotifier {
   }
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[2].marketData = kgoMarket;
-    listContract[2].lineChartList = lineChart;
-    listContract[2].marketPrice = currentPrice;
-    listContract[2].change24h = priceChange24h;
+    listContract[3].marketData = kgoMarket;
+    listContract[3].lineChartList = lineChart;
+    listContract[3].marketPrice = currentPrice;
+    listContract[3].change24h = priceChange24h;
 
     notifyListeners();
   }
 
   void setEtherMarket(Market ethMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[3].marketData = ethMarket;
-    listContract[3].marketPrice = currentPrice;
-    listContract[3].change24h = priceChange24h;
-    listContract[3].lineChartList = lineChart;
+    listContract[4].marketData = ethMarket;
+    listContract[4].marketPrice = currentPrice;
+    listContract[4].change24h = priceChange24h;
+    listContract[4].lineChartList = lineChart;
 
     notifyListeners();
   }
 
   void setBnbMarket(Market bnbMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[4].marketData = bnbMarket;
-    listContract[4].marketPrice = currentPrice;
-    listContract[4].change24h = priceChange24h;
-    listContract[4].lineChartList = lineChart;
+    listContract[5].marketData = bnbMarket;
+    listContract[5].marketPrice = currentPrice;
+    listContract[5].change24h = priceChange24h;
+    listContract[5].lineChartList = lineChart;
 
     notifyListeners();
   }

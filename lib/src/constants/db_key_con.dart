@@ -7,4 +7,5 @@ class DbKey{
   static String defContactList = "defaultContactList";
   
   static String themeMode = "themeMode";
+  static String signData = "signData";
 }

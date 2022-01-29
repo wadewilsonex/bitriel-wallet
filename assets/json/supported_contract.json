@@ -2,6 +2,15 @@
     {
         "id": "selendra",
         "name": "SELENDRA",
+        "logo": "assets/SelendraCircle-Blue.png",
+        "symbol": "SEL",
+        "org": "Testnet",
+        "show": false,
+        "isContain": true
+    },
+    {
+        "id": "selendra",
+        "name": "SELENDRA",
         "address": "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a",
         "logo": "assets/SelendraCircle-Blue.png",
         "symbol": "SEL",

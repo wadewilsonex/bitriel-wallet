@@ -100,9 +100,8 @@ class _AddContactState extends State<AddContact> {
   }
 
   String? onChanged(String value) {
-    _addContactModel.formKey.currentState!.validate();
     allValidator();
-    return null;
+    return value;
   }
 
   Future<bool> validateAddressF(String address) async {

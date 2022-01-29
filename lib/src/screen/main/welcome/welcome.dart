@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -19,6 +20,9 @@ class WelcomeState extends State<Welcome> {
   @override
   void initState() {
     AppServices.noInternetConnection(globalKey);
+    StorageServices.fetchAsset(DbKey.listContract).then((value) {
+      print("Welcome ls contract $value");
+    });
     super.initState();
   }
 

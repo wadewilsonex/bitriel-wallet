@@ -46,7 +46,7 @@ class MyBottomSheet {
                             portfolioList!,
                           );
                         } catch (e) {
-                          // print(e);
+                          print("TrxOptionMethod.scanQR $e");
                         }
                         
                       },

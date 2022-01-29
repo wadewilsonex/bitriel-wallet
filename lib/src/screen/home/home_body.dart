@@ -22,6 +22,7 @@ class HomeBody extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               Expanded(
                 child: InkWell(
                   child: Container(
@@ -34,16 +35,18 @@ class HomeBody extends StatelessWidget {
                         shadow(context)
                       ],
                       gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [
-                          hexaCodeToColor('#63b8f6'),
-                          hexaCodeToColor('#00ccff'),
+                          hexaCodeToColor('#03a4f4'),
+                          hexaCodeToColor('#a0e2ff'),
                         ]
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(20.0),
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
                     ),
                     child: MyText(
-                      text: "Claim",
+                      text: "Airdrop",
                       color: AppColors.whiteHexaColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -54,6 +57,7 @@ class HomeBody extends StatelessWidget {
                   },
                 ),
               ),
+
               Expanded(
                 child: InkWell(
                   child: Container(
@@ -62,17 +66,20 @@ class HomeBody extends StatelessWidget {
                     margin: EdgeInsets.all(10),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(20.0),
                       boxShadow: [
                         shadow(context)
                       ],
                       gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [
                           // hexaCodeToColor('#f39d0c'),
                           // hexaCodeToColor('#ff7900'),
 
+                          hexaCodeToColor('#2165fa'),
                           hexaCodeToColor('#00ddff'),
-                          hexaCodeToColor('#00ffe0'),
+                          // hexaCodeToColor('#1278c7'),
                         ]
                       )
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
@@ -89,6 +96,7 @@ class HomeBody extends StatelessWidget {
                   },
                 ),
               ),
+
               Expanded(
                 child: InkWell(
                   child: Container(
@@ -100,11 +108,15 @@ class HomeBody extends StatelessWidget {
                       boxShadow: [
                         shadow(context)
                       ],
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(20.0),
                       gradient: LinearGradient(
+
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [
-                          hexaCodeToColor('#00ffe0'),
-                          hexaCodeToColor('#35d55e'),
+                          hexaCodeToColor('#f39d0c'),
+                          hexaCodeToColor('#fec204'),
+                          hexaCodeToColor('#ffec1f'),
                         ]
                       )
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),

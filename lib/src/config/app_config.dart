@@ -36,12 +36,15 @@ class AppConfig {
     NetworkParams(
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       wsUrlTN: 'wss://rpc1-testnet.selendra.org/',
+      wsUrlMN: 'wss://rpc.selendra.selendra.org',
       ss58: 42,
+      ss58MN: 972
     ),
+    
     NetworkParams(
       wsUrlMN: 'wss://rpc.polkadot.io',
       wsUrlTN: 'wss://westend-rpc.polkadot.io',
-      ss58: 42,
+      ss58: 0,
     ),
     NetworkParams(
       httpUrlMN: 'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
@@ -58,7 +61,7 @@ class AppConfig {
       wsUrlTN: 'wss://bsc-ws-node.nariox.org:443',
       scanMn: 'https://bscscan.com/tx/',
       scanTN: 'https://testnet.bscscan.com/tx/',
-    )
+    ),
   ];
 
   static const selV1MainnetAddr = '0x288d3A87a87C284Ed685E0490E5C4cC0883a060a';
@@ -127,6 +130,8 @@ class AppConfig {
   //
   // sld_market net API
   // https://sld_marketnet-api.selendra.com/pub/v1
+
+  static String abiPath = "assets/abi/";
 
 }
 

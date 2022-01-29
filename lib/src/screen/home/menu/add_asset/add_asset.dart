@@ -316,9 +316,7 @@ class AddAssetState extends State<AddAsset> {
             onChangeDropDown: onChangeDropDown,
             addAsset: addAsset,
             popScreen: popScreen,
-            onChanged: (String? value){
-              return onChanged(value!)!;
-            },
+            onChanged: onChanged,
             qrRes: qrRes,
             tokenSymbol: _tokenSymbol,
             onSubmit: onSubmit,

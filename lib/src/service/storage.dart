@@ -28,6 +28,11 @@ class StorageServices {
     await _storage.deleteAll();
   }
 
+  Future<void> clearStorage() async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.clear();
+  }
+
   static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
     try {
 

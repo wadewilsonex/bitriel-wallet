@@ -13,8 +13,8 @@ class AddAssetBody extends StatelessWidget {
   final List<Map<String, dynamic>>? networkSymbol;
   final Function? validateIssuer;
   final Function? popScreen;
-  final String Function(String)? onChanged;
-  final String Function(String)? validateField;
+  final Function? onChanged;
+  final Function? validateField;
   final Function? onSubmit;
   final Function? submitAsset;
   final Function? addAsset;

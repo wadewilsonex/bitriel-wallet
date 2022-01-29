@@ -25,10 +25,9 @@ class AccountC {
           padding: const EdgeInsets.all(25.0),
           height: MediaQuery.of(context).size.height / 1.5,
           color: isDarkTheme
-              ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-              : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
+            ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+            : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
           child: Form(
-            key: _changePinKey,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -38,8 +37,8 @@ class AccountC {
                     focusNode: _oldNode,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 4
-                        ? 'Please fill in old 4 digits pin'
-                        : null,
+                      ? 'Please fill in old 4 digits pin'
+                      : null,
                     textInputFormatter: [LengthLimitingTextInputFormatter(4)],
                     onSubmit: onSubmit,
                   ),
@@ -54,6 +53,7 @@ class AccountC {
                         : null,
                     textInputFormatter: [LengthLimitingTextInputFormatter(4)],
                     onSubmit: onSubmit,
+                    // onChanged: (String value){},
                   ),
                   const SizedBox(height: 25),
                   MyFlatButton(

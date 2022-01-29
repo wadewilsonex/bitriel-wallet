@@ -487,29 +487,40 @@ class _AssetInfoState extends State<AssetInfo> {
                                   height: 50,
                                   width: 150,
                                   // ignore: deprecated_member_use
-                                  child: FlatButton(
-                                    onPressed: () async {
+                                  child: Consumer<ContractProvider>(
+                                    builder: (context, provider, widgets){
+                                      return ElevatedButton(
+                                        onPressed: () async {
+                                          try {
 
-                                      if(widget.scModel!.symbol != 'ATT') {
-                                        
-                                        await MyBottomSheet().trxOptions(
-                                          context: context,
-                                        );
-                                      } else {
-                                        dialogLoading(context);
-                                        await Future.delayed(Duration(milliseconds: 1300), (){});
-                                        // Close Loading
-                                        Navigator.pop(context);
-                                        await successDialog(context, "check in!");
-                                      }
+                                            if(widget.scModel!.symbol != 'ATT') {
+                                              
+                                              await MyBottomSheet().trxOptions(
+                                                context: context,
+                                                portfolioList: provider.sortListContract
+                                              );
+                                            } else {
+                                              dialogLoading(context);
+                                              await Future.delayed(Duration(milliseconds: 1300), (){});
+                                              // Close Loading
+                                              Navigator.pop(context);
+                                              await successDialog(context, "check in!");
+                                            }
+                                          } catch (e) {
+                                            print("Error Transfer $e");
+                                          }
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                                        ),
+                                        // disabledColor: Colors.grey[700],
+                                        // focusColor: hexaCodeToColor(AppColors.secondary),
+                                        child: MyText(
+                                          text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
+                                          color: AppColors.whiteColorHexa
+                                        ),
+                                      );
                                     },
-                                    color: hexaCodeToColor(AppColors.secondary),
-                                    disabledColor: Colors.grey[700],
-                                    focusColor: hexaCodeToColor(AppColors.secondary),
-                                    child: MyText(
-                                      text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
-                                      color: AppColors.whiteColorHexa
-                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 16.0),

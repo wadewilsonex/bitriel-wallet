@@ -113,7 +113,7 @@ class _AccountState extends State<Account> {
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
 
-      await AppServices.clearStorage();
+      await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
@@ -174,6 +174,7 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> _changePin(String oldPass, String newPass) async {
+
     Navigator.pop(context);
     setState(() {
       _loading = true;
@@ -363,6 +364,7 @@ class _AccountState extends State<Account> {
                           
                           GestureDetector(
                             onTap: () {
+                              
                               AccountC().showBackup(
                                 context,
                                 _backupKey,

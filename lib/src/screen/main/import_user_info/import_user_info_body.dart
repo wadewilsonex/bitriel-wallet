@@ -116,7 +116,7 @@ class ImportUserInfoBody extends StatelessWidget {
                       MyFlatButton(
                         textButton: "Submit",
                         edgeMargin: const EdgeInsets.only(
-                            top: 29, left: 66, right: 66, bottom: 16),
+                            top: 29, left: 66, right: 66, bottom: 81),
                         hasShadow: modelUserInfo!.enable,
                         action: submitProfile
                         // modelUserInfo!.enable == false

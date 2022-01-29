@@ -152,9 +152,8 @@ class _EditContactState extends State<EditContact> {
   }
 
   String? onChanged(String value) {
-    _addContactModel.formKey.currentState!.validate();
     allValidator();
-    return null;
+    return value;
   }
 
   Future<void> onSubmit() async {

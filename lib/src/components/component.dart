@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class Component {
+
   static void popScreen(BuildContext context) {
     Navigator.pop(context);
   }
@@ -35,6 +36,21 @@ class Component {
         );
       },
     );
+  }
+  
+  static Future<String> pinDialogBox(BuildContext context) async {
+    /* Show Pin Code For Fill Out */
+    final String _result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
+    return _result;
   }
 
   static void dialog(BuildContext context, {String? contents}) async {

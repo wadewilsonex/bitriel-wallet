@@ -80,7 +80,7 @@ class ApiProvider with ChangeNotifier {
 
       node.name = 'Indranet hosted By Selendra';
       node.endpoint = AppConfig.networkList[0].wsUrlTN;
-      node.ss58 = 42;
+      node.ss58 = AppConfig.networkList[0].ss58;
 
       final res = await _sdk.api.connectNode(_keyring, [node]);
 

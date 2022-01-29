@@ -22,6 +22,12 @@ class MenuBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
+        // Consumer<ApiProvider>(
+        //   builder: (context, provider, widget){
+        //     return Text(provider.accountM.address.toString());
+        //   },
+        // ),
         MenuHeader(userInfo: userInfo),
 
         // History

@@ -27,7 +27,6 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   @override
   void initState() {
-    print("Hello home");
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
