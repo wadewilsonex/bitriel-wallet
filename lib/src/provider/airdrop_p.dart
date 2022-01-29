@@ -35,6 +35,7 @@ class AirDropProvider with ChangeNotifier {
 
   DeployedContract? _deployedContract;
   ContractProvider? _contractP;
+  ApiProvider? _apiProvider;
 
   AirDropProvider(){
     initContract();
@@ -46,9 +47,9 @@ class AirDropProvider with ChangeNotifier {
   }
 
   /// Assign contract provider parameter
-  set setConProvider(ContractProvider? con){
+  void setConProvider(ContractProvider? con, BuildContext? context){
     _contractP = con;
-
+    _apiProvider = Provider.of<ApiProvider>(context!);
     notifyListeners();
   }
 
@@ -60,6 +61,7 @@ class AirDropProvider with ChangeNotifier {
         ContractAbi.fromJson(abi, "AirdropClaim"),
         EthereumAddress.fromHex(contract)
       );
+      
       notifyListeners();
     } catch (e){
       print("Error initContract $e");
@@ -277,16 +279,9 @@ class AirDropProvider with ChangeNotifier {
           Uri.parse('https://airdropv2-api.selendra.org/sign'),
           headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
           body: json.encode({
-            "wallet": "${_contractP!.ethAdd}",
+            "wallet": "${_apiProvider!.getKeyring.current.address}",
           })
         );
-
-        // http.Response res = http.Response(
-        //   json.encode({'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}}), 
-        //   200
-        // ); 
-
-        print("From Api ${(res.body)}");
         
         if (res.statusCode == 200){
           // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));

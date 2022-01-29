@@ -9,6 +9,8 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/core/service/portfolio_s.dart';
+import 'package:wallet_apps/src/screen/home/discover/discover.dart';
+import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 
 class Home extends StatefulWidget {
   // final bool apiConnected;
@@ -25,6 +27,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   MenuModel menuModel = MenuModel();
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
+  PageController _pageController = PageController();
 
   String status = '';
 
@@ -194,9 +197,11 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   }
 
   void onTapChanged(int index){
-    setState(() {
-      page = index;
-    });
+    _pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
+  void onChangedPage(int index){
+
   }
 
   @override
@@ -210,42 +215,57 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       ),
 
       // AnnotatedRegion Use For System Icon Above SafeArea
-      body: Column(children: [
-        SafeArea(child: homeAppBar(context)),
-        Divider(
-          height: 2,
-          color: isDarkTheme ? Colors.black : Colors.grey.shade400,
-        ),
-        Flexible(
-          child: RefreshIndicator(
-            onRefresh: () async => await scrollRefresh(),
-            child: BodyScaffold(
-              bottom: 0,
-              isSafeArea: false,
-              child: HomeBody(),
-            ),
-          ),
-        ),
-      ]),
-
-      floatingActionButton: FloatingActionButton(
-        elevation: 10,
-        backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
-        onPressed: () async {
-          await TrxOptionMethod.scanQR(
-            context,
-            _homeM.portfolioList,
-          );
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index){
+          onChangedPage(index);
         },
-        child: SvgPicture.asset(
-          'assets/icons/qr_code.svg',
-          width: 30,
-          height: 30,
-          color: Colors.white,
-        ),
+        children: [
+          Discover(),
+          Wallet(),
+
+        ],
       ),
+      // Column(
+      //   children: [
+
+      //     SafeArea(child: homeAppBar(context)),
+      //     Divider(
+      //       height: 2,
+      //       color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+      //     ),
+      //     Flexible(
+      //       child: RefreshIndicator(
+      //         onRefresh: () async => await scrollRefresh(),
+      //         child: BodyScaffold(
+      //           bottom: 0,
+      //           isSafeArea: false,
+      //           child: HomeBody(),
+      //         ),
+      //       ),
+      //     ),
+      //   ]
+      // ),
+
+      // floatingActionButton: FloatingActionButton(
+      //   elevation: 10,
+      //   backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+      //   onPressed: () async {
+      //     await TrxOptionMethod.scanQR(
+      //       context,
+      //       _homeM.portfolioList,
+      //     );
+      //   },
+      //   child: SvgPicture.asset(
+      //     'assets/icons/qr_code.svg',
+      //     width: 30,
+      //     height: 30,
+      //     color: Colors.white,
+      //   ),
+      // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
+        // pageIndex: _pageController.page,
         apiStatus: true,
         homeM: _homeM,
         toReceiveToken: toReceiveToken,

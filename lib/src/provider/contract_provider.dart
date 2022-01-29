@@ -39,6 +39,8 @@ class ContractProvider with ChangeNotifier {
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
 
+  String selPrice = "0.027";
+
   /// (0 SEL V1) (1 SEL V2) (2 KIWIGO) (3 ETH) (4 BNB) (5 DOT)
   /// 
   /// (6 BTC) (7 ATT) (8 SEL Testnet)
@@ -68,18 +70,15 @@ class ContractProvider with ChangeNotifier {
   ContractService get getAtd => _atd!;
   ContractService get getBep20 => _bep20!;
   ContractService get getErc20 => _erc20!;
-
   NativeService get getBnb => _bnb!;
   NativeService get getEth => _eth!;
-
   Web3Client get bscClient => _bscClient!;
+  EthereumAddress getEthAddr(String address) => EthereumAddress.fromHex(address);
 
   Future<void> initBep20Service(String contract) async {
     final _contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contract);
     _bep20 = ContractService(_bscClient!, _contract);
   }
-
-  EthereumAddress getEthAddr(String address) => EthereumAddress.fromHex(address);
 
   ContractProvider() {
     initSwapContract();
@@ -96,8 +95,6 @@ class ContractProvider with ChangeNotifier {
       final decode = jsonDecode(json);
       
       listContract.clear();
-
-      print("initJson decode $decode");
       
       decode.forEach((value){
         listContract.add(
@@ -124,8 +121,6 @@ class ContractProvider with ChangeNotifier {
 
   Future<bool> setSavedList() async {
     try {
-      // await StorageServices.removeKey(DbKey.listContract);
-      // await StorageServices.removeKey(DbKey.addedContract);
 
       // Fetch List Contract From DB and Map Into listContract Variable
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
@@ -152,6 +147,7 @@ class ContractProvider with ChangeNotifier {
     return false;
   }
 
+  /// Init Client
   Future<void> initBscClient() async {
     _httpClient = Client();
     _bscClient = Web3Client(AppConfig.networkList[3].httpUrlTN!, _httpClient!, socketConnector: () {
@@ -173,54 +169,33 @@ class ContractProvider with ChangeNotifier {
     _swap = new ContractService(_bscClient!, _contract);
   }
 
-  Future<void> addListActivity(TransactionInfo info, int index, {ContractService? contractService, NativeService? nativeService}) async {
-    listContract[index].listActivity = [];
-    try {
-      listContract[index].listActivity!.add(info);
+  Future<DeployedContract> initSwapSel(String contractAddr) async {
+    final String abiCode = await rootBundle.loadString('assets/abi/swap.json');
+    final contract = DeployedContract(
+      ContractAbi.fromJson(abiCode, 'Swap'),
+      EthereumAddress.fromHex(contractAddr),
+    );
 
-      if (contractService != null) {
-        await updateTxStt(contractService, info, index);
-      }
-
-      if (nativeService != null) {
-        print("nativeService != null");
-        await updateNativeTxStt(nativeService, info, index);
-      }
-
-      notifyListeners();
-    } catch (e) {
-      print("Err addListActivity $e");
-    }
+    return contract;
   }
 
-  Future<void> updateNativeTxStt(NativeService nativeService, TransactionInfo info, int index) async {
+  Future<DeployedContract?> initBsc(String contractAddr) async {
     try {
 
-      await nativeService.listenTransfer(info.hash!)!.then((value) {
-        var item = listContract[index].listActivity!.firstWhere((element) => element.hash == info.hash);
-        item.status = value;
-      });
+      final String abiCode = await rootBundle.loadString('assets/abi/abi.json');
+      final contract = DeployedContract(
+        ContractAbi.fromJson(abiCode, 'BEP-20'),
+        EthereumAddress.fromHex(contractAddr),
+      );
 
-      notifyListeners();
+      return contract;
     } catch (e) {
-      print("Err updateNativeTxStt $e");
+      print("Err initBsc $e");
     }
+    return null;
   }
 
-  Future<void> updateTxStt(ContractService contractService, TransactionInfo info, int index) async {
-    try {
-
-      await contractService.listenTransfer(info.hash!)!.then((value) {
-        var item = listContract[index].listActivity!.firstWhere((element) => element.hash == info.hash);
-        item.status = value;
-      });
-
-      notifyListeners();
-    } catch (e) {
-      print("Err updateTxStt $e");
-    }
-  }
-
+  /// Asset Balance
   Future<void> selTokenWallet() async {
 
     try {
@@ -241,7 +216,8 @@ class ContractProvider with ChangeNotifier {
 
       listContract[0].chainDecimal = chainDecimal.toString();
       listContract[0].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
-      listContract[0].address = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+      // listContract[0].address = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
+      // listContract[0].marketPrice = selPrice;
       
       notifyListeners();
     } catch (e) {
@@ -270,6 +246,7 @@ class ContractProvider with ChangeNotifier {
       listContract[1].lineChartModel = LineChartModel().prepareGraphChart(listContract[1]); //
       
       listContract[1].address = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
+      // listContract[1].marketPrice = selPrice; //chainDecimal.toString();
       notifyListeners();
     } catch (e) {
       print("Error selv2TokenWallet $e");
@@ -312,6 +289,7 @@ class ContractProvider with ChangeNotifier {
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
 
       listContract[3].balance = balance.toString();
+      listContract[3].address = ethAdd;
 
       listContract[3].lineChartModel = LineChartModel().prepareGraphChart(listContract[3]);
 
@@ -331,6 +309,7 @@ class ContractProvider with ChangeNotifier {
       final balance = await _bnb!.getBalance(getEthAddr(ethAdd));
 
       listContract[4].balance = balance.toString();
+      listContract[4].address = ethAdd;
 
       listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[4]);
 
@@ -340,19 +319,50 @@ class ContractProvider with ChangeNotifier {
     }
   }
 
-  // void addApiProviderProperty(ApiProvider api) {
-  //   // if (listContract.length == 5){
-  //   //   listContract.addAll([
-  //   //     api.btc,
-  //   //     api.dot,
-  //   //     api.nativeM,
-  //   //   ]);
+  /// Set Market Price
+  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
+    print("listContract[2].marketData ${listContract[2].symbol} $currentPrice");
+    listContract[2].marketData = kgoMarket;
+    listContract[2].lineChartList = lineChart;
+    listContract[2].marketPrice = currentPrice;
+    listContract[2].change24h = priceChange24h;
 
-  //   //   notifyListeners();
-  //   // }
-  // }
+    notifyListeners();
+  }
 
-  // Sort Asset Portoflio
+  void setEtherMarket(Market ethMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
+    print("listContract[3].marketData = ethMarket ${listContract[3].symbol} $currentPrice");
+    listContract[3].marketData = ethMarket;
+    listContract[3].marketPrice = currentPrice;
+    listContract[3].change24h = priceChange24h;
+    listContract[3].lineChartList = lineChart;
+
+    notifyListeners();
+  }
+
+  void setBnbMarket(Market bnbMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
+    print("listContract[4].marketData = ethMarket ${listContract[4].symbol} $currentPrice");
+    listContract[4].marketData = bnbMarket;
+    listContract[4].marketPrice = currentPrice;
+    listContract[4].change24h = priceChange24h;
+    listContract[4].lineChartList = lineChart;
+
+    notifyListeners();
+  }
+
+  void setDotMarket(Market dotMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
+    print("listContract[5].marketData = ethMarket ${listContract[4].symbol} $currentPrice");
+    listContract[5].marketData = dotMarket;
+    listContract[5].marketPrice = currentPrice;
+    listContract[5].change24h = priceChange24h;
+    listContract[5].lineChartList = lineChart;
+
+    notifyListeners();
+  }
+
+
+  /// Contract Provider Functional 
+  /// Sort Asset Portoflio
   Future? sortAsset() {
     try {
 
@@ -484,32 +494,6 @@ class ContractProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<DeployedContract> initSwapSel(String contractAddr) async {
-    final String abiCode = await rootBundle.loadString('assets/abi/swap.json');
-    final contract = DeployedContract(
-      ContractAbi.fromJson(abiCode, 'Swap'),
-      EthereumAddress.fromHex(contractAddr),
-    );
-
-    return contract;
-  }
-
-  Future<DeployedContract?> initBsc(String contractAddr) async {
-    try {
-
-      final String abiCode = await rootBundle.loadString('assets/abi/abi.json');
-      final contract = DeployedContract(
-        ContractAbi.fromJson(abiCode, 'BEP-20'),
-        EthereumAddress.fromHex(contractAddr),
-      );
-
-      return contract;
-    } catch (e) {
-      print("Err initBsc $e");
-    }
-    return null;
-  }
-
   Future<bool> validateEvmAddr(String address) async {
     print("validateEvmAddr");
     bool _isValid = false;
@@ -522,6 +506,54 @@ class ContractProvider with ChangeNotifier {
       print("Err validateEvmAddr $e");
     }
     return _isValid;
+  }
+
+  Future<void> addListActivity(TransactionInfo info, int index, {ContractService? contractService, NativeService? nativeService}) async {
+    listContract[index].listActivity = [];
+    try {
+      listContract[index].listActivity!.add(info);
+
+      if (contractService != null) {
+        await updateTxStt(contractService, info, index);
+      }
+
+      if (nativeService != null) {
+        print("nativeService != null");
+        await updateNativeTxStt(nativeService, info, index);
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("Err addListActivity $e");
+    }
+  }
+
+  Future<void> updateNativeTxStt(NativeService nativeService, TransactionInfo info, int index) async {
+    try {
+
+      await nativeService.listenTransfer(info.hash!)!.then((value) {
+        var item = listContract[index].listActivity!.firstWhere((element) => element.hash == info.hash);
+        item.status = value;
+      });
+
+      notifyListeners();
+    } catch (e) {
+      print("Err updateNativeTxStt $e");
+    }
+  }
+
+  Future<void> updateTxStt(ContractService contractService, TransactionInfo info, int index) async {
+    try {
+
+      await contractService.listenTransfer(info.hash!)!.then((value) {
+        var item = listContract[index].listActivity!.firstWhere((element) => element.hash == info.hash);
+        item.status = value;
+      });
+
+      notifyListeners();
+    } catch (e) {
+      print("Err updateTxStt $e");
+    }
   }
 
   Future<EtherAmount> getEthGasPrice() async {
@@ -883,8 +915,7 @@ class ContractProvider with ChangeNotifier {
       Transaction(
         maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
-        value:
-            EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+        value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
       ),
       chainId: null,
       fetchChainIdFromNetworkId: true,
@@ -1207,11 +1238,9 @@ class ContractProvider with ChangeNotifier {
       );
     }
     if (symbol == 'SEL') {
-      Provider.of<WalletProvider>(context, listen: false)
-          .removeTokenSymbol("$symbol (BEP-20)");
+      Provider.of<WalletProvider>(context, listen: false).removeTokenSymbol("$symbol (BEP-20)");
     } else {
-      Provider.of<WalletProvider>(context, listen: false)
-          .removeTokenSymbol(symbol);
+      Provider.of<WalletProvider>(context, listen: false).removeTokenSymbol(symbol);
     }
     notifyListeners();
   }
@@ -1224,33 +1253,6 @@ class ContractProvider with ChangeNotifier {
 
     print("findContractAddr ${item.address}");
     return item.address!;
-  }
-
-  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[2].marketData = kgoMarket;
-    listContract[2].lineChartList = lineChart;
-    listContract[2].marketPrice = currentPrice;
-    listContract[2].change24h = priceChange24h;
-
-    notifyListeners();
-  }
-
-  void setEtherMarket(Market ethMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[3].marketData = ethMarket;
-    listContract[3].marketPrice = currentPrice;
-    listContract[3].change24h = priceChange24h;
-    listContract[3].lineChartList = lineChart;
-
-    notifyListeners();
-  }
-
-  void setBnbMarket(Market bnbMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[4].marketData = bnbMarket;
-    listContract[4].marketPrice = currentPrice;
-    listContract[4].change24h = priceChange24h;
-    listContract[4].lineChartList = lineChart;
-
-    notifyListeners();
   }
 
   void setReady() {

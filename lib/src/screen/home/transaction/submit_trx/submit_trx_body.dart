@@ -4,25 +4,32 @@ import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/core/service/contract.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class SubmitTrxBody extends StatelessWidget {
+  final int? assetIndex;
   final bool? enableInput;
+  final bool? isCalculate;
   final ModelScanPay? scanPayM;
   final Function? onSubmit;
   final Function? clickSend;
   final Function? validateSubmit;
   final Function? onChanged;
-  final String Function(String)? validateField;
-  final Function(String)? onChangeDropDown;
+  final Function? onChangedCurrency;
+  final Function? validateField;
+  final Function? onChangeDropDown;
 
   final PopupMenuItem Function(Map<String, dynamic>)? item;
   final Function? pasteText;
 
   const SubmitTrxBody({
+    this.assetIndex,
     this.pasteText,
+    this.isCalculate,
     this.enableInput,
     this.scanPayM,
     this.onChanged,
+    this.onChangedCurrency,
     this.validateField,
     this.onSubmit,
     this.clickSend,
@@ -81,7 +88,6 @@ class SubmitTrxBody extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       left: paddingSize, right: paddingSize,
       child: Form(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -90,7 +96,9 @@ class SubmitTrxBody extends StatelessWidget {
               title: "SEND",
               trailing: IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pop(context);
+                },
                 icon: Icon(Icons.close, size: 30, color: Colors.white)
               ),
               margin: EdgeInsets.only(bottom: 30),
@@ -109,7 +117,18 @@ class SubmitTrxBody extends StatelessWidget {
               trailing2: SvgPicture.asset(AppConfig.iconPath+"qr.svg", width: 20, height: 20),
               onPressedTrailing1: () async {
                 pasteText!();
-              }
+              },
+              onPressedTrailing2: () async {
+                onChangedCurrency!();
+                // try {
+                //   await TrxOptionMethod.scanQR(
+                //     context,
+                //     Provider.of<ContractProvider>(context, listen: false).sortListContract,
+                //   );
+                // } catch (e) {
+                //   // print(e);
+                // }
+              },
             ),
             
             /* Type of payment */
@@ -133,9 +152,9 @@ class SubmitTrxBody extends StatelessWidget {
             //         : hexaCodeToColor(AppColors.whiteHexaColor),
             //       borderRadius: BorderRadius.circular(size5),
             //       border: Border.all(
-            //         width: scanPayM!.asset != null ? 1 : 0,
+            //         width: scanPayM!.assetIndex != null ? 1 : 0,
             //         color: hexaCodeToColor(AppColors.whiteColorHexa)
-            //         // scanPayM!.asset != null
+            //         // scanPayM!.assetIndex != null
             //         //   ? hexaCodeToColor(AppColors.secondary)
             //         //   : Colors.transparent
             //       ),
@@ -144,7 +163,7 @@ class SubmitTrxBody extends StatelessWidget {
             //       children: <Widget>[
             //         Expanded(
             //           child: MyText(
-            //             text: 'Asset',
+            //             text: 'assetIndex',
             //             textAlign: TextAlign.left,
             //             color: isDarkTheme
             //               ? AppColors.darkSecondaryText
@@ -153,7 +172,7 @@ class SubmitTrxBody extends StatelessWidget {
             //           ),
             //         ),
             //         ReuseDropDown(
-            //           initialValue: scanPayM!.assetValue.toString(),
+            //           initialValue: scanPayM!.assetIndexValue.toString(),
             //           onChanged: onChangeDropDown,
             //           itemsList: ContractService.getConSymbol(contract.sortListContract),
             //           style: TextStyle(
@@ -177,32 +196,44 @@ class SubmitTrxBody extends StatelessWidget {
               trailing1: MyText(
                 text: "USD",
                 fontWeight: FontWeight.w700,
-                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                color: scanPayM!.currency == 0 ? AppColors.blueColor : AppColors.whiteColorHexa,//isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
                 fontSize: textSize,
               ),
               trailing2: MyText(
-                text: "SEL",
+                text: "${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}",
                 fontWeight: FontWeight.w700,
-                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                color: scanPayM!.currency == 1 ? AppColors.blueColor : AppColors.whiteColorHexa,//isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
                 fontSize: textSize,
               ),
-              onPressedTrailing2: () async {
-                try {
-                  await TrxOptionMethod.scanQR(
-                    context,
-                    Provider.of<ContractProvider>(context, listen: false).sortListContract,
-                  );
-                } catch (e) {
-                  // print(e);
-                }
-              },
+              onPressedTrailing1: () => onChangedCurrency!(0),
+              onPressedTrailing2: () => onChangedCurrency!(1),
             ),
             
-            MyText(
-              // left: 10,
-              text: " ≈ ${scanPayM!.priceToSel.toString()} SEL",
+            isCalculate == false ? MyText(
+              text: " ≈ ${ scanPayM!.currency == 0 ? scanPayM!.estPrice.toString() + " ${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}" : '\$ ' + scanPayM!.estPrice.toString()}",
               fontSize: textSize,
               color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+            )
+            : Row(
+              children: [
+                MyText(
+                  text: " ≈ ",
+                  fontSize: textSize,
+                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                ),
+                
+                ThreeDotLoading(
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  height: 20, 
+                  width: 30
+                ),
+
+                MyText(
+                  text: " ${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}",
+                  fontSize: textSize,
+                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                )
+              ]
             ),
 
             Expanded(child: Container()),

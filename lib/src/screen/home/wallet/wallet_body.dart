@@ -1,4 +1,6 @@
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/transaction_p.dart';
 
 class WalletBody extends StatelessWidget {
 
@@ -11,10 +13,11 @@ class WalletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final totalValue = Provider.of<TrxProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(bottom: 70),
+          // padding: EdgeInsets.only(bottom: 70),
           child: Column(
             children: [
               
@@ -37,7 +40,18 @@ class WalletBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 
-                    MyText(text: "\$134.72", fontSize: 30, bottom: 30, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor),
+                    Consumer<TrxProvider>(
+                      builder: (context, provider, widget){
+                        return provider.isTotal 
+                        ? ThreeDotLoading(
+                          indicator: Indicator.ballPulseRise,
+                          padding: EdgeInsets.only(left: 5, right: 5, bottom: 30),
+                          height: 50, 
+                          width: 100
+                        )
+                        : MyText(text: "\$ ${provider.totalValue}", fontSize: 30, bottom: 30, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor);
+                      }
+                    ),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +116,29 @@ class WalletBody extends StatelessWidget {
                       ? AnimatedOpacity(
                           opacity: value.isReady ? 1.0 : 0.0,
                           duration: const Duration(milliseconds: 500),
-                          child: AssetList(),
+                          child: Column(
+                            children: [
+                              for (int index = 0; index < value.sortListContract.length; index++)
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    RouteAnimation(
+                                      enterPage: SubmitTrx(index, value.sortListContract[index].address ?? '', false, value.sortListContract,)
+                                      // AssetInfo(
+                                      //   index: index,
+                                      //   scModel: value.sortListContract[index]
+                                      // ),
+                                    ),
+                                  );
+                                },
+                                child: AssetItem(
+                                  scModel: value.sortListContract[index]
+                                )
+                              )
+                            ],
+                          )
+                          //AssetList(),
                         )
                       // Loading Data Effect Shimmer
                       : MyShimmer(

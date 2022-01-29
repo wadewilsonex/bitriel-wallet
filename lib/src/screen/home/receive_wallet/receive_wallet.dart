@@ -79,9 +79,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
       wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
     }
     setState(() { });
-    // } else {
-      
-    // }
   }
 
   @override

@@ -36,8 +36,8 @@ class SearchItem extends StatelessWidget{
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
-      padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
-      color: hexaCodeToColor(isDarkTheme ? AppColors.blackColor : AppColors.bgdColor),
+      padding: EdgeInsets.all(paddingSize),
+      color: hexaCodeToColor(isDarkTheme ? "#2C2C2D" : AppColors.bgdColor),
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
@@ -204,7 +204,8 @@ class SearchItemTrx extends StatelessWidget{
                         )
                       ),
 
-                      lsItem![index].org!.isNotEmpty ? MyText(
+                      lsItem![index].org!.isNotEmpty 
+                      ? MyText(
                         text: lsItem![index].org!, 
                         color: isDarkTheme
                           ? AppColors.whiteColorHexa
@@ -220,6 +221,7 @@ class SearchItemTrx extends StatelessWidget{
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+
                       MyText(
                         text: '${lsItem![index].balance} ${lsItem![index].symbol}',
                         color: isDarkTheme
@@ -228,9 +230,9 @@ class SearchItemTrx extends StatelessWidget{
                       ),
 
                       MyText(
-                        text: '\$ ${lsItem![index].balance}',
+                        text: '\$ ${lsItem![index].marketPrice!.isEmpty ? '0.0' : lsItem![index].marketPrice}',
                         color: isDarkTheme
-                        ? AppColors.whiteColorHexa
+                        ? AppColors.darkSecondaryText
                         : AppColors.blackColor,
                         fontSize: 14,
                       )

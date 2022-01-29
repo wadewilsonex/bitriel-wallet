@@ -211,8 +211,7 @@ class ApiProvider with ChangeNotifier {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1),
           ),
@@ -399,6 +398,8 @@ class ApiProvider with ChangeNotifier {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res) {
+        // Assign Address
+        contract.listContract[8].address = _keyring.current.address;
         contract.listContract[8].balance = Fmt.balance(
           res.freeBalance.toString(),
           int.parse(contract.listContract[8].chainDecimal!),
@@ -435,7 +436,9 @@ class ApiProvider with ChangeNotifier {
       // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
 
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res){
-
+        
+        // Assign Address
+        contract.listContract[5].address = _keyring.current.address;
         contract.listContract[5].balance = Fmt.balance(
           res.freeBalance.toString(),
           int.parse(contract.listContract[5].chainDecimal!),

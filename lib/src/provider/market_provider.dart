@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/src/provider/contract_provider.dart';
+import 'package:wallet_apps/src/provider/transaction_p.dart';
 
 import '../../index.dart';
 
@@ -12,7 +13,8 @@ class MarketProvider with ChangeNotifier {
     'binancecoin',
     'polkadot',
     'bitcoin',
-    'selendra'
+    'attendant',
+    'selendra',
   ];
 
   List<Map<String, dynamic>> sortDataMarket = [];
@@ -72,13 +74,14 @@ class MarketProvider with ChangeNotifier {
 
         final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id[i]}'));
 
-        final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
-
+        dynamic jsonResponse = await List<Map<String, dynamic>>.from(await json.decode(response.body));
+        print("index $i");
+        print("${id[i]} ${response.body.toString()}");
         if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
-          sortDataMarket.addAll({jsonResponse[0]});
+          // sortDataMarket.addAll({jsonResponse[0]});
 
           final lineChartData = await fetchLineChartData(id[i]);
-
+          
           final res = parseMarketData(jsonResponse);
 
           if (i == 0) {
@@ -107,14 +110,11 @@ class MarketProvider with ChangeNotifier {
               jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
             );
           } else if (i == 3) {
-            await api.setDotMarket(
+            contract.setDotMarket(
               res!,
               lineChartData!,
               jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
-              context: context
+              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
             );
           } else if (i == 4) {
             await api.setBtcMarket(
@@ -132,6 +132,8 @@ class MarketProvider with ChangeNotifier {
         print("error market $e");
       }
     }
+    
+    Provider.of<TrxProvider>(context, listen: false).totalAssetValue(context: context);
 
     // Sort Market Price
     // Map<String, dynamic> tmp = {};

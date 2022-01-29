@@ -65,8 +65,8 @@ class WelcomeBody extends StatelessWidget {
               textButton: AppString.createAccTitle,
               action: () {
                 // Navigator.pushNamed(context, AppText.contentBackup);
-                // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
+                Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
               },
             ),
             MyFlatButton(

@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
@@ -352,13 +353,12 @@ class MyAppBar extends StatelessWidget {
               children: [
                 IconButton(
                   /* Menu Icon */
-
                   padding: const EdgeInsets.only(left: 16, right: 8),
-                  iconSize: 40.0,
+                  iconSize: 30.0,
                   icon: Icon(
                     Platform.isAndroid
-                        ? LineAwesomeIcons.arrow_left
-                        : LineAwesomeIcons.angle_left,
+                      ? LineAwesomeIcons.arrow_left
+                      : LineAwesomeIcons.angle_left,
                     color: isDarkTheme ? Colors.white : Colors.black,
                     size: 36,
                   ),
@@ -422,6 +422,7 @@ class BodyScaffold extends StatelessWidget {
 }
 
 class MyIconButton extends StatelessWidget {
+  final bool? isActive;
   final String? icon;
   final String? subTitle;
   final double? iconSize;
@@ -429,6 +430,7 @@ class MyIconButton extends StatelessWidget {
   // final EdgeInsetsGeometry padding;
 
   const MyIconButton({
+    this.isActive = false,
     this.icon,
     this.subTitle,
     this.iconSize,
@@ -439,6 +441,8 @@ class MyIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    Color defaultColor = isDarkTheme ? Colors.white : Colors.black;
+    String txtColor = isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor;
     return TextButton(
       // highlightColor: Colors.transparent,
       // splashColor: Colors.transparent,
@@ -453,10 +457,10 @@ class MyIconButton extends StatelessWidget {
             'assets/icons/$icon',
             width: iconSize ?? 30,
             height: iconSize ?? 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isActive! ? hexaCodeToColor(AppColors.blueColor) : defaultColor,
           ),
 
-          MyText(top: 5, text: subTitle ?? '', fontSize: 16,)
+          MyText(top: 5, text: subTitle ?? '', fontSize: 16, color: isActive! ? AppColors.blueColor : txtColor,)
         ],
       )
     );
@@ -779,5 +783,31 @@ class FrostedGlassBox extends StatelessWidget{
       )
     );
 
+  }
+}
+
+class ThreeDotLoading extends StatelessWidget{
+
+  final Indicator? indicator;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
+
+  ThreeDotLoading({this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height});
+
+  Widget build(BuildContext context ){
+    final isDark = Provider.of<ThemeProvider>(context).isDark;
+    return Container(
+      padding: padding,
+      width: width,
+      height: height,
+      child: LoadingIndicator(
+        indicatorType: indicator!, /// Required, The loading type of the widget
+        colors: [ isDark ? Colors.white : Colors.black],       /// Optional, The color collections
+        strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+        pathBackgroundColor: isDark ? Colors.black : Colors.white
+      ),
+    );
   }
 }

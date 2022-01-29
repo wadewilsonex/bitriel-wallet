@@ -23,10 +23,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> getCurrentAccount() async {
 
     // print("getCurrentAccount");
-    //   await Future.delayed(const Duration(seconds: 1), () async {
-    //       Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome())); 
-    //   });
+      // await Future.delayed(const Duration(seconds: 1), () async {
+      //     Navigator.pushReplacement(context, RouteAnimation(enterPage: ClaimAirDrop())); 
+      // });
     
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', false, Provider.of<ContractProvider>(context, listen: false).sortListContract, asset: "SEL",)));
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
         await StorageServices().readSecure('private')!.then((String? value) async {
@@ -105,11 +106,14 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmationTx(
-          trxInfo: TransactionInfo(),
-          sendTrx: (){},
-          gasFeetoEther: "0.0",
-        )));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Wallet() ));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', true, [], asset: "SEL",)
+        // ConfirmationTx(
+        //   trxInfo: TransactionInfo(),
+        //   sendTrx: (){},
+        //   gasFeetoEther: "0.0",
+        // )
+        // ));
         // Navigator.pushReplacementNamed(context, Home.route);
       }
     }

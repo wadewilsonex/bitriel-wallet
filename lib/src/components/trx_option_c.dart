@@ -100,17 +100,19 @@ class TrxOptionMethod {
 
   // ignore: avoid_void_async
   static void navigateFillAddress(
+    int assetIndex,
     BuildContext context,
     List<dynamic> portfolioList,
   ) async {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SubmitTrx("", true, portfolioList)));
+            builder: (context) => SubmitTrx(assetIndex, "", true, portfolioList)));
   }
 
   /* Scan QR Code */
   static Future scanQR(
+    int assetIndex,
     BuildContext context,
     List<dynamic> portfolioList,
   ) async {
@@ -120,8 +122,7 @@ class TrxOptionMethod {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  SubmitTrx(_response, false, portfolioList)));
+              builder: (context) => SubmitTrx(assetIndex, _response, false, portfolioList)));
     }
   }
 }

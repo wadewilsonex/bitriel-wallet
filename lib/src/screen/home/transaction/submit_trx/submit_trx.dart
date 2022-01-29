@@ -6,22 +6,26 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/transaction_p.dart';
 import 'package:wallet_apps/src/screen/home/transaction/cfm_trx/cfm_trx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 
 class SubmitTrx extends StatefulWidget {
+
   final String? _walletKey;
-  final String? asset;
+  final int? assetIndex;
   final List<dynamic>? _listPortfolio;
   final bool? enableInput;
 
   const SubmitTrx(
-      // ignore: avoid_positional_boolean_parameters
-      this._walletKey,
-      // ignore: avoid_positional_boolean_parameters
-      this.enableInput,
-      this._listPortfolio,
-      {this.asset});
+    this.assetIndex,
+    // ignore: avoid_positional_boolean_parameters
+    this._walletKey,
+    // ignore: avoid_positional_boolean_parameters
+    this.enableInput,
+    this._listPortfolio,
+    // {this.asset}
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -33,23 +37,27 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional? trxFunc;
 
+  final double selPrice = 0.027;
+
   final ModelScanPay _scanPayM = ModelScanPay();
 
   FlareControls flareController = FlareControls();
 
   AssetInfoC c = AssetInfoC();
+  
+  bool isCalculate = false;
 
   bool disable = false;
   final bool _loading = false;
 
   @override
   void initState() {
-    if (widget.asset != null){
-      _scanPayM.asset = widget.asset;
-    } else {
-      _scanPayM.asset = Provider.of<ContractProvider>(context, listen: false).sortListContract[0].symbol;
-      _scanPayM.assetValue = 0;
-    }
+    // if (widget.asset != null){
+    //   _scanPayM.asset = widget.asset;
+    // } else {
+    //   _scanPayM.asset = Provider.of<ContractProvider>(context, listen: false).sortListContract[0].symbol;
+    //   _scanPayM.assetValue = 0;
+    // }
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
 
@@ -92,11 +100,58 @@ class SubmitTrxState extends State<SubmitTrx> {
     return res;
   }
 
-  String onChanged(String value) {
+  Future<String> onChanged(String value) async {
+    
+    if (value.isNotEmpty){
+    
+      setState(() {
+        isCalculate = true;
+      });
 
-    enableButton();
+      await Future.delayed(Duration(seconds: 1), (){});
+      if (_scanPayM.nodeAmount.hasFocus ){
+
+        if (_scanPayM.controlAmount.text.isNotEmpty){
+          if (_scanPayM.currency == 0){
+            _scanPayM.estPrice = Provider.of<TrxProvider>(context, listen: false).usdToAsset(value: value, assetPrice: double.parse(Provider.of<ContractProvider>(context, listen: false).sortListContract[widget.assetIndex!].marketPrice!) );
+          } else {
+            _scanPayM.estPrice =Provider.of<TrxProvider>(context, listen: false).assetToUSD(value: value, assetPrice: double.parse(Provider.of<ContractProvider>(context, listen: false).sortListContract[widget.assetIndex!].marketPrice!) );
+          }
+        }
+        
+        setState(() {
+          isCalculate = false;
+        });
+      }
+      enableButton();
+    } else {
+      _scanPayM.estPrice = 0.0;
+      setState(() {
+        
+      });
+    }
     return value;
   }
+
+  void onChangedCurrency(int index){
+    setState(() {
+      _scanPayM.currency = index;
+      _scanPayM.estPrice = 0.0;
+      _scanPayM.controlAmount.clear();
+    });
+  }
+
+  // void selToUSD(String value){
+  //   double parse = double.parse(value);
+  //   _scanPayM.estPrice = parse * selPrice;
+  //   _scanPayM.estPrice = double.parse(_scanPayM.estPrice!.toStringAsPrecision(7));
+  // }
+  // void usdToSEL(String value){
+  //   double parse = double.parse(value);
+  //   print("usdToSEL $parse");
+  //   _scanPayM.estPrice = parse / selPrice;
+  //   _scanPayM.estPrice = double.parse(_scanPayM.estPrice!.toStringAsPrecision(7));
+  // }
 
   String? validateField(String value) {
     if (value == '' || double.parse(value.toString()) <= 0 || value == '-0') {
@@ -483,6 +538,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<ContractProvider>(context).sortListContract[widget.assetIndex!].marketPrice );
     return Scaffold(
       key: _scanPayM.globalKey,
       body: _loading
@@ -492,10 +548,13 @@ class SubmitTrxState extends State<SubmitTrx> {
       : Stack(
         children: <Widget>[
           SubmitTrxBody(
+            isCalculate: isCalculate,
+            assetIndex: widget.assetIndex,
             enableInput: widget.enableInput,
             scanPayM: _scanPayM,
             pasteText: pasteText,
             onChanged: onChanged,
+            onChangedCurrency: onChangedCurrency,
             onSubmit: onSubmit,
             validateSubmit: validateSubmit, //sendTrx,
             validateField: (String? value){

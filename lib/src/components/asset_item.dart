@@ -23,7 +23,7 @@ class AssetItem extends StatelessWidget {
 
     return rowDecorationStyle(
       color: isDarkTheme
-        ? hexaCodeToColor(AppColors.blackColor)
+        ? hexaCodeToColor(AppColors.lowGrey)
         : hexaCodeToColor(AppColors.whiteHexaColor),
       child: Row(
         children: <Widget>[
@@ -53,7 +53,7 @@ class AssetItem extends StatelessWidget {
                 Flexible(
                   child: Text.rich(
                     TextSpan(
-                      text: scModel!.symbol != null ? '${scModel!.symbol}' : '',
+                      text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -88,46 +88,60 @@ class AssetItem extends StatelessWidget {
                       ? AppColors.darkSecondaryText
                       : AppColors.darkSecondaryText,
                   )
-                else
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                // else
+                //   scModel!.change24h != null && scModel!.change24h != ''
+                //   ? Flexible(
+                //     child: MyText(
+                //       text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
+                //       fontSize: 12,
+                //       fontWeight: FontWeight.bold,
+                //       color: double.parse(scModel!.change24h!).isNegative
+                //         ? '#FF0000'
+                //         : isDarkTheme
+                //           ? '#00FF00'
+                //           : '#66CD00',
+                //     ),
+                //   )
+                //   : Flexible(
+                //     child: MyText(
+                //       text: scModel!.change24h,
+                //       fontSize: 12,
+                //       fontWeight: FontWeight.bold,
+                //       color: isDarkTheme
+                //         ? '#00FF00'
+                //         : '#66CD00',
+                //     ),
+                //   ),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
 
-                      MyText(
-                        text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '',
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                          ? AppColors.darkSecondaryText
-                          : AppColors.darkSecondaryText,
-                      ),
-
-                      const SizedBox(width: 6.0),
-                      scModel!.change24h != null && scModel!.change24h != ''
-                      ? Flexible(
-                        child: MyText(
-                          text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: double.parse(scModel!.change24h!).isNegative
-                            ? '#FF0000'
-                            : isDarkTheme
-                              ? '#00FF00'
-                              : '#66CD00',
-                        ),
-                      )
-                      : Flexible(
-                        child: MyText(
-                          text: scModel!.change24h,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme
-                            ? '#00FF00'
-                            : '#66CD00',
-                        ),
-                      ),
-                    ],
-                  ),
+                  //     const SizedBox(width: 6.0),
+                  //     scModel!.change24h != null && scModel!.change24h != ''
+                  //     ? Flexible(
+                  //       child: MyText(
+                  //         text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: double.parse(scModel!.change24h!).isNegative
+                  //           ? '#FF0000'
+                  //           : isDarkTheme
+                  //             ? '#00FF00'
+                  //             : '#66CD00',
+                  //       ),
+                  //     )
+                  //     : Flexible(
+                  //       child: MyText(
+                  //         text: scModel!.change24h,
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.bold,
+                  //         color: isDarkTheme
+                  //           ? '#00FF00'
+                  //           : '#66CD00',
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
               ],
             ),
           ),
@@ -160,6 +174,14 @@ class AssetItem extends StatelessWidget {
                   : AppColors.textColor,
                 bottom: 4.0,
               ),
+              MyText(
+                text: scModel!.marketPrice!.isNotEmpty ? '\$ ${double.parse(scModel!.marketPrice!).toStringAsPrecision(6).toString()}' : '\$ 0.00',
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: isDarkTheme
+                  ? AppColors.darkSecondaryText
+                  : AppColors.darkSecondaryText,
+              )
             ],
           ),
         ],

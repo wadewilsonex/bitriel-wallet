@@ -363,43 +363,45 @@ class MyBottomAppBar extends StatelessWidget {
     return BottomAppBar(
       elevation: 10,
       color: isDarkTheme
-        ? hexaCodeToColor(AppColors.darkCard)
+        ? hexaCodeToColor(AppColors.lowGrey)
         : hexaCodeToColor(AppColors.whiteHexaColor),
-      // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(
         height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
             Expanded(
               child: MyIconButton(
+                isActive: pageIndex == 0 ? true : false,
                 icon: 'compass.svg',
                 subTitle: "Discover",
-                iconSize: 36,
+                iconSize: 30,
                 onPressed: !apiStatus!
                 ? null
                 : () async {
 
-                  // onTapChanged!(0);
-                  await MyBottomSheet().trxOptions(
-                    context: context,
-                    portfolioList: homeM!.portfolioList,
-                  );
+                  onTapChanged!(0);
+                  // await MyBottomSheet().trxOptions(
+                  //   context: context,
+                  //   portfolioList: homeM!.portfolioList,
+                  // );
                 },
               )
             ),
 
             Expanded(
               child: MyIconButton(
+              isActive: pageIndex == 1 ? true : false,
               icon: 'wallet.svg', //'Wallet'
               subTitle: "Wallet",
-              // iconSize: 36,
+              iconSize: 30,
               onPressed: !apiStatus!
               ? null
               : () async {
-                // onTapChanged!(1);
-                toReceiveToken!();
+                onTapChanged!(1);
+                // toReceiveToken!();
               },
             )),
 
@@ -420,7 +422,7 @@ class MyBottomAppBar extends StatelessWidget {
               child: MyIconButton(
                 icon: 'more.svg',
                 subTitle: "More",
-                // iconSize: 27,
+                iconSize: 30,
                 onPressed: !apiStatus! ? null : openDrawer,
               ),
             )
@@ -428,10 +430,6 @@ class MyBottomAppBar extends StatelessWidget {
         ),
       ),
     );
-    // Container(
-    //   color: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd):  hexaCodeToColor(AppColors.whiteColorHexa),
-    //   child: ,
-    // );
   }
 }
 

@@ -2,6 +2,7 @@
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
+import 'package:wallet_apps/src/provider/transaction_p.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet_body.dart';
 
 class Wallet extends StatefulWidget {

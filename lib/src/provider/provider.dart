@@ -32,7 +32,7 @@ class ContractsBalance {
       await apiProvider.getBtcBalance(context: context);
 //4
       /// Fetch and Fill Market Price Into Asset
-      await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+      // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
       // await isBtcContain(context: context);
 

@@ -325,13 +325,12 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   void initAirDrop() async {
     print("initAirDrop");
-    await StorageServices.fetchData(DbKey.signData).then((value) => print(value));
-    final apiPro = Provider.of<ApiProvider>(context, listen: false);
+    await StorageServices.fetchData(DbKey.signData);
     await Future.delayed(Duration(milliseconds: 100), () async {
 
       _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
       await _airDropProvider!.initContract();
-      _airDropProvider!.setConProvider = Provider.of<ContractProvider>(context, listen: false);
+      _airDropProvider!.setConProvider(Provider.of<ContractProvider>(context, listen: false), context);
       await _airDropProvider!.airdropTokenAddress();
       await _airDropProvider!.signIn();
       
@@ -424,7 +423,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               padding: const EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                 color: isDarkTheme
-                                  ? hexaCodeToColor(AppColors.darkCard)
+                                  ? hexaCodeToColor(AppColors.lowGrey)
                                   : hexaCodeToColor(AppColors.whiteHexaColor),
                                 borderRadius: BorderRadius.circular(8),
                                 boxShadow: [shadow(context)]

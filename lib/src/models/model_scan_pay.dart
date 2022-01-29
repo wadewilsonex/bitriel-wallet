@@ -11,7 +11,8 @@ class ModelScanPay {
   int? assetValue;
   String? responseWallet, responseAmount, responseMemo;
   String? loadingDot = "";
-  double? priceToSel = 0.0;
+  double? estPrice = 0.0;
+  int currency = 0;//["USD", "SEL"];
 
   bool isSuccessPin = false, isPay = false, enable = false;
 

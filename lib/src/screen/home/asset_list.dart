@@ -146,22 +146,22 @@ class AssetList extends StatelessWidget {
         return Column(
           children: [
             for (int index = 0; index < value.sortListContract.length; index++)
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    RouteAnimation(
-                      enterPage: AssetInfo(
-                        index: index,
-                        scModel: value.sortListContract[index]
-                      ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  RouteAnimation(
+                    enterPage: AssetInfo(
+                      index: index,
+                      scModel: value.sortListContract[index]
                     ),
-                  );
-                },
-                child: AssetItem(
-                  scModel: value.sortListContract[index]
-                )
+                  ),
+                );
+              },
+              child: AssetItem(
+                scModel: value.sortListContract[index]
               )
+            )
           ]
         );
       },

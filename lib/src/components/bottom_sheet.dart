@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/provider/search_p.dart';
 class MyBottomSheet {
   dynamic response;
 
-  Future<dynamic> trxOptions({BuildContext? context, List? portfolioList, String? asset}) {
+  Future<dynamic> trxOptions({@required int? assetIndex, BuildContext? context, List? portfolioList, String? asset}) {
     final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
     return showModalBottomSheet(
       context: context,
@@ -43,6 +43,7 @@ class MyBottomSheet {
                         print("Qr");
                         try {
                           await TrxOptionMethod.scanQR(
+                            assetIndex!,
                             context,
                             portfolioList!,
                           );
@@ -60,6 +61,7 @@ class MyBottomSheet {
                       action: () {
                         Navigator.pop(context);
                         TrxOptionMethod.navigateFillAddress(
+                          assetIndex!,
                           context,
                           portfolioList!,
                         );
