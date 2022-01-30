@@ -360,7 +360,7 @@ class MyBottomAppBar extends StatelessWidget {
       color: isDarkTheme
           ? hexaCodeToColor(AppColors.darkCard)
           : hexaCodeToColor(AppColors.whiteHexaColor),
-      shape: const CircularNotchedRectangle(),
+      // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(
         height: 65,

@@ -47,6 +47,7 @@ class AssetInfo extends StatefulWidget {
 }
 
 class _AssetInfoState extends State<AssetInfo> {
+  
   final FlareControls _flareController = FlareControls();
   final ModelScanPay _scanPayM = ModelScanPay();
   final GetWalletMethod _method = GetWalletMethod();
@@ -273,6 +274,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   void initState() {
+    print("init asset detail ${widget.scModel!.address}");
     _globalKey = GlobalKey<ScaffoldState>();
 
     if (widget.showActivity != null) {
@@ -531,11 +533,20 @@ class _AssetInfoState extends State<AssetInfo> {
                                   child: FlatButton(
                                     onPressed: () async {
                                       if(widget.scModel!.symbol != 'ATT') {
+                                        if (widget.scModel!.symbol == 'BTC') {
+                                          widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+                                        } else if (widget.scModel!.org == 'Testnet' || widget.scModel!.symbol == 'DOT'){
+                                          widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+                                        } else {
+                                          widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+                                        }
+                                        setState(() { });
                                         AssetInfoC().showRecieved(
                                           context,
                                           _method,
                                           symbol: widget.scModel!.symbol,
                                           org: widget.scModel!.org,
+                                          scModel: widget.scModel
                                         );
                                         
                                       } else {

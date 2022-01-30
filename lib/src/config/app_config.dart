@@ -132,6 +132,8 @@ class AppConfig {
   // https://sld_marketnet-api.selendra.com/pub/v1
 
   static String abiPath = "assets/abi/";
+  static String iconsPath = "assets/icons/";
+  static String illustrationsPath = "assets/illustration/";
 
 }
 

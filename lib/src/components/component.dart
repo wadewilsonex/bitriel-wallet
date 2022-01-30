@@ -150,7 +150,6 @@ class MyFlatButton extends StatelessWidget {
       // ignore: deprecated_member_use
       child: FlatButton(
         onPressed: action == null ? null : (){
-          print("My action");
           action!();
         },
         color: hexaCodeToColor(buttonColor!),

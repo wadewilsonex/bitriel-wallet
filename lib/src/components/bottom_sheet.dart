@@ -39,14 +39,13 @@ class MyBottomSheet {
                       icon: "icons/qr_code.svg",
                       action: () async {
                         // Navigator.pop(context);
-                        print("Qr");
                         try {
                           await TrxOptionMethod.scanQR(
                             context,
                             portfolioList!,
                           );
                         } catch (e) {
-                          print("TrxOptionMethod.scanQR $e");
+                          print("error TrxOptionMethod.scanQR $e");
                         }
                         
                       },

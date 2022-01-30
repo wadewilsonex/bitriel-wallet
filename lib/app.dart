@@ -75,7 +75,6 @@ class AppState extends State<App> {
   // }
 
   Future<void> readTheme() async {
-    print("readTheme");
     try {
 
       final res = await StorageServices.fetchData(DbKey.themeMode);

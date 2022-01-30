@@ -38,8 +38,8 @@ class HomeBody extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          hexaCodeToColor('#03a4f4'),
                           hexaCodeToColor('#a0e2ff'),
+                          hexaCodeToColor('#03a4f4'),
                         ]
                       ),
                       borderRadius: BorderRadius.circular(20.0),
@@ -77,8 +77,8 @@ class HomeBody extends StatelessWidget {
                           // hexaCodeToColor('#f39d0c'),
                           // hexaCodeToColor('#ff7900'),
 
-                          hexaCodeToColor('#2165fa'),
                           hexaCodeToColor('#00ddff'),
+                          hexaCodeToColor('#2165fa'),
                           // hexaCodeToColor('#1278c7'),
                         ]
                       )
@@ -114,9 +114,9 @@ class HomeBody extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          hexaCodeToColor('#f39d0c'),
-                          hexaCodeToColor('#fec204'),
                           hexaCodeToColor('#ffec1f'),
+                          hexaCodeToColor('#fec204'),
+                          hexaCodeToColor('#f39d0c'),
                         ]
                       )
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),

@@ -49,7 +49,7 @@ class AirDropProvider with ChangeNotifier {
   /// Assign contract provider parameter
   void setConProvider(ContractProvider? con, BuildContext? context){
     _contractP = con;
-    _apiProvider = Provider.of<ApiProvider>(context!);
+    _apiProvider = Provider.of<ApiProvider>(context!, listen: false);
     notifyListeners();
   }
 
@@ -72,7 +72,6 @@ class AirDropProvider with ChangeNotifier {
 
   /* --------------------Read Contract-------------------- */
   Future<void> airdropTokenAddress() async {
-    print("airdropTokenAddress");
     try {
 
       await _contractP!.initBscClient();
@@ -192,15 +191,15 @@ class AirDropProvider with ChangeNotifier {
 
 
   Future<void> signUp() async {
-    print("Sign Up ${_contractP!.ethAdd}");
+    print("Sign Up ${_apiProvider!.accountM.address}");
     try {
       await http.post(
         Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
         headers: {"Content-Type": "application/json; charset=utf-8"},
         body: json.encode({
-          "email": "${_contractP!.ethAdd}@gmail.com",
+          "email": "${_apiProvider!.accountM.address}@gmail.com",
           "password": '123456',
-          "wallet": "${_contractP!.ethAdd}"
+          "wallet": "${_apiProvider!.accountM.address}"
         })
       ).then((value) async {
         final res = json.decode(value.body);
@@ -223,26 +222,26 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<void> signIn() async {
-    print("Sign In ${_contractP!.ethAdd}");
+    print("Sign In ${_apiProvider!.accountM.address}");
     try {
       await http.post(
         Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
         headers: {"Content-Type": "application/json; charset=utf-8"},
         body: json.encode({
-          "email": "${_contractP!.ethAdd}@gmail.com",
+          "email": "${_apiProvider!.accountM.address}@gmail.com",
           "password": '123456',
         })
       ).then((value) async {
         final res = json.decode(value.body);
         print("Hello value ${value.body.contains('error')}");
-        if (!res['success']){
+        print("Response ${value.body}");
+        if (res['success'] == false){
           await signUp();
         } else {
           setToken = res['token'];
+          await StorageServices.storeData(res, DbKey.token);
         }
       });
-
-      print(_token);
 
       // var db = Db(AppConfig.mongoUrl);
       // await db.open().then((value) {
@@ -265,25 +264,27 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> signToDb() async {
-    print("signToDbs ${_contractP!.ethAdd}");
-    // print("getToken $getToken");
     try {
 
-      dynamic res = await StorageServices.fetchData(DbKey.signData);
+      // dynamic res = await StorageServices.fetchData(DbKey.signData);
 
-      print("res $res");
+      // print("res $res");
       // For First Time Sign
-      if (res == null){
+      // if (res == null){
+        print(getToken);
+        print(_apiProvider!.accountM.address);
         
-        final res = await http.post(
+        final res2 = await http.post(
           Uri.parse('https://airdropv2-api.selendra.org/sign'),
           headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
           body: json.encode({
-            "wallet": "${_apiProvider!.getKeyring.current.address}",
+            "wallet": "${_apiProvider!.accountM.address}",
           })
         );
+
+        print("res2 ${res2.body}");
         
-        if (res.statusCode == 200){
+        if (res2.statusCode == 200){
           // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
           // if (map['data']['attempt'] == 1){
 
@@ -293,25 +294,25 @@ class AirDropProvider with ChangeNotifier {
           // }
 
           // First Sign Data
-          await StorageServices.storeData(json.decode(res.body), DbKey.signData);
+          await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
         }
 
         print("Finish storeData");
 
-        return json.decode(res.body)['data'];
-      } else {
-        // print("From DB $res");
-        // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
-        // Check If Time To Re Sign
-        if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
-          print("Is time to api");
-          await StorageServices.removeKey(DbKey.signData);
-          return await signToDb();
+        // return json.decode(res.body)['data'];
+      // } else {
+      //   // print("From DB $res");
+      //   // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
+      //   // Check If Time To Re Sign
+      //   if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
+      //     print("Is time to api");
+      //     await StorageServices.removeKey(DbKey.signData);
+      //     return await signToDb();
 
-        } else {
-          return res['data'];
-        }
-      }
+      //   } else {
+      //     return res['data'];
+      //   }
+      // }
 
       // var db = Db(AppConfig.mongoUrl);
       // await db.open().then((value) {

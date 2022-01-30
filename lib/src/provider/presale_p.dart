@@ -271,7 +271,6 @@ class PresaleProvider with ChangeNotifier {
   /// This Function Use To Get Price And Multiply With Input Amount for Investment
   Future<dynamic> getPriceToken({@required String? supportedToken}) async {
 
-    print(supportedToken);
     try {
       await _contractP!.initBscClient();
       final preFunction = _deployedContract!.function('getPriceToken');
@@ -290,10 +289,8 @@ class PresaleProvider with ChangeNotifier {
   Future<dynamic> getBNBPrice() async {
     try {
       // await _contractP.initBscClient();
-      print("Finish init client");
       print(_deployedContract ?? "Null");
       final preFunction = _deployedContract!.function('getPrice');
-      print("preFunction");
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
 
       return res;

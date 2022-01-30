@@ -46,7 +46,7 @@
     {
         "id": "binance smart chain",
         "name": "Binance Coin",
-        "logo": "assets/bnb.png",
+        "logo": "assets/logo/bnb.png",
         "symbol": "BNB",
         "org": "Smart Chain",
         "isContain": true
@@ -64,7 +64,7 @@
         "id": "bitcoin",
         "symbol": "BTC",
         "name": "Bitcoin",
-        "logo": "assets/btc_logo.png",
+        "logo": "assets/logo/btc_logo.png",
         "org": "",
         "balance": "0.0",
         "isContain": true

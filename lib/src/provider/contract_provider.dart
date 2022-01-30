@@ -124,6 +124,12 @@ class ContractProvider with ChangeNotifier {
     }
   }
 
+  void setSELNativeAddr(String addr){
+    listContract[0].address = addr;
+    sortAsset();
+    notifyListeners();
+  }
+
   Future<bool> setSavedList() async {
     try {
 
@@ -181,7 +187,6 @@ class ContractProvider with ChangeNotifier {
       }
 
       if (nativeService != null) {
-        print("nativeService != null");
         await updateNativeTxStt(nativeService, info, index);
       }
 
@@ -593,11 +598,9 @@ class ContractProvider with ChangeNotifier {
       final ethFunction = contract.function('approve');
 
       final credentials = await EthPrivateKey.fromHex(privateKey);//_bscClient!.credentialsFromPrivateKey(privateKey);
-      print("credentials $credentials");
       final ethAddr = await StorageServices().readSecure('etherAdd');
 
       final gasPrice = await _bscClient!.getGasPrice();
-      print("gasPrice $gasPrice");
 
       final maxGas = await _bscClient!.estimateGas(
         sender: EthereumAddress.fromHex(ethAddr!),
@@ -635,7 +638,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<dynamic> checkAllowance() async {
-    print("checkAllowance");
     try {
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
@@ -740,7 +742,6 @@ class ContractProvider with ChangeNotifier {
   Future<void> extractAddress(String privateKey) async {
 
     await initBscClient();
-    print("extractAddress");
     final EthPrivateKey? credentials = await EthPrivateKey.fromHex(privateKey);
 
     if (credentials != null) {
@@ -752,7 +753,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getEtherAddr() async {
-    print("getEtherAddr");
     try {
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
@@ -1128,17 +1128,17 @@ class ContractProvider with ChangeNotifier {
           );
           
           newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
-          print(newContract.id);
-          print(newContract.name);
-          print(newContract.symbol);
-          print(newContract.address);
-          print(newContract.org);
-          print(newContract.isContain);
-          print(newContract.logo);
-          print(newContract.chainDecimal);
-          print(newContract.listActivity);
-          print(newContract.balance);
-          print(newContract.lineChartModel);
+          // print(newContract.id);
+          // print(newContract.name);
+          // print(newContract.symbol);
+          // print(newContract.address);
+          // print(newContract.org);
+          // print(newContract.isContain);
+          // print(newContract.logo);
+          // print(newContract.chainDecimal);
+          // print(newContract.listActivity);
+          // print(newContract.balance);
+          // print(newContract.lineChartModel);
           
           addedContract.add(newContract);
         }

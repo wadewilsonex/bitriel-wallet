@@ -41,7 +41,7 @@ class AssetInfoC {
     );
   }
 
-  void showRecieved(BuildContext mycontext, GetWalletMethod _method, {String? symbol, org}) {
+  void showRecieved(BuildContext mycontext, GetWalletMethod _method, {String? symbol, org, SmartContractModel? scModel}) {
 
     showModalBottomSheet<void>(
       isScrollControlled: true,
@@ -63,22 +63,22 @@ class AssetInfoC {
 
             ? Consumer<ContractProvider>(
                 builder: (context, value, child) {
-                  final api = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-                  String wallet = '';
-                  if (symbol == 'BTC') {
-                    wallet = api;
-                  } else if (symbol == 'BNB' || org == 'BEP-20') {
-                    wallet = value.ethAdd;
-                  } else {
-                    wallet = _api.getKeyring.current.address!;
-                  }
+                  // final api = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+                  // String wallet = '';
+                  // if (symbol == 'BTC') {
+                  //   wallet = api;
+                  // } else if (symbol == 'BNB' || org == 'BEP-20') {
+                  //   wallet = value.ethAdd;
+                  // } else {
+                  //   wallet = _api.getKeyring.current.address!;
+                  // }
                   return ReceiveWalletBody(
                     method: _method,
                     globalKey: _globalKey,
                     keyQrShare: _keyQrShare,
-                    name: _api.getKeyring.current.name,
+                    name: scModel!.name,
                     assetInfo: 'assetInfo',
-                    wallet: wallet,
+                    wallet: scModel.address,
                     // wallet: symbol == 'BNB' || org == 'BEP-20'
                     //     ? value.ethAdd
                     //     : ApiProvider.keyring.current.address,

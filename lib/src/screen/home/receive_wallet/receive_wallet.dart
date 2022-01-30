@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 
 class ReceiveWallet extends StatefulWidget {
   //static const route = '/recievewallet';
@@ -20,11 +21,14 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   String name = 'username';
   String wallet = 'wallet address';
   int initialValue = 0;
+  List<Map<String, dynamic>>? lsContractSymbol;
 
   @override
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
     findSEL();
+    name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
+    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
 
     AppServices.noInternetConnection(_globalKey!);
     super.initState();
@@ -39,9 +43,18 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   void findSEL(){
 
+    // final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+    // for(int i = 0; i< listCon.length; i++){
+    //   if (listCon[i].symbol == 'SEL'){
+    //     initialValue = i;
+    //     setState(() { });
+    //     break;
+    //   }
+    // }
     final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    for(int i = 0; i< listCon.length; i++){
-      if (listCon[i].symbol == 'SEL'){
+    lsContractSymbol = ContractService.getConSymbol(listCon);
+    for(int i = 0; i< lsContractSymbol!.length; i++){
+      if (lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
         initialValue = i;
         setState(() { });
         break;
@@ -58,17 +71,25 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void changedEthAdd(String value) {
-    if (value != 'SEL' && value != 'DOT' && value != 'KMPI' && value != 'BTC') {
-      setState(() {
-        wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-      });
+    if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
+      wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+    } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
+      wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
     } else {
-      if (value == 'BTC') {
-        wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-      } else {
-        wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-      }
+      wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
     }
+    setState(() { });
+    // if (value != 'SEL' && value != 'DOT' && value != 'KMPI' && value != 'BTC') {
+    //   setState(() {
+    //     wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+    //   });
+    // } else {
+    //   if (value == 'BTC') {
+    //     wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+    //   } else {
+    //     wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+    //   }
+    // }
   }
 
   @override

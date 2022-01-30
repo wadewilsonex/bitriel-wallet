@@ -60,7 +60,6 @@ class ApiProvider with ChangeNotifier {
         _jsCode = js;
       });
       await _keyring.init([0, 42]);
-      print("Finish keyring");
       await _sdk.init(_keyring, jsCode: _jsCode);
       
       notifyListeners();
@@ -343,7 +342,6 @@ class ApiProvider with ChangeNotifier {
   }
   
   Future<bool> validateEther(String address) async {
-    print("validateEther");
     try {
 
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
@@ -406,6 +404,7 @@ class ApiProvider with ChangeNotifier {
 
         notifyListeners();
       });
+      Provider.of<ContractProvider>(context!, listen: false).setSELNativeAddr(accountM.address!);
     } catch (e) {
       print("Error subscribeSELBalance $e");
     }
