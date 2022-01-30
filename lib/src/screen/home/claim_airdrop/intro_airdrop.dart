@@ -25,7 +25,7 @@ class AirDropDes extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15),
+                SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15, color: hexaCodeToColor(AppColors.blueColor),),
                 MyText(
                   text: "Receive some \$SEL to your wallet",
                   // text:
@@ -44,7 +44,7 @@ class AirDropDes extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15),
+              SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15, color: hexaCodeToColor(AppColors.blueColor),),
               MyText(
                 text: "Receive email about upcoming event",
                 // text:

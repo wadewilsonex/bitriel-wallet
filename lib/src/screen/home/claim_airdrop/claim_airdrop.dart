@@ -330,7 +330,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                       key: airdropKey,
                       child: SingleChildScrollView(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
 
                             // Container(
@@ -346,7 +346,18 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                             //   ),
                             // ),
 
-                            SvgPicture.asset(AppConfig.illustrationsPath+"mainnet.svg", width: 500, height: 500,),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: SvgPicture.asset(AppConfig.illustrationsPath+"mainnet.svg", width: 270, height: 270,),
+                            ),
+                            MyText(
+                              text: "Celebrate Selendra Mainnet Launch",
+                              fontWeight: FontWeight.bold,
+                              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                              fontSize: 16,
+                              bottom: 5.0,
+                              top: 32.0,
+                            ),
                             
                             Container(
                               width: double.infinity,

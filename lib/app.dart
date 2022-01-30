@@ -160,7 +160,7 @@ class AppState extends State<App> {
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
-                    debugShowCheckedModeBanner: false,
+                    // debugShowCheckedModeBanner: false,
                     routes: {
                       Home.route: (_) => Home(),
                     },
