@@ -164,35 +164,38 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
     try {
 
-      value = await Provider.of<AirDropProvider>(context, listen: false).signToDb();
+      final api = await Provider.of<ApiProvider>(context, listen: false);
 
-      print(value);
-      print(value!['success']);
-      // print(value!['error']);
+      final timeStamp = await DateTime.now().millisecondsSinceEpoch;
 
-      if (value!['success'] == true){
-        // await showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return AlertDialog(
-        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        //       title: Align(
-        //         child: Text('Claim'),
-        //       ),
-        //       content: Padding(
-        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //         child: MyText(text: 'You successfully claim'),
-        //       ),
-        //       actions: <Widget>[
-        //         TextButton(
-        //           onPressed: () => Navigator.pop(context),
-        //           child: const Text('Close'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
+      // Init GSheet
+      final gsheet = new GSheets(AppConfig.credentials);
+      // Fetch SpreadSheet by ID
+      final ss = await gsheet.spreadsheet(AppConfig.speedsheetId);
+
+      bool isAlready = false;
+
+      Worksheet? worksheet = await ss.worksheetByTitle('Sheet1');
+
+      // Fetch All Sheets Column
+      await worksheet!.values.allColumns(fromColumn: 2).then((value) async {
+
+        // Work on column 0 "address"
+        for(int i = 0 ; i < value[0].length; i++){
+          if (value[0][i] == api.accountM.address){
+            isAlready = true;
+          }
+
+          if (isAlready == true) break;
+          
+        }
+      });
+
+      if (isAlready == false){
+        var sheet = ss.worksheetByTitle('Sheet1');
+        sheet!.values.appendRow(['', api.accountM.address, timeStamp]);
         await enableAnimation();
+
       } else {
         await showDialog(
           context: context,
@@ -204,7 +207,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
               ),
               content: Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: MyText(text: value!['error']),
+                child: MyText(text: "You had already claim the airdrop"),
               ),
               actions: <Widget>[
                 TextButton(
@@ -216,7 +219,33 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
           },
         );
       }
+
       Navigator.pop(context);
+
+      // if (value!['success'] == true){
+      // } else {
+      //   await showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return AlertDialog(
+      //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      //         title: Align(
+      //           child: Text('Opps'),
+      //         ),
+      //         content: Padding(
+      //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+      //           child: MyText(text: value!['error']),
+      //         ),
+      //         actions: <Widget>[
+      //           TextButton(
+      //             onPressed: () => Navigator.pop(context),
+      //             child: const Text('Close'),
+      //           ),
+      //         ],
+      //       );
+      //     },
+      //   );
+      // }
 
       // await http.post(
       //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
@@ -249,10 +278,10 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
     } catch (e) {
       print("Error submitForm ${e}");
-      // Navigator.pop(context);
+      Navigator.pop(context);
 
       if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
-        print("Re submit");
+        // print("Re submit");
         await StorageServices.removeKey(DbKey.signData);
         await submitForm();
       } else {
@@ -435,6 +464,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         
                                         MyText(
@@ -450,9 +480,10 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
                                         Consumer<ApiProvider>(
                                           builder: (context, provider, widget){
-                                            return MyText(
+                                            return provider.accountM.address != null 
+                                            ? MyText(
                                               width: double.infinity,
-                                              text: provider.accountM.address ?? '',
+                                              text: provider.accountM.address,
                                               fontWeight: FontWeight.bold,
                                               color: isDarkTheme
                                                 ? AppColors.darkSecondaryText
@@ -461,7 +492,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 24,
                                               bottom: 4.0,
-                                            );
+                                            ) 
+                                            : ThreeDotLoading(width: 50, height: 30);
                                           },
                                         )
 
@@ -469,37 +501,41 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                     ),
                                   ),
 
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(Colors.red[900]),
-                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
-                                    ),
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Positioned(
-                                          left: 20,
-                                          top: 15,
-                                          child: SvgPicture.asset("assets/illustration/cloud1.svg", width: 50, height: 30),
+                                  Consumer<ApiProvider>(
+                                    builder: (context, provider, widget){
+                                      return ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(Colors.red[900]),
+                                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
                                         ),
-                                        Positioned(
-                                          right: 10,
-                                          bottom: 15,
-                                          child: SvgPicture.asset("assets/illustration/cloud2.svg", width: 50, height: 30),
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Positioned(
+                                              left: 20,
+                                              top: 15,
+                                              child: SvgPicture.asset("assets/illustration/cloud1.svg", width: 50, height: 30),
+                                            ),
+                                            Positioned(
+                                              right: 10,
+                                              bottom: 15,
+                                              child: SvgPicture.asset("assets/illustration/cloud2.svg", width: 50, height: 30),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(12),
+                                                // color: Colors.black.withOpacity(0.35),
+                                              ),
+                                              width: double.infinity,
+                                              height: 70,
+                                            ),
+                                            MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
+                                          ],
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12),
-                                            // color: Colors.black.withOpacity(0.35),
-                                          ),
-                                          width: double.infinity,
-                                          height: 80,
-                                        ),
-                                        MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
-                                      ],
-                                    ),
-                                    onPressed: submitForm,
+                                        onPressed: provider.accountM.address != null ? submitForm : null,
+                                      );
+                                    }
                                   ),
 
                                   // MyFlatButton(

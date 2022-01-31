@@ -55,8 +55,8 @@ class AppState extends State<App> {
       await apiProvider.initApi(context: context).then((value) async {
 
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-          print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
           await apiProvider.getAddressIcon();
+          await apiProvider.getCurrentAccount();
           
           await ContractsBalance().getAllAssetBalance(context: context);
         }

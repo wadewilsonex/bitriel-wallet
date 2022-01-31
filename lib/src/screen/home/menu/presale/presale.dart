@@ -431,8 +431,6 @@ class _PresaleState extends State<Presale> {
           //get user pKey
           final privateKey = await AppServices.getPrivateKey(res, context);
 
-          print("privateKey $privateKey");
-
           if (privateKey != null && privateKey != 'Failed to get string encoded: \'Decrypt failure.\'.') {
             if (_model.tokenIndex == 0) {
               // await contract.getBnbBalance();
@@ -440,11 +438,9 @@ class _PresaleState extends State<Presale> {
               if (double.parse(contract.listContract[4].balance!) < double.parse(_model.amountController.text)) {
                 customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
               } else {
-                print("Order");
                 await order(privateKey);
               }
             } else {
-              print("checkTokenBalance");
               final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
 
               if (tokenBalance < double.parse(_model.amountController.text)) {

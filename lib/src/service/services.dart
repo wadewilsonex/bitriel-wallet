@@ -159,7 +159,6 @@ class AppServices {
   }
 
   static Future<String>? getPrivateKey(String pin, BuildContext context) async {
-    print("getPrivateKey");
     String privateKey;
     try {
       final encrytKey = await StorageServices().readSecure('private');

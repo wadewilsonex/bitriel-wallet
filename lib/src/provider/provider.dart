@@ -40,8 +40,6 @@ class ContractsBalance {
       await contractProvider.sortAsset();
 
       contractProvider.setReady();
-
-      print("Finish setReady");
       
       /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
       await StorageServices.storeAssetData(context);
@@ -89,7 +87,6 @@ class ContractsBalance {
     //   print("Balance ${balance.toString()}");
     // }
     conProvider.addedContract.forEach((element) async {
-      print("Element ${element.symbol}");
       if (element.org == "ERC-20"){
         balance = await conProvider.queryEther(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
       } else {

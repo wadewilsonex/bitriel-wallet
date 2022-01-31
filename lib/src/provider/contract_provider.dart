@@ -115,9 +115,9 @@ class ContractProvider with ChangeNotifier {
         );
       });
 
-      listContract.forEach((element) {
-        print("${element.symbol} ${element.balance}");
-      });
+      // listContract.forEach((element) {
+      //   print("${element.symbol} ${element.balance}");
+      // });
 
     } catch (e) {
       print("Error initJson $e");
@@ -370,9 +370,9 @@ class ContractProvider with ChangeNotifier {
         notifyListeners();
       }
 
-      listContract.forEach((element) {
-        print("${element.symbol} ${element.balance}");
-      });
+      // listContract.forEach((element) {
+      //   print("${element.symbol} ${element.balance}");
+      // });
       
     } catch (e) {
       print("Error sortAsset $e");
@@ -572,7 +572,6 @@ class ContractProvider with ChangeNotifier {
     //     TransactionInfo(
     //         receiver: EthereumAddress.fromHex(reciever), amount: amount)));
 
-    print('myGas: $maxGas');
     return maxGas.toString();
   }
 
@@ -746,7 +745,6 @@ class ContractProvider with ChangeNotifier {
 
     if (credentials != null) {
       final addr = await credentials.extractAddress();
-      print(addr);
       ethAdd = addr.toString();
       await StorageServices().writeSecure('etherAdd', addr.toString());
     }
@@ -756,7 +754,6 @@ class ContractProvider with ChangeNotifier {
     try {
 
       final ethAddr = await StorageServices().readSecure('etherAdd');
-      print("$ethAddr");
       ethAdd = ethAddr!;
 
       notifyListeners();

@@ -73,7 +73,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
-    print("connectSELNode");
     try {
 
       final node = NetworkParams();
@@ -83,16 +82,7 @@ class ApiProvider with ChangeNotifier {
       node.ss58 = 42;//AppConfig.networkList[0].ss58;
 
       final res = await _sdk.api.connectNode(_keyring, [node]);
-      print("_keyring.allAccounts length ${_keyring.ss58}");
-      _keyring.allAccounts.forEach((value){
-        print("_keyring.allAccounts ${value.name} ${value.address}");
-      });
-      print(_keyring.current.address);
-      print(_keyring.current.name);
       await getCurrentAccount();
-      print(accountM.address);
-      print(accountM.name);
-      // await getCurrentAccount();
 
       await getSelNativeChainDecimal(context: context!);
 

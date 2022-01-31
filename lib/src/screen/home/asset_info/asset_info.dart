@@ -274,7 +274,6 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   void initState() {
-    print("init asset detail ${widget.scModel!.address}");
     _globalKey = GlobalKey<ScaffoldState>();
 
     if (widget.showActivity != null) {

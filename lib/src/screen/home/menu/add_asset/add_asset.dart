@@ -147,7 +147,6 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> submitAsset() async {
-    print("submitAsset");
     try {
     
       setState(() {
@@ -155,9 +154,8 @@ class AddAssetState extends State<AddAsset> {
       });
 
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
-      print("resEther $resEther");
+
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-      print("res address $res");
 
       if (res || resEther) {
         if (res) {

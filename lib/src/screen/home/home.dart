@@ -74,15 +74,19 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
                   )
                 ],
               ),
-              actions: null
-              // <Widget>[
-              //   // TextButton(
-              //   //   onPressed: () {
-              //   //     Navigator.pop(context)
-              //   //   },
-              //   //   child: const Text('Close'),
-              //   // ),
-              // ],
+              actions: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 65,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await StorageServices.storeData(true, DbKey.event);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClaimAirDrop()));
+                    },
+                    child: const Text('Click to get airdrop'),
+                  ),
+                ),
+              ],
             );
           },
         );
@@ -215,12 +219,12 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   }
 
   Future<void> showAirdrop() async {
-    Timer(const Duration(seconds: 1), () async {
-      final res = await StorageServices.fetchData('claim');
-      if (res == null) {
-        await dialogEvent(context, 'assets/bep20.png', onClosed, onClaim);
-      }
-    });
+    // Timer(const Duration(seconds: 1), () async {
+    //   final res = await StorageServices.fetchData('claim');
+    //   if (res == null) {
+    //     await dialogEvent(context, 'assets/bep20.png', onClosed, onClaim);
+    //   }
+    // });
   }
 
   Future<void> scrollRefresh() async {

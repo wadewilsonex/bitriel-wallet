@@ -48,8 +48,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
-
-    print("_importFromMnemonic ${widget.passPhrase}");
     
     final _api = Provider.of<ApiProvider>(context, listen: false);
 
@@ -347,7 +345,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   // Submit Profile User
   Future<void> submitProfile() async {
-    print("submitProfile");
     // Show Loading Process
     dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 

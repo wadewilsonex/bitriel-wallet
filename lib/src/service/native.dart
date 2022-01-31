@@ -33,20 +33,15 @@ class NativeService implements INativeService {
     bool? std;
     // StreamSubscription subscribeEvent;
 
-    print('myhash $txHash');
-
     // ignore: unused_local_variable
     // ignore: cancel_subscriptions
     await _client.addedBlocks().asyncMap((_) async {
       try {
         // This Method Will Run Again And Again Until we return something
         await _client.getTransactionReceipt(txHash).then((d) {
-          print('my stt ${d}');
           // Give Value To std When Request Successfully
           if (d != null) {
             std = d.status;
-
-            print('my status $std ');
             //subscribeEvent.cancel();
           }
         });

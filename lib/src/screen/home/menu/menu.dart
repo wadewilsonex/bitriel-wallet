@@ -42,8 +42,6 @@ class MenuState extends State<Menu> {
 
     final res = await StorageServices().readSecure('passcode');
 
-    print("My passcode ${res.runtimeType} ${res == ''}");
-
     if (res != null && res != '') {
       setState(() {
         _menuModel.switchPasscode = true;

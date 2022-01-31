@@ -219,7 +219,6 @@ class AddAssetBody extends StatelessWidget {
                 edgeMargin: const EdgeInsets.only(left: 66, right: 66),
                 hasShadow: assetM!.enable,
                 action: !assetM!.enable ? null : () async {
-                  print("Hello submit");
                   await submitAsset!();
                 }//assetM!.enable ? submitAsset : null,
               )

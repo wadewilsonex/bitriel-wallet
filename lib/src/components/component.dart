@@ -4,7 +4,7 @@ import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
-
+import 'package:loading_indicator/loading_indicator.dart';
 class Component {
 
   static void popScreen(BuildContext context) {
@@ -675,6 +675,32 @@ class MyPinput extends StatelessWidget {
         textStyle: const TextStyle(fontSize: 18, color: Colors.white),
         onChanged: onChanged,
         onSubmit: onSubmit,
+      ),
+    );
+  }
+}
+
+class ThreeDotLoading extends StatelessWidget{
+
+  final Indicator? indicator;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
+
+  ThreeDotLoading({this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height});
+
+  Widget build(BuildContext context ){
+    final isDark = Provider.of<ThemeProvider>(context).isDark;
+    return Container(
+      padding: padding,
+      width: width,
+      height: height,
+      child: LoadingIndicator(
+        indicatorType: indicator!, /// Required, The loading type of the widget
+        colors: [ isDark ? Colors.white : Colors.black],       /// Optional, The color collections
+        strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+        pathBackgroundColor: isDark ? Colors.black : Colors.white
       ),
     );
   }

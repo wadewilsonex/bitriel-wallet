@@ -30,7 +30,6 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   String? onChanged(String value) {
-    print("On Changed $value");
     validateMnemonic(value)!.then((value) {
       setState(() {
         enable = value;
@@ -45,7 +44,6 @@ class ImportAccState extends State<ImportAcc> {
       res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(mnemonic);
       enable = res;
       setState((){});
-      print("validateMnemonic $res");
     } catch (e) {
       print("Error validateMnemonic $e");
     }
@@ -63,7 +61,6 @@ class ImportAccState extends State<ImportAcc> {
 
   // Submit Mnemonic
   Future<void> submit() async {
-    print("submit");
     try {
 
       await validateMnemonic(_importAccModel.mnemonicCon.text)!.then((value) async {

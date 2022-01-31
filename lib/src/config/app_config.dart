@@ -22,7 +22,21 @@ class AppConfig {
   static const atdAbi = 'assets/abi/atd.json';
 
   /*google spreedsheet credential for claim airdrop */
-  static const credentials = '';
+  static const credentials = r'''
+    {
+      "type": "service_account",
+      "project_id": "selendra-airdrop",
+      "private_key_id": "2c37dc39ad9651e9a71fdeeec0c9bd8af1b7f041",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCvkl8k5zDEw722\nf15EiKFnX4MwuytiFkhUfM2+BUpzMecHd5YaiuLRPdhy07HaZlJdjPp0cpC+TFGA\nWxtgkp9m1ehOUM6WD1quPSE4w3ERQgR/Ja9UmDoq/KVBklSct7iMcQ2DGQTSmMzl\nVsg356ZV49+AK8BEJxfx2wvwH+af+0wiuGwQ4fpXvCP43NvNGAGBOWvwUI6aiC45\nrPS1te2Mi/dVlHcCiL+E5TqHOZTiRbOk1v1LvM0eEJUEe0gQM1pViAEhnO7MKtDR\nVBrSE74Q1hKoWj6u+JuOnbfidLXlOIU3PAq4+/2HSqR07g03M8WoEKQvGG7p1arG\n2VeG7rWHAgMBAAECggEAQtQKnh/X2tWM1TXW+mwtT402AOsFgODtaCdXIuCdrYpN\nn3R/8Jtz6WRKiq6UkIaJDG3YeVGQUbb4AMzs903oGbsLISA1+j1e7Vp8VkBiPcjs\nsD72ZVNKNMmU14gs57gwqVhw5bk0sjqSJytoq4rjr+a8UGuW0/ozbY5MlXp3DOZ3\nCGbcp9W0dVWwWFIPvMsEprvbfnSaqjyDQ1niqfoSukls7lBFRg6+ORkoskTlwEZe\nCe/DdKHs1Z6t7zByePrd+poTIycLzEv5cOx0mfLR2e0J54LdRbGEzr4e36kE9W+R\n/c3s/hz+ZKgAf6zAyK51Rm/4oV5y4z2qf+BdHRPvWQKBgQDkKUWSf9ZGvzu1TU6L\n6XDQlK+OQfbDFAUrfFlYrHNLVOQxC8oVf7wABlFYatBw3pVcusmXpBQUkvXjh51U\n8g+fIeeVP89VRAV6UPkK+SsOuwHFnij9umsH05ocR8poase06kkrq8uTGeXU4XY8\n1CsQkYXrWuq75SCBzG5X9svpvwKBgQDE/nE+Q5t2z6+jKs4eJifgbwEFHwvGK4yl\npqZ+UAhE+uU6gdTPzBqPQK5vIdFpSz3zryyLZAawSW4ZpaVPW09h9yzzroKJPz6K\nMvp+I1PLmweUIHLfoakuzsPHocnWc1v9+CwPeWAMaDUNpWyx9ae5KHz9gEm2gsKD\nmtH7Nl7WOQKBgQC3e/lXNzc67c82nlTsb28qTmhgHuwzNYZy0i2IAic2Da71QmXh\npDesTWhdkojOPDIhwJUePfVoFkdoE0eTaJbngnyaqhYym+FL3JJrILZfwkRKiEau\nxZwNTz5AP/umvTidZUwyspWkVs9dw3Myt+1qBZ2NCDB9qmXZ/G1AkFisQQKBgQCJ\nfkYv/SQPIxoluoSuilce0JtXpbmkEVVTcSOX2ehLrQo9cczFVGHdRnn5WxM8eKW+\n5a8jgycf98B+6hydbM/VQp3/XvgBL0FJWBd53tJns8bwXk2PRNg+sVX4ijXEFjRI\n6ORn0IF3Z2xQH/vjod/03guPK/FHD7EQBgk1W1eKEQKBgQDEoXf7LPDwDi7qJTBJ\nVoHRujcbNentvE8bdz/vi5kmeTTd/LxzD+MVCOCJ6tmyYVc4eWP0u6AfGppEKCq9\nCXYQ86zNAQPGJWgTtcRX9mFLaPhNRPZVDRkhB/vdqKEn7rEkBhjsoF/OAkqVmMXz\nEH+X9bLAj6lhHx3ngQ2wZwzcfA==\n-----END PRIVATE KEY-----\n",
+      "client_email": "selendra-airdrop@selendra-airdrop.iam.gserviceaccount.com",
+      "client_id": "101126990315549211828",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/selendra-airdrop%40selendra-airdrop.iam.gserviceaccount.com"
+    }
+  ''';
+  static const speedsheetId = '1PAmEFBWmjFV1EueEFXn7V60svNTLc6vN0QfROeDqQHA';
 
   static const swapMainnetAddr = '0xa857d61c5802C4e299a5B972DE1ACCaD085cE765';
 

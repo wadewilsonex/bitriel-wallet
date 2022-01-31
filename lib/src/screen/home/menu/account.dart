@@ -128,7 +128,7 @@ class _AccountState extends State<Account> {
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      print("_deleteAccount ${e.toString()}");
+      // print("_deleteAccount ${e.toString()}");
       // await dialog(context, e.toString(), 'Opps');
     }
   }

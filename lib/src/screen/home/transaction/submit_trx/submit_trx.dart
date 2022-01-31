@@ -159,7 +159,6 @@ class SubmitTrxState extends State<SubmitTrx> {
   // First Execute
   Future<void> validateSubmit() async {
     
-    print("validateSubmit");
     final contract = Provider.of<ContractProvider>(context, listen: false);
     _scanPayM.asset = contract.sortListContract[_scanPayM.assetValue!].symbol;
     try {
@@ -173,15 +172,11 @@ class SubmitTrxState extends State<SubmitTrx> {
         await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
       } else {
 
-        print("start check isEnough");
-
         final isEnough = await trxFunc!.checkBalanceofCoin(
           _scanPayM.asset!,
           _scanPayM.controlAmount.text,
           _scanPayM.assetValue!
         );
-
-        print("isEnough $isEnough");
 
         if (!isEnough && isValid) {
           if (isValid) {
@@ -193,8 +188,6 @@ class SubmitTrxState extends State<SubmitTrx> {
         if (isValid) {
           gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
         }
-
-        print("gasPrice $gasPrice");
 
         if (isValid && isEnough) {
 
@@ -212,9 +205,6 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.controlAmount.text,
               _scanPayM.assetValue!
             );
-
-            print("estAmtPrice $estAmtPrice");
-            print("maxGas $estAmtPrice");
 
             final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
 
@@ -284,8 +274,6 @@ class SubmitTrxState extends State<SubmitTrx> {
       // Init member variables of Trx Functional
       trxFunc!.contract = Provider.of<ContractProvider>(context!, listen: false);
 
-      print("{trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org}");
-
       trxFunc!.api = Provider.of<ApiProvider>(context, listen: false);
 
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : 'private');
@@ -308,8 +296,6 @@ class SubmitTrxState extends State<SubmitTrx> {
           else {
             trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
           }
-
-          print("trxFunc!.privateKey ${trxFunc!.privateKey}");
 
           /* ------------------Check PIN------------ */
           // Pin Incorrect And Private Key Response NULL

@@ -51,7 +51,6 @@ class AppUtils {
   }
 
   String timeStampToDate(int timeStamp) {
-    print("My timeStampToDate $timeStamp ${DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000)}");
     try {
 
       // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */

@@ -75,23 +75,19 @@ class AirDropProvider with ChangeNotifier {
     try {
 
       await _contractP!.initBscClient();
-      print("Finish contractP");
       final preFunction = _deployedContract!.function('airdropTokenAddress');
-      print("finish preFunction");
       final res = await _contractP!.bscClient.call(
         contract: _deployedContract!, 
         function: preFunction, 
         params: []
       );
 
-      print(res);
     } catch (e) {
       print("Error airdropTokenAddress $e");
     }
   }
 
   Future<String> getTrxFee() async {
-    print("getTrxFee ${_contractP!.ethAdd}");
     try {
 
       dynamic res = await _contractP!.bscClient.estimateGas(
@@ -111,48 +107,17 @@ class AirDropProvider with ChangeNotifier {
   Future<dynamic> signMessage(BuildContext context) async {
     final apiPro = await Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.signMessage('${Provider.of<ContractProvider>(context, listen: false).ethAdd}')").then((value) async {
-      print("resolve $value");
       return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     });
   }
 
   /* --------------------Write Contract-------------------- */
   Future<String> claim({String? amount, int? expiredDate, String? v, List<int>? r, List<int>? s, @required BuildContext? context}) async {
-    print("airdropTokenAddress");
 
     try {
 
       await _contractP!.initBscClient();
       final preFunction = _deployedContract!.function('claim');
-
-          // EthereumAddress.fromHex(v);
-          // EthereumAddress.fromHex(r!);
-          // EthereumAddress.fromHex(s!);
-      // final res = await _contractP!.bscClient.call(
-      //   contract: _deployedContract!, 
-      //   function: preFunction, 
-      //   params: [
-      //     BigInt.from(amount! * pow(10, 18)),
-      //     BigInt.from(expiredDate!),
-      //     v,
-      //     BigInt.parse(r!),
-      //     BigInt.parse(s!)
-      //     // v.codeUnits,
-      //     // v.codeUnits
-      //     // BigInt.from(int.parse(v)),
-      //     // BigInt.from(int.parse(v))
-      //     // utf8.encode(r!),
-      //     // utf8.encode(s!)
-      //   ]
-      // );
-
-      print("Amount ${BigInt.parse(amount!)}");
-      print("expiredDate ${expiredDate.runtimeType}");
-      print("V ${v!}");
-      print("R ${r!.length}");
-      print("S ${s!.length}");
-
-      print("privateKey ${_privateKey.isEmpty}");
 
       if (_privateKey != ''){
 
@@ -165,11 +130,11 @@ class AirDropProvider with ChangeNotifier {
             function: preFunction,
             // maxGas: 2145000,
             parameters: [
-              BigInt.parse(amount),
+              BigInt.parse(amount!),
               BigInt.from(expiredDate!),
-              BigInt.parse(v),
-              Uint8List.fromList(r),//rHash.hashString(HashType.SHA256,  )),
-              Uint8List.fromList(s)//rHash.hashString(HashType.SHA256, s ))
+              BigInt.parse(v!),
+              Uint8List.fromList(r!),//rHash.hashString(HashType.SHA256,  )),
+              Uint8List.fromList(s!)//rHash.hashString(HashType.SHA256, s ))
             ]
           ),
           chainId: null,
@@ -191,7 +156,6 @@ class AirDropProvider with ChangeNotifier {
 
 
   Future<void> signUp() async {
-    print("Sign Up ${_apiProvider!.accountM.address}");
     try {
       await http.post(
         Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
@@ -203,26 +167,18 @@ class AirDropProvider with ChangeNotifier {
         })
       ).then((value) async {
         final res = json.decode(value.body);
-        print("Hello value ${value.body}");
         if (res['success']){
           await signIn();
         }
 
-        print("My token e${_token}");
       });
 
-      // var db = Db(AppConfig.mongoUrl);
-      // await db.open().then((value) {
-      //   print("Hello my db openDb $value");
-      // });
-      // print("Done connect to mongo");
     } catch (e) {
       print("Error signUp $e");
     }
   }
 
   Future<void> signIn() async {
-    print("Sign In ${_apiProvider!.accountM.address}");
     try {
       await http.post(
         Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
@@ -233,8 +189,6 @@ class AirDropProvider with ChangeNotifier {
         })
       ).then((value) async {
         final res = json.decode(value.body);
-        print("Hello value ${value.body.contains('error')}");
-        print("Response ${value.body}");
         if (res['success'] == false){
           await signUp();
         } else {
@@ -264,26 +218,31 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> signToDb() async {
-    print("signToDb");
     try {
 
       // dynamic res = await StorageServices.fetchData(DbKey.signData);
 
-      // print("res $res");
       // For First Time Sign
       // if (res == null){
-        print(getToken);
-        print(_apiProvider!.accountM.address);
         
+        // For Airdrop
+        // final res2 = await http.post(
+        //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
+        //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+        //   body: json.encode({
+        //     "wallet": "${_apiProvider!.accountM.address}",
+        //   })
+        // );
+
+        // For Events Mainnet
         final res2 = await http.post(
-          Uri.parse('https://airdropv2-api.selendra.org/sign'),
+          Uri.parse('https://airdrop.selendra.org/api/submit'),
           headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
           body: json.encode({
             "wallet": "${_apiProvider!.accountM.address}",
           })
         );
 
-        // print("res2 ${res2.body}");
         return await json.decode(res2.body);
         
         // if (res2.statusCode == 200){

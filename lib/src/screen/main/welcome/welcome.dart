@@ -20,9 +20,6 @@ class WelcomeState extends State<Welcome> {
   @override
   void initState() {
     AppServices.noInternetConnection(globalKey);
-    StorageServices.fetchAsset(DbKey.listContract).then((value) {
-      print("Welcome ls contract $value");
-    });
     super.initState();
   }
 

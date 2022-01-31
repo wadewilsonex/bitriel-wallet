@@ -289,7 +289,6 @@ class PresaleProvider with ChangeNotifier {
   Future<dynamic> getBNBPrice() async {
     try {
       // await _contractP.initBscClient();
-      print(_deployedContract ?? "Null");
       final preFunction = _deployedContract!.function('getPrice');
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
 
@@ -319,7 +318,6 @@ class PresaleProvider with ChangeNotifier {
       _deployedContract = await initPresaleContract();
 
       for (int i = 0; i < supportTokenList.length; i++) {
-        print(supportTokenList[i]);
         if (i == 0) {
           await getBNBPrice().then((value) {
             supportTokenList[0].addAll({"price": double.parse(value[0].toString()) / pow(10, 8)});

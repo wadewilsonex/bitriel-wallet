@@ -57,13 +57,11 @@ class _SwapState extends State<Swap> {
   // }
 
   Future<String>? approve(String pKey) async {
-    print("approve");
     String? _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     try {
       _hash = await contract.approveSwap(pKey);
-      print(_hash);
     } catch (e) {
       Navigator.pop(context);
       if (e.toString() == 'insufficient funds for gas * price + value') {
@@ -76,7 +74,6 @@ class _SwapState extends State<Swap> {
   }
 
   Future<String>? swap(String pKey) async {
-    print("Swap");
     String? _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -98,13 +95,11 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> approveAndSwap() async {
-    print("approveAndSwap");
     try {
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
       await dialogBox().then((value) async {
         final res = await AppServices.getPrivateKey(value, context);
-        print("res $res");
         if (res != null) {
           dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
           final approveHash = await approve(res);
@@ -202,13 +197,10 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> confirmFunction() async {
-    print("confirmFunction");
     try {
 
       dialogLoading(context);
       final res = await Provider.of<ContractProvider>(context, listen: false).checkAllowance();
-
-      print(res);
 
       if (res.toString() == '0') {
         Navigator.pop(context);

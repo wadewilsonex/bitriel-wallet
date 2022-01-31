@@ -107,7 +107,6 @@ class TrxFunctional {
         // final hash = await contract.sendTxBnb(privateKey, reciever, amount);
 
         if (hash != null) {
-          print('hash $hash');
           // final status = await contract.bnb.listenTransfer(hash);
           // if (!status) {
           //   Navigator.pop(context);
@@ -182,15 +181,11 @@ class TrxFunctional {
   Future<void> sendTxEvm(NativeService coinService, TransactionInfo txInfo) async {
     if (txInfo.privateKey != null) {
       try {
-        print('sendTxEvm');
         final hash = await coinService.sendTx(txInfo);
-
-        print('mhash: $hash');
 
         if (hash != null) {
           txInfo.hash = hash;
           txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
-          print("Start navigateAssetInfo");
           await navigateAssetInfo(txInfo, nativeService: coinService);
         }
       } catch (e) {
@@ -205,7 +200,6 @@ class TrxFunctional {
   }
 
   Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-    print('send bep20');
 
     try {
 
@@ -243,7 +237,6 @@ class TrxFunctional {
     try {
       switch (info.coinSymbol) {
         case "SEL":
-          print('navigation asset');
           await contract!.addListActivity(info, 0, contractService: tokenService);
 
           // Navigator.push(
@@ -343,7 +336,6 @@ class TrxFunctional {
           // );
           break;
         case "BNB":
-          print("BNB addListActivity");
           await contract!.addListActivity(info, 4, nativeService: nativeService);
 
           // Navigator.push(
@@ -543,8 +535,6 @@ class TrxFunctional {
       }
     } catch (e) {
       Navigator.pop(context);
-
-      print(e.toString());
       await customDialog('Opps', e.toString());
     }
 
@@ -677,11 +667,9 @@ class TrxFunctional {
 
       //     break;
       // }
-      print("double.parse(contract.sortListContract[index].balance) ${double.parse(contract.sortListContract[index].balance!)}");
       if (double.parse(contract.sortListContract[index].balance!) < double.parse(amount)) {
         _enough = false;
       }
-      print("_enough $_enough");
     } catch (e) {
       print("Error checkBalanceofCoin $e");
     }
@@ -691,10 +679,6 @@ class TrxFunctional {
   Future<bool> validateAddr(String asset, String address, {@required BuildContext? context, String? org} ) async {
 
     bool _isValid = false;
-    print("validateAddr");
-    print("Asset $asset");
-    print("address $address");
-    print("org $org");
 
     final apiPro = Provider.of<ApiProvider>(context!, listen: false);
     final conPro = Provider.of<ContractProvider>(context, listen: false);
@@ -830,8 +814,6 @@ class TrxFunctional {
         break;
     }
 
-    //print(contract.)
-
     if (marketPrice != null)
       estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
@@ -873,11 +855,7 @@ class TrxFunctional {
         case 'BNB':
           maxGas = await contract.getBnbMaxGas(reciever, amount);
           break;
-        default: 
-          print("Default");
-          print("index $index");
-          print(contract.sortListContract[0].address);
-          print(contract.sortListContract[index].symbol);
+        default:
           maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
           break;
       }
