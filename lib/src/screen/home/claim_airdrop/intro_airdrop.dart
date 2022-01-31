@@ -23,19 +23,21 @@ class AirDropDes extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15, color: hexaCodeToColor(AppColors.blueColor),),
-                MyText(
-                  text: "Receive some \$SEL to your wallet",
-                  // text:
-                  //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
-                  fontWeight: FontWeight.bold,
-                  color: isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
-                  fontSize: 14.0,
-                  textAlign: TextAlign.start,
-                  right: 16.0,
-                  left: 10,
+                Flexible(
+                  child: MyText(
+                    text: "Receive 222 SEL native token when its mainnet launch on February 2nd, 2022",
+                    // text:
+                    //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
+                    fontSize: 14.0,
+                    textAlign: TextAlign.start,
+                    right: 16.0,
+                    left: 10,
+                  ),
                 )
               ],
             ),
@@ -46,7 +48,7 @@ class AirDropDes extends StatelessWidget {
             children: [
               SvgPicture.asset(AppConfig.iconsPath+"check.svg", width: 15, height: 15, color: hexaCodeToColor(AppColors.blueColor),),
               MyText(
-                text: "Receive email about upcoming event",
+                text: "Receive email on upcoming events such as this airdrop",
                 // text:
                 //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
                 fontWeight: FontWeight.bold,

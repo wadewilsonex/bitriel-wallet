@@ -64,8 +64,8 @@ class ApiProvider with ChangeNotifier {
       
       notifyListeners();
 
-      connectPolNon(context: context);
-      connectSELNode(context: context);
+      await connectSELNode(context: context);
+      await connectPolNon(context: context);
 
     } catch (e) {
       print("Error initApi $e");
@@ -73,15 +73,26 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
+    print("connectSELNode");
     try {
 
       final node = NetworkParams();
 
       node.name = 'Indranet hosted By Selendra';
       node.endpoint = AppConfig.networkList[0].wsUrlTN;
-      node.ss58 = AppConfig.networkList[0].ss58;
+      node.ss58 = 42;//AppConfig.networkList[0].ss58;
 
       final res = await _sdk.api.connectNode(_keyring, [node]);
+      print("_keyring.allAccounts length ${_keyring.ss58}");
+      _keyring.allAccounts.forEach((value){
+        print("_keyring.allAccounts ${value.name} ${value.address}");
+      });
+      print(_keyring.current.address);
+      print(_keyring.current.name);
+      await getCurrentAccount();
+      print(accountM.address);
+      print(accountM.name);
+      // await getCurrentAccount();
 
       await getSelNativeChainDecimal(context: context!);
 
@@ -463,7 +474,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount() async {
-    accountM.address = _keyring.current.address;
+    accountM.address = await _sdk.webView!.evalJavascript('keyring.getSELAddr()');
     accountM.name = _keyring.current.name;
     notifyListeners();
   }

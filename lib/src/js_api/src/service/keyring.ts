@@ -14,6 +14,8 @@ import { DispatchError } from "@polkadot/types/interfaces";
 import { ContractPromise } from "@polkadot/api-contract";
 let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
 
+var selAddr;
+
 function send(path: string, data: any) {
   if (window.location.href === "about:blank") {
     // PolkaWallet.postMessage(JSON.stringify({ path, data }));
@@ -136,9 +138,16 @@ async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
     ss58Formats.forEach((ss58) => {
       const pubKey = u8aToHex(keyPair.publicKey);
       (<any>res)[ss58][pubKey] = keyring.encodeAddress(keyPair.publicKey, ss58);
+      if (ss58 == 42){
+        selAddr = keyring.encodeAddress(keyPair.publicKey, ss58);
+      }
     });
   });
   return res;
+}
+
+async function getSELAddr() {
+  return selAddr;
 }
 
 /**
@@ -559,6 +568,7 @@ async function verifySignature(message: string, signature: string, address: stri
 export default {
   initKeys,
   gen,
+  getSELAddr,
   validateMnemonic,
   validateAddress,
   recover,

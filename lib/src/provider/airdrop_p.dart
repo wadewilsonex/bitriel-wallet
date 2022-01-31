@@ -264,6 +264,7 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> signToDb() async {
+    print("signToDb");
     try {
 
       // dynamic res = await StorageServices.fetchData(DbKey.signData);
@@ -282,22 +283,23 @@ class AirDropProvider with ChangeNotifier {
           })
         );
 
-        print("res2 ${res2.body}");
+        // print("res2 ${res2.body}");
+        return await json.decode(res2.body);
         
-        if (res2.statusCode == 200){
-          // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
-          // if (map['data']['attempt'] == 1){
+        // if (res2.statusCode == 200){
+        //   // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
+        //   // if (map['data']['attempt'] == 1){
 
-          //   map.addAll({
-          //     'first': true
-          //   });
-          // }
+        //   //   map.addAll({
+        //   //     'first': true
+        //   //   });
+        //   // }
 
-          // First Sign Data
-          await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
-        }
+        //   // First Sign Data
+        //   await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
+        // }
 
-        print("Finish storeData");
+        // print("Finish storeData");
 
         // return json.decode(res.body)['data'];
       // } else {

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/components/network_sensitive.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -149,7 +150,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   
     // print("_airDropProvider!.getPrivateKey ${_airDropProvider!.getPrivateKey}");
 
-    await fetchSigned();
+    // await fetchSigned();
 
     // _airDropProvider!.setPrivateKey = (pin != '' ? await AppServices.getPrivateKey(pin, context) : pin)!;
     // dialogLoading(context);
@@ -159,7 +160,63 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     // get worksheet by its title
 
     // final sheet = ss.worksheetById(0);
+    dialogLoading(context, content: "Claiming Airdrop");
+
     try {
+
+      value = await Provider.of<AirDropProvider>(context, listen: false).signToDb();
+
+      print(value);
+      print(value!['success']);
+      // print(value!['error']);
+
+      if (value!['success'] == true){
+        // await showDialog(
+        //   context: context,
+        //   builder: (context) {
+        //     return AlertDialog(
+        //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        //       title: Align(
+        //         child: Text('Claim'),
+        //       ),
+        //       content: Padding(
+        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        //         child: MyText(text: 'You successfully claim'),
+        //       ),
+        //       actions: <Widget>[
+        //         TextButton(
+        //           onPressed: () => Navigator.pop(context),
+        //           child: const Text('Close'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
+        await enableAnimation();
+      } else {
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: Text('Opps'),
+              ),
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: MyText(text: value!['error']),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+      Navigator.pop(context);
 
       // await http.post(
       //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
@@ -192,7 +249,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
     } catch (e) {
       print("Error submitForm ${e}");
-      Navigator.pop(context);
+      // Navigator.pop(context);
 
       if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
         print("Re submit");
@@ -210,7 +267,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
               ),
               content: Padding(
                 padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text(e.toString()),
+                child: MyText(text: e.toString()),
               ),
               actions: <Widget>[
                 TextButton(
@@ -258,19 +315,11 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     await Future.delayed(Duration(milliseconds: 100), () async {
 
       _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
-      await _airDropProvider!.initContract();
+      // await _airDropProvider!.initContract();
+      // await _airDropProvider!.airdropTokenAddress();
       _airDropProvider!.setConProvider(Provider.of<ContractProvider>(context, listen: false), context);
-      await _airDropProvider!.airdropTokenAddress();
       await _airDropProvider!.signIn();
       
-    });
-  }
-
-  Future<void> fetchSigned() async {
-    value = await Provider.of<AirDropProvider>(context, listen: false).signToDb();
-
-    setState(() {
-      amount = value!['amount'];
     });
   }
 
@@ -350,11 +399,12 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                               padding: EdgeInsets.only(top: 10),
                               child: SvgPicture.asset(AppConfig.illustrationsPath+"mainnet.svg", width: 270, height: 270,),
                             ),
+                            // Shimmer(child: child, gradient: gradient)
                             MyText(
-                              text: "Celebrate Selendra Mainnet Launch",
+                              text: "Celebrate Selendra Mainnet Launch\nShare 222 \$SEL in airdrop",
                               fontWeight: FontWeight.bold,
                               color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-                              fontSize: 16,
+                              fontSize: 22,
                               bottom: 5.0,
                               top: 32.0,
                             ),
@@ -376,6 +426,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                   Container(
                                     width: double.infinity,
                                     padding: const EdgeInsets.all(16.0),
+                                    margin: const EdgeInsets.only(bottom: 16.0),
                                     decoration: BoxDecoration(
                                       color: 
                                       isDarkTheme
@@ -418,26 +469,47 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                     ),
                                   ),
 
-                                  MyText(
-                                    top: 16.0,
-                                    width: double.infinity,
-                                    text: "Claim 222 SEL native token",
-                                    fontWeight: FontWeight.bold,
-                                    textAlign: TextAlign.left,
-                                    color: isDarkTheme
-                                      ? AppColors.darkSecondaryText
-                                      : AppColors.textColor,
-                                    overflow: TextOverflow.ellipsis,
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(Colors.red[900]),
+                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
+                                    ),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Positioned(
+                                          left: 20,
+                                          top: 15,
+                                          child: SvgPicture.asset("assets/illustration/cloud1.svg", width: 50, height: 30),
+                                        ),
+                                        Positioned(
+                                          right: 10,
+                                          bottom: 15,
+                                          child: SvgPicture.asset("assets/illustration/cloud2.svg", width: 50, height: 30),
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12),
+                                            // color: Colors.black.withOpacity(0.35),
+                                          ),
+                                          width: double.infinity,
+                                          height: 80,
+                                        ),
+                                        MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
+                                      ],
+                                    ),
+                                    onPressed: submitForm,
                                   ),
 
-                                  MyFlatButton(
-                                    textButton: "Subscribe",
-                                    edgeMargin: const EdgeInsets.only(
-                                      top: 20,
-                                    ),
-                                    hasShadow: _enableButton,
-                                    action: submitForm//_enableButton ? submitForm : null,
-                                  ),
+                                  // MyFlatButton(
+                                  //   textButton: "Submit",
+                                  //   edgeMargin: const EdgeInsets.only(
+                                  //     top: 20,
+                                  //   ),
+                                  //   hasShadow: _enableButton,
+                                  //   action: submitForm//_enableButton ? submitForm : null,
+                                  // ),
 
                                   AirDropDes(),
                                 ]

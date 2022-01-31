@@ -18,8 +18,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   final GlobalKey _keyQrShare = GlobalKey();
 
   final GetWalletMethod _method = GetWalletMethod();
-  String name = 'username';
-  String wallet = 'wallet address';
+  String? name = 'username';
+  String? wallet = 'wallet address';
   int initialValue = 0;
   List<Map<String, dynamic>>? lsContractSymbol;
 
@@ -27,8 +27,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
     findSEL();
-    name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
-    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
 
     AppServices.noInternetConnection(_globalKey!);
     super.initState();
@@ -36,8 +34,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   void didChangeDependencies() {
-    name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
-    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+    // name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
+    // wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
     super.didChangeDependencies();
   }
 
@@ -94,14 +92,18 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   Widget build(BuildContext context) {
+
+    name = Provider.of<ApiProvider>(context).accountM.name ?? '';
+    wallet = Provider.of<ApiProvider>(context).accountM.address ?? '';
+    
     return Scaffold(
       key: _globalKey,
       body: ReceiveWalletBody(
         keyQrShare: _keyQrShare,
         globalKey: _globalKey,
         method: _method,
-        name: name,
-        wallet: wallet,
+        name: name ?? '',
+        wallet: wallet ?? 'Wallet address',
         initialValue: initialValue,
         onChanged: onChanged,
       ),

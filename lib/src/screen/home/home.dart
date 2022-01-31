@@ -30,6 +30,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
+    event();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
     // });
@@ -47,6 +48,45 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
           .subscribeBscbalance(context);
       await Provider.of<ContractProvider>(context, listen: false)
           .subscribeEthbalance();
+    });
+  }
+
+  Future<void> event() async {
+    await StorageServices.fetchData(DbKey.event).then((value) async {
+      if (value == null){
+
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              content: Stack(
+                children: [
+                  Image.asset("assets/event.png", fit: BoxFit.cover,),
+                  IconButton(
+                    onPressed: () async {
+                      await StorageServices.storeData(true, DbKey.event);
+                      Navigator.pop(context);
+                    }, 
+                    icon: Icon(Icons.close, color: Colors.white,)
+                  )
+                ],
+              ),
+              actions: null
+              // <Widget>[
+              //   // TextButton(
+              //   //   onPressed: () {
+              //   //     Navigator.pop(context)
+              //   //   },
+              //   //   child: const Text('Close'),
+              //   // ),
+              // ],
+            );
+          },
+        );
+      }
     });
   }
 

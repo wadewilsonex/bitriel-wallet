@@ -85,13 +85,13 @@ class ReceiveWalletBody extends StatelessWidget {
 
                           // Qr View
                           qrCodeGenerator(
-                            wallet!,
+                            wallet ?? '',
                             AppConfig.logoQrEmbedded,
                             keyQrShare!,
                           ),
 
                           MyText(
-                            text: name,
+                            text: name ?? 'User name',
                             bottom: 16,
                             top: 16,
                             color: isDarkTheme
@@ -100,7 +100,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           ),
                           MyText(
                             width: 300,
-                            text: wallet,
+                            text: wallet ?? '',
                             color: AppColors.secondarytext,
                             fontSize: 16,
                             bottom: 16,

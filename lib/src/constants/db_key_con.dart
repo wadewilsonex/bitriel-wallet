@@ -9,4 +9,5 @@ class DbKey{
   static String themeMode = "themeMode";
   static String signData = "signData";
   static String token = "token";
+  static String event = "event";
 }
