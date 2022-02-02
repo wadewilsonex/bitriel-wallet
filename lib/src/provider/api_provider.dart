@@ -69,8 +69,8 @@ class ApiProvider with ChangeNotifier {
       await _sdk.init(_keyring, jsCode: _jsCode);
       notifyListeners();
 
-      // await connectSELNode(context: context);
-      // await connectPolNon(context: context);
+      await connectSELNode(context: context);
+      await connectPolNon(context: context);
 
     } catch (e) {
       print("Error initApi $e");
@@ -100,6 +100,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
+    print("connectPolNon");
     dynamic res;
     try {
 
@@ -114,6 +115,8 @@ class ApiProvider with ChangeNotifier {
       // node.ss58 = 0;
 
       res = await _sdk.api.connectNode(_keyring, [node]);
+
+      print(_keyring.allAccounts.length);
 
       await getDotChainDecimal(context: context!);
 
