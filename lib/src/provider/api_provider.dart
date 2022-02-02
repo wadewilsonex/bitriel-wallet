@@ -514,7 +514,7 @@ class ApiProvider with ChangeNotifier {
 
   /// Generate a set of new mnemonic.
   Future<String> generateMnemonic() async {
-    final Map<String, dynamic> acc = await _sdk.webView!.evalJavascript('_keyring.gen()');
+    final Map<String, dynamic> acc = await _sdk.webView!.evalJavascript('keyring.gen()');
     return acc['mnemonic'];
   }
 

@@ -14,8 +14,10 @@ class _ContentsBackupState extends State<ContentsBackup> {
   List _passPhraseList = [];
 
   Future<void> _generateMnemonic() async {
+    print("_generateMnemonic");
     try {
       _passPhrase = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
+      print(_passPhrase);
       _passPhraseList = _passPhrase.split(' ');
 
       // setState(() {});

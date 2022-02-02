@@ -64,9 +64,9 @@ class WelcomeBody extends StatelessWidget {
               edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
               textButton: AppString.createAccTitle,
               action: () {
-                // Navigator.pushNamed(context, AppText.contentBackup);
+                Navigator.pushNamed(context, AppString.contentBackup);
                 // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
               },
             ),
             MyFlatButton(
