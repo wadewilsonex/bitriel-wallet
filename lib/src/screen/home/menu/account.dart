@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/menu/account_c.dart';
 import '../../../../index.dart';
@@ -54,14 +52,14 @@ class _AccountState extends State<Account> {
     submitChangePin();
   }
 
-  void submitBackUpKey() {
-    if (_pinController.text != null) {
-      getBackupKey(_pinController.text);
+  Future<void> submitBackUpKey() async {
+    if (_pinController.text.isNotEmpty) {
+      await getBackupKey(_pinController.text);
     }
   }
 
   void submitChangePin() {
-    if (_oldPinController.text != null && _newPinController.text != null) {
+    if (_oldPinController.text.isNotEmpty && _newPinController.text.isNotEmpty) {
       _changePin(_oldPinController.text, _newPinController.text);
     }
   }
@@ -112,11 +110,13 @@ class _AccountState extends State<Account> {
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
+      final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
+      await StorageServices.storeData(event, DbKey.event);
 
       await StorageServices().clearSecure();
       
@@ -134,18 +134,21 @@ class _AccountState extends State<Account> {
   }
 
   Future<void> getBackupKey(String pass) async {
+    print("getBackupKey");
     Navigator.pop(context);
     final _api = await Provider.of<ApiProvider>(context, listen: false);
+    print(_api.getKeyring.current.pubKey);
+    print(pass);
     try {
+      // final pairs = await KeyringPrivateStore([0, 42])// (_api.getKeyring.keyPairs[0].pubKey, pass);
       final pairs = await KeyringPrivateStore([0, 42]).getDecryptedSeed(_api.getKeyring.keyPairs[0].pubKey, pass);
-
+      print("${pairs}");
       if (pairs!['seed'] != null) {
         await showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               title: Align(
                 child: Text('Backup Key'),
               ),
@@ -363,17 +366,39 @@ class _AccountState extends State<Account> {
                           ),
                           
                           GestureDetector(
-                            onTap: () {
-                              
-                              AccountC().showBackup(
-                                context,
-                                _backupKey,
-                                _pinController,
-                                _pinNode,
-                                onChangedBackup,
-                                onSubmit,
-                                submitBackUpKey,
+                            onTap: () async {
+                              await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                    title: const Align(
+                                      child: Text('Maintainance'),
+                                    ),
+                                    content: const Padding(
+                                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                                      child: MyText(text: 'This feature is under maintainance'),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Close'),
+                                      ),
+                                      // action
+                                    ],
+                                  );
+                                },
                               );
+                              
+                              // AccountC().showBackup(
+                              //   context,
+                              //   _backupKey,
+                              //   _pinController,
+                              //   _pinNode,
+                              //   onChangedBackup,
+                              //   onSubmit,
+                              //   submitBackUpKey,
+                              // );
                             },
                             child: Container(
                               alignment: Alignment.center,

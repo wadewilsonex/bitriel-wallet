@@ -33,11 +33,11 @@ class Attendance extends ChangeNotifier {
       attDeployContract = await initAttContract();
 
       final myAddr = await StorageServices().readSecure('etherAdd');
-      if (myAddr != null){
+      if (myAddr != ''){
         final balance = await ContractProvider().query(
           _atdContract,
           'balanceOf',
-          [EthereumAddress.fromHex(myAddr)],
+          [EthereumAddress.fromHex(myAddr!)],
         ); //.balance = balance.toString();
 
         contractPro.listContract[7].balance = balance[0].toString();

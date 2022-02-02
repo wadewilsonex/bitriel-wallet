@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:convert/convert.dart';
+
 // ignore: avoid_classes_with_only_static_members
 class AppServices {
   static int myNumCount = 0;
@@ -192,5 +194,15 @@ class AppServices {
       );
     });
     return tmp;
+  }
+}
+
+class Encryptt {
+  static String passwordToEncryptKey(String password) {
+    String passHex = hex.encode(utf8.encode(password));
+    if (passHex.length > 32) {
+      return passHex.substring(0, 32);
+    }
+    return passHex.padRight(32, '0');
   }
 }

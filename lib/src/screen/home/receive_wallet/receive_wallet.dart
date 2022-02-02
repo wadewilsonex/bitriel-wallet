@@ -26,6 +26,10 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   @override
   void initState() {
     _globalKey = GlobalKey<ScaffoldState>();
+
+    name = Provider.of<ApiProvider>(context, listen: false).accountM.name ?? '';
+    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address ?? '';
+
     findSEL();
 
     AppServices.noInternetConnection(_globalKey!);
@@ -69,6 +73,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void changedEthAdd(String value) {
+    print(lsContractSymbol![int.parse(value)]['symbol']);
     if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
       wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
     } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
@@ -76,6 +81,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     } else {
       wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
     }
+    print(wallet);
     setState(() { });
     // if (value != 'SEL' && value != 'DOT' && value != 'KMPI' && value != 'BTC') {
     //   setState(() {
@@ -92,9 +98,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   Widget build(BuildContext context) {
-
-    name = Provider.of<ApiProvider>(context).accountM.name ?? '';
-    wallet = Provider.of<ApiProvider>(context).accountM.address ?? '';
     
     return Scaffold(
       key: _globalKey,

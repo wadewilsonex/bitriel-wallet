@@ -52,6 +52,12 @@ class ApiProvider with ChangeNotifier {
 
   bool get isConnected => _isConnected;
 
+  void setAccount(AccountM acc){
+    accountM = acc;
+
+    notifyListeners();
+  }
+
   Future<void> initApi({@required BuildContext? context}) async {
 
     try {
@@ -61,11 +67,10 @@ class ApiProvider with ChangeNotifier {
       });
       await _keyring.init([0, 42]);
       await _sdk.init(_keyring, jsCode: _jsCode);
-      
       notifyListeners();
 
-      await connectSELNode(context: context);
-      await connectPolNon(context: context);
+      // await connectSELNode(context: context);
+      // await connectPolNon(context: context);
 
     } catch (e) {
       print("Error initApi $e");
@@ -82,7 +87,6 @@ class ApiProvider with ChangeNotifier {
       node.ss58 = 42;//AppConfig.networkList[0].ss58;
 
       final res = await _sdk.api.connectNode(_keyring, [node]);
-      await getCurrentAccount();
 
       await getSelNativeChainDecimal(context: context!);
 

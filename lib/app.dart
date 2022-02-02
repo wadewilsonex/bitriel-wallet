@@ -53,11 +53,10 @@ class AppState extends State<App> {
       });
       
       await apiProvider.initApi(context: context).then((value) async {
-
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
-          
           await ContractsBalance().getAllAssetBalance(context: context);
         }
       });
@@ -77,8 +76,6 @@ class AppState extends State<App> {
     try {
 
       final res = await StorageServices.fetchData(DbKey.themeMode);
-
-      print(res);
 
       if (res != null) {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();

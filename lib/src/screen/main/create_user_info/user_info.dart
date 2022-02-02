@@ -5,6 +5,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/models/account.m.dart';
 // import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
 
@@ -219,14 +220,14 @@ class MyUserInfoState extends State<MyUserInfo> {
         acc: json!,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
-
-        final resPk = await _api.getPrivateKey(widget.passPhrase);
+        _setAcc(_api);
+        final _resPk = await _api.getPrivateKey(widget.passPhrase);
 
       // if (resPk != null) {
       // }
-      await ContractProvider().extractAddress(resPk);
+      await ContractProvider().extractAddress(_resPk);
 
-      final res = await _api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
+      final res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
       await StorageServices().writeSecure('private', res);
 //1
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -283,6 +284,16 @@ class MyUserInfoState extends State<MyUserInfo> {
         },
       );
     }
+  }
+
+  void _setAcc(ApiProvider api){
+
+    AccountM accM = AccountM();
+    accM.address = api.getKeyring.allAccounts[0].address;
+    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
+    accM.name = api.getKeyring.allAccounts[0].name;
+    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
+    api.setAccount(accM);
   }
 
   Future<void> queryBtcData() async {

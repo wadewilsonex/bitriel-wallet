@@ -154,9 +154,11 @@ class _PresaleState extends State<Presale> {
 
   Future<String>? getPrivateKey(String pin) async {
     String? privateKey;
-    final encrytKey = await StorageServices().readSecure('private');
+    final encryptKey = await StorageServices().readSecure('private');
     try {
-      privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
+      if (encryptKey != ''){
+        privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encryptKey!, pin);
+      }
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }

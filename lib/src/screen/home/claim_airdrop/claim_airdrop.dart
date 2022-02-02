@@ -53,7 +53,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   // ignore: unnecessary_raw_strings
 
-// your spreadsheet id
+  // your spreadsheet id
   static const _spreadsheetId = AppConfig.spreedSheetId;
 
   bool validateEmail(String value) {

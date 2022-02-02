@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:get_storage/get_storage.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
@@ -241,4 +242,23 @@ class StorageServices {
     _preferences = await SharedPreferences.getInstance();
     _preferences!.remove(path);
   }
+
+  static Future<Map?> getSeeds(String? seedType) async {
+    _preferences = await SharedPreferences.getInstance();
+    String? value = await _preferences!.getString('wallet_seed_$seedType');
+    if (value != null) {
+      return jsonDecode(value);
+    }
+    return {};
+  }
+}
+
+class KeyringStorage {
+  static final _storage = () => GetStorage("polka_wallet_sdk");
+
+  final keyPairs = [].val('keyPairs', getBox: _storage);
+  final contacts = [].val('contacts', getBox: _storage);
+  final ReadWriteValue<String?> currentPubKey = ''.val('currentPubKey', getBox: _storage);
+  final encryptedRawSeeds = {}.val('encryptedRawSeeds', getBox: _storage);
+  final encryptedMnemonics = {}.val('encryptedMnemonics', getBox: _storage);
 }

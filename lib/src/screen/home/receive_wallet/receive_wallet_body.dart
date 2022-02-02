@@ -9,7 +9,7 @@ class ReceiveWalletBody extends StatelessWidget {
   final GlobalKey? keyQrShare;
   final HomeModel? homeM;
   final GetWalletMethod? method;
-  final Function(String)? onChanged;
+  final Function? onChanged;
   final String? name;
   final String? wallet;
   final int? initialValue;
@@ -30,6 +30,7 @@ class ReceiveWalletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    print("ReceiveWalletBody wallet $wallet");
     return Column(
       children: <Widget>[
         

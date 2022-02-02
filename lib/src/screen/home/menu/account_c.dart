@@ -122,8 +122,8 @@ class AccountC {
                       right: 67,
                     ),
                     hasShadow: true,
-                    action: () {
-                      submitBackUpKey();
+                    action: () async {
+                      await submitBackUpKey();
                     },
                   ),
                 ],

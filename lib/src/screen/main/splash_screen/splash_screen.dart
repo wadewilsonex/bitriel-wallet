@@ -20,19 +20,20 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> getCurrentAccount() async {
 
     // print("getCurrentAccount");
-    //   await Future.delayed(const Duration(seconds: 1), () async {
-    //       Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome())); 
-    //   });
+      // await Future.delayed(const Duration(seconds: 2), () async {
+      //     Navigator.pushReplacement(context, RouteAnimation(enterPage: Account())); 
+      // });
     
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
-        await StorageServices().readSecure('private')!.then((String? value) async {
-          if (value == null || value.isEmpty) {
+
+        await StorageServices().readSecure('private')!.then((String value) async {
+          if (value.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
           } else {
             final ethAddr = await StorageServices().readSecure('etherAdd');
 
-            if (ethAddr == null) {
+            if (ethAddr == '') {
               await dialogSuccess(
                 context,
                 const Padding(
@@ -70,14 +71,16 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
+
+    print("checkbio");
     
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure('passcode');
+    print(bio);
+    print(passCode);
 
-    await StorageServices().readSecure('private')!.then((value) {});
-
-    if (bio && passCode != '') {
+    if (bio == false && passCode != '') {
       Navigator.pushReplacement(
         context,
         RouteAnimation(
@@ -102,7 +105,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
         Navigator.pushReplacementNamed(context, Home.route);
       }
     }

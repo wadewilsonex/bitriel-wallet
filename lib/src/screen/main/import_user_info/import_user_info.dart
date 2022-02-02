@@ -7,9 +7,11 @@ import 'package:bip39/bip39.dart' as bip39;
 // import 'package:dart_ecpair/dart_ecpair.dart';
 import 'package:defichaindart/defichaindart.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:web3dart/credentials.dart';
+import 'package:polkawallet_sdk/storage/keyring.dart';
 
 class ImportUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -31,6 +33,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   MenuModel? _menuModel;
 
+  KeyringStorage _keyringStorage = KeyringStorage();
+
   @override
   void initState() {
     _menuModel = MenuModel();
@@ -50,7 +54,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   Future<void> _importFromMnemonic() async {
     
     final _api = Provider.of<ApiProvider>(context, listen: false);
-
     try {
       final json = await _api.getSdk.api.keyring.importAccount(
         _api.getKeyring,
@@ -67,31 +70,36 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      final resPk = await _api.getPrivateKey(widget.passPhrase);
+      _setAcc(_api);
 
-      // if (resPk != null) {
-      // }
-      await ContractProvider().extractAddress(resPk);
+      final _resPk = await _api.getPrivateKey(widget.passPhrase);
+      
+      print("Get private key _resPk $_resPk");
+      
+      await ContractProvider().extractAddress(_resPk);
 
-      final res = await _api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
-      await StorageServices().writeSecure('private', res);
-//1
+      final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+      
+      await StorageServices().writeSecure('private', _res);
+
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      await _api.getAddressIcon();
-      await _api.getCurrentAccount();
+
       await queryBtcData();
       
       await ContractsBalance().getAllAssetBalance(context: context);
-//2
-      // Sort Contract Asset
-      // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
       
-      // // // Ready To Display Asset Portfolio
-      // Provider.of<ContractProvider>(context, listen: false).setReady();
-      
-      // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+      await _api.getSdk.api.keyring.deleteAccount(
+        _api.getKeyring,
+        _api.getKeyring.current,
+      );
 
-      await successDialog(context, "imported your account.");
+      print("\n\nimported your account.\n\n");
+
+      await StorageServices().clearSecure();
+
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
+
+      // await successDialog(context, "imported your account.");
     } catch (e) {
 
       Navigator.pop(context);
@@ -140,6 +148,42 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       }
     }
   }
+
+  void _setAcc(ApiProvider api){
+
+    AccountM accM = AccountM();
+    accM.address = api.getKeyring.allAccounts[0].address;
+    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
+    accM.name = api.getKeyring.allAccounts[0].name;
+    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
+    api.setAccount(accM);
+  }
+
+  // Future<void> encryptSeedAndSave(String? pubKey, seed, KeyType seedType, password) async {
+  //   try {
+
+  //     final String key = Encryptt.passwordToEncryptKey(password);
+  //     String? encrypted = await FlutterAesEcbPkcs5.encryptString(seed, key);
+
+  //     // read old data from storage-old
+  //     final Map stored = await (StorageServices.getSeeds(seedType.name) as Future<Map<dynamic, dynamic>>);
+  //     stored[pubKey] = encrypted;
+  //     // and save to new storage
+  //     if (seedType == KeyType.mnemonic.toString().split('.')[1]) {
+  //       final mnemonics = Map.from(_keyringStorage.encryptedMnemonics.val);
+  //       mnemonics.addAll(stored);
+  //       _keyringStorage.encryptedMnemonics.val = mnemonics;
+  //       return;
+  //     }
+  //     if (seedType == KeyType.rawSeed.toString().split('.')[1]) {
+  //       final seeds = Map.from(_keyringStorage.encryptedRawSeeds.val);
+  //       seeds.addAll(stored);
+  //       _keyringStorage.encryptedRawSeeds.val = seeds;
+  //     }
+  //   } catch (e) {
+  //     print("Error $e");
+  //   }
+  // }
 
   Future<void> getEtherSavedContractToken() async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);

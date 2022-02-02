@@ -97,7 +97,6 @@ class AirDropProvider with ChangeNotifier {
         )))
       );
       res = (res / BigInt.from(pow(10, 9)));
-      print(res);
     } catch (e) {
       print("Error getTrxFee $e");
     }
@@ -141,7 +140,6 @@ class AirDropProvider with ChangeNotifier {
           fetchChainIdFromNetworkId: true
         );
 
-        print("my res $res");
         return res;
       }
     }
@@ -208,7 +206,6 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
-    print("encodeRS");
     final apiPro = await Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
     // .then((value) async {

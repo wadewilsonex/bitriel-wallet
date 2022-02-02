@@ -42,7 +42,7 @@ class MenuState extends State<Menu> {
 
     final res = await StorageServices().readSecure('passcode');
 
-    if (res != null && res != '') {
+    if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
       });

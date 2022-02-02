@@ -39,10 +39,13 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool>? validateMnemonic(String mnemonic) async {
+    print("validateMnemonic");
     dynamic res;
     try {
       res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(mnemonic);
+      print(res);
       enable = res;
+      
       setState((){});
     } catch (e) {
       print("Error validateMnemonic $e");
