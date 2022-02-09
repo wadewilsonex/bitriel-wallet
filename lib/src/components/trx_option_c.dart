@@ -20,7 +20,7 @@ class MyBottomSheetItem extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.asset(
-              'assets/$icon',
+              AppConfig.assetsPath+'$icon',
               width: 30,
               height: 30,
               color: isDarkTheme ? Colors.white : Colors.black,

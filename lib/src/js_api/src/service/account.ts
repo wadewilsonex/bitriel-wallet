@@ -128,7 +128,8 @@ async function getBalance(
   };
   if (msgChannel) {
     subscribeMessage(api.derive.balances.all, [address], msgChannel, transfrom);
-    return;
+    var selBalance = await api.derive.balances.all(address);
+    return transfrom(selBalance);
   }
 
   const res = await api.derive.balances.all(address);

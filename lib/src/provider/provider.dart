@@ -1,4 +1,6 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance {
@@ -14,20 +16,13 @@ class ContractsBalance {
 
     // await contractProvider.setSavedList().then((value) async {
 
-    //   print("setSavedList $value");
-
-      // await getSavedContractToken();
-      // await getEtherSavedContractToken();
-//1
-      // await contractProvider.kgoTokenWallet();
-      await contractProvider.selTokenWallet();
-      await contractProvider.selv2TokenWallet();
-
+      await contractProvider.selTokenWallet(context);
+      await contractProvider.selv2TokenWallet(context);
       await contractProvider.ethWallet();
       await contractProvider.bnbWallet();
+      await contractProvider.kgoTokenWallet();
 
-      // await Attendance().getAttBalance(context: context); // Disable For Mainnet
-//2
+      if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
       // This Method Is Also Request Polkadot Contract
       await apiProvider.getBtcBalance(context: context);
 //4
@@ -35,6 +30,7 @@ class ContractsBalance {
       await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
       // await isBtcContain(context: context);
+      await apiProvider.connectSELNode(context: context);
 
       // Sort After MarketPrice Filled Into Asset
       await contractProvider.sortAsset();
@@ -50,7 +46,7 @@ class ContractsBalance {
 
 
   Future<void> isBtcContain({@required BuildContext? context}) async {
-    final res = await StorageServices.fetchData('bech32');
+    final res = await StorageServices.fetchData(DbKey.bech32);
 
     if (res != null) {
       Provider.of<ApiProvider>(context!, listen: false).isBtcAvailable('contain', context: context);
@@ -64,6 +60,7 @@ class ContractsBalance {
   Future<void> refetchContractBalance({@required BuildContext? context}) async {
 
     final conProvider = Provider.of<ContractProvider>(context!, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
     dynamic balance;
     
     // for (int i = 0; i< conProvider.sortListContract.length; i++){
@@ -87,46 +84,62 @@ class ContractsBalance {
     //   }
     //   print("Balance ${balance.toString()}");
     // }
-    conProvider.addedContract.forEach((element) async {
-      if (element.org == "ERC-20"){
-        balance = await conProvider.queryEther(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-      } else {
-        balance = await conProvider.query(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    print("conProvider.listContract");
+    for (int i = 0; i < conProvider.listContract.length; i++){
+      print("query ${conProvider.listContract[i].contractTest} ${conProvider.listContract[i].symbol}");
+      if (i != api.selNativeIndex && i != api.dotIndex && conProvider.listContract[i].symbol != "KGO"){
+        if (conProvider.listContract[i].org == "ERC-20"){
+          print("queryEther ${conProvider.listContract[i].org}");
+          balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+
+          conProvider.listContract[i].balance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            int.parse(conProvider.listContract[i].chainDecimal.toString()),
+          ).toString();
+        } else if (conProvider.listContract[i].org == "BEP-20") {
+          print("query ${conProvider.listContract[i].org}");
+          balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+          print(balance);
+          conProvider.listContract[i].balance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            int.parse(conProvider.listContract[i].chainDecimal.toString()),
+          ).toString();
+        }
       }
-      element.balance = Fmt.bigIntToDouble(
-        balance[0] as BigInt,
-        int.parse(element.chainDecimal.toString()),
-      ).toString();
-    });
+      print(conProvider.listContract[i].balance);
+    }
+
+    print("conProvider.listContract");
+    for (int i = 0; i < conProvider.addedContract.length; i++){
+      print(conProvider.addedContract[i].name);
+      if (conProvider.addedContract[i].org == "ERC-20"){
+          balance = await conProvider.queryEther(conProvider.addedContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+        } else {
+          balance = await conProvider.query(conProvider.addedContract[i].address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+        }
+        conProvider.addedContract[i].balance = Fmt.bigIntToDouble(
+          balance[0] as BigInt,
+          int.parse(conProvider.addedContract[i].chainDecimal.toString()),
+        ).toString();
+        print(conProvider.addedContract[i].balance);
+    }
+
+    // conProvider.addedContract.forEach((element) async {
+    //   if (element.org == "ERC-20"){
+    //     balance = await conProvider.queryEther(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    //   } else {
+    //     balance = await conProvider.query(element.address!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+    //   }
+    //   element.balance = Fmt.bigIntToDouble(
+    //     balance[0] as BigInt,
+    //     int.parse(element.chainDecimal.toString()),
+    //   ).toString();
+    // });
 
     await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
     await StorageServices.storeAssetData(context);
 
-    // if (network == 'Ethereum'){
-      
-    //   symbol = await queryEther(contractAddr, 'symbol', []);
-    //   name = await queryEther(contractAddr, 'name', []);
-    //   decimal = await queryEther(contractAddr, 'decimals', []);
-
-    //   tmpBalance = Fmt.bigIntToDouble(
-    //     balance[0] as BigInt,
-    //     int.parse(decimal[0].toString()),
-    //   ).toString(); 
-
-    // } else if (network == 'Binance Smart Chain'){
-
-    //   symbol = await query(contractAddr, 'symbol', []);
-    //   name = await query(contractAddr, 'name', []);
-    //   decimal = await query(contractAddr, 'decimals', []);
-    //   balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-
-    //   tmpBalance = Fmt.bigIntToDouble(
-    //     balance[0] as BigInt,
-    //     int.parse(decimal[0].toString()),
-    //   ).toString();
-      
-    // }
     return null;
   }
 }

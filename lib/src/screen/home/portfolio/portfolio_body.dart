@@ -1,8 +1,6 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:wallet_apps/src/provider/wallet_provider.dart';
 
 class PortfolioBody extends StatelessWidget {
   final List<dynamic>? listData;
@@ -25,7 +23,7 @@ class PortfolioBody extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset('assets/icons/no_data.svg', height: 200),
+              SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
               const MyText(text: "There are no portfolio found")
             ],
           ))

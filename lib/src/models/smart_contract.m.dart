@@ -7,6 +7,8 @@ class SmartContractModel {
 
   String? id;
   String? address;
+  String? contract;
+  String? contractTest;
   String? chainDecimal;
   String? symbol;
   String? name;
@@ -14,6 +16,7 @@ class SmartContractModel {
   String? logo;
   String? type;
   String? org;
+  String? orgTest;
   Market? marketData;
   String? marketPrice;
   String? change24h;
@@ -32,6 +35,7 @@ class SmartContractModel {
     this.logo,
     this.type,
     this.org = '',
+    this.orgTest = '',
     this.marketData,
     this.marketPrice = '',
     this.change24h = '',
@@ -39,6 +43,8 @@ class SmartContractModel {
     this.listActivity,
     this.lineChartList,
     this.lineChartModel,
+    this.contract,
+    this.contractTest
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +56,9 @@ class SmartContractModel {
       type: json['type'],
       logo: json['logo'],
       org: json['org'],
+      orgTest: json['org_test'],
+      contract: json['contract'],
+      contractTest: json['contract_test'],
       chainDecimal: json['chainDecimal'],
       // marketData: Market.fromJson(json['market'] as Map<String, dynamic>),
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
@@ -71,12 +80,15 @@ class SmartContractModel {
     'type': asset.type,
     'logo': asset.logo,
     'org': asset.org,
+    'org_test': asset.orgTest,
     'market': asset.marketData,
     'lineChartData': asset.lineChartList,
     'change24h': asset.change24h,
     'marketPrice': asset.marketPrice,
     'name': asset.name,
     "chainDecimal": asset.chainDecimal,
+    "contract": asset.contract,
+    "contract_test": asset.contractTest,
     
     // 'listActivity': asset.listActivity,
 

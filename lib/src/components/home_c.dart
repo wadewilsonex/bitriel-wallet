@@ -116,7 +116,7 @@ Widget homeAppBar(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          'assets/bitriel_home.png',
+          AppConfig.assetsPath+'bitriel_home.png',
           width: 170,
           height: 170,
         ),
@@ -471,10 +471,10 @@ class MyHomeAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24),
       child: Row(
         children: [
-          const MyLogo(
+          MyLogo(
             width: 50,
             height: 50,
-            logoPath: "assets/sld_logo.svg",
+            logoPath: AppConfig.assetsPath+"sld_logo.svg",
           ),
           MyText(
             color: "#FFFFFF",

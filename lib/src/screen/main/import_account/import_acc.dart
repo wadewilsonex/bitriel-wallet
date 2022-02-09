@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 
 class ImportAcc extends StatefulWidget {
@@ -162,7 +163,7 @@ class ImportAccState extends State<ImportAcc> {
         final String? res = await _api.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
 
         if (res != null) {
-          await StorageServices().writeSecure('private', res);
+          await StorageServices().writeSecure(DbKey.private, res);
         }
       }
       

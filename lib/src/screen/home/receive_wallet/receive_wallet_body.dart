@@ -30,7 +30,6 @@ class ReceiveWalletBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    print("ReceiveWalletBody wallet $wallet");
     return Column(
       children: <Widget>[
         

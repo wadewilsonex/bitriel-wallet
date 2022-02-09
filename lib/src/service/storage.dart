@@ -191,12 +191,12 @@ class StorageServices {
   // ignore: avoid_positional_boolean_parameters
   static Future<void> saveBio(bool enable) async {
     _preferences = await SharedPreferences.getInstance();
-    _preferences!.setBool('bio', enable);
+    _preferences!.setBool(DbKey.bio, enable);
   }
 
   static Future<bool> readSaveBio() async {
     _preferences = await SharedPreferences.getInstance();
-    return _preferences!.getBool('bio') ?? false;
+    return _preferences!.getBool(DbKey.bio) ?? false;
   }
 
   static Future<SharedPreferences> setUserID(String _data, String _path) async {

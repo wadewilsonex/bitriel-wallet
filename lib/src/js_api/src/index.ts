@@ -36,7 +36,7 @@ async function connect(nodes: string[]) {
   return new Promise(async (resolve, reject) => {
     const wsProvider = new WsProvider(nodes);
     try {
-
+      
       const types = {
         EvmAddress: "H160",
         EthereumTxHash: "H256",
@@ -49,10 +49,11 @@ async function connect(nodes: string[]) {
       });
 
       (<any>window).api = res;
+      console.log("Url ", res.isConnected);
       // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       const url = nodes[(<any>res).isConnected];
-      // send("log", `${url} wss connected success`);
-      resolve(url);
+      // console.log("hello log", `${url} wss c  onnected success`);
+      resolve(res.isConnected);
     } catch (err) {
       send("log", `connect failed`);
       wsProvider.disconnect();

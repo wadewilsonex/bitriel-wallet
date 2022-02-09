@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/passcode/body_passcode.dart';
 
 
@@ -88,7 +89,7 @@ class _PasscodeState extends State<Passcode> {
     
     print("pinIndex lengh $pinIndex");
     if (pinIndex == 6) {
-      final res = await StorageServices().readSecure('passcode');
+      final res = await StorageServices().readSecure(DbKey.passcode);
       if (widget.isHome != null) {
         dialogLoading(context);
         await passcodeAuth(strPin);
@@ -112,7 +113,7 @@ class _PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
-        await StorageServices().clearKeySecure('passcode');
+        await StorageServices().clearKeySecure(DbKey.passcode);
         Navigator.pop(context, false);
       } else {
         clearAll();
@@ -132,7 +133,7 @@ class _PasscodeState extends State<Passcode> {
     } else {
       if (firstPin == pin) {
         print ("Set pin");
-        await StorageServices().writeSecure('passcode', pin);
+        await StorageServices().writeSecure(DbKey.passcode, pin);
         Navigator.pop(context, true);
       } else {
         clearAll();
@@ -181,7 +182,7 @@ class _PasscodeState extends State<Passcode> {
 
   // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
-    final res = await StorageServices().readSecure('passcode');
+    final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res == pin) {
       Navigator.pushReplacementNamed(context, Home.route);

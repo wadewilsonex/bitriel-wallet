@@ -82,7 +82,7 @@ class AddContactBody extends StatelessWidget {
                     IconButton(
                       padding: const EdgeInsets.only(left: 20, right: 36),
                       icon: SvgPicture.asset(
-                        'assets/icons/qr_code.svg',
+                        AppConfig.iconsPath+'qr_code.svg',
                         color: Colors.white,
                       ),
                       onPressed: () async {

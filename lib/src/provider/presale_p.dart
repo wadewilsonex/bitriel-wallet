@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:web3dart/web3dart.dart';
 
 class PresaleOrderInfo {
@@ -45,7 +46,7 @@ class PresaleProvider with ChangeNotifier {
       final contract = await initPresaleContract();
 
       final credentials = await EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure('etherAdd');
+      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
       final redeemFunction = contract!.function('redeem');
       final redeemHash = await _contractP!.bscClient.sendTransaction(
@@ -80,7 +81,7 @@ class PresaleProvider with ChangeNotifier {
       final contract = await initPresaleContract();
 
       final credentials = await EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure('etherAdd');
+      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
       final orderFunction = contract!.function('order');
       final orderHash = await _contractP!.bscClient.sendTransaction(
@@ -153,7 +154,7 @@ class PresaleProvider with ChangeNotifier {
 
       final credentials = await EthPrivateKey.fromHex(privateKey);
 
-      final ethAddr = await StorageServices().readSecure('etherAdd');
+      final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
       final gasPrice = await _contractP!.bscClient.getGasPrice();
 
@@ -199,7 +200,7 @@ class PresaleProvider with ChangeNotifier {
   Future<DeployedContract?> initPresaleContract() async {
     print("initPresaleContract");
     try {
-      final String abiCode = await rootBundle.loadString('assets/abi/presale1.json');
+      final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'presale1.json');
       _deployedContract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'Presale'),
         EthereumAddress.fromHex(_presaleContract),
@@ -213,10 +214,10 @@ class PresaleProvider with ChangeNotifier {
     return null;
   }
 
-  Future<double> checkTokenBalance(String tokenAddress) async {
+  Future<double> checkTokenBalance(String tokenAddress, {@required BuildContext? context}) async {
     try {
 
-      final myAddr = await StorageServices().readSecure('etherAdd');
+      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
       final balance = await ContractProvider().query(
         tokenAddress,
         'balanceOf',
@@ -235,7 +236,7 @@ class PresaleProvider with ChangeNotifier {
     List<dynamic> idRes = [];
 
     try {
-      final myAddr = await StorageServices().readSecure('etherAdd');
+      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
       final preFunction = _deployedContract!.function('investorOrderIds');
       final List? res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
@@ -343,7 +344,7 @@ class PresaleProvider with ChangeNotifier {
 
     final allowanceFunc = contract!.function('allowance');
 
-    final ethAddr = await StorageServices().readSecure('etherAdd');
+    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
     final res = await _contractP!.bscClient.call(contract: contract, function: allowanceFunc, params: [
       EthereumAddress.fromHex(ethAddr!),

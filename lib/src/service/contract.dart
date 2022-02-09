@@ -178,7 +178,6 @@ class ContractService implements IContractService {
   @override
   Future<BigInt> getChainDecimal() async {
     final res = await _queryContract(_contract, _decimalFunction(), []);
-
     return res.first;
   }
 

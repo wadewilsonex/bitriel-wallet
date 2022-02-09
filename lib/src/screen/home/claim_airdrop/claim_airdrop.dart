@@ -176,13 +176,21 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       bool isAlready = false;
 
       Worksheet? worksheet = await ss.worksheetByTitle('Sheet1');
-
+      print("allColumns");
       // Fetch All Sheets Column
-      await worksheet!.values.allColumns(fromColumn: 2).then((value) async {
+      await worksheet!.values.allColumns().then((value) async {
 
         // Work on column 0 "address"
         for(int i = 0 ; i < value[0].length; i++){
-          if (value[0][i] == api.accountM.address){
+          if (value[0][i] == api.getKeyring.current.pubKey){
+            isAlready = true;
+          }
+
+          if (isAlready == true) break;
+          
+        }
+        for(int i = 0 ; i < value[1].length; i++){
+          if (value[1][i] == api.accountM.address){
             isAlready = true;
           }
 
@@ -193,7 +201,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
       if (isAlready == false){
         var sheet = ss.worksheetByTitle('Sheet1');
-        sheet!.values.appendRow(['', api.accountM.address, timeStamp]);
+        sheet!.values.appendRow([api.getKeyring.current.pubKey, api.accountM.address, timeStamp]);
         await enableAnimation();
 
       } else {
@@ -319,7 +327,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     setState(() {
       _submitted = true;
     });
-    await StorageServices.setUserID('claim', 'claim');
+    await StorageServices.setUserID('claim', DbKey.claim);
     // Provider.of<ContractProvider>(context, listen: false).getBscBalance();
     // Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
@@ -515,12 +523,12 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                             Positioned(
                                               left: 20,
                                               top: 15,
-                                              child: SvgPicture.asset("assets/illustration/cloud1.svg", width: 50, height: 30),
+                                              child: SvgPicture.asset(AppConfig.illustrationsPath+"cloud1.svg", width: 50, height: 30),
                                             ),
                                             Positioned(
                                               right: 10,
                                               bottom: 15,
-                                              child: SvgPicture.asset("assets/illustration/cloud2.svg", width: 50, height: 30),
+                                              child: SvgPicture.asset(AppConfig.illustrationsPath+"cloud2.svg", width: 50, height: 30),
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
@@ -659,7 +667,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                       Expanded(
                         child: CustomAnimation.flareAnimation(
                           flareController,
-                          "assets/animation/check.flr",
+                          AppConfig.animationPath+"check.flr",
                           "Checkmark",
                         ),
                       ),

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 import 'package:wallet_apps/src/service/native.dart';
 import 'package:web3dart/web3dart.dart';
@@ -87,7 +88,7 @@ class TrxFunctional {
   }
 
   Future<void> saveTxHistory(TxHistory txHistory) async {
-    await StorageServices.addTxHistory(txHistory, 'txhistory');
+    await StorageServices.addTxHistory(txHistory, DbKey.txtHistory);
   }
 
   /* ------------------Transaction--------------- */
@@ -209,7 +210,7 @@ class TrxFunctional {
 
           if (hash != null) {
             txInfo.hash = hash;
-            txInfo.scanUrl = AppConfig.networkList[3].scanMn! + txInfo.hash!;
+            txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
             txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
 
             await navigateAssetInfo(txInfo, tokenService: tokenService);
@@ -762,16 +763,13 @@ class TrxFunctional {
       switch (asset) {
         
         case 'BTC':
-          marketPrice = contract.listContract[6].marketData!.currentPrice!;
+          marketPrice = contract.listContract[api!.btcIndex].marketData!.currentPrice!;
           break;
         case 'ETH':
-          marketPrice = contract.listContract[3].marketData!.currentPrice!;
+          marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
           break;
-        // case 'SEL':
-        //   marketPrice = null;
-        //   break;
         default:
-          marketPrice = contract.listContract[4].marketData!.currentPrice!;
+          marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
 
@@ -795,19 +793,19 @@ class TrxFunctional {
     switch (asset) {
       
       case 'KGO (BEP-20)':
-        marketPrice = contract.listContract[2].marketData!.currentPrice!;
+        marketPrice = contract.listContract[api!.kgoIndex].marketData!.currentPrice!;
         break;
       case 'ETH':
-        marketPrice = contract.listContract[3].marketData!.currentPrice!;
+        marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
         break;
       case 'BNB':
-        marketPrice = contract.listContract[4].marketData!.currentPrice!;
+        marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
         break;
       case 'DOT':
-        marketPrice = contract.listContract[5].marketData!.currentPrice!;
+        marketPrice = contract.listContract[api!.dotIndex].marketData!.currentPrice!;
         break;
       case 'BTC':
-        marketPrice = contract.listContract[6].marketData!.currentPrice!;
+        marketPrice = contract.listContract[api!.btcIndex].marketData!.currentPrice!;
         break;
       default:
         estPrice = '\$0.00';
@@ -847,10 +845,10 @@ class TrxFunctional {
 
           break;
         case 'SEL v2 (BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[1].address!, reciever, amount);
+          maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV2Index].address!, reciever, amount);
           break;
         case 'KGO (BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[2].address!, reciever, amount);
+          maxGas = await contract.getBep20MaxGas(contract.listContract[api.kgoIndex].address!, reciever, amount);
           break;
         case 'BNB':
           maxGas = await contract.getBnbMaxGas(reciever, amount);

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/components/component.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import '../../../../index.dart';
@@ -75,7 +76,7 @@ class _AssetInfoState extends State<AssetInfo> {
   }
 
   Future<List<TxHistory>> readTxHistory() async {
-    await StorageServices.fetchData('txhistory').then((value) {
+    await StorageServices.fetchData(DbKey.txtHistory).then((value) {
       if (value != null) {
         for (final i in value) {
           // ignore: unnecessary_parenthesis
@@ -131,7 +132,7 @@ class _AssetInfoState extends State<AssetInfo> {
   }
 
   Future<void> clearOldHistory() async {
-    await StorageServices.removeKey('txhistory');
+    await StorageServices.removeKey(DbKey.txtHistory);
   }
 
   Future<void> refresh() async {
@@ -274,6 +275,8 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   void initState() {
+    print(widget.scModel!.symbol);
+    print(widget.scModel!.address);
     _globalKey = GlobalKey<ScaffoldState>();
 
     if (widget.showActivity != null) {
@@ -532,13 +535,15 @@ class _AssetInfoState extends State<AssetInfo> {
                                   child: FlatButton(
                                     onPressed: () async {
                                       if(widget.scModel!.symbol != 'ATT') {
-                                        if (widget.scModel!.symbol == 'BTC') {
-                                          widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-                                        } else if (widget.scModel!.org == 'Testnet' || widget.scModel!.symbol == 'DOT'){
-                                          widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-                                        } else {
-                                          widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-                                        }
+                                        // if (widget.scModel!.symbol == 'BTC') {
+                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+                                        // } else if (widget.scModel!.org == 'Testnet'){
+                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+                                        // } else if ( widget.scModel!.symbol != 'DOT'){
+                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+                                        // } else {
+                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
+                                        // }
                                         setState(() { });
                                         AssetInfoC().showRecieved(
                                           context,
@@ -680,7 +685,7 @@ class _AssetInfoState extends State<AssetInfo> {
                       : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: Center(
                     child: SvgPicture.asset(
-                      'assets/icons/no_data.svg',
+                      AppConfig.iconsPath+'no_data.svg',
                       width: 150,
                       height: 150,
                     ),
@@ -693,11 +698,12 @@ class _AssetInfoState extends State<AssetInfo> {
                           ? hexaCodeToColor(AppColors.darkCard)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
-                            child: SvgPicture.asset(
-                          'assets/icons/no_data.svg',
-                          width: 150,
-                          height: 150,
-                        )),
+                          child: SvgPicture.asset(
+                            AppConfig.iconsPath+'no_data.svg',
+                            width: 150,
+                            height: 150,
+                          )
+                        ),
                       )
                     : Container(
                         color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),

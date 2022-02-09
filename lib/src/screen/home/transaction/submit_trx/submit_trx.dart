@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
@@ -276,7 +277,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       trxFunc!.api = Provider.of<ApiProvider>(context, listen: false);
 
-      trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : 'private');
+      trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
       await dialogBox().then((String? resPin) async {
@@ -507,7 +508,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                   Expanded(
                     child: CustomAnimation.flareAnimation(
                       flareController,
-                      "assets/animation/check.flr",
+                      AppConfig.animationPath+"check.flr",
                       "Checkmark",
                     ),
                   ),

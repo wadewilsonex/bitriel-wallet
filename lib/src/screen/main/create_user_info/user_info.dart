@@ -5,6 +5,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 // import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
@@ -80,7 +81,7 @@ class MyUserInfoState extends State<MyUserInfo> {
               setState(() {
                 _menuModel.switchBio = switchValue;
               });
-              await StorageServices.removeKey('bio');
+              await StorageServices.removeKey(DbKey.bio);
             }
           });
         }
@@ -228,7 +229,7 @@ class MyUserInfoState extends State<MyUserInfo> {
       await ContractProvider().extractAddress(_resPk);
 
       final res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
-      await StorageServices().writeSecure('private', res);
+      await StorageServices().writeSecure(DbKey.private, res);
 //1
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
@@ -294,27 +295,29 @@ class MyUserInfoState extends State<MyUserInfo> {
     accM.name = api.getKeyring.allAccounts[0].name;
     accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
     api.setAccount(accM);
+    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
 
   Future<void> queryBtcData() async {
 
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
     
     try {
       final seed = bip39.mnemonicToSeed(widget.passPhrase);
       final hdWallet = HDWallet.fromSeed(seed);
       
-      contractPro.listContract[6].address = hdWallet.address!;
+      contractPro.listContract[api.btcIndex].address = hdWallet.address!;
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
       final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-      await StorageServices.storeData(bech32Address, 'bech32');
-      await StorageServices.storeData(hdWallet.address, 'hdWallet');
+      await StorageServices.storeData(bech32Address, DbKey.bech32);
+      await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
 
-      final res = await Provider.of<ApiProvider>(context, listen: false).encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
+      final res = await api.encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
 
-      await StorageServices().writeSecure('btcwif', res);
+      await StorageServices().writeSecure(DbKey.btcwif, res);
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 

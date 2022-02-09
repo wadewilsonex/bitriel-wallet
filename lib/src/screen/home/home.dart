@@ -27,11 +27,10 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   @override
   void initState() {
-    // StorageServices().clearSecure();
-    // StorageServices().clearStorage();
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
+    // init();
     event();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
@@ -46,11 +45,26 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     WidgetsBinding.instance!.addObserver(this);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Provider.of<ContractProvider>(context, listen: false)
-          .subscribeBscbalance(context);
-      await Provider.of<ContractProvider>(context, listen: false)
-          .subscribeEthbalance();
+      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
+  }
+
+  init() async {
+
+    ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
+
+      await _api.getSdk.api.keyring.deleteAccount(
+        _api.getKeyring,
+        _api.getKeyring.current,
+      );
+
+      print("\n\nimported your account.\n\n");
+
+      await StorageServices().clearSecure();
+
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
+
   }
 
   Future<void> event() async {
@@ -66,7 +80,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               content: Stack(
                 children: [
-                  Image.asset("assets/event.png", fit: BoxFit.cover,),
+                  Image.asset(AppConfig.assetsPath+"event.png", fit: BoxFit.cover,),
                   IconButton(
                     onPressed: () async {
                       await StorageServices.storeData(true, DbKey.event);
@@ -202,20 +216,20 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   }
 
   Future<void> onClosed() async {
-    await StorageServices.setUserID('claim', 'claim');
+    await StorageServices.setUserID('claim', DbKey.claim);
     Navigator.pop(context);
   }
 
   Future<void> onClaim() async {
     Navigator.pop(context);
-    await StorageServices.setUserID('claim', 'claim');
+    await StorageServices.setUserID('claim', DbKey.claim);
     Navigator.push(context, RouteAnimation(enterPage: ClaimAirDrop()));
   }
 
   Future<void> handle() async {
     Navigator.of(context).pop();
     Timer(const Duration(seconds: 1), () async {
-      PortfolioServices().setPortfolio(context);
+      // PortfolioServices().setPortfolio(context);
       showAirdrop();
     });
   }
@@ -236,7 +250,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
     setState(() {});
 
-    await PortfolioServices().setPortfolio(context);
+    // await PortfolioServices().setPortfolio(context);
 
     await ContractsBalance().refetchContractBalance(context: context);
 
@@ -283,7 +297,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
           );
         },
         child: SvgPicture.asset(
-          'assets/icons/qr_code.svg',
+          AppConfig.iconsPath+'qr_code.svg',
           width: 30,
           height: 30,
           color: Colors.white,

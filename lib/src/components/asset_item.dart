@@ -53,9 +53,9 @@ class AssetItem extends StatelessWidget {
                   Flexible(
                     child: Text.rich(
                       TextSpan(
-                        text: scModel!.symbol != null ? '${scModel!.symbol}' : '',
+                        text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: hexaCodeToColor(isDarkTheme
                             ? AppColors.whiteColorHexa
@@ -66,7 +66,7 @@ class AssetItem extends StatelessWidget {
                           TextSpan(
                             text: scModel!.name!,
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: hexaCodeToColor(isDarkTheme
                                 ? AppColors.darkSecondaryText
@@ -81,7 +81,8 @@ class AssetItem extends StatelessWidget {
 
                   if (scModel!.marketPrice!.isEmpty)
                     MyText(
-                      text: scModel!.org,
+                      top: 4.0,
+                      text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
@@ -89,51 +90,47 @@ class AssetItem extends StatelessWidget {
                         : AppColors.darkSecondaryText,
                     )
                   else
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
 
-                        MyText(
-                          text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '',
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.darkSecondaryText,
-                        ),
-
-                        const SizedBox(width: 6.0),
-                        scModel!.change24h != null && scModel!.change24h != ''
-                        ? Flexible(
-                          child: MyText(
-                            text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: double.parse(scModel!.change24h!).isNegative
-                              ? '#FF0000'
-                              : isDarkTheme
+                          const SizedBox(width: 6.0),
+                          scModel!.change24h != null && scModel!.change24h != ''
+                          ? Flexible(
+                            child: MyText(
+                              text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: double.parse(scModel!.change24h!).isNegative
+                                ? '#FF0000'
+                                : isDarkTheme
+                                  ? '#00FF00'
+                                  : '#66CD00',
+                            ),
+                          )
+                          : Flexible(
+                            child: MyText(
+                              text: scModel!.change24h,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkTheme
                                 ? '#00FF00'
                                 : '#66CD00',
+                            ),
                           ),
-                        )
-                        : Flexible(
-                          child: MyText(
-                            text: scModel!.change24h,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isDarkTheme
-                              ? '#00FF00'
-                              : '#66CD00',
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                 ],
               ),
             ),
 
             // Graph Chart
-            Container(
+            Expanded(
+              flex: 1,
+              child: Container(
               padding: EdgeInsets.only(left: 5, right: 10),
               height: 50,
               width: MediaQuery.of(context).size.width / 3.5,
@@ -143,7 +140,7 @@ class AssetItem extends StatelessWidget {
                 : LineChart(mainData(context))
               // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
               
-            ),
+            )),
 
             // Total Amount
             Column(
@@ -152,7 +149,7 @@ class AssetItem extends StatelessWidget {
               children: [
                 MyText(
                   // width: double.infinity,
-                  text: double.parse(scModel!.balance!).toStringAsFixed(6),
+                  text: double.parse(scModel!.balance!).toStringAsFixed(4),
                   textAlign: TextAlign.right,
                   fontWeight: FontWeight.bold,
                   color: isDarkTheme
@@ -160,6 +157,14 @@ class AssetItem extends StatelessWidget {
                     : AppColors.textColor,
                   bottom: 4.0,
                 ),
+                MyText(
+                  text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkTheme
+                    ? AppColors.darkSecondaryText
+                    : AppColors.darkSecondaryText,
+                )
               ],
             ),
           ],

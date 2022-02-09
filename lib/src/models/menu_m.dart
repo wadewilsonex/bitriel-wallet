@@ -9,49 +9,49 @@ class MenuModel {
 
   Map result = {};
 
-  static const List listTile = [
+  static List listTile = [
     {
       'title': "History",
       'sub': [
-        {'icon': "assets/icons/history.svg", 'subTitle': 'History'},
-        {'icon': "assets/icons/history.svg", 'subTitle': 'Activity'}
+        {'icon': AppConfig.iconsPath+"history.svg", 'subTitle': 'History'},
+        {'icon': AppConfig.iconsPath+"history.svg", 'subTitle': 'Activity'}
       ]
     },
     {
       'title': "Wallet",
       'sub': [
-        {'icon': "assets/icons/wallet.svg", 'subTitle': 'Wallet'},
-        {'icon': "assets/icons/plus.svg", 'subTitle': 'Asset'}
+        {'icon': AppConfig.iconsPath+"wallet.svg", 'subTitle': 'Wallet'},
+        {'icon': AppConfig.iconsPath+"plus.svg", 'subTitle': 'Asset'}
       ]
     },
     {
       'title': "SEL Events",
       'sub': [
-        {'icon': "assets/icons/form.svg", 'subTitle': 'Claim SEL'},
-        {'icon': "assets/icons/form.svg", 'subTitle': 'Claim KGO'},
-        {'icon': "assets/icons/add_people.svg", 'subTitle': 'Invite Friends'},
-        {'icon': "assets/icons/swap.svg", 'subTitle': 'Swap SEL v2'},
-        {'icon': "assets/icons/presale.svg", 'subTitle': 'Presale SEL'},
+        {'icon': AppConfig.iconsPath+"form.svg", 'subTitle': 'Claim SEL'},
+        {'icon': AppConfig.iconsPath+"form.svg", 'subTitle': 'Claim KGO'},
+        {'icon': AppConfig.iconsPath+"add_people.svg", 'subTitle': 'Invite Friends'},
+        {'icon': AppConfig.iconsPath+"swap.svg", 'subTitle': 'Swap SEL v2'},
+        {'icon': AppConfig.iconsPath+"presale.svg", 'subTitle': 'Presale SEL'},
       ]
     },
     {
       'title': "Security",
       'sub': [
-        {'icon': "assets/icons/password.svg", 'subTitle': 'Passcode'},
-        {'icon': "assets/icons/finger_print.svg", 'subTitle': 'Fingerprint'}
+        {'icon': AppConfig.iconsPath+"password.svg", 'subTitle': 'Passcode'},
+        {'icon': AppConfig.iconsPath+"finger_print.svg", 'subTitle': 'Fingerprint'}
       ]
     },
     {
       'title': "Display",
       'sub': [
-        {'icon': "assets/icons/moon.svg", 'subTitle': 'Dark Mode'},
+        {'icon': AppConfig.iconsPath+"moon.svg", 'subTitle': 'Dark Mode'},
       ]
     },
     {
       'title': "About",
       'sub': [
-        {'icon': "assets/icons/info.svg", 'subTitle': 'About'},
-        // {'icon': "assets/icons/edit_user.svg", 'subTitle': 'Term of Use'},
+        {'icon': AppConfig.iconsPath+"info.svg", 'subTitle': 'About'},
+        // {'icon': AppConfig.iconsPath+"edit_user.svg", 'subTitle': 'Term of Use'},
       ]
     },
   ];

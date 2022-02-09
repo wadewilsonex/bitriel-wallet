@@ -244,7 +244,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                     height: 28,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/tick.svg',
+                    AppConfig.iconsPath+'tick.svg',
                     height: 100,
                     width: 100,
                   ),

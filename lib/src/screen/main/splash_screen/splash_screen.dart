@@ -27,11 +27,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
 
-        await StorageServices().readSecure('private')!.then((String value) async {
+        await StorageServices().readSecure(DbKey.private)!.then((String value) async {
           if (value.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
           } else {
-            final ethAddr = await StorageServices().readSecure('etherAdd');
+            final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
             if (ethAddr == '') {
               await dialogSuccess(
@@ -71,14 +71,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
-
-    print("checkbio");
     
     final bio = await StorageServices.readSaveBio();
 
-    final passCode = await StorageServices().readSecure('passcode');
-    print(bio);
-    print(passCode);
+    final passCode = await StorageServices().readSecure(DbKey.passcode);
 
     if (bio == false && passCode != '') {
       Navigator.pushReplacement(

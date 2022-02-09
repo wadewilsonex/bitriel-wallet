@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class PortfolioRateModel {
 
@@ -13,9 +14,9 @@ class PortfolioRateModel {
     if (current != comingData){
       if (current != 0) {
         totalRate = comingData.round()-current.round();
-        await StorageServices.storeData(totalRate, 'total_rate');
+        await StorageServices.storeData(totalRate, DbKey.totalRate);
       }
-      await StorageServices.storeData(comingData, 'current_amount');
+      await StorageServices.storeData(comingData, DbKey.currentAmount);
     }
     // No Transaction That Make Value Change And Display Previous Rate
     else {
@@ -26,14 +27,14 @@ class PortfolioRateModel {
   }
 
   Future<double> getCurrentData() async {
-    await StorageServices.fetchData('current_amount').then((value) {
+    await StorageServices.fetchData(DbKey.currentAmount).then((value) {
       currentData = double.parse(value.toString());
     });
     return currentData;
   }
   
   Future<int> getCurrentTotalRate() async {
-    await StorageServices.fetchData('total_rate').then((value) {
+    await StorageServices.fetchData(DbKey.totalRate).then((value) {
   
       totalRate = int.parse(value.toString());
     });

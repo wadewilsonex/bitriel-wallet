@@ -177,8 +177,7 @@ class BodyPresale extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                     color: AppColors.greyCode,
                                     fontWeight: FontWeight.w700,
-                                    text:
-                                        "Balance: ${contract.listContract[4].balance}"),
+                                    text: "Balance: ${contract.listContract[ApiProvider().bnbIndex].balance}"),
                               ),
 
                               // Field Amount And Token Symbol

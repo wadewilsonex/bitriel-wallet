@@ -1,4 +1,6 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/service/contract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class Attendance extends ChangeNotifier {
@@ -6,10 +8,19 @@ class Attendance extends ChangeNotifier {
   String _atdContract = "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26";
 
   DeployedContract? attDeployContract;
+
+  ContractService? contractService;
+
+  ContractProvider? _contractProvider;
+  ApiProvider? _apiProvider;
   
-  Future<DeployedContract?> initAttContract() async {
+  // Second Run
+  Future<DeployedContract?> initAttContract({@required BuildContext? context}) async {
+
+    _contractProvider = Provider.of<ContractProvider>(context!, listen: false);
+    _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final String abiCode = await rootBundle.loadString('assets/abi/atd.json');
+      final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'abi/atd.json');
       final contract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'ATTToken'),
         EthereumAddress.fromHex(_atdContract),
@@ -23,16 +34,25 @@ class Attendance extends ChangeNotifier {
     return null;
   }
 
+  // Third Run
+  Future<void> getChainDecimal({@required BuildContext? context, DeployedContract? deployedContract}) async {
+    try {
+      contractService = ContractService(_contractProvider!.bscClient, deployedContract!);
+      BigInt decimal = await contractService!.getChainDecimal();
+      _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal = decimal.toString();
+    } catch (e) {
+
+    }
+  }
+
+  // First Run
   Future<double?> getAttBalance({@required BuildContext? context}) async {
     try {
 
-      final contractPro = Provider.of<ContractProvider>(context!, listen: false);
+      attDeployContract = await initAttContract(context: context);
+      await getChainDecimal(context: context, deployedContract: attDeployContract);
 
-      // print(contractPro.listContract.length);
-
-      attDeployContract = await initAttContract();
-
-      final myAddr = await StorageServices().readSecure('etherAdd');
+      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
       if (myAddr != ''){
         final balance = await ContractProvider().query(
           _atdContract,
@@ -40,12 +60,11 @@ class Attendance extends ChangeNotifier {
           [EthereumAddress.fromHex(myAddr!)],
         ); //.balance = balance.toString();
 
-        contractPro.listContract[7].balance = balance[0].toString();
-        
-        contractPro.listContract[7].lineChartModel = LineChartModel().prepareGraphChart(contractPro.listContract[7]);
+        _contractProvider!.listContract[_apiProvider!.attIndex].balance = balance[0].toString();
+        _contractProvider!.listContract[_apiProvider!.attIndex].lineChartModel = LineChartModel().prepareGraphChart(_contractProvider!.listContract[_apiProvider!.attIndex]);
         
         notifyListeners();
-        return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
+        return Fmt.bigIntToDouble(balance[0] as BigInt, int.parse(_contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!));
       }
     } catch (e) {
       print("Err checkBalanceAdd $e");

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.2.2+49
+version: 3.2.4+59
 #6 feature
 #8 debug
 #1 refactor
@@ -96,7 +96,10 @@ dependencies:
   flutter_launcher_icons:
   url_launcher:
   loading_indicator:
-  # flutter_aes_ecb_pkcs5_fork: ^0.1.4
+  
+  # Download
+  # path_provider:
+  # downloads_path_provider_28:
   
 dependency_overrides:
     # git:
@@ -123,14 +126,14 @@ flutter_native_splash:
   color: "#F5F5F5"
   color_dark: "#090D28"
   
-  image: assets/bitriel_splash_500.png
+  image: ../assets/bitriel_splash_500.png
   android: true
   ios: true
  
 
 # Run command: flutter pub run flutter_launcher_icons:main 
 flutter_icons:
-  image_path: "assets/bitriel_icon.png"
+  image_path: "../assets/bitriel_icon.png"
   ios: true
   android: true
 
@@ -151,16 +154,26 @@ flutter:
   #  - images/a_dot_ham.jpeg
 
   assets:
-    - assets/
-    - assets/abi/
-    - assets/icons/
-    - assets/token_logo/
-    - assets/json/
-    - assets/logo/
-    - assets/illustration/
+    # - assets/
+    # - assets/github/
+    # - assets/abi/
+    # - assets/icons/
+    # - assets/token_logo/
+    # - assets/json/
+    # - assets/logo/
+    # - assets/illustration/
 
+    - ../assets/
+    - ../assets/github/
+    - ../assets/abi/
+    - ../assets/icons/
+    - ../assets/token_logo/
+    - ../assets/json/
+    - ../assets/logo/
+    - ../assets/illustration/
+    
     # Animation Flare
-    - assets/animation/
+    - ../assets/animation/
     - lib/src/js_api/
     - lib/src/js_api/dist/main.js
 
@@ -178,11 +191,11 @@ flutter:
   fonts:
     - family: Montserrat
       fonts: 
-        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
-        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+        - asset: ../assets/fonts/montserrat/Montserrat-Regular.ttf
+        - asset: ../assets/fonts/montserrat/Montserrat-Regular.ttf
     - family: Avenir
       fonts:
-        - asset: assets/fonts/avenir_ff/AvenirLTStd-Roman.otf
+        - asset: ../assets/fonts/avenir_ff/AvenirLTStd-Roman.otf
         
   uses-material-design: true
   # fonts:

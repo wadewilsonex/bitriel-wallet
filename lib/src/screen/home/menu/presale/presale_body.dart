@@ -300,7 +300,7 @@ class _PresaleBodyState extends State<PresaleBody> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                            'assets/SelendraCircle-Blue.png',
+                                            AppConfig.assetsPath+'SelendraCircle-Blue.png',
                                             height: 30,
                                             width: 30),
                                         SizedBox(width: 6.0),

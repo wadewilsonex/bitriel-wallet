@@ -441,7 +441,7 @@ class MyIconButton extends StatelessWidget {
         onPressed!();
       },
       child: SvgPicture.asset(
-        'assets/icons/$icon',
+        AppConfig.iconsPath+'$icon',
         width: iconSize ?? 30,
         height: iconSize ?? 30,
         color: isDarkTheme ? Colors.white : Colors.black,

@@ -177,32 +177,32 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<void> signIn() async {
-    try {
-      await http.post(
-        Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
-        headers: {"Content-Type": "application/json; charset=utf-8"},
-        body: json.encode({
-          "email": "${_apiProvider!.accountM.address}@gmail.com",
-          "password": '123456',
-        })
-      ).then((value) async {
-        final res = json.decode(value.body);
-        if (res['success'] == false){
-          await signUp();
-        } else {
-          setToken = res['token'];
-          await StorageServices.storeData(res, DbKey.token);
-        }
-      });
+    // try {
+    //   await http.post(
+    //     Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
+    //     headers: {"Content-Type": "application/json; charset=utf-8"},
+    //     body: json.encode({
+    //       "email": "${_apiProvider!.accountM.address}@gmail.com",
+    //       "password": '123456',
+    //     })
+    //   ).then((value) async {
+    //     final res = json.decode(value.body);
+    //     if (res['success'] == false){
+    //       await signUp();
+    //     } else {
+    //       setToken = res['token'];
+    //       await StorageServices.storeData(res, DbKey.token);
+    //     }
+    //   });
 
-      // var db = Db(AppConfig.mongoUrl);
-      // await db.open().then((value) {
-      //   print("Hello my db openDb $value");
-      // });
-      // print("Done connect to mongo");
-    } catch (e) {
-      print("Error signIn $e");
-    }
+    //   // var db = Db(AppConfig.mongoUrl);
+    //   // await db.open().then((value) {
+    //   //   print("Hello my db openDb $value");
+    //   // });
+    //   // print("Done connect to mongo");
+    // } catch (e) {
+    //   print("Error signIn $e");
+    // }
   }
 
   Future<dynamic> encodeRS(BuildContext context, String r, String s) async {

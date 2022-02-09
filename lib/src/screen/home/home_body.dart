@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/effect_c.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';

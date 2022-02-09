@@ -42,7 +42,7 @@ export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/sms_component.dart';
 export 'package:wallet_apps/src/components/trx_component.dart';
 export 'package:wallet_apps/src/components/trx_option_c.dart';
-export 'package:wallet_apps/src/config/app_config.dart';
+export 'package:wallet_apps/src/config/.app_config.dart';
 export 'package:wallet_apps/src/config/size_config/size_config.dart';
 export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
@@ -94,7 +94,7 @@ export 'package:wallet_apps/src/screen/home/home.dart';
 export 'package:wallet_apps/src/screen/home/home.dart';
 export 'package:wallet_apps/src/screen/home/home_body.dart';
 export 'package:wallet_apps/src/screen/home/home_body.dart';
-export 'package:wallet_apps/src/screen/home/menu/account.dart';
+export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
 export 'package:wallet_apps/src/screen/home/claim_airdrop/claim_airdrop.dart';
 export 'package:wallet_apps/src/screen/home/claim_airdrop/invite_friend.dart';
@@ -105,10 +105,10 @@ export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset_body.dart';
 /* Menu Screen */
 export 'package:wallet_apps/src/screen/home/menu/menu.dart';
 export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
+export 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
 
 export 'package:wallet_apps/src/screen/home/menu/about.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap.dart';
+export 'package:wallet_apps/src/screen/home/menu/swap/swap.dart';
 
 //Transaction confirmation
 export 'package:wallet_apps/src/models/trx_info.dart';

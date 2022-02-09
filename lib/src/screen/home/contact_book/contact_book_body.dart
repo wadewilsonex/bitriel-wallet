@@ -76,7 +76,7 @@ class _ContactBookBodyState extends State<ContactBookBody> {
           child: widget.model!.contactBookList == null
               ? Center(
                   child: SvgPicture.asset(
-                    'assets/icons/no_data.svg',
+                    AppConfig.iconsPath+'no_data.svg',
                     width: 180,
                     height: 180,
                   ),
@@ -198,8 +198,7 @@ class _ContactBookBodyState extends State<ContactBookBody> {
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
-                                        child: SvgPicture.asset(
-                                            'assets/male_avatar.svg'),
+                                        child: SvgPicture.asset(AppConfig.assetsPath+'male_avatar.svg'),
                                       ),
                                       Column(
                                         crossAxisAlignment:

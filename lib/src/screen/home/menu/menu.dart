@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class Menu extends StatefulWidget {
   final Map<String, dynamic> _userData;
@@ -40,7 +41,7 @@ class MenuState extends State<Menu> {
 
   Future<void> checkPasscode() async {
 
-    final res = await StorageServices().readSecure('passcode');
+    final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res != '') {
       setState(() {
@@ -50,7 +51,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkAvailableBio() async {
-    await StorageServices.fetchData('biometric').then(
+    await StorageServices.fetchData(DbKey.biometric).then(
       (value) {
         if (value != null) {
           if (value['bio'] == true) {
@@ -73,6 +74,7 @@ class MenuState extends State<Menu> {
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> switchBiometric(BuildContext context, bool switchValue) async {
+    print("switchBiometric");
     try {
       final canCheck = await AppServices().checkBiometrics(context);
 
@@ -100,7 +102,7 @@ class MenuState extends State<Menu> {
               setState(() {
                 _menuModel.switchBio = switchValue;
               });
-              await StorageServices.removeKey('bio');
+              await StorageServices.removeKey(DbKey.bio);
             }
           });
         }

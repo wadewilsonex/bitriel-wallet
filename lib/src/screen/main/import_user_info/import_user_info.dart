@@ -70,36 +70,43 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
+      print(_api.getKeyring.allAccounts[0].address);
+      print(_api.getKeyring.allAccounts[0].icon);
+      print(_api.getKeyring.allAccounts[0].name);
+      print(_api.getKeyring.allAccounts[0].pubKey);
+
+      await _api.connectSELNode(context: context);
+      
       _setAcc(_api);
 
       final _resPk = await _api.getPrivateKey(widget.passPhrase);
-      
-      print("Get private key _resPk $_resPk");
       
       await ContractProvider().extractAddress(_resPk);
 
       final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
       
-      await StorageServices().writeSecure('private', _res);
+      await StorageServices().writeSecure(DbKey.private, _res);
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
       await queryBtcData();
       
+      await _api.connectPolNon(context: context);
+
       await ContractsBalance().getAllAssetBalance(context: context);
       
-      await _api.getSdk.api.keyring.deleteAccount(
-        _api.getKeyring,
-        _api.getKeyring.current,
-      );
+      // await _api.getSdk.api.keyring.deleteAccount(
+      //   _api.getKeyring,
+      //   _api.getKeyring.current,
+      // );
 
-      print("\n\nimported your account.\n\n");
+      // print("\n\nimported your account.\n\n");
 
-      await StorageServices().clearSecure();
+      // await StorageServices().clearSecure();
 
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
+      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
 
-      // await successDialog(context, "imported your account.");
+      await successDialog(context, "imported your account.");
     } catch (e) {
 
       Navigator.pop(context);
@@ -157,6 +164,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     accM.name = api.getKeyring.allAccounts[0].name;
     accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
     api.setAccount(accM);
+
+    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
 
   // Future<void> encryptSeedAndSave(String? pubKey, seed, KeyType seedType, password) async {
@@ -187,7 +196,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> getEtherSavedContractToken() async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('ethContractList');
+    final res = await StorageServices.fetchData(DbKey.ethContractList);
 
     if (res != null) {
       for (final i in res) {
@@ -219,17 +228,17 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       final seed = bip39.mnemonicToSeed(widget.passPhrase);
       final hdWallet = HDWallet.fromSeed(seed);
       
-      contractPro.listContract[6].address = hdWallet.address!;
+      contractPro.listContract[ApiProvider().btcIndex].address = hdWallet.address!;
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
       final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-      await StorageServices.storeData(bech32Address, 'bech32');
-      await StorageServices.storeData(hdWallet.address, 'hdWallet');
+      await StorageServices.storeData(bech32Address, DbKey.bech32);
+      await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
 
       final res = await Provider.of<ApiProvider>(context, listen: false).encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
 
-      await StorageServices().writeSecure('btcwif', res);
+      await StorageServices().writeSecure(DbKey.btcwif, res);
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
@@ -267,7 +276,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
               setState(() {
                 _menuModel!.switchBio = switchValue;
               });
-              await StorageServices.removeKey('bio');
+              await StorageServices.removeKey(DbKey.bio);
             }
           });
         }

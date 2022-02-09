@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/presale_body.dart';
@@ -154,7 +155,7 @@ class _PresaleState extends State<Presale> {
 
   Future<String>? getPrivateKey(String pin) async {
     String? privateKey;
-    final encryptKey = await StorageServices().readSecure('private');
+    final encryptKey = await StorageServices().readSecure(DbKey.private);
     try {
       if (encryptKey != ''){
         privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encryptKey!, pin);
@@ -259,7 +260,7 @@ class _PresaleState extends State<Presale> {
                     height: MediaQuery.of(context).size.width * 0.08,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/tick.svg',
+                    AppConfig.iconsPath+'tick.svg',
                     height: 100,
                     width: 100,
                   ),

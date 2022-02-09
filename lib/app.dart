@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
+import 'package:http/http.dart' as _http;
 
 final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
@@ -37,6 +40,13 @@ class AppState extends State<App> {
   Future<void> initApi() async {
 
     try {
+      print('githubApi');
+      await _http.get(Uri.parse(Api().githubApi+"abi")).then((value) {
+        print(json.decode(value.body)[0]['download_url']);
+        
+      });
+
+      await downloadFile();
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
@@ -54,6 +64,16 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+          // await apiProvider.getSdk.api.keyring.deleteAccount(
+          //   apiProvider.getKeyring,
+          //   apiProvider.getKeyring.current,
+          // );
+
+          // print("\n\nimported your account.\n\n");
+
+          // await StorageServices().clearSecure();
+
+          // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
 
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
@@ -65,12 +85,12 @@ class AppState extends State<App> {
     }
   }
 
-  // void selV2() async {
-  //   Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-  //     'SEL v2 (BEP-20)',
-  //   );
-  // }
+  Future<void> downloadFile() async {
+
+    var dir = await getApplicationDocumentsDirectory();
+
+    print(dir);
+  }
 
   Future<void> readTheme() async {
     try {
@@ -111,7 +131,7 @@ class AppState extends State<App> {
 
   Future<void> getEtherSavedContractToken() async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('ethContractList');
+    final res = await StorageServices.fetchData(DbKey.ethContractList);
     if (res != null) {
       
       for (final i in res) {
@@ -133,9 +153,9 @@ class AppState extends State<App> {
   }
 
   clearOldBtcAddr() async {
-    final res = await StorageServices.fetchData('btcaddress');
+    final res = await StorageServices.fetchData(DbKey.btcAddr);
     if (res != null) {
-      await StorageServices.removeKey('btcaddress');
+      await StorageServices.removeKey(DbKey.btcAddr);
     }
   }
 

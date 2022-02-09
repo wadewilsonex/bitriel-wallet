@@ -333,7 +333,7 @@ class AddAssetState extends State<AddAsset> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: CustomAnimation.flareAnimation(_flareController, "assets/animation/check.flr", "Checkmark"),
+                    child: CustomAnimation.flareAnimation(_flareController, AppConfig.animationPath+"check.flr", "Checkmark"),
                   ),
                 ],
               ),
