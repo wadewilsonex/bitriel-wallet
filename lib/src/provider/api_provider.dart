@@ -103,7 +103,8 @@ class ApiProvider with ChangeNotifier {
 
       // final res = await _sdk.webView!.evalJavascript("settings.connect(${jsonEncode([node].map((e) => e.endpoint).toList())})");
 
-      if (res != true) await getSelNativeChainDecimal(context: context!);
+      // if (res != null) 
+      await getSelNativeChainDecimal(context: context!);
 
       notifyListeners();
 
@@ -264,6 +265,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<dynamic> getAddressUxto(String address) async {
+    print("getAddressUxto $address");
     try {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));

@@ -13,6 +13,10 @@ class AssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (scModel!.symbol == "SEL"){
+      print(scModel!.symbol);
+      print(scModel!.balance);
+    }
 
     // if (scModel.balance != AppString.loadingPattern && scModel.marketPrice != null) {
     //   var res = double.parse(scModel.balance) * double.parse(scModel.marketPrice);
@@ -129,7 +133,6 @@ class AssetItem extends StatelessWidget {
 
             // Graph Chart
             Expanded(
-              flex: 1,
               child: Container(
               padding: EdgeInsets.only(left: 5, right: 10),
               height: 50,
@@ -149,13 +152,14 @@ class AssetItem extends StatelessWidget {
               children: [
                 MyText(
                   // width: double.infinity,
-                  text: double.parse(scModel!.balance!).toStringAsFixed(4),
+                  text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                   textAlign: TextAlign.right,
                   fontWeight: FontWeight.bold,
                   color: isDarkTheme
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   bottom: 4.0,
+                  overflow: TextOverflow.fade,
                 ),
                 MyText(
                   text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',

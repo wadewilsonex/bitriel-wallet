@@ -360,6 +360,8 @@ class ContractProvider with ChangeNotifier {
       if (sortListContract.isNotEmpty) {
         SmartContractModel tmp = SmartContractModel();
         for (int i = 0; i < sortListContract.length; i++) {
+          print(sortListContract[i].symbol);
+          print(sortListContract[i].balance.toString());
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
             // print('sortListContract balance ${double.parse(sortListContract[j].balance)}');

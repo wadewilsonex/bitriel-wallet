@@ -74,24 +74,32 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       print(_api.getKeyring.allAccounts[0].icon);
       print(_api.getKeyring.allAccounts[0].name);
       print(_api.getKeyring.allAccounts[0].pubKey);
+      
+      _setAcc(_api);
+      print("finish _setAcc");
+
+      final _resPk = await _api.getPrivateKey(widget.passPhrase);
+      print("finish getPrivateKey");
+      
+      await ContractProvider().extractAddress(_resPk);
+      print("finish extractAddress");
+
+      final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+      print("finish encryptPrivateKey");
+      
+      await StorageServices().writeSecure(DbKey.private, _res);
+      print("finish writeSecure");
+
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      print("finish getEtherAddr");
+
+      await queryBtcData();
+      print("finish queryBtcData");
 
       await _api.connectSELNode(context: context);
       
-      _setAcc(_api);
-
-      final _resPk = await _api.getPrivateKey(widget.passPhrase);
-      
-      await ContractProvider().extractAddress(_resPk);
-
-      final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
-      
-      await StorageServices().writeSecure(DbKey.private, _res);
-
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-      await queryBtcData();
-      
       await _api.connectPolNon(context: context);
+      print("finish connectPolNon");
 
       await ContractsBalance().getAllAssetBalance(context: context);
       
@@ -222,11 +230,15 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> queryBtcData() async {
 
+    print("queryBtcData");
+
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
     
     try {
       final seed = bip39.mnemonicToSeed(widget.passPhrase);
       final hdWallet = HDWallet.fromSeed(seed);
+
+      print("hdWallet ${hdWallet.address}");
       
       contractPro.listContract[ApiProvider().btcIndex].address = hdWallet.address!;
       
@@ -281,8 +293,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           });
         }
       } else {
-        snackBar(context,
-            "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
       await showDialog(

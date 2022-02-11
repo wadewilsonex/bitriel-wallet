@@ -40,13 +40,13 @@ class AppState extends State<App> {
   Future<void> initApi() async {
 
     try {
-      print('githubApi');
-      await _http.get(Uri.parse(Api().githubApi+"abi")).then((value) {
-        print(json.decode(value.body)[0]['download_url']);
+      // print('githubApi');
+      // await _http.get(Uri.parse(Api().githubApi+"abi")).then((value) {
+      //   print(json.decode(value.body)[0]['download_url']);
         
-      });
+      // });
 
-      await downloadFile();
+      // await downloadFile();
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
@@ -63,6 +63,7 @@ class AppState extends State<App> {
       });
       
       await apiProvider.initApi(context: context).then((value) async {
+        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs[0].address}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           // await apiProvider.getSdk.api.keyring.deleteAccount(
           //   apiProvider.getKeyring,

@@ -512,7 +512,7 @@ class TrxFunctional {
           [
             target,
             Fmt.tokenInt(
-              amount.trim(),
+              amount,
               int.parse(chainDecimal!),
             ).toString(),
           ],

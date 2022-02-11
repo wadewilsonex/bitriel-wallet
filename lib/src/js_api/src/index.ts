@@ -53,7 +53,7 @@ async function connect(nodes: string[]) {
       // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       const url = nodes[(<any>res).isConnected];
       // console.log("hello log", `${url} wss c  onnected success`);
-      resolve(res.isConnected);
+      resolve(url);
     } catch (err) {
       send("log", `connect failed`);
       wsProvider.disconnect();

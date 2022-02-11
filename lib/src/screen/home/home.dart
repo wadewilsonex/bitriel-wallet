@@ -31,7 +31,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
     // init();
-    event();
+    // event();
     // Timer(const Duration(seconds: 2), () {
     //   PortfolioServices().setPortfolio(context);
     // });

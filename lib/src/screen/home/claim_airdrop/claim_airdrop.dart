@@ -145,6 +145,30 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   }
 
   Future<void> submitForm() async {
+
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: Text('Opps'),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            child: MyText(text: "Airdrop has been ended the session. \nPlease wait for another airdrop."),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+
     
     // if (pin == '') pin = await Component.pinDialogBox(context);
   
