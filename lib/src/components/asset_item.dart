@@ -13,10 +13,6 @@ class AssetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (scModel!.symbol == "SEL"){
-      print(scModel!.symbol);
-      print(scModel!.balance);
-    }
 
     // if (scModel.balance != AppString.loadingPattern && scModel.marketPrice != null) {
     //   var res = double.parse(scModel.balance) * double.parse(scModel.marketPrice);
@@ -99,8 +95,7 @@ class AssetItem extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-
-                          const SizedBox(width: 6.0),
+                          
                           scModel!.change24h != null && scModel!.change24h != ''
                           ? Flexible(
                             child: MyText(

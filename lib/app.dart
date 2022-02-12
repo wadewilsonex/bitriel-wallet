@@ -63,7 +63,7 @@ class AppState extends State<App> {
       });
       
       await apiProvider.initApi(context: context).then((value) async {
-        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs[0].address}");
+        // print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs[0].address}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           // await apiProvider.getSdk.api.keyring.deleteAccount(
           //   apiProvider.getKeyring,
@@ -76,9 +76,14 @@ class AppState extends State<App> {
 
           // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
 
+          await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
           await apiProvider.getCurrentAccount();
+          // await apiProvider.getSdk.webView!.evalJavascript("settings.getApi()").then((value) {
+          //   print("getApi $value");
+          // });
           await ContractsBalance().getAllAssetBalance(context: context);
+          
         }
       });
     } catch (e) {

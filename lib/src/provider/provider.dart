@@ -30,7 +30,8 @@ class ContractsBalance {
       await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
       // await isBtcContain(context: context);
-      await apiProvider.connectSELNode(context: context);
+      // await apiProvider.connectSELNode(context: context);
+      await apiProvider.connectPolNon(context: context);
 
       // Sort After MarketPrice Filled Into Asset
       await contractProvider.sortAsset();

@@ -1,6 +1,6 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -105,13 +105,13 @@ final portfolioChart = LineChartData(
   ],
 );
 
-Widget homeAppBar(BuildContext context) {
+Widget homeAppBar(BuildContext context, {Function? query}) {
   final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return Container(
     height: 70,
     color: isDarkTheme
-        ? hexaCodeToColor(AppColors.darkCard)
-        : hexaCodeToColor(AppColors.whiteHexaColor),
+      ? hexaCodeToColor(AppColors.darkCard)
+      : hexaCodeToColor(AppColors.whiteHexaColor),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -125,14 +125,15 @@ Widget homeAppBar(BuildContext context) {
           child: IconButton(
             iconSize: 30,
             color: isDarkTheme ? Colors.white : Colors.black,
-            icon: const Icon(LineAwesomeIcons.plus_circle),
+            icon: SvgPicture.asset(AppConfig.iconsPath+"list.svg"),
             onPressed: () async {
-              Navigator.push(
-                context,
-                RouteAnimation(
-                  enterPage: AddAsset(),
-                ),
-              );
+              await MyBottomSheet().listToken(context: context, query: query);
+              // Navigator.push(
+              //   context,
+              //   RouteAnimation(
+              //     enterPage: AddAsset(),
+              //   ),
+              // );
             },
           ),
         ),

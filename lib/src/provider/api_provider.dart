@@ -398,10 +398,12 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {
+    print("subSELNativeBalance");
     try {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[0].address}', 'Balance')").then((value) {
+        print("Res $value");;
         contract.listContract[0].balance = Fmt.balance(
           value['freeBalance'].toString(),
           int.parse(contract.listContract[0].chainDecimal!),
@@ -440,6 +442,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
+    print("getDotChainDecimal");
     try {
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
@@ -455,7 +458,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> subscribeDotBalance({@required BuildContext? context}) async {
     print("subscribeDotBalance");
-    print("_keyring.current.address ${_keyring.current.address}");
     try {
 
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
@@ -466,7 +468,7 @@ class ApiProvider with ChangeNotifier {
 
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res){
 
-        print("res $res");
+        print("res ${res.freeBalance}");
         print("contract.listContract[dotIndex].chainDecimal! ${contract.listContract[dotIndex].chainDecimal!}");
 
         contract.listContract[dotIndex].balance = Fmt.balance(

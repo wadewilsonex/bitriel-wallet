@@ -157,7 +157,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: MyText(text: "Airdrop has been ended the session. \nPlease wait for another airdrop."),
+            child: MyText(text: "Airdrop has ended the session. \nPlease wait for another airdrop."),
           ),
           actions: <Widget>[
             TextButton(
@@ -184,101 +184,79 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
     // get worksheet by its title
 
     // final sheet = ss.worksheetById(0);
-    dialogLoading(context, content: "Claiming Airdrop");
 
-    try {
+    /* --- Mainnet Event Airdrop ---*/
+    // dialogLoading(context, content: "Claiming Airdrop");
 
-      final api = await Provider.of<ApiProvider>(context, listen: false);
+    // try {
 
-      final timeStamp = await DateTime.now().millisecondsSinceEpoch;
+    //   final api = await Provider.of<ApiProvider>(context, listen: false);
 
-      // Init GSheet
-      final gsheet = new GSheets(AppConfig.credentials);
-      // Fetch SpreadSheet by ID
-      final ss = await gsheet.spreadsheet(AppConfig.speedsheetId);
+    //   final timeStamp = await DateTime.now().millisecondsSinceEpoch;
 
-      bool isAlready = false;
+    //   // Init GSheet
+    //   final gsheet = new GSheets(AppConfig.credentials);
+    //   // Fetch SpreadSheet by ID
+    //   final ss = await gsheet.spreadsheet(AppConfig.speedsheetId);
 
-      Worksheet? worksheet = await ss.worksheetByTitle('Sheet1');
-      print("allColumns");
-      // Fetch All Sheets Column
-      await worksheet!.values.allColumns().then((value) async {
+    //   bool isAlready = false;
 
-        // Work on column 0 "address"
-        for(int i = 0 ; i < value[0].length; i++){
-          if (value[0][i] == api.getKeyring.current.pubKey){
-            isAlready = true;
-          }
+    //   Worksheet? worksheet = await ss.worksheetByTitle('Sheet1');
+    //   print("allColumns");
+    //   // Fetch All Sheets Column
+    //   await worksheet!.values.allColumns().then((value) async {
 
-          if (isAlready == true) break;
+    //     // Work on column 0 "address"
+    //     for(int i = 0 ; i < value[0].length; i++){
+    //       if (value[0][i] == api.getKeyring.current.pubKey){
+    //         isAlready = true;
+    //       }
+
+    //       if (isAlready == true) break;
           
-        }
-        for(int i = 0 ; i < value[1].length; i++){
-          if (value[1][i] == api.accountM.address){
-            isAlready = true;
-          }
+    //     }
+    //     for(int i = 0 ; i < value[1].length; i++){
+    //       if (value[1][i] == api.accountM.address){
+    //         isAlready = true;
+    //       }
 
-          if (isAlready == true) break;
+    //       if (isAlready == true) break;
           
-        }
-      });
+    //     }
+    //   });
 
-      if (isAlready == false){
-        var sheet = ss.worksheetByTitle('Sheet1');
-        sheet!.values.appendRow([api.getKeyring.current.pubKey, api.accountM.address, timeStamp]);
-        await enableAnimation();
+    //   if (isAlready == false){
+    //     var sheet = ss.worksheetByTitle('Sheet1');
+    //     sheet!.values.appendRow([api.getKeyring.current.pubKey, api.accountM.address, timeStamp]);
+    //     await enableAnimation();
 
-      } else {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: Text('Opps'),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: MyText(text: "You had already claim the airdrop"),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
-      }
+    //   } else {
+    //     await showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    //           title: Align(
+    //             child: Text('Opps'),
+    //           ),
+    //           content: Padding(
+    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+    //             child: MyText(text: "You had already claim the airdrop"),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               onPressed: () => Navigator.pop(context),
+    //               child: const Text('Close'),
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   }
 
-      Navigator.pop(context);
+    //   Navigator.pop(context);
 
-      // if (value!['success'] == true){
-      // } else {
-      //   await showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      //         title: Align(
-      //           child: Text('Opps'),
-      //         ),
-      //         content: Padding(
-      //           padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-      //           child: MyText(text: value!['error']),
-      //         ),
-      //         actions: <Widget>[
-      //           TextButton(
-      //             onPressed: () => Navigator.pop(context),
-      //             child: const Text('Close'),
-      //           ),
-      //         ],
-      //       );
-      //     },
-      //   );
-      // }
-
+      /* --- Normal Airdrop ---*/
       // await http.post(
       //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
       //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer ${token['token']}"},
@@ -308,40 +286,40 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       //   Navigator.pop(context);
       // }
 
-    } catch (e) {
-      print("Error submitForm ${e}");
-      Navigator.pop(context);
+    // } catch (e) {
+    //   print("Error submitForm ${e}");
+    //   Navigator.pop(context);
 
-      if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
-        // print("Re submit");
-        await StorageServices.removeKey(DbKey.signData);
-        await submitForm();
-      } else {
+    //   if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
+    //     // print("Re submit");
+    //     await StorageServices.removeKey(DbKey.signData);
+    //     await submitForm();
+    //   } else {
 
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: Text('Opps'),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: MyText(text: e.toString()),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
+    //     await showDialog(
+    //       context: context,
+    //       builder: (context) {
+    //         return AlertDialog(
+    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    //           title: Align(
+    //             child: Text('Opps'),
+    //           ),
+    //           content: Padding(
+    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+    //             child: MyText(text: e.toString()),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               onPressed: () => Navigator.pop(context),
+    //               child: const Text('Close'),
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
 
-      }
-    }
+    //   }
+    // }
 
   }
 

@@ -76,6 +76,9 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       print(_api.getKeyring.allAccounts[0].pubKey);
       
       _setAcc(_api);
+      print("finish queryBtcData");
+
+      await _api.connectSELNode(context: context);
       print("finish _setAcc");
 
       final _resPk = await _api.getPrivateKey(widget.passPhrase);
@@ -94,12 +97,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       print("finish getEtherAddr");
 
       await queryBtcData();
-      print("finish queryBtcData");
-
-      await _api.connectSELNode(context: context);
-      
-      await _api.connectPolNon(context: context);
-      print("finish connectPolNon");
 
       await ContractsBalance().getAllAssetBalance(context: context);
       

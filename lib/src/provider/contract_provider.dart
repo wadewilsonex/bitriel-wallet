@@ -97,6 +97,7 @@ class ContractProvider with ChangeNotifier {
             symbol: value["symbol"],
             org: value["org"],
             isContain: value["isContain"],
+            show: value["show"],
             listActivity: [],
             lineChartList: value['lineChartData'],
             lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
@@ -350,18 +351,16 @@ class ContractProvider with ChangeNotifier {
       });
       
       listContract.forEach((element) {
-        sortListContract.addAll({element});
+        if (element.show!) sortListContract.addAll({element});
       });
 
       addedContract.forEach((element) {
-        sortListContract.addAll({element});
+        if (element.show!) sortListContract.addAll({element});
       });
 
       if (sortListContract.isNotEmpty) {
         SmartContractModel tmp = SmartContractModel();
         for (int i = 0; i < sortListContract.length; i++) {
-          print(sortListContract[i].symbol);
-          print(sortListContract[i].balance.toString());
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
             // print('sortListContract balance ${double.parse(sortListContract[j].balance)}');

@@ -5,6 +5,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/service/portfolio_s.dart';
 
 class Home extends StatefulWidget {
@@ -23,6 +24,16 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
 
+  SearchProvider? searchPro;
+
+  void query(String value, Function mySetState){
+    print("Query $value");
+    final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+    print(lsContract);
+    searchPro!.setSearchedLs = lsContract.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
+    mySetState(() { });
+  }
+
   String status = '';
 
   @override
@@ -30,6 +41,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     super.initState();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
+    searchPro = Provider.of<SearchProvider>(context, listen: false);
     // init();
     // event();
     // Timer(const Duration(seconds: 2), () {
@@ -270,7 +282,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
       // AnnotatedRegion Use For System Icon Above SafeArea
       body: Column(children: [
-        SafeArea(child: homeAppBar(context)),
+        SafeArea(child: homeAppBar(context, query: query)),
         Divider(
           height: 2,
           color: isDarkTheme ? Colors.black : Colors.grey.shade400,

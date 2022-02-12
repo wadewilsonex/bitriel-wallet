@@ -49,7 +49,8 @@ async function connect(nodes: string[]) {
       });
 
       (<any>window).api = res;
-      console.log("Url ", res.isConnected);
+      console.log("(<any>window).api", (<any>window).api);
+      console.log("Url ", nodes, res.isConnected);
       // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       const url = nodes[(<any>res).isConnected];
       // console.log("hello log", `${url} wss c  onnected success`);
@@ -61,7 +62,6 @@ async function connect(nodes: string[]) {
     }
   });
 }
-
 
 async function connectBsc() {
 
@@ -323,7 +323,7 @@ const settings = {
   getNetworkConst,
   getNetworkProperties,
   // generate external links to polkascan/subscan/polkassembly...
-  genLinks,
+  genLinks
 };
 
 (<any>window).settings = settings;
