@@ -325,7 +325,6 @@ class SubmitTrxState extends State<SubmitTrx> {
                   await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelToken, txInfo);
                 } else {
                   await trxFunc!.sendTx(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
-
                 }
                 break;
 

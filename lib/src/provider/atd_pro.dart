@@ -29,7 +29,7 @@ class Attendance extends ChangeNotifier {
       notifyListeners();
       return contract;
     } catch (e) {
-      print("Error initAttContract $e");
+      // print("Error initAttContract $e");
     }
     return null;
   }
@@ -67,7 +67,7 @@ class Attendance extends ChangeNotifier {
         return Fmt.bigIntToDouble(balance[0] as BigInt, int.parse(_contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!));
       }
     } catch (e) {
-      print("Err checkBalanceAdd $e");
+      // print("Err checkBalanceAdd $e");
     }
     return null;
   }

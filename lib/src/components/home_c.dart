@@ -264,7 +264,6 @@ class AddAssetRowButton extends StatelessWidget {
 
 // Widget portFolioItemRow(
 //     List<dynamic> portfolioData, int index, int rate, CreateAccModel sdkModel) {
-//   // print(rate.isEven);
 //   return rowDecorationStyle(
 //       child: Row(
 //     children: <Widget>[

@@ -98,7 +98,7 @@ class LineChartModel {
         contract.lineChartModel!.leftTitlesInterval = ((contract.lineChartModel!.maxY - contract.lineChartModel!.minY) / (contract.lineChartModel!.leftLabelsCount - 1));//((contract.lineChartModel.maxY - contract.lineChartModel.minY) / ( (contract.lineChartModel.leftLabelsCount ?? 6) - 1)).floorToDouble();
       }
     } catch (e) {
-      print("Error prepareGraphChart $e");
+      // print("Error prepareGraphChart $e");
     }
 
     return contract.lineChartModel!;

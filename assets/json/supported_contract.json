@@ -23,7 +23,7 @@
         "org": "BEP-20",
         "org_test": "BEP-20",
         "isContain": true,
-        "show": true
+        "show": false
     },
     {
         "id": "selendra v2",
@@ -36,7 +36,7 @@
         "org": "BEP-20",
         "org_test": "BEP-20",
         "isContain": true,
-        "show": true
+        "show": false
     },
     {
         "id": "kiwigo",

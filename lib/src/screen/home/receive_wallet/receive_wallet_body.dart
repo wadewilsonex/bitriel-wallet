@@ -65,7 +65,8 @@ class ReceiveWalletBody extends StatelessWidget {
                         bottom: 45.0,
                         left: 16.0,
                         right: 16.0,
-                        top: 16.0),
+                        top: 16.0
+                      ),
                       padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),

@@ -19,7 +19,6 @@ class SearchComponent extends StatelessWidget{
         borderRadius: BorderRadius.circular(5)
       ),
       onChanged: (el){
-        print("Onchange $el");
         query!(el, setState);
       },
     );
@@ -75,7 +74,7 @@ class SearchItem extends StatelessWidget{
 
                       Text.rich(
                         TextSpan(
-                          text: lsItem![index].symbol != null ? '${lsItem![index].symbol}' : '',
+                          text: lsItem![index].symbol != null ? '${lsItem![index].symbol} ' : '',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -86,7 +85,7 @@ class SearchItem extends StatelessWidget{
                           ),
                           children: [
                             TextSpan(
-                              text: " ${lsItem![index].name!}",
+                              text: ApiProvider().isMainnet ? lsItem![index].org : lsItem![index].orgTest,
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -100,14 +99,13 @@ class SearchItem extends StatelessWidget{
                         )
                       ),
 
-                      lsItem![index].org!.isNotEmpty ? MyText(
-                        text: lsItem![index].org!, 
+                      MyText(
+                        text: lsItem![index].name!, 
                         color: isDarkTheme
                           ? AppColors.whiteColorHexa
                           : AppColors.blackColor,
                         fontSize: 14,
                       )
-                      : Container()
                     ],
                   ),
                   
@@ -118,6 +116,7 @@ class SearchItem extends StatelessWidget{
                     onChanged: (bool value) async {
                       Provider.of<ContractProvider>(context, listen: false).listContract[index].show = value;
                       mySetState!(() { });
+                      await StorageServices.storeAssetData(context);
                       await Provider.of<ContractProvider>(context, listen: false).sortAsset();
                     },
                   )

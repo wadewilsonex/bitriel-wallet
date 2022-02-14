@@ -15,19 +15,19 @@ class ImportUserInfoBody extends StatelessWidget {
   final Function? submitProfile;
   final Function? item;
 
-  const ImportUserInfoBody(
-      {this.modelUserInfo,
-      this.onSubmit,
-      this.onChanged,
-      this.changeGender,
-      this.validateFirstName,
-      this.validatepassword,
-      this.validateConfirmPassword,
-      this.submitProfile,
-      this.popScreen,
-      this.switchBio,
-      this.menuModel,
-      this.item});
+  const ImportUserInfoBody({this.modelUserInfo,
+    this.onSubmit,
+    this.onChanged,
+    this.changeGender,
+    this.validateFirstName,
+    this.validatepassword,
+    this.validateConfirmPassword,
+    this.submitProfile,
+    this.popScreen,
+    this.switchBio,
+    this.menuModel,
+    this.item
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +125,9 @@ class ImportUserInfoBody extends StatelessWidget {
                       )
                     ],
                   ),
-                ))),
+                )
+              )
+            ),
       ],
     );
   }

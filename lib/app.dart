@@ -40,21 +40,13 @@ class AppState extends State<App> {
   Future<void> initApi() async {
 
     try {
-      // print('githubApi');
-      // await _http.get(Uri.parse(Api().githubApi+"abi")).then((value) {
-      //   print(json.decode(value.body)[0]['download_url']);
-        
-      // });
-
-      // await downloadFile();
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
-      await contractProvider.setSavedList().then((value) async {
+      contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
         if (value){
-
           // Sort After MarketPrice Filled Into Asset
           await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
@@ -63,40 +55,25 @@ class AppState extends State<App> {
       });
       
       await apiProvider.initApi(context: context).then((value) async {
-        // print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs[0].address}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-          // await apiProvider.getSdk.api.keyring.deleteAccount(
-          //   apiProvider.getKeyring,
-          //   apiProvider.getKeyring.current,
-          // );
-
-          // print("\n\nimported your account.\n\n");
-
-          // await StorageServices().clearSecure();
-
-          // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
 
           await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
-          await apiProvider.getCurrentAccount();
-          // await apiProvider.getSdk.webView!.evalJavascript("settings.getApi()").then((value) {
-          //   print("getApi $value");
-          // });
+          await apiProvider.getCurrentAccount(funcName: 'keyring');
+          // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance(context: context);
           
         }
       });
     } catch (e) {
-      print("Error initApi $e");
+      // print("Error initApi $e");
     }
   }
 
-  Future<void> downloadFile() async {
+  // Future<void> downloadFile() async {
 
-    var dir = await getApplicationDocumentsDirectory();
-
-    print(dir);
-  }
+  //   var dir = await getApplicationDocumentsDirectory();
+  // }
 
   Future<void> readTheme() async {
     try {
@@ -107,7 +84,7 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      print("Error readTheme $e");
+      // print("Error readTheme $e");
     }
   }
 

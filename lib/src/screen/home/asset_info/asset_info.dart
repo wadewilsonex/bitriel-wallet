@@ -126,7 +126,7 @@ class _AssetInfoState extends State<AssetInfo> {
       });
 
     } catch (e) {
-      print("Error _deleteHistory $e");
+      // print("Error _deleteHistory $e");
     }
     return null;
   }
@@ -275,8 +275,6 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   void initState() {
-    print(widget.scModel!.symbol);
-    print(widget.scModel!.address);
     _globalKey = GlobalKey<ScaffoldState>();
 
     if (widget.showActivity != null) {
@@ -316,6 +314,8 @@ class _AssetInfoState extends State<AssetInfo> {
                   ? hexaCodeToColor(AppColors.darkCard)
                   : Colors.white,
                 flexibleSpace: Column(children: [
+
+                  // AppBar
                   Expanded(
                       child: Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -323,20 +323,23 @@ class _AssetInfoState extends State<AssetInfo> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: Icon(
-                                          Platform.isAndroid
-                                              ? Icons.arrow_back
-                                              : Icons.arrow_back_ios,
-                                          color: isDarkTheme
-                                              ? Colors.white
-                                              : Colors.black,
-                                          size: 28))),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: Icon(
+                                    Platform.isAndroid
+                                      ? Icons.arrow_back
+                                      : Icons.arrow_back_ios,
+                                    color: isDarkTheme
+                                      ? Colors.white
+                                      : Colors.black,
+                                    size: 28
+                                  )
+                                )
+                              ),
 
                               Container(
                                 alignment: Alignment.centerLeft,
@@ -354,28 +357,32 @@ class _AssetInfoState extends State<AssetInfo> {
                               MyText(
                                 fontSize: 18.0,
                                 color: isDarkTheme
-                                    ? AppColors.whiteHexaColor
-                                    : AppColors.blackColor,
-                                text: widget.scModel!.id! == null
-                                    ? widget.scModel!.symbol!
-                                    : widget.scModel!.id!.toUpperCase(),
+                                  ? AppColors.whiteHexaColor
+                                  : AppColors.blackColor,
+                                text: widget.scModel!.symbol!
+                                // widget.scModel!.id! == null
+                                //     ? widget.scModel!.symbol!
+                                //     : widget.scModel!.id!.toUpperCase(),
                               ),
 
                               Expanded(child: Container()),
 
                               // Right Text
                               Align(
-                                  alignment: Alignment.centerRight,
-                                  child: MyText(
-                                    fontSize: 16.0,
-                                    text:
-                                        widget.scModel!.org! == 'BEP-20' ? 'BEP-20' : '',
-                                    color: isDarkTheme
-                                        ? AppColors.whiteHexaColor
-                                        : AppColors.darkCard,
-                                  )),
+                                alignment: Alignment.centerRight,
+                                child: MyText(
+                                  fontSize: 16.0,
+                                  text: widget.scModel!.org,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkTheme
+                                    ? AppColors.whiteHexaColor
+                                    : AppColors.darkCard,
+                                )
+                              ),
                             ],
-                          ))),
+                          )
+                        )
+                      ),
                 ]),
               ),
 
@@ -383,10 +390,10 @@ class _AssetInfoState extends State<AssetInfo> {
               SliverList(
                 delegate: SliverChildListDelegate([
                 Divider(
-                    height: 3,
-                    color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : Colors.grey.shade400)
+                  height: 3,
+                  color: isDarkTheme
+                    ? hexaCodeToColor(AppColors.darkCard)
+                    : Colors.grey.shade400)
               ])),
 
               // Body
@@ -426,48 +433,48 @@ class _AssetInfoState extends State<AssetInfo> {
                             //fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 8.0),
-                          if (widget.scModel!.marketPrice == null)
-                            Container()
-                          else
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                MyText(
-                                  text: widget.scModel!.marketPrice != null ? '\$ ${widget.scModel!.marketPrice}' : '',
-                                  fontSize: 14,
+                          // if (widget.scModel!.marketPrice == null)
+                          //   Container()
+                          // else
+                            
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // MyText(
+                              //   text: widget.scModel!.marketPrice != null ? '\$ ${widget.scModel!.marketPrice}' : '',
+                              //   fontSize: 14,
+                              //   fontWeight: FontWeight.bold,
+                              //   color: isDarkTheme
+                              //     ? AppColors.whiteColorHexa
+                              //     : AppColors.textColor,
+                              // ),
+
+                              const SizedBox(width: 6.0),
+                              widget.scModel!.change24h != null && widget.scModel!.change24h != ''
+                              ? MyText(
+                                text: double.parse(widget.scModel!.change24h!).isNegative
+                                  ? '${widget.scModel!.change24h}%'
+                                  : '+${widget.scModel!.change24h}%',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: double.parse(widget.scModel!.change24h!).isNegative
+                                  ? '#FF0000'
+                                  : isDarkTheme
+                                    ? '#00FF00'
+                                    : '#66CD00',
+                              )
+                              : Flexible(
+                                child: MyText(
+                                  text: widget.scModel!.change24h!,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
-                                    ? AppColors.whiteColorHexa
-                                    : AppColors.textColor,
-                                ),
-
-                                const SizedBox(width: 6.0),
-                                widget.scModel!.change24h != null && widget.scModel!.change24h != ''
-                                ? MyText(
-                                  text: double.parse(widget.scModel!.change24h!).isNegative
-                                    ? '${widget.scModel!.change24h}%'
-                                    : '+${widget.scModel!.change24h}%',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: double.parse(widget.scModel!.change24h!).isNegative
-                                    ? '#FF0000'
-                                    : isDarkTheme
-                                        ? '#00FF00'
-                                        : '#66CD00'
-                                        ,
+                                    ? '#00FF00'
+                                    : '#66CD00',
                                 )
-                                : Flexible(
-                                  child: MyText(
-                                    text: widget.scModel!.change24h!,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: isDarkTheme
-                                      ? '#00FF00'
-                                      : '#66CD00',
-                                  )
-                                )
-                              ],
-                            ),
+                              )
+                            ],
+                          ),
 
                           MyText(
                             text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
@@ -482,8 +489,8 @@ class _AssetInfoState extends State<AssetInfo> {
                           Container(
                             margin: const EdgeInsets.only(top: 40),
                             padding: widget.scModel!.symbol == 'ATD'
-                                ? const EdgeInsets.symmetric()
-                                : const EdgeInsets.symmetric(vertical: 16.0),
+                              ? const EdgeInsets.symmetric()
+                              : const EdgeInsets.symmetric(vertical: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -511,7 +518,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                               await successDialog(context, "check in!");
                                             }
                                           } catch (e) {
-                                            print("Error Transfer $e");
+                                            // print("Error Transfer $e");
                                           }
                                         },
                                         style: ButtonStyle(

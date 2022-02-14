@@ -64,7 +64,7 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
-      print("Error initContract $e");
+      // print("Error initContract $e");
     }
 
     return _deployedContract!;
@@ -83,7 +83,7 @@ class AirDropProvider with ChangeNotifier {
       );
 
     } catch (e) {
-      print("Error airdropTokenAddress $e");
+      // print("Error airdropTokenAddress $e");
     }
   }
 
@@ -98,7 +98,7 @@ class AirDropProvider with ChangeNotifier {
       );
       res = (res / BigInt.from(pow(10, 9)));
     } catch (e) {
-      print("Error getTrxFee $e");
+      // print("Error getTrxFee $e");
     }
     return '';
   }
@@ -144,7 +144,7 @@ class AirDropProvider with ChangeNotifier {
       }
     }
     catch (e) {
-      print("Error airdrop_p.dart $e");
+      // print("Error airdrop_p.dart $e");
 
       throw Exception(e);
     }
@@ -172,7 +172,7 @@ class AirDropProvider with ChangeNotifier {
       });
 
     } catch (e) {
-      print("Error signUp $e");
+      // print("Error signUp $e");
     }
   }
 

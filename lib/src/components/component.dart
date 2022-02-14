@@ -595,19 +595,18 @@ class MyTabBar extends StatelessWidget {
   }
 }
 
-Future<void> customDialog(BuildContext context, String text1, String text2) async {
+Future<void> customDialog(BuildContext context, String title, String contents) async {
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
-            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
+            child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(text2, textAlign: TextAlign.center),
+            child: Text(contents, textAlign: TextAlign.center),
           ),
           actions: <Widget>[
             TextButton(

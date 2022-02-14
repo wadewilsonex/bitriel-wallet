@@ -77,6 +77,9 @@ class ImportAccState extends State<ImportAcc> {
               ),
             ),
           );
+        } else {
+
+          await customDialog(context, 'Opps', 'Invalid seed phrases or mnemonic');
         }
       });
     } catch (e) {

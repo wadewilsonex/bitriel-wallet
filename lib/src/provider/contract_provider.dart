@@ -112,7 +112,7 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
 
     } catch (e) {
-      print("Error initJson $e");
+      // print("Error initJson $e");
     }
   }
 
@@ -372,8 +372,8 @@ class ContractProvider with ChangeNotifier {
           }
         }
 
-        notifyListeners();
       }
+      notifyListeners();
       
     } catch (e) {
       print("Error sortAsset $e");

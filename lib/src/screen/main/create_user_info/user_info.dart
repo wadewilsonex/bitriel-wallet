@@ -9,6 +9,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 // import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/service/authen_s.dart';
 
 class MyUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -26,7 +27,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
   final MenuModel _menuModel = MenuModel();
 
-  LocalAuthentication? _localAuth;
+  LocalAuthentication? _localAuth = LocalAuthentication();
 
   @override
   void initState() {
@@ -62,74 +63,26 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     try {
       // Avaible To
+      // Avaible To
       if (available) {
-        // Switch Enable
-        if (switchValue) {
-          await authenticateBiometric(_localAuth!).then((values) async {
-            if (_menuModel.authenticated!) {
-              setState(() {
-                _menuModel.switchBio = switchValue;
-              });
-              await StorageServices.saveBio(_menuModel.switchBio);
-            }
-          });
-        }
-        // Switch Disable
-        else {
-          await authenticateBiometric(_localAuth!).then((values) async {
-            if (_menuModel.authenticated!) {
-              setState(() {
-                _menuModel.switchBio = switchValue;
-              });
-              await StorageServices.removeKey(DbKey.bio);
-            }
-          });
-        }
+        await BioAuth().authenticateBiometric(_localAuth!).then((values) async {
+          
+          _menuModel.authenticated = values;
+          if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.saveBio(_menuModel.switchBio);
+          } else if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.removeKey(DbKey.bio);
+          }
+          setState(() { });
+        });
       } else {
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: MyText(
-                text: "Oops",
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString(), textAlign: TextAlign.center),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      await customDialog(context, 'Oops', e.toString());
     }
-  }
-
-  Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
-    // try {
-    //   // Trigger Authentication By Finger Print
-    //   _menuModel.authenticated =
-    //       await _localAuth.authenticate(localizedReason: '', stickyAuth: true);
-    //   // ignore: empty_catches
-    // } on PlatformException {}
-    // return _menuModel.authenticated!;
-    return false;
-  }
-
-  void popScreen() {
-    Navigator.pop(context);
   }
 
   void onSubmit() {
@@ -206,7 +159,6 @@ class MyUserInfoState extends State<MyUserInfo> {
     final _api = await Provider.of<ApiProvider>(context, listen: false);
 
     try {
-      await addBtcWallet();
       final json = await _api.getSdk.api.keyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
@@ -221,69 +173,28 @@ class MyUserInfoState extends State<MyUserInfo> {
         acc: json!,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
-        _setAcc(_api);
+
         final _resPk = await _api.getPrivateKey(widget.passPhrase);
 
-      // if (resPk != null) {
-      // }
-      await ContractProvider().extractAddress(_resPk);
+        await _api.connectSELNode(context: context);
 
-      final res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
-      await StorageServices().writeSecure(DbKey.private, res);
-//1
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      await Provider.of<ApiProvider>(context, listen: false).getAddressIcon();
-      await Provider.of<ApiProvider>(context, listen: false).getCurrentAccount();
-      await queryBtcData();
-      
-      await ContractsBalance().getAllAssetBalance(context: context);
+        await _api.getCurrentAccount();
+        await ContractProvider().extractAddress(_resPk);
 
-        // await Provider.of<ContractProvider>(context, listen: false)
-        //     .getEtherAddr();
+        final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+        
+        await StorageServices().writeSecure(DbKey.private, _res);
 
-        // final contract =
-        //     Provider.of<ContractProvider>(context, listen: false);
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        // await contract.kgoTokenWallet();
-        // await contract.selTokenWallet();
-        // await contract.selv2TokenWallet();
-        // await contract.bnbWallet();
-        // await contract.ethWallet();
+        await queryBtcData();
 
-        // Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-
-        // await addBtcWallet();
-        // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-
-        // contract.setReady();
-
-        // print("After contractProvider.sortListContract.length ${contractProvider.sortListContract.length}");
-        await enableScreenshot();
+        await ContractsBalance().getAllAssetBalance(context: context);
         await successDialog(context, "Account is created.");
+
       });
     } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Opps'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString()),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      await customDialog(context, 'Oops', e.toString());
     }
   }
 
@@ -326,81 +237,9 @@ class MyUserInfoState extends State<MyUserInfo> {
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
     } catch (e) {
-      print("Error queryBtcData $e");
+      await customDialog(context, 'Oops', e.toString());
     }
   }
-  // Future<void> isDotContain() async {
-  //   // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
-  //   // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-  //   Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-  //   // await StorageServices.readBool('DOT').then((value) {
-  //   //   if (value) {
-  //   //     Provider.of<WalletProvider>(context, listen: false)
-  //   //         .addTokenSymbol('DOT');
-  //   //     Provider.of<ApiProvider>(context, listen: false).isDotContain();
-  //   //     Provider.of<ApiProvider>(context, listen: false).connectPolNon();
-  //   //   }
-  //   // });
-  // }
-
-  // Future<void> isBnbContain() async {
-  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BNB');
-  //   Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
-  //   // await StorageServices.readBool('BNB').then((value) {
-  //   //   if (value) {
-
-  //   //   }
-  //   // });
-  // }
-
-  // Future<void> isBscContain() async {
-  //   Provider.of<WalletProvider>(context, listen: false)
-  //       .addTokenSymbol('SEL (BEP-20)');
-  //   Provider.of<ContractProvider>(context, listen: false).getSymbol();
-  //   Provider.of<ContractProvider>(context, listen: false)
-  //       .getBscDecimal()
-  //       .then((value) {
-  //     Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-  //   });
-
-  //   // await StorageServices.readBool('SEL').then((value) {
-  //   //   if (value) {
-
-  //   //   }
-  //   // });
-  // }
-
-  Future<void> addBtcWallet() async {
-    // final seed = bip39.mnemonicToSeed(widget.passPhrase);
-    // final hdWallet = HDWallet.fromSeed(seed);
-
-    // final keyPair = ECPair.fromWIF(hdWallet.wif);
-    // final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin)
-    //     .data
-    //     .address;
-
-    // await StorageServices.storeData(bech32Address, 'bech32');
-
-    // final res = await _api.encryptPrivateKey(hdWallet.wif, _userInfoM.confirmPasswordCon.text);
-
-    // if (res != null) {
-    //   await StorageServices().writeSecure('btcwif', res);
-    // }
-
-    // Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address, context: context);
-    // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
-
-    // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address);
-    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-  }
-
-  // Future<void> isKgoContain() async {
-  //   Provider.of<ContractProvider>(context, listen: false)
-  //       .getKgoDecimal()
-  //       .then((value) {
-  //     Provider.of<ContractProvider>(context, listen: false).getKgoBalance();
-  //   });
-  // }
 
   PopupMenuItem item(Map<String, dynamic> list) {
     return PopupMenuItem(
@@ -427,7 +266,9 @@ class MyUserInfoState extends State<MyUserInfo> {
           validateMidName: validatePassword,
           validateLastName: validateConfirmPassword,
           submitProfile: submitAcc,
-          popScreen: popScreen,
+          popScreen: (){
+            Navigator.pop(context);
+          },
           switchBio: switchBiometric,
           item: item,
           model: _menuModel,

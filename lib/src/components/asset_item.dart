@@ -64,7 +64,7 @@ class AssetItem extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: scModel!.name!,
+                            text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class AssetItem extends StatelessWidget {
                   if (scModel!.marketPrice!.isEmpty)
                     MyText(
                       top: 4.0,
-                      text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
+                      text: scModel!.name!,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme

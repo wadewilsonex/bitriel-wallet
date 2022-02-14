@@ -125,6 +125,7 @@ function recover(keyType: string, cryptoType: KeypairType, key: string, password
  * into different address formats for different networks.
  */
 async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
+  console.log("initKeys");
   await cryptoWaitReady();
   const res = {};
   ss58Formats.forEach((ss58) => {
@@ -138,6 +139,7 @@ async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
     ss58Formats.forEach((ss58) => {
       const pubKey = u8aToHex(keyPair.publicKey);
       (<any>res)[ss58][pubKey] = keyring.encodeAddress(keyPair.publicKey, ss58);
+      console.log("Ss58", ss58);
       if (ss58 == 42 || ss58 == 972){
         selAddr = keyring.encodeAddress(keyPair.publicKey, ss58);
       }

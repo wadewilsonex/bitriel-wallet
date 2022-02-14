@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/effect_c.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class HomeBody extends StatelessWidget {
@@ -90,8 +91,9 @@ class HomeBody extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onTap: (){
+                  onTap: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Swap()));
+                    await ContractsBalance().refetchContractBalance(context: context);
                   },
                 ),
               ),
@@ -127,8 +129,9 @@ class HomeBody extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onTap: (){
+                  onTap: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
+                    await ContractsBalance().refetchContractBalance(context: context);
                   },
                 ),
               )

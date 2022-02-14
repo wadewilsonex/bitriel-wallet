@@ -27,12 +27,14 @@ class _FingerPrintState extends State<FingerPrint> {
   }
 
   Future<void> authenticate() async {
-
+    print("authenticate");
     bool authenticate = false;
 
     try {
 
       authenticate = await localAuth.authenticate( localizedReason: 'Please complete the biometrics to proceed.', stickyAuth: true);
+      dialogLoading(context);
+      await Future.delayed(Duration(seconds: 1), (){});
       if (authenticate) {
         Navigator.pushReplacementNamed(context, Home.route);
       }

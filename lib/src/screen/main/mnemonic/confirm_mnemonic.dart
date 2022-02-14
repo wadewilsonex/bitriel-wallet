@@ -136,8 +136,8 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
           children: [
             MyAppBar(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                ? hexaCodeToColor(AppColors.darkCard)
+                : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
               onPressed: () {
                 Navigator.pop(context);
@@ -221,21 +221,20 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
             ),
             MyFlatButton(
               hasShadow: enable,
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               textButton: AppString.next,
               action: enable == false
-                  ? null
-                  : () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyUserInfo(
-                            widget.passPhrase,
-                          ),
-                        ),
-                      );
-                    },
+              ? null
+              : () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyUserInfo(
+                        widget.passPhrase,
+                      ),
+                    ),
+                  );
+                },
             )
           ],
         ),

@@ -27,9 +27,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   SearchProvider? searchPro;
 
   void query(String value, Function mySetState){
-    print("Query $value");
     final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    print(lsContract);
     searchPro!.setSearchedLs = lsContract.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
     mySetState(() { });
   }
@@ -62,22 +60,22 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
     });
   }
 
-  init() async {
+  // init() async {
 
-    ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
+  //   // ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
 
-      await _api.getSdk.api.keyring.deleteAccount(
-        _api.getKeyring,
-        _api.getKeyring.current,
-      );
+  //   //   await _api.getSdk.api.keyring.deleteAccount(
+  //   //     _api.getKeyring,
+  //   //     _api.getKeyring.current,
+  //   //   );
 
-      print("\n\nimported your account.\n\n");
+  //     print("\n\nimported your account.\n\n");
 
-      await StorageServices().clearSecure();
+  //     await StorageServices().clearSecure();
 
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
+  //     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
 
-  }
+  // }
 
   Future<void> event() async {
     await StorageServices.fetchData(DbKey.event).then((value) async {
