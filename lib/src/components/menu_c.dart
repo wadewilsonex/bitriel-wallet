@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuHeader extends StatelessWidget {
   
@@ -18,14 +19,7 @@ class MenuHeader extends StatelessWidget {
     final acc = Provider.of<ApiProvider>(context).accountM;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
-    return InkWell(
-      onTap: acc.address == null ? null : () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Account())
-        );
-      },
-      child: Container(
+    return Container(
         margin: const EdgeInsets.only(left: 16),
         child: SizedBox(
           height: 138,
@@ -33,7 +27,15 @@ class MenuHeader extends StatelessWidget {
             builder: (context, value, child) {
               return Row(
                 children: [
-                  Align(
+                  
+                  InkWell(
+                  onTap: acc.address == null ? null : () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Account())
+                    );
+                  },
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
                       width: 60,
@@ -48,6 +50,7 @@ class MenuHeader extends StatelessWidget {
                       child: acc.addressIcon != null ? SvgPicture.string(acc.addressIcon!) : Container(),
                     ),
                   ),
+                ),
                   
                   const SizedBox(width: 5),
                   Column(
@@ -56,16 +59,18 @@ class MenuHeader extends StatelessWidget {
                     children: [
                       acc.name != null 
                       ? MyText(
+                        bottom: 3,
                         text: acc.name ?? '',
                         color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                         fontSize: 16,
                       ) 
                       : Shimmer.fromColors(
                         child: Container(
                           width: 100,
                           height: 8.0,
+                          margin: EdgeInsets.only(bottom: 3),
                           color: Colors.white,
                         ), 
                         period: const Duration(seconds: 2),
@@ -76,6 +81,53 @@ class MenuHeader extends StatelessWidget {
                           ? hexaCodeToColor(AppColors.darkBgd)
                           : Colors.grey[100]!,
                       ),
+                      
+                      acc.address != null
+                      ? Row(
+                        children: [
+                          MyText(
+                            right: 5,
+                            text: acc.address!.replaceRange( 5, acc.address!.length - 5, "....."),
+                            color: isDarkTheme
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
+                            fontSize: 16,
+                            textAlign: TextAlign.left
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: acc.address!),
+                              );
+                              Fluttertoast.showToast(
+                                msg: "Copied address",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                              );
+                            }, 
+                            child: SvgPicture.asset(
+                              AppConfig.iconsPath+'qr_code.svg',
+                              width: 20,
+                              height: 20,
+                              color: hexaCodeToColor(AppColors.secondary),
+                            )
+                          )
+                        ]
+                      )
+                      : Shimmer.fromColors(
+                        child: Container(
+                          width: 150,
+                          height: 8.0,
+                          color: Colors.white,
+                        ), 
+                        period: const Duration(seconds: 2),
+                        baseColor: isDarkTheme
+                          ? hexaCodeToColor(AppColors.darkCard)
+                          : Colors.grey[300]!,
+                        highlightColor: isDarkTheme
+                          ? hexaCodeToColor(AppColors.darkBgd)
+                          : Colors.grey[100]!,
+                      )
                     ],
                   )
                 ],
@@ -83,7 +135,6 @@ class MenuHeader extends StatelessWidget {
             },
           ),
         ),
-      ),
     );
   }
 }

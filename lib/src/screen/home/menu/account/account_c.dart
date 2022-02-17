@@ -82,7 +82,7 @@ class AccountC {
       GlobalKey<FormState> _backupKey,
       TextEditingController _pinController,
       FocusNode _pinNode,
-      String Function(String) onChanged,
+      Function onChanged,
       Function onSubmit,
       Function submitBackUpKey) {
     showModalBottomSheet(
@@ -94,8 +94,8 @@ class AccountC {
           padding: const EdgeInsets.all(25.0),
           height: MediaQuery.of(context).size.height / 2,
           color: isDarkTheme
-              ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-              : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
+            ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+            : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
           child: Form(
             key: _backupKey,
             child: SingleChildScrollView(
@@ -108,8 +108,8 @@ class AccountC {
                     onChanged: onChanged,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 4
-                        ? 'Please fill in your 4 digits pin'
-                        : null,
+                      ? 'Please fill in your 4 digits pin'
+                      : null,
                     textInputFormatter: [LengthLimitingTextInputFormatter(4)],
                     onSubmit: onSubmit,
                   ),

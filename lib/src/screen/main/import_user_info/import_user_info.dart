@@ -1,6 +1,5 @@
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
 // import 'package:bip32/bip32.dart' as bip32;
@@ -12,7 +11,6 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 import 'package:web3dart/credentials.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
 
 class ImportUserInfo extends StatefulWidget {
   final String passPhrase;
@@ -56,7 +54,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     
     final _api = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final json = await _api.getSdk.api.keyring.importAccount(
+      dynamic json = await _api.getSdk.api.keyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
@@ -64,12 +62,24 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      await _api.getSdk.api.keyring.addAccount(
+      // For encryptSeed
+      await _api.addAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         acc: json!,
         password: _userInfoM.confirmPasswordCon.text,
       );
+
+      print("json $json");
+
+      await _api.getSdk.api.keyring.addAccount(
+        _api.getKeyring,
+        keyType: KeyType.mnemonic,
+        acc: json,
+        password: _userInfoM.confirmPasswordCon.text,
+      );
+
+      print("After addAccount and encryptseed and save");
 
       // print(_api.getKeyring.allAccounts[0].address);
       // print(_api.getKeyring.allAccounts[0].icon);
@@ -78,6 +88,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
       await _api.connectSELNode(context: context);
 
+      await _api.getAddressIcon();
+        // Get From Account js
       await _api.getCurrentAccount();
 
       final _resPk = await _api.getPrivateKey(widget.passPhrase);
@@ -90,7 +102,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await queryBtcData();
+      // This Query Might Freeze for a second if User await keyword
+      queryBtcData();
 
       await ContractsBalance().getAllAssetBalance(context: context);
       

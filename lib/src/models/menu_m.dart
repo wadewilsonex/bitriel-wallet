@@ -9,6 +9,17 @@ class MenuModel {
 
   Map result = {};
 
+  /// (0) History, (0.1) History, (0.2) Acitivity
+  /// 
+  /// (1) Wallet, (1.1) Wallet, (1.2) Asset
+  /// 
+  /// (2) SEL event, (2.1) Claim, (2.2) Swap, (2.3) Presale
+  /// 
+  /// (3) Security, (3.1) Password, (3.2) Fingerprint
+  /// 
+  /// (4) Display, (4.1) Darkmode
+  /// 
+  /// (5) About, (4.1) About
   static List listTile = [
     {
       'title': "History",
@@ -28,8 +39,6 @@ class MenuModel {
       'title': "SEL Events",
       'sub': [
         {'icon': AppConfig.iconsPath+"form.svg", 'subTitle': 'Claim SEL'},
-        {'icon': AppConfig.iconsPath+"form.svg", 'subTitle': 'Claim KGO'},
-        {'icon': AppConfig.iconsPath+"add_people.svg", 'subTitle': 'Invite Friends'},
         {'icon': AppConfig.iconsPath+"swap.svg", 'subTitle': 'Swap SEL v2'},
         {'icon': AppConfig.iconsPath+"presale.svg", 'subTitle': 'Presale SEL'},
       ]

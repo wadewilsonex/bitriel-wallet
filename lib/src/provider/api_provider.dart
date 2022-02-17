@@ -14,13 +14,21 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 // import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:http/http.dart' as http;
+import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
+import 'package:polkawallet_sdk/api/apiKeyring.dart';
+import 'package:polkawallet_sdk/utils/localStorage.dart';
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
   
+  
   WalletSDK _sdk = WalletSDK();
 
   Keyring _keyring = Keyring();
+
+  KeyringStorage _keyringStorage = KeyringStorage();
+  LocalStorage _storageOld = LocalStorage();
+  KeyringStorage _storage = KeyringStorage();
 
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
@@ -518,10 +526,12 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<String> encryptPrivateKey(String privateKey, String password) async {
+    print("encryptPrivateKey");
     try {
 
       final String key = Encrypt.passwordToEncryptKey(password);
       final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+      print("Data encrypt $encryted");
       return encryted;
     } catch (e) {
       // print("Error encryptPrivateKey $e");
@@ -546,17 +556,82 @@ class ApiProvider with ChangeNotifier {
     return acc['mnemonic'];
   }
 
-  // void resetNativeObj({BuildContext context}) {
-  //   final contract = Provider.of<ContractPro>(context);
-  //   accountM = AccountM();
-  //   nativeM = SmartContractModel(
-  //     id: 'selendra',
-  //     logo: 'assets/SelendraCircle-White.png',
-  //     symbol: 'SEL',
-  //     org: 'Testnet',
-  //   );
-  //   dot = SmartContractModel();
+  Future<KeyPairData> addAccount(
+    Keyring keyring, {
+    required KeyType keyType,
+    required Map acc,
+    required String password,
+  }) async {
+    print("Hey addAccount");
+    // save seed and remove it before add account
+    // if (keyType == KeyType.mnemonic || keyType == KeyType.rawSeed) {
+    // }
+      print("acc $acc");
+      print("addAccount");
+      final String type = keyType.toString().split('.')[1];
+      print("type $type");
+      final String? seed = acc[type];
+      print("seed $seed");
+      if (seed != null && seed.isNotEmpty) {
+        await encryptSeedAndSave(acc['pubKey'], acc[type], type, password);
+        acc.remove(type);
+      }
 
-  //   notifyListeners();
-  // }
+    // save keystore to storage
+    await keyring.store.addAccount(acc);
+
+    return KeyPairData.fromJson(acc as Map<String, dynamic>);
+  }
+
+  Future<void> encryptSeedAndSave(String? pubKey, seed, seedType, password) async {
+    print("encryptSeedAndSave");
+    final String key = Encrypt.passwordToEncryptKey(password);
+    final String encrypted = await FlutterAesEcbPkcs5.encryptString(seed, key);
+    print("encrypted $encrypted");
+
+    // read old data from storage-old
+    dynamic stored = await _storageOld.getSeeds(seedType);
+    stored[pubKey] = encrypted;
+    print("stored[pubKey] $stored");
+    // and save to new storage
+    if (seedType == KeyType.mnemonic.toString().split('.')[1]) {
+      final mnemonics = Map.from(_storage.encryptedMnemonics.val);
+      mnemonics.addAll(stored);
+      _storage.encryptedMnemonics.val = mnemonics;
+      print(_storage.encryptedMnemonics.val);
+      return;
+    }
+    if (seedType == KeyType.rawSeed.toString().split('.')[1]) {
+      final seeds = Map.from(_storage.encryptedRawSeeds.val);
+      seeds.addAll(stored);
+      _storage.encryptedRawSeeds.val = seeds;
+    }
+  }
+
+  Future<Map<String, dynamic>?> getDecryptedSeed(String? pubKey, password) async {
+    print("getDecryptedSeed");
+    print(_storage.encryptedMnemonics.val[pubKey]);
+    final key = Encrypt.passwordToEncryptKey(password);
+    final mnemonic = _storage.encryptedMnemonics.val[pubKey];
+    if (mnemonic != null) {
+      final res = {'type': KeyType.mnemonic.toString().split('.')[1]};
+      try {
+        res['seed'] = await FlutterAesEcbPkcs5.decryptString(mnemonic, key);
+      } catch (err) {
+        print(err);
+      }
+      return res;
+    }
+    final rawSeed = _storage.encryptedRawSeeds.val[pubKey];
+    if (rawSeed != null) {
+      final res = {'type': KeyType.rawSeed.toString().split('.')[1]};
+      try {
+        res['seed'] = await FlutterAesEcbPkcs5.decryptString(rawSeed, key);
+      } catch (err) {
+        print(err);
+      }
+      return res;
+    }
+    return null;
+  }
 }

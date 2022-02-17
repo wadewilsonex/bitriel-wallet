@@ -59,7 +59,7 @@ class _SwapState extends State<Swap> {
     try {
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      await dialogBox().then((value) async {
+      await Component().dialogBox(context).then((value) async {
         final res = await AppServices.getPrivateKey(value, context);
         if (res != '') {
           dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
@@ -112,7 +112,7 @@ class _SwapState extends State<Swap> {
 
   Future<void> swapWithoutAp() async {
     final contract = Provider.of<ContractProvider>(context, listen: false);
-    await dialogBox().then((value) async {
+    await Component().dialogBox(context).then((value) async {
       try {
         final res = await AppServices.getPrivateKey(value, context);
         if (res != '') {
@@ -201,21 +201,6 @@ class _SwapState extends State<Swap> {
 
       successDialog(operationText, btnText, onPressed);
     });
-  }
-
-  /* Show Pin Code For Fill Out */
-  Future<String> dialogBox() async {
-    final String _result = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Colors.transparent,
-          child: FillPin(),
-        );
-      }
-    );
-    return _result;
   }
 
   Future<void> customDialog(String text1, String text2) async {

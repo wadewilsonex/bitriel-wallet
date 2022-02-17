@@ -1,11 +1,25 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pin_put/pin_put.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 class Component {
+
+  /* Show Pin Code For Fill Out */
+  Future<String> dialogBox(BuildContext context) async {
+    final String _result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
+    return _result;
+  }
 
   static void popScreen(BuildContext context) {
     Navigator.pop(context);
@@ -63,36 +77,38 @@ class Component {
             alignment: Alignment.center,
             children: <Widget>[
               Card(
-                  child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                      ),
-                      width: 60,
-                      height: 60,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          CircularProgressIndicator(
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation(
-                                  hexaCodeToColor(AppColors.secondary))),
-                          contents != null
-                              ? MyText(
-                                  top: 10,
-                                  left: 10,
-                                  right: 10,
-                                  bottom: 10,
-                                  text: contents,
-                                  fontSize: 16,
-                                  color: AppColors.blackColor,
-                                )
-                              : Container()
-                        ],
-                      )))
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  width: 60,
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CircularProgressIndicator(
+                          backgroundColor: Colors.transparent,
+                          valueColor: AlwaysStoppedAnimation(
+                              hexaCodeToColor(AppColors.secondary))),
+                      contents != null
+                          ? MyText(
+                              top: 10,
+                              left: 10,
+                              right: 10,
+                              bottom: 10,
+                              text: contents,
+                              fontSize: 16,
+                              color: AppColors.blackColor,
+                            )
+                          : Container()
+                    ],
+                  )
+                )
+              )
             ],
           ),
         );
@@ -595,26 +611,27 @@ class MyTabBar extends StatelessWidget {
   }
 }
 
-Future<void> customDialog(BuildContext context, String title, String contents) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
+Future<void> customDialog(BuildContext context, String title, String contents, {Widget? btn2}) async {
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: Align(
+          child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          child: Text(contents, textAlign: TextAlign.center),
+        ),
+        actions: <Widget>[
+          btn2 ?? Container(),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const MyText(text: 'Close'),
           ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(contents, textAlign: TextAlign.center),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
+        ],
+      );
       },
     );
   }
@@ -658,18 +675,17 @@ class MyPinput extends StatelessWidget {
         controller: controller,
         fieldsCount: 4,
         selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border.all(
-              color: Colors.grey,
-            )),
+          color: Colors.grey.withOpacity(0.5),
+          border: Border.all(
+            color: Colors.grey,
+          )
+        ),
         submittedFieldDecoration: getWalletM!.error
-            ? getWalletM!.pinPutDecoration
-                .copyWith(border: Border.all(color: Colors.red))
-            : getWalletM!.pinPutDecoration,
+          ? getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red))
+          : getWalletM!.pinPutDecoration,
         followingFieldDecoration: getWalletM!.error
-            ? getWalletM!.pinPutDecoration
-                .copyWith(border: Border.all(color: Colors.red))
-            : getWalletM!.pinPutDecoration,
+          ? getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red))
+          : getWalletM!.pinPutDecoration,
         eachFieldConstraints: getWalletM!.boxConstraint,
         textStyle: const TextStyle(fontSize: 18, color: Colors.white),
         onChanged: onChanged,

@@ -9,6 +9,7 @@
         "symbol": "SEL",
         "org": "Selendra Chain",
         "org_test": "Testnet",
+        "balance": "0.0",
         "show": true,
         "isContain": true
     },
@@ -22,6 +23,7 @@
         "symbol": "SEL",
         "org": "BEP-20",
         "org_test": "BEP-20",
+        "balance": "0.0",
         "isContain": true,
         "show": false
     },
@@ -35,6 +37,7 @@
         "symbol": "SEL (v2)",
         "org": "BEP-20",
         "org_test": "BEP-20",
+        "balance": "0.0",
         "isContain": true,
         "show": false
     },
@@ -48,6 +51,7 @@
         "symbol": "KGO",
         "org": "BEP-20",
         "org_test": "BEP-20",
+        "balance": "0.0",
         "isContain": true,
         "show": true
     },
@@ -61,6 +65,7 @@
         "symbol": "ETH",
         "org": "",
         "org_test": "",
+        "balance": "0.0",
         "show": true,
         "isContain": true
     },
@@ -73,6 +78,7 @@
         "logo": "assets/logo/bnb.png",
         "symbol": "BNB",
         "org": "Smart Chain",
+        "balance": "0.0",
         "org_test": "Testnet",
         "show": true,
         "isContain": true
@@ -114,6 +120,7 @@
         "logo": "assets/attd_fingerprint.png",
         "symbol": "ATT",
         "org": "BEP-20",
+        "balance": "0.0",
         "org_test": "BEP-20",
         "show": false,
         "isContain": true

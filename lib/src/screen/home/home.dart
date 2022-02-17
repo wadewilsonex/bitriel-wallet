@@ -1,5 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -37,6 +38,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   @override
   void initState() {
     super.initState();
+    inAppUpdate();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
     searchPro = Provider.of<SearchProvider>(context, listen: false);
@@ -266,6 +268,15 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
     // To Disable Asset Loading
     contract.setReady();
+  }
+  
+  Future<void> inAppUpdate() async {
+    AppUpdate appUpdate = AppUpdate();
+    final result = await appUpdate.checkUpdate();
+    if (result.availableVersionCode == 1){
+      await appUpdate.performImmediateUpdate();
+      await InAppUpdate.completeFlexibleUpdate();
+    }
   }
 
   @override

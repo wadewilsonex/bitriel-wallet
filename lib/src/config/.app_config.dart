@@ -2,6 +2,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/network_params.dart';
 
+/// Size = 20
 const double paddingSize = 20;
 
 class AppConfig {

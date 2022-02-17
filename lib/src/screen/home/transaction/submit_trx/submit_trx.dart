@@ -1,12 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:flare_flutter/flare_controls.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/trx_info.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 
 class SubmitTrx extends StatefulWidget {
@@ -348,43 +344,9 @@ class SubmitTrxState extends State<SubmitTrx> {
                 await trxFunc!.sendTxDot(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text, context: context);
                 break;
 
-              // case "SEL":
-              //   await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelToken, txInfo);
-              //   // final chainDecimal = await ContractProvider().query(
-              //   //     trxFunc.contract.listContract[0].address, 'decimals', []);
-              //   // if (chainDecimal != null) {
-              //   //   await trxFunc.sendTxBsc(
-              //   //       trxFunc.contract.listContract[0].address,
-              //   //       chainDecimal[0].toString(),
-              //   //       _scanPayM.controlReceiverAddress.text,
-              //   //       _scanPayM.controlAmount.text);
-              //   // }
-              //   break;
-              // case "SEL v2":
-              //   await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelv2, txInfo);
-              //   // final chainDecimal = await ContractProvider().query(
-              //   //     trxFunc.contract.listContract[1].address, 'decimals', []);
-              //   // if (chainDecimal != null) {
-              //   //   await trxFunc.sendTxBsc(
-              //   //     trxFunc.contract.listContract[1].address,
-              //   //     chainDecimal[0].toString(),
-              //   //     _scanPayM.controlReceiverAddress.text,
-              //   //     _scanPayM.controlAmount.text,
-              //   //   );
-              //   // }
-              //   break;
-
               case "KGO":
                 await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);
-                // final chainDecimal = await ContractProvider().query(
-                //     trxFunc.contract.listContract[2].address, 'decimals', []);
-                // if (chainDecimal != null) {
-                //   await trxFunc.sendTxBsc(
-                //       trxFunc.contract.listContract[2].address,
-                //       chainDecimal[0].toString(),
-                //       _scanPayM.controlReceiverAddress.text,
-                //       _scanPayM.controlAmount.text);
-                // }
+
                 break;
 
               case "BNB":
@@ -421,11 +383,6 @@ class SubmitTrxState extends State<SubmitTrx> {
                   final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].address; //ContractProvider().findContractAddr(_scanPayM.asset);
                   await Provider.of<ContractProvider>(context, listen: false).initBep20Service(contractAddr!);
                   await trxFunc!.sendTxBep20(trxFunc!.contract!.getBep20, txInfo);
-                  // await trxFunc.sendTxBsc(
-                  //     contractAddr,
-                  //     chainDecimal[0].toString(),
-                  //     _scanPayM.controlReceiverAddress.text,
-                  //     _scanPayM.controlAmount.text);
                 }
 
                 break;

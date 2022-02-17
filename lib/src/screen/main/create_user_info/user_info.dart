@@ -159,18 +159,26 @@ class MyUserInfoState extends State<MyUserInfo> {
     final _api = await Provider.of<ApiProvider>(context, listen: false);
 
     try {
-      final json = await _api.getSdk.api.keyring.importAccount(
+      dynamic _json = await _api.getSdk.api.keyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
         name: _userInfoM.userNameCon.text,
         password: _userInfoM.confirmPasswordCon.text,
       );
+      
+      // For encryptSeed
+      await _api.addAccount(
+        _api.getKeyring,
+        keyType: KeyType.mnemonic,
+        acc: _json!,
+        password: _userInfoM.confirmPasswordCon.text,
+      );
 
       await _api.getSdk.api.keyring.addAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
-        acc: json!,
+        acc: _json,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
 
@@ -178,6 +186,8 @@ class MyUserInfoState extends State<MyUserInfo> {
 
         await _api.connectSELNode(context: context);
 
+        await _api.getAddressIcon();
+        // Get From Account js
         await _api.getCurrentAccount();
         await ContractProvider().extractAddress(_resPk);
 
