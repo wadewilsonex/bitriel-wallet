@@ -11,16 +11,19 @@ class ConfirmationTx extends StatelessWidget {
     this.sendTrx,
     this.gasFeetoEther,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
-
+    dynamic addr;
+    if (trxInfo!.receiver != null){
+     addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
+    }
+    // print("sendTrx ${sendTrx ?? 'sendTrx null'}");
     return Scaffold(
       body: Column(
         children: [
+
           MyAppBar(
             title: AppString.confirmTxTitle,
             onPressed: () {
@@ -162,6 +165,7 @@ class ConfirmationTx extends StatelessWidget {
                       : hexaCodeToColor(AppColors.darkSecondaryText),
                     height: 1.0,
                   ),
+                  
                   Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
@@ -212,7 +216,7 @@ class ConfirmationTx extends StatelessWidget {
                     edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
                     textButton: AppString.confirm,
                     action: () async {
-                      await sendTrx!(trxInfo);
+                      await sendTrx!(trxInfo, context: context);
                     },
                   )
                 ],

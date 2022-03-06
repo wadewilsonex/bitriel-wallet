@@ -69,7 +69,6 @@ async function decodeAddress(addresses: string[]) {
  * encode pubKey to addresses with different prefixes
  */
 async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
-  console.log("My encodeAddress", ss58Formats);
   await cryptoWaitReady();
   const res = {};
   ss58Formats.forEach((ss58) => {
@@ -79,7 +78,6 @@ async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
       // For Only Import or Create Account
       if (ss58 == (isMainnet ? mainnet : testNet)) {
         selAddr = keyring.encodeAddress(hexToU8a(i), ss58);
-        console.log("keyring.encodeAddress(hexToU8a(i), ss58)", keyring.encodeAddress(hexToU8a(i), ss58));
       }
     });
   });

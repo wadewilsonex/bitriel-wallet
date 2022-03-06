@@ -20,15 +20,15 @@ class MenuHeader extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return Container(
-        margin: const EdgeInsets.only(left: 16),
-        child: SizedBox(
-          height: 138,
-          child: Consumer<ApiProvider>(
-            builder: (context, value, child) {
-              return Row(
-                children: [
-                  
-                  InkWell(
+      margin: const EdgeInsets.only(left: 16),
+      child: SizedBox(
+        height: 138,
+        child: Consumer<ApiProvider>(
+          builder: (context, value, child) {
+            return Row(
+              children: [
+                
+                InkWell(
                   onTap: acc.address == null ? null : () {
                     Navigator.push(
                       context,
@@ -37,7 +37,28 @@ class MenuHeader extends StatelessWidget {
                   },
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Container(
+                    child: acc.addressIcon == null 
+                    ? Shimmer.fromColors(
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        margin: EdgeInsets.only(bottom: 3),
+                        decoration: BoxDecoration(
+                          color: isDarkTheme
+                            ? hexaCodeToColor(AppColors.whiteHexaColor)
+                            : Colors.grey.shade400,
+                          shape: BoxShape.circle,
+                        ),
+                      ), 
+                      period: const Duration(seconds: 2),
+                      baseColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : Colors.grey[300]!,
+                      highlightColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : Colors.grey[100]!,
+                    ) 
+                    : Container(
                       width: 60,
                       height: 60,
                       margin: const EdgeInsets.only(right: 5),
@@ -47,94 +68,94 @@ class MenuHeader extends StatelessWidget {
                           : Colors.grey.shade400,
                         shape: BoxShape.circle,
                       ),
-                      child: acc.addressIcon != null ? SvgPicture.string(acc.addressIcon!) : Container(),
+                      child: SvgPicture.string(acc.addressIcon!),
                     ),
                   ),
                 ),
                   
-                  const SizedBox(width: 5),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      acc.name != null 
-                      ? MyText(
-                        bottom: 3,
-                        text: acc.name ?? '',
-                        color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                        fontSize: 16,
-                      ) 
-                      : Shimmer.fromColors(
-                        child: Container(
-                          width: 100,
-                          height: 8.0,
-                          margin: EdgeInsets.only(bottom: 3),
-                          color: Colors.white,
-                        ), 
-                        period: const Duration(seconds: 2),
-                        baseColor: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : Colors.grey[300]!,
-                        highlightColor: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : Colors.grey[100]!,
-                      ),
-                      
-                      acc.address != null
-                      ? Row(
-                        children: [
-                          MyText(
-                            right: 5,
-                            text: acc.address!.replaceRange( 5, acc.address!.length - 5, "....."),
-                            color: isDarkTheme
-                              ? AppColors.whiteColorHexa
-                              : AppColors.textColor,
-                            fontSize: 16,
-                            textAlign: TextAlign.left
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await Clipboard.setData(
-                                ClipboardData(text: acc.address!),
-                              );
-                              Fluttertoast.showToast(
-                                msg: "Copied address",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                              );
-                            }, 
-                            child: SvgPicture.asset(
-                              AppConfig.iconsPath+'qr_code.svg',
-                              width: 20,
-                              height: 20,
-                              color: hexaCodeToColor(AppColors.secondary),
-                            )
+                const SizedBox(width: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    acc.name != null 
+                    ? MyText(
+                      bottom: 3,
+                      text: acc.name ?? '',
+                      color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      fontSize: 16,
+                    ) 
+                    : Shimmer.fromColors(
+                      child: Container(
+                        width: 100,
+                        height: 8.0,
+                        margin: EdgeInsets.only(bottom: 3),
+                        color: Colors.white,
+                      ), 
+                      period: const Duration(seconds: 2),
+                      baseColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : Colors.grey[300]!,
+                      highlightColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : Colors.grey[100]!,
+                    ),
+                    
+                    acc.address != null
+                    ? Row(
+                      children: [
+                        MyText(
+                          right: 5,
+                          text: acc.address!.replaceRange( 5, acc.address!.length - 5, "....."),
+                          color: isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                          fontSize: 16,
+                          textAlign: TextAlign.left
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            await Clipboard.setData(
+                              ClipboardData(text: acc.address!),
+                            );
+                            Fluttertoast.showToast(
+                              msg: "Copied address",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                            );
+                          }, 
+                          child: SvgPicture.asset(
+                            AppConfig.iconsPath+'qr_code.svg',
+                            width: 20,
+                            height: 20,
+                            color: hexaCodeToColor(AppColors.secondary),
                           )
-                        ]
-                      )
-                      : Shimmer.fromColors(
-                        child: Container(
-                          width: 150,
-                          height: 8.0,
-                          color: Colors.white,
-                        ), 
-                        period: const Duration(seconds: 2),
-                        baseColor: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : Colors.grey[300]!,
-                        highlightColor: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : Colors.grey[100]!,
-                      )
-                    ],
-                  )
-                ],
-              );
-            },
-          ),
+                        )
+                      ]
+                    )
+                    : Shimmer.fromColors(
+                      child: Container(
+                        width: 150,
+                        height: 8.0,
+                        color: Colors.white,
+                      ), 
+                      period: const Duration(seconds: 2),
+                      baseColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : Colors.grey[300]!,
+                      highlightColor: isDarkTheme
+                        ? hexaCodeToColor(AppColors.darkBgd)
+                        : Colors.grey[100]!,
+                    )
+                  ],
+                )
+              ],
+            );
+          },
         ),
+      ),
     );
   }
 }

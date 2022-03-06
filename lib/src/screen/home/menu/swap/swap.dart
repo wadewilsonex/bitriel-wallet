@@ -42,7 +42,7 @@ class _SwapState extends State<Swap> {
       _hash = await contract.swap(_swapModel.amountController!.text, pKey);
     } catch (e) {
       Navigator.pop(context);
-      // print(e.message);
+      // if (ApiProvider().isDebug == false) print(e.message);
 
       if (e.toString() == 'insufficient funds for gas * price + value') {
         await customDialog('Opps', 'Insufficient funds for gas');
@@ -166,12 +166,11 @@ class _SwapState extends State<Swap> {
         await swapWithoutAp();
       }
     } catch (e) {
-      print("Error confirmFunction $e");
+      if (ApiProvider().isDebug == false) print("Error confirmFunction $e");
     }
   }
 
   void validateSwap() async {
-    print("validateSwap");
     // Loading
     dialogLoading(context);
 

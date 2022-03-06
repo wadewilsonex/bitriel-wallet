@@ -59,7 +59,6 @@ class QrScannerState extends State<QrScanner> {
                 key: qrKey,
                 onQRViewCreated: (QRViewController qrView) async {
                   await _onQrViewCreated(qrView);
-                  // print(qrKey.currentState);
                 },
                 overlay: QrScannerOverlayShape(
                   borderRadius: 10,

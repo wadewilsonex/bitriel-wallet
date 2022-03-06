@@ -100,7 +100,7 @@ class PresaleProvider with ChangeNotifier {
 
       hash = orderHash;
     } catch (e) {
-      print("Error orderUsingBnb $e");
+      if (ApiProvider().isDebug == false) print("Error orderUsingBnb $e");
     }
 
     return hash;
@@ -187,7 +187,7 @@ class PresaleProvider with ChangeNotifier {
 
       return approve;
     } catch (e) {
-      print("Error approvePresale $e");
+      if (ApiProvider().isDebug == false) print("Error approvePresale $e");
     }
     return '';
   }
@@ -198,7 +198,7 @@ class PresaleProvider with ChangeNotifier {
   ///
   /// Use Inside app.dart
   Future<DeployedContract?> initPresaleContract() async {
-    print("initPresaleContract");
+    if (ApiProvider().isDebug == false) print("initPresaleContract");
     try {
       final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'presale1.json');
       _deployedContract = DeployedContract(
@@ -209,7 +209,7 @@ class PresaleProvider with ChangeNotifier {
       notifyListeners();
       return _deployedContract;
     } catch (e) {
-      print("Error initPresaleContract $e");
+      if (ApiProvider().isDebug == false) print("Error initPresaleContract $e");
     }
     return null;
   }
@@ -226,7 +226,7 @@ class PresaleProvider with ChangeNotifier {
 
       return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
     } catch (e) {
-      print("Error checkTokenBalance $e");
+      if (ApiProvider().isDebug == false) print("Error checkTokenBalance $e");
     }
     return 0.0;
   }
@@ -246,7 +246,7 @@ class PresaleProvider with ChangeNotifier {
 
       if (res != null) idRes = List.from(res.first);
     } catch (e) {
-      print("Error getInvestorOrderIds $e");
+      if (ApiProvider().isDebug == false) print("Error getInvestorOrderIds $e");
     }
 
     return idRes;
@@ -265,7 +265,7 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      print("Error getOrder $e");
+      if (ApiProvider().isDebug == false) print("Error getOrder $e");
     }
   }
 
@@ -282,7 +282,7 @@ class PresaleProvider with ChangeNotifier {
       );
       return res;
     } catch (e) {
-      print("Error getPriceToken $e");
+      if (ApiProvider().isDebug == false) print("Error getPriceToken $e");
     }
   }
 
@@ -295,7 +295,7 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      print("Err getBNBToken $e");
+      if (ApiProvider().isDebug == false) print("Err getBNBToken $e");
     }
   }
 
@@ -308,7 +308,7 @@ class PresaleProvider with ChangeNotifier {
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
       return res;
     } catch (e) {
-      print("Error minInvestment $e");
+      if (ApiProvider().isDebug == false) print("Error minInvestment $e");
     }
   }
 
@@ -331,7 +331,7 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      print("Error fetchAndFillPrice $e");
+      if (ApiProvider().isDebug == false) print("Error fetchAndFillPrice $e");
     }
     return supportTokenList;
   }
@@ -357,7 +357,7 @@ class PresaleProvider with ChangeNotifier {
   /* --------------------------Helper Function--------------------- */
 
   Future<void> setListOrder() async {
-    print("setListOrder");
+    if (ApiProvider().isDebug == false) print("setListOrder");
     try {
 
       presaleOrderInfo.clear();
@@ -385,7 +385,7 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      print("Error setListOrder $e");
+      if (ApiProvider().isDebug == false) print("Error setListOrder $e");
     }
   }
 

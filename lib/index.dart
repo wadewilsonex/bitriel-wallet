@@ -132,7 +132,7 @@ export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet_body.d
 export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
-export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx_body.dart';
+export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';

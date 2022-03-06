@@ -72,7 +72,7 @@ class AppUtils {
         am
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
-      print("Error timeStampToDate $e");
+      if (ApiProvider().isDebug == false) print("Error timeStampToDate $e");
     }
     return '';
   }

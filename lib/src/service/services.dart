@@ -6,6 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:convert/convert.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:polkawallet_sdk/api/apiTx.dart';
+import 'package:polkawallet_sdk/service/tx.dart';
+import 'package:polkawallet_sdk/api/types/txInfoData.dart';
+import 'package:polkawallet_sdk/api/api.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppServices {
@@ -155,7 +159,7 @@ class AppServices {
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      // print("Erorr $e");
+      if (ApiProvider().isDebug == false) print("Erorr $e");
       // canCheckBiometrics = false;
     }
 
@@ -217,4 +221,43 @@ class AppUpdate {
   Future<void> performImmediateUpdate() async {
     await InAppUpdate.performImmediateUpdate();
   }
+}
+
+class SendTrx extends ApiTx{
+
+  final PolkawalletApi apiRoot;
+  final ServiceTx service;
+
+  SendTrx(this.apiRoot, this.service) : super(apiRoot, service);
+
+  /// Estimate tx fees, [params] will be ignored if we have [rawParam].
+  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam}) async {
+    final String param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+    dynamic res = await (service.estimateFees(tx, param));
+    return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
+  }
+
+  @override
+  Future<Map> signAndSend(
+    TxInfoData txInfo,
+    List params,
+    String password, {
+    Function(String)? onStatusChange,
+    String? rawParam,
+  }) async {
+    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+    dynamic res = await (service.signAndSend(
+      tx,
+      param,
+      password,
+      onStatusChange ?? (status) {},
+    ));
+    if (res['error'] != null) {
+      throw Exception(res['error']);
+    }
+    return res;
+  }
+
 }

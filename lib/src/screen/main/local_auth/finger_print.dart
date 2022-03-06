@@ -27,7 +27,6 @@ class _FingerPrintState extends State<FingerPrint> {
   }
 
   Future<void> authenticate() async {
-    print("authenticate");
     bool authenticate = false;
 
     try {

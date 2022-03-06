@@ -11,7 +11,6 @@ class ListTileComponent extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return GestureDetector(
       onTap: () async {
-        print("Action");
         await action!();
       },
       child: Container(

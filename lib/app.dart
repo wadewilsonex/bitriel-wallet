@@ -55,9 +55,21 @@ class AppState extends State<App> {
       });
       
       await apiProvider.initApi(context: context).then((value) async {
-        if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
+        await apiProvider.connectPolNon(context: context).then((value) async {
           await apiProvider.connectSELNode(context: context);
+        });
+
+        if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+          /// Cannot connect Both Network On the Same time
+          /// 
+          /// It will be wrong data of that each connection. 
+          /// 
+          /// This Function Connect Polkadot Network And then Connect Selendra Network
+          // await apiProvider.getDotChainDecimal(con5text: context);
+          // await apiProvider.subscribeDotBalance(context: context);
+
+          // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
           // Get From Keyring js
           await apiProvider.getCurrentAccount(funcName: 'keyring');
@@ -67,7 +79,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      // print("Error initApi $e");
+      if (ApiProvider().isDebug == false) print("Error initApi $e");
     }
   }
 
@@ -85,7 +97,7 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      // print("Error readTheme $e");
+      if (ApiProvider().isDebug == false) print("Error readTheme $e");
     }
   }
 

@@ -542,7 +542,6 @@ class _ReuseDropDown extends StatelessWidget {
           onChanged!(value!);
         },
         items: itemsList!.map<DropdownMenuItem<String>>((Map<String, dynamic> e) {
-          //print('logo: ${value['logo']}');
           return DropdownMenuItem<String>(
             value: "${e['symbol']}",
             child: Row(

@@ -109,7 +109,7 @@ class MarketProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        print("error market $e");
+        if (ApiProvider().isDebug == false) print("error market $e");
       }
     }
 

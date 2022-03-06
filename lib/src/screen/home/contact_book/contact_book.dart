@@ -69,7 +69,6 @@ class _ContactBookState extends State<ContactBook> {
   Future<void> deleteContact(int index) async {
 
     _contactBookModel.contactBookList!.removeAt(index);
-    //print("Empty ${_contactBookModel.contactBookList.isEmpty}");
     if (_contactBookModel.contactBookList!.isEmpty) {
       await StorageServices.removeKey(DbKey.contactList);
       _contactBookModel.contactBookList = null;

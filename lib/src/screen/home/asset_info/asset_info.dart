@@ -126,7 +126,7 @@ class _AssetInfoState extends State<AssetInfo> {
       });
 
     } catch (e) {
-      // print("Error _deleteHistory $e");
+      if (ApiProvider().isDebug == false) print("Error _deleteHistory $e");
     }
     return null;
   }

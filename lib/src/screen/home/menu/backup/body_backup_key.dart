@@ -1,6 +1,8 @@
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
+import 'package:wallet_apps/src/screen/home/menu/backup/keystoreJson.dart';
+import 'package:polkawallet_sdk/storage/keyring.dart';
 
 class BackUpKeyBody extends StatelessWidget{
 
@@ -29,8 +31,7 @@ class BackUpKeyBody extends StatelessWidget{
           },
         ),
         backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor),
-        centerTitle: true,
-        title: MyText(text: 'Export Account', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor),
+        title: MyText(text: 'Export Account', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Card(
         margin: EdgeInsets.all(paddingSize),
@@ -42,6 +43,22 @@ class BackUpKeyBody extends StatelessWidget{
               text: "Keystore (json)",
               action: () async {
                 // await getKeyStoreJson!();
+                ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
+                Map<String, dynamic> jsons = {
+                  "address": Provider.of<ContractProvider>(context, listen: false).listContract[_apiProvider.selNativeIndex].address,
+                  "encoded": _apiProvider.getKeyring.current.encoded,
+                  "encoding": _apiProvider.getKeyring.current.encoding,
+                  "pubKey": _apiProvider.getKeyring.current.pubKey,
+                  "meta": _apiProvider.getKeyring.current.meta,
+                  "memo": _apiProvider.getKeyring.current.memo,
+                  "observation": _apiProvider.getKeyring.current.observation,
+                  "indexInfo": _apiProvider.getKeyring.current.indexInfo
+                };
+
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => KeyStoreJson(keystore: jsons,))
+                );
               },
             ),
 
@@ -52,8 +69,7 @@ class BackUpKeyBody extends StatelessWidget{
                   if (value != ''){
                     // await disableScreenShot!();
                     ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-                    await _apiProvider.getDecryptedSeed(_apiProvider.getKeyring.current.pubKey, value).then((value) async {
-                      print("Mnemonic $value");
+                    await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((value) async {
                       await showDialog(
                         context: context, 
                         builder: (BuildContext context){
@@ -86,7 +102,7 @@ class BackUpKeyBody extends StatelessWidget{
                                     ? hexaCodeToColor(AppColors.darkCard)
                                     : hexaCodeToColor(AppColors.whiteHexaColor),
                                   child: MyText(
-                                    text: value!['seed'],
+                                    text: value!.seed.toString(),
                                     textAlign: TextAlign.left,
                                     fontSize: 25,
                                     color: AppColors.secondarytext,

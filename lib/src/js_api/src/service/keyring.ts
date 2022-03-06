@@ -125,7 +125,6 @@ function recover(keyType: string, cryptoType: KeypairType, key: string, password
  * into different address formats for different networks.
  */
 async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
-  console.log("initKeys");
   await cryptoWaitReady();
   const res = {};
   ss58Formats.forEach((ss58) => {
@@ -222,16 +221,27 @@ function _extractEvents(api: ApiPromise, result: SubmittableResult) {
  * sign and send extrinsic to network and wait for result.
  */
 function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string, msgId: string) {
+  console.log("Hello my sendTx");
+  console.log("txInfo", txInfo);
+  console.log("paramList", paramList);
+  console.log("password", password);
+  console.log("txInfo.txName", txInfo.txName);
+  console.log("txInfo.module", txInfo.module);
+  console.log("txInfo.call", txInfo.call);
   return new Promise(async (resolve) => {
     let tx: SubmittableExtrinsic<"promise">;
     // wrap tx with council.propose for treasury propose
     if (txInfo.txName == "treasury.approveProposal") {
+      console.log("treasury.approveProposal");
       tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], false);
     } else if (txInfo.txName == "treasury.rejectProposal") {
+      console.log("treasury.rejectProposal");
       tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], true);
     } else {
+      console.log("My else");
       tx = api.tx[txInfo.module][txInfo.call](...paramList);
     }
+    console.log("tx", tx)
     let unsub = () => { };
     const onStatusChange = (result: SubmittableResult) => {
       if (result.status.isInBlock || result.status.isFinalized) {
@@ -247,6 +257,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
         (<any>window).send(msgId, result.status.type);
       }
     };
+    console.log("txInfo.isUnsigned", txInfo.isUnsigned);
     if (txInfo.isUnsigned) {
       tx.send(onStatusChange)
         .then((res) => {
@@ -259,6 +270,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     }
 
     let keyPair: KeyringPair;
+
     if (!txInfo.proxy) {
       keyPair = keyring.getPair(hexToU8a(txInfo.sender.pubKey));
     } else {
@@ -272,8 +284,11 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     } catch (err) {
       resolve({ error: "PIN verification failed" });
     }
+
+    console.log("signAndSend");
     tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
       .then((res) => {
+        console.log("My Res", res);
         unsub = res;
       })
       .catch((err) => {

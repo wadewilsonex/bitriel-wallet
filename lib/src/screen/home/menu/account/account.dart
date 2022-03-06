@@ -74,7 +74,7 @@ class _AccountState extends State<Account> {
     final _api = await Provider.of<ApiProvider>(context, listen: false);
     
     try {
-      await _api.getSdk.api.keyring.deleteAccount(
+      await _api.apiKeyring.deleteAccount(
         _api.getKeyring,
         _accountModel.currentAcc!,
       );
@@ -98,23 +98,18 @@ class _AccountState extends State<Account> {
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      // print("_deleteAccount ${e.toString()}");
+      if (ApiProvider().isDebug == false) print("_deleteAccount ${e.toString()}");
       // await dialog(context, e.toString(), 'Opps');
     }
   }
 
   Future<void> getBackupKey(String pass) async {
     
-    print("getBackupKey");
     Navigator.pop(context);
     final _api = await Provider.of<ApiProvider>(context, listen: false);
-    print(_api.getKeyring.current.pubKey);
-    print(pass);
     try {
       // final pairs = await KeyringPrivateStore([0, 42])// (_api.getKeyring.keyPairs[0].pubKey, pass);
-      print("_api.getKeyring.keyPairs[0].pubKey ${_api.getKeyring.keyPairs[0].pubKey}");
       final pairs = await KeyringPrivateStore([_api.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(_api.getKeyring.keyPairs[0].pubKey, pass);
-      print("${pairs}");
       if (pairs!['seed'] != null) {
         await customDialog(context, 'Backup Key', pairs['seed'].toString());
       } else {
@@ -122,7 +117,7 @@ class _AccountState extends State<Account> {
       }
     } catch (e) {
       //await dialog(context, e.toString(), 'Opps');
-      print("Error getBackupKey $e");
+      if (ApiProvider().isDebug == false) print("Error getBackupKey $e");
     }
     _accountModel.pinController.text = '';
   }
@@ -134,8 +129,7 @@ class _AccountState extends State<Account> {
     // });
     dialogLoading(context);
     final res = await Provider.of<ApiProvider>(context, listen: false);
-    final changePass = await res.getSdk.api.keyring.changePassword(res.getKeyring, oldPass, newPass);
-    print("changePass $changePass");
+    final changePass = await res.apiKeyring.changePassword(res.getKeyring, oldPass, newPass);
     if (changePass != null) {
       await customDialog(context, 'Change Pin', 'You pin has changed!!!');
     } else {

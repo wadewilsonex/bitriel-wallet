@@ -7,6 +7,7 @@
 
 import 'package:connectivity_for_web/connectivity_for_web.dart';
 import 'package:contact_picker_web/contact_picker_web.dart';
+import 'package:flutter_native_splash/flutter_native_splash_web.dart';
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:fluttertoast/fluttertoast_web.dart';
 import 'package:geolocator_web/geolocator_web.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 void registerPlugins(Registrar registrar) {
   ConnectivityPlugin.registerWith(registrar);
   FlutterContactPickerPlugin.registerWith(registrar);
+  FlutterNativeSplashWeb.registerWith(registrar);
   FlutterSecureStorageWeb.registerWith(registrar);
   FluttertoastWebPlugin.registerWith(registrar);
   GeolocatorPlugin.registerWith(registrar);

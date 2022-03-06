@@ -96,6 +96,7 @@ class ContractProvider with ChangeNotifier {
             contractTest: value['contract_test'],
             symbol: value["symbol"],
             org: value["org"],
+            orgTest: value["org_test"],
             isContain: value["isContain"],
             show: value["show"],
             listActivity: [],
@@ -105,14 +106,10 @@ class ContractProvider with ChangeNotifier {
         );
       });
 
-      // listContract.forEach((element) {
-      //   print("${element.symbol} ${element.contract}");
-      //   print("${element.contractTest}");
-      // });
       notifyListeners();
 
     } catch (e) {
-      // print("Error initJson $e");
+      if (ApiProvider().isDebug == false) print("Error initJson $e");
     }
   }
 
@@ -124,7 +121,6 @@ class ContractProvider with ChangeNotifier {
   void setDotAddr(String addr, String chainDecimal){
     listContract[apiProvider.dotIndex].address = addr;
     listContract[apiProvider.dotIndex].chainDecimal = chainDecimal;
-    sortAsset();
   }
 
   Future<bool> setSavedList() async {
@@ -146,7 +142,7 @@ class ContractProvider with ChangeNotifier {
           
       return true;
     } catch (e) {
-      print("Error setSavedList $e");
+      if (ApiProvider().isDebug == false) print("Error setSavedList $e");
     }
     return false;
   }
@@ -187,7 +183,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Err addListActivity $e");
+      if (ApiProvider().isDebug == false) print("Err addListActivity $e");
     }
   }
 
@@ -201,7 +197,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Err updateNativeTxStt $e");
+      if (ApiProvider().isDebug == false) print("Err updateNativeTxStt $e");
     }
   }
 
@@ -243,7 +239,7 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      print("Err selNativeTokenWallet $e");
+      if (ApiProvider().isDebug == false) print("Err selTokenWallet $e");
     }
   }
 
@@ -269,7 +265,7 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.selV2Index].address = ethAdd;//'0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
       notifyListeners();
     } catch (e) {
-      print("Error selv2TokenWallet $e");
+      if (ApiProvider().isDebug == false) print("Error selv2TokenWallet $e");
     }
   }
 
@@ -296,7 +292,7 @@ class ContractProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        print("Err kgoTokenWallet $e");
+        if (ApiProvider().isDebug == false) print("Err kgoTokenWallet $e");
       }
     }
   }
@@ -316,7 +312,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Err ethWallet $e");
+      if (ApiProvider().isDebug == false) print("Err ethWallet $e");
     }
   }
 
@@ -335,7 +331,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Error bnbWallet $e");
+      if (ApiProvider().isDebug == false) print("Error bnbWallet $e");
     }
   }
 
@@ -363,9 +359,7 @@ class ContractProvider with ChangeNotifier {
         for (int i = 0; i < sortListContract.length; i++) {
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
-            // print('sortListContract balance ${double.parse(sortListContract[j].balance)}');
-            // print('tmp balance ${double.parse(tmp.balance)}');
-            if ( (double.parse(sortListContract[j].balance!)) > (double.parse(tmp.balance!)) ) {
+            if ( (double.parse(sortListContract[j].balance!)) > (double.parse(sortListContract[j].balance!)) ) {
               sortListContract[i] = sortListContract[j];
               sortListContract[j] = tmp;
             }
@@ -376,7 +370,7 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
       
     } catch (e) {
-      print("Error sortAsset $e");
+      if (ApiProvider().isDebug == false) print("Error sortAsset $e");
     }
     
     return null;
@@ -469,7 +463,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   void unsubscribeNetwork() async {
-    print('canel stream');
     await streamSubscriptionBsc!.cancel();
 
     //await streamSubscriptionEth.cancel();
@@ -497,7 +490,7 @@ class ContractProvider with ChangeNotifier {
 
       return contract;
     } catch (e) {
-      print("Err initBsc $e");
+      if (ApiProvider().isDebug == false) print("Err initBsc $e");
     }
     return null;
   }
@@ -506,12 +499,12 @@ class ContractProvider with ChangeNotifier {
 
     bool _isValid = false;
     try {
-      EthereumAddress.fromHex(address, enforceEip55: true);
+      EthereumAddress.fromHex(address);
       _isValid = true;
     } on ArgumentError {
       // Not valid
     } catch (e) {
-      print("Err validateEvmAddr $e");
+      if (ApiProvider().isDebug == false) print("Err validateEvmAddr $e");
     }
     return _isValid;
   }
@@ -584,7 +577,7 @@ class ContractProvider with ChangeNotifier {
       final gasPrice = await _bscClient!.getGasPrice();
       return gasPrice;
     } catch (e) {
-      print("Error getBscGasPrice $e");
+      if (ApiProvider().isDebug == false) print("Error getBscGasPrice $e");
     }
 
   }
@@ -612,7 +605,6 @@ class ContractProvider with ChangeNotifier {
           ],
         ),
       );
-      print("maxGas $maxGas");
 
       final approve = await _bscClient!.sendTransaction(
         credentials,
@@ -632,7 +624,7 @@ class ContractProvider with ChangeNotifier {
 
       return approve;
     } catch (e) {
-      print("Error approveSwap $e");
+      if (ApiProvider().isDebug == false) print("Error approveSwap $e");
     }
     return '';
   }
@@ -652,7 +644,7 @@ class ContractProvider with ChangeNotifier {
 
       return res.first;
     } catch (e) {
-      print("Error checkAllowance $e");
+      if (ApiProvider().isDebug == false) print("Error checkAllowance $e");
     }
   }
 
@@ -692,7 +684,7 @@ class ContractProvider with ChangeNotifier {
 
       return swap;
     } catch (e) {
-      print("Error swap $e");
+      if (ApiProvider().isDebug == false) print("Error swap $e");
     }
     return '';
   }
@@ -714,7 +706,7 @@ class ContractProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      print("Error queryEther $e");
+      if (ApiProvider().isDebug == false) print("Error queryEther $e");
     }
     return null;
   }
@@ -734,7 +726,7 @@ class ContractProvider with ChangeNotifier {
       );
       return res;
     } catch (e) {
-      print("Error query $e");
+      if (ApiProvider().isDebug == false) print("Error query $e");
     }
     return [];
   }
@@ -759,7 +751,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Error getEtherAddr $e");
+      if (ApiProvider().isDebug == false) print("Error getEtherAddr $e");
     }
   }
 
@@ -833,8 +825,6 @@ class ContractProvider with ChangeNotifier {
       chainId: null,
       fetchChainIdFromNetworkId: true,
     );
-
-    // print("Res $res");
 
     return res;
   }
@@ -1144,7 +1134,7 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      print("Err addAsset $e");
+      if (ApiProvider().isDebug == false) print("Err addAsset $e");
     }
   }
 
@@ -1159,7 +1149,6 @@ class ContractProvider with ChangeNotifier {
       ),
     );
 
-    print("findContractAddr ${item.address}");
     return item.address!;
   }
 
@@ -1200,7 +1189,6 @@ class ContractProvider with ChangeNotifier {
     sortListContract.clear();
     listContract.clear();
     addedContract.clear();
-    print("Logout");
     initJson();
     notifyListeners();
   }

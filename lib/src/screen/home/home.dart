@@ -142,7 +142,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
       await StorageServices.storeData(mkPro.sortDataMarket, DbKey.marketkPrice);
     } catch (e) {
-      print("Error $e");
+      if (ApiProvider().isDebug == false) print("Error marketPriceInitializer $e");
     }
   }
 
@@ -169,17 +169,17 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       // break;
       case AppLifecycleState.inactive:
         // Handle this case
-        print('inactive');
+        if (ApiProvider().isDebug == false) print('inactive');
 
         break;
       case AppLifecycleState.paused:
         // Handle this case
-        print('paused');
+        if (ApiProvider().isDebug == false) print('paused');
         onPause();
 
         break;
       case AppLifecycleState.detached:
-        print('detached');
+        if (ApiProvider().isDebug == false) print('detached');
         break;
     }
   }
@@ -204,7 +204,6 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    print('dispose');
     super.dispose();
   }
 

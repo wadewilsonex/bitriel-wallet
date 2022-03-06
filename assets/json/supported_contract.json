@@ -78,8 +78,8 @@
         "logo": "assets/logo/bnb.png",
         "symbol": "BNB",
         "org": "Smart Chain",
+        "org_test": "",
         "balance": "0.0",
-        "org_test": "Testnet",
         "show": true,
         "isContain": true
     },

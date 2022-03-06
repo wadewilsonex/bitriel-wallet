@@ -111,7 +111,6 @@ class _EditContactState extends State<EditContact> {
 
       // Close Dialog Loading
       Navigator.pop(context);
-      //print("Close Dialog");
 
       if (result == true) {
         await showDialog(

@@ -18,11 +18,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
-
-    // print("getCurrentAccount");
-      // await Future.delayed(const Duration(seconds: 2), () async {
-      //     Navigator.pushReplacement(context, RouteAnimation(enterPage: Account())); 
-      // });
     
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
@@ -66,7 +61,8 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      print("Error Splash screen $e");
+      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
     }
   }
   
@@ -181,7 +177,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

@@ -40,7 +40,6 @@
 //   //   // ignore: avoid_function_literals_in_foreach_calls
 //   //   _trxHistoryData.forEach((element) {
 //   //     if (widget._walletKey == element['sender']) {
-//   //       // print("$element\n");
 //   //       _trxSend.add(element);
 //   //     } else if (widget._walletKey != element['sender']) {
 //   //       /* Send Trx If Source Account Address Not Equal Wallet Adddress */

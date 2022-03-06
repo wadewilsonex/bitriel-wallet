@@ -58,7 +58,6 @@ class _AddContactState extends State<AddContact> {
 
       // Close Dialog Loading
       Navigator.pop(context);
-      //print("Close Dialog");
 
       await showDialog(
         context: context,
@@ -95,7 +94,7 @@ class _AddContactState extends State<AddContact> {
     } catch (e) {
       // Close Dialog Loading
       Navigator.pop(context);
-      //print("My error $e");
+      if (ApiProvider().isDebug == false) print("Error submitContact $e");
     }
   }
 

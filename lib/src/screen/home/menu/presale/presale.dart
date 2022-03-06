@@ -72,7 +72,7 @@ class _PresaleState extends State<Presale> {
 
   //   try {} catch (e) {
   //     Navigator.pop(context);
-  //     // print(e.message);
+  //     // if (ApiProvider().isDebug == false) print(e.message);
 
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
@@ -457,7 +457,7 @@ class _PresaleState extends State<Presale> {
         }
       });
     } catch (e) {
-      print("Error priceChecker $e");
+      if (ApiProvider().isDebug == false) print("Error priceChecker $e");
     }
   }
 
@@ -485,7 +485,7 @@ class _PresaleState extends State<Presale> {
         );
       }
     } catch (e) {
-      print("Error checkIsAllownce $e");
+      if (ApiProvider().isDebug == false) print("Error checkIsAllownce $e");
     }
   }
 
@@ -523,7 +523,7 @@ class _PresaleState extends State<Presale> {
         }
       }
     } catch (e) {
-      print("Error submitPresale $e");
+      if (ApiProvider().isDebug == false) print("Error submitPresale $e");
     }
   }
 
@@ -539,7 +539,7 @@ class _PresaleState extends State<Presale> {
 
       _model.balance = double.parse(contract.listContract[4].balance!);
       _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
-      // print("_model.listSupportToken ${_model.listSupportToken}");
+      // if (ApiProvider().isDebug == false) print("_model.listSupportToken ${_model.listSupportToken}");
       // await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
       //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
@@ -547,7 +547,7 @@ class _PresaleState extends State<Presale> {
 
       setState(() {});
     } catch (e) {
-      print("Error initMethod $e");
+      if (ApiProvider().isDebug == false) print("Error initMethod $e");
     }
   }
 

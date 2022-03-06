@@ -632,9 +632,9 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
           ),
         ],
       );
-      },
-    );
-  }
+    },
+  );
+}
 
 /* Trigger Snack Bar Function */
 void snackBar(BuildContext context, String contents) {

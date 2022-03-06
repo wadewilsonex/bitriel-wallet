@@ -26,7 +26,7 @@ class ContractService implements IContractService {
       );
       return res;
     } catch (e) {
-      print("Error _queryContract $e");
+      if (ApiProvider().isDebug == false) print("Error _queryContract $e");
     }
     return [];
   }
@@ -48,7 +48,7 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
       return res.first as BigInt;
     } catch (e) {
-      print("Error getTokenBalance $e");
+      if (ApiProvider().isDebug == false) print("Error getTokenBalance $e");
     }
     return 0 as BigInt;
   }
@@ -85,7 +85,7 @@ class ContractService implements IContractService {
               return std!;
             }
           } catch (e) {
-            print("Error $e");
+            if (ApiProvider().isDebug == false) print("Error $e");
           }
         })
         .where((receipt) => receipt != null)
@@ -109,7 +109,7 @@ class ContractService implements IContractService {
     //       }
     //     });
 
-    //     print('std in try $std');
+    //     if (ApiProvider().isDebug == false) print('std in try $std');
 
     //     // Return Value For True Value And Method GetTrxReceipt Also Terminate
     //     if (std != null) return std;
@@ -125,11 +125,11 @@ class ContractService implements IContractService {
     //       return std;
     //     }
     //   } catch (e) {
-    //     print("Error $e");
+    //     if (ApiProvider().isDebug == false) print("Error $e");
     //   }
     // });
 
-    // print('mystd: $std');
+    // if (ApiProvider().isDebug == false) print('mystd: $std');
     // return std;
   }
 
@@ -164,7 +164,7 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      print("Err sendToken $e");
+      if (ApiProvider().isDebug == false) print("Err sendToken $e");
     }
 
     return res!;

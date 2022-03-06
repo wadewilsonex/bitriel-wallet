@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class SubmitTrxBody extends StatelessWidget {

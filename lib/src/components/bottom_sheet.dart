@@ -47,7 +47,7 @@ class MyBottomSheet {
                             portfolioList!,
                           );
                         } catch (e) {
-                          print("error TrxOptionMethod.scanQR $e");
+                          if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");
                         }
                         
                       },

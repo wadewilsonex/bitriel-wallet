@@ -90,7 +90,7 @@ class SearchItem extends StatelessWidget{
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkTheme
-                                  ? AppColors.darkSecondaryText
+                                  ? AppColors.whiteColorHexa
                                   : AppColors.darkSecondaryText,
                                 ),
                               ),
@@ -103,7 +103,7 @@ class SearchItem extends StatelessWidget{
                         text: lsItem![index].name!, 
                         color: isDarkTheme
                           ? AppColors.whiteColorHexa
-                          : AppColors.blackColor,
+                          : AppColors.darkSecondaryText,
                         fontSize: 14,
                       )
                     ],

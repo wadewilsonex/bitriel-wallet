@@ -68,7 +68,7 @@ class TrxFunctional {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      // print('1');
+      // if (ApiProvider().isDebug == false) print('1');
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -80,7 +80,7 @@ class TrxFunctional {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      // print('2');
+      // if (ApiProvider().isDebug == false) print('2');
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -123,7 +123,7 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      print("err sendTxBnb $e");
+      if (ApiProvider().isDebug == false) print("err sendTxBnb $e");
     }
   }
 
@@ -190,7 +190,7 @@ class TrxFunctional {
           await navigateAssetInfo(txInfo, nativeService: coinService);
         }
       } catch (e) {
-        print('Err sendTxEvm $e');
+        if (ApiProvider().isDebug == false) print('Err sendTxEvm $e');
         if (e.toString() == 'insufficient funds for gas * price + value') {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
@@ -201,7 +201,7 @@ class TrxFunctional {
   }
 
   Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-
+    if (ApiProvider().isDebug == false) print("sendTxBep20");
     try {
 
       if (txInfo.privateKey != null) {
@@ -217,7 +217,7 @@ class TrxFunctional {
           }
         } catch (e) {
           // Navigator.pop(context);
-          print('Error sendTxBep20 $e');
+          if (ApiProvider().isDebug == false) print('Error sendTxBep20 $e');
           if (e.toString() == 'insufficient funds for gas * price + value') {
             await customDialog('Opps', 'Insufficient funds for gas');
           } else {
@@ -226,7 +226,7 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      print("Error sendTxBep20 $e");
+      if (ApiProvider().isDebug == false) print("Error sendTxBep20 $e");
     }
   }
 
@@ -364,7 +364,7 @@ class TrxFunctional {
 
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     } catch (e){
-      print("Err navigateAssetInfo $e");
+      if (ApiProvider().isDebug == false) print("Err navigateAssetInfo $e");
     }
   }
 
@@ -397,7 +397,7 @@ class TrxFunctional {
   //     }
   //   } catch (e) {
   //     Navigator.pop(context);
-  //     print(e.message.toString());
+  //     if (ApiProvider().isDebug == false) print(e.message.toString());
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
   //       await customDialog('Opps', 'Insufficient funds for gas');
@@ -407,8 +407,7 @@ class TrxFunctional {
   //   }
   // }
 
-  Future<void> sendTxErc(String contractAddr, String chainDecimal,
-      String reciever, String amount) async {
+  Future<void> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount) async {
     try {
       if (privateKey != null) {
         final String? hash = await contract!.sendTxEthCon(
@@ -497,27 +496,35 @@ class TrxFunctional {
     //final res = await validateAddress(target);
 
     final _api = Provider.of<ApiProvider>(context!, listen: false);
+    final _contract = Provider.of<ContractProvider>(context, listen: false);
+
+    if (ApiProvider().isDebug == false) print("_contract.listContract[_api.selNativeIndex].address ${_contract.listContract[_api.selNativeIndex].address}");
+    if (ApiProvider().isDebug == false) print("_api.getKeyring.current.pubKey ${_api.getKeyring.current.pubKey}");
 
     final sender = TxSenderData(
-      _api.getKeyring.current.address,
+      _contract.listContract[_api.selNativeIndex].address,
       _api.getKeyring.current.pubKey,
     );
+
     final txInfo = TxInfoData('balances', 'transfer', sender);
 
-    final chainDecimal =
-        Provider.of<ApiProvider>(context, listen: false).nativeM.chainDecimal;
+    if (ApiProvider().isDebug == false) print("txInfo $txInfo");
+
+    final chainDecimal = _contract.listContract[_api.selNativeIndex].chainDecimal;
+    if (ApiProvider().isDebug == false) print("_contract.listContract[_api.selNativeIndex].chainDecimal ${_contract.listContract[_api.selNativeIndex].chainDecimal}");
     try {
       final Map? hash = await _api.getSdk.api.tx.signAndSend(
-          txInfo,
-          [
-            target,
-            Fmt.tokenInt(
-              amount,
-              int.parse(chainDecimal!),
-            ).toString(),
-          ],
-          pin!,
-          onStatusChange: (status) async {});
+        txInfo,
+        [
+          target,
+          Fmt.tokenInt(
+            amount,
+            int.parse(chainDecimal!),
+          ).toString(),
+        ],
+        pin!,
+        onStatusChange: (status) async {}
+      );
 
       if (hash != null) {
         // await saveTxHistory(TxHistory(
@@ -648,19 +655,19 @@ class TrxFunctional {
       //       }
       //     } else {
 
-      //       print("BEP-20 ${contract.sortListContract[index].address}");
+      //       if (ApiProvider().isDebug == false) print("BEP-20 ${contract.sortListContract[index].address}");
       //       // final contractAddr = ContractProvider().findContractAddr(asset);
-      //       // print("Found $contractAddr");
+      //       // if (ApiProvider().isDebug == false) print("Found $contractAddr");
       //       dynamic balance = await ContractProvider().query(contract.sortListContract[index].address, 'balanceOf', [EthereumAddress.fromHex(contract.ethAdd)]);
             
-      //       print("Balance $balance");
-      //       print(contract.sortListContract[index].chainDecimal.toString());
+      //       if (ApiProvider().isDebug == false) print("Balance $balance");
+      //       if (ApiProvider().isDebug == false) print(contract.sortListContract[index].chainDecimal.toString());
       //       balance = Fmt.bigIntToDouble(
       //         balance[0] as BigInt,
       //         int.parse(contract.sortListContract[index].chainDecimal.toString()),
       //       ).toString();
 
-      //       print("After Balance $balance");
+      //       if (ApiProvider().isDebug == false) print("After Balance $balance");
       //       if (double.parse(balance) < double.parse(amount)) {
       //         _enough = false;
       //       }
@@ -672,7 +679,7 @@ class TrxFunctional {
         _enough = false;
       }
     } catch (e) {
-      print("Error checkBalanceofCoin $e");
+      if (ApiProvider().isDebug == false) print("Error checkBalanceofCoin $e");
     }
     return _enough;
   }
@@ -688,13 +695,15 @@ class TrxFunctional {
       switch (asset) {
         case "SEL":
           bool res = false;
+          if (ApiProvider().isDebug == false) print("org validateAddr $org");
           if (org == 'BEP-20'){
+            if (ApiProvider().isDebug == false) print("Evm addr");
             res = await conPro.validateEvmAddr(address);
           } else {
             res = await apiPro.validateAddress(address);
           }
           _isValid = res;
-
+          
           break;
         case "DOT":
           final res = await apiPro.validateAddress(address);
@@ -713,7 +722,7 @@ class TrxFunctional {
 
       return _isValid;
     } catch (e) {
-      print("Erorr validateAddr $e");
+      if (ApiProvider().isDebug == false) print("Erorr validateAddr $e");
       return _isValid;
     }
   }
@@ -744,18 +753,21 @@ class TrxFunctional {
       // }
 
     } catch (e){
-      print("Error getNetworkGasPrice $e");
+      if (ApiProvider().isDebug == false) print("Error getNetworkGasPrice $e");
     }
 
     return _gasPrice!;
   }
 
-  Future<dynamic>? estGasFeePrice(double gasFee, String asset) async {
+  Future<dynamic>? estGasFeePrice(double? gasFee, String? asset) async {
+
+    if (ApiProvider().isDebug == false) print("gasFee ${gasFee ?? 'no gas'}");
+    if (ApiProvider().isDebug == false) print("asset ${asset ?? 'no asset'}");
 
     String? marketPrice;
     try {
 
-
+      api = Provider.of<ApiProvider>(context!, listen: false);
       final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       await MarketProvider().fetchTokenMarketPrice(context!);
@@ -769,15 +781,17 @@ class TrxFunctional {
           marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
           break;
         default:
+          if (ApiProvider().isDebug == false) print("api!.bnbIndex ${api!.bnbIndex}");
+          if (ApiProvider().isDebug == false) print("contract.listContract[api!.bnbIndex].marketData!.currentPrice! ${contract.listContract[api!.bnbIndex].marketData!.currentPrice!}");
           marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
 
-      final estGasFeePrice = (gasFee / pow(10, 9)) * double.parse(marketPrice);
+      final estGasFeePrice = (gasFee! / pow(10, 9)) * double.parse(marketPrice);
 
       return estGasFeePrice;
     } catch (e) {
-      print("Error estGasFeePrice $e");
+      if (ApiProvider().isDebug == false) print("Error estGasFeePrice $e");
     }
     return marketPrice!;
   }
@@ -821,9 +835,9 @@ class TrxFunctional {
   Future<String>? estMaxGas(BuildContext context, String asset, String reciever, String amount, int index) async {
 
 
-    String? maxGas;
+    String? maxGas = '';
     final contract = Provider.of<ContractProvider>(context, listen: false);
-    final api = ApiProvider();
+    final api = Provider.of<ApiProvider>(context, listen: false);
     
     try {
 
@@ -844,7 +858,7 @@ class TrxFunctional {
           maxGas = await contract.getBep20MaxGas('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
 
           break;
-        case 'SEL v2 (BEP-20)':
+        case 'SEL (v2)(BEP-20)':
           maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV2Index].address!, reciever, amount);
           break;
         case 'KGO (BEP-20)':
@@ -854,11 +868,14 @@ class TrxFunctional {
           maxGas = await contract.getBnbMaxGas(reciever, amount);
           break;
         default:
-          maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
+          if (ApiProvider().isDebug == false) print("contract.sortListContract[index].org! ${contract.sortListContract[index].org!}");
+          if (contract.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
+            maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
+          }
           break;
       }
     } catch (e) {
-      print("Error estMaxGas $e");
+      if (ApiProvider().isDebug == false) print("Error estMaxGas $e");
     }
     return maxGas!;
   }

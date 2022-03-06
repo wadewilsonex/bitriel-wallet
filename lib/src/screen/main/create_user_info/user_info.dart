@@ -42,7 +42,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     await FlutterScreenshotSwitcher.enableScreenshots();
     } catch (e){
-      print(e);
+      if (ApiProvider().isDebug == false) print("Error enableScreenshot $e");
     }
   }
 
@@ -159,7 +159,7 @@ class MyUserInfoState extends State<MyUserInfo> {
     final _api = await Provider.of<ApiProvider>(context, listen: false);
 
     try {
-      dynamic _json = await _api.getSdk.api.keyring.importAccount(
+      dynamic _json = await _api.apiKeyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
@@ -168,14 +168,14 @@ class MyUserInfoState extends State<MyUserInfo> {
       );
       
       // For encryptSeed
-      await _api.addAccount(
-        _api.getKeyring,
-        keyType: KeyType.mnemonic,
-        acc: _json!,
-        password: _userInfoM.confirmPasswordCon.text,
-      );
+      // await _api.addAccount(
+      //   _api.getKeyring,
+      //   keyType: KeyType.mnemonic,
+      //   acc: _json!,
+      //   password: _userInfoM.confirmPasswordCon.text,
+      // );
 
-      await _api.getSdk.api.keyring.addAccount(
+      await _api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         acc: _json,
@@ -184,23 +184,30 @@ class MyUserInfoState extends State<MyUserInfo> {
 
         final _resPk = await _api.getPrivateKey(widget.passPhrase);
 
-        await _api.connectSELNode(context: context);
+        /// Cannot connect Both Network On the Same time
+        /// 
+        /// It will be wrong data of that each connection. 
+        /// 
+        /// This Function Connect Polkadot Network And then Connect Selendra Network
+        await _api.connectPolNon(context: context).then((value) async {
 
-        await _api.getAddressIcon();
-        // Get From Account js
-        await _api.getCurrentAccount();
-        await ContractProvider().extractAddress(_resPk);
+          await _api.getAddressIcon();
+          // Get From Account js
+          await _api.getCurrentAccount();
 
-        final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
-        
-        await StorageServices().writeSecure(DbKey.private, _res);
+          await ContractProvider().extractAddress(_resPk);
 
-        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+          final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+          
+          await StorageServices().writeSecure(DbKey.private, _res);
 
-        await queryBtcData();
+          await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-        await ContractsBalance().getAllAssetBalance(context: context);
-        await successDialog(context, "Account is created.");
+          await queryBtcData();
+
+          await ContractsBalance().getAllAssetBalance(context: context);
+          await successDialog(context, "Account is created.");
+        }); 
 
       });
     } catch (e) {

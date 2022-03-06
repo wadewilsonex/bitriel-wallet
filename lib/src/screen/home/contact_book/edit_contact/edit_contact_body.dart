@@ -29,7 +29,6 @@ class EditContactBody extends StatelessWidget {
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {
-            //print("Dae");
             Navigator.pop(context);
           },
         ),
@@ -97,7 +96,7 @@ class EditContactBody extends StatelessWidget {
                             onChanged!(_response.toString());
                           }
                         } catch (e) {
-                          //print("Error from QR scanner $e");
+                          if (ApiProvider().isDebug == false) print("Error from QR scanner $e");
                         }
                       },
                     )

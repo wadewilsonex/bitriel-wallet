@@ -17,10 +17,11 @@ class _BackUpKeyState extends State<BackUpKey> {
   ApiProvider? _apiProvider;
 
   Future getMnemonic() async {
+    final _api = await Provider.of<ApiProvider>(context, listen: false);
     await Component().dialogBox(context).then((value) async {
       if (value != ''){
         _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-        await _apiProvider!.getDecryptedSeed(_apiProvider!.getKeyring.current.pubKey, value).then((value) => print("seed $value"));
+        await KeyringPrivateStore([0, 42]).getDecryptedSeed(_api.getKeyring.keyPairs[0].pubKey, value);
       }
     });
 
@@ -30,7 +31,7 @@ class _BackUpKeyState extends State<BackUpKey> {
 
     final _api = await Provider.of<ApiProvider>(context, listen: false);
     // await FlutterAesEcbPkcs5.decryptString(mnemonic, key);
-    await _api.getSdk.api.keyring.getDecryptedSeed(_api.getKeyring, "1234").then((value) => print("seed $value"));
+    await _api.apiKeyring.getDecryptedSeed(_api.getKeyring, "1234");
     
     // print("getBackupKey");
     // Navigator.pop(context);

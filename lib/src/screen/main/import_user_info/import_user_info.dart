@@ -54,7 +54,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     
     final _api = Provider.of<ApiProvider>(context, listen: false);
     try {
-      dynamic json = await _api.getSdk.api.keyring.importAccount(
+
+      dynamic json = await _api.apiKeyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
@@ -63,50 +64,63 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       );
 
       // For encryptSeed
-      await _api.addAccount(
-        _api.getKeyring,
-        keyType: KeyType.mnemonic,
-        acc: json!,
-        password: _userInfoM.confirmPasswordCon.text,
-      );
+      // await _api.addAccount(
+      //   _api.getKeyring,
+      //   keyType: KeyType.mnemonic,
+      //   acc: json!,
+      //   password: _userInfoM.confirmPasswordCon.text,
+      // );
 
-      print("json $json");
-
-      await _api.getSdk.api.keyring.addAccount(
+      await _api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         acc: json,
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      print("After addAccount and encryptseed and save");
+      /// Cannot connect Both Network On the Same time
+      /// 
+      /// It will be wrong data of that each connection. 
+      /// 
+      /// This Function Connect Polkadot Network And then Connect Selendra Network
+      await _api.connectPolNon(context: context).then((value) async {
 
-      // print(_api.getKeyring.allAccounts[0].address);
-      // print(_api.getKeyring.allAccounts[0].icon);
-      // print(_api.getKeyring.allAccounts[0].name);
-      // print(_api.getKeyring.allAccounts[0].pubKey);
+        await _api.connectSELNode(context: context);
 
-      await _api.connectSELNode(context: context);
+        await _api.getAddressIcon();
+          // Get From Account js
+        await _api.getCurrentAccount();
 
-      await _api.getAddressIcon();
-        // Get From Account js
-      await _api.getCurrentAccount();
+        final _resPk = await _api.getPrivateKey(widget.passPhrase);
+        
+        await ContractProvider().extractAddress(_resPk);
 
-      final _resPk = await _api.getPrivateKey(widget.passPhrase);
-      
-      await ContractProvider().extractAddress(_resPk);
+        final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+        
+        await StorageServices().writeSecure(DbKey.private, _res);
 
-      final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
-      
-      await StorageServices().writeSecure(DbKey.private, _res);
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+        // This Query Might Freeze for a second if User await keyword
+        await queryBtcData();
 
-      // This Query Might Freeze for a second if User await keyword
-      queryBtcData();
+        await ContractsBalance().getAllAssetBalance(context: context);
 
-      await ContractsBalance().getAllAssetBalance(context: context);
-      
+      //     //////
+
+      //     await StorageServices().clearStorage();
+
+      //     await StorageServices().clearSecure();
+          
+      //     Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      //     await Future.delayed(Duration(seconds: 2), () {});
+          
+      //     Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      //     Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      // /////
+      });
       await successDialog(context, "imported your account.");
     } catch (e) {
 
@@ -182,8 +196,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     try {
       final seed = bip39.mnemonicToSeed(widget.passPhrase);
       final hdWallet = HDWallet.fromSeed(seed);
-
-      print("hdWallet ${hdWallet.address}");
       
       contractPro.listContract[ApiProvider().btcIndex].address = hdWallet.address!;
       
@@ -204,7 +216,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
     } catch (e) {
-      print("Error queryBtcData $e");
+      if (ApiProvider().isDebug == false) print("Error queryBtcData $e");
     }
   }
 

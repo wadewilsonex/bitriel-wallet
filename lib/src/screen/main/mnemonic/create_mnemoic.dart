@@ -22,9 +22,6 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   Future<void> disableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.disableScreenshots();
-      // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
-      //   print("Value $value");
-      // });
     } catch (e) {}
   }
 

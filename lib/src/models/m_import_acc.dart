@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 class ImportAccModel {
   
   TextEditingController mnemonicCon = TextEditingController();
+  TextEditingController json = TextEditingController();
 
   TextEditingController pwCon = TextEditingController();
 

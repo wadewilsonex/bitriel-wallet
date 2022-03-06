@@ -43,7 +43,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == false) print("Error validateEtherAddress $e");
     }
     return false;
   }
@@ -54,7 +54,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      print("Error validateAddress $e");
+      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
     }
     return false;
   }
@@ -142,7 +142,7 @@ class AddAssetState extends State<AddAsset> {
         await enableAnimation();
       }
     } catch (e) {
-      print("Error addAsset $e");
+      if (ApiProvider().isDebug == false) print("Error addAsset $e");
     }
   }
 
@@ -236,7 +236,7 @@ class AddAssetState extends State<AddAsset> {
           );
         },
       );
-      print("Error submitAsset $e");
+      if (ApiProvider().isDebug == false) print("Error submitAsset $e");
     }
   }
 
@@ -250,7 +250,7 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == false) print("Error searchEtherContract $e");
     }
   }
 

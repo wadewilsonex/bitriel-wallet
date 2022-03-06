@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/INative.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
@@ -60,7 +61,7 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        print("Error listenTransfer $e");
+        if (ApiProvider().isDebug == false) print("Error listenTransfer $e");
       }
     })
     .where((receipt) => receipt != null)
@@ -92,7 +93,7 @@ class NativeService implements INativeService {
       );
 
     } catch (e){
-      print("Err sendTx $e");
+      if (ApiProvider().isDebug == false) print("Err sendTx $e");
     }
 
     return res!;
