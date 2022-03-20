@@ -43,26 +43,6 @@ class MarketProvider with ChangeNotifier {
     return prices ?? null;
   }
 
-  Future? findMarketPrice(String asset) async {
-    String? marketPrice;
-    final contract = ContractProvider();
-    switch (asset) {
-      case 'KGO':
-        marketPrice = contract.listContract[2].marketPrice;
-        break;
-      case 'ETH':
-        marketPrice = contract.listContract[3].marketPrice;
-        break;
-      case 'BNB':
-        marketPrice = contract.listContract[4].marketPrice;
-        break;
-      case 'BTC':
-        marketPrice = contract.listContract[6].marketPrice;
-        break;
-    }
-    return marketPrice;
-  }
-
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -129,7 +109,7 @@ class MarketProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        print("error market $e");
+        if (ApiProvider().isDebug == false) print("error market $e");
       }
     }
     

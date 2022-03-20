@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/presale_body.dart';
@@ -71,7 +72,7 @@ class _PresaleState extends State<Presale> {
 
   //   try {} catch (e) {
   //     Navigator.pop(context);
-  //     // print(e.message);
+  //     // if (ApiProvider().isDebug == false) print(e.message);
 
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
@@ -154,9 +155,11 @@ class _PresaleState extends State<Presale> {
 
   Future<String>? getPrivateKey(String pin) async {
     String? privateKey;
-    final encrytKey = await StorageServices().readSecure('private');
+    final encryptKey = await StorageServices().readSecure(DbKey.private);
     try {
-      privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
+      if (encryptKey != ''){
+        privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encryptKey!, pin);
+      }
     } catch (e) {
       await customDialog('Opps', 'PIN verification failed');
     }
@@ -257,7 +260,7 @@ class _PresaleState extends State<Presale> {
                     height: MediaQuery.of(context).size.width * 0.08,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/tick.svg',
+                    AppConfig.iconsPath+'tick.svg',
                     height: 100,
                     width: 100,
                   ),
@@ -431,8 +434,6 @@ class _PresaleState extends State<Presale> {
           //get user pKey
           final privateKey = await AppServices.getPrivateKey(res, context);
 
-          print("privateKey $privateKey");
-
           if (privateKey != null && privateKey != 'Failed to get string encoded: \'Decrypt failure.\'.') {
             if (_model.tokenIndex == 0) {
               // await contract.getBnbBalance();
@@ -440,11 +441,9 @@ class _PresaleState extends State<Presale> {
               if (double.parse(contract.listContract[4].balance!) < double.parse(_model.amountController.text)) {
                 customDialog('Insufficient Balance', 'Your loaded balance is not enough.');
               } else {
-                print("Order");
                 await order(privateKey);
               }
             } else {
-              print("checkTokenBalance");
               final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
 
               if (tokenBalance < double.parse(_model.amountController.text)) {
@@ -458,7 +457,7 @@ class _PresaleState extends State<Presale> {
         }
       });
     } catch (e) {
-      print("Error priceChecker $e");
+      if (ApiProvider().isDebug == false) print("Error priceChecker $e");
     }
   }
 
@@ -486,7 +485,7 @@ class _PresaleState extends State<Presale> {
         );
       }
     } catch (e) {
-      print("Error checkIsAllownce $e");
+      if (ApiProvider().isDebug == false) print("Error checkIsAllownce $e");
     }
   }
 
@@ -524,7 +523,7 @@ class _PresaleState extends State<Presale> {
         }
       }
     } catch (e) {
-      print("Error submitPresale $e");
+      if (ApiProvider().isDebug == false) print("Error submitPresale $e");
     }
   }
 
@@ -540,7 +539,7 @@ class _PresaleState extends State<Presale> {
 
       _model.balance = double.parse(contract.listContract[4].balance!);
       _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
-      // print("_model.listSupportToken ${_model.listSupportToken}");
+      // if (ApiProvider().isDebug == false) print("_model.listSupportToken ${_model.listSupportToken}");
       // await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
       //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
@@ -548,7 +547,7 @@ class _PresaleState extends State<Presale> {
 
       setState(() {});
     } catch (e) {
-      print("Error initMethod $e");
+      if (ApiProvider().isDebug == false) print("Error initMethod $e");
     }
   }
 

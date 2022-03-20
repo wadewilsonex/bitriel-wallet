@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import 'dart:ui';
 
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/effect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+=======
+import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/effect_c.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
+>>>>>>> dev
 import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class HomeBody extends StatelessWidget {
@@ -41,8 +47,13 @@ class HomeBody extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
+<<<<<<< HEAD
                           hexaCodeToColor('#03a4f4'),
                           hexaCodeToColor('#a0e2ff'),
+=======
+                          hexaCodeToColor('#a0e2ff'),
+                          hexaCodeToColor('#03a4f4'),
+>>>>>>> dev
                         ]
                       ),
                       borderRadius: BorderRadius.circular(20.0),
@@ -82,6 +93,10 @@ class HomeBody extends StatelessWidget {
 
                           hexaCodeToColor('#2165fa'),
                           hexaCodeToColor('#00ddff'),
+<<<<<<< HEAD
+=======
+                          hexaCodeToColor('#2165fa'),
+>>>>>>> dev
                           // hexaCodeToColor('#1278c7'),
                         ]
                       )
@@ -94,8 +109,9 @@ class HomeBody extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onTap: (){
+                  onTap: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Swap()));
+                    await ContractsBalance().refetchContractBalance(context: context);
                   },
                 ),
               ),
@@ -117,9 +133,15 @@ class HomeBody extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
+<<<<<<< HEAD
                           hexaCodeToColor('#f39d0c'),
                           hexaCodeToColor('#fec204'),
                           hexaCodeToColor('#ffec1f'),
+=======
+                          hexaCodeToColor('#ffec1f'),
+                          hexaCodeToColor('#fec204'),
+                          hexaCodeToColor('#f39d0c'),
+>>>>>>> dev
                         ]
                       )
                       // color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
@@ -131,8 +153,9 @@ class HomeBody extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onTap: (){
+                  onTap: () async {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Presale()));
+                    await ContractsBalance().refetchContractBalance(context: context);
                   },
                 ),
               )

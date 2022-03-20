@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
+import 'package:http/http.dart' as _http;
 
 final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
@@ -40,11 +43,10 @@ class AppState extends State<App> {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
-      await contractProvider.setSavedList().then((value) async {
+      contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
         if (value){
-
           // Sort After MarketPrice Filled Into Asset
           await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
@@ -54,39 +56,48 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
 
+        await apiProvider.connectPolNon(context: context).then((value) async {
+          await apiProvider.connectSELNode(context: context);
+        });
+
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-          
+          /// Cannot connect Both Network On the Same time
+          /// 
+          /// It will be wrong data of that each connection. 
+          /// 
+          /// This Function Connect Polkadot Network And then Connect Selendra Network
+          // await apiProvider.getDotChainDecimal(con5text: context);
+          // await apiProvider.subscribeDotBalance(context: context);
+
+          // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
-          await apiProvider.getCurrentAccount();
-          
+          // Get From Keyring js
+          await apiProvider.getCurrentAccount(funcName: 'keyring');
+          // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance(context: context);
+          
         }
       });
     } catch (e) {
-      print("Error initApi $e");
+      if (ApiProvider().isDebug == false) print("Error initApi $e");
     }
   }
 
-  // void selV2() async {
-  //   Provider.of<ContractProvider>(context, listen: false).getBscV2Balance();
-  //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(
-  //     'SEL v2 (BEP-20)',
-  //   );
+  // Future<void> downloadFile() async {
+
+  //   var dir = await getApplicationDocumentsDirectory();
   // }
 
   Future<void> readTheme() async {
-    print("readTheme");
     try {
 
       final res = await StorageServices.fetchData(DbKey.themeMode);
-
-      print(res);
 
       if (res != null) {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      print("Error readTheme $e");
+      if (ApiProvider().isDebug == false) print("Error readTheme $e");
     }
   }
 
@@ -116,7 +127,7 @@ class AppState extends State<App> {
 
   Future<void> getEtherSavedContractToken() async {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('ethContractList');
+    final res = await StorageServices.fetchData(DbKey.ethContractList);
     if (res != null) {
       
       for (final i in res) {
@@ -138,9 +149,9 @@ class AppState extends State<App> {
   }
 
   clearOldBtcAddr() async {
-    final res = await StorageServices.fetchData('btcaddress');
+    final res = await StorageServices.fetchData(DbKey.btcAddr);
     if (res != null) {
-      await StorageServices.removeKey('btcaddress');
+      await StorageServices.removeKey(DbKey.btcAddr);
     }
   }
 
@@ -161,7 +172,7 @@ class AppState extends State<App> {
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
-                    debugShowCheckedModeBanner: false,
+                    // debugShowCheckedModeBanner: false,
                     routes: {
                       Home.route: (_) => Home(),
                     },

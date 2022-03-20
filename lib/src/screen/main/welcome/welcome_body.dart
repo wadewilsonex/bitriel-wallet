@@ -1,5 +1,4 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class WelcomeBody extends StatelessWidget {
@@ -50,7 +49,7 @@ class WelcomeBody extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.2,
         ),
         SvgPicture.asset(
-          'assets/undraw_bear_market_ania.svg',
+          AppConfig.assetsPath+'undraw_bear_market_ania.svg',
           height: MediaQuery.of(context).size.height * 0.2,
           width: MediaQuery.of(context).size.width * 0.2,
         ),
@@ -64,8 +63,13 @@ class WelcomeBody extends StatelessWidget {
               edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
               textButton: AppString.createAccTitle,
               action: () {
+<<<<<<< HEAD
                 // Navigator.pushNamed(context, AppText.contentBackup);
                 Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
+=======
+                Navigator.pushNamed(context, AppString.contentBackup);
+                // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
+>>>>>>> dev
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
               },
             ),

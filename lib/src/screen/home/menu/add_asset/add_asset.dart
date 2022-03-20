@@ -43,7 +43,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == false) print("Error validateEtherAddress $e");
     }
     return false;
   }
@@ -54,7 +54,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      print("Error validateAddress $e");
+      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
     }
     return false;
   }
@@ -142,12 +142,11 @@ class AddAssetState extends State<AddAsset> {
         await enableAnimation();
       }
     } catch (e) {
-      print("Error addAsset $e");
+      if (ApiProvider().isDebug == false) print("Error addAsset $e");
     }
   }
 
   Future<void> submitAsset() async {
-    print("submitAsset");
     try {
     
       setState(() {
@@ -155,9 +154,8 @@ class AddAssetState extends State<AddAsset> {
       });
 
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
-      print("resEther $resEther");
+
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-      print("res address $res");
 
       if (res || resEther) {
         if (res) {
@@ -238,7 +236,7 @@ class AddAssetState extends State<AddAsset> {
           );
         },
       );
-      print("Error submitAsset $e");
+      if (ApiProvider().isDebug == false) print("Error submitAsset $e");
     }
   }
 
@@ -252,7 +250,7 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == false) print("Error searchEtherContract $e");
     }
   }
 
@@ -316,9 +314,7 @@ class AddAssetState extends State<AddAsset> {
             onChangeDropDown: onChangeDropDown,
             addAsset: addAsset,
             popScreen: popScreen,
-            onChanged: (String? value){
-              return onChanged(value!)!;
-            },
+            onChanged: onChanged,
             qrRes: qrRes,
             tokenSymbol: _tokenSymbol,
             onSubmit: onSubmit,
@@ -337,7 +333,7 @@ class AddAssetState extends State<AddAsset> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: CustomAnimation.flareAnimation(_flareController, "assets/animation/check.flr", "Checkmark"),
+                    child: CustomAnimation.flareAnimation(_flareController, AppConfig.animationPath+"check.flr", "Checkmark"),
                   ),
                 ],
               ),

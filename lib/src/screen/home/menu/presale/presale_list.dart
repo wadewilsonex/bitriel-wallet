@@ -60,7 +60,7 @@ class PresaleList extends StatelessWidget {
                     height: MediaQuery.of(context).size.width * 0.08,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/tick.svg',
+                    AppConfig.iconsPath+'tick.svg',
                     height: 100,
                     width: 100,
                   ),
@@ -148,7 +148,7 @@ class PresaleList extends StatelessWidget {
 
     if (pin != null) {
       dialogLoading(context);
-      final privateKey = await AppServices.getPrivateKey(pin, context);
+      final privateKey = await AppServices.getPrivateKey(pin!, context);
 
       if (privateKey != null) {
         try {
@@ -240,7 +240,7 @@ class PresaleList extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return value.presaleOrderInfo.isEmpty
                         ? SvgPicture.asset(
-                          'assets/icons/no_data.svg',
+                          AppConfig.iconsPath+'no_data.svg',
                           width: 180,
                           height: 180,
                         )

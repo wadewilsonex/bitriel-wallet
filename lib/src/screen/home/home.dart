@@ -1,5 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/core/service/helper_graphql.dart';
 import 'package:wallet_apps/core/service/mongo_s.dart';
@@ -8,9 +9,14 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+<<<<<<< HEAD
 import 'package:wallet_apps/core/service/portfolio_s.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
+=======
+import 'package:wallet_apps/src/provider/search_p.dart';
+import 'package:wallet_apps/src/service/portfolio_s.dart';
+>>>>>>> dev
 
 class Home extends StatefulWidget {
   // final bool apiConnected;
@@ -29,6 +35,14 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   final HomeModel _homeM = HomeModel();
   PageController _pageController = PageController();
 
+  SearchProvider? searchPro;
+
+  void query(String value, Function mySetState){
+    final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+    searchPro!.setSearchedLs = lsContract.where((element) => element.name!.toLowerCase().contains(value.toLowerCase())).toList();
+    mySetState(() { });
+  }
+
   String status = '';
 
   int page = 0;
@@ -36,17 +50,98 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   @override
   void initState() {
     super.initState();
+    inAppUpdate();
     _homeM.globalKey = GlobalKey<ScaffoldState>();
     _homeM.userData = {};
+<<<<<<< HEAD
+=======
+    searchPro = Provider.of<SearchProvider>(context, listen: false);
+    // init();
+    // event();
+    // Timer(const Duration(seconds: 2), () {
+    //   PortfolioServices().setPortfolio(context);
+    // });
+
+    // if (mounted){
+    //   marketPriceInitializer();
+    // }
+>>>>>>> dev
 
     AppServices.noInternetConnection(_homeM.globalKey!);
 
     // WidgetsBinding.instance!.addObserver(this);
 
+<<<<<<< HEAD
     // WidgetsBinding.instance!.addPostFrameCallback((_) async {
     //   await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
     //   await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     // });
+=======
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
+      await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
+    });
+  }
+
+  // init() async {
+
+  //   // ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
+
+  //   //   await _api.getSdk.api.keyring.deleteAccount(
+  //   //     _api.getKeyring,
+  //   //     _api.getKeyring.current,
+  //   //   );
+
+  //     print("\n\nimported your account.\n\n");
+
+  //     await StorageServices().clearSecure();
+
+  //     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome()), (route) => false);
+
+  // }
+
+  Future<void> event() async {
+    await StorageServices.fetchData(DbKey.event).then((value) async {
+      if (value == null){
+
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              content: Stack(
+                children: [
+                  Image.asset(AppConfig.assetsPath+"event.png", fit: BoxFit.cover,),
+                  IconButton(
+                    onPressed: () async {
+                      await StorageServices.storeData(true, DbKey.event);
+                      Navigator.pop(context);
+                    }, 
+                    icon: Icon(Icons.close, color: Colors.white,)
+                  )
+                ],
+              ),
+              actions: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 65,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await StorageServices.storeData(true, DbKey.event);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClaimAirDrop()));
+                    },
+                    child: const Text('Click to get airdrop'),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+>>>>>>> dev
   }
 
   void marketPriceInitializer() async {
@@ -68,7 +163,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
       await StorageServices.storeData(mkPro.sortDataMarket, DbKey.marketkPrice);
     } catch (e) {
-      print("Error $e");
+      if (ApiProvider().isDebug == false) print("Error marketPriceInitializer $e");
     }
   }
 
@@ -95,17 +190,17 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       // break;
       case AppLifecycleState.inactive:
         // Handle this case
-        print('inactive');
+        if (ApiProvider().isDebug == false) print('inactive');
 
         break;
       case AppLifecycleState.paused:
         // Handle this case
-        print('paused');
+        if (ApiProvider().isDebug == false) print('paused');
         onPause();
 
         break;
       case AppLifecycleState.detached:
-        print('detached');
+        if (ApiProvider().isDebug == false) print('detached');
         break;
     }
   }
@@ -130,7 +225,6 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    print('dispose');
     super.dispose();
   }
 
@@ -154,31 +248,31 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   }
 
   Future<void> onClosed() async {
-    await StorageServices.setUserID('claim', 'claim');
+    await StorageServices.setUserID('claim', DbKey.claim);
     Navigator.pop(context);
   }
 
   Future<void> onClaim() async {
     Navigator.pop(context);
-    await StorageServices.setUserID('claim', 'claim');
+    await StorageServices.setUserID('claim', DbKey.claim);
     Navigator.push(context, RouteAnimation(enterPage: ClaimAirDrop()));
   }
 
   Future<void> handle() async {
     Navigator.of(context).pop();
     Timer(const Duration(seconds: 1), () async {
-      PortfolioServices().setPortfolio(context);
+      // PortfolioServices().setPortfolio(context);
       showAirdrop();
     });
   }
 
   Future<void> showAirdrop() async {
-    Timer(const Duration(seconds: 1), () async {
-      final res = await StorageServices.fetchData('claim');
-      if (res == null) {
-        await dialogEvent(context, 'assets/bep20.png', onClosed, onClaim);
-      }
-    });
+    // Timer(const Duration(seconds: 1), () async {
+    //   final res = await StorageServices.fetchData('claim');
+    //   if (res == null) {
+    //     await dialogEvent(context, 'assets/bep20.png', onClosed, onClaim);
+    //   }
+    // });
   }
 
   Future<void> scrollRefresh() async {
@@ -188,12 +282,23 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
     setState(() {});
 
-    await PortfolioServices().setPortfolio(context);
+    // await PortfolioServices().setPortfolio(context);
 
     await ContractsBalance().refetchContractBalance(context: context);
 
     // To Disable Asset Loading
     contract.setReady();
+  }
+  
+  Future<void> inAppUpdate() async {
+    AppUpdate appUpdate = AppUpdate();
+    final result = await appUpdate.checkUpdate();
+    
+    print("result.availableVersionCode ${result.availableVersionCode}");
+    if (result.availableVersionCode == 1){
+      await appUpdate.performImmediateUpdate();
+      await InAppUpdate.completeFlexibleUpdate();
+    }
   }
 
   void onTapChanged(int index){
@@ -215,6 +320,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       ),
 
       // AnnotatedRegion Use For System Icon Above SafeArea
+<<<<<<< HEAD
       body: PageView(
         controller: _pageController,
         onPageChanged: (index){
@@ -225,6 +331,41 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
           Wallet(),
 
         ],
+=======
+      body: Column(children: [
+        SafeArea(child: homeAppBar(context, query: query)),
+        Divider(
+          height: 2,
+          color: isDarkTheme ? Colors.black : Colors.grey.shade400,
+        ),
+        Flexible(
+          child: RefreshIndicator(
+            onRefresh: () async => await scrollRefresh(),
+            child: BodyScaffold(
+              bottom: 0,
+              isSafeArea: false,
+              child: HomeBody(),
+            ),
+          ),
+        ),
+      ]),
+
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+        onPressed: () async {
+          await TrxOptionMethod.scanQR(
+            context,
+            _homeM.portfolioList,
+          );
+        },
+        child: SvgPicture.asset(
+          AppConfig.iconsPath+'qr_code.svg',
+          width: 30,
+          height: 30,
+          color: Colors.white,
+        ),
+>>>>>>> dev
       ),
       // Column(
       //   children: [

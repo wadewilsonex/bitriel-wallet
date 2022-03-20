@@ -2,6 +2,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dimissible_background.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 
 class TrxActivity extends StatefulWidget {
@@ -28,7 +29,7 @@ class TrxActivityState extends State<TrxActivity> {
   }
 
   Future<List<TxHistory>> readTxHistory() async {
-    await StorageServices.fetchData('txhistory').then((value) {
+    await StorageServices.fetchData(DbKey.txtHistory).then((value) {
       if (value != null) {
         _txHistoryModel.txHistoryList = value as List;
         for (final i in value) {
@@ -72,12 +73,12 @@ class TrxActivityState extends State<TrxActivity> {
       ..addAll(_txHistoryModel.txKpi);
 
     await clearOldHistory().then((value) async {
-      await _preferences.setString('txhistory', jsonEncode(newTxList));
+      await _preferences.setString(DbKey.txtHistory, jsonEncode(newTxList));
     });
   }
 
   Future<void> clearOldHistory() async {
-    await StorageServices.removeKey('txhistory');
+    await StorageServices.removeKey(DbKey.txtHistory);
   }
 
   Future<void> showDetailDialog(TxHistory txHistory) async {
@@ -85,10 +86,10 @@ class TrxActivityState extends State<TrxActivity> {
   }
 
   /* Log Out Method */
-  void logOut() {
+  void logOut() async {
     /* Loading */
     dialogLoading(context);
-    AppServices.clearStorage();
+    await StorageServices().clearStorage();
     Timer(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, '/');
     });
@@ -158,8 +159,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           hexaCodeToColor(AppColors.secondary),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child:
-                                        Image.asset('assets/SelendraCircle-White.png'),
+                                    child: Image.asset(AppConfig.assetsPath+'SelendraCircle-White.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),
@@ -246,7 +246,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         borderRadius:
                                             BorderRadius.circular(40)),
                                     child: Image.asset(
-                                        'assets/koompi_white_logo.png'),
+                                        AppConfig.assetsPath+'koompi_white_logo.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),

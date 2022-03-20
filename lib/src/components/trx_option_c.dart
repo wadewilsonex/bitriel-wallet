@@ -21,7 +21,7 @@ class MyBottomSheetItem extends StatelessWidget {
         child: Column(
           children: [
             SvgPicture.asset(
-              'assets/$icon',
+              AppConfig.assetsPath+'$icon',
               width: 30,
               height: 30,
               color: isDarkTheme ? Colors.white : Colors.black,
@@ -117,7 +117,6 @@ class TrxOptionMethod {
     List<dynamic> portfolioList,
   ) async {
     final String? _response = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
-    //print("Scan qr reponse $_response");
     if (_response != null) {
       await Navigator.push(
           context,

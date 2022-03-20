@@ -12,7 +12,7 @@ class AddContactBody extends StatelessWidget {
     this.model,
     this.validateAddress,
     this.submitContact,
-    this.onChanged,
+    this.onChanged, 
     this.onSubmit,
   });
 
@@ -33,31 +33,32 @@ class AddContactBody extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 16),
           child: Form(
-            key: model!.formKey,
             child: Column(
               children: [
                 MyInputField(
-                    labelText: "Contact number",
-                    textInputFormatter: [
-                      LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                    ],
-                    inputType: TextInputType.phone,
-                    controller: model!.contactNumber,
-                    focusNode: model!.contactNumberNode,
-                    enableInput: false,
-                    onChanged: onChanged,
-                    pBottom: 16,
-                    onSubmit: onSubmit),
+                  labelText: "Contact number",
+                  textInputFormatter: [
+                    LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                  ],
+                  inputType: TextInputType.phone,
+                  controller: model!.contactNumber,
+                  focusNode: model!.contactNumberNode,
+                  enableInput: false,
+                  onChanged: onChanged,
+                  pBottom: 16,
+                  onSubmit: onSubmit
+                ),
                 MyInputField(
-                    labelText: "User name",
-                    textInputFormatter: [
-                      LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                    ],
-                    controller: model!.userName,
-                    focusNode: model!.userNameNode,
-                    onChanged: onChanged,
-                    pBottom: 16,
-                    onSubmit: onSubmit),
+                  labelText: "User name",
+                  textInputFormatter: [
+                    LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                  ],
+                  controller: model!.userName,
+                  focusNode: model!.userNameNode,
+                  onChanged: onChanged,
+                  pBottom: 16,
+                  onSubmit: onSubmit
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -79,7 +80,7 @@ class AddContactBody extends StatelessWidget {
                     IconButton(
                       padding: const EdgeInsets.only(left: 20, right: 36),
                       icon: SvgPicture.asset(
-                        'assets/icons/qr_code.svg',
+                        AppConfig.iconsPath+'qr_code.svg',
                         color: Colors.white,
                       ),
                       onPressed: () async {

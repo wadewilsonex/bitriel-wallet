@@ -15,7 +15,7 @@ class AssetCheckIn extends StatelessWidget {
           const SizedBox(height: 16),
           if (_txCheckIn.isEmpty)
             SvgPicture.asset(
-              'assets/icons/no_data.svg',
+              AppConfig.iconsPath+'no_data.svg',
               width: 250,
               height: 250,
             )
@@ -39,7 +39,7 @@ class AssetCheckIn extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 child:
-                                    Image.asset('assets/koompi_white_logo.png'),
+                                    Image.asset(AppConfig.assetsPath+'koompi_white_logo.png'),
                               ),
                               Expanded(
                                 child: Container(

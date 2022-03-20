@@ -14,8 +14,8 @@ class AddAssetBody extends StatelessWidget {
   final List<Map<String, dynamic>>? networkSymbol;
   final Function? validateIssuer;
   final Function? popScreen;
-  final String Function(String)? onChanged;
-  final String Function(String)? validateField;
+  final Function? onChanged;
+  final Function? validateField;
   final Function? onSubmit;
   final Function? submitAsset;
   final Function? addAsset;
@@ -41,6 +41,7 @@ class AddAssetBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    final api = Provider.of<ApiProvider>(context);
     return Column(children: [
       MyAppBar(
         title: "Add asset",
@@ -78,7 +79,7 @@ class AddAssetBody extends StatelessWidget {
                 height: 20.0,
               ),
               SvgPicture.asset(
-                'assets/icons/contract.svg',
+                AppConfig.iconsPath+'contract.svg',
                 width: 200,
                 height: 200,
               ),
@@ -153,7 +154,7 @@ class AddAssetBody extends StatelessWidget {
                         portFolioItemRow(
                           context,
                           isDarkTheme,
-                          ContractProvider().listContract[0].logo!,
+                          ContractProvider().listContract[api.selNativeIndex].logo!,
                           tokenSymbol!,
                           Colors.black,
                           addAsset!,
@@ -162,7 +163,7 @@ class AddAssetBody extends StatelessWidget {
                         portFolioItemRow(
                           context,
                           isDarkTheme,
-                          ContractProvider().listContract[2].logo!,
+                          ContractProvider().listContract[api.kgoIndex].logo!,
                           tokenSymbol!,
                           Colors.black,
                           addAsset!,
@@ -171,7 +172,7 @@ class AddAssetBody extends StatelessWidget {
                         portFolioItemRow(
                           context,
                           isDarkTheme,
-                          'assets/circle.png',
+                          AppConfig.assetsPath+'circle.png',
                           tokenSymbol!,
                           Colors.black,
                           addAsset!,
@@ -200,7 +201,7 @@ class AddAssetBody extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.only(right: 16.0),
                             child: SvgPicture.asset(
-                              'assets/icons/qr_code.svg',
+                              AppConfig.iconsPath+'qr_code.svg',
                               width: 40,
                               height: 40,
                               color: isDarkTheme ? Colors.white : Colors.black,
@@ -220,7 +221,6 @@ class AddAssetBody extends StatelessWidget {
                 edgeMargin: const EdgeInsets.only(left: 66, right: 66),
                 hasShadow: assetM!.enable,
                 action: !assetM!.enable ? null : () async {
-                  print("Hello submit");
                   await submitAsset!();
                 }//assetM!.enable ? submitAsset : null,
               )

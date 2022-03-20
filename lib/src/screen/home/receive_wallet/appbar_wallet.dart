@@ -24,15 +24,15 @@ class QrViewTitle extends StatelessWidget {
         alignment: Alignment.center,
         children: [
 
-          Align(
-            child: MyText(
-              text: 'Wallet',
-              fontSize: 20.0,
-              color: isDarkTheme
-                ? AppColors.whiteColorHexa
-                : AppColors.textColor,
-            ),
-          ),
+          // Align(
+          //   child: MyText(
+          //     text: 'Wallet',
+          //     fontSize: 20.0,
+          //     color: isDarkTheme
+          //       ? AppColors.whiteColorHexa
+          //       : AppColors.textColor,
+          //   ),
+          // ),
           
           if (assetInfo != null)
             Container()

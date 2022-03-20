@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/components/component.dart';
-
 import '../../../../index.dart';
 
 class Confirmation extends StatelessWidget {

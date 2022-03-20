@@ -1,6 +1,6 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -105,18 +105,18 @@ final portfolioChart = LineChartData(
   ],
 );
 
-Widget homeAppBar(BuildContext context) {
+Widget homeAppBar(BuildContext context, {Function? query}) {
   final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return Container(
     height: 70,
     color: isDarkTheme
-        ? hexaCodeToColor(AppColors.darkCard)
-        : hexaCodeToColor(AppColors.whiteHexaColor),
+      ? hexaCodeToColor(AppColors.darkCard)
+      : hexaCodeToColor(AppColors.whiteHexaColor),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          'assets/bitriel_home.png',
+          AppConfig.assetsPath+'bitriel_home.png',
           width: 170,
           height: 170,
         ),
@@ -125,14 +125,15 @@ Widget homeAppBar(BuildContext context) {
           child: IconButton(
             iconSize: 30,
             color: isDarkTheme ? Colors.white : Colors.black,
-            icon: const Icon(LineAwesomeIcons.plus_circle),
+            icon: SvgPicture.asset(AppConfig.iconsPath+"list.svg"),
             onPressed: () async {
-              Navigator.push(
-                context,
-                RouteAnimation(
-                  enterPage: AddAsset(),
-                ),
-              );
+              await MyBottomSheet().listToken(context: context, query: query);
+              // Navigator.push(
+              //   context,
+              //   RouteAnimation(
+              //     enterPage: AddAsset(),
+              //   ),
+              // );
             },
           ),
         ),
@@ -263,7 +264,6 @@ class AddAssetRowButton extends StatelessWidget {
 
 // Widget portFolioItemRow(
 //     List<dynamic> portfolioData, int index, int rate, CreateAccModel sdkModel) {
-//   // print(rate.isEven);
 //   return rowDecorationStyle(
 //       child: Row(
 //     children: <Widget>[
@@ -363,8 +363,14 @@ class MyBottomAppBar extends StatelessWidget {
     return BottomAppBar(
       elevation: 10,
       color: isDarkTheme
+<<<<<<< HEAD
         ? hexaCodeToColor(AppColors.lowGrey)
         : hexaCodeToColor(AppColors.whiteHexaColor),
+=======
+          ? hexaCodeToColor(AppColors.darkCard)
+          : hexaCodeToColor(AppColors.whiteHexaColor),
+      // shape: const CircularNotchedRectangle(),
+>>>>>>> dev
       notchMargin: 8.0,
       child: SizedBox(
         height: 80,
@@ -483,10 +489,10 @@ class MyHomeAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24),
       child: Row(
         children: [
-          const MyLogo(
+          MyLogo(
             width: 50,
             height: 50,
-            logoPath: "assets/sld_logo.svg",
+            logoPath: AppConfig.assetsPath+"sld_logo.svg",
           ),
           MyText(
             color: "#FFFFFF",

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
+import 'package:wallet_apps/index.dart';
 
 const post_headers = {"Content-type": "application/json", "Accept": "*/*"};
 
@@ -26,7 +27,7 @@ class WalletApi {
       
         return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -38,7 +39,7 @@ class WalletApi {
       
         return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
     
@@ -49,7 +50,7 @@ class WalletApi {
       res = await get(Uri.parse('$_configEndpoint/wallet/versions.json'));
       
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
     }
     return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
   }
@@ -60,7 +61,7 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/jsCodeVersions.json'));
       
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       // return null;
     }
 
@@ -73,7 +74,7 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/js/$networkName.js'));
       
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       // return null;
     }
 
@@ -121,7 +122,7 @@ class WalletApi {
       // } else {
       // }
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       // return null;
     }
       return jsonDecode(utf8.decode(res!.bodyBytes));
@@ -135,7 +136,7 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -147,7 +148,7 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -162,7 +163,7 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -177,7 +178,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -194,7 +195,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -210,7 +211,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return [];
     }
   }
@@ -225,7 +226,7 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -241,7 +242,7 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -283,7 +284,7 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -298,7 +299,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -312,7 +313,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }
@@ -326,7 +327,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      print(err);
+      if (ApiProvider().isDebug == false) print(err);
       return {};
     }
   }

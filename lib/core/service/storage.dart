@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:get_storage/get_storage.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class StorageServices {
@@ -28,6 +29,11 @@ class StorageServices {
     await _storage.deleteAll();
   }
 
+  Future<void> clearStorage() async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.clear();
+  }
+
   static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
     try {
 
@@ -35,7 +41,7 @@ class StorageServices {
       _decode = jsonEncode(_data);
       _preferences!.setString(_path, _decode!);
     } catch (e){
-      print("Error storeData $e");
+      if (ApiProvider().isDebug == false) print("Error storeData $e");
     }
     return _preferences!;
   }
@@ -68,7 +74,7 @@ class StorageServices {
       await _preferences!.setString(DbKey.listContract, lsContract);
       await _preferences!.setString(DbKey.addedContract, adContract);
     } catch (e) {
-      print("Error storeAssetData $e");
+      if (ApiProvider().isDebug == false) print("Error storeAssetData $e");
     }
   }
 
@@ -185,12 +191,12 @@ class StorageServices {
   // ignore: avoid_positional_boolean_parameters
   static Future<void> saveBio(bool enable) async {
     _preferences = await SharedPreferences.getInstance();
-    _preferences!.setBool('bio', enable);
+    _preferences!.setBool(DbKey.bio, enable);
   }
 
   static Future<bool> readSaveBio() async {
     _preferences = await SharedPreferences.getInstance();
-    return _preferences!.getBool('bio') ?? false;
+    return _preferences!.getBool(DbKey.bio) ?? false;
   }
 
   static Future<SharedPreferences> setUserID(String _data, String _path) async {
@@ -215,7 +221,7 @@ class StorageServices {
       }
 
     } catch (e) {
-      print("Error fetchAsset $e");
+      if (ApiProvider().isDebug == false) print("Error fetchAsset $e");
     }
     //return _preferences.getString(_path);
   }
@@ -236,4 +242,23 @@ class StorageServices {
     _preferences = await SharedPreferences.getInstance();
     await _preferences!.remove(path);
   }
+
+  static Future<Map?> getSeeds(String? seedType) async {
+    _preferences = await SharedPreferences.getInstance();
+    String? value = await _preferences!.getString('wallet_seed_$seedType');
+    if (value != null) {
+      return jsonDecode(value);
+    }
+    return {};
+  }
+}
+
+class KeyringStorage {
+  static final _storage = () => GetStorage("polka_wallet_sdk");
+
+  final keyPairs = [].val('keyPairs', getBox: _storage);
+  final contacts = [].val('contacts', getBox: _storage);
+  final ReadWriteValue<String?> currentPubKey = ''.val('currentPubKey', getBox: _storage);
+  final encryptedRawSeeds = {}.val('encryptedRawSeeds', getBox: _storage);
+  final encryptedMnemonics = {}.val('encryptedMnemonics', getBox: _storage);
 }

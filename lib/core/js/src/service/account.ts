@@ -8,7 +8,12 @@ import { Keyring } from "@polkadot/keyring";
 import { ApiPromise } from "@polkadot/api";
 
 import { subscribeMessage } from "./setting";
-let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
+let isMainnet = Boolean(true);
+let testNet = 42;
+let mainnet = 972;
+let keyring = new Keyring({ ss58Format: isMainnet ? mainnet : testNet, type: "sr25519" });
+
+var selAddr;
 
 /**
  * Get svg icons of addresses.
@@ -32,8 +37,9 @@ async function genIcons(addresses: string[]) {
  * Get svg icons of pubKeys.
  */
 async function genPubKeyIcons(pubKeys: string[]) {
+  console.log("Hello genPubKeyIcons", pubKeys);
   const icons = await genIcons(
-    pubKeys.map((key) => keyring.encodeAddress(hexToU8a(key), 42))
+    pubKeys.map((key) => keyring.encodeAddress(hexToU8a(key), isMainnet ? mainnet : testNet))
   );
   return icons.map((i, index) => {
     i[0] = pubKeys[index];
@@ -69,9 +75,18 @@ async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
     (<any>res)[ss58] = {};
     pubKeys.forEach((i) => {
       (<any>res)[ss58][i] = keyring.encodeAddress(hexToU8a(i), ss58);
+      // For Only Import or Create Account
+      if (ss58 == (isMainnet ? mainnet : testNet)) {
+        selAddr = keyring.encodeAddress(hexToU8a(i), ss58);
+      }
     });
   });
   return res;
+}
+
+// For Only Import or Create Account
+async function getSELAddr() {
+  return selAddr;
 }
 
 /**
@@ -93,7 +108,7 @@ async function queryAddressWithAccountIndex(
 async function queryAccountsBonded(api: ApiPromise, pubKeys: string[]) {
   return Promise.all(
     pubKeys
-      .map((key) => keyring.encodeAddress(hexToU8a(key), 42))
+      .map((key) => keyring.encodeAddress(hexToU8a(key), isMainnet ? mainnet : testNet))
       .map((i) =>
         Promise.all([api.query.staking.bonded(i), api.query.staking.ledger(i)])
       )
@@ -128,7 +143,8 @@ async function getBalance(
   };
   if (msgChannel) {
     subscribeMessage(api.derive.balances.all, [address], msgChannel, transfrom);
-    return;
+    var selBalance = await api.derive.balances.all(address);
+    return transfrom(selBalance);
   }
 
   const res = await api.derive.balances.all(address);
@@ -153,4 +169,5 @@ export default {
   queryAccountsBonded,
   getBalance,
   getAccountIndex,
+  getSELAddr
 };

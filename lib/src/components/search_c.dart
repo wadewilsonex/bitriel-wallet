@@ -9,11 +9,21 @@ class SearchComponent extends StatelessWidget{
   SearchComponent({@required this.query, this.setState});
   
   Widget build(BuildContext context){
+<<<<<<< HEAD
     return CupertinoSearchTextField(
       itemColor: Colors.white,
       style: TextStyle(color: Colors.white),
       decoration: BoxDecoration(
         color: hexaCodeToColor("#48484C"),
+=======
+    final isDark = Provider.of<ThemeProvider>(context).isDark;
+    return CupertinoSearchTextField(
+      itemColor: Colors.white,
+      style: TextStyle(color: isDark ? Colors.black : Colors.white),
+      placeholderStyle: TextStyle(color: isDark ? Colors.black : Colors.white),
+      decoration: BoxDecoration(
+        color: isDark ? hexaCodeToColor("#48484C") : Colors.grey[400],
+>>>>>>> dev
         borderRadius: BorderRadius.circular(5)
       ),
       onChanged: (el){
@@ -37,7 +47,11 @@ class SearchItem extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: EdgeInsets.all(paddingSize),
+<<<<<<< HEAD
       color: hexaCodeToColor(isDarkTheme ? "#2C2C2D" : AppColors.bgdColor),
+=======
+      color: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.bgdColor),//"#2C2C2D" : AppColors.bgdColor),
+>>>>>>> dev
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
@@ -72,7 +86,11 @@ class SearchItem extends StatelessWidget{
 
                       Text.rich(
                         TextSpan(
+<<<<<<< HEAD
                           text: lsItem![index].symbol != null ? '${lsItem![index].symbol}' : '',
+=======
+                          text: lsItem![index].symbol != null ? '${lsItem![index].symbol} ' : '',
+>>>>>>> dev
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -83,12 +101,20 @@ class SearchItem extends StatelessWidget{
                           ),
                           children: [
                             TextSpan(
+<<<<<<< HEAD
                               text: " ${lsItem![index].name!}",
+=======
+                              text: ApiProvider().isMainnet ? lsItem![index].org : lsItem![index].orgTest,
+>>>>>>> dev
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkTheme
+<<<<<<< HEAD
                                   ? AppColors.darkSecondaryText
+=======
+                                  ? AppColors.whiteColorHexa
+>>>>>>> dev
                                   : AppColors.darkSecondaryText,
                                 ),
                               ),
@@ -97,6 +123,7 @@ class SearchItem extends StatelessWidget{
                         )
                       ),
 
+<<<<<<< HEAD
                       lsItem![index].org!.isNotEmpty ? MyText(
                         text: lsItem![index].org!, 
                         color: isDarkTheme
@@ -105,6 +132,15 @@ class SearchItem extends StatelessWidget{
                         fontSize: 14,
                       )
                       : Container()
+=======
+                      MyText(
+                        text: lsItem![index].name!, 
+                        color: isDarkTheme
+                          ? AppColors.whiteColorHexa
+                          : AppColors.darkSecondaryText,
+                        fontSize: 14,
+                      )
+>>>>>>> dev
                     ],
                   ),
                   
@@ -115,6 +151,10 @@ class SearchItem extends StatelessWidget{
                     onChanged: (bool value) async {
                       Provider.of<ContractProvider>(context, listen: false).listContract[index].show = value;
                       mySetState!(() { });
+<<<<<<< HEAD
+=======
+                      await StorageServices.storeAssetData(context);
+>>>>>>> dev
                       await Provider.of<ContractProvider>(context, listen: false).sortAsset();
                     },
                   )

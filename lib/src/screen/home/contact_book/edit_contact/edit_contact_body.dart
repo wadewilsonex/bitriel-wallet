@@ -29,7 +29,6 @@ class EditContactBody extends StatelessWidget {
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {
-            //print("Dae");
             Navigator.pop(context);
           },
         ),
@@ -40,27 +39,29 @@ class EditContactBody extends StatelessWidget {
             child: Column(
               children: [
                 MyInputField(
-                    labelText: "Contact number",
-                    textInputFormatter: [
-                      LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                    ],
-                    inputType: TextInputType.phone,
-                    controller: model?.contactNumber,
-                    focusNode: model?.contactNumberNode,
-                    enableInput: false,
-                    onChanged: onChanged,
-                    pBottom: 16,
-                    onSubmit: onSubmit),
+                  labelText: "Contact number",
+                  textInputFormatter: [
+                    LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                  ],
+                  inputType: TextInputType.phone,
+                  controller: model?.contactNumber,
+                  focusNode: model?.contactNumberNode,
+                  enableInput: false,
+                  onChanged: onChanged,
+                  pBottom: 16,
+                  onSubmit: onSubmit
+                ),
                 MyInputField(
-                    labelText: "User name",
-                    textInputFormatter: [
-                      LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                    ],
-                    controller: model?.userName,
-                    focusNode: model?.userNameNode,
-                    onChanged: onChanged,
-                    pBottom: 16,
-                    onSubmit: onSubmit),
+                  labelText: "User name",
+                  textInputFormatter: [
+                    LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                  ],
+                  controller: model?.userName,
+                  focusNode: model?.userNameNode,
+                  onChanged: onChanged,
+                  pBottom: 16,
+                  onSubmit: onSubmit
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -82,7 +83,7 @@ class EditContactBody extends StatelessWidget {
                     IconButton(
                       padding: const EdgeInsets.only(left: 20, right: 36),
                       icon: SvgPicture.asset(
-                        'assets/icons/qr_code.svg',
+                        AppConfig.iconsPath+'qr_code.svg',
                         color: Colors.white,
                       ),
                       onPressed: () async {
@@ -95,7 +96,7 @@ class EditContactBody extends StatelessWidget {
                             onChanged!(_response.toString());
                           }
                         } catch (e) {
-                          //print("Error from QR scanner $e");
+                          if (ApiProvider().isDebug == false) print("Error from QR scanner $e");
                         }
                       },
                     )

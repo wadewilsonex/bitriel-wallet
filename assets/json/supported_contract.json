@@ -2,48 +2,105 @@
     {
         "id": "selendra",
         "name": "SELENDRA",
-        "address": "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a",
+        "logo": "assets/SelendraCircle-Blue.png",
+        "contract": "",
+        "contract_test": "",
+        "address": "",
+        "symbol": "SEL",
+        "org": "Selendra Chain",
+        "org_test": "Testnet",
+        "balance": "0.0",
+        "show": true,
+        "isContain": true
+    },
+    {
+        "id": "selendra",
+        "name": "SELENDRA",
+        "contract": "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a",
+        "contract_test": "0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030",
+        "address": "",
         "logo": "assets/SelendraCircle-Blue.png",
         "symbol": "SEL",
         "org": "BEP-20",
+<<<<<<< HEAD
         "show": true,
         "isContain": true
+=======
+        "org_test": "BEP-20",
+        "balance": "0.0",
+        "isContain": true,
+        "show": false
+>>>>>>> dev
     },
     {
         "id": "selendra v2",
         "name": "SELENDRA",
-        "address": "0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C",
+        "contract": "0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C",
+        "contract_test": "0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C",
+        "address": "",
         "logo": "assets/SelendraCircle-Blue.png",
         "symbol": "SEL (v2)",
         "org": "BEP-20",
+<<<<<<< HEAD
         "show": true,
         "isContain": true
+=======
+        "org_test": "BEP-20",
+        "balance": "0.0",
+        "isContain": true,
+        "show": false
+>>>>>>> dev
     },
     {
         "id": "kiwigo",
         "name": "KIWIGO",
-        "address": "0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773",
+        "contract": "0x5d3AfBA1924aD748776E4Ca62213BF7acf39d773",
+        "contract_test": "",
+        "address": "",
         "logo": "assets/Kiwi-GO-White-1.png",
         "symbol": "KGO",
         "org": "BEP-20",
+<<<<<<< HEAD
         "show": true,
         "isContain": true
+=======
+        "org_test": "BEP-20",
+        "balance": "0.0",
+        "isContain": true,
+        "show": true
+>>>>>>> dev
     },
     {
         "id": "ethereum",
         "name": "Ethereum",
+        "contract": "",
+        "contract_test": "",
+        "address": "",
         "logo": "assets/eth.png",
         "symbol": "ETH",
         "org": "",
+<<<<<<< HEAD
+=======
+        "org_test": "",
+        "balance": "0.0",
+>>>>>>> dev
         "show": true,
         "isContain": true
     },
     {
         "id": "binance smart chain",
         "name": "Binance Coin",
-        "logo": "assets/bnb.png",
+        "contract": "",
+        "contract_test": "",
+        "address": "",
+        "logo": "assets/logo/bnb.png",
         "symbol": "BNB",
         "org": "Smart Chain",
+<<<<<<< HEAD
+=======
+        "org_test": "",
+        "balance": "0.0",
+>>>>>>> dev
         "show": true,
         "isContain": true
     },
@@ -51,8 +108,12 @@
         "id": "polkadot",
         "symbol": "DOT",
         "name": "Polkadot",
+        "contract": "",
+        "contract_test": "",
+        "address": "",
         "logo": "assets/icons/polkadot.png",
         "org": "",
+        "org_test": "BEP-20",
         "balance": "0.0",
         "show": true,
         "isContain": true
@@ -61,8 +122,12 @@
         "id": "bitcoin",
         "symbol": "BTC",
         "name": "Bitcoin",
-        "logo": "assets/btc_logo.png",
+        "contract": "",
+        "contract_test": "",
+        "address": "",
+        "logo": "assets/logo/btc_logo.png",
         "org": "",
+        "org_test": "",
         "balance": "0.0",
         "show": true,
         "isContain": true
@@ -70,10 +135,13 @@
     {
         "id": "attendant",
         "name": "ATTENDANT",
-        "address": "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26",
+        "contract": "",
+        "contract_test": "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26",
+        "address": "",
         "logo": "assets/attd_fingerprint.png",
         "symbol": "ATT",
         "org": "BEP-20",
+<<<<<<< HEAD
         "show": false,
         "isContain": true
     },
@@ -83,6 +151,10 @@
         "logo": "assets/SelendraCircle-Blue.png",
         "symbol": "SEL",
         "org": "Testnet",
+=======
+        "balance": "0.0",
+        "org_test": "BEP-20",
+>>>>>>> dev
         "show": false,
         "isContain": true
     }

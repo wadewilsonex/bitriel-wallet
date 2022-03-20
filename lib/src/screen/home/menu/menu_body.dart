@@ -22,22 +22,8 @@ class MenuBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         MenuHeader(userInfo: userInfo),
-
-        // History
-        // const MenuSubTitle(index: 0),
-
-        // MyListTile(
-        //   index: 0,
-        //   subIndex: 0,
-        //   onTap: () {
-        //     Navigator.pop(context, '');
-        //     Navigator.pushNamed(
-        //       context,
-        //       s.txActivityView,
-        //     );
-        //   },
-        // ),
 
         // Wallet
         const MenuSubTitle(index: 1),
@@ -58,37 +44,6 @@ class MenuBody extends StatelessWidget {
           },
         ),
 
-        // Security
-        // const MenuSubTitle(index: 2),
-        // MyListTile(
-        //   index: 2,
-        //   subIndex: 0,
-        //   onTap: () {
-        //     Navigator.pushNamed(context, AppString.claimAirdropView);
-        //   },
-        // ),
-        // MyListTile(
-        //   index: 2,
-        //   subIndex: 3,
-        //   onTap: () {
-        //     Navigator.push(context, RouteAnimation(enterPage: Swap()));
-        //   },
-        // ),
-        // MyListTile(
-        //   index: 2,
-        //   subIndex: 4,
-        //   onTap: () {
-        //     Navigator.push(context, RouteAnimation(enterPage: Presale()));
-        //   },
-        // ),
-        // MyListTile(
-        //   index: 2,
-        //   subIndex: 1,
-        //   onTap: () {
-        //     //Navigator.pushNamed(context, AppText.claimAirdropView);
-        //   },
-        // ),
-
         // Account
         const MenuSubTitle(index: 3),
 
@@ -101,12 +56,9 @@ class MenuBody extends StatelessWidget {
             onChanged: (value) async {
               // Navigator.pushNamed(context, AppText.passcodeView);
               final res = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Passcode(
-                            isAppBar: true,
-                          )));
-
+                context,
+                MaterialPageRoute(builder: (context) => Passcode(isAppBar: true))
+              );
               if (res == true) {
                 enablePassword!(true);
               } else if (res == false) {

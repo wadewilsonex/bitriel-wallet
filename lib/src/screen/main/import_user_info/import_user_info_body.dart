@@ -15,19 +15,19 @@ class ImportUserInfoBody extends StatelessWidget {
   final Function? submitProfile;
   final Function? item;
 
-  const ImportUserInfoBody(
-      {this.modelUserInfo,
-      this.onSubmit,
-      this.onChanged,
-      this.changeGender,
-      this.validateFirstName,
-      this.validatepassword,
-      this.validateConfirmPassword,
-      this.submitProfile,
-      this.popScreen,
-      this.switchBio,
-      this.menuModel,
-      this.item});
+  const ImportUserInfoBody({this.modelUserInfo,
+    this.onSubmit,
+    this.onChanged,
+    this.changeGender,
+    this.validateFirstName,
+    this.validatepassword,
+    this.validateConfirmPassword,
+    this.submitProfile,
+    this.popScreen,
+    this.switchBio,
+    this.menuModel,
+    this.item
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +115,7 @@ class ImportUserInfoBody extends StatelessWidget {
                       Flexible(child: Container()),
                       MyFlatButton(
                         textButton: "Submit",
-                        edgeMargin: const EdgeInsets.only(
-                            top: 29, left: 66, right: 66, bottom: 16),
+                        edgeMargin: const EdgeInsets.only(top: 29, left: 66, right: 66, bottom: 81),
                         hasShadow: modelUserInfo!.enable,
                         action: submitProfile
                         // modelUserInfo!.enable == false
@@ -125,7 +124,9 @@ class ImportUserInfoBody extends StatelessWidget {
                       )
                     ],
                   ),
-                ))),
+                )
+              )
+            ),
       ],
     );
   }

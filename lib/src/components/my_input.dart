@@ -89,6 +89,7 @@ class MyInputField extends StatelessWidget {
               ? isDarkTheme? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3) : hexaCodeToColor(AppColors.secondary)
               : hexaCodeToColor(AppColors.darkSecondaryText),
           ),
+<<<<<<< HEAD
           prefixText: prefixText,
 
           prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
@@ -130,6 +131,17 @@ class MyInputField extends StatelessWidget {
         },
       )
     );
+=======
+          inputFormatters: textInputFormatter,
+          /* Limit Length Of Text Input */
+          onChanged: (String? value){
+            if (onChanged != null) onChanged!(value);
+          },
+          onFieldSubmitted: (value) {
+            onSubmit!();
+          },
+        ));
+>>>>>>> dev
   }
 }
 

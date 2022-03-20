@@ -3,6 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:convert/convert.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:in_app_update/in_app_update.dart';
+import 'package:polkawallet_sdk/api/apiTx.dart';
+import 'package:polkawallet_sdk/service/tx.dart';
+import 'package:polkawallet_sdk/api/types/txInfoData.dart';
+import 'package:polkawallet_sdk/api/api.dart';
+
 // ignore: avoid_classes_with_only_static_members
 class AppServices {
   static int myNumCount = 0;
@@ -80,7 +88,7 @@ class AppServices {
   }
 
   // ignore: avoid_void_async
-  static Future<void> clearStorage() async {
+  Future<void> clearStorage() async {
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }
@@ -115,54 +123,58 @@ class AppServices {
 
   Future<bool> checkBiometrics(BuildContext context) async {
     bool canCheckBiometrics = false;
-    // try {
-    //   // Check For Support Device
-    //   bool support = await LocalAuthentication().isDeviceSupported();
-    //   if (support) {
-    //     canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
-    //   } else {
-    //     await showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return AlertDialog(
-    //           shape: RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(10.0)),
-    //           title: Align(
-    //             child: MyText(
-    //               text: "Oops",
-    //               fontWeight: FontWeight.w600,
-    //             ),
-    //           ),
-    //           content: Padding(
-    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-    //             child: Text("Your doesn't support finger print",
-    //                 textAlign: TextAlign.center),
-    //           ),
-    //           actions: <Widget>[
-    //             TextButton(
-    //               onPressed: () => Navigator.pop(context),
-    //               child: const Text('Close'),
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-    //   }
+    try {
+      // Check For Support Device
+      bool support = await LocalAuthentication().isDeviceSupported();
+      if (support) {
+        canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
+      } else {
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              title: Align(
+                child: MyText(
+                  text: "Oops",
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Text("Your doesn't support finger print",
+                    textAlign: TextAlign.center),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      }
 
-    //   // ignore: unused_catch_clause
-    // } on PlatformException catch (e) {
-    //   // print("Erorr $e");
-    //   // canCheckBiometrics = false;
-    // }
+      // ignore: unused_catch_clause
+    } on PlatformException catch (e) {
+      if (ApiProvider().isDebug == false) print("Erorr $e");
+      // canCheckBiometrics = false;
+    }
 
     return canCheckBiometrics;
   }
 
   static Future<String>? getPrivateKey(String pin, BuildContext context) async {
+<<<<<<< HEAD:lib/core/service/services.dart
     print("getPrivateKey");
     String? privateKey = '';
+=======
+    String privateKey = '';
+>>>>>>> dev:lib/src/service/services.dart
     try {
-      final encrytKey = await StorageServices().readSecure('private');
+      final encrytKey = await StorageServices().readSecure(DbKey.private);
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
       await customDialog(context, 'Opps', 'PIN verification failed');
@@ -193,4 +205,64 @@ class AppServices {
     });
     return tmp;
   }
+}
+
+class Encryptt {
+  static String passwordToEncryptKey(String password) {
+    String passHex = hex.encode(utf8.encode(password));
+    if (passHex.length > 32) {
+      return passHex.substring(0, 32);
+    }
+    return passHex.padRight(32, '0');
+  }
+}
+
+class AppUpdate {
+  
+  Future<AppUpdateInfo> checkUpdate() async {
+    return await InAppUpdate.checkForUpdate();
+  }
+
+  Future<void> performImmediateUpdate() async {
+    await InAppUpdate.performImmediateUpdate();
+  }
+}
+
+class SendTrx extends ApiTx{
+
+  final PolkawalletApi apiRoot;
+  final ServiceTx service;
+
+  SendTrx(this.apiRoot, this.service) : super(apiRoot, service);
+
+  /// Estimate tx fees, [params] will be ignored if we have [rawParam].
+  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam}) async {
+    final String param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+    dynamic res = await (service.estimateFees(tx, param));
+    return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
+  }
+
+  @override
+  Future<Map> signAndSend(
+    TxInfoData txInfo,
+    List params,
+    String password, {
+    Function(String)? onStatusChange,
+    String? rawParam,
+  }) async {
+    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final Map tx = txInfo.toJson();
+    dynamic res = await (service.signAndSend(
+      tx,
+      param,
+      password,
+      onStatusChange ?? (status) {},
+    ));
+    if (res['error'] != null) {
+      throw Exception(res['error']);
+    }
+    return res;
+  }
+
 }

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/components/component.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import '../../../../index.dart';
@@ -47,6 +48,7 @@ class AssetInfo extends StatefulWidget {
 }
 
 class _AssetInfoState extends State<AssetInfo> {
+  
   final FlareControls _flareController = FlareControls();
   final ModelScanPay _scanPayM = ModelScanPay();
   final GetWalletMethod _method = GetWalletMethod();
@@ -74,7 +76,7 @@ class _AssetInfoState extends State<AssetInfo> {
   }
 
   Future<List<TxHistory>> readTxHistory() async {
-    await StorageServices.fetchData('txhistory').then((value) {
+    await StorageServices.fetchData(DbKey.txtHistory).then((value) {
       if (value != null) {
         for (final i in value) {
           // ignore: unnecessary_parenthesis
@@ -124,13 +126,13 @@ class _AssetInfoState extends State<AssetInfo> {
       });
 
     } catch (e) {
-      print("Error _deleteHistory $e");
+      if (ApiProvider().isDebug == false) print("Error _deleteHistory $e");
     }
     return null;
   }
 
   Future<void> clearOldHistory() async {
-    await StorageServices.removeKey('txhistory');
+    await StorageServices.removeKey(DbKey.txtHistory);
   }
 
   Future<void> refresh() async {
@@ -312,6 +314,8 @@ class _AssetInfoState extends State<AssetInfo> {
                   ? hexaCodeToColor(AppColors.darkCard)
                   : Colors.white,
                 flexibleSpace: Column(children: [
+
+                  // AppBar
                   Expanded(
                       child: Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -319,20 +323,23 @@ class _AssetInfoState extends State<AssetInfo> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: Icon(
-                                          Platform.isAndroid
-                                              ? Icons.arrow_back
-                                              : Icons.arrow_back_ios,
-                                          color: isDarkTheme
-                                              ? Colors.white
-                                              : Colors.black,
-                                          size: 28))),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.only(right: 16),
+                                  child: Icon(
+                                    Platform.isAndroid
+                                      ? Icons.arrow_back
+                                      : Icons.arrow_back_ios,
+                                    color: isDarkTheme
+                                      ? Colors.white
+                                      : Colors.black,
+                                    size: 28
+                                  )
+                                )
+                              ),
 
                               Container(
                                 alignment: Alignment.centerLeft,
@@ -350,28 +357,32 @@ class _AssetInfoState extends State<AssetInfo> {
                               MyText(
                                 fontSize: 18.0,
                                 color: isDarkTheme
-                                    ? AppColors.whiteHexaColor
-                                    : AppColors.blackColor,
-                                text: widget.scModel!.id! == null
-                                    ? widget.scModel!.symbol!
-                                    : widget.scModel!.id!.toUpperCase(),
+                                  ? AppColors.whiteHexaColor
+                                  : AppColors.blackColor,
+                                text: widget.scModel!.symbol!
+                                // widget.scModel!.id! == null
+                                //     ? widget.scModel!.symbol!
+                                //     : widget.scModel!.id!.toUpperCase(),
                               ),
 
                               Expanded(child: Container()),
 
                               // Right Text
                               Align(
-                                  alignment: Alignment.centerRight,
-                                  child: MyText(
-                                    fontSize: 16.0,
-                                    text:
-                                        widget.scModel!.org! == 'BEP-20' ? 'BEP-20' : '',
-                                    color: isDarkTheme
-                                        ? AppColors.whiteHexaColor
-                                        : AppColors.darkCard,
-                                  )),
+                                alignment: Alignment.centerRight,
+                                child: MyText(
+                                  fontSize: 16.0,
+                                  text: widget.scModel!.org,
+                                  fontWeight: FontWeight.w700,
+                                  color: isDarkTheme
+                                    ? AppColors.whiteHexaColor
+                                    : AppColors.darkCard,
+                                )
+                              ),
                             ],
-                          ))),
+                          )
+                        )
+                      ),
                 ]),
               ),
 
@@ -379,10 +390,10 @@ class _AssetInfoState extends State<AssetInfo> {
               SliverList(
                 delegate: SliverChildListDelegate([
                 Divider(
-                    height: 3,
-                    color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : Colors.grey.shade400)
+                  height: 3,
+                  color: isDarkTheme
+                    ? hexaCodeToColor(AppColors.darkCard)
+                    : Colors.grey.shade400)
               ])),
 
               // Body
@@ -422,48 +433,48 @@ class _AssetInfoState extends State<AssetInfo> {
                             //fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 8.0),
-                          if (widget.scModel!.marketPrice == null)
-                            Container()
-                          else
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                MyText(
-                                  text: widget.scModel!.marketPrice != null ? '\$ ${widget.scModel!.marketPrice}' : '',
-                                  fontSize: 14,
+                          // if (widget.scModel!.marketPrice == null)
+                          //   Container()
+                          // else
+                            
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // MyText(
+                              //   text: widget.scModel!.marketPrice != null ? '\$ ${widget.scModel!.marketPrice}' : '',
+                              //   fontSize: 14,
+                              //   fontWeight: FontWeight.bold,
+                              //   color: isDarkTheme
+                              //     ? AppColors.whiteColorHexa
+                              //     : AppColors.textColor,
+                              // ),
+
+                              const SizedBox(width: 6.0),
+                              widget.scModel!.change24h != null && widget.scModel!.change24h != ''
+                              ? MyText(
+                                text: double.parse(widget.scModel!.change24h!).isNegative
+                                  ? '${widget.scModel!.change24h}%'
+                                  : '+${widget.scModel!.change24h}%',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: double.parse(widget.scModel!.change24h!).isNegative
+                                  ? '#FF0000'
+                                  : isDarkTheme
+                                    ? '#00FF00'
+                                    : '#66CD00',
+                              )
+                              : Flexible(
+                                child: MyText(
+                                  text: widget.scModel!.change24h!,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
-                                    ? AppColors.whiteColorHexa
-                                    : AppColors.textColor,
-                                ),
-
-                                const SizedBox(width: 6.0),
-                                widget.scModel!.change24h != null && widget.scModel!.change24h != ''
-                                ? MyText(
-                                  text: double.parse(widget.scModel!.change24h!).isNegative
-                                    ? '${widget.scModel!.change24h}%'
-                                    : '+${widget.scModel!.change24h}%',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: double.parse(widget.scModel!.change24h!).isNegative
-                                    ? '#FF0000'
-                                    : isDarkTheme
-                                        ? '#00FF00'
-                                        : '#66CD00'
-                                        ,
+                                    ? '#00FF00'
+                                    : '#66CD00',
                                 )
-                                : Flexible(
-                                  child: MyText(
-                                    text: widget.scModel!.change24h!,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: isDarkTheme
-                                      ? '#00FF00'
-                                      : '#66CD00',
-                                  )
-                                )
-                              ],
-                            ),
+                              )
+                            ],
+                          ),
 
                           MyText(
                             text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
@@ -478,8 +489,8 @@ class _AssetInfoState extends State<AssetInfo> {
                           Container(
                             margin: const EdgeInsets.only(top: 40),
                             padding: widget.scModel!.symbol == 'ATD'
-                                ? const EdgeInsets.symmetric()
-                                : const EdgeInsets.symmetric(vertical: 16.0),
+                              ? const EdgeInsets.symmetric()
+                              : const EdgeInsets.symmetric(vertical: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -487,29 +498,40 @@ class _AssetInfoState extends State<AssetInfo> {
                                   height: 50,
                                   width: 150,
                                   // ignore: deprecated_member_use
-                                  child: FlatButton(
-                                    onPressed: () async {
+                                  child: Consumer<ContractProvider>(
+                                    builder: (context, provider, widgets){
+                                      return ElevatedButton(
+                                        onPressed: () async {
+                                          try {
 
-                                      if(widget.scModel!.symbol != 'ATT') {
-                                        
-                                        await MyBottomSheet().trxOptions(
-                                          context: context,
-                                        );
-                                      } else {
-                                        dialogLoading(context);
-                                        await Future.delayed(Duration(milliseconds: 1300), (){});
-                                        // Close Loading
-                                        Navigator.pop(context);
-                                        await successDialog(context, "check in!");
-                                      }
+                                            if(widget.scModel!.symbol != 'ATT') {
+                                              
+                                              await MyBottomSheet().trxOptions(
+                                                context: context,
+                                                portfolioList: provider.sortListContract
+                                              );
+                                            } else {
+                                              dialogLoading(context);
+                                              await Future.delayed(Duration(milliseconds: 1300), (){});
+                                              // Close Loading
+                                              Navigator.pop(context);
+                                              await successDialog(context, "check in!");
+                                            }
+                                          } catch (e) {
+                                            // print("Error Transfer $e");
+                                          }
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                                        ),
+                                        // disabledColor: Colors.grey[700],
+                                        // focusColor: hexaCodeToColor(AppColors.secondary),
+                                        child: MyText(
+                                          text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
+                                          color: AppColors.whiteColorHexa
+                                        ),
+                                      );
                                     },
-                                    color: hexaCodeToColor(AppColors.secondary),
-                                    disabledColor: Colors.grey[700],
-                                    focusColor: hexaCodeToColor(AppColors.secondary),
-                                    child: MyText(
-                                      text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
-                                      color: AppColors.whiteColorHexa
-                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 16.0),
@@ -520,11 +542,22 @@ class _AssetInfoState extends State<AssetInfo> {
                                   child: FlatButton(
                                     onPressed: () async {
                                       if(widget.scModel!.symbol != 'ATT') {
+                                        // if (widget.scModel!.symbol == 'BTC') {
+                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+                                        // } else if (widget.scModel!.org == 'Testnet'){
+                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+                                        // } else if ( widget.scModel!.symbol != 'DOT'){
+                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+                                        // } else {
+                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
+                                        // }
+                                        setState(() { });
                                         AssetInfoC().showRecieved(
                                           context,
                                           _method,
                                           symbol: widget.scModel!.symbol,
                                           org: widget.scModel!.org,
+                                          scModel: widget.scModel
                                         );
                                         
                                       } else {
@@ -659,7 +692,7 @@ class _AssetInfoState extends State<AssetInfo> {
                       : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: Center(
                     child: SvgPicture.asset(
-                      'assets/icons/no_data.svg',
+                      AppConfig.iconsPath+'no_data.svg',
                       width: 150,
                       height: 150,
                     ),
@@ -672,11 +705,12 @@ class _AssetInfoState extends State<AssetInfo> {
                           ? hexaCodeToColor(AppColors.darkCard)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
-                            child: SvgPicture.asset(
-                          'assets/icons/no_data.svg',
-                          width: 150,
-                          height: 150,
-                        )),
+                          child: SvgPicture.asset(
+                            AppConfig.iconsPath+'no_data.svg',
+                            width: 150,
+                            height: 150,
+                          )
+                        ),
                       )
                     : Container(
                         color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),

@@ -9,6 +9,7 @@ class NetworkParams {
   String? scanMn;
   String? scanTN;
   int? ss58;
+  int? ss58MN;
 
   NetworkParams({
     this.name,
@@ -19,5 +20,6 @@ class NetworkParams {
     this.scanMn,
     this.scanTN,
     this.ss58,
+    this.ss58MN
   });
 }

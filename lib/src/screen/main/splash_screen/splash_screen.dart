@@ -21,22 +21,35 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
+<<<<<<< HEAD
 
     // print("getCurrentAccount");
       // await Future.delayed(const Duration(seconds: 1), () async {
       //     Navigator.pushReplacement(context, RouteAnimation(enterPage: ClaimAirDrop())); 
       // });
+=======
+>>>>>>> dev
     
     // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', false, Provider.of<ContractProvider>(context, listen: false).sortListContract, asset: "SEL",)));
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
+<<<<<<< HEAD
         await StorageServices().readSecure('private')!.then((String? value) async {
           if (value == null || value.isEmpty) {
+=======
+
+        await StorageServices().readSecure(DbKey.private)!.then((String value) async {
+          if (value.isEmpty) {
+>>>>>>> dev
             Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
           } else {
-            final ethAddr = await StorageServices().readSecure('etherAdd');
+            final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
+<<<<<<< HEAD
             if (ethAddr == null) {
+=======
+            if (ethAddr == '') {
+>>>>>>> dev
               await dialogSuccess(
                 context,
                 const Padding(
@@ -69,7 +82,8 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      print("Error Splash screen $e");
+      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
     }
   }
   
@@ -77,11 +91,15 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     
     final bio = await StorageServices.readSaveBio();
 
-    final passCode = await StorageServices().readSecure('passcode');
+    final passCode = await StorageServices().readSecure(DbKey.passcode);
 
+<<<<<<< HEAD
     await StorageServices().readSecure('private')!.then((value) {});
 
     if (bio && passCode != '') {
+=======
+    if (bio == false && passCode != '') {
+>>>>>>> dev
       Navigator.pushReplacement(
         context,
         RouteAnimation(
@@ -106,6 +124,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
+<<<<<<< HEAD
         Navigator.push(context, MaterialPageRoute(builder: (context) => Wallet() ));
         // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', true, [], asset: "SEL",)
         // ConfirmationTx(
@@ -115,6 +134,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         // )
         // ));
         // Navigator.pushReplacementNamed(context, Home.route);
+=======
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
+        Navigator.pushReplacementNamed(context, Home.route);
+>>>>>>> dev
       }
     }
   }
@@ -152,9 +175,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     final res = await StorageServices.fetchData(DbKey.themeMode);
     // final sysTheme = _checkIfDarkModeEnabled();
 
+<<<<<<< HEAD
     // print("sysTheme $sysTheme");
     // print("res $res");
 
+=======
+>>>>>>> dev
     if (res != null) {
       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
     } else {
@@ -201,7 +227,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

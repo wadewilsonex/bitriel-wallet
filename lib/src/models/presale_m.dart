@@ -48,12 +48,5 @@ class PresaleModel {
       });
     });
 
-    // print("After added");
-    // listSupportToken.forEach((element) {
-    //   print(element['symbol']);
-    //   print(element['address']);
-    //   print(element['price']);
-    //   print(element['logo']);
-    // });
   }
 }

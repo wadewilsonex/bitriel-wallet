@@ -1,14 +1,15 @@
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:bip39/bip39.dart' as bip39;
 // import 'package:bip32/bip32.dart' as bip32;
 // import 'package:dart_ecpair/dart_ecpair.dart';
 import 'package:defichaindart/defichaindart.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
+import 'package:wallet_apps/src/service/authen_s.dart';
 import 'package:web3dart/credentials.dart';
 
 class ImportUserInfo extends StatefulWidget {
@@ -31,6 +32,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   MenuModel? _menuModel;
 
+  // KeyringStorage _keyringStorage = KeyringStorage();
+
   @override
   void initState() {
     _menuModel = MenuModel();
@@ -48,13 +51,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   }
 
   Future<void> _importFromMnemonic() async {
-
-    print("_importFromMnemonic ${widget.passPhrase}");
     
     final _api = Provider.of<ApiProvider>(context, listen: false);
-
     try {
-      final json = await _api.getSdk.api.keyring.importAccount(
+
+      dynamic json = await _api.apiKeyring.importAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
@@ -62,62 +63,69 @@ class ImportUserInfoState extends State<ImportUserInfo> {
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      await _api.getSdk.api.keyring.addAccount(
+      // For encryptSeed
+      // await _api.addAccount(
+      //   _api.getKeyring,
+      //   keyType: KeyType.mnemonic,
+      //   acc: json!,
+      //   password: _userInfoM.confirmPasswordCon.text,
+      // );
+
+      await _api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
         _api.getKeyring,
         keyType: KeyType.mnemonic,
-        acc: json!,
+        acc: json,
         password: _userInfoM.confirmPasswordCon.text,
       );
 
-      final resPk = await _api.getPrivateKey(widget.passPhrase);
+      /// Cannot connect Both Network On the Same time
+      /// 
+      /// It will be wrong data of that each connection. 
+      /// 
+      /// This Function Connect Polkadot Network And then Connect Selendra Network
+      await _api.connectPolNon(context: context).then((value) async {
 
-      // if (resPk != null) {
-      // }
-      await ContractProvider().extractAddress(resPk);
+        await _api.connectSELNode(context: context);
 
-      final res = await _api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
-      await StorageServices().writeSecure('private', res);
-//1
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      await _api.getAddressIcon();
-      await _api.getCurrentAccount();
-      await queryBtcData();
-      
-      await ContractsBalance().getAllAssetBalance(context: context);
-//2
-      // Sort Contract Asset
-      // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
-      
-      // // // Ready To Display Asset Portfolio
-      // Provider.of<ContractProvider>(context, listen: false).setReady();
-      
-      // await Provider.of<ApiProvider>(context, listen: false).getChainDecimal();
+        await _api.getAddressIcon();
+          // Get From Account js
+        await _api.getCurrentAccount();
 
+        final _resPk = await _api.getPrivateKey(widget.passPhrase);
+        
+        await ContractProvider().extractAddress(_resPk);
+
+        final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+        
+        await StorageServices().writeSecure(DbKey.private, _res);
+
+        await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+        // This Query Might Freeze for a second if User await keyword
+        await queryBtcData();
+
+        await ContractsBalance().getAllAssetBalance(context: context);
+
+      //     //////
+
+      //     await StorageServices().clearStorage();
+
+      //     await StorageServices().clearSecure();
+          
+      //     Provider.of<ContractProvider>(context, listen: false).resetConObject();
+
+      //     await Future.delayed(Duration(seconds: 2), () {});
+          
+      //     Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      //     Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      // /////
+      });
       await successDialog(context, "imported your account.");
     } catch (e) {
 
       Navigator.pop(context);
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: const Align(
-              child: Text('Oops'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString()),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      await customDialog(context, 'Oops', e.toString());
     }
   }
 
@@ -143,31 +151,43 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     }
   }
 
-  Future<void> getEtherSavedContractToken() async {
-    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
-    final res = await StorageServices.fetchData('ethContractList');
+  void _setAcc(ApiProvider api){
 
-    if (res != null) {
-      for (final i in res) {
-        final symbol =
-            await contractProvider.queryEther(i.toString(), 'symbol', []);
-        final decimal =
-            await contractProvider.queryEther(i.toString(), 'decimals', []);
-        final balance = await contractProvider.queryEther(i.toString(),
-            'balanceOf', [EthereumAddress.fromHex(contractProvider.ethAdd)]);
+    AccountM accM = AccountM();
+    accM.address = api.getKeyring.allAccounts[0].address;
+    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
+    accM.name = api.getKeyring.allAccounts[0].name;
+    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
+    api.setAccount(accM);
 
-        contractProvider.addContractToken(TokenModel(
-          contractAddr: i.toString(),
-          decimal: decimal![0].toString(),
-          symbol: symbol![0].toString(),
-          balance: balance![0].toString(),
-          org: 'ERC-20',
-        ));
-        Provider.of<WalletProvider>(context, listen: false)
-            .addTokenSymbol('${symbol[0]} (ERC-20)');
-      }
-    }
+    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
+
+  // Future<void> encryptSeedAndSave(String? pubKey, seed, KeyType seedType, password) async {
+  //   try {
+
+  //     final String key = Encryptt.passwordToEncryptKey(password);
+  //     String? encrypted = await FlutterAesEcbPkcs5.encryptString(seed, key);
+
+  //     // read old data from storage-old
+  //     final Map stored = await (StorageServices.getSeeds(seedType.name) as Future<Map<dynamic, dynamic>>);
+  //     stored[pubKey] = encrypted;
+  //     // and save to new storage
+  //     if (seedType == KeyType.mnemonic.toString().split('.')[1]) {
+  //       final mnemonics = Map.from(_keyringStorage.encryptedMnemonics.val);
+  //       mnemonics.addAll(stored);
+  //       _keyringStorage.encryptedMnemonics.val = mnemonics;
+  //       return;
+  //     }
+  //     if (seedType == KeyType.rawSeed.toString().split('.')[1]) {
+  //       final seeds = Map.from(_keyringStorage.encryptedRawSeeds.val);
+  //       seeds.addAll(stored);
+  //       _keyringStorage.encryptedRawSeeds.val = seeds;
+  //     }
+  //   } catch (e) {
+  //     print("Error $e");
+  //   }
+  // }
 
   Future<void> queryBtcData() async {
 
@@ -177,17 +197,17 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       final seed = bip39.mnemonicToSeed(widget.passPhrase);
       final hdWallet = HDWallet.fromSeed(seed);
       
-      contractPro.listContract[6].address = hdWallet.address!;
+      contractPro.listContract[ApiProvider().btcIndex].address = hdWallet.address!;
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
       final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-      await StorageServices.storeData(bech32Address, 'bech32');
-      await StorageServices.storeData(hdWallet.address, 'hdWallet');
+      await StorageServices.storeData(bech32Address, DbKey.bech32);
+      await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
 
       final res = await Provider.of<ApiProvider>(context, listen: false).encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
 
-      await StorageServices().writeSecure('btcwif', res);
+      await StorageServices().writeSecure(DbKey.btcwif, res);
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
@@ -196,7 +216,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
     } catch (e) {
-      print("Error queryBtcData $e");
+      if (ApiProvider().isDebug == false) print("Error queryBtcData $e");
     }
   }
 
@@ -207,71 +227,24 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     try {
       // Avaible To
       if (available) {
-        // Switch Enable
-        if (switchValue) {
-          await authenticateBiometric(_localAuth).then((values) async {
-            if (_menuModel!.authenticated!) {
-              setState(() {
-                _menuModel!.switchBio = switchValue;
-              });
-              await StorageServices.saveBio(_menuModel!.switchBio);
-            }
-          });
-        }
-        // Switch Disable
-        else {
-          await authenticateBiometric(_localAuth).then((values) async {
-            if (_menuModel!.authenticated!) {
-              setState(() {
-                _menuModel!.switchBio = switchValue;
-              });
-              await StorageServices.removeKey('bio');
-            }
-          });
-        }
+        await BioAuth().authenticateBiometric(_localAuth).then((values) async {
+           
+          _menuModel!.authenticated = values;
+          if (_menuModel!.authenticated!) {
+            _menuModel!.switchBio = switchValue;
+            await StorageServices.saveBio(_menuModel!.switchBio);
+          } else if (_menuModel!.authenticated!) {
+            _menuModel!.switchBio = switchValue;
+            await StorageServices.removeKey(DbKey.bio);
+          }
+          setState(() { });
+        });
       } else {
-        snackBar(context,
-            "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: MyText(
-                text: "Oops",
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString(), textAlign: TextAlign.center),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      await customDialog(context, 'Oops', 'e.toString()');
     }
-  }
-
-  Future<bool> authenticateBiometric(LocalAuthentication _localAuth) async {
-    // Trigger Authentication By Finger Print
-    // ignore: join_return_with_assignment
-    // _menuModel!.authenticated = await _localAuth.authenticate(
-    //   localizedReason: 'Please complete the biometrics to proceed.',
-    //   stickyAuth: true,
-    // );
-
-    // return _menuModel!.authenticated!;
-    return false;
   }
 
   void popScreen() {
@@ -290,9 +263,10 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     }
   }
 
-  String? onChanged(String value) {
+  String onChanged(String value) {
     // _userInfoM.formStateAddUserInfo.currentState!.validate();
     validateAll();
+    return value;
   }
 
   String? validateFirstName(String value) {
@@ -347,7 +321,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   // Submit Profile User
   Future<void> submitProfile() async {
-    print("submitProfile");
     // Show Loading Process
     dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 

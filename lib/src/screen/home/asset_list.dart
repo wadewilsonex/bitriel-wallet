@@ -25,7 +25,7 @@ class AssetList extends StatelessWidget {
   Future<bool> checkPassword(String pin, {@required BuildContext? context}) async {
 
     final res = await Provider.of<ApiProvider>(context!, listen: false);
-    bool checkPass = await res.getSdk.api.keyring.checkPassword(res.getKeyring.current, pin);
+    bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
 
@@ -42,8 +42,7 @@ class AssetList extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               title: const Align(
                 child: Text('Opps'),
               ),
@@ -154,6 +153,7 @@ class AssetList extends StatelessWidget {
                     enterPage: AssetInfo(
                       index: index,
                       scModel: value.sortListContract[index]
+<<<<<<< HEAD
                     ),
                   ),
                 );
@@ -165,6 +165,16 @@ class AssetList extends StatelessWidget {
           ]
         );
       },
+=======
+                    )
+                  )
+              ]
+            );
+          },
+        ),
+
+      ],
+>>>>>>> dev
     );
   }
 }

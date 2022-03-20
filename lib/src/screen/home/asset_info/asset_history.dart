@@ -33,7 +33,7 @@ class AssetHistory extends StatelessWidget {
           const SizedBox(height: 16),
           if (_txHistoryModel.isEmpty)
             SvgPicture.asset(
-              'assets/icons/no_data.svg',
+              AppConfig.iconsPath+'no_data.svg',
               width: 180,
               height: 180,
             )
@@ -134,7 +134,7 @@ class AssetHistory extends StatelessWidget {
                   Expanded(
                     child: CustomAnimation.flareAnimation(
                       _flareController,
-                      "assets/animation/check.flr",
+                      AppConfig.animationPath+"check.flr",
                       "Checkmark",
                     ),
                   ),

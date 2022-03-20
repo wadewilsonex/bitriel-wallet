@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/INative.dart';
 import 'package:web3dart/credentials.dart';
 import 'package:wallet_apps/src/models/trx_info.dart';
@@ -33,20 +34,15 @@ class NativeService implements INativeService {
     bool? std;
     // StreamSubscription subscribeEvent;
 
-    print('myhash $txHash');
-
     // ignore: unused_local_variable
     // ignore: cancel_subscriptions
     await _client.addedBlocks().asyncMap((_) async {
       try {
         // This Method Will Run Again And Again Until we return something
         await _client.getTransactionReceipt(txHash).then((d) {
-          print('my stt ${d}');
           // Give Value To std When Request Successfully
           if (d != null) {
             std = d.status;
-
-            print('my status $std ');
             //subscribeEvent.cancel();
           }
         });
@@ -65,7 +61,7 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        print("Error listenTransfer $e");
+        if (ApiProvider().isDebug == false) print("Error listenTransfer $e");
       }
     })
     .where((receipt) => receipt != null)
@@ -97,7 +93,7 @@ class NativeService implements INativeService {
       );
 
     } catch (e){
-      print("Err sendTx $e");
+      if (ApiProvider().isDebug == false) print("Err sendTx $e");
     }
 
     return res!;

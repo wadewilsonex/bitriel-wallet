@@ -49,7 +49,11 @@ class AirDropProvider with ChangeNotifier {
   /// Assign contract provider parameter
   void setConProvider(ContractProvider? con, BuildContext? context){
     _contractP = con;
+<<<<<<< HEAD
     _apiProvider = Provider.of<ApiProvider>(context!);
+=======
+    _apiProvider = Provider.of<ApiProvider>(context!, listen: false);
+>>>>>>> dev
     notifyListeners();
   }
 
@@ -64,7 +68,11 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
+<<<<<<< HEAD
       print("Error initContract $e");
+=======
+      if (ApiProvider().isDebug == false) print("Error initContract $e");
+>>>>>>> dev
     }
 
     return _deployedContract!;
@@ -72,6 +80,7 @@ class AirDropProvider with ChangeNotifier {
 
   /* --------------------Read Contract-------------------- */
   Future<void> airdropTokenAddress() async {
+<<<<<<< HEAD
     print("airdropTokenAddress");
     try {
 
@@ -79,20 +88,34 @@ class AirDropProvider with ChangeNotifier {
       print("Finish contractP");
       final preFunction = _deployedContract!.function('airdropTokenAddress');
       print("finish preFunction");
+=======
+    try {
+
+      await _contractP!.initBscClient();
+      final preFunction = _deployedContract!.function('airdropTokenAddress');
+>>>>>>> dev
       final res = await _contractP!.bscClient.call(
         contract: _deployedContract!, 
         function: preFunction, 
         params: []
       );
 
+<<<<<<< HEAD
       print(res);
     } catch (e) {
       print("Error airdropTokenAddress $e");
+=======
+    } catch (e) {
+      if (ApiProvider().isDebug == false) print("Error airdropTokenAddress $e");
+>>>>>>> dev
     }
   }
 
   Future<String> getTrxFee() async {
+<<<<<<< HEAD
     print("getTrxFee ${_contractP!.ethAdd}");
+=======
+>>>>>>> dev
     try {
 
       dynamic res = await _contractP!.bscClient.estimateGas(
@@ -102,9 +125,14 @@ class AirDropProvider with ChangeNotifier {
         )))
       );
       res = (res / BigInt.from(pow(10, 9)));
+<<<<<<< HEAD
       print(res);
     } catch (e) {
       print("Error getTrxFee $e");
+=======
+    } catch (e) {
+      if (ApiProvider().isDebug == false) print("Error getTrxFee $e");
+>>>>>>> dev
     }
     return '';
   }
@@ -112,20 +140,27 @@ class AirDropProvider with ChangeNotifier {
   Future<dynamic> signMessage(BuildContext context) async {
     final apiPro = await Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.signMessage('${Provider.of<ContractProvider>(context, listen: false).ethAdd}')").then((value) async {
+<<<<<<< HEAD
       print("resolve $value");
+=======
+>>>>>>> dev
       return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     });
   }
 
   /* --------------------Write Contract-------------------- */
   Future<String> claim({String? amount, int? expiredDate, String? v, List<int>? r, List<int>? s, @required BuildContext? context}) async {
+<<<<<<< HEAD
     print("airdropTokenAddress");
+=======
+>>>>>>> dev
 
     try {
 
       await _contractP!.initBscClient();
       final preFunction = _deployedContract!.function('claim');
 
+<<<<<<< HEAD
           // EthereumAddress.fromHex(v);
           // EthereumAddress.fromHex(r!);
           // EthereumAddress.fromHex(s!);
@@ -155,6 +190,8 @@ class AirDropProvider with ChangeNotifier {
 
       print("privateKey ${_privateKey.isEmpty}");
 
+=======
+>>>>>>> dev
       if (_privateKey != ''){
 
         final credentials = await EthPrivateKey.fromHex(_privateKey);
@@ -166,23 +203,38 @@ class AirDropProvider with ChangeNotifier {
             function: preFunction,
             // maxGas: 2145000,
             parameters: [
+<<<<<<< HEAD
               BigInt.parse(amount),
               BigInt.from(expiredDate!),
               BigInt.parse(v),
               Uint8List.fromList(r),//rHash.hashString(HashType.SHA256,  )),
               Uint8List.fromList(s)//rHash.hashString(HashType.SHA256, s ))
+=======
+              BigInt.parse(amount!),
+              BigInt.from(expiredDate!),
+              BigInt.parse(v!),
+              Uint8List.fromList(r!),//rHash.hashString(HashType.SHA256,  )),
+              Uint8List.fromList(s!)//rHash.hashString(HashType.SHA256, s ))
+>>>>>>> dev
             ]
           ),
           chainId: null,
           fetchChainIdFromNetworkId: true
         );
 
+<<<<<<< HEAD
         print("my res $res");
+=======
+>>>>>>> dev
         return res;
       }
     }
     catch (e) {
+<<<<<<< HEAD
       print("Error airdrop_p.dart $e");
+=======
+      // "Error airdrop_p.dart $e");
+>>>>>>> dev
 
       throw Exception(e);
     }
@@ -192,12 +244,16 @@ class AirDropProvider with ChangeNotifier {
 
 
   Future<void> signUp() async {
+<<<<<<< HEAD
     print("Sign Up ${_contractP!.ethAdd}");
+=======
+>>>>>>> dev
     try {
       await http.post(
         Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
         headers: {"Content-Type": "application/json; charset=utf-8"},
         body: json.encode({
+<<<<<<< HEAD
           "email": "${_contractP!.ethAdd}@gmail.com",
           "password": '123456',
           "wallet": "${_contractP!.ethAdd}"
@@ -205,10 +261,19 @@ class AirDropProvider with ChangeNotifier {
       ).then((value) async {
         final res = json.decode(value.body);
         print("Hello value ${value.body}");
+=======
+          "email": "${_apiProvider!.accountM.address}@gmail.com",
+          "password": '123456',
+          "wallet": "${_apiProvider!.accountM.address}"
+        })
+      ).then((value) async {
+        final res = json.decode(value.body);
+>>>>>>> dev
         if (res['success']){
           await signIn();
         }
 
+<<<<<<< HEAD
         print("My token e${_token}");
       });
 
@@ -219,10 +284,17 @@ class AirDropProvider with ChangeNotifier {
       // print("Done connect to mongo");
     } catch (e) {
       print("Error signUp $e");
+=======
+      });
+
+    } catch (e) {
+      if (ApiProvider().isDebug == false) print("Error signUp $e");
+>>>>>>> dev
     }
   }
 
   Future<void> signIn() async {
+<<<<<<< HEAD
     print("Sign In ${_contractP!.ethAdd}");
     try {
       await http.post(
@@ -256,6 +328,37 @@ class AirDropProvider with ChangeNotifier {
 
   Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
     print("encodeRS");
+=======
+    // try {
+    //   await http.post(
+    //     Uri.parse('https://airdropv2-api.selendra.org/auth/login'),
+    //     headers: {"Content-Type": "application/json; charset=utf-8"},
+    //     body: json.encode({
+    //       "email": "${_apiProvider!.accountM.address}@gmail.com",
+    //       "password": '123456',
+    //     })
+    //   ).then((value) async {
+    //     final res = json.decode(value.body);
+    //     if (res['success'] == false){
+    //       await signUp();
+    //     } else {
+    //       setToken = res['token'];
+    //       await StorageServices.storeData(res, DbKey.token);
+    //     }
+    //   });
+
+    //   // var db = Db(AppConfig.mongoUrl);
+    //   // await db.open().then((value) {
+    //   //   print("Hello my db openDb $value");
+    //   // });
+    //   // print("Done connect to mongo");
+    // } catch (e) {
+    //   print("Error signIn $e");
+    // }
+  }
+
+  Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
+>>>>>>> dev
     final apiPro = await Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
     // .then((value) async {
@@ -265,6 +368,7 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> signToDb() async {
+<<<<<<< HEAD
     print("signToDbs ${_contractP!.ethAdd}");
     // print("getToken $getToken");
     try {
@@ -312,6 +416,64 @@ class AirDropProvider with ChangeNotifier {
           return res['data'];
         }
       }
+=======
+    try {
+
+      // dynamic res = await StorageServices.fetchData(DbKey.signData);
+
+      // For First Time Sign
+      // if (res == null){
+        
+        // For Airdrop
+        // final res2 = await http.post(
+        //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
+        //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+        //   body: json.encode({
+        //     "wallet": "${_apiProvider!.accountM.address}",
+        //   })
+        // );
+
+        // For Events Mainnet
+        final res2 = await http.post(
+          Uri.parse('https://airdrop.selendra.org/api/submit'),
+          headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+          body: json.encode({
+            "wallet": "${_apiProvider!.accountM.address}",
+          })
+        );
+
+        return await json.decode(res2.body);
+        
+        // if (res2.statusCode == 200){
+        //   // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
+        //   // if (map['data']['attempt'] == 1){
+
+        //   //   map.addAll({
+        //   //     'first': true
+        //   //   });
+        //   // }
+
+        //   // First Sign Data
+        //   await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
+        // }
+
+        // print("Finish storeData");
+
+        // return json.decode(res.body)['data'];
+      // } else {
+      //   // print("From DB $res");
+      //   // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
+      //   // Check If Time To Re Sign
+      //   if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
+      //     print("Is time to api");
+      //     await StorageServices.removeKey(DbKey.signData);
+      //     return await signToDb();
+
+      //   } else {
+      //     return res['data'];
+      //   }
+      // }
+>>>>>>> dev
 
       // var db = Db(AppConfig.mongoUrl);
       // await db.open().then((value) {
@@ -319,7 +481,11 @@ class AirDropProvider with ChangeNotifier {
       // });
       // print("Done connect to mongo");
     } catch (e) {
+<<<<<<< HEAD
       print("Error signToDb $e");
+=======
+      if (ApiProvider().isDebug == false) print("Error signToDb $e");
+>>>>>>> dev
     }
   }
   

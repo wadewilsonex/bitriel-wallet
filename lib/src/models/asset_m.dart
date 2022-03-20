@@ -82,7 +82,8 @@ class Market {
   String? roi;
   DateTime? lastUpdated;
 
-  factory Market.fromJson(Map<String, dynamic> json) => Market(
+  factory Market.fromJson(Map<String, dynamic> json) {
+    return Market(
         id: json["id"].toString(),
         symbol: json["symbol"].toString(),
         name: json["name"].toString(),
@@ -95,8 +96,7 @@ class Market {
         high24H: json["high_24h"].toString(),
         low24H: json["low_24h"].toString(),
         priceChange24H: json["price_change_24h"].toString(),
-        priceChangePercentage24H:
-            json["price_change_percentage_24h"].toString(),
+        priceChangePercentage24H: json["price_change_percentage_24h"].toString(),
         marketCapChange24H: json["market_cap_change_24h"].toString(),
         marketCapChangePercentage24H:
             json["market_cap_change_percentage_24h"].toString(),
@@ -112,6 +112,7 @@ class Market {
         roi: json["roi"].toString(),
         lastUpdated: DateTime.parse(json["last_updated"].toString()),
       );
+    }
 
   Map<String, dynamic> toJson() => {
         "id": id,

@@ -45,8 +45,13 @@ export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/sms_component.dart';
 export 'package:wallet_apps/src/components/trx_component.dart';
 export 'package:wallet_apps/src/components/trx_option_c.dart';
+<<<<<<< HEAD
 export 'package:wallet_apps/core/config/app_config.dart';
 export 'package:wallet_apps/core/config/size_config/size_config.dart';
+=======
+export 'package:wallet_apps/src/config/.app_config.dart';
+export 'package:wallet_apps/src/config/size_config/size_config.dart';
+>>>>>>> dev
 export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
@@ -98,7 +103,7 @@ export 'package:wallet_apps/src/screen/home/home.dart';
 export 'package:wallet_apps/src/screen/home/home.dart';
 export 'package:wallet_apps/src/screen/home/home_body.dart';
 export 'package:wallet_apps/src/screen/home/home_body.dart';
-export 'package:wallet_apps/src/screen/home/menu/account.dart';
+export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
 export 'package:wallet_apps/src/screen/home/claim_airdrop/claim_airdrop.dart';
 export 'package:wallet_apps/src/screen/home/claim_airdrop/invite_friend.dart';
@@ -109,10 +114,10 @@ export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset_body.dart';
 /* Menu Screen */
 export 'package:wallet_apps/src/screen/home/menu/menu.dart';
 export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap_des.dart';
+export 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
 
 export 'package:wallet_apps/src/screen/home/menu/about.dart';
-export 'package:wallet_apps/src/screen/home/menu/swap.dart';
+export 'package:wallet_apps/src/screen/home/menu/swap/swap.dart';
 
 //Transaction confirmation
 export 'package:wallet_apps/src/models/trx_info.dart';
@@ -133,10 +138,18 @@ export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details
 export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/trx_history_detail_body.dart';
 export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet.dart';
 export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet_body.dart';
+<<<<<<< HEAD
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx_body.dart';
 export 'package:wallet_apps/src/screen/home/transaction/cfm_trx/cfm_trx.dart';
+=======
+export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
+export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
+export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
+export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
+export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
+>>>>>>> dev
 export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';
 export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';

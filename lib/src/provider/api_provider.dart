@@ -7,19 +7,33 @@ import 'package:polkawallet_sdk/polkawallet_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 import 'package:http/http.dart' as http;
+<<<<<<< HEAD
+=======
+import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
+import 'package:polkawallet_sdk/api/apiKeyring.dart';
+import 'package:polkawallet_sdk/utils/localStorage.dart';
+import 'package:wallet_apps/src/service/apiKeyring.dart';
+// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
+>>>>>>> dev
 
 class ApiProvider with ChangeNotifier {
   
   WalletSDK _sdk = WalletSDK();
-
   Keyring _keyring = Keyring();
+  MyApiKeyring? _apiKeyring;
+
+  KeyringStorage _keyringStorage = KeyringStorage();
+  LocalStorage _storageOld = LocalStorage();
+  KeyringStorage _storage = KeyringStorage();
 
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
+  MyApiKeyring get apiKeyring => _apiKeyring!;
 
   static const int bitcoinDigit = 8;
 
@@ -37,9 +51,22 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
+  bool isMainnet = true;
+  bool isDebug = false;
+  
+  int selNativeIndex = 0;
+  int selV1Index = 1;
+  int selV2Index = 2;
+  int kgoIndex = 3;
+  int ethIndex = 4;
+  int bnbIndex = 5;
+  int dotIndex = 6;
+  int btcIndex = 7;
+  int attIndex = 8;
+
   SmartContractModel nativeM = SmartContractModel(
     id: 'selendra',
-    logo: 'assets/SelendraCircle-White.png',
+    logo: AppConfig.assetsPath+'SelendraCircle-White.png',
     symbol: 'SEL',
     name: "SELENDRA",
     balance: '0.0',
@@ -49,27 +76,32 @@ class ApiProvider with ChangeNotifier {
 
   bool get isConnected => _isConnected;
 
+  void setAccount(AccountM acc){
+    accountM = acc;
+
+    notifyListeners();
+  }
+
   Future<void> initApi({@required BuildContext? context}) async {
+
+    contractProvider = Provider.of<ContractProvider>(context!, listen: false);
 
     try {
 
       await rootBundle.loadString('lib/core/js/dist/main.js').then((String js) {
         _jsCode = js;
       });
-      await _keyring.init([0, 42]);
-      print("Finish keyring");
+      await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
       await _sdk.init(_keyring, jsCode: _jsCode);
-      
+      _apiKeyring = MyApiKeyring(_sdk.api, _sdk.api.keyring.service!);
       notifyListeners();
 
-      connectPolNon(context: context);
-      connectSELNode(context: context);
-
     } catch (e) {
-      print("Error initApi $e");
+      if (ApiProvider().isDebug == false) print("Error initApi $e");
     }
   }
 
+<<<<<<< HEAD
   Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
     
     print("connectSELNode");
@@ -94,27 +126,43 @@ class ApiProvider with ChangeNotifier {
     return null;
   }
 
+=======
+>>>>>>> dev
   Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
     dynamic res;
     try {
 
+<<<<<<< HEAD
       final node = NetworkParams();
       node.name = 'Polkadot(Live, hosted by PatractLabs)';
       node.endpoint = AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
       node.ss58 = 0;
+=======
+      NetworkParams polNode = NetworkParams();
+      // NetworkParams selNode = NetworkParams();
+      polNode.name = 'Polkadot(Live, hosted by PatractLabs)';
+      polNode.endpoint = isMainnet ? AppConfig.networkList[1].wsUrlMN : AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
+      polNode.ss58 = 0;
+
+
+      // selNode.name = 'Indranet hosted By Selendra';
+      // selNode.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+      // selNode.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
+>>>>>>> dev
 
       // final node = NetworkParams();
       // node.name = 'Polkadot(Live, hosted by PatractLabs)';
       // node.endpoint = 'wss://polkadot.elara.patract.io';
       // node.ss58 = 0;
 
-      res = await _sdk.api.connectNode(_keyring, [node]);
-
-      await getDotChainDecimal(context: context!);
+      await _sdk.api.connectNode(_keyring, [polNode]).then((value) async {
+        res = value;
+        await getDotChainDecimal(context: context);
+      });
 
       notifyListeners();
     } catch (e) {
-      print("Error connectPolNon $e");
+      if (ApiProvider().isDebug == false) print("Error connectPolNon $e");
     }
 
     return res ?? NetworkParams();
@@ -133,7 +181,7 @@ class ApiProvider with ChangeNotifier {
     
     int input = 0;
 
-    final from = await StorageServices.fetchData('bech32');
+    final from = await StorageServices.fetchData(DbKey.bech32);
 
     final txb = TransactionBuilder();
     txb.setVersion(1);
@@ -248,19 +296,18 @@ class ApiProvider with ChangeNotifier {
 
       return jsonDecode(res.body);
     } catch (e){
-      print("Err getAddressUxto $e");
+      if (ApiProvider().isDebug == false) print("Err getAddressUxto $e");
     }
   }
 
   Future<void> getBtcBalance({@required BuildContext? context}) async {
-
     final contract = await Provider.of<ContractProvider>(context!, listen: false);
     try {
       int totalSatoshi = 0;
-      final res = await getAddressUxto(contract.listContract[6].address!);
+      final res = await getAddressUxto(contract.listContract[btcIndex].address!);
 
       if (res.length == 0) {
-        contract.listContract[6].balance = '0';
+        contract.listContract[btcIndex].balance = '0';
       } else {
         for (final i in res) {
           if (i['status']['confirmed'] == true) {
@@ -268,42 +315,21 @@ class ApiProvider with ChangeNotifier {
           }
         }
 
-        contract.listContract[6].balance = (totalSatoshi / bitcoinSatFmt).toString();
+        contract.listContract[btcIndex].balance = (totalSatoshi / bitcoinSatFmt).toString();
       }
 
-      contract.listContract[6].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[6]);
+      contract.listContract[btcIndex].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[btcIndex]);
 
       notifyListeners();
     } catch (e) {
-      print("Err getBtcBalance $e");
+      if (ApiProvider().isDebug == false) print("Err getBtcBalance $e");
     }
-  }
-
-  void isDotContain({@required BuildContext? context}) {
-    final con = Provider.of<ContractProvider>(context!, listen: false);
-    con.listContract[5].isContain = true;
-    notifyListeners();
-  }
-
-  Future<void> setDotMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext? context}) async {
-    // dot.marketData = marketData;
-    // dot.marketPrice = currentPrice;
-    // dot.change24h = priceChange24h;
-    // dot.lineChartList = lineChartData ?? [];
-
-    final contract = await Provider.of<ContractProvider>(context!, listen: false);
-    contract.listContract[5].marketData = marketData;
-    contract.listContract[5].marketPrice = currentPrice;
-    contract.listContract[5].change24h = priceChange24h;
-    contract.listContract[5].lineChartList = lineChartData;
-
-    notifyListeners();
   }
 
   void isBtcAvailable(String? contain, {@required BuildContext? context}) {
     final con = Provider.of<ContractProvider>(context!, listen: false);
     if (contain != null) {
-      con.listContract[6].isContain = true;
+      con.listContract[btcIndex].isContain = true;
       notifyListeners();
     }
   }
@@ -316,10 +342,10 @@ class ApiProvider with ChangeNotifier {
     // btc.lineChartList = lineChartData ?? [];
 
     final contract = await Provider.of<ContractProvider>(context!, listen: false);
-    contract.listContract[6].marketData = marketData;
-    contract.listContract[6].marketPrice = currentPrice;
-    contract.listContract[6].change24h = priceChange24h;
-    contract.listContract[6].lineChartList = lineChartData;
+    contract.listContract[btcIndex].marketData = marketData;
+    contract.listContract[btcIndex].marketPrice = currentPrice;
+    contract.listContract[btcIndex].change24h = priceChange24h;
+    contract.listContract[btcIndex].lineChartList = lineChartData;
     notifyListeners();
   }
 
@@ -335,20 +361,18 @@ class ApiProvider with ChangeNotifier {
       res = await _sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
       return res;
     } catch (e) {
-      print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }
     return res;
   }
   
   Future<bool> validateEther(String address) async {
-    print("validateEther");
     try {
 
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
-      print("$res");
       return res;
     } catch (e) {
-      print("Error validateEther $e");
+      if (ApiProvider().isDebug == false) print("Error validateEther $e");
     }
     return false;
   }
@@ -359,7 +383,7 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider._sdk.api.getPrivateKey(mnemonic);
       return res;
     } catch (e) {
-      print("Error getPrivateKey $e");
+      if (ApiProvider().isDebug == false) print("Error getPrivateKey $e");
     }
     return '';
   }
@@ -368,28 +392,74 @@ class ApiProvider with ChangeNotifier {
     try {
 
       final res = await _sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
-      print("res $res");
       return res;
     } catch (e) {
-      print("Error validateAddress $e");
+      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
     }
     return false;
+  }
+
+  Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
+    try {
+
+      NetworkParams node = NetworkParams();
+      NetworkParams? res = NetworkParams();
+
+      node.name = 'Indranet hosted By Selendra';
+      node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+      node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
+
+      await _sdk.api.connectNode(_keyring, [node]).then((value) async {
+        res = value;
+        await getSelNativeChainDecimal(context: context);
+      });
+
+      // final res = await _sdk.webView!.evalJavascript("settings.connect(${jsonEncode([node].map((e) => e.endpoint).toList())})");
+
+      // if (res != null) 
+
+      return res;
+    } catch (e) {
+      if (ApiProvider().isDebug == false) print("Error connectSELNode $e");
+    }
+    return null;
   }
 
   // Connect SEL Chain
   Future<void> getSelNativeChainDecimal({@required BuildContext? context}) async {
     print("getSelNativeChainDecimal");
     try {
+      dynamic res;
       
+<<<<<<< HEAD
       final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
       contract.listContract[8].chainDecimal = res[0].toString();
       await subSELNativeBalance(context: context);
+=======
+      ContractProvider contract = Provider.of<ContractProvider>(context!, listen: false);
 
-      notifyListeners();
+      // Get SEL native Address From Account 
+      await _sdk.webView!.evalJavascript('keyring.getSELAddr()').then((value) async {
+        contract.listContract[selNativeIndex].address = value;
+>>>>>>> dev
+
+        await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
+          
+          res = value;
+          contract.listContract[selNativeIndex].chainDecimal = res[0].toString();
+          await subSELNativeBalance(context: context);
+
+          notifyListeners();
+        });
+      });
     } catch (e) {
+<<<<<<< HEAD
       print("Error getSelNativeChainDecimal $e");
+=======
+      if (ApiProvider().isDebug == false) print("Error getChainDecimal $e");
+>>>>>>> dev
     }
   }
 
@@ -397,6 +467,7 @@ class ApiProvider with ChangeNotifier {
     try {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
+<<<<<<< HEAD
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res) {
         // Assign Address
         contract.listContract[8].address = _keyring.current.address;
@@ -408,23 +479,57 @@ class ApiProvider with ChangeNotifier {
         print("contract.listContract[8].balance ${contract.listContract[8].balance}");
 
         notifyListeners();
+=======
+      Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address!);
+      await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
+        contract.listContract[selNativeIndex].balance = Fmt.balance(
+          value['freeBalance'].toString(),
+          int.parse(contract.listContract[selNativeIndex].chainDecimal!),
+        );
+        await contract.sortAsset();
+>>>>>>> dev
       });
+      // await _sdk.api.account.subscribeBalance(contract.listContract[0].address, (res) {
+      //   contract.listContract[0].balance = Fmt.balance(
+      //     res.freeBalance.toString(),
+      //     int.parse(contract.listContract[0].chainDecimal!),
+      //   );
+
+      //   notifyListeners();
+      // });
     } catch (e) {
-      print("Error subscribeSELBalance $e");
+      if (ApiProvider().isDebug == false) print("Error subscribeSELBalance $e");
     }
+  }
+
+  void isDotContain({@required BuildContext? context}) {
+    final con = Provider.of<ContractProvider>(context!, listen: false);
+    con.listContract[dotIndex].isContain = true;
+    notifyListeners();
+  }
+
+  Future<void> setDotMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext? context}) async {
+
+    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    contract.listContract[dotIndex].marketData = marketData;
+    contract.listContract[dotIndex].marketPrice = currentPrice;
+    contract.listContract[dotIndex].change24h = priceChange24h;
+    contract.listContract[dotIndex].lineChartList = lineChartData;
+
+    notifyListeners();
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
     try {
+      dynamic res;
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
-      final res = await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)');
-      contract.listContract[5].chainDecimal = res[0].toString();
-
-      await subscribeDotBalance(context: context);
-
-      notifyListeners();
+      await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
+        res = value;
+        contract.setDotAddr(_keyring.allAccounts[0].address!, res[0].toString());
+        await subscribeDotBalance(context: context);
+      });
     } catch (e) {
-      print("Err getDotChainDecimal $e");
+      if (ApiProvider().isDebug == false) print("Err getDotChainDecimal $e");
     }
   }
 
@@ -435,6 +540,7 @@ class ApiProvider with ChangeNotifier {
       // final msgChannel = 'NBalance';
       // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
 
+<<<<<<< HEAD
       await _sdk.api.account.subscribeBalance(_keyring.current.address, (res){
         
         // Assign Address
@@ -442,15 +548,22 @@ class ApiProvider with ChangeNotifier {
         contract.listContract[5].balance = Fmt.balance(
           res.freeBalance.toString(),
           int.parse(contract.listContract[5].chainDecimal!),
+=======
+      await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[dotIndex].address}', 'Balance')").then((value) {//_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
+        contract.listContract[dotIndex].balance = Fmt.balance(
+          value.freeBalance.toString(),
+          int.parse(contract.listContract[dotIndex].chainDecimal!),
+>>>>>>> dev
         );
-        print("subscribeDotBalance ${contract.listContract[5].balance}");
 
-        contract.listContract[5].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[5]);
-        notifyListeners();
+        contract.listContract[dotIndex].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[dotIndex]);
+
       });
+
+      // await connectSELNode(context: context);
       
     } catch (e) {
-      print("Error subscribeDotBalance $e");
+      if (ApiProvider().isDebug == false) print("Error subscribeDotBalance $e");
     }
   }
 
@@ -464,13 +577,20 @@ class ApiProvider with ChangeNotifier {
       accountM.addressIcon = res.toString();
       notifyListeners();
     } catch (e) {
-      print("Error get icon from address $e");
+      if (ApiProvider().isDebug == false) print("Error get icon from address $e");
     }
   }
 
-  Future<void> getCurrentAccount() async {
-    accountM.address = _keyring.current.address;
-    accountM.name = _keyring.current.name;
+  Future<void> getCurrentAccount({String funcName = 'account'}) async {
+    try {
+
+      accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+      accountM.name = _keyring.current.name;
+      contractProvider!.setSELNativeAddr(accountM.address!);
+    } catch (e){
+      if (ApiProvider().isDebug == false) print("Error getCurrentAccount $e");
+    }
+
     notifyListeners();
   }
 
@@ -497,7 +617,7 @@ class ApiProvider with ChangeNotifier {
       final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
       return encryted;
     } catch (e) {
-      print("Error encryptPrivateKey $e");
+      if (ApiProvider().isDebug == false) print("Error encryptPrivateKey $e");
     }
     return '';
   }
@@ -515,21 +635,81 @@ class ApiProvider with ChangeNotifier {
 
   /// Generate a set of new mnemonic.
   Future<String> generateMnemonic() async {
-    final Map<String, dynamic> acc = await _sdk.webView!.evalJavascript('_keyring.gen()');
+    final Map<String, dynamic> acc = await _sdk.webView!.evalJavascript('keyring.gen()');
     return acc['mnemonic'];
   }
 
-  // void resetNativeObj({BuildContext context}) {
-  //   final contract = Provider.of<ContractPro>(context);
-  //   accountM = AccountM();
-  //   nativeM = SmartContractModel(
-  //     id: 'selendra',
-  //     logo: 'assets/SelendraCircle-White.png',
-  //     symbol: 'SEL',
-  //     org: 'Testnet',
-  //   );
-  //   dot = SmartContractModel();
+  // Future<KeyPairData> addAccount(
+  //   Keyring keyring, {
+  //   required KeyType keyType,
+  //   required Map acc,
+  //   required String password,
+  // }) async {
+  //   // save seed and remove it before add account
+  //   // if (keyType == KeyType.mnemonic || keyType == KeyType.rawSeed) {
+  //   // }
+  //     final String type = keyType.toString().split('.')[1];
+  //     final String? seed = acc[type];
+  //     if (seed != null && seed.isNotEmpty) {
+  //       await encryptSeedAndSave(acc['pubKey'], acc[type], type, password);
+  //       acc.remove(type);
+  //     }
 
-  //   notifyListeners();
+  //   // save keystore to storage
+  //   await keyring.store.addAccount(acc);
+
+  //   return KeyPairData.fromJson(acc as Map<String, dynamic>);
+  // }
+
+  // Future<void> encryptSeedAndSave(String? pubKey, seed, seedType, password) async {
+  //   print("encryptSeedAndSave");
+  //   final String key = Encrypt.passwordToEncryptKey(password);
+  //   final String encrypted = await FlutterAesEcbPkcs5.encryptString(seed, key);
+  //   print("encrypted $encrypted");
+
+  //   // read old data from storage-old
+  //   dynamic stored = await _storageOld.getSeeds(seedType);
+  //   stored[pubKey] = encrypted;
+  //   print("stored[pubKey] $stored");
+  //   // and save to new storage
+  //   if (seedType == KeyType.mnemonic.toString().split('.')[1]) {
+  //     final mnemonics = Map.from(_storage.encryptedMnemonics.val);
+  //     mnemonics.addAll(stored);
+  //     _storage.encryptedMnemonics.val = mnemonics;
+  //     print(_storage.encryptedMnemonics.val);
+  //     return;
+  //   }
+  //   if (seedType == KeyType.rawSeed.toString().split('.')[1]) {
+  //     final seeds = Map.from(_storage.encryptedRawSeeds.val);
+  //     seeds.addAll(stored);
+  //     _storage.encryptedRawSeeds.val = seeds;
+  //   }
+  // }
+
+  // Future<Map<String, dynamic>?> getDecryptedSeed(String? pubKey, password) async {
+  //   print("getDecryptedSeed");
+  //   print(_storage.encryptedMnemonics.val[pubKey]);
+  //   final key = Encrypt.passwordToEncryptKey(password);
+  //   final mnemonic = _storage.encryptedMnemonics.val[pubKey];
+  //   if (mnemonic != null) {
+  //     final res = {'type': KeyType.mnemonic.toString().split('.')[1]};
+  //     try {
+  //       res['seed'] = await FlutterAesEcbPkcs5.decryptString(mnemonic, key);
+  //     } catch (err) {
+  //       print(err);
+  //     }
+  //     return res;
+  //   }
+  //   final rawSeed = _storage.encryptedRawSeeds.val[pubKey];
+  //   if (rawSeed != null) {
+  //     final res = {'type': KeyType.rawSeed.toString().split('.')[1]};
+  //     try {
+  //       res['seed'] = await FlutterAesEcbPkcs5.decryptString(rawSeed, key);
+  //     } catch (err) {
+  //       print(err);
+  //     }
+  //     return res;
+  //   }
+  //   return null;
   // }
 }

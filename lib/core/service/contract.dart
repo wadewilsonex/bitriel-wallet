@@ -26,7 +26,7 @@ class ContractService implements IContractService {
       );
       return res;
     } catch (e) {
-      print("Error _queryContract $e");
+      if (ApiProvider().isDebug == false) print("Error _queryContract $e");
     }
     return [];
   }
@@ -48,7 +48,7 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
       return res.first as BigInt;
     } catch (e) {
-      print("Error getTokenBalance $e");
+      if (ApiProvider().isDebug == false) print("Error getTokenBalance $e");
     }
     return 0 as BigInt;
   }
@@ -85,7 +85,7 @@ class ContractService implements IContractService {
               return std!;
             }
           } catch (e) {
-            print("Error $e");
+            if (ApiProvider().isDebug == false) print("Error $e");
           }
         })
         .where((receipt) => receipt != null)
@@ -109,7 +109,7 @@ class ContractService implements IContractService {
     //       }
     //     });
 
-    //     print('std in try $std');
+    //     if (ApiProvider().isDebug == false) print('std in try $std');
 
     //     // Return Value For True Value And Method GetTrxReceipt Also Terminate
     //     if (std != null) return std;
@@ -125,11 +125,11 @@ class ContractService implements IContractService {
     //       return std;
     //     }
     //   } catch (e) {
-    //     print("Error $e");
+    //     if (ApiProvider().isDebug == false) print("Error $e");
     //   }
     // });
 
-    // print('mystd: $std');
+    // if (ApiProvider().isDebug == false) print('mystd: $std');
     // return std;
   }
 
@@ -164,7 +164,7 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      print("Err sendToken $e");
+      if (ApiProvider().isDebug == false) print("Err sendToken $e");
     }
 
     return res!;
@@ -177,6 +177,7 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getChainDecimal() async {
+<<<<<<< HEAD:lib/core/service/contract.dart
     dynamic res;
     try {
 
@@ -187,6 +188,10 @@ class ContractService implements IContractService {
       print("Error getChainDecimal $e");
     }
     return res;
+=======
+    final res = await _queryContract(_contract, _decimalFunction(), []);
+    return res.first;
+>>>>>>> dev:lib/src/service/contract.dart
   }
 
   @override
@@ -207,12 +212,19 @@ class ContractService implements IContractService {
 
   static List<Map<String, dynamic>> getConSymbol(List<SmartContractModel> ls){
     List<Map<String, dynamic>> tmp = [];
+    // for (int i = 0; i < ls.length; i++){
+    //   tmp.add({
+    //     "symbol": ls[i].symbol,
+    //     "index": i
+    //   });
+    // }List<Map<String, dynamic>> tmp = [];
     for (int i = 0; i < ls.length; i++){
       tmp.add({
         "symbol": "${ls[i].symbol} ${ls[i].org != '' ? '(${ls[i].org})' : ''}",
         "index": i
       });
     }
+
 
     return tmp;
   }

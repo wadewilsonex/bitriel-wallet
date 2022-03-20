@@ -14,6 +14,8 @@ import { DispatchError } from "@polkadot/types/interfaces";
 import { ContractPromise } from "@polkadot/api-contract";
 let keyring = new Keyring({ ss58Format: 42, type: "sr25519" });
 
+var selAddr;
+
 function send(path: string, data: any) {
   if (window.location.href === "about:blank") {
     // PolkaWallet.postMessage(JSON.stringify({ path, data }));
@@ -136,9 +138,17 @@ async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
     ss58Formats.forEach((ss58) => {
       const pubKey = u8aToHex(keyPair.publicKey);
       (<any>res)[ss58][pubKey] = keyring.encodeAddress(keyPair.publicKey, ss58);
+      console.log("Ss58", ss58);
+      if (ss58 == 42 || ss58 == 972){
+        selAddr = keyring.encodeAddress(keyPair.publicKey, ss58);
+      }
     });
   });
   return res;
+}
+
+async function getSELAddr() {
+  return selAddr;
 }
 
 /**
@@ -211,16 +221,27 @@ function _extractEvents(api: ApiPromise, result: SubmittableResult) {
  * sign and send extrinsic to network and wait for result.
  */
 function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string, msgId: string) {
+  console.log("Hello my sendTx");
+  console.log("txInfo", txInfo);
+  console.log("paramList", paramList);
+  console.log("password", password);
+  console.log("txInfo.txName", txInfo.txName);
+  console.log("txInfo.module", txInfo.module);
+  console.log("txInfo.call", txInfo.call);
   return new Promise(async (resolve) => {
     let tx: SubmittableExtrinsic<"promise">;
     // wrap tx with council.propose for treasury propose
     if (txInfo.txName == "treasury.approveProposal") {
+      console.log("treasury.approveProposal");
       tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], false);
     } else if (txInfo.txName == "treasury.rejectProposal") {
+      console.log("treasury.rejectProposal");
       tx = await gov.makeTreasuryProposalSubmission(api, paramList[0], true);
     } else {
+      console.log("My else");
       tx = api.tx[txInfo.module][txInfo.call](...paramList);
     }
+    console.log("tx", tx)
     let unsub = () => { };
     const onStatusChange = (result: SubmittableResult) => {
       if (result.status.isInBlock || result.status.isFinalized) {
@@ -236,6 +257,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
         (<any>window).send(msgId, result.status.type);
       }
     };
+    console.log("txInfo.isUnsigned", txInfo.isUnsigned);
     if (txInfo.isUnsigned) {
       tx.send(onStatusChange)
         .then((res) => {
@@ -248,6 +270,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     }
 
     let keyPair: KeyringPair;
+
     if (!txInfo.proxy) {
       keyPair = keyring.getPair(hexToU8a(txInfo.sender.pubKey));
     } else {
@@ -261,8 +284,11 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     } catch (err) {
       resolve({ error: "PIN verification failed" });
     }
+
+    console.log("signAndSend");
     tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
       .then((res) => {
+        console.log("My Res", res);
         unsub = res;
       })
       .catch((err) => {
@@ -559,6 +585,7 @@ async function verifySignature(message: string, signature: string, address: stri
 export default {
   initKeys,
   gen,
+  getSELAddr,
   validateMnemonic,
   validateAddress,
   recover,

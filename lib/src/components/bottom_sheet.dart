@@ -40,7 +40,6 @@ class MyBottomSheet {
                       icon: "icons/qr_code.svg",
                       action: () async {
                         // Navigator.pop(context);
-                        print("Qr");
                         try {
                           await TrxOptionMethod.scanQR(
                             assetIndex!,
@@ -48,7 +47,7 @@ class MyBottomSheet {
                             portfolioList!,
                           );
                         } catch (e) {
-                          // print(e);
+                          if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");
                         }
                         
                       },
@@ -139,7 +138,7 @@ class MyBottomSheet {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset('assets/icons/no_data.svg', height: 200),
+                    SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
                     const MyText(text: "There are no notification found")
                   ],
                 ),

@@ -3,25 +3,47 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+<<<<<<< HEAD
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
+=======
+import 'package:pinput/pinput.dart';
+>>>>>>> dev
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
-
+import 'package:loading_indicator/loading_indicator.dart';
 class Component {
+
+  // For Pinput
+  static double width = 50;
+  static double height = 80;
+
+  /* Show Pin Code For Fill Out */
+  Future<String> dialogBox(BuildContext context) async {
+    final String _result = await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: FillPin(),
+        );
+      }
+    );
+    return _result;
+  }
+
   static void popScreen(BuildContext context) {
     Navigator.pop(context);
   }
 
-  static Future messagePermission(
-      {BuildContext? context, String? content, void Function()? method}) async {
+  static Future messagePermission({BuildContext? context, String? content, void Function()? method}) async {
     await showDialog(
       context: context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: const Align(
             child: Text("Message"),
           ),
@@ -66,36 +88,38 @@ class Component {
             alignment: Alignment.center,
             children: <Widget>[
               Card(
-                  child: Container(
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                      ),
-                      width: 60,
-                      height: 60,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          CircularProgressIndicator(
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation(
-                                  hexaCodeToColor(AppColors.secondary))),
-                          contents != null
-                              ? MyText(
-                                  top: 10,
-                                  left: 10,
-                                  right: 10,
-                                  bottom: 10,
-                                  text: contents,
-                                  fontSize: 16,
-                                  color: AppColors.blackColor,
-                                )
-                              : Container()
-                        ],
-                      )))
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  width: 60,
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      CircularProgressIndicator(
+                          backgroundColor: Colors.transparent,
+                          valueColor: AlwaysStoppedAnimation(
+                              hexaCodeToColor(AppColors.secondary))),
+                      contents != null
+                          ? MyText(
+                              top: 10,
+                              left: 10,
+                              right: 10,
+                              bottom: 10,
+                              text: contents,
+                              fontSize: 16,
+                              color: AppColors.blackColor,
+                            )
+                          : Container()
+                    ],
+                  )
+                )
+              )
             ],
           ),
         );
@@ -153,7 +177,6 @@ class MyFlatButton extends StatelessWidget {
       // ignore: deprecated_member_use
       child: FlatButton(
         onPressed: action == null ? null : (){
-          print("My action");
           action!();
         },
         color: hexaCodeToColor(buttonColor!),
@@ -449,6 +472,7 @@ class MyIconButton extends StatelessWidget {
       onPressed: (){
         onPressed!();
       },
+<<<<<<< HEAD
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -463,6 +487,14 @@ class MyIconButton extends StatelessWidget {
           MyText(top: 5, text: subTitle ?? '', fontSize: 16, color: isActive! ? AppColors.blueColor : txtColor,)
         ],
       )
+=======
+      child: SvgPicture.asset(
+        AppConfig.iconsPath+'$icon',
+        width: iconSize ?? 30,
+        height: iconSize ?? 30,
+        color: isDarkTheme ? Colors.white : Colors.black,
+      ),
+>>>>>>> dev
     );
   }
 }
@@ -612,30 +644,30 @@ class MyTabBar extends StatelessWidget {
   }
 }
 
-Future<void> customDialog(BuildContext context, String text1, String text2) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
+Future<void> customDialog(BuildContext context, String title, String contents, {Widget? btn2}) async {
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: Align(
+          child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          child: Text(contents, textAlign: TextAlign.center),
+        ),
+        actions: <Widget>[
+          btn2 ?? Container(),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const MyText(text: 'Close'),
           ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(text2, textAlign: TextAlign.center),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        ],
+      );
+    },
+  );
+}
 
 /* Trigger Snack Bar Function */
 void snackBar(BuildContext context, String contents) {
@@ -649,20 +681,21 @@ void snackBar(BuildContext context, String contents) {
 }
 
 class MyPinput extends StatelessWidget {
-  final String? obscureText;
+
+  final bool? obscureText;
   final GetWalletModel? getWalletM;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String)? onChanged;
-  final void Function(String)? onSubmit;
+  final void Function(String)? onCompleted;
 
   const MyPinput({
-    this.obscureText = '⚪',
+    this.obscureText = true,
     this.getWalletM,
     this.controller,
     this.focusNode,
     this.onChanged,
-    this.onSubmit,
+    this.onCompleted,
   });
 
   @override
@@ -670,28 +703,68 @@ class MyPinput extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width - 100,
       margin: const EdgeInsets.only(bottom: 30),
-      child: PinPut(
-        obscureText: obscureText,
+      child: Pinput(
+        obscureText: obscureText!,
         focusNode: focusNode,
         controller: controller,
-        fieldsCount: 4,
-        selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
-            color: Colors.grey.withOpacity(0.5),
-            border: Border.all(
-              color: Colors.grey,
-            )),
-        submittedFieldDecoration: getWalletM!.error
-            ? getWalletM!.pinPutDecoration
-                .copyWith(border: Border.all(color: Colors.red))
-            : getWalletM!.pinPutDecoration,
-        followingFieldDecoration: getWalletM!.error
-            ? getWalletM!.pinPutDecoration
-                .copyWith(border: Border.all(color: Colors.red))
-            : getWalletM!.pinPutDecoration,
-        eachFieldConstraints: getWalletM!.boxConstraint,
-        textStyle: const TextStyle(fontSize: 18, color: Colors.white),
-        onChanged: onChanged,
-        onSubmit: onSubmit,
+        length: 4,
+        obscuringCharacter: '⚪',
+        // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
+        //   color: Colors.grey.withOpacity(0.5),
+        //   border: Border.all(
+        //     color: Colors.grey,
+        //   )
+        // ),
+        errorPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red), color: Colors.grey[350])
+        ),
+        focusedPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.blue), color: Colors.grey[350])
+        ),
+        submittedPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.green), color: Colors.grey[350])
+        ),
+        followingPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.grey), color: Colors.grey[350])
+        ),
+        // eachFieldConstraints: getWalletM!.boxConstraint,
+        // textStyle: consSt TextStyle(fontSize: 18, color: Colors.white),
+        onChanged: (String value){
+          print("On changed $value");
+          // onChanged!(value);
+        },
+        onCompleted: onCompleted,
+        // onSubmitted: onSubmit,
+      ),
+    );
+  }
+}
+
+class ThreeDotLoading extends StatelessWidget{
+
+  final Indicator? indicator;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
+
+  ThreeDotLoading({this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height});
+
+  Widget build(BuildContext context ){
+    final isDark = Provider.of<ThemeProvider>(context).isDark;
+    return Container(
+      padding: padding,
+      width: width,
+      height: height,
+      child: LoadingIndicator(
+        indicatorType: indicator!, /// Required, The loading type of the widget
+        colors: [ isDark ? Colors.white : Colors.black],       /// Optional, The color collections
+        strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+        pathBackgroundColor: isDark ? Colors.black : Colors.white
       ),
     );
   }

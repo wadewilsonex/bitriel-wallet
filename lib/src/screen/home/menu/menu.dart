@@ -1,5 +1,6 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/service/authen_s.dart';
 
 class Menu extends StatefulWidget {
   final Map<String, dynamic> _userData;
@@ -40,11 +41,9 @@ class MenuState extends State<Menu> {
 
   Future<void> checkPasscode() async {
 
-    final res = await StorageServices().readSecure('passcode');
+    final res = await StorageServices().readSecure(DbKey.passcode);
 
-    print("My passcode ${res.runtimeType} ${res == ''}");
-
-    if (res != null && res != '') {
+    if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
       });
@@ -52,7 +51,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkAvailableBio() async {
-    await StorageServices.fetchData('biometric').then(
+    await StorageServices.fetchData(DbKey.biometric).then(
       (value) {
         if (value != null) {
           if (value['bio'] == true) {
@@ -75,80 +74,29 @@ class MenuState extends State<Menu> {
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> switchBiometric(BuildContext context, bool switchValue) async {
+    
+    final canCheck = await AppServices().checkBiometrics(context);
     try {
-      final canCheck = await AppServices().checkBiometrics(context);
-
-      if (canCheck == false) {
-        snackBar(
-          context,
-          "Your device doesn't have finger print! Set up to enable this feature"
-        );
+      // Avaible To
+      if (canCheck) {
+        await BioAuth().authenticateBiometric(_localAuth).then((values) async {
+          
+          _menuModel.authenticated = values;
+          if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.saveBio(_menuModel.switchBio);
+          } else if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.removeKey(DbKey.bio);
+          }
+          setState(() { });
+        });
       } else {
-        // Check New Enable Bio
-        if (switchValue) {
-          await authenticateBiometric().then((values) async {
-            if (_menuModel.authenticated!) {
-              setState(() {
-                _menuModel.switchBio = switchValue;
-              });
-              await StorageServices.saveBio(_menuModel.switchBio);
-            }
-          });
-        }
-        // Check Disable Bio
-        else {
-          await authenticateBiometric().then((values) async {
-            if (_menuModel.authenticated!) {
-              setState(() {
-                _menuModel.switchBio = switchValue;
-              });
-              await StorageServices.removeKey('bio');
-            }
-          });
-        }
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: MyText(
-                text: "Oops",
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(e.toString(), textAlign: TextAlign.center),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
+      await customDialog(context, 'Oops', e.toString());
     }
-  }
-
-  Future<bool> authenticateBiometric() async {
-    try {
-      // Trigger Authentication By Finger Print
-      // ignore: deprecated_member_use
-      _menuModel.authenticated = await _localAuth.authenticateWithBiometrics(
-        localizedReason: 'Please complete the biometrics to proceed.',
-        stickyAuth: true,
-      );
-
-      // ignore: empty_catches
-    } on PlatformException {}
-
-    return _menuModel.authenticated!;
   }
 
   void enablePassword(bool value) {

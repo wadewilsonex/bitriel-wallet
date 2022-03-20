@@ -22,9 +22,6 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   Future<void> disableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.disableScreenshots();
-      // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
-      //   print("Value $value");
-      // });
     } catch (e) {}
   }
 
@@ -46,8 +43,8 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
           children: [
             MyAppBar(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                ? hexaCodeToColor(AppColors.darkCard)
+                : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
               onPressed: enableScreenShot,
             ),
@@ -92,8 +89,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: hexaCodeToColor(AppColors.darkSecondaryText)
-                                .withOpacity(0.3),
+                            color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
                             width: 1),
                         borderRadius: BorderRadius.circular(10),
                       ),

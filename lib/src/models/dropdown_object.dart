@@ -1,3 +1,5 @@
+import 'package:wallet_apps/index.dart';
+
 class DropdownObject {
   String assetName;
   String assetImg;
@@ -6,9 +8,9 @@ class DropdownObject {
 }
 
 List<DropdownObject> dropDownObjectList = [
-  DropdownObject('BNB', 'assets/token_logo/bnb.png'),
-  DropdownObject('BUSD', 'assets/token_logo/busd.png'),
-  DropdownObject('USDT', 'assets/token_logo/dai.png'),
-  DropdownObject('DAI', 'assets/token_logo/usdt.png'),
-  DropdownObject('ETH', 'assets/token_logo/eth.png'),
+  DropdownObject('BNB', AppConfig.assetsPath+'token_logo/bnb.png'),
+  DropdownObject('BUSD', AppConfig.assetsPath+'token_logo/busd.png'),
+  DropdownObject('USDT', AppConfig.assetsPath+'token_logo/dai.png'),
+  DropdownObject('DAI', AppConfig.assetsPath+'token_logo/usdt.png'),
+  DropdownObject('ETH', AppConfig.assetsPath+'token_logo/eth.png'),
 ];

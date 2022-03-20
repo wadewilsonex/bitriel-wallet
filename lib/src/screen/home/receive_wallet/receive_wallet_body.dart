@@ -9,7 +9,7 @@ class ReceiveWalletBody extends StatelessWidget {
   final GlobalKey? keyQrShare;
   final HomeModel? homeM;
   final GetWalletMethod? method;
-  final Function(String)? onChanged;
+  final Function? onChanged;
   final String? name;
   final String? wallet;
   final int? initialValue;
@@ -65,7 +65,8 @@ class ReceiveWalletBody extends StatelessWidget {
                         bottom: 45.0,
                         left: 16.0,
                         right: 16.0,
-                        top: 16.0),
+                        top: 16.0
+                      ),
                       padding: const EdgeInsets.all(30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
@@ -85,13 +86,13 @@ class ReceiveWalletBody extends StatelessWidget {
 
                           // Qr View
                           qrCodeGenerator(
-                            wallet!,
+                            wallet ?? '',
                             AppConfig.logoQrEmbedded,
                             keyQrShare!,
                           ),
 
                           MyText(
-                            text: name,
+                            text: name ?? 'User name',
                             bottom: 16,
                             top: 16,
                             color: isDarkTheme
@@ -100,7 +101,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           ),
                           MyText(
                             width: 300,
-                            text: wallet,
+                            text: wallet ?? '',
                             color: AppColors.secondarytext,
                             fontSize: 16,
                             bottom: 16,

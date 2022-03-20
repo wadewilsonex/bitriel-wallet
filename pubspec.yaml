@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.0+42
+version: 4.0.0+70
 #6 feature
 #8 debug
 #1 refactor
@@ -95,9 +95,14 @@ dependencies:
   flare_flutter:
   responsive_framework:
   flutter_launcher_icons:
-  clipboard:
-  slide_to_confirm:
   loading_indicator:
+  fluttertoast:
+  in_app_update:
+  tutorial_coach_mark:
+  
+  # Download
+  # path_provider:
+  # downloads_path_provider_28:
   
 dependency_overrides:
     # git:
@@ -111,7 +116,8 @@ dependency_overrides:
        url: https://github.com/google/charts
        path: charts_flutter
   permission_handler: ^8.3.0
-  # flutter_aes_ecb_pkcs5_fork: ^0.1.4
+  # get_storage:
+  # flutter_aes_ecb_pkcs5:
 
 dev_dependencies:
   flutter_test:
@@ -152,12 +158,24 @@ flutter:
 
   assets:
     - assets/
+    - assets/github/
     - assets/abi/
     - assets/icons/
     - assets/logo/
     - assets/token_logo/
     - assets/json/
-  
+    - assets/logo/
+    - assets/illustration/
+
+    # - ../assets/
+    # - ../assets/github/
+    # - ../assets/abi/
+    # - ../assets/icons/
+    # - ../assets/token_logo/
+    # - ../assets/json/
+    # - ../assets/logo/
+    # - ../assets/illustration/
+    
     # Animation Flare
     - assets/animation/
     - lib/core/js/

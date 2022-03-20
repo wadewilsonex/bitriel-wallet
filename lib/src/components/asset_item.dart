@@ -50,6 +50,7 @@ class AssetItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
+<<<<<<< HEAD
                 Flexible(
                   child: Text.rich(
                     TextSpan(
@@ -142,6 +143,122 @@ class AssetItem extends StatelessWidget {
                   //     ),
                   //   ],
                   // ),
+=======
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: hexaCodeToColor(isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                          ),
+                        ),
+                        children: [
+                          TextSpan(
+                            text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: hexaCodeToColor(isDarkTheme
+                                ? AppColors.darkSecondaryText
+                                : AppColors.darkSecondaryText,
+                              ),
+                            ),
+                          )
+                        ]
+                      )
+                    )
+                  ),
+
+                  if (scModel!.marketPrice!.isEmpty)
+                    MyText(
+                      top: 4.0,
+                      text: scModel!.name!,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.darkSecondaryText
+                        : AppColors.darkSecondaryText,
+                    )
+                  else
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          
+                          scModel!.change24h != null && scModel!.change24h != ''
+                          ? Flexible(
+                            child: MyText(
+                              text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: double.parse(scModel!.change24h!).isNegative
+                                ? '#FF0000'
+                                : isDarkTheme
+                                  ? '#00FF00'
+                                  : '#66CD00',
+                            ),
+                          )
+                          : Flexible(
+                            child: MyText(
+                              text: scModel!.change24h,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkTheme
+                                ? '#00FF00'
+                                : '#66CD00',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+
+            // Graph Chart
+            Expanded(
+              child: Container(
+              padding: EdgeInsets.only(left: 5, right: 10),
+              height: 50,
+              width: MediaQuery.of(context).size.width / 3.5,
+              child: 
+              scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
+                ? LineChart(sampleLineChart(context))
+                : LineChart(mainData(context))
+              // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
+              
+            )),
+
+            // Total Amount
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                MyText(
+                  // width: double.infinity,
+                  text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+                  textAlign: TextAlign.right,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkTheme
+                    ? AppColors.whiteColorHexa
+                    : AppColors.textColor,
+                  bottom: 4.0,
+                  overflow: TextOverflow.fade,
+                ),
+                MyText(
+                  text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDarkTheme
+                    ? AppColors.darkSecondaryText
+                    : AppColors.darkSecondaryText,
+                )
+>>>>>>> dev
               ],
             ),
           ),

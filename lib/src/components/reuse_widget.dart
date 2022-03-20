@@ -244,7 +244,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                     height: 28,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/tick.svg',
+                    AppConfig.iconsPath+'tick.svg',
                     height: 100,
                     width: 100,
                   ),
@@ -272,8 +272,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, Home.route, ModalRoute.withName('/'));
+                            Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
@@ -623,16 +622,18 @@ Widget progress({String? content}) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             CircularProgressIndicator(
-                backgroundColor: Colors.transparent,
-                valueColor: AlwaysStoppedAnimation(
-                    hexaCodeToColor(AppColors.secondary))),
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation(
+                hexaCodeToColor(AppColors.secondary)
+              )
+            ),
             if (content == null)
-              Container()
+            Container()
             else
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-                child: textScale(text: content, hexaColor: "#FFFFFF"),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
+              child: textScale(text: content, hexaColor: "#FFFFFF"),
+            ),
           ],
         )
       ],
@@ -642,15 +643,16 @@ Widget progress({String? content}) {
 
 dialogLoading(BuildContext context, {String? content}) {
   return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (context) {
-        return progress(content: content);
-        // WillPopScope(
-        //   onWillPop: () => Future(() => false),
-        //   child: ,
-        // );
-      });
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return progress(content: content);
+      // WillPopScope(
+      //   onWillPop: () => Future(() => false),
+      //   child: ,
+      // );
+    }
+  );
 }
 
 // For Approve

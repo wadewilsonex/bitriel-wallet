@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 
 class ImportAcc extends StatefulWidget {
@@ -30,7 +31,6 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   String? onChanged(String value) {
-    print("On Changed $value");
     validateMnemonic(value)!.then((value) {
       setState(() {
         enable = value;
@@ -44,10 +44,23 @@ class ImportAccState extends State<ImportAcc> {
     try {
       res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(mnemonic);
       enable = res;
+      
       setState((){});
-      print("validateMnemonic $res");
     } catch (e) {
-      print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+    }
+    return res;
+  }
+
+  Future<bool>? validateJson(String mnemonic) async {
+    dynamic res;
+    try {
+      res = await Provider.of<ApiProvider>(context, listen: false).apiKeyring;
+      enable = res;
+      
+      setState((){});
+    } catch (e) {
+      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }
     return res;
   }
@@ -63,23 +76,28 @@ class ImportAccState extends State<ImportAcc> {
 
   // Submit Mnemonic
   Future<void> submit() async {
-    print("submit");
     try {
-
-      await validateMnemonic(_importAccModel.mnemonicCon.text)!.then((value) async {
-        if (value) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ImportUserInfo(
-                _importAccModel.mnemonicCon.text,
+      if (_importAccModel.mnemonicCon.text.isNotEmpty){
+        await validateMnemonic(_importAccModel.mnemonicCon.text)!.then((value) async {
+          if (value) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ImportUserInfo(
+                  _importAccModel.mnemonicCon.text,
+                ),
               ),
-            ),
-          );
-        }
-      });
+            );
+          } else {
+
+            await customDialog(context, 'Opps', 'Invalid seed phrases or mnemonic');
+          }
+        });
+      } else {
+
+      }
     } catch (e) {
-      print("Error submit $e");
+      if (ApiProvider().isDebug == false) print("Error submit $e");
     }
   }
 
@@ -162,7 +180,7 @@ class ImportAccState extends State<ImportAcc> {
         final String? res = await _api.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
 
         if (res != null) {
-          await StorageServices().writeSecure('private', res);
+          await StorageServices().writeSecure(DbKey.private, res);
         }
       }
       
@@ -217,7 +235,7 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<bool> checkPassword(String pin) async {
     final res = await Provider.of<ApiProvider>(context, listen: false);
-    bool checkPass = await res.getSdk.api.keyring.checkPassword(res.getKeyring.current, pin);
+    bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
 
