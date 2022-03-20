@@ -26,7 +26,7 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
     AppServices.noInternetConnection(globalKey);
-    _importAccModel.mnemonicCon.text = 'donate slogan wear furnace idle canal raw senior pink frame truck beyond';
+    // _importAccModel.mnemonicCon.text = 'donate slogan wear furnace idle canal raw senior pink frame truck beyond';
     super.initState();
   }
 

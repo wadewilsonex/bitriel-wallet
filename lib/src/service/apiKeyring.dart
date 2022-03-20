@@ -211,6 +211,7 @@ class MyApiKeyring extends ApiKeyring {
   @override
   Future<SeedBackupData?> getDecryptedSeed(Keyring keyring, password) async {
     final Map? data = await EncryptSeed(EncryptSeed(keyring.store.ss58List).ss58List).getDecryptedSeed(keyring.current.pubKey, password);
+    print("getDecryptedSeed $data");
     if (data == null) {
       return null;
     }

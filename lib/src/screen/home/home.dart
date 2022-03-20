@@ -272,6 +272,8 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
   Future<void> inAppUpdate() async {
     AppUpdate appUpdate = AppUpdate();
     final result = await appUpdate.checkUpdate();
+    
+    print("result.availableVersionCode ${result.availableVersionCode}");
     if (result.availableVersionCode == 1){
       await appUpdate.performImmediateUpdate();
       await InAppUpdate.completeFlexibleUpdate();

@@ -1,10 +1,14 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pinput/pin_put/pin_put.dart';
+import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 class Component {
+
+  // For Pinput
+  static double width = 50;
+  static double height = 80;
 
   /* Show Pin Code For Fill Out */
   Future<String> dialogBox(BuildContext context) async {
@@ -25,14 +29,12 @@ class Component {
     Navigator.pop(context);
   }
 
-  static Future messagePermission(
-      {BuildContext? context, String? content, void Function()? method}) async {
+  static Future messagePermission({BuildContext? context, String? content, void Function()? method}) async {
     await showDialog(
       context: context!,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: const Align(
             child: Text("Message"),
           ),
@@ -648,20 +650,21 @@ void snackBar(BuildContext context, String contents) {
 }
 
 class MyPinput extends StatelessWidget {
-  final String? obscureText;
+
+  final bool? obscureText;
   final GetWalletModel? getWalletM;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String)? onChanged;
-  final void Function(String)? onSubmit;
+  final void Function(String)? onCompleted;
 
   const MyPinput({
-    this.obscureText = '⚪',
+    this.obscureText = true,
     this.getWalletM,
     this.controller,
     this.focusNode,
     this.onChanged,
-    this.onSubmit,
+    this.onCompleted,
   });
 
   @override
@@ -669,27 +672,42 @@ class MyPinput extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width - 100,
       margin: const EdgeInsets.only(bottom: 30),
-      child: PinPut(
-        obscureText: obscureText,
+      child: Pinput(
+        obscureText: obscureText!,
         focusNode: focusNode,
         controller: controller,
-        fieldsCount: 4,
-        selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
-          color: Colors.grey.withOpacity(0.5),
-          border: Border.all(
-            color: Colors.grey,
-          )
+        length: 4,
+        obscuringCharacter: '⚪',
+        // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
+        //   color: Colors.grey.withOpacity(0.5),
+        //   border: Border.all(
+        //     color: Colors.grey,
+        //   )
+        // ),
+        errorPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red), color: Colors.grey[350])
         ),
-        submittedFieldDecoration: getWalletM!.error
-          ? getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red))
-          : getWalletM!.pinPutDecoration,
-        followingFieldDecoration: getWalletM!.error
-          ? getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red))
-          : getWalletM!.pinPutDecoration,
-        eachFieldConstraints: getWalletM!.boxConstraint,
-        textStyle: const TextStyle(fontSize: 18, color: Colors.white),
-        onChanged: onChanged,
-        onSubmit: onSubmit,
+        focusedPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.blue), color: Colors.grey[350])
+        ),
+        submittedPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.green), color: Colors.grey[350])
+        ),
+        followingPinTheme: PinTheme(
+          width: Component.width, height: Component.height, 
+          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.grey), color: Colors.grey[350])
+        ),
+        // eachFieldConstraints: getWalletM!.boxConstraint,
+        // textStyle: consSt TextStyle(fontSize: 18, color: Colors.white),
+        onChanged: (String value){
+          print("On changed $value");
+          // onChanged!(value);
+        },
+        onCompleted: onCompleted,
+        // onSubmitted: onSubmit,
       ),
     );
   }

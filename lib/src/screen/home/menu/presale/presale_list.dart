@@ -148,7 +148,7 @@ class PresaleList extends StatelessWidget {
 
     if (pin != null) {
       dialogLoading(context);
-      final privateKey = await AppServices.getPrivateKey(pin, context);
+      final privateKey = await AppServices.getPrivateKey(pin!, context);
 
       if (privateKey != null) {
         try {
