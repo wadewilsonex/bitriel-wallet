@@ -19,9 +19,9 @@ let url = 'https://bsc-dataseed.binance.org/';
 function send(path: string, data: any) {
   if (window.location.href === "about:blank") {
     // PolkaWallet.postMessage(JSON.stringify({ path, data }));
-    console.log(JSON.stringify({ path, data }));
+    // console.log(JSON.stringify({ path, data }));
   } else {
-    console.log(path, data);
+    // console.log(path, data);
   }
 }
 // send("log", "main js loaded");
@@ -49,8 +49,6 @@ async function connect(nodes: string[]) {
       });
 
       (<any>window).api = res;
-      console.log("(<any>window).api", (<any>window).api);
-      console.log("Url ", nodes, res.isConnected);
       // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       const url = nodes[(<any>res).isConnected];
       // console.log("hello log", `${url} wss c  onnected success`);
@@ -84,8 +82,10 @@ async function connectNon(nodes: string[]) {
       const res = await ApiPromise.create({
         provider: wsProvider,
       });
+      // (<any>window).apiNon = res;
       (<any>window).apiNon = res;
-      const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
+      // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
+      const url = nodes[(<any>res).isConnected];
       // send("log", `${url} wss connected success`);
       resolve(url);
     } catch (err) {

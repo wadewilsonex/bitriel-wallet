@@ -61,17 +61,18 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({BuildContext? context, String? title, String? contents, btn, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
         return AlertDialog(
-          title: MyText(
-            text: title,
+          title: titles != null ? MyText(
+            text: titles,
             fontWeight: FontWeight.bold,
-            color: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
-          ),
-          content: Column(
+            color: AppColors.darkCard//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+          ) : Container(),
+          buttonPadding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+          content: contents != null ? Column(
             mainAxisSize: MainAxisSize.min,
             children: [
 
@@ -84,11 +85,11 @@ class DialogComponents {
                 bottom: 16,
               )
             ],
-          ),
+          ) : contents2,
           actions: [
             btn ?? Container(),
 
-            TextButton(
+            btn2 ?? TextButton(
               onPressed: () async {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
@@ -97,6 +98,7 @@ class DialogComponents {
             )
           ],
         );
-    });
+      }
+    );
   }
 }

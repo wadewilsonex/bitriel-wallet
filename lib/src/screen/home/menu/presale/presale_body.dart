@@ -42,8 +42,7 @@ class _PresaleBodyState extends State<PresaleBody> {
 
       widget.model!.balance = double.parse(contract.listContract[4].balance!);
     } else {
-      final tokenBalance = await presale.checkTokenBalance(widget
-          .model!.listSupportToken![widget.model!.tokenIndex]['tokenAddress']);
+      final tokenBalance = await presale.checkTokenBalance(widget .model!.listSupportToken![widget.model!.tokenIndex]['tokenAddress'], context: context);
 
       widget.model!.balance = tokenBalance;
     }

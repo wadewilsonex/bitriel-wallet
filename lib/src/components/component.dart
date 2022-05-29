@@ -189,6 +189,7 @@ class MyFlatButton extends StatelessWidget {
 class MyText extends StatelessWidget {
   final String? text;
   final String? color;
+  final Color? color2;
   final double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
@@ -207,6 +208,7 @@ class MyText extends StatelessWidget {
   const MyText({
     this.text,
     this.color = AppColors.textColor,
+    this.color2,
     this.fontSize = 18,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
@@ -235,7 +237,7 @@ class MyText extends StatelessWidget {
           text!,
           style: TextStyle(
             fontWeight: fontWeight,
-            color: Color(AppUtils.convertHexaColor(color!)),
+            color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
             fontSize: fontSize),
           textAlign: textAlign,
           overflow: overflow,

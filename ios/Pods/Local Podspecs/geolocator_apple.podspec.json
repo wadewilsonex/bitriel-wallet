@@ -14,8 +14,9 @@
   "source": {
     "http": "https://github.com/baseflow/flutter-geolocator/tree/master/"
   },
-  "source_files": "Classes/**/*",
+  "source_files": "Classes/**/*.{h,m}",
   "public_header_files": "Classes/**/*.h",
+  "module_map": "Classes/GeolocatorPlugin.modulemap",
   "dependencies": {
     "Flutter": [
 

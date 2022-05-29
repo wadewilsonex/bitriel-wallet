@@ -105,18 +105,16 @@ async function swapToken(privateKey: string, amount: string) {
 
         let etherString = ethers.utils.formatEther(res);
 
-        console.log(etherString);
         let signer = new ethers.Wallet(privateKey).connect(provider);
 
         try {
             let SwapContract = new ethers.Contract(SwapContractAddress, SwapContractABI, signer);
 
-            console.log("Start Swapping Amount: ", amount);
+            // console.log("Start Swapping Amount: ", amount);
             let res = await SwapContract.swap(ethers.utils.parseUnits(amount, 18));
 
             resolve(res.hash);
 
-            console.log(res.hash);
         } catch (error) {
             resolve(error.reason);
         }

@@ -63,7 +63,7 @@ class AppConfig {
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       httpUrlMN: 'https://app.selendra.org/',
       wsUrlTN: 'wss://rpc1-testnet.selendra.org/',
-      wsUrlMN: 'wss://rpc1-mainnet.selendra.org/',
+      wsUrlMN: 'wss://rpc-mainnet.selendra.org/',
       ss58: 42,
       ss58MN: 972
     ),
@@ -158,6 +158,7 @@ class AppConfig {
 
 class DBkey {
   static String supportedToken = "supportedToken";
+  static String listSel = "listSel";
 }
 
 class PresaleConfig {

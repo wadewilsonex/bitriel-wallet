@@ -8,7 +8,7 @@ import { Keyring } from "@polkadot/keyring";
 import { ApiPromise } from "@polkadot/api";
 
 import { subscribeMessage } from "./setting";
-let isMainnet = Boolean(true);
+let isMainnet = Boolean(false);
 let testNet = 42;
 let mainnet = 972;
 let keyring = new Keyring({ ss58Format: isMainnet ? mainnet : testNet, type: "sr25519" });
@@ -37,7 +37,6 @@ async function genIcons(addresses: string[]) {
  * Get svg icons of pubKeys.
  */
 async function genPubKeyIcons(pubKeys: string[]) {
-  console.log("Hello genPubKeyIcons", pubKeys);
   const icons = await genIcons(
     pubKeys.map((key) => keyring.encodeAddress(hexToU8a(key), isMainnet ? mainnet : testNet))
   );
@@ -87,6 +86,12 @@ async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
 // For Only Import or Create Account
 async function getSELAddr() {
   return selAddr;
+}
+
+function setupss58Format(value: boolean){
+
+  console.log("From Account setupss58Format acc.isMainnet ? acc.mainnet : acc.testNet" + isMainnet ? mainnet : testNet);
+  isMainnet = value;
 }
 
 /**
@@ -169,5 +174,9 @@ export default {
   queryAccountsBonded,
   getBalance,
   getAccountIndex,
-  getSELAddr
+  getSELAddr,
+  setupss58Format,
+  isMainnet,
+  testNet,
+  mainnet
 };

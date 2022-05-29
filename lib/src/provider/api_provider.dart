@@ -50,8 +50,8 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
-  bool isMainnet = true;
-  bool isDebug = false;
+  bool isMainnet = false;
+  bool isDebug = true;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -84,23 +84,33 @@ class ApiProvider with ChangeNotifier {
   Future<void> initApi({@required BuildContext? context}) async {
 
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
-
+    print("initApi");
     try {
 
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
+
+      print("isMainnet $isMainnet");
+
+      // Setup ss58Format base on Network
+      // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
+
       await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
       await _sdk.init(_keyring, jsCode: _jsCode);
+
       _apiKeyring = MyApiKeyring(_sdk.api, _sdk.api.keyring.service!);
       notifyListeners();
 
+      print("finish");
+
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initApi $e");
+      if (ApiProvider().isDebug) print("Error initApi $e");
     }
   }
 
   Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
+    print("connectPolNon");
     dynamic res;
     try {
 
@@ -366,6 +376,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams?> connectSELNode({@required BuildContext? context}) async {
+    print("connectSELNode");
     try {
 
       NetworkParams node = NetworkParams();
@@ -473,6 +484,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> subscribeDotBalance({@required BuildContext? context}) async {
+    print("subscribeDotBalance");
     try {
 
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
@@ -480,8 +492,9 @@ class ApiProvider with ChangeNotifier {
       // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
 
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[dotIndex].address}', 'Balance')").then((value) {//_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
+        print("value ${value}");
         contract.listContract[dotIndex].balance = Fmt.balance(
-          value.freeBalance.toString(),
+          value['freeBalance'].toString(),
           int.parse(contract.listContract[dotIndex].chainDecimal!),
         );
 
@@ -511,9 +524,11 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount({String funcName = 'account'}) async {
+    print("getCurrentAccount");
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+      print("'funcName.getSELAddr()' ${accountM.address}");
       accountM.name = _keyring.current.name;
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){

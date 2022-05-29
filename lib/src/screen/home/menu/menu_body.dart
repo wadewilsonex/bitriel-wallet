@@ -27,6 +27,14 @@ class MenuBody extends StatelessWidget {
 
         // Wallet
         const MenuSubTitle(index: 1),
+        
+        MyListTile(
+          index: 2,
+          subIndex: 3,
+          onTap: () {
+            Navigator.push(context, RouteAnimation(enterPage: Swap()));
+          },
+        ),
 
         MyListTile(
           index: 1,

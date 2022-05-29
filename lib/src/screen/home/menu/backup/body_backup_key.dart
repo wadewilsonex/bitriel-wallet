@@ -74,7 +74,7 @@ class BackUpKeyBody extends StatelessWidget{
                       if (res!.seed != null){
                         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
                       } else {
-                        await DialogComponents().dialogCustom(context: context, title: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
+                        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
                       }
                     });
                   }

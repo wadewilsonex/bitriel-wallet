@@ -346,20 +346,24 @@ class ContractProvider with ChangeNotifier {
         listContract[apiProvider.btcIndex].address = value;
       });
       
+      // 1. Add Default Asset First
       listContract.forEach((element) {
         if (element.show!) sortListContract.addAll({element});
       });
 
+      // 2. Add Imported Asset
       addedContract.forEach((element) {
         if (element.show!) sortListContract.addAll({element});
       });
 
+      // Sort Descending
       if (sortListContract.isNotEmpty) {
         SmartContractModel tmp = SmartContractModel();
         for (int i = 0; i < sortListContract.length; i++) {
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
-            if ( (double.parse(sortListContract[j].balance!)) > (double.parse(sortListContract[j].balance!)) ) {
+
+            if ( (double.parse(sortListContract[j].balance!)) > (double.parse(sortListContract[i].balance!)) ) {
               sortListContract[i] = sortListContract[j];
               sortListContract[j] = tmp;
             }
@@ -367,6 +371,7 @@ class ContractProvider with ChangeNotifier {
         }
 
       }
+
       notifyListeners();
       
     } catch (e) {
@@ -583,6 +588,8 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> approveSwap(String privateKey) async {
+
+    print("contract provider approveSwap");
     try {
 
       await initBscClient();
@@ -622,17 +629,23 @@ class ContractProvider with ChangeNotifier {
         fetchChainIdFromNetworkId: true,
       );
 
+      print("my approve $approve");
+
       return approve;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error approveSwap $e");
+      if (ApiProvider().isDebug) print("Error approveSwap $e");
+      // return e.toString();
+      throw new Exception(e);
     }
-    return '';
   }
 
   Future<dynamic> checkAllowance() async {
+    print("checkAllowance");
     try {
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      print("apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest! ${apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest!}");
+      print("_appConfig.swapAddr ${_appConfig.swapAddr}");
       final res = await query(
         apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest!,
         'allowance',
@@ -641,10 +654,13 @@ class ContractProvider with ChangeNotifier {
           EthereumAddress.fromHex(_appConfig.swapAddr)
         ],
       );
+      
+      print("res $res");
 
       return res.first;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error checkAllowance $e");
+      if (ApiProvider().isDebug) print("Error checkAllowance $e");
+      throw new Exception(e);
     }
   }
 
@@ -685,8 +701,8 @@ class ContractProvider with ChangeNotifier {
       return swap;
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error swap $e");
+      throw new Exception(e);
     }
-    return '';
   }
 
   Future<List?> queryEther(String contractAddress, String functionName, List args) async {
@@ -712,7 +728,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<List> query(String contractAddress, String functionName, List args) async {
-
+    print("query");
     try {
       await initBscClient();
       final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddress);
@@ -724,9 +740,10 @@ class ContractProvider with ChangeNotifier {
         function: ethFunction,
         params: args,
       );
+      print("res query $res");
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error query $e");
+      if (ApiProvider().isDebug) print("Error query $e");
     }
     return [];
   }
@@ -744,14 +761,17 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getEtherAddr() async {
+    print("getEtherAddr");
     try {
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
       ethAdd = ethAddr!;
 
+      print("EthAddr $ethAdd");
+
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getEtherAddr $e");
+      if (ApiProvider().isDebug) print("Error getEtherAddr $e");
     }
   }
 

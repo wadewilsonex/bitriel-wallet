@@ -43,6 +43,7 @@ class AppState extends State<App> {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
+      
       contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
@@ -59,7 +60,7 @@ class AppState extends State<App> {
         await apiProvider.connectPolNon(context: context).then((value) async {
           await apiProvider.connectSELNode(context: context);
         });
-
+        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 

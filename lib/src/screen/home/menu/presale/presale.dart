@@ -444,7 +444,7 @@ class _PresaleState extends State<Presale> {
                 await order(privateKey);
               }
             } else {
-              final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+              final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress'], context: context);
 
               if (tokenBalance < double.parse(_model.amountController.text)) {
                 customDialog('Insufficient Balance',
@@ -511,7 +511,7 @@ class _PresaleState extends State<Presale> {
           }
         } else {
           dialogLoading(context);
-          final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress']);
+          final tokenBalance = await presale.checkTokenBalance(_model.listSupportToken![_model.tokenIndex]['tokenAddress'], context: context);
 
           if (tokenBalance < double.parse(_model.amountController.text)) {
             Navigator.pop(context);
