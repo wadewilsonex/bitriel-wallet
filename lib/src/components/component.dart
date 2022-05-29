@@ -131,6 +131,7 @@ class MyFlatButton extends StatelessWidget {
   final Function? action;
   final double? width;
   final double? height;
+  final bool? isTransparent;
 
   const MyFlatButton({
     this.textButton,
@@ -143,6 +144,8 @@ class MyFlatButton extends StatelessWidget {
     this.hasShadow = false,
     this.width = double.infinity,
     this.height,
+    this.isTransparent = false,
+
     @required this.action,
   });
 
@@ -170,7 +173,7 @@ class MyFlatButton extends StatelessWidget {
         onPressed: action == null ? null : (){
           action!();
         },
-        color: hexaCodeToColor(buttonColor!),
+        color: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
         disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

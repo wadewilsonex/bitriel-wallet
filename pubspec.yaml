@@ -100,7 +100,9 @@ dependencies:
   in_app_update:
   tutorial_coach_mark:
   transition:
-  flutter_screen_lock: 
+
+  # flutter lock passcode
+  flutter_screen_lock: ^5.0.12
   
   # Download
   # path_provider:
