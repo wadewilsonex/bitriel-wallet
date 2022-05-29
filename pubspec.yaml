@@ -81,6 +81,9 @@ dependencies:
   web3dart: 
   bip39:
 
+  # flutter lock passcode
+  flutter_screen_lock: ^5.0.12
+
   # dart_ecpair:
   defichaindart:
 

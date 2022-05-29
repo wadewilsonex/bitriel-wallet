@@ -18,13 +18,17 @@ class AppColors {
   static const String redColor = "#FF0000";
 
   //dark theme
-  static const String darkBgd = "#090D28";
+  static const String darkBgd = "#023859";
   static const String darkCard = "#181C35";
   static const String darkText = "#08B952";
   static const String darkSecondaryText = "B3B3B3";
 
   //blue
   static const String primary = "#03A9F4";
+
+  // orange
+  static const String primaryColor = "#F29F05";
+
   //mono black
   static const String text = "#1D3442";
 
@@ -55,4 +59,7 @@ class AppColors {
   static const String borderColor = "#363c4e";
 
   //final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
+  /* Passcode Color */
+  static const String passcodeColor = "#054973";
 }
