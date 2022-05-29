@@ -1,3 +1,4 @@
+import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
@@ -26,18 +27,6 @@ class _PasscodeState extends State<Passcode> {
     TextEditingController(),
     TextEditingController(),
   ];
-  
-  // final TextEditingController pinOneController = TextEditingController();
-
-  // final TextEditingController pinTwoController = TextEditingController();
-
-  // final TextEditingController pinThreeController = TextEditingController();
-
-  // final TextEditingController pinFourController = TextEditingController();
-
-  // final TextEditingController pinFiveController = TextEditingController();
-
-  // final TextEditingController pinSixController = TextEditingController();
 
   final localAuth = LocalAuthentication();
 
@@ -50,6 +39,8 @@ class _PasscodeState extends State<Passcode> {
   bool? _isFirst;
 
   List<String> currentPin = ["", "", "", "", "", ""];
+
+  InputController _inputController = InputController();
 
   @override
   void initState() {
@@ -236,32 +227,34 @@ class _PasscodeState extends State<Passcode> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: globalkey,
-      body: BodyScaffold(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: Column(
-              children: <Widget>[
+    
+    return PasscodeBody(isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    // Scaffold(
+    //   key: globalkey,
+    //   body: BodyScaffold(
+    //     child: SizedBox(
+    //       height: MediaQuery.of(context).size.height,
+    //       child: Center(
+    //         child: Column(
+    //           children: <Widget>[
 
-                // Show AppBar Only In Landing Pages
-                if(widget.isAppBar!) MyAppBar(
-                  title: "Set Passcode",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ) 
-                else Container(),
+    //             // Show AppBar Only In Landing Pages
+    //             if(widget.isAppBar!) MyAppBar(
+    //               title: "Set Passcode",
+    //               onPressed: () {
+    //                 Navigator.pop(context);
+    //               },
+    //             ) 
+    //             else Container(),
                 
-                Expanded(
-                  child: PasscodeBody(isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    //             Expanded(
+    //               child: 
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
