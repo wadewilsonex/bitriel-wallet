@@ -159,15 +159,17 @@ class MyFlatButton extends StatelessWidget {
       width: width,
       height: height,
 
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(size5), boxShadow: [
-        if (hasShadow!)
-          BoxShadow(
-            color: Colors.black54.withOpacity(0.3),
-            blurRadius: 10.0,
-            spreadRadius: 2.0,
-            offset: const Offset(2.0, 5.0),
-          )
-      ]),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(size8), 
+        boxShadow: [
+          if (hasShadow!)
+            BoxShadow(
+              color: Colors.black54.withOpacity(0.3),
+              blurRadius: 10.0,
+              spreadRadius: 2.0,
+              offset: const Offset(2.0, 5.0),
+            )
+        ]
+      ),
       // ignore: deprecated_member_use
       child: FlatButton(
         onPressed: action == null ? null : (){
