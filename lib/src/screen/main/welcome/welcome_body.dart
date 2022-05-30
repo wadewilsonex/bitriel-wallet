@@ -1,7 +1,6 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/passcode_c.dart';
 
 class WelcomeBody extends StatelessWidget {
 
@@ -36,26 +35,28 @@ class WelcomeBody extends StatelessWidget {
           height: 25,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 42, right: 42),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: MyText(
             text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
-            fontSize: 15,
+            fontSize: 18,
             color: isDarkTheme
-                ? AppColors.whiteColorHexa
+                ? AppColors.bgdColor
                 : AppColors.textColor,
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.25,
         ),
         Column(
           children: [
             MyFlatButton(
-              hasShadow: true,
-              edgeMargin: const EdgeInsets.only(left: 42, right: 42, bottom: 16),
+              hasShadow: false,
+              edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.createAccTitle,
               action: () {
-                PassCodeComponent().passCode(context: context, inputController: inputController!);
+                // PassCodeComponent().passCode(context: context, inputController: inputController!);
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
                 // Navigator.pushNamed(context, AppString.contentBackup);
                 // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
@@ -65,7 +66,7 @@ class WelcomeBody extends StatelessWidget {
               isTransparent: true,
               buttonColor: AppColors.whiteHexaColor,
               edgeMargin:
-                  const EdgeInsets.only(left: 42, right: 42, bottom: 16),
+                  const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.importAccTitle,
               action: () {
                 Navigator.pushNamed(context, AppString.importAccView);

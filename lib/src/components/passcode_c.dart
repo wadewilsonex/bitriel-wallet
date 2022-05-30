@@ -14,6 +14,7 @@ class PassCodeComponent{
             fontWeight: FontWeight.bold,
             color: AppColors.whiteHexaColor,
           ),
+          
           Padding(
             padding: const EdgeInsets.only(left: 42, right: 42, top: 16),
             child: RichText(

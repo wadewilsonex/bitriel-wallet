@@ -78,7 +78,6 @@ class _PasscodeState extends State<Passcode> {
       strPin += currentPin[i];
     }
     
-    print("pinIndex lengh $pinIndex");
     if (pinIndex == 6) {
       final res = await StorageServices().readSecure(DbKey.passcode);
       if (widget.isHome != null) {
@@ -113,6 +112,9 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  /// Step 1: Set First PIN
+  /// 
+  /// Setp 2: After First PIN Assigned We set verify pin
   Future<void> setVerifyPin(String pin) async {
     if (firstPin == null) {
       firstPin = pin;
@@ -121,11 +123,16 @@ class _PasscodeState extends State<Passcode> {
       setState(() {
         _isFirst = false;
       });
+      
     } else {
       if (firstPin == pin) {
-        print ("Set pin");
+        print ("Finish set pin");
         await StorageServices().writeSecure(DbKey.passcode, pin);
-        Navigator.pop(context, true);
+        // Navigator.pop(context, true);
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => ContentsBackup())
+        );
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -177,6 +184,7 @@ class _PasscodeState extends State<Passcode> {
 
     if (res == pin) {
       Navigator.pushReplacementNamed(context, Home.route);
+      
     } else {
       clearAll();
       Vibration.vibrate(amplitude: 500);
@@ -204,8 +212,7 @@ class _PasscodeState extends State<Passcode> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
               child: Text('Opps'),
             ),
@@ -228,7 +235,12 @@ class _PasscodeState extends State<Passcode> {
   @override
   Widget build(BuildContext context) {
     
-    return PasscodeBody(isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    return PasscodeBody(
+      isFirst: _isFirst, 
+      lsControl: lsControl, 
+      pinIndexSetup: pinIndexSetup, 
+      clearPin: clearPin
+    );
     // Scaffold(
     //   key: globalkey,
     //   body: BodyScaffold(
