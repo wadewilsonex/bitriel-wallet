@@ -2,10 +2,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class FingerPrint extends StatefulWidget {
 
   final String localAuth = "/localAuth";
+  final bool isEnable = false;
   @override
   _FingerPrintState createState() => _FingerPrintState();
 }
@@ -22,7 +24,6 @@ class _FingerPrintState extends State<FingerPrint> {
   @override
   void initState() {
     globalkey = GlobalKey<ScaffoldState>();
-    authenticate();
     super.initState();
   }
 
@@ -73,44 +74,73 @@ class _FingerPrintState extends State<FingerPrint> {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: globalkey,
-      body: GestureDetector(
-        onTap: () {
-          setState(() {
-            enableText = false;
-          });
-          authenticate();
-        },
-        child: BodyScaffold(
-          isSafeArea: true,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              MyText(
-                text: 'Bitriel Locked',
-                fontSize: 27.0,
-                fontWeight: FontWeight.bold,
-                color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-              ),
-              const SizedBox(
-                height: 40.0,
-              ),
-              SvgPicture.asset("assets/undraw_secure.svg",
-                  width: 200, height: 200),
-              const SizedBox(
-                height: 40.0,
-              ),
-              MyText(
-                top: 19.0,
-                text: 'Authentication Required',
-                color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-              ),
-            ],
-          ),
+      body: BodyScaffold(
+        isSafeArea: true,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(
+              height: 135.0,
+            ),
+            Image.asset("assets/logo/fingerprint.png", scale: 0.9,),
+            const SizedBox(
+              height: 40.0,
+            ),
+            MyText(
+              width: 275,
+              top: 19.0,
+              text: 'Increase your security!',
+              fontSize: 34,
+              fontWeight: FontWeight.bold,
+              color: isDarkTheme
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            MyText(
+              top: 19.0,
+              text: 'Activate biometrics for your wallet to make it even more secure.',
+              fontSize: 16,
+              color: isDarkTheme
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+            ),
+
+            Expanded(
+              child: Container(),
+            ),
+
+            Column(
+              children: [
+                MyFlatButton(
+                  hasShadow: false,
+                  edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                  textButton: "Enable biometry now",
+                  action: () {
+                    authenticate();
+                  },
+                ),
+                MyFlatButton(
+                  isTransparent: true,
+                  buttonColor: AppColors.whiteHexaColor,
+                  edgeMargin:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                  textButton: "Skip",
+                  action: () {
+                    DialogComponents().dialogCustom(
+                      context: context,
+                      contents: "You have successfully create your account.",
+                      textButton: "Completed",
+                      image: Image.asset("assets/logo/success.png")
+                    );
+                  },
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

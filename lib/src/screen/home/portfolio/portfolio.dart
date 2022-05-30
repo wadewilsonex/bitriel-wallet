@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/portfolio/portfolio_body.dart';
+import 'package:wallet_apps/src/screen/home/portfolio/body_portfolio.dart';
 
 class Portfolio extends StatefulWidget{
 

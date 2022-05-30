@@ -6,7 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
-import 'package:wallet_apps/src/screen/home/menu/presale/presale_body.dart';
+import 'package:wallet_apps/src/screen/home/menu/presale/body_presale.dart';
 
 class Presale extends StatefulWidget {
   @override
