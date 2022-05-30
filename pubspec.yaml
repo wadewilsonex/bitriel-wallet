@@ -41,7 +41,7 @@ dependencies:
 
   # Backend
   http: 
-  connectivity:
+  connectivity_plus:
   connectivity_wrapper:
   async:
 

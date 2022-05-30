@@ -1,4 +1,4 @@
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 

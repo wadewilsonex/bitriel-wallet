@@ -10,7 +10,7 @@ export 'dart:typed_data';
 export 'package:async/async.dart';
 
 /* Package from Pub.dev */
-export 'package:connectivity/connectivity.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:flare_flutter/flare_actor.dart';
 export 'package:flare_flutter/flare_controller.dart';
 export 'package:flare_flutter/flare_controls.dart';
