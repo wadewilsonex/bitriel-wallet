@@ -2,7 +2,7 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
-import 'package:wallet_apps/src/screen/home/contact_book/add_contact/add_contact_body.dart';
+import 'package:wallet_apps/src/screen/home/contact_book/add_contact/body_add_contact.dart';
 
 class AddContact extends StatefulWidget {
   final PhoneContact? contact;

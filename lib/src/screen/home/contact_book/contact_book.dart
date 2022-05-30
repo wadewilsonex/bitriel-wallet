@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
-import 'package:wallet_apps/src/screen/home/contact_book/contact_book_body.dart';
+import 'package:wallet_apps/src/screen/home/contact_book/body_contact_book.dart';
 import 'package:wallet_apps/src/screen/home/contact_book/edit_contact/edit_contact.dart';
 
 class ContactBook extends StatefulWidget {

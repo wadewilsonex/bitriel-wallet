@@ -96,8 +96,8 @@ export 'package:wallet_apps/src/screen/home/check_in/check_in.dart';
 /* Home Screen */
 export 'package:wallet_apps/src/screen/home/home.dart';
 export 'package:wallet_apps/src/screen/home/home.dart';
-export 'package:wallet_apps/src/screen/home/home_body.dart';
-export 'package:wallet_apps/src/screen/home/home_body.dart';
+export 'package:wallet_apps/src/screen/home/body_home.dart';
+export 'package:wallet_apps/src/screen/home/body_home.dart';
 export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
 export 'package:wallet_apps/src/screen/home/claim_airdrop/claim_airdrop.dart';
@@ -105,7 +105,7 @@ export 'package:wallet_apps/src/screen/home/claim_airdrop/invite_friend.dart';
 export 'package:wallet_apps/src/screen/home/navigation_drawer/navigation_drawer.dart';
 // Add Assets
 export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset.dart';
-export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/add_asset/body_add_asset.dart';
 /* Menu Screen */
 export 'package:wallet_apps/src/screen/home/menu/menu.dart';
 export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
@@ -120,19 +120,19 @@ export 'package:wallet_apps/src/models/trx_info.dart';
 // Transaction Activiity
 export 'package:wallet_apps/src/screen/home/menu/trx_activity/reuse_activity_widget.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/trx_activity/body_trx_activity.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_details/transaction_activity_details.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_details/transaction_activity_details_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/trx_activity/trx_activity_details/body_transaction_activity_details.dart';
 // Transaction History
 export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/all_trx.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/received_trx.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_history/tab_bars_list/send_transaction.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/trx_history/body_trx_history.dart';
 export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/trx_history_detail.dart';
-export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/trx_history_detail_body.dart';
+export 'package:wallet_apps/src/screen/home/menu/trx_history/trx_history_details/body_trx_history_detail.dart';
 export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet.dart';
-export 'package:wallet_apps/src/screen/home/receive_wallet/receive_wallet_body.dart';
+export 'package:wallet_apps/src/screen/home/receive_wallet/body_receive_wallet.dart';
 export 'package:wallet_apps/src/screen/home/transaction/qr_scanner/qr_scanner.dart';
 export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
@@ -144,15 +144,15 @@ export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';
 export 'package:wallet_apps/src/screen/main/import_account/import_acc.dart';
 export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
 export 'package:wallet_apps/src/screen/main/local_auth/finger_print.dart';
-export 'package:wallet_apps/src/screen/main/create_user_info/user_info_body.dart';
+export 'package:wallet_apps/src/screen/main/create_user_info/body_user_info.dart';
 // Finger Print
 export 'package:wallet_apps/src/screen/main/splash_screen/splash_screen.dart';
 
-export 'package:wallet_apps/src/screen/main/import_account/import_acc_body.dart';
+export 'package:wallet_apps/src/screen/main/import_account/body_import_acc.dart';
 export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
 // Main Screeen
 export 'package:wallet_apps/src/screen/main/welcome/welcome.dart';
-export 'package:wallet_apps/src/screen/main/welcome/welcome_body.dart';
+export 'package:wallet_apps/src/screen/main/welcome/body_welcome.dart';
 
 export 'package:wallet_apps/src/screen/home/asset_list.dart';
 
