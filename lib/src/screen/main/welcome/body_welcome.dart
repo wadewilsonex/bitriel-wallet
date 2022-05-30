@@ -69,7 +69,7 @@ class WelcomeBody extends StatelessWidget {
                   const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.importAccTitle,
               action: () {
-                Navigator.pushNamed(context, AppString.importAccView);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
               },
             )
           ],

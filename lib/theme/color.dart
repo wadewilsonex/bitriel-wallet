@@ -70,4 +70,7 @@ class AppColors {
 
   /* Dialog Color */
   static const String dialogColor = "#114463";
+
+  /* Shadow Color */
+  static const String shadowBlueColor = "#306382";
 }
