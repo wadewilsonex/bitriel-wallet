@@ -11,6 +11,7 @@ const double size1 = 1.0;
 const double size2 = 2.0;
 const double size4 = 4.0;
 const double size5 = 5.0;
+const double size8 = 8.0;
 const double size10 = 10.0;
 const double size17 = 17.0;
 const double size34 = 34.0;
