@@ -2,6 +2,7 @@ import 'package:wallet_apps/index.dart';
 
 class AppColors {
   static const String darkGreyBlue = "#242426";
+  
 
   /* Grey color code */
   static const String greyCode = "#818181";
@@ -25,6 +26,7 @@ class AppColors {
 
   //blue
   static const String primary = "#03A9F4";
+  static const String blue = "#004C7B";
 
   // orange
   static const String primaryColor = "#F29F05";
@@ -62,4 +64,10 @@ class AppColors {
 
   /* Passcode Color */
   static const String passcodeColor = "#054973";
+
+  /* Warning Color */
+  static const String warningColor = "#FF5A6E";
+
+  /* Dialog Color */
+  static const String dialogColor = "#114463";
 }
