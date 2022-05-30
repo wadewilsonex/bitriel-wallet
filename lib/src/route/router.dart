@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 
+
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case AppString.splashScreenView:

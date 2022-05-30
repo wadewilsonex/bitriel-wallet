@@ -25,6 +25,7 @@ export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
 export 'package:iconsax/iconsax.dart';
+export 'package:flutter_svg/flutter_svg.dart';
 
 //Component
 export 'package:wallet_apps/src/components/animation.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/main/create_key/create_key.dart';
 
 class MySplashScreen extends StatefulWidget {
   //static const route = '/';
@@ -18,9 +19,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
-    await Future.delayed(Duration(milliseconds: 100), (){
+    await Future.delayed(const Duration(seconds: 1), () async {
+      Navigator.pushReplacement(context, RouteAnimation(enterPage: CreateWalletPage()));
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ContentsBackup() ));
     });
     
     // try {

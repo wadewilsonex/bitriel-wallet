@@ -1,4 +1,6 @@
 // This file hold Calculation And Data Convertion
+import 'dart:math';
+
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
@@ -90,6 +92,31 @@ class AppUtils {
     convert = convert.replaceAll('+', '');
     final parse = int.parse(convert);
     return parse;
+  }
+
+  List<String> randomThreeEachNumber(){
+
+    // First Number
+    String rd1 = Random().nextInt(12).toString();
+    while(rd1 == "0"){
+      rd1 = Random().nextInt(12).toString();
+    }
+
+    // Second Number
+    String rd2 = Random().nextInt(12).toString();
+    while(rd2 == rd1 || rd2 == "0"){
+      rd2 = Random().nextInt(12).toString();
+      if (rd2 != rd1) break;
+    }
+
+    // Third Number
+    String rd3 = Random().nextInt(12).toString();
+    while(rd3 == rd1 || rd3 == rd2 || rd3 == "0"){
+      rd3 = Random().nextInt(12).toString();
+      if (rd2 != rd1 && rd3 != rd2) break;
+    }
+
+    return [rd1, rd2, rd3];
   }
 }
 
