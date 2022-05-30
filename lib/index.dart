@@ -48,6 +48,7 @@ export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
+export 'package:wallet_apps/src/components/passcode/passcode.dart';
 
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
@@ -180,4 +181,3 @@ export 'src/screen/home/asset_info/asset_history.dart';
 export 'src/screen/home/asset_info/asset_info.dart';
 export 'src/screen/home/asset_info/asset_info_c.dart';
 export 'src/screen/home/asset_info/att_activity.dart';
-export 'src/screen/home/passcode/passcode.dart';
