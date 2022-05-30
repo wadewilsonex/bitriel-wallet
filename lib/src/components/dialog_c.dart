@@ -61,11 +61,15 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          backgroundColor: hexaCodeToColor(AppColors.dialogColor),
           title: titles != null ? MyText(
             text: titles,
             fontWeight: FontWeight.bold,
@@ -75,10 +79,13 @@ class DialogComponents {
           content: contents != null ? Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
+              
+              image != null ? image : Container(),
+              
+              SizedBox(height: 30),
               MyText(
                 text: contents,
-                color: AppColors.blackColor,
+                color: AppColors.bgdColor,
                 pLeft: 16,
                 right: 16,
                 top: 16,
@@ -94,7 +101,13 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: MyText(text: 'Close'),
+              child: MyFlatButton(
+                hasShadow: false,
+                textButton: textButton,
+                action: () {
+                  Navigator.pop(context);
+                },
+              ),
             )
           ],
         );
