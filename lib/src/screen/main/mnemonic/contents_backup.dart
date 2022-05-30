@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/main/create_key/create_key.dart';
 
 class ContentsBackup extends StatefulWidget {
   //static const route = '/contentsBackup';
@@ -135,10 +136,12 @@ class _ContentsBackupState extends State<ContentsBackup> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateMnemonic(
-                      _passPhrase,
-                      _passPhraseList,
-                    ),
+                    builder: (context) => 
+                    CreateWalletPage()
+                    // CreateMnemonic(
+                    //   _passPhrase,
+                    //   _passPhraseList,
+                    // ),
                   ),
                 );
               },

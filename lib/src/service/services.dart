@@ -229,14 +229,15 @@ class SendTrx extends ApiTx{
   final ServiceTx service;
 
   SendTrx(this.apiRoot, this.service) : super(apiRoot, service);
-
+  
+  @override
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
-  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam}) async {
-    final String param = rawParam != null ? rawParam : jsonEncode(params);
-    final Map tx = txInfo.toJson();
-    dynamic res = await (service.estimateFees(tx, param));
-    return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
-  }
+  // Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam}) async {
+  //   final String param = rawParam != null ? rawParam : jsonEncode(params);
+  //   final Map tx = txInfo.toJson();
+  //   dynamic res = await (service.estimateFees(tx, param));
+  //   return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
+  // }
 
   @override
   Future<Map> signAndSend(

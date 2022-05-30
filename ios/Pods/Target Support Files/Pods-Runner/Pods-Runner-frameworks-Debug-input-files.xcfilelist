@@ -1,10 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework
 ${BUILT_PRODUCTS_DIR}/OrderedSet/OrderedSet.framework
-${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
 ${BUILT_PRODUCTS_DIR}/Toast/Toast.framework
 ${BUILT_PRODUCTS_DIR}/aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.framework
-${BUILT_PRODUCTS_DIR}/connectivity/connectivity.framework
+${BUILT_PRODUCTS_DIR}/connectivity_plus/connectivity_plus.framework
 ${BUILT_PRODUCTS_DIR}/flutter_inappwebview/flutter_inappwebview.framework
 ${BUILT_PRODUCTS_DIR}/flutter_native_splash/flutter_native_splash.framework
 ${BUILT_PRODUCTS_DIR}/flutter_screenshot_switcher/flutter_screenshot_switcher.framework

@@ -18,9 +18,22 @@ class VerifyPassphrase extends StatefulWidget {
 
 class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
+  void remove3Seeds() {
+
+    widget.createKeyModel!.missingSeeds = widget.createKeyModel!.lsSeeds!;
+
+    // Replace match index with Empty
+    widget.createKeyModel!.missingSeeds[int.parse(widget.createKeyModel!.threeNum![0])] = "";
+    widget.createKeyModel!.missingSeeds[int.parse(widget.createKeyModel!.threeNum![1])] = "";
+    widget.createKeyModel!.missingSeeds[int.parse(widget.createKeyModel!.threeNum![2])] = "";
+
+    widget.createKeyModel!.tmpSeed = widget.createKeyModel!.missingSeeds.join(" ");
+    setState(() { });
+  }
 
   @override
   void initState() {
+    remove3Seeds();
     super.initState();
   }
   

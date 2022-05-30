@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/main/create_key/create_key.dart';
 
 
 class Passcode extends StatefulWidget {
@@ -134,7 +135,12 @@ class _PasscodeState extends State<Passcode> {
       if (firstPin == pin) {
         print ("Set pin");
         await StorageServices().writeSecure(DbKey.passcode, pin);
-        Navigator.pop(context, true);
+        // Navigator.pop(context, true);
+
+        Navigator.pushReplacement(
+          context, 
+          MaterialPageRoute(builder: (context) => CreateWalletPage())
+        );
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);

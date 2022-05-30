@@ -1,6 +1,3 @@
-import 'package:flutter_svg/svg.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
