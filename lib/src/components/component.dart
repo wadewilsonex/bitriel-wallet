@@ -212,7 +212,7 @@ class MyText extends StatelessWidget {
 
   const MyText({
     this.text,
-    this.color = AppColors.textColor,
+    this.color,
     this.color2,
     this.fontSize = 18,
     this.fontWeight = FontWeight.normal,
