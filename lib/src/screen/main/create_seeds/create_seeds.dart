@@ -67,7 +67,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SizedBox(width: 10),
-                      SvgPicture.asset('assets/logo/warning.svg'),
+                      SvgPicture.asset('assets/icons/warning.svg'),
         
                       SizedBox(width: 20),
                       Expanded(

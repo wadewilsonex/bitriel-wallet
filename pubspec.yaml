@@ -33,6 +33,10 @@ dependencies:
   # Icons
   iconsax: ^0.0.8
 
+  # silder
+  carousel_slider: ^4.1.1 
+  smooth_page_indicator: ^1.0.0+2
+
   geolocator:
   geocoding:
 

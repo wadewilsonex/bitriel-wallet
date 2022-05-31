@@ -69,7 +69,7 @@ class DialogComponents {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
-          backgroundColor: hexaCodeToColor(AppColors.dialogColor),
+          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
           title: titles != null ? MyText(
             text: titles,
             fontWeight: FontWeight.bold,

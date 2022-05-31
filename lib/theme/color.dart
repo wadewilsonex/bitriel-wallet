@@ -27,6 +27,7 @@ class AppColors {
   //blue
   static const String primary = "#03A9F4";
   static const String blue = "#004C7B";
+  
 
   // orange
   static const String primaryColor = "#F29F05";
@@ -69,8 +70,15 @@ class AppColors {
   static const String warningColor = "#FF5A6E";
 
   /* Dialog Color */
-  static const String dialogColor = "#114463";
+  static const String bluebgColor = "#114463";
 
   /* Shadow Color */
   static const String shadowBlueColor = "#306382";
+
+
+  /* DeFi Menu Item Color */
+  static const String defiMenuItem = "#035A8F";
+
+  /* Slider Color */
+  static const String sliderColor = "#0D6BA6";
 }
