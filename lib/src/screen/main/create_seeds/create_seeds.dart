@@ -4,23 +4,23 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
-import 'package:wallet_apps/src/screen/main/create_key/body_create_key.dart';
+import 'package:wallet_apps/src/screen/main/create_seeds/body_create_key.dart';
 
-class CreateWalletPage extends StatefulWidget {
-  const CreateWalletPage({Key? key}) : super(key: key);
+class CreateSeeds extends StatefulWidget {
+  const CreateSeeds({Key? key}) : super(key: key);
 
   @override
   _CreateWalletPagetScreenState createState() =>
       _CreateWalletPagetScreenState();
 }
 
-class _CreateWalletPagetScreenState extends State<CreateWalletPage> {
+class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   
   CreateKeyModel _model = CreateKeyModel();
 
   void generateKey() async {
     
-    _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
+    _model.seed = "orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";//await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
 
     // Split Seed to list
     _model.lsSeeds = _model.seed!.split(" ");
@@ -129,7 +129,7 @@ class _CreateWalletPagetScreenState extends State<CreateWalletPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CreateKeyBody(
+    return CreateSeedsBody(
       createKeyModel: _model,
       generateKey: generateKey,
     );

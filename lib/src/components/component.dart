@@ -117,6 +117,28 @@ class Component {
       },
     );
   }
+
+  Widget seedContainer(BuildContext context, String txt, int index, int rmIndex, Function? onTap){
+    return GestureDetector(
+      onTap: (){
+        onTap!(index, rmIndex);
+      },
+      child: Container(
+        width: (MediaQuery.of(context).size.width / 3) - 34,
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.06),
+          borderRadius: const BorderRadius.all(Radius.circular(50)),
+        ), 
+        // color: grey,
+        child: MyText(
+          text: txt,
+          color2: Colors.white, fontSize: 18, fontWeight: FontWeight.bold
+        ),
+      )
+    );
+  }
 }
 
 class MyFlatButton extends StatelessWidget {
@@ -212,7 +234,7 @@ class MyText extends StatelessWidget {
 
   const MyText({
     this.text,
-    this.color = AppColors.textColor,
+    this.color,
     this.color2,
     this.fontSize = 18,
     this.fontWeight = FontWeight.normal,

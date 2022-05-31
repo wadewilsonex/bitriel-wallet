@@ -3,12 +3,12 @@ import 'package:wallet_apps/src/models/createKey_m.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/verify_key.dart';
 
 
-class CreateKeyBody extends StatelessWidget {
+class CreateSeedsBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
   final Function() generateKey;
 
-  const CreateKeyBody({Key? key, required this.createKeyModel, required this.generateKey}) : super(key: key);
+  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +108,7 @@ class CreateKeyBody extends StatelessWidget {
                           action: () async {
                             createKeyModel!.threeNum = await AppUtils().randomThreeEachNumber();
                             print("createKeyModel!.threeNum ${createKeyModel!.threeNum}");
+                            print("createKeyModel!.tmpThreeNum ${createKeyModel!.tmpThreeNum}");
                             Navigator.push(context, RouteAnimation(enterPage: VerifyPassphrase(createKeyModel: createKeyModel!)));
                           },
                         ),

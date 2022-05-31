@@ -1,6 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/main/create_key/create_key.dart';
+import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 class ContentsBackup extends StatefulWidget {
   //static const route = '/contentsBackup';
@@ -78,17 +78,18 @@ class _ContentsBackupState extends State<ContentsBackup> {
                     bottom: bpSize,
                   ),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppString.backupPassphrase,
-                        textAlign: TextAlign.left,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppString.backupPassphrase,
+                      textAlign: TextAlign.left,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
@@ -96,29 +97,30 @@ class _ContentsBackupState extends State<ContentsBackup> {
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: bpSize,
                     ),
                   ),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppString.offlineStorage,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppString.offlineStorage,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkTheme
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   MyText(
                     textAlign: TextAlign.left,
                     text: AppString.mnemonicAdvise,
                     fontWeight: FontWeight.w500,
                     color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                   ),
                 ],
               ),
@@ -127,8 +129,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
               child: Container(),
             ),
             MyFlatButton(
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               hasShadow: true,
               textButton: AppString.next,
               action: () async {
@@ -137,7 +138,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => 
-                    CreateWalletPage()
+                    CreateSeeds()
                     // CreateMnemonic(
                     //   _passPhrase,
                     //   _passPhraseList,

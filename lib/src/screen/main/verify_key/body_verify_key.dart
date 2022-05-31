@@ -8,11 +8,15 @@ class VerifyPassphraseBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
   final Function? verify;
+  final Function? onTap;
+  final Function? remove3Seeds;
 
   const VerifyPassphraseBody({
     Key? key, 
     this.createKeyModel,
     this.verify,
+    this.onTap,
+    this.remove3Seeds
   }) : super(key: key);
 
   @override
@@ -73,15 +77,15 @@ class VerifyPassphraseBody extends StatelessWidget {
                                       children: [
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(createKeyModel!.tmpSeed!, 0),
+                                          children: getColumn(context, createKeyModel!.tmpSeed!, 0),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(createKeyModel!.tmpSeed!, 1),
+                                          children: getColumn(context, createKeyModel!.tmpSeed!, 1),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(createKeyModel!.tmpSeed!, 2),
+                                          children: getColumn(context, createKeyModel!.tmpSeed!, 2),
                                         ),
                                       ],
                                     ),
@@ -89,18 +93,41 @@ class VerifyPassphraseBody extends StatelessWidget {
                                 )
                               ),
 
+                              if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 50,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: createKeyModel!.tmpThreeNum!.length,
+                                    itemBuilder: (context, i){
+                                      return Component().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
+                                    }
+                                  ),
+                                ),
+                              ),
+
+                              // Display Refresh Button When User Fill Out All
+                              if (createKeyModel!.tmpThreeNum!.length == 0)
+                              TextButton(
+                                onPressed: (){
+                                  remove3Seeds!();
+                                }, 
+                                child: MyText(
+                                  text: "Re-do",
+                                  color2: Colors.white,
+                                )
+                              ),
 
                               SizedBox(height: 100),
                               MyFlatButton(
                                 hasShadow: false,
                                 textButton: "Continue",
                                 action: () {
-                                  DialogComponents().dialogCustom(
-                                    context: context,
-                                    contents: "You have successfully create your account.",
-                                    textButton: "Completed",
-                                    image: Image.asset("assets/logo/success.png")
-                                  );
+                                  verify!();
                                 },
                               ),
                             ],
@@ -118,33 +145,38 @@ class VerifyPassphraseBody extends StatelessWidget {
     );
   }
 
-  List<Widget> getColumn(String seed, int pos) {
+  List<Widget> getColumn(BuildContext context, String seed, int pos) {
+    
     var list = <Widget>[];
     var se = seed.split(' ');
     var colSize = se.length ~/ 3;
 
     for (var i = 0; i < colSize; i++) {
-      list.add(Container(
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
-          borderRadius: const BorderRadius.all(Radius.circular(50)),
-        ),
-        // color: grey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2),
-          child: i * 3 + pos + 1 < 10
+      list.add(
+        Container(
+          width: MediaQuery.of(context).size.width / 3 - 34,
+          padding: EdgeInsets.only(top: 8, bottom: 8),
+          alignment: Alignment.center,
+          margin: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.06),
+            borderRadius: const BorderRadius.all(Radius.circular(50)),
+          ),
+          // color: grey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2),
+            child: (i * 3 + pos + 1) < 10
               ? Text(
-                  '  ' + (i * 3 + pos + 1).toString() + '.  ' + se[i * 3 + pos],
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                )
+                '  ' + (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
+                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              )
               : Text(
-                  (i * 3 + pos + 1).toString() + '.  ' + se[i * 3 + pos],
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-        ),
-      ));
+                (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
+                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+          ),
+        )
+      );
     }
     return list;
   }
