@@ -47,11 +47,11 @@ class VerifyPassphraseBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              SizedBox(height: 25),
+                        SizedBox(height: 50),
                               MyText(
                                 text: 'Verify Seed',
                                 color: AppColors.whiteColorHexa,
-                                fontSize: 20,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
 
@@ -59,7 +59,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                               MyText(
                                 text: 'Almost done. Please input the words in the numerical order.',
                                 color: AppColors.bgdColor,
-                                fontSize: 16,
+                                fontSize: 18,
                                 textAlign: TextAlign.start,  
                               ),
 
@@ -168,11 +168,11 @@ class VerifyPassphraseBody extends StatelessWidget {
             child: (i * 3 + pos + 1) < 10
               ? Text(
                 '  ' + (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
               )
               : Text(
                 (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
               ),
           ),
         )

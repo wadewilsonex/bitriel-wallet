@@ -33,11 +33,11 @@ class CreateSeedsBody extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 25),
+                        SizedBox(height: 50),
                         MyText(
                           text: 'Seed',
                           color: AppColors.whiteColorHexa,
-                          fontSize: 20,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
 
@@ -45,7 +45,7 @@ class CreateSeedsBody extends StatelessWidget {
                         MyText(
                           text: 'Write down or copy these words in the order and save them somewhere safe.',
                           color: AppColors.bgdColor,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w400,
                           textAlign: TextAlign.start,
                         ),
@@ -143,11 +143,11 @@ class CreateSeedsBody extends StatelessWidget {
           child: i * 3 + pos + 1 < 10
           ? Text(
             '  ' + (i * 3 + pos + 1).toString() + '.  ' + se[i * 3 + pos],
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
           )
           : Text(
             (i * 3 + pos + 1).toString() + '.  ' + se[i * 3 + pos],
-            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ),
       ));
