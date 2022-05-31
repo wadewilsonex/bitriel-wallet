@@ -91,8 +91,8 @@ class VerifyPassphraseBody extends StatelessWidget {
                                     DialogComponents().dialogCustom(
                                       context: context,
                                       contents: "You have successfully create your account.",
-                                      textButton: "Completed",
-                                      image: Image.asset("assets/logo/success.png")
+                                      textButton: "Complete",
+                                      image: Image.asset("assets/icons/success.png")
                                     );
                                   },
                                 ),
