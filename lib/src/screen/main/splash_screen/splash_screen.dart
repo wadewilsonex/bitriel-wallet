@@ -20,7 +20,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   // First Check
   Future<void> getCurrentAccount() async {
     await Future.delayed(const Duration(seconds: 1), () async {
-      Navigator.pushReplacement(context, RouteAnimation(enterPage: CreateSeeds()));
+      Navigator.pushReplacement(context, RouteAnimation(enterPage: ImportAcc()));
 
     });
     

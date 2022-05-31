@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/body_create_key.dart';
 
 class CreateSeeds extends StatefulWidget {
-  const CreateSeeds({Key? key}) : super(key: key);
+
+  const CreateSeeds({Key? key}): super(key: key);
 
   @override
   _CreateWalletPagetScreenState createState() =>
@@ -120,6 +122,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   @override
   void initState() {
     _model.initial = true;
+    StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
     generateKey();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _showWarning(context);

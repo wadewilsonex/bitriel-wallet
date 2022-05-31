@@ -106,10 +106,11 @@ dependencies:
   fluttertoast:
   in_app_update:
   tutorial_coach_mark:
-  transition:
+  transition: 2.0.2
 
   # flutter lock passcode
   flutter_screen_lock: ^5.0.12
+  ai_progress: 2.0.0
   
   # Download
   # path_provider:

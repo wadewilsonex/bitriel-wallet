@@ -1,11 +1,12 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/body_verify_key.dart';
-
+import 'package:polkawallet_sdk/api/apiKeyring.dart';
+import 'package:bip39/bip39.dart' as bip39;
 
 class VerifyPassphrase extends StatefulWidget {
 
@@ -66,22 +67,78 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   }
   
   Future<void> verifySeeds() async {
+    print("verifySeeds");
     dynamic res;
+    ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
     try {
-      res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
-      
+      res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
+      print("res $res");
       if (res == true){
-        DialogComponents().dialogCustom(
+
+        dialogLoading(context);
+
+        dynamic _json = await api.apiKeyring.importAccount(
+          api.getKeyring,
+          keyType: KeyType.mnemonic,
+          key: widget.createKeyModel!.lsSeeds!.join(" "),
+          name: "User",
+          password: widget.createKeyModel!.passCode, 
+        );
+        
+        await api.apiKeyring.addAccount(
+          api.getKeyring,
+          keyType: KeyType.mnemonic,
+          acc: _json,
+          password: widget.createKeyModel!.passCode,
+        );
+
+        await importAccountNAsset(api);
+
+        await DialogComponents().dialogCustom(
           context: context,
           contents: "You have successfully create your account.",
           textButton: "Completed",
           image: Image.asset("assets/icons/success.png")
         );
+
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/'));
       }
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }
     return res;
+  }
+  
+  Future<void> importAccountNAsset(ApiProvider _api) async {
+
+    final _resPk = await _api.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
+
+    /// Cannot connect Both Network On the Same time
+    /// 
+    /// It will be wrong data of that each connection. 
+    /// 
+    /// This Function Connect Polkadot Network And then Connect Selendra Network
+    await _api.connectPolNon(context: context).then((value) async {
+
+      await _api.getAddressIcon();
+      // Get From Account js
+      await _api.getCurrentAccount();
+
+      await ContractProvider().extractAddress(_resPk);
+
+      final _res = await _api.encryptPrivateKey(_resPk, widget.createKeyModel!.passCode);
+      
+      await StorageServices().writeSecure(DbKey.private, _res);
+
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+
+      await ContractsBalance().getAllAssetBalance(context: context);
+    }); 
   }
 
   @override

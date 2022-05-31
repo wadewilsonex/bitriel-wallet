@@ -27,7 +27,7 @@ class ImportAccBody extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-            child: BodyScaffold(
+          child: BodyScaffold(
           height: MediaQuery.of(context).size.height - 70,
           bottom: 0,
           child: Form(
@@ -44,8 +44,8 @@ class ImportAccBody extends StatelessWidget {
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 16,
                     ),
                   )
@@ -86,40 +86,10 @@ class ImportAccBody extends StatelessWidget {
                   onSubmit: onSubmit,
                 ),
 
-                
-
-                // if (reImport != null)
-                //   MyInputField(
-                //     pLeft: 20,
-                //     pRight: 20,
-                //     pBottom: 16.0,
-                //     labelText: "Pin",
-                //     textInputFormatter: [LengthLimitingTextInputFormatter(4)],
-                //     controller: importAccModel!.pwCon,
-                //     focusNode: importAccModel!.pwNode,
-                //     validateField: (value) =>
-                //         value.isEmpty ? 'Please fill in pin' : null,
-                //     maxLine: null,
-                //     onChanged: onChanged,
-                //     //inputAction: TextInputAction.done,
-                //     onSubmit: onSubmit,
-                //   )
-                // else
-                //   Container(),
-
                 Expanded(
                   child: Container(),
                 ),
-                // MyFlatButton(
-                //   hasShadow: enable,
-                //   edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
-                //   textButton: AppText.next,
-                //   action: enable == false
-                //     ? null
-                //     : () async {
-                //       submit();
-                //     },
-                // )
+
                 MyFlatButton(
                   hasShadow: enable,
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),

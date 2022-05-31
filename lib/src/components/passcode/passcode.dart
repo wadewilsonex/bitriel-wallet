@@ -133,14 +133,18 @@ class _PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
-        print ("Set pin");
+        print("My fucking PIN $pin");
         await StorageServices().writeSecure(DbKey.passcode, pin);
-        // Navigator.pop(context, true);
 
-        Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(builder: (context) => CreateSeeds())
-        );
+        if (widget.isHome == true){
+          Navigator.pop(context, true);
+        } else {
+
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(builder: (context) => CreateSeeds())
+          );
+        }
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);

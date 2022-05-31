@@ -18,6 +18,7 @@ import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:polkawallet_sdk/utils/localStorage.dart';
 import 'package:wallet_apps/src/service/apiKeyring.dart';
+import 'package:bip39/bip39.dart' as bip39;
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
@@ -150,6 +151,37 @@ class ApiProvider with ChangeNotifier {
   void setBtcAddr(String btcAddress) {
     btcAdd = btcAddress;
     notifyListeners();
+  }
+
+  Future<void> queryBtcData(BuildContext context, String _seeds, String _passCode) async {
+
+    final contractPro = Provider.of<ContractProvider>(context, listen: false);
+    
+    try {
+      final seed = bip39.mnemonicToSeed(_seeds);
+      final hdWallet = HDWallet.fromSeed(seed);
+      
+      contractPro.listContract[btcIndex].address = hdWallet.address!;
+      
+      final keyPair = ECPair.fromWIF(hdWallet.wif!);
+
+      final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
+      await StorageServices.storeData(bech32Address, DbKey.bech32);
+      await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
+
+      final res = await encryptPrivateKey(hdWallet.wif!, _passCode);
+
+      await StorageServices().writeSecure(DbKey.btcwif, res);
+
+      // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
+
+      // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
+      // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
+      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
+
+    } catch (e) {
+      await customDialog(context, 'Oops', e.toString());
+    }
   }
 
   Future<String> calBtcMaxGas() async {

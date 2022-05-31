@@ -134,7 +134,7 @@ class Component {
         // color: grey,
         child: MyText(
           text: txt,
-          color2: Colors.white, fontSize: 18, fontWeight: FontWeight.bold
+          color2: Colors.white, fontSize: 15, fontWeight: FontWeight.bold
         ),
       )
     );

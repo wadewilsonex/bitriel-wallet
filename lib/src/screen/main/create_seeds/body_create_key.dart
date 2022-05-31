@@ -106,6 +106,7 @@ class CreateSeedsBody extends StatelessWidget {
                           hasShadow: false,
                           textButton: "Continue",
                           action: () async {
+                            print("Pin ${createKeyModel!.passCode}");
                             createKeyModel!.threeNum = await AppUtils().randomThreeEachNumber();
                             print("createKeyModel!.threeNum ${createKeyModel!.threeNum}");
                             print("createKeyModel!.tmpThreeNum ${createKeyModel!.tmpThreeNum}");

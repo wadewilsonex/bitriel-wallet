@@ -1,5 +1,6 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:transition/transition.dart';
 import 'package:wallet_apps/index.dart';
 
 class WelcomeBody extends StatelessWidget {
@@ -56,7 +57,7 @@ class WelcomeBody extends StatelessWidget {
               action: () {
                 // PassCodeComponent().passCode(context: context, inputController: inputController!);
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
+                Navigator.push(context, Transition(child: Passcode(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
                 // Navigator.pushNamed(context, AppString.contentBackup);
                 // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
@@ -69,7 +70,7 @@ class WelcomeBody extends StatelessWidget {
                   const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.importAccTitle,
               action: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
+                Navigator.push(context, Transition(child: Passcode(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
               },
             )
           ],
