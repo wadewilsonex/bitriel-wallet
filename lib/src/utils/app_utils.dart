@@ -95,7 +95,7 @@ class AppUtils {
   }
 
   List<String> randomThreeEachNumber(){
-
+    print("randomThreeEachNumber");
     // First Number
     String rd1 = Random().nextInt(12).toString();
     while(rd1 == "0"){
@@ -113,7 +113,7 @@ class AppUtils {
     String rd3 = Random().nextInt(12).toString();
     while(rd3 == rd1 || rd3 == rd2 || rd3 == "0"){
       rd3 = Random().nextInt(12).toString();
-      if (rd2 != rd1 && rd3 != rd2) break;
+      if (rd3 != rd1 && rd3 != rd2) break;
     }
 
     return [rd1, rd2, rd3];

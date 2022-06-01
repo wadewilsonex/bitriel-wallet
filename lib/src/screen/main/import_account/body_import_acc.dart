@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/seeds_c.dart';
 
 class ImportAccBody extends StatelessWidget {
   final bool? enable;
@@ -10,7 +11,7 @@ class ImportAccBody extends StatelessWidget {
   final Function? clearInput;
   final Function? submit;
 
-  const ImportAccBody({
+  ImportAccBody({
     this.importAccModel,
     this.onChanged,
     this.onSubmit,
@@ -20,54 +21,27 @@ class ImportAccBody extends StatelessWidget {
     this.submit,
   });
 
+  final EdgeInsetsGeometry padding = EdgeInsets.only(left: paddingSize, right: paddingSize);
+
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return BodyScaffold(
-      height: MediaQuery.of(context).size.height - 70,
-      bottom: 0,
+      height: MediaQuery.of(context).size.height,
+      bottom: paddingSize, left: paddingSize, right: paddingSize,
       child: Form(
         key: importAccModel!.formKey,
         child: Column(
           children: [
-            SizedBox(height: 25),
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 24),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: MyText(
-                  text: 'Restore with seed',
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                  bottom: 16,
-                ),
-              )
-            ),
-            
 
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 24),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: MyText(
-                  text: 'Please add your 12 words seed below to restore your wallet.',
-                  fontSize: 16,
-                  color: isDarkTheme
-                    ? AppColors.bgdColor
-                    : AppColors.textColor,
-                  textAlign: TextAlign.start,
-                ),
-              )
+            SeedContents(
+              title: 'Restore with seed', 
+              subTitle: 'Please add your 12 words seed below to restore your wallet.'
             ),
 
-          MySeedField(
+            MySeedField(
               pTop: 20,
-              pLeft: 20,
-              pRight: 20,
               pBottom: 16.0,
               hintText: "Add your 12 keywords",
               textInputFormatter: [
@@ -83,13 +57,11 @@ class ImportAccBody extends StatelessWidget {
               onSubmit: onSubmit,
             ),
 
-            Expanded(
-              child: Container(),
-            ),
-
-            MyFlatButton(
-              edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+            Expanded(child: Container()),
+            MyGradientButton(
               textButton: "Continue",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
               action: 
               enable == false
               ? null
@@ -101,7 +73,7 @@ class ImportAccBody extends StatelessWidget {
                   )
                 );
               },
-            )
+            ),
           ],
         ),
       ),
