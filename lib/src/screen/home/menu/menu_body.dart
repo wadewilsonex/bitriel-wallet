@@ -62,7 +62,7 @@ class MenuBody extends StatelessWidget {
               // Navigator.pushNamed(context, AppText.passcodeView);
               final res = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Passcode(isAppBar: true))
+                MaterialPageRoute(builder: (context) => Passcode(isAppBar: true, label: 'fromHome',))
               );
               if (res == true) {
                 enablePassword!(true);

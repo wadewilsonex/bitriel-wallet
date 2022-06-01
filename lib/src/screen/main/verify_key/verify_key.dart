@@ -23,19 +23,17 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   void remove3Seeds() {
 
     widget.createKeyModel!.missingSeeds = [];
+    widget.createKeyModel!.tmpThreeNum = [];
 
     // Add Origin Three Number To tmpThreeNum
     widget.createKeyModel!.threeNum!.forEach((element) {
       widget.createKeyModel!.tmpThreeNum!.addAll({element});
     });
 
-
     // Add Origin lsSeeds To tmpThreeNum
     widget.createKeyModel!.lsSeeds!.forEach((element) {
       widget.createKeyModel!.missingSeeds.add(element);
     });
-
-    print("widget.createKeyModel!.lsSeeds! ${widget.createKeyModel!.lsSeeds!}");
 
     // Replace match index with Empty
     widget.createKeyModel!.missingSeeds[int.parse(widget.createKeyModel!.tmpThreeNum![0])] = "";
@@ -53,21 +51,18 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   }
 
   void onTap(index, rmIndex){
-    print("index $index");
     for(int i = 0; i < widget.createKeyModel!.missingSeeds.length; i++){
       if (widget.createKeyModel!.missingSeeds[i] == ""){
         widget.createKeyModel!.missingSeeds[i] = widget.createKeyModel!.lsSeeds![index];
         break;
       }
     }
-    print("widget.createKeyModel!.missingSeeds[index] ${widget.createKeyModel!.missingSeeds[index]}");
     widget.createKeyModel!.tmpSeed = widget.createKeyModel!.missingSeeds.join(" ");
     widget.createKeyModel!.tmpThreeNum!.removeAt(rmIndex);
     setState(() { });
   }
   
   Future<void> verifySeeds() async {
-    print("verifySeeds");
     dynamic res;
     ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
     try {
@@ -75,7 +70,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
       print("res $res");
       if (res == true){
 
-        dialogLoading(context);
+        dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
         dynamic _json = await api.apiKeyring.importAccount(
           api.getKeyring,

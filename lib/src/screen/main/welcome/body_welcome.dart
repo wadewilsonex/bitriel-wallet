@@ -57,7 +57,7 @@ class WelcomeBody extends StatelessWidget {
               action: () {
                 // PassCodeComponent().passCode(context: context, inputController: inputController!);
 
-                Navigator.push(context, Transition(child: Passcode(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
+                Navigator.push(context, Transition(child: Passcode(label: "fromCreateSeeds",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 // Navigator.pushNamed(context, AppString.contentBackup);
                 // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
@@ -70,7 +70,7 @@ class WelcomeBody extends StatelessWidget {
                   const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.importAccTitle,
               action: () {
-                Navigator.push(context, Transition(child: Passcode(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
+                Navigator.push(context, Transition(child: Passcode(label: "fromImportSeeds",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
               },
             )
           ],
