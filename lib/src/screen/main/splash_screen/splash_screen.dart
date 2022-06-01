@@ -2,6 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
@@ -21,7 +22,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   // First Check
   Future<void> getCurrentAccount() async {
     await Future.delayed(const Duration(seconds: 1), () async {
-      Navigator.pushReplacement(context, RouteAnimation(enterPage: FingerPrint()));
+      Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
 
     });
     

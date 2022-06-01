@@ -246,7 +246,7 @@ class HomePageBody extends StatelessWidget {
 
         Expanded(
           child: DefiMenuItem(
-            title: "Balancer",
+            title: "Uniswap",
             action: () {
         
             },

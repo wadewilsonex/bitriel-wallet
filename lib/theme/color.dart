@@ -81,4 +81,10 @@ class AppColors {
 
   /* Slider Color */
   static const String sliderColor = "#0D6BA6";
+
+  /* Header Title Text Color */
+  static const String titleAssetColor = "#2B698E";
+
+  /* Token Name Text Color */
+  static const String tokenNameColor = "#C2C2C2";
 }

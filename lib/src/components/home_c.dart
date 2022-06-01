@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
@@ -382,7 +383,7 @@ class MyBottomAppBar extends StatelessWidget {
                 child: Icon(Iconsax.wallet_check, size: 30, color: Colors.white),
                 title: "Asset",
                 onPressed: () {
-
+                  Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
                 }
               ),
             ),
