@@ -8,4 +8,15 @@ class CreateKeyModel {
   List<String> missingSeeds = [];
   List<String>? threeNum = [];
   List<String>? tmpThreeNum = [];
+
+  void emptyData(){
+    initial = false;
+    seed = "";
+    tmpSeed = "";
+    passCode = "";
+    lsSeeds = [];
+    missingSeeds = [];
+    threeNum = [];
+    tmpThreeNum = [];
+  }
 }

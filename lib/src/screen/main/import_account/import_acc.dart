@@ -26,9 +26,12 @@ class ImportAccState extends State<ImportAcc> {
   int? currentVersion;
   bool? enable = false;
   String? tempMnemonic;
+  ApiProvider? _api;
 
   @override
   void initState() {
+
+    _api = Provider.of<ApiProvider>(context, listen: false);
     AppServices.noInternetConnection(globalKey);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
     // _importAccModel.mnemonicCon.text = 'donate slogan wear furnace idle canal raw senior pink frame truck beyond';
@@ -36,26 +39,14 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   String? onChanged(String value) {
-    validateMnemonic(value);
+    verifySeeds();
     return value;
-  }
-
-  Future<bool>? validateMnemonic(String mnemonic) async {
-    dynamic res;
-    try {
-      res = await Provider.of<ApiProvider>(context, listen: false).validateMnemonic(mnemonic);
-      enable = res;
-      
-      setState((){});
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
-    }
-    return res;
   }
 
   Future<bool>? validateJson(String mnemonic) async {
     dynamic res;
     try {
+      
       res = await Provider.of<ApiProvider>(context, listen: false).apiKeyring;
       enable = res;
       
@@ -73,7 +64,14 @@ class ImportAccState extends State<ImportAcc> {
     });
   }
 
-  Future<void> onSubmit() async => submit();
+  void onSubmit() {
+    Navigator.push(
+      context, 
+      Transition(
+        child: FingerPrint(importAccount: addAccount,)
+      )
+    );
+  }
 
   // Submit Mnemonic
   Future<void> submit() async {
@@ -239,53 +237,50 @@ class ImportAccState extends State<ImportAcc> {
     bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
-
-
   
   Future<void> verifySeeds() async {
     print("verifySeeds");
-    dynamic res;
-    ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
     try {
-      res = await api.validateMnemonic(_importAccModel.mnemonicCon.text);
-      print("res $res");
-      if (res == true){
-
-        dialogLoading(context);
-
-        dynamic _json = await api.apiKeyring.importAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          key: _importAccModel.mnemonicCon.text,
-          name: "User",
-          password: _importAccModel.pwCon.text, 
-        );
-        
-        await api.apiKeyring.addAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          acc: _json,
-          password: _importAccModel.pwCon.text,
-        );
-
-        await importAccountNAsset(api);
-
-        await DialogComponents().dialogCustom(
-          context: context,
-          contents: "You have successfully create your account.",
-          textButton: "Complete",
-          image: Image.asset("assets/icons/success.png")
-        );
-        Navigator.pushAndRemoveUntil(
-          context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/')
-        );
+      enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
+      
+      if (enable == true){
+        setState(() { });
       }
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }
-    return res;
+  }
+
+  Future<void> addAccount() async {
+    dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
+
+    dynamic _json = await _api!.apiKeyring.importAccount(
+      _api!.getKeyring,
+      keyType: KeyType.mnemonic,
+      key: _importAccModel.mnemonicCon.text,
+      name: "User",
+      password: _importAccModel.pwCon.text, 
+    );
+    
+    await _api!.apiKeyring.addAccount(
+      _api!.getKeyring,
+      keyType: KeyType.mnemonic,
+      acc: _json,
+      password: _importAccModel.pwCon.text,
+    );
+
+    await importAccountNAsset(_api!);
+
+    await DialogComponents().dialogCustom(
+      context: context,
+      contents: "You have successfully create your account.",
+      textButton: "Complete",
+      image: Image.asset("assets/icons/success.png")
+    );
+    Navigator.push(
+      context, 
+      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
+    );
   }
   
   Future<void> importAccountNAsset(ApiProvider _api) async {
@@ -327,10 +322,10 @@ class ImportAccState extends State<ImportAcc> {
           reImport: widget.reimport,
           importAccModel: _importAccModel,
           onChanged: onChanged,
-          onSubmit: widget.reimport != null ? onSubmitIm : submit,
+          onSubmit: widget.reimport != null ? onSubmitIm : onSubmit,
           clearInput: clearInput,
           enable: enable,
-          submit: widget.reimport != null ? onSubmitIm : verifySeeds,
+          submit: widget.reimport != null ? onSubmitIm : addAccount,
         ),
       )
     );

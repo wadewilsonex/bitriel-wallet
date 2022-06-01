@@ -30,8 +30,7 @@ class VerifyPassphraseBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
                 SizedBox(height: 50),
@@ -41,7 +40,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
-
+  
                 SizedBox(height: 25),
                 MyText(
                   text: 'Almost done. Please input the words in the numerical order.',
@@ -49,7 +48,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   fontSize: 18,
                   textAlign: TextAlign.start,  
                 ),
-
+  
                 SizedBox(height: 100),
                 Container(
                   padding: EdgeInsets.all(10),
@@ -79,7 +78,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                     ],
                   )
                 ),
-
+  
                 if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Container(
@@ -96,7 +95,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                     ),
                   ),
                 ),
-
+  
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.length == 0)
                 TextButton(
@@ -108,8 +107,8 @@ class VerifyPassphraseBody extends StatelessWidget {
                     color2: Colors.white,
                   )
                 ),
-
-                Expanded(child: Container()),
+  
+                Flexible(child: Container()),
                 MyGradientButton(
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Continue",
@@ -118,7 +117,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   action: () {
                     verify!();
                   },
-                ),
+                )
               ],
             ),
           ),

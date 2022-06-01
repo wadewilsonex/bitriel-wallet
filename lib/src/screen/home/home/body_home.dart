@@ -54,10 +54,8 @@ class HomePageBody extends StatelessWidget {
               child: _carouselAds(context, activeIndex),
             ),
       
-      
             SizedBox(height: 25), 
             _menu(context),
-            
       
             SizedBox(height: 25), 
             Padding(

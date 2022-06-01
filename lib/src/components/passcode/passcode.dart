@@ -3,14 +3,15 @@ import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 
 class Passcode extends StatefulWidget {
 
-  final String? isHome;
+  final String? label;
   final bool? isAppBar;
-  const Passcode({this.isAppBar = false, this.isHome});
+  const Passcode({this.isAppBar = false, required this.label});
   //static const route = '/passcode';
 
   @override
@@ -19,6 +20,7 @@ class Passcode extends StatefulWidget {
 
 class _PasscodeState extends State<Passcode> {
 
+  dynamic res;
   List<TextEditingController> lsControl = [
     TextEditingController(),
     TextEditingController(),
@@ -54,6 +56,8 @@ class _PasscodeState extends State<Passcode> {
 
   @override
   void initState() {
+
+    StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
     authToHome();
     _isFirst = true;
     super.initState();
@@ -63,48 +67,57 @@ class _PasscodeState extends State<Passcode> {
     if (pinIndex == 0) {
       pinIndex = 0;
     } else if (pinIndex == 6) {
-      setPin(pinIndex, "");
+      lsControl[pinIndex-1].text = "";
       pinIndex--;
     } else {
-      setPin(pinIndex, "");
+      lsControl[pinIndex-1].text = "";
       currentPin[pinIndex - 1] = "";
       pinIndex--;
     }
   }
 
-  Future<void> pinIndexSetup(String text) async {
+  @override
+  void dispose(){
 
+    clearAll();
+    _isFirst = false;
+
+    print("Dispose");
+    super.dispose();
+  }
+
+  Future<void> pinIndexSetup(String text) async {
     if (pinIndex == 0) {
+      // Add Selected PIN into List PIN
+      lsControl[pinIndex].text = text;
       pinIndex = 1;
     } else if (pinIndex < 6) {
-      pinIndex++;
-    }
+      // Add Selected PIN into List PIN
+      lsControl[pinIndex].text = text;
+      ++pinIndex;
 
-    setPin(pinIndex, text);
-    currentPin[pinIndex - 1] = text;
-    String strPin = "";
+      if (pinIndex == 6){
+        
+        String strPin = "";
 
-    for (int i = 0; i<currentPin.length; i++){
-      strPin += currentPin[i];
-    }
-    
-    print("pinIndex lengh $pinIndex");
-    if (pinIndex == 6) {
-      final res = await StorageServices().readSecure(DbKey.passcode);
-      if (widget.isHome != null) {
-        dialogLoading(context);
-        await passcodeAuth(strPin);
-      } else {
-        if (res == '') {
-          await setVerifyPin(strPin);
+        for (int i = 0; i < lsControl.length; i++){
+          strPin += lsControl[i].text;
+        }
+        
+        if (widget.label == "fromHome") {
+          dialogLoading(context);
+          await passcodeAuth(strPin);
         } else {
-          await clearVerifyPin(strPin);
+          
+          await setVerifyPin(strPin);
+          // await clearVerifyPin(strPin);
         }
       }
     }
   }
 
   Future<void> clearVerifyPin(String pin) async {
+      print("clearVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
@@ -113,9 +126,10 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = false;
       });
     } else {
+      print("firstPin == pin ${firstPin == pin}");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure(DbKey.passcode);
-        Navigator.pop(context, false);
+        // Navigator.pop(context, false);
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -124,6 +138,7 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> setVerifyPin(String pin) async {
+    print("setVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
@@ -136,13 +151,26 @@ class _PasscodeState extends State<Passcode> {
         print("My fucking PIN $pin");
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
-        if (widget.isHome == true){
+        clearAll();
+        if (widget.label == "fromHome"){
           Navigator.pop(context, true);
-        } else {
+        } else if (widget.label == "fromCreateSeeds"){
 
-          Navigator.pushReplacement(
+          Navigator.push(
             context, 
-            MaterialPageRoute(builder: (context) => CreateSeeds())
+            Transition(
+              child: CreateSeeds(),
+              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            )
+          );
+        } else if (widget.label == "fromImportSeeds"){
+
+          Navigator.push(
+            context, 
+            Transition(
+              child: ImportAcc(),
+              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            )
           );
         }
       } else {
@@ -153,36 +181,13 @@ class _PasscodeState extends State<Passcode> {
   }
 
   void clearAll() {
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < lsControl.length; i++) {
       clearPin();
     }
   }
 
-  void setPin(int n, String text) {
-    switch (n) {
-      case 1:
-        lsControl[0].text = text;
-        break;
-      case 2:
-        lsControl[1].text = text;
-        break;
-      case 3:
-        lsControl[2].text = text;
-        break;
-      case 4:
-        lsControl[3].text = text;
-        break;
-      case 5:
-        lsControl[4].text = text;
-        break;
-      case 6:
-        lsControl[5].text = text;
-        break;
-    }
-  }
-
   Future<void> authToHome() async {
-    if (widget.isHome != null) {
+    if (widget.label == "fromHome") {
       final bio = await StorageServices.readSaveBio();
       if (bio) {
         await authenticate();
@@ -195,7 +200,11 @@ class _PasscodeState extends State<Passcode> {
     final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res == pin) {
-      Navigator.pushReplacementNamed(context, Home.route);
+      Navigator.pushAndRemoveUntil(
+        context, 
+        Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        ModalRoute.withName('/')
+      );
     } else {
       clearAll();
       Vibration.vibrate(amplitude: 500);

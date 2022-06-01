@@ -22,6 +22,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
+
     await Future.delayed(const Duration(seconds: 1), () async {
       Navigator.pushReplacement(context, RouteAnimation(enterPage: SwapPage()));
 
@@ -34,6 +35,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     //       if (value.isEmpty) {
     //         Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
     //       } else {
+            
     //         final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
     //         if (ethAddr == '') {
@@ -75,7 +77,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
-    
+    print("checkBio");
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure(DbKey.passcode);
@@ -84,7 +86,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       Navigator.pushReplacement(
         context,
         RouteAnimation(
-          enterPage: const Passcode(isHome: 'home'),
+          enterPage: const Passcode(label: 'fromHome'),
         ),
       );
     } else {
@@ -105,8 +107,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
-        Navigator.pushReplacementNamed(context, Home.route);
+
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     }
   }
@@ -121,7 +127,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
           ),
         );
       } else {
-        Navigator.pushReplacementNamed(context, Home.route);
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     });
   }
@@ -129,6 +139,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   @override
   void initState() {
     readTheme();
+    // checkBio();
     getCurrentAccount();
 
     // final window = WidgetsBinding.instance.window;
