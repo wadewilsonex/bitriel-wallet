@@ -50,17 +50,13 @@ class WelcomeBody extends StatelessWidget {
         ),
         Column(
           children: [
-            MyFlatButton(
-              hasShadow: false,
+            MyGradientButton(
               edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
               textButton: AppString.createAccTitle,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
               action: () {
-                // PassCodeComponent().passCode(context: context, inputController: inputController!);
-
                 Navigator.push(context, Transition(child: Passcode(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
-                // Navigator.pushNamed(context, AppString.contentBackup);
-                // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
               },
             ),
             MyFlatButton(

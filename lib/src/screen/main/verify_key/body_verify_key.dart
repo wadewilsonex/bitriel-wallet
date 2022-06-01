@@ -29,115 +29,112 @@ class VerifyPassphraseBody extends StatelessWidget {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
           child: SizedBox(
             height: MediaQuery.of(context).orientation == Orientation.portrait
               ? correctHeight
               : MediaQuery.of(context).size.height * 2,
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: <Widget>[
+        
+                  SizedBox(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-
-                        SizedBox(
+                  SizedBox(height: 50),
+                        MyText(
+                          text: 'Verify Seed',
+                          color: AppColors.whiteColorHexa,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+        
+                        SizedBox(height: 25),
+                        MyText(
+                          text: 'Almost done. Please input the words in the numerical order.',
+                          color: AppColors.bgdColor,
+                          fontSize: 18,
+                          textAlign: TextAlign.start,  
+                        ),
+        
+                        SizedBox(height: 100),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06),
+                            borderRadius: BorderRadius.circular(12)
+                          ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                        SizedBox(height: 50),
-                              MyText(
-                                text: 'Verify Seed',
-                                color: AppColors.whiteColorHexa,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-
-                              SizedBox(height: 25),
-                              MyText(
-                                text: 'Almost done. Please input the words in the numerical order.',
-                                color: AppColors.bgdColor,
-                                fontSize: 18,
-                                textAlign: TextAlign.start,  
-                              ),
-
-                              SizedBox(height: 100),
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06),
-                                  borderRadius: BorderRadius.circular(12)
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(context, createKeyModel!.tmpSeed!, 0),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(context, createKeyModel!.tmpSeed!, 1),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: getColumn(context, createKeyModel!.tmpSeed!, 2),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                              ),
-
-                              if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 50,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: createKeyModel!.tmpThreeNum!.length,
-                                    itemBuilder: (context, i){
-                                      return Component().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
-                                    }
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: getColumn(context, createKeyModel!.tmpSeed!, 0),
                                   ),
-                                ),
-                              ),
-
-                              // Display Refresh Button When User Fill Out All
-                              if (createKeyModel!.tmpThreeNum!.length == 0)
-                              TextButton(
-                                onPressed: (){
-                                  remove3Seeds!();
-                                }, 
-                                child: MyText(
-                                  text: "Re-do",
-                                  color2: Colors.white,
-                                )
-                              ),
-
-                              SizedBox(height: 100),
-                              MyFlatButton(
-                                hasShadow: false,
-                                textButton: "Continue",
-                                action: () {
-                                  verify!();
-                                },
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: getColumn(context, createKeyModel!.tmpSeed!, 1),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: getColumn(context, createKeyModel!.tmpSeed!, 2),
+                                  ),
+                                ],
                               ),
                             ],
+                          )
+                        ),
+        
+                        if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: createKeyModel!.tmpThreeNum!.length,
+                              itemBuilder: (context, i){
+                                return Component().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
+                              }
+                            ),
                           ),
+                        ),
+        
+                        // Display Refresh Button When User Fill Out All
+                        if (createKeyModel!.tmpThreeNum!.length == 0)
+                        TextButton(
+                          onPressed: (){
+                            remove3Seeds!();
+                          }, 
+                          child: MyText(
+                            text: "Re-do",
+                            color2: Colors.white,
+                          )
+                        ),
+        
+                        Expanded(child: Container()),
+                        MyGradientButton(
+                          edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                          textButton: "Continue",
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          action: () {
+                            verify!();
+                          },
                         ),
                       ],
                     ),
                   ),
-                ),
-              ]
+                ],
+              ),
             ),
           ),
         ),

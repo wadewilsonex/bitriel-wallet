@@ -9,9 +9,15 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class HomePageBody extends StatelessWidget {
   final PageController controller;
   final int activeIndex;
+  final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
   
 
-  const HomePageBody({ Key? key, required this.controller, required this.activeIndex }) : super(key: key);
+  const HomePageBody({ 
+    Key? key, 
+    required this.controller, 
+    required this.activeIndex,
+    required this.onPageChanged
+    }) : super(key: key);
 
 
   @override
@@ -21,7 +27,6 @@ class HomePageBody extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          padding: const EdgeInsets.only(left: paddingSize),
           onPressed: () {
 
           },
@@ -29,7 +34,6 @@ class HomePageBody extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            padding: const EdgeInsets.only(right: 25),
             icon: Icon(
               Iconsax.scan,
               size: 25,
@@ -46,7 +50,7 @@ class HomePageBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize),
+              padding: const EdgeInsets.symmetric(vertical: paddingSize),
               child: _carouselAds(context, activeIndex),
             ),
       
@@ -91,10 +95,13 @@ class HomePageBody extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: MyBottomAppBar(
+        apiStatus: true,
+      ),
     );
   }
 
-  Widget _carouselAds(BuildContext context, activeIndex) {
+  Widget _carouselAds(BuildContext context, int activeIndex) {
     return Container(
       child: Column(
         children: [
@@ -104,9 +111,7 @@ class HomePageBody extends StatelessWidget {
               autoPlay: true,
               enlargeCenterPage: true,
               scrollDirection: Axis.horizontal,
-              onPageChanged: (index, image){
-                activeIndex = index;
-              }
+              onPageChanged: onPageChanged,
             ),
             items: imgList
               .map((item) => Container(
@@ -118,48 +123,20 @@ class HomePageBody extends StatelessWidget {
               .toList(),
           ),
 
-          
-          Container(
-            // color: Colors.red.withOpacity(.4),
-            child: SmoothPageIndicator(
-              controller: controller,
-              count: imgList.length,
-              effect: CustomizableEffect(
-                activeDotDecoration: DotDecoration(
-                  width: 32,
-                  height: 12,
-                  color: Colors.indigo,
-                  rotationAngle: 180,
-                  verticalOffset: -10,
-                  borderRadius: BorderRadius.circular(24),
-                  // dotBorder: DotBorder(
-                  //   padding: 2,
-                  //   width: 2,
-                  //   color: Colors.indigo,
-                  // ),
-                ),
-                dotDecoration: DotDecoration(
-                  width: 24,
-                  height: 12,
-                  color: Colors.grey,
-                  // dotBorder: DotBorder(
-                  //   padding: 2,
-                  //   width: 2,
-                  //   color: Colors.grey,
-                  // ),
-                  // borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(2),
-                  //     topRight: Radius.circular(16),
-                  //     bottomLeft: Radius.circular(16),
-                  //     bottomRight: Radius.circular(2)),
-                  borderRadius: BorderRadius.circular(16),
-                  verticalOffset: 0,
-                ),
-                spacing: 6.0,
-                activeColorOverride: (i) => hexaCodeToColor(AppColors.sliderColor),
-                inActiveColorOverride: (i) => hexaCodeToColor(AppColors.sliderColor).withOpacity(0.38),
-              ),
-            ),
+          SizedBox(height: 15),
+
+          AnimatedSmoothIndicator(
+            activeIndex: activeIndex,
+            count: imgList.length,
+            effect: SlideEffect(
+              radius: 5.0,
+              dotWidth: 25.0,
+              dotHeight: 7.0,
+              paintStyle: PaintingStyle.fill,
+              dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
+              activeDotColor: hexaCodeToColor(AppColors.sliderColor),
+            ), 
+            
           ),
         ],
       )

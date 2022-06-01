@@ -38,7 +38,7 @@ class DiscoverContent {
       subtitle: "Earn passive income SEL token",
       image: SvgPicture.asset("assets/icons/coin_stack.svg",),
       action: () {
-        print("tap"); 
+        
       },
     ),
     

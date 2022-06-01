@@ -23,6 +23,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   void remove3Seeds() {
 
     widget.createKeyModel!.missingSeeds = [];
+    widget.createKeyModel!.tmpThreeNum = [];
 
     // Add Origin Three Number To tmpThreeNum
     widget.createKeyModel!.threeNum!.forEach((element) {
@@ -97,7 +98,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         await DialogComponents().dialogCustom(
           context: context,
           contents: "You have successfully create your account.",
-          textButton: "Completed",
+          textButton: "Complete",
           image: Image.asset("assets/icons/success.png")
         );
 

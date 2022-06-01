@@ -91,7 +91,6 @@ class ImportAccBody extends StatelessWidget {
                 ),
 
                 MyFlatButton(
-                  hasShadow: enable,
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Continue",
                   action: 

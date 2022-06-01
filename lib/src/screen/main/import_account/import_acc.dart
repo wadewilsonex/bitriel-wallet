@@ -273,7 +273,7 @@ class ImportAccState extends State<ImportAcc> {
         await DialogComponents().dialogCustom(
           context: context,
           contents: "You have successfully create your account.",
-          textButton: "Completed",
+          textButton: "Complete",
           image: Image.asset("assets/icons/success.png")
         );
         Navigator.pushAndRemoveUntil(

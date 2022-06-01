@@ -92,9 +92,11 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                 ),
         
                 SizedBox(height: 50),
-                MyFlatButton(
-                  hasShadow: false,
+                MyGradientButton(
+                  edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "I Agree",
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
                   action: () {
                     Navigator.pop(context);
                   },
@@ -124,9 +126,9 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
     _model.initial = true;
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
     generateKey();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      _showWarning(context);
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback((_) {
+    //   _showWarning(context);
+    // });
     super.initState();
   }
 
