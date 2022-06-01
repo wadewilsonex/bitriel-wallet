@@ -50,6 +50,16 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    
+    widget.createKeyModel!.missingSeeds = [];
+    widget.createKeyModel!.tmpThreeNum = [];
+    widget.createKeyModel!.empty();
+
+    super.dispose();
+  }
+
   void onTap(index, rmIndex){
     for(int i = 0; i < widget.createKeyModel!.missingSeeds.length; i++){
       if (widget.createKeyModel!.missingSeeds[i] == ""){
@@ -99,7 +109,8 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         Navigator.pushAndRemoveUntil(
           context, 
           Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/'));
+          ModalRoute.withName('/')
+        );
       }
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");

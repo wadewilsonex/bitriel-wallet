@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 
@@ -79,9 +80,7 @@ class _PasscodeState extends State<Passcode> {
   void dispose(){
 
     clearAll();
-    setState(() {
-      _isFirst = false;
-    });
+    _isFirst = false;
 
     print("Dispose");
     super.dispose();
@@ -201,7 +200,11 @@ class _PasscodeState extends State<Passcode> {
     final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res == pin) {
-      Navigator.pushReplacementNamed(context, Home.route);
+      Navigator.pushAndRemoveUntil(
+        context, 
+        Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        ModalRoute.withName('/')
+      );
     } else {
       clearAll();
       Vibration.vibrate(amplitude: 500);

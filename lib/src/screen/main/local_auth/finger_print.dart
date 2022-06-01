@@ -1,15 +1,22 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class FingerPrint extends StatefulWidget {
 
   final String localAuth = "/localAuth";
   final bool isEnable = false;
+
+  final Function? importAccount;
+
+  FingerPrint({this.importAccount});
+  
   @override
   _FingerPrintState createState() => _FingerPrintState();
 }
 
 class _FingerPrintState extends State<FingerPrint> {
+  
   final localAuth = LocalAuthentication();
 
   bool enableText = false;
@@ -33,7 +40,14 @@ class _FingerPrintState extends State<FingerPrint> {
       dialogLoading(context);
       await Future.delayed(Duration(seconds: 1), (){});
       if (authenticate) {
-        Navigator.pushReplacementNamed(context, Home.route);
+
+        // Add Account From Verify Seed Before Navigate To Home Page
+        await widget.importAccount!();
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     } on SocketException catch (e) {
 
@@ -77,6 +91,7 @@ class _FingerPrintState extends State<FingerPrint> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             const SizedBox(
               height: 135.0,
             ),
@@ -91,8 +106,8 @@ class _FingerPrintState extends State<FingerPrint> {
               fontSize: 34,
               fontWeight: FontWeight.bold,
               color: isDarkTheme
-                  ? AppColors.whiteColorHexa
-                  : AppColors.textColor,
+                ? AppColors.whiteColorHexa
+                : AppColors.textColor,
             ),
             const SizedBox(
               height: 20.0,
@@ -102,8 +117,8 @@ class _FingerPrintState extends State<FingerPrint> {
               text: 'Activate biometrics for your wallet to make it even more secure.',
               fontSize: 16,
               color: isDarkTheme
-                  ? AppColors.whiteColorHexa
-                  : AppColors.textColor,
+                ? AppColors.whiteColorHexa
+                : AppColors.textColor,
             ),
 
             Expanded(
@@ -124,16 +139,11 @@ class _FingerPrintState extends State<FingerPrint> {
                 MyFlatButton(
                   isTransparent: true,
                   buttonColor: AppColors.whiteHexaColor,
-                  edgeMargin:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                  edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Skip",
-                  action: () {
-                    DialogComponents().dialogCustom(
-                      context: context,
-                      contents: "You have successfully create your account.",
-                      textButton: "Complete",
-                      image: Image.asset("assets/icons/success.png")
-                    );
+                  action: () async {
+
+                    await widget.importAccount!();
                   },
                 )
               ],
