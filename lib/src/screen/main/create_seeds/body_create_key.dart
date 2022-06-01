@@ -112,7 +112,7 @@ class CreateSeedsBody extends StatelessWidget {
                             createKeyModel!.threeNum = await AppUtils().randomThreeEachNumber();
                             print("createKeyModel!.threeNum ${createKeyModel!.threeNum}");
                             print("createKeyModel!.tmpThreeNum ${createKeyModel!.tmpThreeNum}");
-                            Navigator.push(context, RouteAnimation(enterPage: VerifyPassphrase(createKeyModel: createKeyModel!)));
+                            Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                           },
                         ),
                       ],

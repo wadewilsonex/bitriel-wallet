@@ -17,8 +17,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return RouteAnimation(enterPage: ImportAcc());
     case AppString.contentBackup:
       return RouteAnimation(enterPage: ContentsBackup());
-    case AppString.passcodeView:
-      return RouteAnimation(enterPage: Passcode());
     case AppString.confirmationTxView:
       return RouteAnimation(enterPage: ConfirmationTx());
     // case AppString.checkinView:

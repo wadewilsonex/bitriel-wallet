@@ -251,7 +251,7 @@ class ImportAccState extends State<ImportAcc> {
       print("res $res");
       if (res == true){
 
-        dialogLoading(context);
+        dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
         dynamic _json = await api.apiKeyring.importAccount(
           api.getKeyring,
