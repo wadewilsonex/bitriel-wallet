@@ -1,6 +1,8 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wallet_apps/src/screen/home/discover/discover.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -356,9 +358,8 @@ class MyBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return BottomAppBar(
-      elevation: 10,
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
+          ? hexaCodeToColor(AppColors.darkBgd)
           : hexaCodeToColor(AppColors.whiteHexaColor),
       // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
@@ -368,47 +369,92 @@ class MyBottomAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Expanded(
-                child: MyIconButton(
-              icon: 'telegram.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      await MyBottomSheet().trxOptions(
-                        context: context,
-                        portfolioList: homeM!.portfolioList,
-                      );
-                    },
-            )),
-            Expanded(
-                child: MyIconButton(
-              icon: 'wallet.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      toReceiveToken!();
-                    },
-            )),
-            Expanded(child: Container()),
-            Expanded(
               child: MyIconButton(
-                icon: 'contact_list.svg',
-                iconSize: 26,
-                onPressed: !apiStatus!
-                    ? null
-                    : () async {
-                        Navigator.pushNamed(context, AppString.contactBookView);
-                      },
+                child: Icon(Iconsax.discover_1, size: 30, color: Colors.white),
+                title: "Discover",
+                onPressed: () {
+                  Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
+                }
               ),
             ),
             Expanded(
               child: MyIconButton(
-                icon: 'menu.svg',
-                iconSize: 27,
-                onPressed: !apiStatus! ? null : openDrawer,
+                child: Icon(Iconsax.wallet_check, size: 30, color: Colors.white),
+                title: "Asset",
+                onPressed: () {
+
+                }
               ),
-            )
+            ),
+            Expanded(
+              child: MyIconButton(
+                child: Icon(Iconsax.home, size: 30, color: Colors.white),
+                title: "Home",
+                onPressed: () {
+                  Navigator.push(context, RouteAnimation(enterPage: HomePage()));
+                }
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                child: Icon(Iconsax.card_coin, size: 30, color: Colors.white),
+                title: "Swap",
+                onPressed: () {
+
+                }
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                child: Icon(Iconsax.setting, size: 30, color: Colors.white),
+                title: "Setting",
+                onPressed: () {
+
+                }
+              ),
+            ),
+            // Expanded(
+            //     child: MyIconButton(
+            //   icon: 'telegram.svg',
+            //   iconSize: 36,
+            //   onPressed: !apiStatus!
+            //       ? null
+            //       : () async {
+            //           await MyBottomSheet().trxOptions(
+            //             context: context,
+            //             portfolioList: homeM!.portfolioList,
+            //           );
+            //         },
+            // )),
+            // Expanded(
+            //     child: MyIconButton(
+            //   icon: 'wallet.svg',
+            //   iconSize: 36,
+            //   onPressed: !apiStatus!
+            //       ? null
+            //       : () async {
+            //           toReceiveToken!();
+            //         },
+            // )),
+            // Expanded(child: Container()),
+            // Expanded(
+            //   child: MyIconButton(
+            //     icon: 'contact_list.svg',
+            //     iconSize: 26,
+            //     onPressed: !apiStatus!
+            //         ? null
+            //         : () async {
+            //             Navigator.pushNamed(context, AppString.contactBookView);
+            //           },
+            //   ),
+            // ),
+            // Expanded(
+            //   child: MyIconButton(
+            //     icon: 'menu.svg',
+            //     iconSize: 27,
+            //     onPressed: !apiStatus! ? null : openDrawer,
+            //   ),
+            // )
           ],
         ),
       ),

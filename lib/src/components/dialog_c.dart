@@ -101,10 +101,12 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: MyFlatButton(
-                hasShadow: false,
+              child: MyGradientButton(
+                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: textButton,
-                action: () {
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                action: () async {
                   Navigator.pop(context);
                 },
               ),

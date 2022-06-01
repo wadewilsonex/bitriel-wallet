@@ -102,9 +102,11 @@ class CreateSeedsBody extends StatelessWidget {
 
 
                         SizedBox(height: 22),
-                        MyFlatButton(
-                          hasShadow: false,
+                        MyGradientButton(
+                          edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                           textButton: "Continue",
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
                           action: () async {
                             print("Pin ${createKeyModel!.passCode}");
                             createKeyModel!.threeNum = await AppUtils().randomThreeEachNumber();

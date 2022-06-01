@@ -112,11 +112,12 @@ class _FingerPrintState extends State<FingerPrint> {
 
             Column(
               children: [
-                MyFlatButton(
-                  hasShadow: false,
+                MyGradientButton(
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Enable biometry now",
-                  action: () {
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: () async {
                     authenticate();
                   },
                 ),

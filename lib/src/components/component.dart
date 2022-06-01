@@ -213,6 +213,76 @@ class MyFlatButton extends StatelessWidget {
   }
 }
 
+class MyGradientButton extends StatelessWidget {
+  final String? textButton;
+  final String? buttonColor;
+  final String? textColor;
+  final FontWeight? fontWeight;
+  final double? fontSize;
+  final EdgeInsetsGeometry? edgeMargin;
+  final EdgeInsetsGeometry? edgePadding;
+  final bool? hasShadow;
+  final Function? action;
+  final double? width;
+  final double? height;
+  final bool? isTransparent;
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+
+  const MyGradientButton({
+    this.textButton,
+    this.buttonColor = AppColors.secondary,
+    this.textColor = AppColors.whiteColorHexa,
+    this.fontWeight = FontWeight.bold,
+    this.fontSize = 18,
+    this.edgeMargin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    this.hasShadow = false,
+    this.width = double.infinity,
+    this.height,
+    this.isTransparent = false,
+    required this.begin,
+    required this.end,
+
+
+    @required this.action,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
+    return Container(
+      padding: edgePadding,
+      margin: edgeMargin,
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        gradient: LinearGradient(
+          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          begin: begin,
+          end: end, 
+          stops: [0.25, 0.75],
+        )
+      ),
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: MyText(
+          pTop: 20,
+          pBottom: 20,
+          text: textButton!,
+          color: textColor!,
+          fontWeight: fontWeight!,
+        ),
+        onPressed: () {
+          action!();
+        },
+      ),
+    );
+  }
+}
+
 class MyText extends StatelessWidget {
   final String? text;
   final String? color;
@@ -466,12 +536,16 @@ class BodyScaffold extends StatelessWidget {
 }
 
 class MyIconButton extends StatelessWidget {
+  final String? title;
+  final Widget? child;
   final String? icon;
   final double? iconSize;
   final Function? onPressed;
   // final EdgeInsetsGeometry padding;
 
   const MyIconButton({
+    this.title,
+    this.child,
     this.icon,
     this.iconSize,
     // this.padding = const EdgeInsets.all(0),
@@ -487,12 +561,23 @@ class MyIconButton extends StatelessWidget {
       onTap: (){
         onPressed!();
       },
-      child: SvgPicture.asset(
-        AppConfig.iconsPath+'$icon',
-        width: iconSize ?? 30,
-        height: iconSize ?? 30,
-        color: isDarkTheme ? Colors.white : Colors.black,
-      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          child ?? SvgPicture.asset(
+            AppConfig.iconsPath+'$icon',
+            width: iconSize ?? 30,
+            height: iconSize ?? 30,
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+          MyText(
+            text: title,
+            fontSize: 12,
+            color: AppColors.whiteColorHexa,
+          
+          )
+        ],
+      )
     );
   }
 }
