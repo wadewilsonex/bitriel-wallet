@@ -4,6 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 

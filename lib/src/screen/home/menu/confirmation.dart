@@ -1,3 +1,5 @@
+import 'package:wallet_apps/src/components/appbar_c.dart';
+
 import '../../../../index.dart';
 
 class Confirmation extends StatelessWidget {

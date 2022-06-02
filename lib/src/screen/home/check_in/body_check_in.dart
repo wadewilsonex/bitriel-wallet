@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class CheckInBody extends StatelessWidget {
   final CheckInModel checkinM;

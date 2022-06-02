@@ -1,8 +1,15 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
+import 'package:wallet_apps/src/components/num_pad_c.dart';
+import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
 
 class SwapPageBody extends StatelessWidget {
-  const SwapPageBody({ Key? key }) : super(key: key);
+  
+  final TextEditingController? myController;
+
+  const SwapPageBody({ 
+    Key? key,
+    this.myController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +20,13 @@ class SwapPageBody extends StatelessWidget {
         bottom: 0,
         child: Column(
           children: [
+            AppBarCustom(),
+
             _payInput(context),
             
             _getDisplay(context),
+
+            _tapAutoAmount(context),
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -36,7 +47,7 @@ class SwapPageBody extends StatelessWidget {
                 color: AppColors.whiteColorHexa
               ),
             ),
-
+            
             _buildNumberPad(context),
           ],
         ),
@@ -47,19 +58,58 @@ class SwapPageBody extends StatelessWidget {
   Widget _payInput(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Column(
+
+          Row(
             children: [
               MyText(
                 text: 'You Pay',
                 fontWeight: FontWeight.bold,
                 color: AppColors.whiteColorHexa,
               ),
+              
+              Expanded(child: Container()),
+
+              MyText(
+                text: 'Available',
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                color: AppColors.primaryColor,
+              ),
+              SizedBox(width: 10.0),
+              MyText(
+                text: '0 BTC',
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                color: AppColors.whiteColorHexa,
+              ),
             ],
           ),
-          Expanded(child: Container()),
-          _dropdownPayToken(context),
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              
+              Expanded(
+                child: TextField(
+                  controller: myController,
+                  textAlign: TextAlign.start,
+                  showCursor: false,
+                  style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                    ),
+                  // Disable the default soft keybaord
+                  keyboardType: TextInputType.none,
+                )
+              ),
+
+              SizedBox(width: 100),
+              _buttonPayToken(context),            
+            ],
+          ),
         ],
       ),
     );
@@ -68,9 +118,9 @@ class SwapPageBody extends StatelessWidget {
   Widget _getDisplay(BuildContext context){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize),
-      child: Row(
+      child: Column(
         children: [
-          Column(
+          Row(
             children: [
               MyText(
                 text: 'You Get',
@@ -79,217 +129,211 @@ class SwapPageBody extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(child: Container()),
-          _dropdownGetToken(context),
+          Row(
+            children: [
+              MyText(
+                text: '≈0',
+                fontWeight: FontWeight.bold,
+                color: AppColors.whiteColorHexa,
+              ),
+              Expanded(child: Container()),
+              SizedBox(width: 75),
+               _buttonGetToken(context),
+            ],
+          )
+          
         ],
       ),
     );
   }
 
-  Widget _dropdownPayToken(BuildContext context){
-    List<String> _animals = ["Dog", "Cat", "Crocodile", "Dragon"];
-
-    String? _selectedColor;
-
+  Widget _buttonPayToken(BuildContext context){
+    
     return Expanded(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        decoration: BoxDecoration(
-            color: hexaCodeToColor("#114463"),
-            borderRadius: BorderRadius.circular(8)),
-        child: DropdownButton<String>(
-          onChanged: (value) {
-            // setState(() {
-            //   _selectedColor = value;
-            // });
-          },
-          value: _selectedColor,
-    
-          // Hide the default underline
-          underline: Container(),
-          hint: Center(
-            child: Text(
-              'Select',
-              style: TextStyle(color: Colors.white),
-            )
+      child: GestureDetector(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          decoration: BoxDecoration(
+              color: hexaCodeToColor("#114463"),
+              borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/SelendraCircle-White.png',
+                  height: 25,
+                  width: 25,
+                ),
+
+                Expanded(child: Container()),
+
+                MyText(
+                  top: 5,
+                  text: 'SEL',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: AppColors.whiteColorHexa,
+                ),
+
+                Expanded(child: Container()),
+
+                Icon(
+                  Iconsax.arrow_down_1,
+                  color: hexaCodeToColor(AppColors.whiteColorHexa),
+                ),
+              ],
+            ),
           ),
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: Colors.white,
-          ),
-          isExpanded: true,
-    
-          // The list of options
-          items: _animals
-              .map((e) => DropdownMenuItem(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        e,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    value: e,
-                  ))
-              .toList(),
-    
-          // Customize the selected item
-          selectedItemBuilder: (BuildContext context) => _animals
-              .map((e) => Center(
-                    child: Text(
-                      e,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.amber,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ))
-              .toList(),
         ),
+        
+        onTap: (){
+          Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
+        },
       ),
     );
   }
 
-  Widget _dropdownGetToken(BuildContext context){
-    List<String> _animals = ["Dog", "Cat", "Crocodile", "Dragon"];
-
-    String? _selectedColor;
-
+  Widget _buttonGetToken(BuildContext context){
+    
     return Expanded(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        decoration: BoxDecoration(
-            color: hexaCodeToColor("#114463"),
-            borderRadius: BorderRadius.circular(8)),
-        child: DropdownButton<String>(
-          onChanged: (value) {
-            // setState(() {
-            //   _selectedColor = value;
-            // });
-          },
-          value: _selectedColor,
-    
-          // Hide the default underline
-          underline: Container(),
-          hint: Center(
-            child: Text(
-              'Select',
-              style: TextStyle(color: Colors.white),
-            )
+      child: GestureDetector(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          decoration: BoxDecoration(
+              color: hexaCodeToColor("#114463"),
+              borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/SelendraCircle-White.png',
+                  height: 25,
+                  width: 25,
+                ),
+
+                Expanded(child: Container()),
+
+                MyText(
+                  top: 5,
+                  text: 'SEL',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: AppColors.whiteColorHexa,
+                ),
+
+                Expanded(child: Container()),
+
+                Icon(
+                  Iconsax.arrow_down_1,
+                  color: hexaCodeToColor(AppColors.whiteColorHexa),
+                ),
+              ],
+            ),
           ),
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: Colors.white,
-          ),
-          isExpanded: true,
-    
-          // The list of options
-          items: _animals
-              .map((e) => DropdownMenuItem(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        e,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    value: e,
-                  ))
-              .toList(),
-    
-          // Customize the selected item
-          selectedItemBuilder: (BuildContext context) => _animals
-              .map((e) => Center(
-                    child: Text(
-                      e,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.amber,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ))
-              .toList(),
         ),
+        
+        onTap: (){
+          Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
+        },
       ),
     );
   }
+
 
   Widget _tapAutoAmount(BuildContext context){
-    return Container();
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          GestureDetector(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: hexaCodeToColor("#034A76")
+              ),
+              child: MyText(
+                top: 5,
+                text: "25%",
+                color: AppColors.whiteColorHexa,
+              ),
+            )
+          ),
+          GestureDetector(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: hexaCodeToColor("#034A76")
+              ),
+              child: MyText(
+                top: 5,
+                text: "50%",
+                color: AppColors.whiteColorHexa,
+              ),
+            )
+          ),
+          GestureDetector(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: hexaCodeToColor("#034A76")
+              ),
+              child: MyText(
+                top: 5,
+                text: "75%",
+                color: AppColors.whiteColorHexa,
+              ),
+            )
+          ),
+          GestureDetector(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: hexaCodeToColor("#034A76")
+              ),
+              child: MyText(
+                top: 5,
+                text: "100%",
+                color: AppColors.whiteColorHexa,
+              ),
+            )
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildNumberPad(context) {
     return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 29),
+      alignment: Alignment.center,  
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              ReuseKeyBoardNum(1, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(2, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(3, () {
-              }),
-            ],
+          // implement the custom NumPad
+          NumPad(
+            buttonSize: 50,
+            buttonColor: Colors.white.withOpacity(0.06),
+            iconColor: Colors.deepOrange,
+            controller: myController!,
+            delete: () {
+              myController!.text = myController!.text.substring(0, myController!.text.length - 1);
+            },
+            // do something with the input numbers
+            onSubmit: () {
+              debugPrint('Your code: ${myController!.text}');
+            },
           ),
-
-          SizedBox(height: 10),
-          Row(
-            children: <Widget>[
-              ReuseKeyBoardNum(4, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(5, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(6, () {
-              }),
-            ],
-          ),
-
-          SizedBox(height: 10),
-          Row(
-            children: <Widget>[
-              ReuseKeyBoardNum(7, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(8, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(9, () {
-              }),
-            ],
-          ),
-          
-          SizedBox(height: 10),
-          Row(
-            children: <Widget>[
-              Expanded(child: Container()),
-              // ReuseKeyBoardNum(null, null, child: Container()),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(0, () {
-              }),
-              SizedBox(width: 19),
-              ReuseKeyBoardNum(
-                null, 
-                () {
-                  
-                },
-                child: Transform.rotate(
-                  angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.bgdColor), size: 30),
-                ),
-              )
-            ],
-          )
         ],
       ),
     );

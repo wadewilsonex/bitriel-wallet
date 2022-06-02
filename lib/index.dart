@@ -53,6 +53,7 @@ export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/passcode/passcode.dart';
+export 'package:wallet_apps/src/components/appbar_c.dart';
 
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
