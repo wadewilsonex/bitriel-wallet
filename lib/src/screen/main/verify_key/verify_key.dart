@@ -55,7 +55,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     
     widget.createKeyModel!.missingSeeds = [];
     widget.createKeyModel!.tmpThreeNum = [];
-    widget.createKeyModel!.emptyData();
+    // widget.createKeyModel!.empty();
 
     super.dispose();
   }

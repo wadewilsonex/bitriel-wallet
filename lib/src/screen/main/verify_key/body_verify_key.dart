@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/components/seeds_c.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
 import 'package:wallet_apps/theme/color.dart';
 
@@ -28,25 +29,16 @@ class VerifyPassphraseBody extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
 
-                SizedBox(height: 50),
-                MyText(
-                  text: 'Verify Seed',
-                  color: AppColors.whiteColorHexa,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-  
-                SizedBox(height: 25),
-                MyText(
-                  text: 'Almost done. Please input the words in the numerical order.',
-                  color: AppColors.bgdColor,
-                  fontSize: 18,
-                  textAlign: TextAlign.start,  
+
+                SeedContents(
+                  title: 'Verify Seed', 
+                  subTitle: 'Almost done. Please input the words in the numerical order.'
                 ),
   
                 SizedBox(height: 100),
@@ -63,15 +55,15 @@ class VerifyPassphraseBody extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: getColumn(context, createKeyModel!.tmpSeed!, 0),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 0),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: getColumn(context, createKeyModel!.tmpSeed!, 1),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 1),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: getColumn(context, createKeyModel!.tmpSeed!, 2),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 2),
                           ),
                         ],
                       ),
@@ -110,7 +102,6 @@ class VerifyPassphraseBody extends StatelessWidget {
   
                 Flexible(child: Container()),
                 MyGradientButton(
-                  edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
@@ -124,42 +115,6 @@ class VerifyPassphraseBody extends StatelessWidget {
         ),
       )
     );
-  }
-
-  List<Widget> getColumn(BuildContext context, String seed, int pos) {
-    
-    var list = <Widget>[];
-    var se = seed.split(' ');
-    var colSize = se.length ~/ 3;
-
-    for (var i = 0; i < colSize; i++) {
-      list.add(
-        Container(
-          width: MediaQuery.of(context).size.width / 3 - 34,
-          padding: EdgeInsets.only(top: 8, bottom: 8),
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.06),
-            borderRadius: const BorderRadius.all(Radius.circular(50)),
-          ),
-          // color: grey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2),
-            child: (i * 3 + pos + 1) < 10
-              ? Text(
-                '  ' + (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-              )
-              : Text(
-                (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-          ),
-        )
-      );
-    }
-    return list;
   }
 
 }
