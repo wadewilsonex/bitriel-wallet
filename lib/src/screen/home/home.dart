@@ -309,23 +309,23 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
         ),
       ]),
 
-      // floatingActionButton: FloatingActionButton(
-      //   elevation: 10,
-      //   backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
-      //   onPressed: () async {
-      //     await TrxOptionMethod.scanQR(
-      //       context,
-      //       _homeM.portfolioList,
-      //     );
-      //   },
-      //   child: SvgPicture.asset(
-      //     AppConfig.iconsPath+'qr_code.svg',
-      //     width: 30,
-      //     height: 30,
-      //     color: Colors.white,
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        elevation: 10,
+        backgroundColor: hexaCodeToColor(AppColors.secondary).withOpacity(1.0),
+        onPressed: () async {
+          await TrxOptionMethod.scanQR(
+            context,
+            _homeM.portfolioList,
+          );
+        },
+        child: SvgPicture.asset(
+          AppConfig.iconsPath+'qr_code.svg',
+          width: 30,
+          height: 30,
+          color: Colors.white,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomAppBar(
         apiStatus: true,
         homeM: _homeM,

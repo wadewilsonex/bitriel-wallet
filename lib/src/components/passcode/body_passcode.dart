@@ -2,12 +2,13 @@ import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{
   
+  final String? label;
   final bool? isFirst;
   final List<TextEditingController>? lsControl;
   final Function? pinIndexSetup;
   final Function? clearPin;
 
-  PasscodeBody({this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin});
+  PasscodeBody({this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin});
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -26,6 +27,7 @@ class PasscodeBody extends StatelessWidget{
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.30,
           ),
+
           Text(
             isFirst! ? 'PIN!' : 'Verify PIN!',
             style: TextStyle(
@@ -41,34 +43,14 @@ class PasscodeBody extends StatelessWidget{
           
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Assign a security ', 
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white
-                    )
-                  ),
-                  TextSpan(
-                    text: 'PIN ',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    )
-                  ),
-                  TextSpan(
-                    text: 'that will be required when opening in the future', 
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white
-                    )
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (label == 'fromSplash')
+                passCodeContents[1]
+                else 
+                passCodeContents[0]
+              ],
             ),
           ), 
           const SizedBox(height: 80),
@@ -76,6 +58,7 @@ class PasscodeBody extends StatelessWidget{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              
               ReusePinNum(outlineInputBorder, lsControl![0]),
               ReusePinNum(outlineInputBorder, lsControl![1]),
               ReusePinNum(outlineInputBorder, lsControl![2]),
@@ -91,6 +74,70 @@ class PasscodeBody extends StatelessWidget{
       )
     );
   }
+
+  
+
+  List<RichText> passCodeContents = [
+
+    RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Assign a security ', 
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+            )
+          ),
+          TextSpan(
+            text: 'PIN ',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+            )
+          ),
+          TextSpan(
+            text: 'that will be required when opening in the future', 
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+            )
+          ),
+        ],
+      ),
+    ),
+
+    RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        children: <TextSpan>[
+          TextSpan(
+            text: 'Enter ', 
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+            )
+          ),
+          TextSpan(
+            text: 'pin ',
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+            )
+          ),
+          TextSpan(
+            text: 'code', 
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white
+            )
+          ),
+        ],
+      ),
+    ),
+  ];
 }
 
 

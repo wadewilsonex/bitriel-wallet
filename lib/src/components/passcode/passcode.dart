@@ -104,7 +104,7 @@ class _PasscodeState extends State<Passcode> {
           strPin += lsControl[i].text;
         }
         
-        if (widget.label == "fromHome") {
+        if (widget.label == "fromSplash") {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
@@ -148,11 +148,11 @@ class _PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
-        print("My fucking PIN $pin");
+
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromHome"){
+        if (widget.label == "fromHome" || widget.label == "fromSplash"){
           Navigator.pop(context, true);
         } else if (widget.label == "fromCreateSeeds"){
 
@@ -187,7 +187,7 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> authToHome() async {
-    if (widget.label == "fromHome") {
+    if (widget.label == "fromSplash") {
       final bio = await StorageServices.readSaveBio();
       if (bio) {
         await authenticate();
@@ -231,8 +231,7 @@ class _PasscodeState extends State<Passcode> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
               child: Text('Opps'),
             ),
@@ -273,7 +272,7 @@ class _PasscodeState extends State<Passcode> {
                 else Container(),
                 
                 Expanded(
-                  child: PasscodeBody(isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
+                  child: PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
                 )
               ],
             ),
