@@ -9,8 +9,13 @@ class SwapPage extends StatefulWidget {
 }
 
 class _SwapPageState extends State<SwapPage> {
+
+  final TextEditingController _myController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
-    return SwapPageBody();
+    return SwapPageBody(
+      myController: _myController,
+    );
   }
 }

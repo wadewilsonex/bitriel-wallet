@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -401,7 +402,7 @@ class MyBottomAppBar extends StatelessWidget {
                 child: Icon(Iconsax.card_coin, size: 30, color: Colors.white),
                 title: "Swap",
                 onPressed: () {
-
+                  Navigator.push(context, RouteAnimation(enterPage: SwapPage()));
                 }
               ),
             ),

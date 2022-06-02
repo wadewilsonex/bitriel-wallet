@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 
 Widget transactionActivityDetailsBody(
     BuildContext _context, Map<String, dynamic> _trxInfo, Function _popScreen) {

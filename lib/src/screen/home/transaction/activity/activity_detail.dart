@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/component.dart';
 
 import '../../../../../index.dart';

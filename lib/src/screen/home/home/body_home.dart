@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
@@ -24,31 +25,32 @@ class HomePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     onPressed: () {
 
-          },
-          icon: Icon(Iconsax.profile_circle, size: 25),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Iconsax.scan,
-              size: 25,
-            ),
-            onPressed: () {
+      //     },
+      //     icon: Icon(Iconsax.profile_circle, size: 25),
+      //   ),
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(
+      //         Iconsax.scan,
+      //         size: 25,
+      //       ),
+      //       onPressed: () {
               
-            },
-          )
-        ],
-      ),
+      //       },
+      //     )
+      //   ],
+      // ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AppBarCustom(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: paddingSize),
               child: _carouselAds(context, activeIndex),
