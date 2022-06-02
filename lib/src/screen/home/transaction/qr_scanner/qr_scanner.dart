@@ -49,7 +49,7 @@ class QrScannerState extends State<QrScanner> {
             MyAppBar(
               title: "Scanning",
               color: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkCard)
+                ? hexaCodeToColor(AppColors.darkBgd).withOpacity(0)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
                 Navigator.pop(context);

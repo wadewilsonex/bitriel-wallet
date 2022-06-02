@@ -291,6 +291,8 @@ class _AssetInfoState extends State<AssetInfo> {
     super.dispose();
   }
 
+  Color bg = Colors.white.withOpacity(0.06);
+
   @override
   Widget build(BuildContext context) {
 
@@ -304,6 +306,7 @@ class _AssetInfoState extends State<AssetInfo> {
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBox) {
             return [
+
               SliverAppBar(
                 pinned: true,
                 expandedHeight: 77,
@@ -311,7 +314,7 @@ class _AssetInfoState extends State<AssetInfo> {
                 automaticallyImplyLeading: false,
                 leading: Container(),
                 backgroundColor: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkCard)
+                  ? bg
                   : Colors.white,
                 flexibleSpace: Column(children: [
 
@@ -342,19 +345,35 @@ class _AssetInfoState extends State<AssetInfo> {
                               ),
 
                               Container(
-                                alignment: Alignment.centerLeft,
-                                margin: const EdgeInsets.only(right: 8),
                                 width: 40,
                                 height: 40,
+                                padding: const EdgeInsets.all(6),
+                                // margin: const EdgeInsets.only(right: 5),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.white
                                 ),
                                 child: Image.asset(
                                   widget.scModel!.logo!,
                                   fit: BoxFit.contain,
                                 ),
                               ),
+
+                              // Container(
+                              //   alignment: Alignment.centerLeft,
+                              //   margin: const EdgeInsets.only(right: 8),
+                              //   width: 40,
+                              //   height: 40,
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(5),
+                              //   ),
+                              //   child: Image.asset(
+                              //     widget.scModel!.logo!,
+                              //     fit: BoxFit.contain,
+                              //   ),
+                              // ),
                               MyText(
+                                left: 10,
                                 fontSize: 18.0,
                                 color: isDarkTheme
                                   ? AppColors.whiteHexaColor
@@ -392,7 +411,7 @@ class _AssetInfoState extends State<AssetInfo> {
                 Divider(
                   height: 3,
                   color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
+                    ? bg
                     : Colors.grey.shade400)
               ])),
 
@@ -402,7 +421,7 @@ class _AssetInfoState extends State<AssetInfo> {
                   <Widget>[
                     Container(
                       color: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkBgd)
+                        ? bg
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
@@ -486,111 +505,114 @@ class _AssetInfoState extends State<AssetInfo> {
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 40),
-                            padding: widget.scModel!.symbol == 'ATD'
-                              ? const EdgeInsets.symmetric()
-                              : const EdgeInsets.symmetric(vertical: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 50,
-                                  width: 150,
-                                  // ignore: deprecated_member_use
-                                  child: Consumer<ContractProvider>(
-                                    builder: (context, provider, widgets){
-                                      return ElevatedButton(
-                                        onPressed: () async {
-                                          try {
 
-                                            if(widget.scModel!.symbol != 'ATT') {
+                          // Container(
+                          //   margin: const EdgeInsets.only(top: 40),
+                          //   padding: widget.scModel!.symbol == 'ATD'
+                          //     ? const EdgeInsets.symmetric()
+                          //     : const EdgeInsets.symmetric(vertical: 16.0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       SizedBox(
+                          //         height: 50,
+                          //         width: 150,
+                          //         // ignore: deprecated_member_use
+                          //         child: Consumer<ContractProvider>(
+                          //           builder: (context, provider, widgets){
+                          //             return ElevatedButton(
+                          //               onPressed: () async {
+                          //                 try {
+
+                          //                   if(widget.scModel!.symbol != 'ATT') {
                                               
-                                              await MyBottomSheet().trxOptions(
-                                                context: context,
-                                                portfolioList: provider.sortListContract
-                                              );
-                                            } else {
-                                              dialogLoading(context);
-                                              await Future.delayed(Duration(milliseconds: 1300), (){});
-                                              // Close Loading
-                                              Navigator.pop(context);
-                                              await successDialog(context, "check in!");
-                                            }
-                                          } catch (e) {
-                                            // print("Error Transfer $e");
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                                        ),
-                                        // disabledColor: Colors.grey[700],
-                                        // focusColor: hexaCodeToColor(AppColors.secondary),
-                                        child: MyText(
-                                          text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
-                                          color: AppColors.whiteColorHexa
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(width: 16.0),
-                                SizedBox(
-                                  height: 50,
-                                  width: 150,
-                                  // ignore: deprecated_member_use
-                                  child: FlatButton(
-                                    onPressed: () async {
-                                      if(widget.scModel!.symbol != 'ATT') {
-                                        // if (widget.scModel!.symbol == 'BTC') {
-                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-                                        // } else if (widget.scModel!.org == 'Testnet'){
-                                        //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-                                        // } else if ( widget.scModel!.symbol != 'DOT'){
-                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-                                        // } else {
-                                        //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
-                                        // }
-                                        setState(() { });
-                                        AssetInfoC().showRecieved(
-                                          context,
-                                          _method,
-                                          symbol: widget.scModel!.symbol,
-                                          org: widget.scModel!.org,
-                                          scModel: widget.scModel
-                                        );
+                          //                     await MyBottomSheet().trxOptions(
+                          //                       context: context,
+                          //                       portfolioList: provider.sortListContract
+                          //                     );
+                          //                   } else {
+                          //                     dialogLoading(context);
+                          //                     await Future.delayed(Duration(milliseconds: 1300), (){});
+                          //                     // Close Loading
+                          //                     Navigator.pop(context);
+                          //                     await successDialog(context, "check in!");
+                          //                   }
+                          //                 } catch (e) {
+                          //                   // print("Error Transfer $e");
+                          //                 }
+                          //               },
+                          //               style: ButtonStyle(
+                          //                 backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                          //               ),
+                          //               // disabledColor: Colors.grey[700],
+                          //               // focusColor: hexaCodeToColor(AppColors.secondary),
+                          //               child: MyText(
+                          //                 text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
+                          //                 color: AppColors.whiteColorHexa
+                          //               ),
+                          //             );
+                          //           },
+                          //         ),
+                          //       ),
+                                
+                          //       const SizedBox(width: 16.0),
+                          //       SizedBox(
+                          //         height: 50,
+                          //         width: 150,
+                          //         // ignore: deprecated_member_use
+                          //         child: FlatButton(
+                          //           onPressed: () async {
+                          //             if(widget.scModel!.symbol != 'ATT') {
+                          //               // if (widget.scModel!.symbol == 'BTC') {
+                          //               //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+                          //               // } else if (widget.scModel!.org == 'Testnet'){
+                          //               //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+                          //               // } else if ( widget.scModel!.symbol != 'DOT'){
+                          //               //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+                          //               // } else {
+                          //               //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
+                          //               // }
+                          //               setState(() { });
+                          //               AssetInfoC().showRecieved(
+                          //                 context,
+                          //                 _method,
+                          //                 symbol: widget.scModel!.symbol,
+                          //                 org: widget.scModel!.org,
+                          //                 scModel: widget.scModel
+                          //               );
                                         
-                                      } else {
-                                        dialogLoading(context);
-                                        await Future.delayed(Duration(milliseconds: 1300), (){});
-                                        // Close Loading
-                                        Navigator.pop(context);
-                                        await successDialog(context, "check out!");
-                                      }
-                                    },
-                                    color: hexaCodeToColor(
-                                      AppColors.secondary,
-                                    ),
-                                    disabledColor: Colors.grey[700],
-                                    focusColor: hexaCodeToColor(
-                                      AppColors.secondary,
-                                    ),
-                                    child: MyText(
-                                      text: widget.scModel!.symbol == 'ATT' ? 'Check Out' : 'Recieved',
-                                      color: AppColors.whiteColorHexa,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          //             } else {
+                          //               dialogLoading(context);
+                          //               await Future.delayed(Duration(milliseconds: 1300), (){});
+                          //               // Close Loading
+                          //               Navigator.pop(context);
+                          //               await successDialog(context, "check out!");
+                          //             }
+                          //           },
+                          //           color: hexaCodeToColor(
+                          //             AppColors.secondary,
+                          //           ),
+                          //           disabledColor: Colors.grey[700],
+                          //           focusColor: hexaCodeToColor(
+                          //             AppColors.secondary,
+                          //           ),
+                          //           child: MyText(
+                          //             text: widget.scModel!.symbol == 'ATT' ? 'Check Out' : 'Recieved',
+                          //             color: AppColors.whiteColorHexa,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+
                         ],
                       ),
                     ),
                     Container(
                       height: 32.0,
                       color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
+                          ? bg
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                     ),
                     Container(
@@ -607,7 +629,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
+                                      ? bg
                                       : hexaCodeToColor(
                                           AppColors.whiteHexaColor),
                                   border: Border(
@@ -640,7 +662,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                   color: isDarkTheme
-                                      ? hexaCodeToColor(AppColors.darkCard)
+                                      ? bg
                                       : hexaCodeToColor(
                                           AppColors.whiteHexaColor),
                                   border: Border(
@@ -657,7 +679,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   color: _tabIndex == 1
                                       ? AppColors.secondary
                                       : isDarkTheme
-                                          ? AppColors.darkSecondaryText
+                                          ? AppColors.iconColor
                                           : AppColors.textColor,
                                 ),
                               ),
@@ -681,14 +703,14 @@ class _AssetInfoState extends State<AssetInfo> {
               if (widget.scModel!.marketData != null)
                 Container(
                   color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.darkCard)
+                      ? bg
                       : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: AssetDetail(widget.scModel!.marketData!),
                 )
               else
                 Container(
                   color: isDarkTheme
-                      ? hexaCodeToColor(AppColors.darkCard)
+                      ? bg
                       : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: Center(
                     child: SvgPicture.asset(
@@ -702,7 +724,7 @@ class _AssetInfoState extends State<AssetInfo> {
                 return widget.transactionInfo == null
                     ? Container(
                         color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
+                          ? bg
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
                           child: SvgPicture.asset(

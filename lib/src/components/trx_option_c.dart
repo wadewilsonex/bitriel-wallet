@@ -113,13 +113,15 @@ class TrxOptionMethod {
     BuildContext context,
     List<dynamic> portfolioList,
   ) async {
-    final String? _response = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
-    if (_response != null) {
+    await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
+      
+    if (value != null) {
       await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  SubmitTrx(_response, false, portfolioList)));
+        context,
+        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        // MaterialPageRoute(builder: (context) => )
+      );
     }
+    });
   }
 }

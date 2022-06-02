@@ -10,3 +10,9 @@ class SwapModel {
 
   bool success = false, enableBtn = false;
 }
+
+class SwapPageModel {
+
+  int? percentActive = 0;
+  TextEditingController? myController = TextEditingController(text: "0");
+}

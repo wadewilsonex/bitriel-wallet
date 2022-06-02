@@ -16,7 +16,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _model.activeIndex = 2;
+
+    _model.activeIndex = 3;
     _model.carouActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onPageChanged = (int index, CarouselPageChangedReason reason) {
@@ -27,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   }
   
   void onIndexChanged(int index){
-    print("index $index");
     setState(() {
       _model.activeIndex = index;
       _model.pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);

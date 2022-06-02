@@ -96,7 +96,7 @@ class MyAppBar extends StatelessWidget {
         margin: margin,
         decoration: BoxDecoration(
           color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkCard)
+            ? hexaCodeToColor(AppColors.darkBgd)
             : hexaCodeToColor(AppColors.whiteHexaColor),
           boxShadow: [shadow(context)]
         ),

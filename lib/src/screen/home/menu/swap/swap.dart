@@ -414,10 +414,10 @@ class _SwapState extends State<Swap> {
   @override
   void initState() {
     _swapModel.amountController = TextEditingController();
-    Future.delayed(Duration(seconds: 2), (){
+    // Future.delayed(Duration(seconds: 2), (){
 
-      successDialog("1", "Close", (){});
-    });
+    //   successDialog("1", "Close", (){});
+    // });
     super.initState();
   }
 

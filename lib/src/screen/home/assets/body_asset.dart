@@ -22,6 +22,9 @@ class AssetsPageBody extends StatelessWidget {
       
             _selendraNetworkList(context),
 
+            SizedBox(height: 25),
+
+            _otherNetworkList(context),
           ],
         ),
       ),
@@ -80,11 +83,23 @@ class AssetsPageBody extends StatelessWidget {
               ),
 
               SizedBox(height: 12),
-              MyText(
-                text: "SAN Vuthy",
+              if(provider.accountM.addressIcon == null)
+              Shimmer.fromColors(
+                child: Container(
+                  width: 100,
+                  height: 8.0,
+                  margin: EdgeInsets.only(bottom: 3),
+                  color: Colors.white,
+                ), 
+                period: const Duration(seconds: 2),
+                baseColor: hexaCodeToColor(AppColors.sliderColor),
+                highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
+              )
+              else MyText(
+                bottom: 3,
+                text: provider.accountM.name ?? '',
                 color: AppColors.whiteColorHexa,
                 fontSize: 20,
-                fontWeight: FontWeight.w700,
               ),
 
               SizedBox(height: 15),
@@ -106,10 +121,11 @@ class AssetsPageBody extends StatelessWidget {
 
   Widget _selendraNetworkList(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize-10),
       child: Container(
         child: Column(
           children: [
+
             Row(
               children: [
                 MyText(
@@ -137,11 +153,12 @@ class AssetsPageBody extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            RouteAnimation(
-                              enterPage: AssetInfo(
+                            Transition(
+                              child: AssetInfo(
                                 index: index,
                                 scModel: value.sortListContract[index]
                               ),
+                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                             ),
                           );
                         },
@@ -161,7 +178,7 @@ class AssetsPageBody extends StatelessWidget {
 
   Widget _otherNetworkList(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize - 10),
       child: Container(
         child: Column(
           children: [
@@ -195,18 +212,7 @@ class AssetsPageBody extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         
-        Container(
-          height: height,
-          width: width,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            gradient: LinearGradient(
-              colors: [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )
-          ),
+        MyGradientButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -218,28 +224,25 @@ class AssetsPageBody extends StatelessWidget {
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
-              Transform.rotate(
-                angle: 141.371669412,
-                child: Icon(Iconsax.import, color: Colors.white, size: 35),
-              ),
+              Icon(Iconsax.import, color: Colors.white, size: 35),
             ],
           ),
+          height: height,
+          width: width,
+          lsColor: ["#0D6BA6", "#2EF9C8"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          }
         ),
 
         SizedBox(width: 10,),
-
-        Container(
-          height: height,
-          width: width,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            gradient: LinearGradient(
-              colors: [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
-            )
-          ),
+        
+        MyGradientButton(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,6 +257,17 @@ class AssetsPageBody extends StatelessWidget {
               Icon(Iconsax.import, color: Colors.white, size: 35),
             ],
           ),
+          height: height,
+          width: width,
+          lsColor: ["#0D6BA6", "#2EF9C8"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          }
         )
       ],
     );

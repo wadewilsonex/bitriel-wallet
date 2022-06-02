@@ -1,33 +1,34 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/num_pad_c.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
 
 class SwapPageBody extends StatelessWidget {
   
-  final TextEditingController? myController;
+  final SwapPageModel? swapPageModel;
+  final Function? percentTap;
 
   const SwapPageBody({ 
     Key? key,
-    this.myController,
+    this.swapPageModel,
+    this.percentTap
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BodyScaffold(
-        physic: BouncingScrollPhysics(),
-        isSafeArea: true,
-        bottom: 0,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            AppBarCustom(),
-
+      
             _payInput(context),
             
             _getDisplay(context),
-
-            _tapAutoAmount(context),
-
+      
+            _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
+      
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: MyText(
@@ -37,18 +38,28 @@ class SwapPageBody extends StatelessWidget {
                 color: AppColors.whiteColorHexa
               ),
             ),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: paddingSize),
-              child: MyText(
-                text: 'Minimum value is 0.00058714 BTC',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.whiteColorHexa
-              ),
+      
+            MyText(
+              text: 'Minimum value is 0.00058714 BTC',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.whiteColorHexa
             ),
-            
+
+            Expanded(child: Container()), 
             _buildNumberPad(context),
+
+            SizedBox(height: 60.0 - paddingSize),
+            MyGradientButton(
+              edgeMargin: EdgeInsets.all(paddingSize),
+              textButton: "Next",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
+                // Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              },
+            ),
+      
           ],
         ),
       ),
@@ -62,30 +73,33 @@ class SwapPageBody extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
 
-          Row(
-            children: [
-              MyText(
-                text: 'You Pay',
-                fontWeight: FontWeight.bold,
-                color: AppColors.whiteColorHexa,
-              ),
-              
-              Expanded(child: Container()),
-
-              MyText(
-                text: 'Available',
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: AppColors.primaryColor,
-              ),
-              SizedBox(width: 10.0),
-              MyText(
-                text: '0 BTC',
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: AppColors.whiteColorHexa,
-              ),
-            ],
+          Padding(
+            padding: EdgeInsets.only(right: 5),
+            child: Row(
+              children: [
+                MyText(
+                  text: 'You Pay',
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.whiteColorHexa,
+                ),
+                
+                Expanded(child: Container()),
+          
+                MyText(
+                  text: 'Available',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: AppColors.primaryColor,
+                ),
+                SizedBox(width: 10.0),
+                MyText(
+                  text: '0 BTC',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: AppColors.whiteColorHexa,
+                ),
+              ],
+            ),
           ),
 
           Row(
@@ -94,7 +108,7 @@ class SwapPageBody extends StatelessWidget {
               
               Expanded(
                 child: TextField(
-                  controller: myController,
+                  controller: swapPageModel!.myController,
                   textAlign: TextAlign.start,
                   showCursor: false,
                   style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
@@ -106,7 +120,6 @@ class SwapPageBody extends StatelessWidget {
                 )
               ),
 
-              SizedBox(width: 100),
               _buttonPayToken(context),            
             ],
           ),
@@ -117,197 +130,188 @@ class SwapPageBody extends StatelessWidget {
 
   Widget _getDisplay(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize),
-      child: Column(
+      padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
+          
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               MyText(
                 text: 'You Get',
                 fontWeight: FontWeight.bold,
                 color: AppColors.whiteColorHexa,
               ),
-            ],
-          ),
-          Row(
-            children: [
+
               MyText(
                 text: '≈0',
                 fontWeight: FontWeight.bold,
                 color: AppColors.whiteColorHexa,
               ),
-              Expanded(child: Container()),
-              SizedBox(width: 75),
-               _buttonGetToken(context),
             ],
-          )
-          
+          ),
+
+          Expanded(
+            child: Container()
+          ),
+
+          _buttonGetToken(context),
         ],
       ),
+      // Row(
+      //   children: [
+      //     Expanded(child: Container()),
+      //     SizedBox(width: 75),
+      //   ],
+      // ),
     );
   }
 
   Widget _buttonPayToken(BuildContext context){
     
-    return Expanded(
-      child: GestureDetector(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          decoration: BoxDecoration(
-              color: hexaCodeToColor("#114463"),
-              borderRadius: BorderRadius.circular(8)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/SelendraCircle-White.png',
-                  height: 25,
-                  width: 25,
-                ),
+    return GestureDetector(
+      child: Container(
+        width: MediaQuery.of(context).size.width / 3,
+        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        decoration: BoxDecoration(
+            color: hexaCodeToColor("#114463"),
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/SelendraCircle-White.png',
+                height: 25,
+                width: 25,
+              ),
 
-                Expanded(child: Container()),
+              Expanded(child: Container()),
 
-                MyText(
-                  top: 5,
-                  text: 'SEL',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: AppColors.whiteColorHexa,
-                ),
+              MyText(
+                top: 5,
+                text: 'SEL',
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                color: AppColors.whiteColorHexa,
+              ),
 
-                Expanded(child: Container()),
+              Expanded(child: Container()),
 
-                Icon(
-                  Iconsax.arrow_down_1,
-                  color: hexaCodeToColor(AppColors.whiteColorHexa),
-                ),
-              ],
-            ),
+              Icon(
+                Iconsax.arrow_down_1,
+                color: hexaCodeToColor(AppColors.whiteColorHexa),
+              ),
+            ],
           ),
         ),
-        
-        onTap: (){
-          Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
-        },
       ),
+      
+      onTap: (){
+        Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
+      },
     );
   }
 
   Widget _buttonGetToken(BuildContext context){
     
-    return Expanded(
-      child: GestureDetector(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          decoration: BoxDecoration(
-              color: hexaCodeToColor("#114463"),
-              borderRadius: BorderRadius.circular(8)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/SelendraCircle-White.png',
-                  height: 25,
-                  width: 25,
-                ),
+    return GestureDetector(
+      child: Container(
+        width: MediaQuery.of(context).size.width / 3,
+        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        decoration: BoxDecoration(
+            color: hexaCodeToColor("#114463"),
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/SelendraCircle-White.png',
+                height: 25,
+                width: 25,
+              ),
 
-                Expanded(child: Container()),
+              Expanded(child: Container()),
 
-                MyText(
-                  top: 5,
-                  text: 'SEL',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: AppColors.whiteColorHexa,
-                ),
+              MyText(
+                top: 5,
+                text: 'SEL',
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                color: AppColors.whiteColorHexa,
+              ),
 
-                Expanded(child: Container()),
+              Expanded(child: Container()),
 
-                Icon(
-                  Iconsax.arrow_down_1,
-                  color: hexaCodeToColor(AppColors.whiteColorHexa),
-                ),
-              ],
-            ),
+              Icon(
+                Iconsax.arrow_down_1,
+                color: hexaCodeToColor(AppColors.whiteColorHexa),
+              ),
+            ],
           ),
         ),
-        
-        onTap: (){
-          Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
-        },
       ),
+      
+      onTap: (){
+        Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
+      },
     );
   }
 
 
-  Widget _tapAutoAmount(BuildContext context){
+  Widget _tapAutoAmount(BuildContext context, int percentActive, Function percentTab ){
+
+    List<String> percent = [
+      '25%',
+      '50%',
+      '75%',
+      '100%',
+    ];
+    
     return Container(
+      padding: EdgeInsets.only(bottom: paddingSize),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+
+          for(int i = 0; i < percent.length; i++ )
           GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: hexaCodeToColor("#034A76")
-              ),
-              child: MyText(
-                top: 5,
-                text: "25%",
-                color: AppColors.whiteColorHexa,
-              ),
-            )
-          ),
-          GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: hexaCodeToColor("#034A76")
-              ),
-              child: MyText(
-                top: 5,
-                text: "50%",
-                color: AppColors.whiteColorHexa,
-              ),
-            )
-          ),
-          GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: hexaCodeToColor("#034A76")
-              ),
-              child: MyText(
-                top: 5,
-                text: "75%",
-                color: AppColors.whiteColorHexa,
-              ),
-            )
-          ),
-          GestureDetector(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: hexaCodeToColor("#034A76")
-              ),
-              child: MyText(
-                top: 5,
-                text: "100%",
-                color: AppColors.whiteColorHexa,
-              ),
+            onTap: (){
+              percentTab(i+1);
+            },
+            child: Row(
+              children: [
+                
+                Container(
+                  
+                  // Flow 1= Screen Size divide By 4 To Get 4 Pieces Of Box
+                  // Flow 2= 48/4 for Padding LeftRight: 48 / 4
+                  // Flow 3= 7.5 for Width Size Of Empty Space: 10 / 4
+                  width: (MediaQuery.of(context).size.width / 4) - (48/4) - 7.5,
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: percentActive == i+1 ? hexaCodeToColor(AppColors.orangeColor) : Colors.white.withOpacity(0.06)
+                  ),
+                  child: MyText(
+                    text: percent[i],
+                    fontSize: 16,
+                    // color: AppColors.whiteColorHexa,
+                    color2: percentActive == i+1 ? Colors.white : Colors.white.withOpacity(0.5)
+                  ),
+                ),
+
+                if (i < 3) SizedBox(width: 10)
+              ]
             )
           ),
         ],
@@ -316,26 +320,18 @@ class SwapPageBody extends StatelessWidget {
   }
 
   Widget _buildNumberPad(context) {
-    return Container(
-      alignment: Alignment.center,  
-      child: Column(
-        children: <Widget>[
-          // implement the custom NumPad
-          NumPad(
-            buttonSize: 50,
-            buttonColor: Colors.white.withOpacity(0.06),
-            iconColor: Colors.deepOrange,
-            controller: myController!,
-            delete: () {
-              myController!.text = myController!.text.substring(0, myController!.text.length - 1);
-            },
-            // do something with the input numbers
-            onSubmit: () {
-              debugPrint('Your code: ${myController!.text}');
-            },
-          ),
-        ],
-      ),
+    return NumPad(
+      buttonSize: 50,
+      buttonColor: Colors.white.withOpacity(0.06),
+      iconColor: Colors.deepOrange,
+      controller: swapPageModel!.myController!,
+      delete: () {
+        swapPageModel!.myController!.text = swapPageModel!.myController!.text.substring(0, swapPageModel!.myController!.text.length - 1);
+      },
+      // do something with the input numbers
+      onSubmit: () {
+        debugPrint('Your code: ${swapPageModel!.myController!.text}');
+      },
     );
   }
 

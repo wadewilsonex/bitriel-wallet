@@ -21,8 +21,8 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   CreateKeyModel _model = CreateKeyModel();
 
   void generateKey() async {
-    
-    _model.seed = "orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";//await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
+    //"orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";
+    _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
 
     // Split Seed to list
     _model.lsSeeds = _model.seed!.split(" ");

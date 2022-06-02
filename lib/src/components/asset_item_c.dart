@@ -28,12 +28,13 @@ class AssetsItemComponent extends StatelessWidget {
 
             // Asset Logo
             Container(
-              width: 65, //size ?? 65,
-              height: 65, //size ?? 65,
-              padding: const EdgeInsets.all(8),
+              width: 50, //size ?? 65,
+              height: 50, //size ?? 65,
+              padding: const EdgeInsets.all(6),
               // margin: const EdgeInsets.only(right: 5),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white
               ),
               child: Image.asset(
                 scModel!.logo!,
@@ -41,6 +42,7 @@ class AssetsItemComponent extends StatelessWidget {
               ),
             ),
 
+            SizedBox(width: 10,),
             // Asset Name
             Expanded(
               child: Column(
@@ -424,7 +426,7 @@ class AssetsItemComponent extends StatelessWidget {
     return Container(
       // margin: EdgeInsets.only(top: mTop, bottom: 2),
       // padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-      height: 100,
+      height: 75,
       color: color != null ? color : hexaCodeToColor(AppColors.whiteHexaColor),
       child: child
     );

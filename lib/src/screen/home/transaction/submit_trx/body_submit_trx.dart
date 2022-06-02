@@ -92,9 +92,9 @@ class SubmitTrxBody extends StatelessWidget {
                     /* Type of payment */
                     Container(
                       margin: const EdgeInsets.only(
-                        bottom: 16.0,
-                        left: 16,
-                        right: 16,
+                        bottom: 16,
+                        left: paddingSize,
+                        right: paddingSize,
                       ),
 
                       child: Container(
@@ -106,15 +106,9 @@ class SubmitTrxBody extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.darkCard)
+                            ? Colors.white.withOpacity(0.06)
                             : hexaCodeToColor(AppColors.whiteHexaColor),
                           borderRadius: BorderRadius.circular(size5),
-                          border: Border.all(
-                            width: scanPayM!.asset != null ? 1 : 0,
-                            color: scanPayM!.asset != null
-                              ? hexaCodeToColor(AppColors.secondary)
-                              : Colors.transparent
-                          ),
                         ),
                         child: Row(
                           children: <Widget>[
@@ -155,14 +149,11 @@ class SubmitTrxBody extends StatelessWidget {
                     listInput[1],
                     
                     //listInput[2],
-                    MyFlatButton(
+                    MyGradientButton(
+                      edgeMargin: EdgeInsets.all(paddingSize),
                       textButton: "CONTINUE",
-                      edgeMargin: const EdgeInsets.only(
-                        top: 40,
-                        left: 66,
-                        right: 66,
-                      ),
-                      hasShadow: scanPayM!.enable,
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
                       action: scanPayM!.enable ? validateSubmit : null,
                     ),
                   ],

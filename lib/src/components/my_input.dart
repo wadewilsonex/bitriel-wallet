@@ -30,9 +30,9 @@ class MyInputField extends StatelessWidget {
       this.key,
       this.labelText,
       this.prefixText,
-      this.pLeft = 16.0,
+      this.pLeft = paddingSize,
       this.pTop = 5.0,
-      this.pRight = 16.0,
+      this.pRight = paddingSize,
       this.pBottom = 0,
       this.obcureText = false,
       this.enableInput = true,
@@ -73,7 +73,7 @@ class MyInputField extends StatelessWidget {
               inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
               color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.whiteColorHexa)
+                  ? Colors.white.withOpacity(0.06)
                   : hexaCodeToColor(AppColors.textColor),
               fontSize: 18.0),
           validator: (String? value){
@@ -86,35 +86,33 @@ class MyInputField extends StatelessWidget {
               fontSize: 18.0,
               color: focusNode!.hasFocus || controller!.text != ""
                   ? isDarkTheme
-                      ? hexaCodeToColor(AppColors.whiteColorHexa)
-                          .withOpacity(0.3)
+                      ? Colors.white.withOpacity(0.06)
                       : hexaCodeToColor(AppColors.secondary)
                   : hexaCodeToColor(AppColors.darkSecondaryText),
             ),
             prefixText: prefixText,
 
-            prefixStyle: TextStyle(
-                color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
+            prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
             fillColor: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkCard)
+                ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
 
             enabledBorder: myTextInputBorder(controller!.text != ""
                 ? isDarkTheme
-                    ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
+                    ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.textColor).withOpacity(0.3)
-                : hexaCodeToColor(AppColors.darkSecondaryText)),
+                : Colors.white.withOpacity(0.06)),
             /* Enable Border But Not Show Error */
             border: errorOutline(),
             /* Show Error And Red Border */
             focusedBorder: myTextInputBorder(isDarkTheme
-                ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
+                ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.secondary)),
             /* Default Focuse Border Color*/
             focusColor: isDarkTheme
-                ? hexaCodeToColor("#ffffff")
+                ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
             contentPadding: const EdgeInsets.fromLTRB(

@@ -214,7 +214,9 @@ class MyFlatButton extends StatelessWidget {
 }
 
 class MyGradientButton extends StatelessWidget {
+
   final String? textButton;
+  final Widget? child;
   final String? buttonColor;
   final String? textColor;
   final FontWeight? fontWeight;
@@ -226,11 +228,14 @@ class MyGradientButton extends StatelessWidget {
   final double? width;
   final double? height;
   final bool? isTransparent;
+  final List<String>? lsColor;
   final AlignmentGeometry begin;
   final AlignmentGeometry end;
 
   const MyGradientButton({
+    this.child,
     this.textButton,
+    this.lsColor = const [ "#F27649", "#F28907" ],
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
     this.fontWeight = FontWeight.bold,
@@ -243,8 +248,6 @@ class MyGradientButton extends StatelessWidget {
     this.isTransparent = false,
     required this.begin,
     required this.end,
-
-
     @required this.action,
   });
 
@@ -260,22 +263,23 @@ class MyGradientButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
-          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],
           begin: begin,
           end: end, 
           stops: [0.25, 0.75],
-        )
+        ),
+        // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
       child: MaterialButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: MyText(
+        child: child ?? MyText(
           pTop: 20,
           pBottom: 20,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
         ),
-        onPressed: () {
+        onPressed: action == null ? null : (){
           action!();
         },
       ),
@@ -453,9 +457,10 @@ class BodyScaffold extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,
-        color: isDarkTheme
-          ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-          : Color(AppUtils.convertHexaColor("#F5F5F5")),
+        color: hexaCodeToColor(AppColors.darkBgd),
+        // isDarkTheme
+        //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+        //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
         padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
         child: isSafeArea! ? SafeArea(child: child!) : child,
       )

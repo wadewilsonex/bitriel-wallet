@@ -29,7 +29,7 @@ class MenuBody extends StatelessWidget {
           index: 2,
           subIndex: 1,
           onTap: () {
-            Navigator.push(context, RouteAnimation(enterPage: Swap()));
+            Navigator.push(context, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
 
@@ -37,7 +37,7 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppString.recieveWalletView);
+            Navigator.push(context, Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
 
@@ -45,7 +45,7 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 1,
           onTap: () {
-            Navigator.push(context, RouteAnimation(enterPage: AddAsset()));
+            Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
 
@@ -62,7 +62,7 @@ class MenuBody extends StatelessWidget {
               // Navigator.pushNamed(context, AppText.passcodeView);
               final res = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Passcode(isAppBar: true, label: 'fromHome',))
+                Transition(child: Passcode(isAppBar: true, label: 'fromHome',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
               );
               if (res == true) {
                 enablePassword!(true);
@@ -108,7 +108,7 @@ class MenuBody extends StatelessWidget {
           index: 5,
           subIndex: 0,
           onTap: () async {
-            Navigator.push(context, RouteAnimation(enterPage: About()));
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
             //_launchInBrowser('https://selendra.com/privacy');
           },
         ),

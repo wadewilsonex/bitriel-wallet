@@ -61,7 +61,7 @@ class SwapBody extends StatelessWidget{
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       decoration: BoxDecoration(
                         color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
+                          ? Colors.white.withOpacity(0.06)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [shadow(context)]
@@ -69,103 +69,99 @@ class SwapBody extends StatelessWidget{
                       child: Column(
                         children: [
 
-                          Container(
-                            // height: 150,
+                          MyText(
+                            left: 20,
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            text: 'Amount',
+                            fontWeight: FontWeight.bold,
+                            color: isDarkTheme
+                              ? AppColors.darkSecondaryText
+                              : AppColors.textColor,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            bottom: 4.0,
+                          ),
+
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.only(left: 16, bottom: 10, top: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               color: isDarkTheme
                                 ? hexaCodeToColor(AppColors.darkBgd)
                                 : hexaCodeToColor(AppColors.whiteColorHexa),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Form(
-                              child: Column(
-                                children: [
-                                  
-                                  MyText(
-                                    width: double.infinity,
-                                    text: 'Amount',
-                                    fontWeight: FontWeight.bold,
-                                    color: isDarkTheme
-                                      ? AppColors.darkSecondaryText
-                                      : AppColors.textColor,
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
-                                    bottom: 4.0,
-                                  ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
 
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-
-                                      Expanded(
-                                        child: TextFormField(
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(TextField.noMaxLength),
-                                            FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
-                                          ],
-                                          controller: swapModel!.amountController,
-                                          keyboardType: Platform.isAndroid
-                                            ? TextInputType.number
-                                            : TextInputType.text,
-                                          textInputAction: TextInputAction.done,
-                                          style: TextStyle(
-                                            color: isDarkTheme
-                                              ? hexaCodeToColor(AppColors.whiteColorHexa)
-                                              : hexaCodeToColor(AppColors.textColor),
-                                            fontSize: 18.0
-                                          ),
-                                          decoration: InputDecoration(
-                                            prefixIconConstraints: BoxConstraints(
-                                              minWidth: 0,
-                                              minHeight: 0,
-                                            ),
-                                            border: InputBorder.none,
-                                            hintText: '0.00',
-                                            hintStyle: TextStyle(
-                                              fontSize: 20.0,
-                                              color: isDarkTheme
-                                                ? hexaCodeToColor(AppColors.darkSecondaryText)
-                                                : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
-                                            ),
-                                          ),
-                                          validator: (value) => value!.isEmpty
-                                            ? 'Please fill in amount'
-                                            : null,
-                                          /* Limit Length Of Text Input */
-                                          onChanged: (String value) {
-                                            onChanged!(value);
-                                          },
-                                          onFieldSubmitted: (value) {},
-                                        )
+                                Expanded(
+                                  child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(TextField.noMaxLength),
+                                      FilteringTextInputFormatter(RegExp(r"^\d+\.?\d{0,8}"), allow: true)
+                                    ],
+                                    controller: swapModel!.amountController,
+                                    keyboardType: Platform.isAndroid
+                                      ? TextInputType.number
+                                      : TextInputType.text,
+                                    textInputAction: TextInputAction.done,
+                                    style: TextStyle(
+                                      color: isDarkTheme
+                                        ? hexaCodeToColor(AppColors.whiteColorHexa)
+                                        : hexaCodeToColor(AppColors.textColor),
+                                      fontSize: 18.0
+                                    ),
+                                    decoration: InputDecoration(
+                                      prefixIconConstraints: BoxConstraints(
+                                        minWidth: 0,
+                                        minHeight: 0,
                                       ),
-                                      
-                                      TextButton(
-                                        style: ButtonStyle(
-                                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                        ),
-                                        onPressed: () async {
-                                          await fetchMax!(context);
-                                        },
-                                        child: MyText(
-                                          text: 'Max',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.secondarytext,
-                                        ),
-                                      )
-                                    ]
+                                      border: InputBorder.none,
+                                      hintText: '0.00',
+                                      hintStyle: TextStyle(
+                                        fontSize: 20.0,
+                                        color: isDarkTheme
+                                          ? hexaCodeToColor(AppColors.darkSecondaryText)
+                                          : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
+                                      ),
+                                    ),
+                                    validator: (value) => value!.isEmpty
+                                      ? 'Please fill in amount'
+                                      : null,
+                                    /* Limit Length Of Text Input */
+                                    onChanged: (String value) {
+                                      onChanged!(value);
+                                    },
+                                    onFieldSubmitted: (value) {},
                                   )
-                                ],
-                              ),
+                                ),
+                                
+                                TextButton(
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                  ),
+                                  onPressed: () async {
+                                    await fetchMax!(context);
+                                  },
+                                  child: MyText(
+                                    text: 'Max',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.secondarytext,
+                                  ),
+                                )
+                              ]
                             ),
                           ),
 
                           // Swap Button
-                          MyFlatButton(
-                            edgeMargin: const EdgeInsets.only(top: 20, right: 20, left: 16),
-                            textButton: 'Swap',
+                          MyGradientButton(
+                            edgeMargin: EdgeInsets.all(paddingSize),
+                            textButton: "Swap",
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
                             action: !swapModel!.enableBtn
                               ? null
                               : () async {
@@ -177,7 +173,7 @@ class SwapBody extends StatelessWidget{
                               }
 
                               validateSwap!();
-                            },
+                            }
                           ),
                         ],
                       ),

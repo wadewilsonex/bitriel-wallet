@@ -24,18 +24,20 @@ class KeyStoreJson extends StatelessWidget{
             Navigator.pop(context);
           },
         ),
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor),
+        elevation: 0,
+        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
         title: MyText(text: 'Keystore (Json)', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Card(
+            color: Colors.white.withOpacity(0.06),
             margin: EdgeInsets.all(paddingSize),
             child: Padding(
               padding: EdgeInsets.all(paddingSize),
               child: MyText(
                 text: keystore.toString(),
+                color2: Colors.white
               )
             ),
           ),

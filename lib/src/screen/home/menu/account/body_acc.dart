@@ -43,12 +43,13 @@ class AccountBody extends StatelessWidget{
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: isDarkTheme
-                    ? hexaCodeToColor(AppColors.darkCard)
+                    ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                   boxShadow: [shadow(context)]
                 ),
                 child: Column(
                   children: [
+                    
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.only(
@@ -60,7 +61,7 @@ class AccountBody extends StatelessWidget{
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
+                          ? Colors.white.withOpacity(0.06)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Consumer<ApiProvider>(

@@ -46,8 +46,12 @@ class HomePageBody extends StatelessWidget {
               Iconsax.scan,
               size: 25,
             ),
-            onPressed: () {
+            onPressed: () async {
               
+              await TrxOptionMethod.scanQR(
+                context,
+                [],
+              );
             },
           )
         ],

@@ -171,8 +171,8 @@ class MenuSubTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
-          : Colors.grey[200],
+        ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
+        : Colors.grey[200],
       height: 55,
       width: double.infinity,
       alignment: Alignment.centerLeft,

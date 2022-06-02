@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/screen/home/swap/body_swap.dart';
 
 class SwapPage extends StatefulWidget {
@@ -10,12 +11,25 @@ class SwapPage extends StatefulWidget {
 
 class _SwapPageState extends State<SwapPage> {
 
-  final TextEditingController _myController = TextEditingController();
+  SwapPageModel _model = SwapPageModel();
+
+  void percentTap(int index){
+
+    setState(() {
+      _model.percentActive = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
     return SwapPageBody(
-      myController: _myController,
+      swapPageModel: _model,
+      percentTap: percentTap,
     );
   }
 }

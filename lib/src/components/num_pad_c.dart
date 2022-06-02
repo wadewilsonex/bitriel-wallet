@@ -23,149 +23,149 @@ class NumPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // implement the number keys (from 0 to 9) with the NumberButton widget
-            // the NumberButton widget is defined in the bottom of this file
-            children: [
-              NumberButton(
-                number: "1",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "1";
-                },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // implement the number keys (from 0 to 9) with the NumberButton widget
+          // the NumberButton widget is defined in the bottom of this file
+          children: [
+            NumberButton(
+              number: "1",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "1";
+              },
+            ),
+            NumberButton(
+              number: "2",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "2";
+              },
+            ),
+            NumberButton(
+              number: "3",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "3";
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            NumberButton(
+              number: "4",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "4";
+              },
+            ),
+            NumberButton(
+              number: "5",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "5";
+              },
+            ),
+            NumberButton(
+              number: "6",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "6";
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            NumberButton(
+              number: "7",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "7";
+              },
+            ),
+            NumberButton(
+              number: "8",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "8";
+              },
+            ),
+            NumberButton(
+              number: "9",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "9";
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // this button is used to delete the last number
+            NumberButton(
+              number:",",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += ",";
+              },
+            ),
+            NumberButton(
+              number: "0",
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+              onPressed: (){
+                controller.text += "0";
+              },
+            ),
+            NumberButton(
+              onPressed: (){
+                 delete();
+              },
+              icon: Transform.rotate(
+                angle: 70.6858347058,
+                child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.bgdColor), size: 29),
               ),
-              NumberButton(
-                number: "2",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "2";
-                },
-              ),
-              NumberButton(
-                number: "3",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "3";
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              NumberButton(
-                number: "4",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "4";
-                },
-              ),
-              NumberButton(
-                number: "5",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "5";
-                },
-              ),
-              NumberButton(
-                number: "6",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "6";
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              NumberButton(
-                number: "7",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "7";
-                },
-              ),
-              NumberButton(
-                number: "8",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "8";
-                },
-              ),
-              NumberButton(
-                number: "9",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "9";
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // this button is used to delete the last number
-              NumberButton(
-                number:",",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += ",";
-                },
-              ),
-              NumberButton(
-                number: "0",
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-                onPressed: (){
-                  controller.text += "0";
-                },
-              ),
-              NumberButton(
-                onPressed: (){
-                   delete();
-                },
-                icon: Transform.rotate(
-                  angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.bgdColor), size: 29),
-                ),
-                size: buttonSize,
-                color: buttonColor,
-                controller: controller,
-              ),
-            ],
-          ),
-        ],
-      ),
+              size: buttonSize,
+              color: buttonColor,
+              controller: controller,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

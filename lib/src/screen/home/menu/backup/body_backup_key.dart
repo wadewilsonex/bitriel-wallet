@@ -31,10 +31,12 @@ class BackUpKeyBody extends StatelessWidget{
             Navigator.pop(context);
           },
         ),
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor),
+        elevation: 0,
+        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
         title: MyText(text: 'Export Account', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Card(
+        color: Colors.white.withOpacity(0.06),
         margin: EdgeInsets.all(paddingSize),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -66,19 +68,19 @@ class BackUpKeyBody extends StatelessWidget{
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
-                await Component().dialogBox(context).then((value) async {
-                  if (value != ''){
-                    // await disableScreenShot!();
-                    ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-                    await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
-                      if (res!.seed != null){
-                        await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
-                      } else {
-                        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
-                      }
-                    });
-                  }
-                }); 
+                // await Component().dialogBox(context).then((value) async {
+                //   if (value != ''){
+                //     // await disableScreenShot!();
+                //     ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
+                //     await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
+                //       if (res!.seed != null){
+                //         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
+                //       } else {
+                //         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
+                //       }
+                //     });
+                //   }
+                // }); 
               },
             )
           ]
