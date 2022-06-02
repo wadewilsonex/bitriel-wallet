@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
@@ -336,6 +337,8 @@ Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16})
 }
 
 class MyBottomAppBar extends StatelessWidget {
+
+  final int? index;
   final bool? apiStatus;
   final HomeModel? homeM;
   final Function? scanReceipt;
@@ -343,8 +346,10 @@ class MyBottomAppBar extends StatelessWidget {
   final Function? fillAddress;
   final Function? contactPiker;
   final void Function()? openDrawer;
+  final void Function(int index)? onIndexChanged;
 
   const MyBottomAppBar({
+    required this.index,
     this.apiStatus,
     this.homeM,
     this.scanReceipt,
@@ -352,6 +357,7 @@ class MyBottomAppBar extends StatelessWidget {
     this.fillAddress,
     this.contactPiker,
     this.openDrawer,
+    this.onIndexChanged
   });
 
   @override
@@ -359,8 +365,8 @@ class MyBottomAppBar extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return BottomAppBar(
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkBgd)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
+        ? hexaCodeToColor(AppColors.darkBgd)
+        : hexaCodeToColor(AppColors.whiteHexaColor),
       // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(
@@ -368,93 +374,62 @@ class MyBottomAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.discover_1, size: 30, color: Colors.white),
+                child: Icon(Iconsax.discover_1, size: 30, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Discover",
+                txtColor: index == 0 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
-                  Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
+                  // Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
+                  onIndexChanged!(0);
                 }
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.wallet_check, size: 30, color: Colors.white),
+                child: Icon(Iconsax.wallet_check, size: 30, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Asset",
+                txtColor: index == 1 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
-
+                  onIndexChanged!(1);
+                  // Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
                 }
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.home, size: 30, color: Colors.white),
+                child: Icon(Iconsax.home, size: 30, color: index == 2 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Home",
+                txtColor: index == 2 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
-                  Navigator.push(context, RouteAnimation(enterPage: HomePage()));
+                  // Navigator.push(context, RouteAnimation(enterPage: HomePage()));
+                  onIndexChanged!(2);
                 }
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.card_coin, size: 30, color: Colors.white),
+                child: Icon(Iconsax.card_coin, size: 30, color: index == 3 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Swap",
+                txtColor: index == 3 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
-
+                  onIndexChanged!(3);
                 }
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.setting, size: 30, color: Colors.white),
+                child: Icon(Iconsax.setting, size: 30, color: index == 4 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Setting",
+                txtColor: index == 4 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
 
+                  // onIndexChanged!(4);
                 }
               ),
             ),
-            // Expanded(
-            //     child: MyIconButton(
-            //   icon: 'telegram.svg',
-            //   iconSize: 36,
-            //   onPressed: !apiStatus!
-            //       ? null
-            //       : () async {
-            //           await MyBottomSheet().trxOptions(
-            //             context: context,
-            //             portfolioList: homeM!.portfolioList,
-            //           );
-            //         },
-            // )),
-            // Expanded(
-            //     child: MyIconButton(
-            //   icon: 'wallet.svg',
-            //   iconSize: 36,
-            //   onPressed: !apiStatus!
-            //       ? null
-            //       : () async {
-            //           toReceiveToken!();
-            //         },
-            // )),
-            // Expanded(child: Container()),
-            // Expanded(
-            //   child: MyIconButton(
-            //     icon: 'contact_list.svg',
-            //     iconSize: 26,
-            //     onPressed: !apiStatus!
-            //         ? null
-            //         : () async {
-            //             Navigator.pushNamed(context, AppString.contactBookView);
-            //           },
-            //   ),
-            // ),
-            // Expanded(
-            //   child: MyIconButton(
-            //     icon: 'menu.svg',
-            //     iconSize: 27,
-            //     onPressed: !apiStatus! ? null : openDrawer,
-            //   ),
-            // )
+
           ],
         ),
       ),

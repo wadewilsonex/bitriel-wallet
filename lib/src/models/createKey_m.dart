@@ -9,7 +9,7 @@ class CreateKeyModel {
   List<String>? threeNum = [];
   List<String>? tmpThreeNum = [];
 
-  void empty(){
+  void emptyData(){
     initial = false;
     seed = "";
     tmpSeed = "";

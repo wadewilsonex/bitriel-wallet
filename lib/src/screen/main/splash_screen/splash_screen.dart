@@ -2,7 +2,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 class MySplashScreen extends StatefulWidget {
@@ -81,12 +83,20 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     final passCode = await StorageServices().readSecure(DbKey.passcode);
 
     if (bio == false && passCode != '') {
+      
       Navigator.pushReplacement(
         context,
         RouteAnimation(
-          enterPage: const Passcode(label: 'fromSplash'),
+          enterPage: HomePage(),
         ),
       );
+
+      // Navigator.pushReplacement(
+      //   context,
+      //   RouteAnimation(
+      //     enterPage: const Passcode(label: 'fromSplash'),
+      //   ),
+      // );
     } else {
       if (bio) {
         Navigator.pushReplacement(

@@ -21,6 +21,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindingObserver {
+
   MenuModel menuModel = MenuModel();
   LineChartModel lineChartModel = LineChartModel();
   final HomeModel _homeM = HomeModel();
@@ -287,7 +288,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       key: _homeM.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: Menu(_homeM.userData!),
+        child: Menu(userData: _homeM.userData!),
       ),
 
       // AnnotatedRegion Use For System Icon Above SafeArea
@@ -326,12 +327,12 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: MyBottomAppBar(
-        apiStatus: true,
-        homeM: _homeM,
-        toReceiveToken: toReceiveToken,
-        openDrawer: openMyDrawer,
-      ),
+      // bottomNavigationBar: MyBottomAppBar(
+      //   apiStatus: true,
+      //   homeM: _homeM,
+      //   toReceiveToken: toReceiveToken,
+      //   openDrawer: openMyDrawer,
+      // ),
     );
   }
 }

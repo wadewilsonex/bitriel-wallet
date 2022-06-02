@@ -10,30 +10,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  late PageController _pageController;
-  late int activeIndex;
-
-  late final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
+  
+  HomePageModel _model = HomePageModel();
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(viewportFraction: 0.8,);
-    activeIndex = 0;
-    onPageChanged = (int index, CarouselPageChangedReason reason) {
+    _model.activeIndex = 2;
+    _model.carouActiveIndex = 0;
+    _model.globalKey = GlobalKey<ScaffoldState>();
+    _model.onPageChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
-        this.activeIndex = index;
+        this._model.carouActiveIndex = index;
       });
     };
+  }
+  
+  void onIndexChanged(int index){
+    print("index $index");
+    setState(() {
+      _model.activeIndex = index;
+      _model.pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return HomePageBody(
-      controller: _pageController,
-      activeIndex: activeIndex,
-      onPageChanged: onPageChanged,
+      homePageModel: _model,
+      onIndexChanged: onIndexChanged,
     );
   }
 }

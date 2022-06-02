@@ -18,6 +18,9 @@ class AppColors {
   static const String selected = "#00642A";
   static const String redColor = "#FF0000";
 
+  // Icon Color
+  static const String iconColor = "#0D6BA6";
+
   //dark theme
   static const String darkBgd = "#023859";
   static const String darkCard = "#181C35";
@@ -28,7 +31,6 @@ class AppColors {
   static const String primary = "#03A9F4";
   static const String blue = "#004C7B";
   
-
   // orange
   static const String primaryColor = "#F29F05";
 
@@ -81,4 +83,10 @@ class AppColors {
 
   /* Slider Color */
   static const String sliderColor = "#0D6BA6";
+
+  /* Header Title Text Color */
+  static const String titleAssetColor = "#2B698E";
+
+  /* Token Name Text Color */
+  static const String tokenNameColor = "#C2C2C2";
 }

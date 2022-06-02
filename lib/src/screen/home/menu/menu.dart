@@ -3,11 +3,11 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
 class Menu extends StatefulWidget {
-  final Map<String, dynamic> _userData;
+  final Map<String, dynamic>? userData;
 
-  const Menu(
-    this._userData
-  );
+  const Menu({
+    this.userData
+});
 
   @override
   State<StatefulWidget> createState() {
@@ -119,7 +119,7 @@ class MenuState extends State<Menu> {
             : hexaCodeToColor(AppColors.bgdColor),
           child: SingleChildScrollView(
             child: MenuBody(
-              userInfo: widget._userData,
+              userInfo: widget.userData,
               model: _menuModel,
               enablePassword: enablePassword,
               switchBio: switchBiometric

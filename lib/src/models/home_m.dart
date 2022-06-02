@@ -1,4 +1,5 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 class HomeModel {
 
@@ -34,4 +35,15 @@ class HomeModel {
   // List<CircularSegmentEntry> circularChart;
 
   // RefreshController refreshController = RefreshController();
+}
+
+class HomePageModel {
+
+  GlobalKey<ScaffoldState>? globalKey;
+
+  PageController pageController = PageController(initialPage: 2);
+  late int activeIndex;
+  late int carouActiveIndex;
+
+  late final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
 }

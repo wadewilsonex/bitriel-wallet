@@ -538,11 +538,13 @@ class BodyScaffold extends StatelessWidget {
 }
 
 class MyIconButton extends StatelessWidget {
+
   final String? title;
   final Widget? child;
   final String? icon;
   final double? iconSize;
   final Function? onPressed;
+  final String? txtColor;
   // final EdgeInsetsGeometry padding;
 
   const MyIconButton({
@@ -550,6 +552,7 @@ class MyIconButton extends StatelessWidget {
     this.child,
     this.icon,
     this.iconSize,
+    this.txtColor,
     // this.padding = const EdgeInsets.all(0),
     this.onPressed,
   });
@@ -575,8 +578,8 @@ class MyIconButton extends StatelessWidget {
           MyText(
             text: title,
             fontSize: 12,
-            color: AppColors.whiteColorHexa,
-          
+            color: txtColor,
+            
           )
         ],
       )

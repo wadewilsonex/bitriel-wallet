@@ -5,30 +5,37 @@ import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
+import 'package:wallet_apps/src/screen/home/discover/discover.dart';
+import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 
 class HomePageBody extends StatelessWidget {
-  final PageController controller;
-  final int activeIndex;
-  final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
-  
+
+  final HomePageModel? homePageModel;
+  final Function(int index)? onIndexChanged;
 
   const HomePageBody({ 
     Key? key, 
-    required this.controller, 
-    required this.activeIndex,
-    required this.onPageChanged
+    this.homePageModel,
+    this.onIndexChanged
     }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      key: homePageModel!.globalKey,
+      drawer: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: Menu(),
+      ),
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-
+            homePageModel!.globalKey!.currentState!.openDrawer();
           },
           icon: Icon(Iconsax.profile_circle, size: 25),
         ),
@@ -44,57 +51,72 @@ class HomePageBody extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: paddingSize),
-              child: _carouselAds(context, activeIndex),
+      body: PageView(
+        controller: homePageModel!.pageController,
+        onPageChanged: onIndexChanged,
+        children: [
+
+          DiscoverPage(),
+
+          AssetsPage(),
+
+          SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                  child: _carouselAds(context, homePageModel!.carouActiveIndex),
+                ),
+          
+                SizedBox(height: 25), 
+                _menu(context),
+          
+                SizedBox(height: 25), 
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "DeFi",
+                    fontSize: 20,
+                    color: AppColors.whiteColorHexa,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
+                  child: _defiMenu(context),
+                ),
+          
+                SizedBox(height: 25), 
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "Marketplace",
+                    fontSize: 20,
+                    color: AppColors.whiteColorHexa,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
+                  child: _marketPlaceMenu(context),
+                ),
+                
+              ],
             ),
-      
-            SizedBox(height: 25), 
-            _menu(context),
-      
-            SizedBox(height: 25), 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
-                text: "DeFi",
-                fontSize: 20,
-                color: AppColors.whiteColorHexa,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-              child: _defiMenu(context),
-            ),
-      
-      
-            SizedBox(height: 25), 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
-                text: "Marketplace",
-                fontSize: 20,
-                color: AppColors.whiteColorHexa,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-              child: _marketPlaceMenu(context),
-            ),
-            
-          ],
-        ),
+          ),
+
+          SwapPage(),
+        ],
       ),
       bottomNavigationBar: MyBottomAppBar(
+        index: homePageModel!.activeIndex,
         apiStatus: true,
+        onIndexChanged: onIndexChanged,
       ),
     );
   }
@@ -109,7 +131,7 @@ class HomePageBody extends StatelessWidget {
               autoPlay: true,
               enlargeCenterPage: true,
               scrollDirection: Axis.horizontal,
-              onPageChanged: onPageChanged,
+              onPageChanged: homePageModel!.onPageChanged,
             ),
             items: imgList
               .map((item) => Container(
@@ -244,7 +266,7 @@ class HomePageBody extends StatelessWidget {
 
         Expanded(
           child: DefiMenuItem(
-            title: "Balancer",
+            title: "Uniswap",
             action: () {
         
             },
