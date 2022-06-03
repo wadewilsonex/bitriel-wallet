@@ -20,9 +20,13 @@ class MenuHeader extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return Container(
-      margin: const EdgeInsets.only(left: 16),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: hexaCodeToColor("#114463"),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: SizedBox(
-        height: 138,
         child: Consumer<ApiProvider>(
           builder: (context, value, child) {
             return Row(
@@ -108,7 +112,7 @@ class MenuHeader extends StatelessWidget {
                       children: [
                         MyText(
                           right: 5,
-                          text: acc.address!.replaceRange( 5, acc.address!.length - 5, "....."),
+                          text: acc.address!.replaceRange( 6, acc.address!.length - 6, "....."),
                           color: isDarkTheme
                             ? AppColors.whiteColorHexa
                             : AppColors.textColor,
@@ -170,27 +174,35 @@ class MenuSubTitle extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
-      color: isDarkTheme
-        ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
-        : Colors.grey[200],
+      // color: isDarkTheme
+      //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
+      //   : Colors.grey[200],
       height: 55,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: MyText(
-              fontSize: 16,
-              text: MenuModel.listTile[index!]['title'].toString(),
-              color: AppColors.secondarytext,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 5,
+          Row(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: MyText(
+                  fontSize: 16,
+                  text: MenuModel.listTile[index!]['title'].toString(),
+                  color: "#D4D6E3",
+                  textAlign: TextAlign.start,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 0.5,
+                  color: hexaCodeToColor("#D4D6E3"),
+                  indent: 10,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -199,6 +211,7 @@ class MenuSubTitle extends StatelessWidget {
 }
 
 class MyListTile extends StatelessWidget {
+  final Widget? icon;
   final void Function()? onTap;
   final int? index;
   final int? subIndex;
@@ -206,6 +219,7 @@ class MyListTile extends StatelessWidget {
   final bool? enable;
 
   const MyListTile({
+    this.icon,
     @required this.index,
     @required this.subIndex,
     this.enable = true,
@@ -217,10 +231,10 @@ class MyListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return ListTile(
-      contentPadding: const EdgeInsets.only(left: 30),
+      // contentPadding: const EdgeInsets.only(left: 30),
       enabled: enable!,
       onTap: onTap,
-      leading: SvgPicture.asset(
+      leading: icon ?? SvgPicture.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
         color: isDarkTheme ? Colors.white : Colors.black,
         width: 30,

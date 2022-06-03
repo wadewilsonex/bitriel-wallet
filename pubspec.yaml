@@ -138,17 +138,17 @@ dev_dependencies:
 
   # run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
 flutter_native_splash:
-  color: "#F5F5F5"
-  color_dark: "#090D28"
+  color: "#023859"
+  color_dark: "#023859"
   
-  image: assets/bitriel_splash_500.png
+  image: assets/logo/bitriel-logo-v2.png
   android: true
   ios: true
  
 
 # Run command: flutter pub run flutter_launcher_icons:main 
 flutter_icons:
-  image_path: "assets/bitriel_icon.png"
+  image_path: "assets/logo/bitriel-logo-v2.png"
   ios: true
   android: true
 

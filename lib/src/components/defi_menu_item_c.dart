@@ -3,10 +3,12 @@ import 'package:wallet_apps/index.dart';
 class DefiMenuItem extends StatelessWidget {
   final String? title;
   final Function? action;
-  
+  final Widget? image;
+
   DefiMenuItem({
     this.title,
     @required this.action,
+    this.image
   });
 
 
@@ -23,6 +25,11 @@ class DefiMenuItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: image!,
+          ),
+
           Row(  
             children: [
               MyText(

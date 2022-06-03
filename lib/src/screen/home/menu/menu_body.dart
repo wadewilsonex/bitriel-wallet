@@ -26,6 +26,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 1),
         
         MyListTile(
+          icon: Icon(Iconsax.card_coin, color: Colors.white, size: 30),
           index: 2,
           subIndex: 1,
           onTap: () {
@@ -34,6 +35,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
+          icon: Icon(Iconsax.note_2, color: Colors.white, size: 30),
           index: 1,
           subIndex: 0,
           onTap: () {
@@ -42,8 +44,18 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
+          icon: Icon(Iconsax.wallet_check, color: Colors.white, size: 30),
           index: 1,
           subIndex: 1,
+          onTap: () {
+            Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          },
+        ),
+        
+        MyListTile(
+          icon: Icon(Iconsax.wallet_check, color: Colors.white, size: 30),
+          index: 1,
+          subIndex: 2,
           onTap: () {
             Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
@@ -53,6 +65,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 3),
 
         MyListTile(
+          icon: Icon(Iconsax.lock, color: Colors.white, size: 30),
           enable: false,
           index: 3,
           subIndex: 0,
@@ -75,6 +88,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
+          icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 30),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -89,6 +103,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 4),
 
         MyListTile(
+          icon: Icon(Iconsax.moon, color: Colors.white, size: 30),
           index: 4,
           subIndex: 0,
           onTap: null,
@@ -105,6 +120,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 5),
 
         MyListTile(
+          icon: Icon(Iconsax.people, color: Colors.white, size: 30),
           index: 5,
           subIndex: 0,
           onTap: () async {
