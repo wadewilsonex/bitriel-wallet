@@ -44,8 +44,8 @@ class DiscoverPageBody extends StatelessWidget {
                 ),
               ],
               controller: tabController,
-              labelColor: hexaCodeToColor(AppColors.orangeColor),
-              indicatorColor: hexaCodeToColor(AppColors.orangeColor),
+              labelColor: hexaCodeToColor(AppColors.whiteColorHexa),
+              indicatorColor: hexaCodeToColor(AppColors.whiteColorHexa),
               indicatorSize: TabBarIndicatorSize.tab,
             ),
 

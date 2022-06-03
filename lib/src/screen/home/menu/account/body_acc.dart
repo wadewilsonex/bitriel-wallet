@@ -60,9 +60,9 @@ class AccountBody extends StatelessWidget{
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: isDarkTheme
-                          ? Colors.white.withOpacity(0.06)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        // color: isDarkTheme
+                        //   ? Colors.white.withOpacity(0.06)
+                        //   : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Consumer<ApiProvider>(
                         builder: (context, provider, widget){

@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _model.activeIndex = 3;
+    _model.activeIndex = 2;
     _model.carouActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onPageChanged = (int index, CarouselPageChangedReason reason) {
