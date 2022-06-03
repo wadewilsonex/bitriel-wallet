@@ -54,8 +54,9 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     //   }
     // }
     final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    lsContractSymbol = ContractService.getConSymbol(listCon);
+    lsContractSymbol = ContractService.getConSymbol(context, listCon);
     for(int i = 0; i< lsContractSymbol!.length; i++){
+      print(lsContractSymbol![i]);
       if (lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
         initialValue = i;
         setState(() { });
@@ -73,28 +74,15 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void changedEthAdd(String value) {
-    wallet = Provider.of<ContractProvider>(context, listen: false).sortListContract[int.parse(value)].address;
-    // if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
-    //   wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    // } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
-    //   wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-    // } else if (lsContractSymbol![int.parse(value)]['symbol'] != 'DOT'){
-    //   wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-    // } else {
-    //   wallet = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
-    // }
+    // wallet = Provider.of<ContractProvider>(context, listen: false).sortListContract[int.parse(value)].address;
+    if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
+      wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+    } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
+      wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+    } else {
+      wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+    }
     setState(() { });
-    // if (value != 'SEL' && value != 'DOT' && value != 'KMPI' && value != 'BTC') {
-    //   setState(() {
-    //     wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-    //   });
-    // } else {
-    //   if (value == 'BTC') {
-    //     wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    //   } else {
-    //     wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-    //   }
-    // }
   }
 
   @override

@@ -96,19 +96,21 @@ class AddAssetBody extends StatelessWidget {
                         height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: hexaCodeToColor(isDarkTheme
-                            ? AppColors.darkCard
-                            : AppColors.whiteHexaColor),
+                          color: Colors.white.withOpacity(0.06),
+                          // hexaCodeToColor(isDarkTheme
+                          //   ? 
+                          //   : AppColors.whiteHexaColor),
                           borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(
-                            width: initialValue != null ? 1 : 0,
-                            color: initialValue != null
-                              ? hexaCodeToColor(AppColors.secondary)
-                              : Colors.transparent)
+                          // border: Border.all(
+                          //   width: initialValue != null ? 1 : 0,
+                          //   color: initialValue != null
+                          //     ? hexaCodeToColor(AppColors.secondary)
+                          //     : Colors.transparent)
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+
                             MyText(
                               left: 16.0,
                               text: 'Select Network',

@@ -2,6 +2,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
+import 'dart:math';
 
 class AssetsPageBody extends StatelessWidget {
   const AssetsPageBody({ Key? key }) : super(key: key);
@@ -218,18 +219,23 @@ class AssetsPageBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
+              
+              Transform.rotate(
+                angle: pi * 45,
+                child: Icon(Iconsax.import, color: Colors.white, size: 35),
+              ),
+              
               MyText(
                 text: "Send",
                 fontSize: 16,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
-              Icon(Iconsax.import, color: Colors.white, size: 35),
             ],
           ),
           height: height,
           width: width,
-          lsColor: ["#0D6BA6", "#2EF9C8"],
+          lsColor: ["#2EF9C8", "#0D6BA6"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){

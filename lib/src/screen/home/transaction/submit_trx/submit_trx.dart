@@ -415,7 +415,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   bool isNative(){
-    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "SEL" && trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
+    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "SEL" && (ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org : trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].orgTest) == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
   }
 
   void unFocusAllField() {

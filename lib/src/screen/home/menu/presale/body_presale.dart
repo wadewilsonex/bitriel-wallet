@@ -155,7 +155,7 @@ class _PresaleBodyState extends State<PresaleBody> {
                             borderRadius: BorderRadius.circular(8.0),
                             color: isDarkTheme
                                 ? hexaCodeToColor(AppColors.darkBgd)
-                                : hexaCodeToColor(AppColors.bgdColor),
+                                : hexaCodeToColor(AppColors.lowWhite),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,7 +260,7 @@ class _PresaleBodyState extends State<PresaleBody> {
                             borderRadius: BorderRadius.circular(8.0),
                             color: isDarkTheme
                                 ? hexaCodeToColor(AppColors.darkBgd)
-                                : hexaCodeToColor(AppColors.bgdColor),
+                                : hexaCodeToColor(AppColors.lowWhite),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

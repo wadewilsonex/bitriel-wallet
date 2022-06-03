@@ -197,7 +197,7 @@ Widget scaffoldBGDecoration(
     width: double.infinity,
     height: double.infinity,
     padding: EdgeInsets.only(top: top!, right: right!, bottom: bottom!, left: left!),
-    decoration: scaffoldBGColor(AppColors.bgdColor, AppColors.bgdColor),
+    decoration: scaffoldBGColor(AppColors.lowWhite, AppColors.lowWhite),
     child: SafeArea(
       child: child!,
     ),

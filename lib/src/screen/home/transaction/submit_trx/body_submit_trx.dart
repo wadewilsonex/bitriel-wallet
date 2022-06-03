@@ -124,7 +124,7 @@ class SubmitTrxBody extends StatelessWidget {
                             ReuseDropDown(
                               initialValue: scanPayM!.assetValue.toString(),
                               onChanged: onChangeDropDown,
-                              itemsList: ContractService.getConSymbol(contract.sortListContract),
+                              itemsList: ContractService.getConSymbol(context, contract.sortListContract),
                               style: TextStyle(
                                 color: isDarkTheme
                                   ? Colors.white

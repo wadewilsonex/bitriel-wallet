@@ -157,7 +157,7 @@ class NumPad extends StatelessWidget {
               },
               icon: Transform.rotate(
                 angle: 70.6858347058,
-                child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.bgdColor), size: 29),
+                child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 29),
               ),
               size: buttonSize,
               color: buttonColor,

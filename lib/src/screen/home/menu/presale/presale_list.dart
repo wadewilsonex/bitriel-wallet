@@ -194,7 +194,7 @@ class PresaleList extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDarkTheme
             ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.bgdColor),
+            : hexaCodeToColor(AppColors.lowWhite),
           borderRadius: new BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),

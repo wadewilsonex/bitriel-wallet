@@ -103,7 +103,16 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
           context: context,
           contents: "You have successfully create your account.",
           textButton: "Complete",
-          image: Image.asset("assets/icons/success.png")
+          image: Image.asset("assets/icons/success.png"),
+          btn2: MyGradientButton(
+            edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+            textButton: "Complete",
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {
+              Navigator.pop(context);
+            },
+          )
         );
 
         Navigator.pushAndRemoveUntil(

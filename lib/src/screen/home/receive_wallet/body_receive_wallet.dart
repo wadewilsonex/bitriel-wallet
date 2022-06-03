@@ -89,13 +89,28 @@ class ReceiveWalletBody extends StatelessWidget {
                         keyQrShare!,
                       ),
 
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 16, bottom: 16),
+                      //   child: TextShimmer(
+                      //     txt: name,
+                      //   )
+                      // ),
+
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 16, bottom: 16),
+                      //   child: TextShimmer(
+                      //     width: 300,
+                      //     txt: wallet,
+                      //     highlightColor: Colors.white,
+                      //   )
+                      // ),
                       MyText(
                         text: name ?? 'User name',
                         bottom: 16,
                         top: 16,
                         color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
                       ),
                       MyText(
                         width: 300,

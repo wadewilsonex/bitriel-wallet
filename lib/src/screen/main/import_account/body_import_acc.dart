@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 
 class ImportAccBody extends StatelessWidget {
@@ -63,17 +64,7 @@ class ImportAccBody extends StatelessWidget {
               textButton: "Continue",
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
-              action: 
-              enable == false
-              ? null
-              : () async {
-                Navigator.push(
-                  context, 
-                  Transition(
-                    child: FingerPrint(importAccount: submit,)
-                  )
-                );
-              },
+              action: onSubmit,
             ),
           ],
         ),

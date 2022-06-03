@@ -41,7 +41,7 @@ class WelcomeBody extends StatelessWidget {
             text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
             fontSize: 18,
             color: isDarkTheme
-                ? AppColors.bgdColor
+                ? AppColors.lowWhite
                 : AppColors.textColor,
           ),
         ),

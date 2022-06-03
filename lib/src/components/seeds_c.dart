@@ -86,7 +86,7 @@ class SeedContents extends StatelessWidget{
         SizedBox(height: 25),
         MyText(
           text: subTitle,
-          color: AppColors.bgdColor,
+          color: AppColors.lowWhite,
           fontSize: 18,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,

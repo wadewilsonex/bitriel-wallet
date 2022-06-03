@@ -46,7 +46,7 @@ class QrViewTitle extends StatelessWidget {
                   onChanged: (String? value){
                     onChanged!(value);
                   },
-                  itemsList: ContractService.getConSymbol(contract.sortListContract),
+                  itemsList: ContractService.getConSymbol(context, contract.sortListContract),
                   style: TextStyle(
                     color: isDarkTheme
                       ? hexaCodeToColor( AppColors.darkSecondaryText)

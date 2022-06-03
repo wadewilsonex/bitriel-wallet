@@ -16,7 +16,7 @@ class NavigationDrawer extends StatelessWidget {
           children: [
             MyAppBar(
               title: '',
-              color: hexaCodeToColor(AppColors.bgdColor),
+              color: hexaCodeToColor(AppColors.lowWhite),
               onPressed: () {
                 Navigator.pop(context);
               },

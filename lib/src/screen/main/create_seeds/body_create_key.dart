@@ -76,7 +76,7 @@ class CreateSeedsBody extends StatelessWidget {
                 SizedBox(height: 86),
                 MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
-                  color: AppColors.bgdColor,
+                  color: AppColors.lowWhite,
                   fontSize: 16,
                 ),
 

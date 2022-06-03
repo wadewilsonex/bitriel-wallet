@@ -17,7 +17,7 @@ class MyBottomSheet {
           decoration: BoxDecoration(
             color: isDarkTheme
               ? hexaCodeToColor(AppColors.darkBgd)
-              : hexaCodeToColor(AppColors.bgdColor),
+              : hexaCodeToColor(AppColors.lowWhite),
           ),
           height: 153,
           child: Column(
@@ -122,7 +122,7 @@ class MyBottomSheet {
       isScrollControlled: true,
       builder: (context) {
         return Container(
-          decoration: BoxDecoration(color: hexaCodeToColor(AppColors.bgdColor)),
+          decoration: BoxDecoration(color: hexaCodeToColor(AppColors.lowWhite)),
           height: MediaQuery.of(context).size.height - 107,
           child: Column(
             children: [
@@ -160,7 +160,7 @@ class MyBottomSheet {
           builder: (BuildContext context, StateSetter setState){
             return SafeArea(
               child: Container(
-                decoration: BoxDecoration(color: hexaCodeToColor(AppColors.bgdColor)),
+                decoration: BoxDecoration(color: hexaCodeToColor(AppColors.lowWhite)),
                 height: MediaQuery.of(context).size.height / 1.2,
                 child: Column(
                   children: [

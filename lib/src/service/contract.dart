@@ -197,22 +197,29 @@ class ContractService implements IContractService {
     return maxGas;
   }
 
-  static List<Map<String, dynamic>> getConSymbol(List<SmartContractModel> ls){
+  static List<Map<String, dynamic>> getConSymbol(BuildContext context, List<SmartContractModel> ls){
     List<Map<String, dynamic>> tmp = [];
-    // for (int i = 0; i < ls.length; i++){
-    //   tmp.add({
-    //     "symbol": ls[i].symbol,
-    //     "index": i
-    //   });
-    // }List<Map<String, dynamic>> tmp = [];
-    for (int i = 0; i < ls.length; i++){
-      tmp.add({
-        "symbol": "${ls[i].symbol} ${ls[i].org != '' ? '(${ls[i].org})' : ''}",
-        "index": i
-      });
-    }
 
+    if (ls.isNotEmpty){
+
+      ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
+      // for (int i = 0; i < ls.length; i++){
+      //   tmp.add({
+      //     "symbol": ls[i].symbol,
+      //     "index": i
+      //   });
+      // }List<Map<String, dynamic>> tmp = [];
+      for (int i = 0; i < ls.length; i++){
+        String org = _getOrg(i, _api, ls);
+        tmp.add({
+          "symbol": "${ls[i].symbol} ${ org != '' ? '($org)' : ''}",
+          "index": i
+        });
+      }
+    }
 
     return tmp;
   }
+
+  static String _getOrg(int i, ApiProvider _api, List<SmartContractModel> ls) => (_api.isMainnet ? ls[i].org : ls[i].orgTest)!;
 }

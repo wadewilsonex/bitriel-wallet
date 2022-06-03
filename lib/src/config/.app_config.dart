@@ -64,7 +64,7 @@ class AppConfig {
       httpUrlMN: 'https://app.selendra.org/',
       wsUrlTN: 'wss://rpc1-testnet.selendra.org/',
       wsUrlMN: 'wss://rpc-mainnet.selendra.org/',
-      ss58: 42,
+      ss58: 204,
       ss58MN: 972
     ),
     

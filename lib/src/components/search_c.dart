@@ -39,7 +39,7 @@ class SearchItem extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: EdgeInsets.all(paddingSize),
-      color: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.bgdColor),//"#2C2C2D" : AppColors.bgdColor),
+      color: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.lowWhite),//"#2C2C2D" : AppColors.bgdColor),
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
@@ -146,7 +146,7 @@ class SearchItemTrx extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
-      color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.bgdColor),
+      color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lowWhite),
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){

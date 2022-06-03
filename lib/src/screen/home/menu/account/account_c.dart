@@ -26,12 +26,12 @@ class AccountC {
           height: MediaQuery.of(context).size.height / 1.5,
           color: isDarkTheme
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-            : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
+            : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  
+
                   MyInputField(
                     labelText: 'Old Pin',
                     controller: _oldPinController,
@@ -96,7 +96,7 @@ class AccountC {
           height: MediaQuery.of(context).size.height / 2,
           color: isDarkTheme
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
-            : Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
+            : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
             key: _backupKey,
             child: SingleChildScrollView(

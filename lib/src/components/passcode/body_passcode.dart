@@ -265,7 +265,7 @@ class ReuseNumPad extends StatelessWidget {
                   },
                   child: Transform.rotate(
                     angle: 70.6858347058,
-                    child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.bgdColor), size: 29),
+                    child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 29),
                   ),
                 )
               ],

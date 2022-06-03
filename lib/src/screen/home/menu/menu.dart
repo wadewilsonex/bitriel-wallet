@@ -116,7 +116,7 @@ class MenuState extends State<Menu> {
         child: Container(
           color: isDarkTheme
             ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.bgdColor),
+            : hexaCodeToColor(AppColors.lowWhite),
           child: SingleChildScrollView(
             child: MenuBody(
               userInfo: widget.userData,

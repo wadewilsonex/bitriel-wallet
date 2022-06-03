@@ -9,7 +9,7 @@ class AppColors {
   static const String darkGrey = "#302f34";
 
   /* Background Color */
-  static const String bgdColor = "#F5F5F5"; //"#090D28"; //AppConfig.bgdColor;
+  static const String lowWhite = "#F5F5F5"; //"#090D28"; //AppConfig.bgdColor;
   static const String whiteHexaColor = "#FFFFFF"; //"#181C35";
   static const String textColor = "#0F1112"; //"#585D86";
   static const String textBtnColor = "#000000";

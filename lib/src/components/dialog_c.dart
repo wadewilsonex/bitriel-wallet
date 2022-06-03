@@ -73,7 +73,7 @@ class DialogComponents {
           title: titles != null ? MyText(
             text: titles,
             fontWeight: FontWeight.bold,
-            color: AppColors.darkCard//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+            color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
           ) : Container(),
           buttonPadding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
           content: contents != null ? Column(
@@ -82,10 +82,10 @@ class DialogComponents {
               
               image != null ? image : Container(),
               
-              SizedBox(height: 30),
+              image != null ? SizedBox(height: 30) : Container(),
               MyText(
                 text: contents,
-                color: AppColors.bgdColor,
+                color: AppColors.whiteColorHexa,
                 pLeft: 16,
                 right: 16,
                 top: 16,
@@ -101,14 +101,9 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: MyGradientButton(
-                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                textButton: textButton,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
-                  Navigator.pop(context);
-                },
+              child: MyText(
+                text: "Close",
+                color: AppColors.lowWhite
               ),
             )
           ],

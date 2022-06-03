@@ -51,7 +51,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                 SizedBox(height: 25),
                 MyText(
                   text: "Please, read carefully!",
-                  color: AppColors.bgdColor,
+                  color: AppColors.lowWhite,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),  
@@ -87,7 +87,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                 MyText(
                   text: "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
                   textAlign: TextAlign.start,
-                  color: AppColors.bgdColor,
+                  color: AppColors.lowWhite,
                   fontSize: 16,
                 ),
         

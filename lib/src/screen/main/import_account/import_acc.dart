@@ -64,13 +64,17 @@ class ImportAccState extends State<ImportAcc> {
     });
   }
 
-  void onSubmit() {
-    Navigator.push(
-      context, 
-      Transition(
-        child: FingerPrint(importAccount: addAccount,)
-      )
-    );
+  void onSubmit() async {
+    if (enable == true){
+      Navigator.push(
+        context, 
+        Transition(
+          child: FingerPrint(importAccount: addAccount,)
+        )
+      );
+    } else {
+      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
+    }
   }
 
   // Submit Mnemonic
@@ -242,16 +246,14 @@ class ImportAccState extends State<ImportAcc> {
     print("verifySeeds");
     try {
       enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
-      
-      if (enable == true){
-        setState(() { });
-      }
+      setState(() { });
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }
   }
 
   Future<void> addAccount() async {
+    
     dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
 
     dynamic _json = await _api!.apiKeyring.importAccount(
@@ -271,16 +273,27 @@ class ImportAccState extends State<ImportAcc> {
 
     await importAccountNAsset(_api!);
 
+    
     await DialogComponents().dialogCustom(
       context: context,
       contents: "You have successfully create your account.",
       textButton: "Complete",
-      image: Image.asset("assets/icons/success.png")
+      image: Image.asset("assets/icons/success.png"),
+      btn2: MyGradientButton(
+        edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+        textButton: "Complete",
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
+        action: () async {
+          Navigator.pop(context);
+        },
+      )
     );
     Navigator.push(
       context, 
       Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
     );
+    
   }
   
   Future<void> importAccountNAsset(ApiProvider _api) async {
