@@ -208,6 +208,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       body: Center(
         child: CircularProgressIndicator(),
       ),

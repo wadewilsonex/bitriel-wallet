@@ -71,10 +71,7 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                  child: _carouselAds(context, homePageModel!.carouActiveIndex),
-                ),
+                _carouselAds(context, homePageModel!.carouActiveIndex),
           
                 SizedBox(height: 25), 
                 _menu(context),
@@ -127,44 +124,58 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _carouselAds(BuildContext context, int activeIndex) {
-    return Container(
-      child: Column(
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              aspectRatio: 21 / 9,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
-              onPageChanged: homePageModel!.onPageChanged,
+    return Column(
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+            viewportFraction: 1,  
+            aspectRatio: 26 / 9,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            scrollDirection: Axis.horizontal,
+            onPageChanged: homePageModel!.onPageChanged,
+          ),
+          items: imgList
+            .map((item) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              child: Card(
+                margin: EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10.0,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                  child: Image.network(
+                    item,
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width, 
+                  ),
+                ),
+              ),
             ),
-            items: imgList
-              .map((item) => Container(
-                    child: Center(
-                      child:Image.network(item, fit: BoxFit.cover)
-                    ),
-                  )
-                )
-              .toList(),
-          ),
+          )
+          .toList(),
+        ),
 
-          SizedBox(height: 15),
-
-          AnimatedSmoothIndicator(
-            activeIndex: activeIndex,
-            count: imgList.length,
-            effect: SlideEffect(
-              radius: 5.0,
-              dotWidth: 25.0,
-              dotHeight: 7.0,
-              paintStyle: PaintingStyle.fill,
-              dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
-              activeDotColor: hexaCodeToColor(AppColors.sliderColor),
-            ), 
-            
-          ),
-        ],
-      )
+        AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: imgList.length,
+          effect: SlideEffect(
+            radius: 5.0,
+            dotWidth: 25.0,
+            dotHeight: 2.0,
+            paintStyle: PaintingStyle.fill,
+            dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
+            activeDotColor: hexaCodeToColor(AppColors.sliderColor),
+          ), 
+          
+        ),
+      ],
     );
   }
 
@@ -260,6 +271,11 @@ class HomePageBody extends StatelessWidget {
       children: [
         Expanded(
           child: DefiMenuItem(
+            image: Image.asset(
+              "assets/logo/bitriel-logo-v2.png",
+              width: 25,
+              height: 25,
+            ),
             title: "Bitriel DEX",
             action: () {
         
@@ -271,6 +287,11 @@ class HomePageBody extends StatelessWidget {
 
         Expanded(
           child: DefiMenuItem(
+            image: Image.asset(
+              "assets/logo/uniswap-logo.png",
+              width: 40,
+              height: 40,
+            ),
             title: "Uniswap",
             action: () {
         

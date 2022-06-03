@@ -16,14 +16,23 @@ class WelcomeBody extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.2,
         ),
-        SvgPicture.asset(
-          AppConfig.assetsPath+'logo/bitriel-logo-v2.svg',
-          height: MediaQuery.of(context).size.height * 0.15,
-          width: MediaQuery.of(context).size.width * 0.15,
+        // SvgPicture.asset(
+        //   AppConfig.assetsPath+'logo/bitriel-logo-v2.svg',
+        //   height: MediaQuery.of(context).size.height * 0.15,
+        //   width: MediaQuery.of(context).size.width * 0.15,
+        // ),
+        // SizedBox(
+        //   height: 50,
+        // ),
+        Image.asset(
+          AppConfig.assetsPath+'logo/bitriel-logo-v2.png',
+          // height: MediaQuery.of(context).size.height * 0.25,
+          width: MediaQuery.of(context).size.width * 0.30,
         ),
         SizedBox(
           height: 50,
         ),
+
         MyText(
           text: "Welcome!",
           fontWeight: FontWeight.bold,

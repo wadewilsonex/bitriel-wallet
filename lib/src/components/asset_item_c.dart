@@ -27,22 +27,14 @@ class AssetsItemComponent extends StatelessWidget {
           children: <Widget>[
 
             // Asset Logo
-            Container(
-              width: 50, //size ?? 65,
-              height: 50, //size ?? 65,
-              padding: const EdgeInsets.all(6),
-              // margin: const EdgeInsets.only(right: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white
-              ),
-              child: Image.asset(
-                scModel!.logo!,
-                fit: BoxFit.contain,
-              ),
+            Image.asset(
+              scModel!.logo!,
+              fit: BoxFit.contain,
+              height: 45,
+              width: 45,
             ),
 
-            SizedBox(width: 10,),
+            SizedBox(width: 5),
             // Asset Name
             Expanded(
               child: Column(

@@ -127,6 +127,7 @@ dependency_overrides:
      git:
        url: https://github.com/google/charts
        path: charts_flutter
+
   permission_handler: ^8.3.0
   # get_storage:
   # flutter_aes_ecb_pkcs5:
@@ -136,19 +137,19 @@ dev_dependencies:
     sdk: flutter
   flutter_native_splash:
 
-  # run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
-flutter_native_splash:
-  color: "#F5F5F5"
-  color_dark: "#090D28"
+# run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
+flutter_native_splash: 
+  color: "#023859"
+  color_dark: "#023859"
   
-  image: assets/bitriel_splash_500.png
+  image: assets/logo/bitriel-splash.png
   android: true
   ios: true
  
 
 # Run command: flutter pub run flutter_launcher_icons:main 
 flutter_icons:
-  image_path: "assets/bitriel_icon.png"
+  image_path: "assets/logo/bitriel-logo-v2.png"
   ios: true
   android: true
 

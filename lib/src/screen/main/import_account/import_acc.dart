@@ -69,7 +69,8 @@ class ImportAccState extends State<ImportAcc> {
       Navigator.push(
         context, 
         Transition(
-          child: FingerPrint(importAccount: addAccount,)
+          child: FingerPrint(importAccount: addAccount,),
+          transitionEffect: TransitionEffect.RIGHT_TO_LEFT
         )
       );
     } else {

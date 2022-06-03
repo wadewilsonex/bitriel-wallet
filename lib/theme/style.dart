@@ -7,7 +7,7 @@ class AppStyle {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDark;
 
     return ThemeData(
-      scaffoldBackgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor("#F5F5F5"),
+      scaffoldBackgroundColor: hexaCodeToColor(AppColors.darkBgd),//isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor("#F5F5F5"),
       appBarTheme: AppBarTheme(
         toolbarTextStyle: TextStyle(color: hexaCodeToColor(AppColors.appBarTextColor)),
         color: Colors.transparent,

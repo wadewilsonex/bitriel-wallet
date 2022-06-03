@@ -25,7 +25,7 @@ class AssetsPageBody extends StatelessWidget {
 
             SizedBox(height: 25),
 
-            _otherNetworkList(context),
+            // _otherNetworkList(context),
           ],
         ),
       ),
@@ -130,7 +130,8 @@ class AssetsPageBody extends StatelessWidget {
             Row(
               children: [
                 MyText(
-                  text: "Selendra Network",
+                  text: "Assets",
+                  // text: "Selendra Network",
                   color: AppColors.titleAssetColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w500
