@@ -493,7 +493,6 @@ class MyIconButton extends StatelessWidget {
           SizedBox(height: 5),
           MyText(
             text: title,
-            fontSize: 14.sp,
             color: txtColor,
             
           )

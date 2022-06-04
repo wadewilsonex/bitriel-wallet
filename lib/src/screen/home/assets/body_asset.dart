@@ -80,13 +80,13 @@ class AssetsPageBody extends StatelessWidget {
                   color: hexaCodeToColor(AppColors.sliderColor),
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: Colors.white, blurRadius: 20.0),
+                    BoxShadow(color: Colors.white, blurRadius: 10.0),
                   ],
                 ),
                 child: SvgPicture.string(provider.accountM.addressIcon!),
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 2.h),
               if(provider.accountM.addressIcon == null)
               Shimmer.fromColors(
                 child: Container(
@@ -103,17 +103,18 @@ class AssetsPageBody extends StatelessWidget {
                 bottom: 3,
                 text: provider.accountM.name ?? '',
                 color: AppColors.whiteColorHexa,
-                fontSize: 20,
+                fontSize: 20.sp,
               ),
 
-              SizedBox(height: 15),
+              SizedBox(height: 2.h),
               MyText(
-                text: "\$134.72",
+                text: "≈ \$134.72",
                 color: AppColors.whiteColorHexa,
-                fontSize: 16,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
               ),
 
-              SizedBox(height: 25),
+              SizedBox(height: 3.h),
 
               _operationRequest(context),
             ],
@@ -134,14 +135,13 @@ class AssetsPageBody extends StatelessWidget {
                 text: "Assets",
                 // text: "Selendra Network",
                 color: AppColors.titleAssetColor,
-                fontSize: 14,
                 fontWeight: FontWeight.w500
               ),
               Expanded(
                 child: Divider(
                   thickness: 1,
                   color: hexaCodeToColor(AppColors.titleAssetColor),
-                  indent: 20,
+                  indent: 2.5.w,
                 ),
               ),
             ],
@@ -208,8 +208,8 @@ class AssetsPageBody extends StatelessWidget {
   }
 
   Widget _operationRequest(BuildContext context) {
-    double width = 150;
-    double height = 55;
+    double width = 30.w;
+    double height = 7.h;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -222,7 +222,6 @@ class AssetsPageBody extends StatelessWidget {
             children: [
               MyText(
                 text: "Send",
-                fontSize: 16,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
@@ -251,7 +250,6 @@ class AssetsPageBody extends StatelessWidget {
             children: [
               MyText(
                 text: "Receieve",
-                fontSize: 16,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),

@@ -1,4 +1,5 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -650,7 +651,10 @@ dialogLoading(BuildContext context, {String? content}) {
     barrierDismissible: true,
     context: context,
     builder: (context) {
-      return progress(content: content);
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: progress(content: content)
+      );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
       //   child: ,

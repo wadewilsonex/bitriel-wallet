@@ -34,7 +34,7 @@ class HomePageBody extends StatelessWidget {
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: AppBar(
         elevation: 0,
-        leadingWidth: 70,
+        leadingWidth: 15.w,
         leading: IconButton(
           onPressed: () {
             homePageModel!.globalKey!.currentState!.openDrawer();
@@ -43,7 +43,7 @@ class HomePageBody extends StatelessWidget {
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8),
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
             child: IconButton(
               icon: Align(
                 alignment: Alignment.centerRight,
@@ -175,7 +175,7 @@ class HomePageBody extends StatelessWidget {
           effect: SlideEffect(
             radius: 5.0,
             dotWidth: 25.0.sp,
-            dotHeight: 2.0.sp,
+            dotHeight: 5.0.sp,
             paintStyle: PaintingStyle.fill,
             dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
             activeDotColor: hexaCodeToColor(AppColors.sliderColor),
