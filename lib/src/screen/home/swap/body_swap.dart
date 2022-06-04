@@ -178,7 +178,7 @@ class SwapPageBody extends StatelessWidget {
     
     return GestureDetector(
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.h,
+        width: MediaQuery.of(context).size.width / 3,
         // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
           color: hexaCodeToColor(AppColors.defiMenuItem),
