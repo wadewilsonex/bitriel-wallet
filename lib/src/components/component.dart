@@ -118,27 +118,6 @@ class Component {
     );
   }
 
-  Widget seedContainer(BuildContext context, String txt, int index, int rmIndex, Function? onTap){
-    return GestureDetector(
-      onTap: (){
-        onTap!(index, rmIndex);
-      },
-      child: Container(
-        width: (MediaQuery.of(context).size.width / 3) - 34,
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
-          borderRadius: const BorderRadius.all(Radius.circular(50)),
-        ), 
-        // color: grey,
-        child: MyText(
-          text: txt,
-          color2: Colors.white, fontSize: 15, fontWeight: FontWeight.bold
-        ),
-      )
-    );
-  }
 }
 
 class MyFlatButton extends StatelessWidget {
@@ -194,6 +173,9 @@ class MyFlatButton extends StatelessWidget {
       ),
       // ignore: deprecated_member_use
       child: FlatButton(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         onPressed: action == null ? null : (){
           action!();
         },
@@ -202,8 +184,6 @@ class MyFlatButton extends StatelessWidget {
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: MyText(
-          pTop: 20,
-          pBottom: 20,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
@@ -271,10 +251,11 @@ class MyGradientButton extends StatelessWidget {
         // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
       child: MaterialButton(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: child ?? MyText(
-          pTop: 20,
-          pBottom: 20,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
@@ -291,7 +272,7 @@ class MyText extends StatelessWidget {
   final String? text;
   final String? color;
   final Color? color2;
-  final double? fontSize;
+  double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
   final double? right;
@@ -306,11 +287,11 @@ class MyText extends StatelessWidget {
   final TextAlign? textAlign;
   final TextOverflow? overflow;
 
-  const MyText({
+  MyText({
     this.text,
     this.color,
     this.color2,
-    this.fontSize = 18,
+    this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
     this.right = 0,
@@ -324,7 +305,9 @@ class MyText extends StatelessWidget {
     this.height,
     this.textAlign = TextAlign.center,
     this.overflow,
-  });
+  }){
+    fontSize = fontSize!.sp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +322,8 @@ class MyText extends StatelessWidget {
           style: TextStyle(
             fontWeight: fontWeight,
             color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
-            fontSize: fontSize),
+            fontSize: fontSize!
+          ),
           textAlign: textAlign,
           overflow: overflow,
         ),
@@ -602,9 +586,9 @@ class MyRowHeader extends StatelessWidget {
             child: Container(
                 margin: const EdgeInsets.only(left: 1.5),
                 alignment: Alignment.centerLeft,
-                child: const MyText(text: "Your assets")),
+                child: MyText(text: "Your assets")),
           ),
-          const Expanded(
+          Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: MyText(text: "QTY"),
@@ -681,7 +665,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
           btn2 ?? Container(),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const MyText(text: 'Close'),
+            child: MyText(text: 'Close'),
           ),
         ],
       );

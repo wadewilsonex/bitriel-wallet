@@ -60,7 +60,7 @@ class KeyStoreJson extends StatelessWidget{
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 10.0),
-                  child: const MyText(
+                  child: MyText(
                     text: "COPY ADDRESS",
                     color: AppColors.secondary,
                   ),

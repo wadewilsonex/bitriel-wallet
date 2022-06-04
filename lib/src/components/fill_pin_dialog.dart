@@ -46,7 +46,7 @@ class FillPinState extends State<FillPin> {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      title: const MyText(
+      title: MyText(
         top: 16,
         bottom: 16,
         text: "Fill your pin",
@@ -103,7 +103,7 @@ class FillPinState extends State<FillPin> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const MyText(text: "Close"),
+              child: MyText(text: "Close"),
             ),
           )
         ],

@@ -120,7 +120,7 @@ class ActivityDetail extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         left: 10.0,
                       ),
-                      child: const MyText(
+                      child: MyText(
                         text: "SHARE",
                         color: AppColors.secondary,
                       ),

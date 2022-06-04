@@ -66,7 +66,7 @@ class NavigationDrawer extends StatelessWidget {
                                 color: "#FFFFFF",
                                 fontSize: 20,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 100,
                                 child: MyText(
                                   text: "Indracore",

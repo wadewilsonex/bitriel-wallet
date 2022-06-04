@@ -274,14 +274,15 @@ class AddAssetBody extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     MyText(
-                        width: double.infinity,
-                        text: 'Add', //portfolioData[0]["data"]['balance'],
-                        color: AppColors.secondary,
-                        textAlign: TextAlign.right,
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.w700),
+                      width: double.infinity,
+                      text: 'Add', //portfolioData[0]["data"]['balance'],
+                      color: AppColors.secondary,
+                      textAlign: TextAlign.right,
+                      overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.w700
+                    ),
                   ],
                 ),
               ),

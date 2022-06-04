@@ -249,7 +249,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                     height: 100,
                     width: 100,
                   ),
-                  const MyText(
+                  MyText(
                     text: 'SUCCESS!',
                     fontSize: 22,
                     top: 45,
@@ -360,7 +360,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 24,
                 ),
-                const MyText(
+                MyText(
                   text: 'Selendra Airdrop',
                   //color: '#000000',
                   fontSize: 28,
@@ -369,7 +369,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 16,
                 ),
-                const MyText(
+                MyText(
                   text:
                       'Selendra will conduct 3 airdrops. Each drop will have 6 sessions with a total of 31,415,927 SEL tokens. Each session will last as long as 3 months to distribute to as many people as possible. The first airdrop will take place in April 2021, during Khmer New Year. Enjoy the airdrop, everyone.',
                   textAlign: TextAlign.start,
@@ -459,8 +459,8 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Center(
-            child: MyText(
+        title: Center(
+          child: MyText(
           text: 'Transaction Detail',
           fontWeight: FontWeight.bold,
         )),
@@ -472,7 +472,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
             children: [
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Date: ',
                     fontSize: 14.0,
                   ),
@@ -487,7 +487,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Destination: ',
                     fontSize: 14.0,
                   ),
@@ -502,7 +502,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Sender: ',
                     fontSize: 14.0,
                   ),
@@ -517,7 +517,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Organization: ',
                     fontSize: 14.0,
                   ),
@@ -532,7 +532,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Amount: ',
                     fontSize: 14.0,
                   ),
@@ -633,7 +633,10 @@ Widget progress({String? content}) {
             else
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-              child: textScale(text: content, hexaColor: "#FFFFFF"),
+              child: MyText(
+                text: content, 
+                color: AppColors.whiteColorHexa,
+              ),
             ),
           ],
         )
@@ -648,6 +651,23 @@ dialogLoading(BuildContext context, {String? content}) {
     context: context,
     builder: (context) {
       return progress(content: content);
+      // WillPopScope(
+      //   onWillPop: () => Future(() => false),
+      //   child: ,
+      // );
+    }
+  );
+}
+
+dialogLoadingCustom(BuildContext context) {
+  return showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return MyText(
+        text: "This processing may take a bit longer\nPlease wait a moment",
+        textAlign: TextAlign.center,
+      );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
       //   child: ,

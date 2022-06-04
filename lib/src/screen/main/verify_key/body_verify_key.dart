@@ -41,7 +41,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   subTitle: 'Almost done. Please input the words in the numerical order.'
                 ),
   
-                SizedBox(height: 100),
+                SizedBox(height: 7.h),
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -55,15 +55,15 @@ class VerifyPassphraseBody extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 0),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 0, moreSize: 2.5),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 1),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 1, moreSize: 2.5),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 2),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.tmpSeed!, 2, moreSize: 2.5),
                           ),
                         ],
                       ),
@@ -82,22 +82,38 @@ class VerifyPassphraseBody extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: createKeyModel!.tmpThreeNum!.length,
                       itemBuilder: (context, i){
-                        return Component().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
+                        return SeedsCompoent().seedContainer(context, createKeyModel!.lsSeeds![int.parse(createKeyModel!.tmpThreeNum![i])], int.parse(createKeyModel!.tmpThreeNum![i]), i, onTap);
                       }
                     ),
                   ),
                 ),
   
+                SizedBox(height: 3.h),
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.length == 0)
-                TextButton(
-                  onPressed: (){
-                    remove3Seeds!();
-                  }, 
-                  child: MyText(
-                    text: "Re-do",
-                    color2: Colors.white,
-                  )
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                          SizedBox(width: 9),
+                          MyText(
+                            text: "Try Again",
+                            fontSize: 14,
+                            color: AppColors.whiteColorHexa,
+                            fontWeight: FontWeight.bold,  
+                          ),
+                        ],
+                      ),
+                    ),
+                    onTap: () => remove3Seeds!()
+                  ),
                 ),
   
                 Flexible(child: Container()),
