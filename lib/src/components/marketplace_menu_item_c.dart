@@ -14,11 +14,10 @@ class MarketPlaceMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      width: 200,
-      height: 90,
+      height: 11.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: hexaCodeToColor(AppColors.bluebgColor)
+        color: hexaCodeToColor(AppColors.defiMenuItem)
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +26,7 @@ class MarketPlaceMenuItem extends StatelessWidget {
             children: [
               MyText(
                 text: title,
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),

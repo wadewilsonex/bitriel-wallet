@@ -40,14 +40,13 @@ class MenuItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 12),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20, left: 10.0),
+            padding: const EdgeInsets.only(bottom: 10, left: 10.0),
             child: Row(  
               children: [
                 MyText(
                   text: title,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   color: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                 ),

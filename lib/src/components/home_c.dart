@@ -348,8 +348,9 @@ class MyBottomAppBar extends StatelessWidget {
   final Function? contactPiker;
   final void Function()? openDrawer;
   final void Function(int index)? onIndexChanged;
+  final double iconSize = 7.w;
 
-  const MyBottomAppBar({
+  MyBottomAppBar({
     required this.index,
     this.apiStatus,
     this.homeM,
@@ -358,7 +359,7 @@ class MyBottomAppBar extends StatelessWidget {
     this.fillAddress,
     this.contactPiker,
     this.openDrawer,
-    this.onIndexChanged
+    this.onIndexChanged,
   });
 
   @override
@@ -371,14 +372,14 @@ class MyBottomAppBar extends StatelessWidget {
       // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(
-        height: 65,
+        height: 9.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
 
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.discover_1, size: 30, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+                child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Discover",
                 txtColor: index == 0 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
@@ -389,7 +390,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.wallet_check, size: 30, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+                child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Asset",
                 txtColor: index == 1 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
@@ -400,7 +401,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.home, size: 30, color: index == 2 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+                child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Home",
                 txtColor: index == 2 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
@@ -411,7 +412,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.card_coin, size: 30, color: index == 3 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+                child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Swap",
                 txtColor: index == 3 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
@@ -421,7 +422,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.setting, size: 30, color: index == 4 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+                child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Setting",
                 txtColor: index == 4 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {

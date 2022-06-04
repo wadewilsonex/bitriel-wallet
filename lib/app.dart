@@ -159,43 +159,47 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return AnnotatedRegion(
-      value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-      child: LayoutBuilder(
-        builder: (builder, constraints) {
-          return OrientationBuilder(
-            builder: (context, orientation) {
-              SizeConfig().init(constraints, orientation);
-              return Consumer<ThemeProvider>(
-                builder: (context, value, child) {
-                  return MaterialApp(
-                    navigatorKey: AppUtils.globalKey,
-                    title: AppString.appName,
-                    theme: AppStyle.myTheme(context),
-                    onGenerateRoute: router.generateRoute,
-                    // debugShowCheckedModeBanner: false,
-                    routes: {
-                      Home.route: (_) => Home(),
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType){
+        return AnnotatedRegion(
+        value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        child: LayoutBuilder(
+          builder: (builder, constraints) {
+            return OrientationBuilder(
+              builder: (context, orientation) {
+                SizeConfig().init(constraints, orientation);
+                  return Consumer<ThemeProvider>(
+                    builder: (context, value, child) {
+                      return MaterialApp(
+                        navigatorKey: AppUtils.globalKey,
+                        title: AppString.appName,
+                        theme: AppStyle.myTheme(context),
+                        onGenerateRoute: router.generateRoute,
+                        // debugShowCheckedModeBanner: false,
+                        routes: {
+                          Home.route: (_) => Home(),
+                        },
+                        initialRoute: AppString.splashScreenView,
+                        // builder: (context, widget) => ResponsiveWrapper.builder(
+                        //   BouncingScrollWrapper.builder(context, widget!),
+                        //   maxWidth: 1200,
+                        //   defaultScale: true,
+                        //   breakpoints: [
+                        //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                        //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                        //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                        //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+                        //   ],
+                        // ),
+                      );
                     },
-                    initialRoute: AppString.splashScreenView,
-                    builder: (context, widget) => ResponsiveWrapper.builder(
-                      BouncingScrollWrapper.builder(context, widget!),
-                      maxWidth: 1200,
-                      defaultScale: true,
-                      breakpoints: [
-                        const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                        const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                        const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                        const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
-                      ],
-                    ),
                   );
                 },
               );
             },
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
