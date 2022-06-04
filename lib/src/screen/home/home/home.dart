@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   void onIndexChanged(int index){
     setState(() {
       _model.activeIndex = index;
-      _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
     });
   }
 

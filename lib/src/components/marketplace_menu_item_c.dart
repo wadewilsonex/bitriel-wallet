@@ -14,8 +14,8 @@ class MarketPlaceMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      width: 200,
-      height: 90,
+      width: 200.w,
+      height: 90.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: hexaCodeToColor(AppColors.bluebgColor)
@@ -27,7 +27,7 @@ class MarketPlaceMenuItem extends StatelessWidget {
             children: [
               MyText(
                 text: title,
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),

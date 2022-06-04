@@ -27,6 +27,7 @@ export 'package:provider/provider.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
+export 'package:responsive_sizer/responsive_sizer.dart';
 
 //Component
 export 'package:wallet_apps/src/components/animation.dart';

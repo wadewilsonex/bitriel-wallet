@@ -86,10 +86,10 @@ dependencies:
   animations:
   provider:
   web3dart: 
-  bip39:
+  # bip39:
 
   # dart_ecpair:
-  defichaindart:
+  # defichaindart:
 
   flutter_secure_storage:
   flutter_screenshot_switcher:
@@ -109,8 +109,9 @@ dependencies:
   transition: 2.0.2
 
   # flutter lock passcode
-  flutter_screen_lock: ^5.0.12
+  flutter_screen_lock: 5.0.12
   ai_progress: 2.0.0
+  responsive_sizer: 3.0.8
   
   # Download
   # path_provider:
@@ -123,6 +124,7 @@ dependency_overrides:
     
   polkawallet_sdk:
   flutter_svg:
+  bip32_defichain:
   charts_flutter:
      git:
        url: https://github.com/google/charts

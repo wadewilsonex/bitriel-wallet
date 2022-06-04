@@ -81,7 +81,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -167,8 +167,8 @@ class HomePageBody extends StatelessWidget {
           count: imgList.length,
           effect: SlideEffect(
             radius: 5.0,
-            dotWidth: 25.0,
-            dotHeight: 2.0,
+            dotWidth: 25.0.sp,
+            dotHeight: 2.0.sp,
             paintStyle: PaintingStyle.fill,
             dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
             activeDotColor: hexaCodeToColor(AppColors.sliderColor),
@@ -190,7 +190,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: 35.sp),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -203,7 +203,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: 35.sp),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -273,8 +273,8 @@ class HomePageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               "assets/logo/bitriel-logo-v2.png",
-              width: 25,
-              height: 25,
+              width: 7.w,
+              height: 7.h,
             ),
             title: "Bitriel DEX",
             action: () {
@@ -289,8 +289,8 @@ class HomePageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               "assets/logo/uniswap-logo.png",
-              width: 40,
-              height: 40,
+              width: 10.w,
+              height: 10.h,
             ),
             title: "Uniswap",
             action: () {

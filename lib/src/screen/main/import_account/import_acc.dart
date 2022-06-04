@@ -4,7 +4,6 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class ImportAcc extends StatefulWidget {
@@ -65,6 +64,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   void onSubmit() async {
+    print("onSubmit $enable");
     if (enable == true){
       Navigator.push(
         context, 
@@ -247,6 +247,7 @@ class ImportAccState extends State<ImportAcc> {
     print("verifySeeds");
     try {
       enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
+      print("enable $enable");
       setState(() { });
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
@@ -320,7 +321,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      // await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

@@ -16,7 +16,7 @@ class DefiMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      width: 200,
+      width: 200.w,
       height: 90,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -34,7 +34,7 @@ class DefiMenuItem extends StatelessWidget {
             children: [
               MyText(
                 text: title,
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),

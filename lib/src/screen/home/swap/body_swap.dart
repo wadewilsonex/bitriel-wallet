@@ -176,8 +176,9 @@ class SwapPageBody extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 3,
         // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
-            color: hexaCodeToColor("#114463"),
-            borderRadius: BorderRadius.circular(8)),
+          color: hexaCodeToColor("#114463"),
+          borderRadius: BorderRadius.circular(8)
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
           child: Row(
@@ -212,7 +213,7 @@ class SwapPageBody extends StatelessWidget {
       ),
       
       onTap: (){
-        Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
+        Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
       },
     );
   }

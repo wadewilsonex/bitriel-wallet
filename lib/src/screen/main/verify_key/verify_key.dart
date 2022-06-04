@@ -6,7 +6,6 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/body_verify_key.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:bip39/bip39.dart' as bip39;
 
 class VerifyPassphrase extends StatefulWidget {
 
@@ -150,7 +149,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+      // await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 
