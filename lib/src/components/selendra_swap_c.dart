@@ -25,8 +25,8 @@ class SelendraSwap extends StatelessWidget {
           ),
           child: ListTile(
             title: MyText(
-              pTop: 20,
-              pBottom: 20,
+              pTop: 2.h,
+              pBottom: 2.h,
               text: title,
               color: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
@@ -34,15 +34,15 @@ class SelendraSwap extends StatelessWidget {
           
             ),
             subtitle: MyText(
-              pBottom: 20,
+              pBottom: 2.h,
               text: subtitle,
               color: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
               fontSize: 14,
             ),
             trailing: Container(
-              height: 50,
-              width: 50,
+              height: 10.h,
+              width: 10.w,
               color: Colors.transparent,
               child: image
             ),

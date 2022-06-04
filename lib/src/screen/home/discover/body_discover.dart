@@ -25,21 +25,15 @@ class DiscoverPageBody extends StatelessWidget {
               unselectedLabelColor: hexaCodeToColor(AppColors.iconColor),
               tabs: [
                 Tab(
-                  child: Text(
-                    "Selendra Swap",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  child: MyText(
+                    text: "Selendra Swap",
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Tab(
-                  child: Text(
-                    "Exchange Swap",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  child: MyText(
+                    text: "Exchange Swap",
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
