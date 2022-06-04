@@ -88,7 +88,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
-                    fontSize: 17.5.sp,
+                    fontSize: 17.5,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -104,7 +104,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
-                    fontSize: 17.5.sp,
+                    fontSize: 17.5,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,

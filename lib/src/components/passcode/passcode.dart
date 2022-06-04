@@ -256,28 +256,24 @@ class _PasscodeState extends State<Passcode> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalkey,
-      body: BodyScaffold(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: Column(
-              children: <Widget>[
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: <Widget>[
 
-                // Show AppBar Only In Landing Pages
-                if(widget.isAppBar!) MyAppBar(
-                  title: "Set Passcode",
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ) 
-                else Container(),
-                
-                Expanded(
-                  child: PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
-                )
-              ],
-            ),
-          ),
+            // Show AppBar Only In Landing Pages
+            if(widget.isAppBar!) MyAppBar(
+              title: "Set Passcode",
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ) 
+            else Container(),
+            
+            Expanded(
+              child: PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
+            )
+          ],
         ),
       ),
     );

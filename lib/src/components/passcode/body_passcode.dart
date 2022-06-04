@@ -20,30 +20,36 @@ class PasscodeBody extends StatelessWidget{
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
 
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.30,
-          ),
-
-          Text(
-            isFirst! ? 'PIN!' : 'Verify PIN!',
-            style: TextStyle(
-              fontSize: 26.0,
-              fontWeight: FontWeight.bold,
-              color: isDarkTheme ? Colors.white : Colors.black,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.18,
             ),
-          ),
 
-          const SizedBox(
-            height: 15,
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
-            child: Column(
+            MyText(
+              text: isFirst! ? 'PIN!' : 'Verify PIN!',
+              color: AppColors.whiteColorHexa,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+            // Text(
+            //   isFirst! ? 'PIN!' : 'Verify PIN!',
+            //   style: TextStyle(
+            //     fontSize: 26.0,
+            //     fontWeight: FontWeight.bold,
+                
+            //   ),
+            // ),
+
+            const SizedBox(
+              height: 15,
+            ),
+            
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (label == 'fromSplash')
@@ -51,26 +57,26 @@ class PasscodeBody extends StatelessWidget{
                 else 
                 passCodeContents[0]
               ],
+            ), 
+            const SizedBox(height: 80),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                
+                ReusePinNum(outlineInputBorder, lsControl![0]),
+                ReusePinNum(outlineInputBorder, lsControl![1]),
+                ReusePinNum(outlineInputBorder, lsControl![2]),
+                ReusePinNum(outlineInputBorder, lsControl![3]),
+                ReusePinNum(outlineInputBorder, lsControl![4]),
+                ReusePinNum(outlineInputBorder, lsControl![5]),
+              ],
             ),
-          ), 
-          const SizedBox(height: 80),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              
-              ReusePinNum(outlineInputBorder, lsControl![0]),
-              ReusePinNum(outlineInputBorder, lsControl![1]),
-              ReusePinNum(outlineInputBorder, lsControl![2]),
-              ReusePinNum(outlineInputBorder, lsControl![3]),
-              ReusePinNum(outlineInputBorder, lsControl![4]),
-              ReusePinNum(outlineInputBorder, lsControl![5]),
-            ],
-          ),
-
-          const SizedBox(height: 80),
-          ReuseNumPad(pinIndexSetup!, clearPin!)
-        ],
+            const SizedBox(height: 80),
+            ReuseNumPad(pinIndexSetup!, clearPin!)
+          ],
+        ),
       )
     );
   }
@@ -86,14 +92,14 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               color: Colors.white
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               fontWeight: FontWeight.bold,
               color: Colors.white
             )
@@ -101,7 +107,7 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               color: Colors.white
             )
           ),
@@ -116,21 +122,21 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Enter ', 
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               color: Colors.white
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               color: Colors.white
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17.sp,
               color: Colors.white
             )
           ),
@@ -159,14 +165,14 @@ class ReusePinNum extends StatelessWidget {
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(bottom: -25.0, left: -1.5),
+          contentPadding: const EdgeInsets.only(bottom: -24.0, left: -1.3),
           border: outlineInputBorder,
           filled: true,
           fillColor: hexaCodeToColor(AppColors.passcodeColor),
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 45,
+          fontSize: 28.sp,
           color: hexaCodeToColor(
             AppColors.secondary,
           ),
@@ -195,7 +201,6 @@ class ReuseNumPad extends StatelessWidget {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 29),
         child: Column(
           children: <Widget>[
             Row(
@@ -265,7 +270,7 @@ class ReuseNumPad extends StatelessWidget {
                   },
                   child: Transform.rotate(
                     angle: 70.6858347058,
-                    child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 29),
+                    child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp),
                   ),
                 )
               ],
@@ -297,7 +302,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
         child: child == null ? Text(
           '$n',
           style: TextStyle(
-            fontSize: 24 * MediaQuery.of(context).textScaleFactor,
+            fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

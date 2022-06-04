@@ -338,7 +338,7 @@ class _SwapState extends State<Swap> {
               SizedBox(
                 height: 20,
               ),
-              const MyText(
+              MyText(
                 text: 'Swapping',
                 //color: '#000000',
                 fontSize: 28,
@@ -353,7 +353,7 @@ class _SwapState extends State<Swap> {
                 width: 100,
                 color: hexaCodeToColor(AppColors.secondary),
               ),
-              const MyText(
+              MyText(
                 text: 'SEL v1 to SEL v2',
                 fontSize: 28,
                 fontWeight: FontWeight.bold,

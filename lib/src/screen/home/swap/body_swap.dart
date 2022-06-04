@@ -7,11 +7,15 @@ class SwapPageBody extends StatelessWidget {
   
   final SwapPageModel? swapPageModel;
   final Function? percentTap;
+  final Function? onDeleteTxt;
+  final Function(String)? onChanged;
 
   const SwapPageBody({ 
     Key? key,
     this.swapPageModel,
-    this.percentTap
+    this.percentTap,
+    this.onChanged,
+    this.onDeleteTxt
   }) : super(key: key);
 
   @override
@@ -47,7 +51,7 @@ class SwapPageBody extends StatelessWidget {
             ),
 
             Expanded(child: Container()), 
-            _buildNumberPad(context),
+            _buildNumberPad(context, onDeleteTxt),
 
             SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(
@@ -108,6 +112,7 @@ class SwapPageBody extends StatelessWidget {
               
               Expanded(
                 child: TextField(
+                  onChanged: onChanged,
                   controller: swapPageModel!.myController,
                   textAlign: TextAlign.start,
                   showCursor: true,
@@ -185,6 +190,7 @@ class SwapPageBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
               Image.asset(
                 'assets/SelendraCircle-White.png',
                 height: 25,
@@ -305,7 +311,7 @@ class SwapPageBody extends StatelessWidget {
                   ),
                   child: MyText(
                     text: percent[i],
-                    fontSize: 16,
+                    fontSize: 14,
                     // color: AppColors.whiteColorHexa,
                     color2: percentActive == i+1 ? Colors.white : Colors.white.withOpacity(0.5)
                   ),
@@ -320,13 +326,13 @@ class SwapPageBody extends StatelessWidget {
     );
   }
 
-  Widget _buildNumberPad(context) {
+  Widget _buildNumberPad(context, Function? onDeleteTxt) {
     return NumPad(
       buttonSize: 50,
       buttonColor: hexaCodeToColor(AppColors.defiMenuItem),
       controller: swapPageModel!.myController!,
       delete: () {
-        swapPageModel!.myController!.text = swapPageModel!.myController!.text.substring(0, swapPageModel!.myController!.text.length - 1);
+        onDeleteTxt!();
       },
       // do something with the input numbers
       onSubmit: () {

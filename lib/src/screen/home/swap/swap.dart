@@ -20,6 +20,20 @@ class _SwapPageState extends State<SwapPage> {
     });
   }
 
+  void onChanged(String value){ }
+
+  void onDeleteTxt() async {
+
+    await Future.delayed(Duration(milliseconds: 50), (){
+
+      setState(() {
+        
+        if (_model.myController!.text != "0") _model.myController!.text = _model.myController!.text.substring(0, _model.myController!.text.length - 1);
+      });
+    });
+    print("_model.myController!.text.isEmpty) _model.myController!.text ${_model.myController!.text.isEmpty}");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +42,8 @@ class _SwapPageState extends State<SwapPage> {
   @override
   Widget build(BuildContext context) {
     return SwapPageBody(
+      onChanged: onChanged,
+      onDeleteTxt: onDeleteTxt,
       swapPageModel: _model,
       percentTap: percentTap,
     );

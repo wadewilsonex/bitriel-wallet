@@ -14,7 +14,7 @@ class WelcomeBody extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.1,
         ),
         // SvgPicture.asset(
         //   AppConfig.assetsPath+'logo/bitriel-logo-v2.svg',
@@ -27,16 +27,16 @@ class WelcomeBody extends StatelessWidget {
         Image.asset(
           AppConfig.assetsPath+'logo/bitriel-logo-v2.png',
           // height: MediaQuery.of(context).size.height * 0.25,
-          width: MediaQuery.of(context).size.width * 0.30,
+          width: MediaQuery.of(context).size.width * 0.25,
         ),
         SizedBox(
-          height: 50,
+          height: 40,
         ),
 
         MyText(
           text: "Welcome!",
           fontWeight: FontWeight.bold,
-          fontSize: 26,
+          fontSize: 20,
           color: isDarkTheme
               ? AppColors.whiteColorHexa
               : AppColors.textColor,
@@ -48,7 +48,6 @@ class WelcomeBody extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: MyText(
             text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
-            fontSize: 18,
             color: isDarkTheme
                 ? AppColors.lowWhite
                 : AppColors.textColor,

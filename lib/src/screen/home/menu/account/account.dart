@@ -58,7 +58,7 @@ class _AccountState extends State<Account> {
       'Are you sure to delete your account?',
       btn2: TextButton(
         onPressed: () async => await _deleteAccount(),
-        child: const MyText(
+        child: MyText(
           text: 'Delete',
           color: AppColors.redColor,
           fontWeight: FontWeight.w700

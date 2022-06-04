@@ -25,7 +25,7 @@ class PortfolioBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
-              const MyText(text: "There are no portfolio found")
+              MyText(text: "There are no portfolio found")
             ],
           ))
         else
@@ -114,7 +114,7 @@ class PortfolioBody extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                         const MyText(bottom: 16, text: "Wallet"),
+                         MyText(bottom: 16, text: "Wallet"),
                         //  const MyPercentText(
                         //     value: "+10.5",
                         //   ),
@@ -139,7 +139,7 @@ class PortfolioBody extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const MyText(bottom: 16, text: "Market"),
+                          MyText(bottom: 16, text: "Market"),
                           // const MyPercentText(
                           //   value: "0.0",
                           // ),

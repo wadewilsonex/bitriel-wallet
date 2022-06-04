@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
@@ -255,6 +256,13 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> addAccount() async {
+
+    // Lottie.asset('assets/animation/blockchain-animation.json');
+    // MyText(
+    //   text: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment",
+    //   fontSize: 14.sp,
+    //   color: AppColors.whiteColorHexa,
+    // );
     
     dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
 

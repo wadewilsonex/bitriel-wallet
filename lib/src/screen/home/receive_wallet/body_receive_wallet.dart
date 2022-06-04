@@ -48,7 +48,7 @@ class ReceiveWalletBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset('assets/icons/no_data.svg', height: 200),
-                  const MyText(text: "There are no wallet found")
+                  MyText(text: "There are no wallet found")
                 ],
               ),
             )
@@ -150,7 +150,7 @@ class ReceiveWalletBody extends StatelessWidget {
                         padding: const EdgeInsets.only(
                           left: 10.0,
                         ),
-                        child: const MyText(
+                        child: MyText(
                           text: "SHARE MY CODE",
                           color: AppColors.secondary,
                         ),
@@ -179,7 +179,7 @@ class ReceiveWalletBody extends StatelessWidget {
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 10.0),
-                      child: const MyText(
+                      child: MyText(
                         text: "COPY ADDRESS",
                         color: AppColors.secondary,
                       ),
