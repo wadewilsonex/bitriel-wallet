@@ -54,24 +54,61 @@ class CreateSeedsBody extends StatelessWidget {
                 ),
 
                 SizedBox(height: 50),
-                GestureDetector(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppConfig.iconsPath+'refresh-2.svg'),
-                      SizedBox(width: 9),
-                      MyText(
-                        text: "Generate new seed",
-                        color: AppColors.whiteColorHexa,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,  
-                        top: 4,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 20),
+                          SizedBox(width: 9),
+                          MyText(
+                            text: "Generate new seed",
+                            color: AppColors.whiteColorHexa,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,  
+                            top: 4,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  onTap: () => generateKey()
+                      onTap: () => generateKey()
+                    ),
+
+                    GestureDetector(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 20),
+                          SizedBox(width: 9),
+                          MyText(
+                            text: "Copy",
+                            color: AppColors.whiteColorHexa,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,  
+                            top: 4,
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                              'Copied to clipboard',
+                              textAlign: TextAlign.center,
+                            ),
+                            duration: Duration(seconds: 1),
+                          ));
+                          Clipboard.setData(
+                            ClipboardData(text: createKeyModel!.seed!),
+                          );
+                      }
+                    ),
+                  ],
                 ),
+
+
 
                 SizedBox(height: 86),
                 MyText(

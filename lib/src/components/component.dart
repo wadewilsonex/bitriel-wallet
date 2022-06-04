@@ -498,7 +498,7 @@ class MyIconButton extends StatelessWidget {
         onPressed!();
       },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           child ?? SvgPicture.asset(
             AppConfig.iconsPath+'$icon',
@@ -506,9 +506,10 @@ class MyIconButton extends StatelessWidget {
             height: iconSize ?? 30,
             color: isDarkTheme ? Colors.white : Colors.black,
           ),
+          SizedBox(height: 5),
           MyText(
             text: title,
-            fontSize: 12,
+            fontSize: 14.sp,
             color: txtColor,
             
           )

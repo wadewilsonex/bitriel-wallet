@@ -110,7 +110,7 @@ class SwapPageBody extends StatelessWidget {
                 child: TextField(
                   controller: swapPageModel!.myController,
                   textAlign: TextAlign.start,
-                  showCursor: false,
+                  showCursor: true,
                   style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -146,7 +146,7 @@ class SwapPageBody extends StatelessWidget {
               ),
 
               MyText(
-                text: '≈0',
+                text: '≈ 0',
                 fontWeight: FontWeight.bold,
                 color: AppColors.whiteColorHexa,
               ),
@@ -173,10 +173,10 @@ class SwapPageBody extends StatelessWidget {
     
     return GestureDetector(
       child: Container(
-        width: MediaQuery.of(context).size.width / 3,
+        width: MediaQuery.of(context).size.width / 3.h,
         // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
-          color: hexaCodeToColor("#114463"),
+          color: hexaCodeToColor(AppColors.defiMenuItem),
           borderRadius: BorderRadius.circular(8)
         ),
         child: Padding(
@@ -225,7 +225,7 @@ class SwapPageBody extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 3,
         // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
-            color: hexaCodeToColor("#114463"),
+            color: hexaCodeToColor(AppColors.defiMenuItem),
             borderRadius: BorderRadius.circular(8)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
@@ -301,7 +301,7 @@ class SwapPageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: percentActive == i+1 ? hexaCodeToColor(AppColors.orangeColor) : Colors.white.withOpacity(0.06)
+                    color: percentActive == i+1 ? hexaCodeToColor(AppColors.orangeColor) : hexaCodeToColor(AppColors.defiMenuItem)
                   ),
                   child: MyText(
                     text: percent[i],
@@ -323,8 +323,7 @@ class SwapPageBody extends StatelessWidget {
   Widget _buildNumberPad(context) {
     return NumPad(
       buttonSize: 50,
-      buttonColor: Colors.white.withOpacity(0.06),
-      iconColor: Colors.deepOrange,
+      buttonColor: hexaCodeToColor(AppColors.defiMenuItem),
       controller: swapPageModel!.myController!,
       delete: () {
         swapPageModel!.myController!.text = swapPageModel!.myController!.text.substring(0, swapPageModel!.myController!.text.length - 1);

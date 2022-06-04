@@ -34,25 +34,32 @@ class HomePageBody extends StatelessWidget {
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: AppBar(
         elevation: 0,
+        leadingWidth: 70,
         leading: IconButton(
           onPressed: () {
             homePageModel!.globalKey!.currentState!.openDrawer();
           },
-          icon: Icon(Iconsax.profile_circle, size: 25),
+          icon: Icon(Iconsax.profile_circle, size: 6.w),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Iconsax.scan,
-              size: 25,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8),
+            child: IconButton(
+              icon: Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Iconsax.scan,
+                  size: 6.w,
+                ),
+              ),
+              onPressed: () async {
+                
+                await TrxOptionMethod.scanQR(
+                  context,
+                  [],
+                );
+              },
             ),
-            onPressed: () async {
-              
-              await TrxOptionMethod.scanQR(
-                context,
-                [],
-              );
-            },
           )
         ],
       ),
@@ -81,7 +88,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
-                    fontSize: 20.sp,
+                    fontSize: 17.5.sp,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -97,7 +104,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
-                    fontSize: 20.sp,
+                    fontSize: 17.5.sp,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -180,6 +187,8 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _menu(BuildContext context) {
+    double iconSize = 7.w;
+
     return Column(
       children: [
         Padding(
@@ -190,7 +199,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: 35.sp),
+                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -203,7 +212,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: 35.sp),
+                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -224,7 +233,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: Colors.white, size: 35),
+                    child: Icon(Iconsax.import, color: Colors.white, size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -239,7 +248,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.import, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -252,7 +261,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.scan, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () {
