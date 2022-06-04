@@ -61,7 +61,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
                       ),
                     );
                   },
-                  child: const MyText(text: 'Continue', color: AppColors.secondarytext),
+                  child: MyText(text: 'Continue', color: AppColors.secondarytext),
                 ),
               );
             } else {

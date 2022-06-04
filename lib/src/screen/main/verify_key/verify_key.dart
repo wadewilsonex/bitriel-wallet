@@ -73,58 +73,59 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   }
   
   Future<void> verifySeeds() async {
-    dynamic res;
-    ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
-    try {
-      res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
-      print("res $res");
-      if (res == true){
+    dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+    // dynamic res;
+    // ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
+    // try {
+    //   res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
+    //   print("res $res");
+    //   if (res == true){ 
 
-        dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+    //     // dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
-        dynamic _json = await api.apiKeyring.importAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          key: widget.createKeyModel!.lsSeeds!.join(" "),
-          name: "User",
-          password: widget.createKeyModel!.passCode, 
-        );
+    //     dynamic _json = await api.apiKeyring.importAccount(
+    //       api.getKeyring,
+    //       keyType: KeyType.mnemonic,
+    //       key: widget.createKeyModel!.lsSeeds!.join(" "),
+    //       name: "User",
+    //       password: widget.createKeyModel!.passCode, 
+    //     );
         
-        await api.apiKeyring.addAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          acc: _json,
-          password: widget.createKeyModel!.passCode,
-        );
+    //     await api.apiKeyring.addAccount(
+    //       api.getKeyring,
+    //       keyType: KeyType.mnemonic,
+    //       acc: _json,
+    //       password: widget.createKeyModel!.passCode,
+    //     );
 
-        await importAccountNAsset(api);
+    //     await importAccountNAsset(api);
 
-        await DialogComponents().dialogCustom(
-          context: context,
-          contents: "You have successfully create your account.",
-          textButton: "Complete",
-          image: Image.asset("assets/icons/success.png"),
-          btn2: MyGradientButton(
-            edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-            textButton: "Complete",
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            action: () async {
-              Navigator.pop(context);
-            },
-          )
-        );
+    //     await DialogComponents().dialogCustom(
+    //       context: context,
+    //       contents: "You have successfully create your account.",
+    //       textButton: "Complete",
+    //       image: Image.asset("assets/icons/success.png"),
+    //       btn2: MyGradientButton(
+    //         edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+    //         textButton: "Complete",
+    //         begin: Alignment.bottomLeft,
+    //         end: Alignment.topRight,
+    //         action: () async {
+    //           Navigator.pop(context);
+    //         },
+    //       )
+    //     );
 
-        Navigator.pushAndRemoveUntil(
-          context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/')
-        );
-      }
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
-    }
-    return res;
+    //     Navigator.pushAndRemoveUntil(
+    //       context, 
+    //       Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+    //       ModalRoute.withName('/')
+    //     );
+    //   }
+    // } catch (e) {
+    //   if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+    // }
+    // return res;
   }
   
   Future<void> importAccountNAsset(ApiProvider _api) async {

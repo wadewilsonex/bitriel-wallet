@@ -116,7 +116,7 @@ class TrxActivityState extends State<TrxActivity> {
       child: Scaffold(
         key: _globalKey,
         appBar: AppBar(
-          title: const MyText(
+          title: MyText(
             text: 'Transaction History',
             fontSize: 22.0,
             color: "#FFFFFF",

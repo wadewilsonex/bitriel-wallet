@@ -30,7 +30,7 @@ class CreateSeedsBody extends StatelessWidget {
                   subTitle: 'Write down or copy these words in the order and save them somewhere safe.'
                 ),
                 
-                SizedBox(height: 100),
+                SizedBox(height: 7.h),
                 Column(
                   children: [
                     Row(
@@ -53,7 +53,7 @@ class CreateSeedsBody extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 50),
+                SizedBox(height: 3.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -62,14 +62,13 @@ class CreateSeedsBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 20),
+                          Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
                           SizedBox(width: 9),
                           MyText(
                             text: "Generate new seed",
+                            fontSize: 14,
                             color: AppColors.whiteColorHexa,
-                            fontSize: 18,
                             fontWeight: FontWeight.bold,  
-                            top: 4,
                           ),
                         ],
                       ),
@@ -81,14 +80,13 @@ class CreateSeedsBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 20),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
                           SizedBox(width: 9),
                           MyText(
                             text: "Copy",
+                            fontSize: 14,
                             color: AppColors.whiteColorHexa,
-                            fontSize: 18,
                             fontWeight: FontWeight.bold,  
-                            top: 4,
                           ),
                         ],
                       ),
@@ -108,13 +106,10 @@ class CreateSeedsBody extends StatelessWidget {
                   ],
                 ),
 
-
-
-                SizedBox(height: 86),
+                SizedBox(height: 7.h),
                 MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
                   color: AppColors.lowWhite,
-                  fontSize: 16,
                 ),
 
 
