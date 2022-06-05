@@ -43,7 +43,6 @@ class SwapExchange extends StatelessWidget {
               children: [
                 MyText(
                   text: title,
-                  fontSize: 18,
                   color: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,

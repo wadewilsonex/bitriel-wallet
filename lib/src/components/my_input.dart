@@ -221,7 +221,7 @@ class MySeedField extends StatelessWidget {
               color: isDarkTheme
                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                   : hexaCodeToColor(AppColors.textColor),
-              fontSize: 18.0),
+              fontSize: 16.0.sp),
           validator: (String? value){
             validateField!(value);
           },
@@ -231,6 +231,7 @@ class MySeedField extends StatelessWidget {
             
             hintText: hintText,
             hintStyle: TextStyle(
+              fontSize: 15.sp,
               color: hexaCodeToColor(AppColors.shadowBlueColor),
               // fontSize: 16.0,
               fontWeight: FontWeight.w600
@@ -280,7 +281,7 @@ class MySeedField extends StatelessWidget {
                 ? hexaCodeToColor("#ffffff")
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
-            contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 50),
+            contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 1.h),
             suffixIcon: suffixIcon,
             suffixIconConstraints: BoxConstraints(
               minWidth: 0,

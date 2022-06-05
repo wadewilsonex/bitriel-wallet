@@ -14,5 +14,7 @@ class SwapModel {
 class SwapPageModel {
 
   int? percentActive = 0;
+  int? length;
+  int? cursor;
   TextEditingController? myController = TextEditingController(text: "0");
 }

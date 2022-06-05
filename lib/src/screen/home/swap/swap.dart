@@ -22,13 +22,26 @@ class _SwapPageState extends State<SwapPage> {
 
   void onChanged(String value){ }
 
-  void onDeleteTxt() async {
+  void onDeleteTxt(String txt) async {
+
+    print("${_model.myController!.selection.base}");
+    print("${_model.myController!.text}");
 
     await Future.delayed(Duration(milliseconds: 50), (){
 
       setState(() {
         
-        if (_model.myController!.text != "0") _model.myController!.text = _model.myController!.text.substring(0, _model.myController!.text.length - 1);
+        if (_model.myController!.text != "0") {
+          _model.myController!.text = _model.myController!.text.substring(0, _model.myController!.text.length - 1);
+
+          _model.length = _model.myController!.text.length;
+          _model.cursor = _model.myController!.selection.base.offset;
+
+          // Remove Cursor
+          if (_model.myController!.selection.base != (_model.myController!.text.length-1)){
+            _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!-1, "");
+          }
+        }
       });
     });
     print("_model.myController!.text.isEmpty) _model.myController!.text ${_model.myController!.text.isEmpty}");

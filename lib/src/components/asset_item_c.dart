@@ -30,8 +30,8 @@ class AssetsItemComponent extends StatelessWidget {
             Image.asset(
               scModel!.logo!,
               fit: BoxFit.contain,
-              height: 45,
-              width: 45,
+              height: 10.h,
+              width: 10.w,
             ),
 
             SizedBox(width: 5),
@@ -47,7 +47,7 @@ class AssetsItemComponent extends StatelessWidget {
                       TextSpan(
                         text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           color: hexaCodeToColor(isDarkTheme
                             ? AppColors.whiteColorHexa
@@ -58,7 +58,7 @@ class AssetsItemComponent extends StatelessWidget {
                           TextSpan(
                             text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.bold,
                               color: hexaCodeToColor(isDarkTheme
                                 ? AppColors.darkSecondaryText
@@ -74,7 +74,7 @@ class AssetsItemComponent extends StatelessWidget {
                   MyText(
                     top: 4.0,
                     text: scModel!.name!,
-                    fontSize: 12,
+                    fontSize: 15.5.sp,
                     color: AppColors.tokenNameColor
                   )
 
@@ -130,7 +130,7 @@ class AssetsItemComponent extends StatelessWidget {
                 children: [
                   MyText(
                     text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.whiteColorHexa
                   ),
@@ -145,7 +145,7 @@ class AssetsItemComponent extends StatelessWidget {
                         ? Flexible(
                           child: MyText(
                             text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                            fontSize: 12,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                             color: double.parse(scModel!.change24h!).isNegative
                               ? '#FF0000'
@@ -167,6 +167,7 @@ class AssetsItemComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 MyText(
+                  fontSize: 18.sp,
                   // width: double.infinity,
                   text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                   textAlign: TextAlign.right,

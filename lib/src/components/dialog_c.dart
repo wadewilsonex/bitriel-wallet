@@ -82,14 +82,10 @@ class DialogComponents {
               
               image != null ? image : Container(),
               
-              image != null ? SizedBox(height: 30) : Container(),
+              image != null ? SizedBox(height: 4.h) : Container(),
               MyText(
                 text: contents,
-                color: AppColors.whiteColorHexa,
-                pLeft: 16,
-                right: 16,
-                top: 16,
-                bottom: 16,
+                color: AppColors.whiteColorHexa, 
               )
             ],
           ) : contents2,
