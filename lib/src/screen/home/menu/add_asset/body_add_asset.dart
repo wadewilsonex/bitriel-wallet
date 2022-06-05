@@ -44,21 +44,20 @@ class AddAssetBody extends StatelessWidget {
     final api = Provider.of<ApiProvider>(context);
     return Column(children: [
       MyAppBar(
-        title: "Add asset",
+        title: "Add Asset",
         onPressed: () {
           Navigator.pop(context);
         },
         tile: Padding(
-          padding: const EdgeInsets.only(right: 30.0),
+          padding: const EdgeInsets.only(left: paddingSize),
           child: IconButton(
             /* Menu Icon */
             // padding: edgePadding,
-            padding: const EdgeInsets.only(left: 30),
             iconSize: 40.0,
             icon: Icon(
               Icons.search,
               color: isDarkTheme ? Colors.white : Colors.black,
-              size: 30,
+              size: 22.5.sp,
             ),
             onPressed: () {
               showSearch(
@@ -80,11 +79,11 @@ class AddAssetBody extends StatelessWidget {
               ),
               SvgPicture.asset(
                 AppConfig.iconsPath+'contract.svg',
-                width: 200,
-                height: 200,
+                width: 20.w,
+                height: 20.h,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Form(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
@@ -93,7 +92,7 @@ class AddAssetBody extends StatelessWidget {
 
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        height: 65,
+                        // height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.06),
@@ -121,6 +120,7 @@ class AddAssetBody extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: ReuseDropDown(
+                                icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
                                 style: TextStyle(
                                   color: hexaCodeToColor(isDarkTheme
                                     ? AppColors.whiteHexaColor
@@ -139,7 +139,7 @@ class AddAssetBody extends StatelessWidget {
 
                       MyInputField(
                         pBottom: 16.0,
-                        labelText: "Token Contract Address",
+                        hintText: "Token Contract Address",
                         textInputFormatter: [
                           LengthLimitingTextInputFormatter(TextField.noMaxLength)
                         ],
@@ -150,6 +150,28 @@ class AddAssetBody extends StatelessWidget {
                           : null,
                         onChanged: onChanged,
                         onSubmit: onSubmit,
+                        suffixIcon: GestureDetector(
+                          onTap: () async {
+                            final _response = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => QrScanner()
+                              )
+                            );
+                            
+                            if (_response != null) {
+                              qrRes!(_response.toString());
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: SvgPicture.asset(
+                              AppConfig.iconsPath+'qr_code.svg',
+                              width: 4.w,
+                              height: 4.h,
+                              color: isDarkTheme ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
 
                       if (tokenSymbol == 'SEL')
@@ -186,31 +208,6 @@ class AddAssetBody extends StatelessWidget {
                       else
                         Container(),
 
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final _response = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => QrScanner()
-                              )
-                            );
-                            
-                            if (_response != null) {
-                              qrRes!(_response.toString());
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: SvgPicture.asset(
-                              AppConfig.iconsPath+'qr_code.svg',
-                              width: 40,
-                              height: 40,
-                              color: isDarkTheme ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),

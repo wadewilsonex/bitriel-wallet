@@ -1,4 +1,6 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'dart:ui';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
@@ -651,22 +653,35 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
   await showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        title: Align(
-          child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
-        ),
-        content: Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Text(contents, textAlign: TextAlign.center),
-        ),
-        actions: <Widget>[
-          btn2 ?? Container(),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: MyText(text: 'Close'),
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: AlertDialog(
+          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: MyText(
+              text: title,
+              fontWeight: FontWeight.w600,
+              color: AppColors.whiteColorHexa,
+              fontSize: 18, 
+            ),
           ),
-        ],
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0,),
+            child: MyText(
+              text: contents, 
+              color: AppColors.whiteColorHexa,
+              textAlign: TextAlign.center
+            ),
+          ),
+          actions: <Widget>[
+            btn2 ?? Container(),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: MyText(text: 'Close', color: AppColors.whiteColorHexa),
+            ),
+          ],
+        ),
       );
     },
   );

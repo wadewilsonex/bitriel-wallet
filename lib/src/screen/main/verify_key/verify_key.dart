@@ -98,7 +98,8 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
 
         await importAccountNAsset(api);
-
+        
+        
         await DialogComponents().dialogCustom(
           context: context,
           contents: "You have successfully create your account.",

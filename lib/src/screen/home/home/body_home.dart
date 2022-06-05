@@ -136,7 +136,7 @@ class HomePageBody extends StatelessWidget {
         CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 1,  
-            aspectRatio: 26 / 9,
+            aspectRatio: 32 / 9,
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
@@ -160,7 +160,7 @@ class HomePageBody extends StatelessWidget {
                   child: Image.network(
                     item,
                     fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width, 
+                    width: MediaQuery.of(context).size.width,
                   ),
                 ),
               ),
@@ -203,6 +203,7 @@ class HomePageBody extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
+                    underContstuctionAnimationDailog(context: context);
                   },
                 ),
               ),
@@ -216,6 +217,7 @@ class HomePageBody extends StatelessWidget {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
+                    underContstuctionAnimationDailog(context: context);
                   },
                 ),
               ),
@@ -239,6 +241,10 @@ class HomePageBody extends StatelessWidget {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   action: () {
+                    Navigator.push(
+                      context, 
+                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    );
                   },
                 ),
               ),
@@ -252,6 +258,10 @@ class HomePageBody extends StatelessWidget {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
+                    Navigator.push(
+                      context, 
+                      Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    );
                   },
                 ),
               ),
@@ -264,7 +274,11 @@ class HomePageBody extends StatelessWidget {
                   icon: Icon(Iconsax.scan, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
-                  action: () {
+                  action: () async {
+                    await TrxOptionMethod.scanQR(
+                      context,
+                      [],
+                    );
                   },
                 ),
               ),
@@ -287,7 +301,7 @@ class HomePageBody extends StatelessWidget {
             ),
             title: "Bitriel DEX",
             action: () {
-        
+              underContstuctionAnimationDailog(context: context);
             },
           ),
         ),
@@ -303,7 +317,7 @@ class HomePageBody extends StatelessWidget {
             ),
             title: "Uniswap",
             action: () {
-        
+              underContstuctionAnimationDailog(context: context);
             },
           ),
         )
@@ -320,7 +334,7 @@ class HomePageBody extends StatelessWidget {
               child: MarketPlaceMenuItem(
                 title: "SALA Digital",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             ),
@@ -331,7 +345,7 @@ class HomePageBody extends StatelessWidget {
               child: MarketPlaceMenuItem(
                 title: "KOOMPI Fi-Fi",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             )
@@ -346,7 +360,7 @@ class HomePageBody extends StatelessWidget {
               child: MarketPlaceMenuItem(
                 title: "Land Tokens",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             ),
@@ -357,7 +371,7 @@ class HomePageBody extends StatelessWidget {
               child: MarketPlaceMenuItem(
                 title: "OpenSea",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             )

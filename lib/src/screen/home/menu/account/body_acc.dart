@@ -41,7 +41,7 @@ class AccountBody extends StatelessWidget{
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(8),
                   color: isDarkTheme
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -52,14 +52,14 @@ class AccountBody extends StatelessWidget{
                     
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 25,
-                      ),
+                      // padding: const EdgeInsets.only(
+                      //   left: 20,
+                      //   right: 20,
+                      //   top: 25,
+                      //   bottom: 25,
+                      // ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(8),
                         // color: isDarkTheme
                         //   ? Colors.white.withOpacity(0.06)
                         //   : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -75,6 +75,7 @@ class AccountBody extends StatelessWidget{
                                     alignment: Alignment.centerLeft,
                                     margin: const EdgeInsets.only(
                                       bottom: 16,
+                                      top: 16,
                                     ),
                                     width: 70,
                                     height: 70,
@@ -109,6 +110,8 @@ class AccountBody extends StatelessWidget{
                         }
                       ),
                     ),
+
+                    SizedBox(height: 5.h),
                     
                     ListTileComponent(
                       action: (){
@@ -126,7 +129,7 @@ class AccountBody extends StatelessWidget{
                       text: 'Backup Key',
                     ),
                     
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
                     
                     ListTileComponent(
                       action: (){
@@ -145,7 +148,7 @@ class AccountBody extends StatelessWidget{
                       text: 'Change Pin',
                     ),
 
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () async {
                         // await contract.unsubscribeNetwork();
@@ -155,9 +158,9 @@ class AccountBody extends StatelessWidget{
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(left: 16, right: 16),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        height: 70,
+                        height: 7.h,
                         child: MyText(
                           text: 'Delete Account',
                           color: "#FF0000",

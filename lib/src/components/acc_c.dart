@@ -15,30 +15,34 @@ class ListTileComponent extends StatelessWidget{
       },
       child: Container(
         alignment: Alignment.center,
-        margin: const EdgeInsets.only(left: 16,right: 16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
+          color: hexaCodeToColor(AppColors.bluebgColor)
         ),
-        height: 70,
-        child: Row(
-          children: [
-            MyText(
-              text: text,
-              color: isDarkTheme
+        height: 8.h,
+        child: Padding(
+          padding: const EdgeInsets.all(paddingSize),
+          child: Row(
+            children: [
+              MyText(
+                text: text,
+                color: isDarkTheme
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+                fontWeight: FontWeight.bold,
+              ),
+
+              Expanded(child: Container()),
+
+              Icon(
+                Icons.arrow_forward_ios, 
+                size: 22.5.sp,
+                color: hexaCodeToColor(isDarkTheme
                 ? AppColors.whiteColorHexa
-                : AppColors.textColor,
-              fontWeight: FontWeight.bold,
-            ),
-
-            Expanded(child: Container()),
-
-            Icon(
-              Icons.arrow_forward_ios, 
-              color: hexaCodeToColor(isDarkTheme
-              ? AppColors.whiteColorHexa
-              : AppColors.textColor)
-            )
-          ],
+                : AppColors.textColor)
+              )
+            ],
+          ),
         ),
       ),
     );

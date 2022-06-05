@@ -2,9 +2,12 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
+
+import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
 /* Size */
@@ -623,12 +626,17 @@ Widget progress({String? content}) {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CircularProgressIndicator(
-              backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation(
-                hexaCodeToColor(AppColors.secondary)
-              )
+            Lottie.asset(
+              "assets/animation/blockchain-animation.json",
+              repeat: true,
+              width: 75.w,
             ),
+            // CircularProgressIndicator(
+            //   backgroundColor: Colors.transparent,
+            //   valueColor: AlwaysStoppedAnimation(
+            //     hexaCodeToColor(AppColors.secondary)
+            //   )
+            // ),
             if (content == null)
             Container()
             else
@@ -837,14 +845,13 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
           borderRadius: BorderRadius.circular(6),
           color: Colors.white,
         ),
-        width: 300.0,
-        height: 300.0,
+        width: 45.w,
         child: QrImage(
           backgroundColor: Colors.white,
 
           //embeddedImage: AssetImage(logoName),
           embeddedImageStyle: QrEmbeddedImageStyle(
-            size: const Size(70, 70),
+            // size: Size(10.w, 10.h),
           ),
           // version: QrVersions.auto,
           data: wallet,
@@ -1110,5 +1117,51 @@ Widget disableNativePopBackButton(Widget child) {
   return WillPopScope(
     onWillPop: () => Future(() => false),
     child: child,
+  );
+}
+
+Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/page-construction.json",
+      width: 75.w, 
+      repeat: true,
+
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/page-construction.json",
+      width: 75.w, 
+      repeat: true,
+
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
   );
 }

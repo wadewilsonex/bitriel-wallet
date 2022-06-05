@@ -57,51 +57,63 @@ class CreateSeedsBody extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
-                          SizedBox(width: 9),
-                          MyText(
-                            text: "Generate new seed",
-                            fontSize: 14,
-                            color: AppColors.whiteColorHexa,
-                            fontWeight: FontWeight.bold,  
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              SizedBox(width: 9),
+                              MyText(
+                                text: "Generate new seed",
+                                fontSize: 14,
+                                color: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.bold,  
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
+                        onTap: () => generateKey()
                       ),
-                      onTap: () => generateKey()
                     ),
 
-                    GestureDetector(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
-                          SizedBox(width: 9),
-                          MyText(
-                            text: "Copy",
-                            fontSize: 14,
-                            color: AppColors.whiteColorHexa,
-                            fontWeight: FontWeight.bold,  
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              SizedBox(width: 9),
+                              MyText(
+                                text: "Copy",
+                                fontSize: 14,
+                                color: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.bold,  
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                'Copied to clipboard',
+                                textAlign: TextAlign.center,
+                              ),
+                              duration: Duration(seconds: 1),
+                            ));
+                            Clipboard.setData(
+                              ClipboardData(text: createKeyModel!.seed!),
+                            );
+                        }
                       ),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text(
-                              'Copied to clipboard',
-                              textAlign: TextAlign.center,
-                            ),
-                            duration: Duration(seconds: 1),
-                          ));
-                          Clipboard.setData(
-                            ClipboardData(text: createKeyModel!.seed!),
-                          );
-                      }
                     ),
                   ],
                 ),

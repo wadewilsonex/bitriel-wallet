@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 
 class DialogComponents {
@@ -61,48 +64,56 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
-          title: titles != null ? MyText(
-            text: titles,
-            fontWeight: FontWeight.bold,
-            color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
-          ) : Container(),
-          buttonPadding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
-          content: contents != null ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              
-              image != null ? image : Container(),
-              
-              image != null ? SizedBox(height: 4.h) : Container(),
-              MyText(
-                text: contents,
-                color: AppColors.whiteColorHexa, 
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+            title: titles != null ? MyText(
+              text: titles,
+              fontWeight: FontWeight.bold,
+              color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+            ) : Container(),
+            buttonPadding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            content: contents != null ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+        
+                lottie != null ? lottie : Container(),
+                
+                lottie != null ? SizedBox(height: 3.h) : Container(),
+                
+                image != null ? image : Container(),
+                
+                image != null ? SizedBox(height: 3.h) : Container(),
+                MyText(
+                  text: contents,
+                  fontSize: 17,
+                  color: AppColors.whiteColorHexa, 
+                )
+              ],
+            ) : contents2,
+            actions: [
+              btn ?? Container(),
+        
+              btn2 ?? TextButton(
+                onPressed: () async {
+                  // await FlutterScreenshotSwitcher.enableScreenshots();
+                  Navigator.pop(context);
+                },
+                child: MyText(
+                  text: "Close",
+                  color: AppColors.lowWhite
+                ),
               )
             ],
-          ) : contents2,
-          actions: [
-            btn ?? Container(),
-
-            btn2 ?? TextButton(
-              onPressed: () async {
-                // await FlutterScreenshotSwitcher.enableScreenshots();
-                Navigator.pop(context);
-              },
-              child: MyText(
-                text: "Close",
-                color: AppColors.lowWhite
-              ),
-            )
-          ],
+          ),
         );
       }
     );

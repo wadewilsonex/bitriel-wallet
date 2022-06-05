@@ -70,8 +70,9 @@ class _AssetDetailState extends State<AssetDetail> {
           children: [
             MyText(
               text: 'Price Today',
-              fontSize: 16.0,
               textAlign: TextAlign.left,
+              fontWeight: FontWeight.bold,
+              top: 16.0,
               bottom: 16.0,
               color:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
@@ -90,11 +91,12 @@ class _AssetDetailState extends State<AssetDetail> {
                 ''),
             line(),
             textRow('Market Rank', '#${widget.marketData.marketCapRank}', ''),
-            const SizedBox(height: 20),
+            line(),
             MyText(
               text: 'Market Cap',
-              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
               textAlign: TextAlign.left,
+              top: 16,
               bottom: 16.0,
               color:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
@@ -103,11 +105,12 @@ class _AssetDetailState extends State<AssetDetail> {
             textRow('Market Cap', '\$$marketCap', ''),
             line(),
             textRow('Market Cap Change 24h', '\$$marketCapChange24h', ''),
-            const SizedBox(height: 20),
+            line(),
             MyText(
               text: 'Price History',
-              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
               textAlign: TextAlign.left,
+              top: 16.0,
               bottom: 16.0,
               color:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
@@ -116,11 +119,12 @@ class _AssetDetailState extends State<AssetDetail> {
             textRow('All Time High', '\$${widget.marketData.ath}', ''),
             line(),
             textRow('All Time Low', '\$${widget.marketData.atl}', ''),
-            const SizedBox(height: 20),
+            line(),
             MyText(
               text: 'Supply',
-              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
               textAlign: TextAlign.left,
+              top: 16.0,
               bottom: 16.0,
               color:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
@@ -145,7 +149,7 @@ class _AssetDetailState extends State<AssetDetail> {
     return Container(
       height: 1,
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkBgd)
+          ? hexaCodeToColor(AppColors.titleAssetColor)
           : hexaCodeToColor(AppColors.textColor),
     );
   }
@@ -161,7 +165,7 @@ class _AssetDetailState extends State<AssetDetail> {
           MyText(
             text: leadingText,
             color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            fontSize: 16,
+            fontWeight: FontWeight.bold,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
@@ -171,7 +175,6 @@ class _AssetDetailState extends State<AssetDetail> {
                 color: isDarkTheme
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
-                fontSize: 16,
                 overflow: TextOverflow.ellipsis,
               ),
               MyText(
@@ -181,7 +184,6 @@ class _AssetDetailState extends State<AssetDetail> {
                     : isDarkTheme
                         ? '#00FF00'
                         : '#66CD00',
-                fontSize: 16,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
