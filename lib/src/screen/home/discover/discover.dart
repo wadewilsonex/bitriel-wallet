@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/discover_m.dart';
 import 'package:wallet_apps/src/screen/home/discover/body_discover.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
 
   @override
   void initState() {
+    DiscoverContent.initContext(context: context);
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -25,7 +27,6 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
     _tabController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

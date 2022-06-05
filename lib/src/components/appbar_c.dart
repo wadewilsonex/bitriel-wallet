@@ -91,15 +91,9 @@ class MyAppBar extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SafeArea(
       child: Container(
-        height: 65.0,
+        // height: 65.0,
         width: MediaQuery.of(context).size.width,
         margin: margin,
-        decoration: BoxDecoration(
-          color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.whiteHexaColor),
-          boxShadow: [shadow(context)]
-        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -107,15 +101,13 @@ class MyAppBar extends StatelessWidget {
               children: [
                 IconButton(
                   /* Menu Icon */
-
-                  padding: const EdgeInsets.only(left: 16, right: 8),
                   iconSize: 40.0,
                   icon: Icon(
                     Platform.isAndroid
                         ? LineAwesomeIcons.arrow_left
                         : LineAwesomeIcons.angle_left,
                     color: isDarkTheme ? Colors.white : Colors.black,
-                    size: 36,
+                    size: 22.5.sp,
                   ),
                   onPressed: (){
                     onPressed!();
@@ -126,7 +118,7 @@ class MyAppBar extends StatelessWidget {
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600
                 ),
               ],

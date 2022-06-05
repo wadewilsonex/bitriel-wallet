@@ -24,6 +24,7 @@ class MyInputField extends StatelessWidget {
   final Function? validateField;
   final Function? onChanged;
   final Function? onSubmit;
+  final String? hintText;
 
   const MyInputField(
       {/* User Input Field */
@@ -49,7 +50,9 @@ class MyInputField extends StatelessWidget {
       this.suffix,
       this.validateField,
       this.onChanged,
-      @required this.onSubmit});
+      @required this.onSubmit,
+      this.hintText,
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -69,18 +72,22 @@ class MyInputField extends StatelessWidget {
             onTap!();
           } : null,
           textInputAction:
-              // ignore: prefer_if_null_operators
-              inputAction == null ? TextInputAction.next : inputAction,
+            // ignore: prefer_if_null_operators
+            inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
-              color: isDarkTheme
-                  ? Colors.white.withOpacity(0.06)
-                  : hexaCodeToColor(AppColors.textColor),
-              fontSize: 18.0),
+            color: Colors.white,
+            fontSize: 15.sp
+          ),
           validator: (String? value){
             validateField!(value);
           },
           maxLines: maxLine,
           decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(
+              fontSize: 16.sp,
+              color: hexaCodeToColor(AppColors.darkSecondaryText),
+            ),
             labelText: labelText,
             labelStyle: TextStyle(
               fontSize: 18.0,
@@ -116,7 +123,7 @@ class MyInputField extends StatelessWidget {
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
             contentPadding: const EdgeInsets.fromLTRB(
-                21, 23, 21, 23), // Default padding = -10.0 px
+                paddingSize, 0, paddingSize, 0), // Default padding = -10.0 px
             suffixIcon: suffixIcon,
             suffixIconConstraints: BoxConstraints(
               minWidth: 0,

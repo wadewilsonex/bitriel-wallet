@@ -22,7 +22,7 @@ class AccountC {
       builder: (context) {
         final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
         return Container(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.symmetric(vertical: paddingSize),
           height: MediaQuery.of(context).size.height / 1.5,
           color: isDarkTheme
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
@@ -33,7 +33,7 @@ class AccountC {
                 children: [
 
                   MyInputField(
-                    labelText: 'Old Pin',
+                    hintText: 'Old Pin',
                     controller: _oldPinController,
                     focusNode: _oldNode,
                     obcureText: true,
@@ -45,7 +45,7 @@ class AccountC {
                   ),
                   const SizedBox(height: 16.0),
                   MyInputField(
-                    labelText: 'New Pin',
+                    hintText: 'New Pin',
                     controller: _newPinController,
                     focusNode: _newNode,
                     obcureText: true,
@@ -56,19 +56,20 @@ class AccountC {
                     onSubmit: onSubmit,
                     // onChanged: (String value){},
                   ),
-                  const SizedBox(height: 25),
-                  MyFlatButton(
+
+
+                  SizedBox(height: 10.h),
+
+                  MyGradientButton(
+                    edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                     textButton: "Submit",
-                    edgeMargin: const EdgeInsets.only(
-                      top: 40,
-                      left: 66,
-                      right: 66,
-                    ),
-                    hasShadow: true,
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
                     action: () {
                       submitChangePin();
                     },
                   ),
+                  
                 ],
               ),
             ),

@@ -7,6 +7,7 @@ import 'package:wallet_apps/src/components/swap_exchange_c.dart';
 import 'package:wallet_apps/src/models/discover_m.dart';
 
 class DiscoverPageBody extends StatelessWidget {
+
   final TabController tabController;
   const DiscoverPageBody({
     Key? key,
@@ -51,7 +52,7 @@ class DiscoverPageBody extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    itemCount: DiscoverContent().lsSelendraSwap.length,
+                    itemCount: DiscoverContent.lsSelendraSwap!.length,
                     itemBuilder: (context, index){
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -60,7 +61,7 @@ class DiscoverPageBody extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: paddingSize,),
-                              child: DiscoverContent().lsSelendraSwap[index],
+                              child: DiscoverContent.lsSelendraSwap![index],
                             ),
                           ],
                         ),
@@ -71,7 +72,7 @@ class DiscoverPageBody extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
-                    itemCount: DiscoverContent().lsSwapExchange.length,
+                    itemCount: DiscoverContent.lsSwapExchange.length,
                     itemBuilder: (context, index){
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -80,7 +81,7 @@ class DiscoverPageBody extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                              child: DiscoverContent().lsSwapExchange[index],
+                              child: DiscoverContent.lsSwapExchange[index],
                             ),
                           ],
                         ),

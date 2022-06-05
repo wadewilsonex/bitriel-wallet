@@ -141,7 +141,7 @@ class AssetsPageBody extends StatelessWidget {
                 child: Divider(
                   thickness: 1,
                   color: hexaCodeToColor(AppColors.titleAssetColor),
-                  indent: 2.5.w,
+                  indent: 2.w,
                 ),
               ),
             ],
