@@ -1,12 +1,15 @@
 import 'package:wallet_apps/index.dart';
 
 class SwapTokenList extends StatelessWidget {
+
+  final bool? isActive;
   final String? title;
   final String? subtitle;
   final Widget? image;
   final Function? action;
   
   SwapTokenList({
+    this.isActive = false,
     this.title,
     this.subtitle,
     this.image,
@@ -15,10 +18,11 @@ class SwapTokenList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("SwapTokenList isActive $isActive");
 
     return GestureDetector(
       onTap: action == null ? null : (){
-        action!();
+        if (isActive == false) action!();
       },
       child: Row(
         children: [
@@ -32,7 +36,6 @@ class SwapTokenList extends StatelessWidget {
             ),
           ),
     
-    
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,20 +43,19 @@ class SwapTokenList extends StatelessWidget {
               MyText(
                 text: title,
                 fontSize: 18,
-                color: AppColors.whiteColorHexa,
+                color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
               ),
               MyText(
                 text: subtitle,
                 fontSize: 10,
-                color: AppColors.whiteColorHexa,
+                color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,
               ),
             ],
           ),
-          SizedBox(width: 60),
     
           Expanded(child: Container()),
         ],

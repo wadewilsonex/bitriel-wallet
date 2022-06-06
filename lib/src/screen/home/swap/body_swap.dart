@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/num_pad_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
+import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
 
 class SwapPageBody extends StatelessWidget {
@@ -30,6 +31,62 @@ class SwapPageBody extends StatelessWidget {
           children: [
 
             _payInput(context),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: paddingSize),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: hexaCodeToColor(AppColors.titleAssetColor),
+                      indent: 2.w,
+                    ),
+                  ),
+
+                  GestureDetector(
+                    onTap: (){
+                      SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
+                      dynamic tmp = swap.index1;
+                      // dynamic tmp2 = swap.index2;
+
+                      swap.index1 = swap.index2;
+                      swap.index2 = tmp;
+
+                      tmp = swap.name1;
+                      swap.name1 = swap.name2;
+                      swap.name2 = tmp;
+
+                      tmp = swap.logo1;
+                      swap.logo1 = swap.logo2;
+                      swap.logo2 = tmp;
+
+                      swap.setList();
+                      swap.notifyListeners();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: hexaCodeToColor(AppColors.titleAssetColor)),
+                        borderRadius: BorderRadius.circular(30)
+                      ),
+                      padding: EdgeInsets.all(5),
+                      child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.orangeColor), size: 22.sp,),
+                    )
+                  ),
+
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: hexaCodeToColor(AppColors.titleAssetColor),
+                      indent: 2.w,
+                    ),
+                  ),
+                ],
+              )
+            ),
             
             _getDisplay(context),
       
@@ -73,7 +130,7 @@ class SwapPageBody extends StatelessWidget {
 
   Widget _payInput(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize),
+      padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -135,7 +192,9 @@ class SwapPageBody extends StatelessWidget {
 
               _ddButton(
                 context: context, 
+                i: 0,
                 onPressed: (){
+                  Provider.of<SwapProvider>(context, listen: false).label = "first";
                   Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
                 }
               ),            
@@ -177,7 +236,9 @@ class SwapPageBody extends StatelessWidget {
 
           _ddButton(
             context: context,
+            i: 1,
             onPressed:  (){
+              Provider.of<SwapProvider>(context, listen: false).label = "second";
               Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
             }
           )
@@ -193,48 +254,53 @@ class SwapPageBody extends StatelessWidget {
   }
 
   /// dd stand for dropdown
-  Widget _ddButton({BuildContext? context, Function()? onPressed}){
+  Widget _ddButton({BuildContext? context, Function()? onPressed, required int? i}){
     
-    return GestureDetector(
-      child: Container(
-        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(8)
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 2.sp),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-          
-              Image.asset(
-                'assets/SelendraCircle-White.png',
-                height: 6.h,
-                width: 6.w,
-              ),
+    return Consumer<SwapProvider>(
+      builder: (context, provider, widget){
+        return GestureDetector(
+          child: Container(
+            width: 30.w,
+            decoration: BoxDecoration(
+              color: hexaCodeToColor(AppColors.defiMenuItem),
+              borderRadius: BorderRadius.circular(8)
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 2.sp),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              
+                  Image.asset(
+                    i == 0 ? provider.logo1 : provider.logo2,
+                    height: 6.h,
+                    width: 6.w,
+                  ),
 
-              MyText(
-                left: 10.sp,
-                right: 10.sp,
-                text: 'SEL',
-                fontWeight: FontWeight.w700,
-                fontSize: 16.sp,
-                color: AppColors.whiteColorHexa,
-              ),
+                  MyText(
+                    left: 10.sp,
+                    right: 10.sp,
+                    text: i == 0 ? provider.name1 : provider.name2,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.sp,
+                    color: AppColors.whiteColorHexa,
+                  ),
 
-              Icon(
-                Iconsax.arrow_down_1,
-                color: hexaCodeToColor(AppColors.whiteColorHexa),
-                size: 17.sp
+                  Icon(
+                    Iconsax.arrow_down_1,
+                    color: hexaCodeToColor(AppColors.whiteColorHexa),
+                    size: 17.sp
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-      
-      onTap: onPressed!,
+          
+          onTap: onPressed!,
+        );
+      },
     );
   }
 

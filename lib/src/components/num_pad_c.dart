@@ -163,6 +163,14 @@ class NumPad extends StatelessWidget {
                 },
               ),
               NumberButton(
+                onLongPressed: () async {
+                  while(controller.text.isNotEmpty){
+                    await Future.delayed(Duration(milliseconds: 50), (){
+
+                      delete();
+                    });
+                  }
+                },
                 onPressed: (){
                    delete();
                 },
@@ -190,7 +198,8 @@ class NumberButton extends StatelessWidget {
   final Color color;
   final TextEditingController controller;
   final Widget? icon;
-  final Function() onPressed;
+  final Function()? onPressed;
+  final Function()? onLongPressed;
 
   const NumberButton({
     Key? key,
@@ -199,6 +208,7 @@ class NumberButton extends StatelessWidget {
     required this.color,
     required this.controller,
     required this.onPressed,
+    this.onLongPressed,
     this.icon,
   }) : super(key: key);
 
@@ -208,6 +218,7 @@ class NumberButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 4,
       height: size,
       child: TextButton(
+        onLongPress: onLongPressed,
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
@@ -215,7 +226,7 @@ class NumberButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(color),
         ),
         onPressed: () {
-          onPressed();
+          onPressed!();
         },
         child: Center(
           child: icon ?? Text(
