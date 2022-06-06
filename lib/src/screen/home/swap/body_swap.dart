@@ -9,13 +9,15 @@ class SwapPageBody extends StatelessWidget {
   final Function? percentTap;
   final Function? onDeleteTxt;
   final Function(String)? onChanged;
+  final Function? onTabNum;
 
   const SwapPageBody({ 
     Key? key,
     this.swapPageModel,
     this.percentTap,
     this.onChanged,
-    this.onDeleteTxt
+    this.onDeleteTxt,
+    required this.onTabNum
   }) : super(key: key);
 
   @override
@@ -26,20 +28,10 @@ class SwapPageBody extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-      
+
             _payInput(context),
             
             _getDisplay(context),
-
-            GestureDetector(
-              onTap: () async {
-
-                await Clipboard.setData(
-                  ClipboardData(text: 1.sp.toString()),
-                );
-              },
-              child: MyText(text: "${((27.608.sp)/4).toStringAsFixed(2)}", color2: Colors.white,)
-            ),
       
             _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
       
@@ -60,7 +52,7 @@ class SwapPageBody extends StatelessWidget {
             ),
 
             Expanded(child: Container()), 
-            _buildNumberPad(context, onDeleteTxt),
+            _buildNumberPad(context, onDeleteTxt, onTabNum),
 
             SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(
@@ -122,13 +114,20 @@ class SwapPageBody extends StatelessWidget {
               Flexible(
                 child: TextField(
                   onChanged: onChanged,
+                  focusNode: swapPageModel!.focusNode,
                   controller: swapPageModel!.myController,
                   textAlign: TextAlign.start,
                   showCursor: true,
-                  style: const TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
+                  style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w800),
+                  decoration: InputDecoration(
+                    hintText: "0",
+                    hintStyle: TextStyle(
+                      fontSize: 20.sp,
+                      color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(AppColors.iconColor) : Colors.white
                     ),
+                    border: InputBorder.none,
+
+                  ),
                   // Disable the default soft keybaord
                   keyboardType: TextInputType.none,
                 )
@@ -362,12 +361,13 @@ class SwapPageBody extends StatelessWidget {
     );
   }
 
-  Widget _buildNumberPad(context, Function? onDeleteTxt) {
+  Widget _buildNumberPad(context, Function? onDeleteTxt, Function? onTabNum) {
     return NumPad(
       buttonSize: 50,
       buttonColor: hexaCodeToColor(AppColors.defiMenuItem),
       controller: swapPageModel!.myController!,
       delete: onDeleteTxt!,
+      onTabNum: onTabNum,
       // do something with the input numbers
       onSubmit: () {
         debugPrint('Your code: ${swapPageModel!.myController!.text}');

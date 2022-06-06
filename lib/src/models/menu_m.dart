@@ -33,7 +33,7 @@ class MenuModel {
       'sub': [
         {'icon': AppConfig.iconsPath+"wallet.svg", 'subTitle': 'Wallet'},
         {'icon': AppConfig.iconsPath+"plus.svg", 'subTitle': 'Asset'},
-        {'icon': AppConfig.iconsPath+"plus.svg", 'subTitle': 'Wallet Connect'}
+        {'icon': AppConfig.iconsPath+"wallet-connect.png", 'subTitle': 'Wallet Connect'}
       ]
     },
     {

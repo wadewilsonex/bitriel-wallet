@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -38,7 +39,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height / 2.2,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: hexaCodeToColor(AppColors.blue),
             borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -47,30 +48,33 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: <Widget>[
-                SizedBox(height: 25),
+                SizedBox(height: 2.5.h),
                 MyText(
                   text: "Please, read carefully!",
+                  fontSize: 18,
                   color: AppColors.lowWhite,
-                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),  
         
         
-                SizedBox(height: 40),
+                SizedBox(height: 5.h),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(size8),
                     color: hexaCodeToColor("#FFF5F5"),
                   ), 
-                  width: 500,
-                  height: 100,
+                  height: 10.h,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      SizedBox(width: 10),
-                      SvgPicture.asset('assets/icons/warning.svg'),
+                      SizedBox(width: 1.w),
+                      // SvgPicture.asset('assets/icons/warning.svg'),
+                      Lottie.asset(
+                        "assets/animation/warning-shield.json",
+                        repeat: true,
+                      ),
         
-                      SizedBox(width: 20),
+                      SizedBox(width: 2.w),
                       Expanded(
                         child: MyText(
                           text: "The information below is important to guarantee your account security.",
@@ -82,17 +86,15 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                   ),
                 ),
         
-                SizedBox(height: 10),
+                SizedBox(height: 5.h),
                 MyText(
                   text: "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
                   textAlign: TextAlign.start,
                   color: AppColors.lowWhite,
-                  fontSize: 16,
                 ),
         
-                SizedBox(height: 50),
+                SizedBox(height: 7.h),
                 MyGradientButton(
-                  edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "I Agree",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
@@ -125,9 +127,9 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
     _model.initial = true;
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
     generateKey();
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   _showWarning(context);
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _showWarning(context);
+    });
     super.initState();
   }
 

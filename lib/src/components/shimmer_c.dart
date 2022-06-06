@@ -35,8 +35,8 @@ class AvatarShimmer extends StatelessWidget{
           : Colors.grey[100]!,
       ) 
       : Container(
-        width: 60,
-        height: 60,
+        width: 12.50.w,
+        height: 12.50.h,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           color: isDarkTheme
