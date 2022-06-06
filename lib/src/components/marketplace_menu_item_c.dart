@@ -3,10 +3,12 @@ import 'package:wallet_apps/index.dart';
 class MarketPlaceMenuItem extends StatelessWidget {
   final String? title;
   final Function? action;
+  final Widget? image;
   
   MarketPlaceMenuItem({
     this.title,
     @required this.action,
+    this.image,
   });
 
 
@@ -18,22 +20,26 @@ class MarketPlaceMenuItem extends StatelessWidget {
         action!();
       },
       child: Container(
-        height: 8.h,
+        height: 15.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: hexaCodeToColor(AppColors.defiMenuItem)
         ),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(  
-              children: [
-                MyText(
-                  text: title,
-                  color: AppColors.whiteColorHexa,
-                  fontWeight: FontWeight.w700,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: image!,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MyText(
+                text: title,
+                color: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),

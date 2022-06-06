@@ -4,6 +4,7 @@ import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
+import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
@@ -13,12 +14,14 @@ import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 class HomePageBody extends StatelessWidget {
 
   final HomePageModel? homePageModel;
-  final Function(int index)? onIndexChanged;
+  final bool? pushReplacement;
+  final Function(int index)? onPageChanged;
 
   const HomePageBody({ 
     Key? key, 
     this.homePageModel,
-    this.onIndexChanged
+    this.onPageChanged,
+    this.pushReplacement,
     }) : super(key: key);
 
 
@@ -33,6 +36,7 @@ class HomePageBody extends StatelessWidget {
       ),
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: AppBar(
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(AppColors.bluebgColor) : hexaCodeToColor(AppColors.darkBgd),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -57,6 +61,7 @@ class HomePageBody extends StatelessWidget {
                 await TrxOptionMethod.scanQR(
                   context,
                   [],
+                  pushReplacement!,
                 );
               },
             ),
@@ -64,11 +69,12 @@ class HomePageBody extends StatelessWidget {
         ],
       ),
       body: PageView(
+        physics: CustomPageViewScrollPhysics(),
         controller: homePageModel!.pageController,
-        onPageChanged: onIndexChanged,
+        // onPageChanged: onPageChanged,
         children: [
 
-          DiscoverPage(),
+          DiscoverPage(homePageModel: homePageModel!),
 
           AssetsPage(),
 
@@ -124,8 +130,7 @@ class HomePageBody extends StatelessWidget {
       ),
       bottomNavigationBar: MyBottomAppBar(
         index: homePageModel!.activeIndex,
-        apiStatus: true,
-        onIndexChanged: onIndexChanged,
+        onIndexChanged: onPageChanged,
       ),
     );
   }
@@ -140,7 +145,7 @@ class HomePageBody extends StatelessWidget {
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
-            onPageChanged: homePageModel!.onPageChanged,
+            onPageChanged: homePageModel!.onCarouselChanged,
           ),
           items: imgList
             .map((item) => Padding(
@@ -278,6 +283,7 @@ class HomePageBody extends StatelessWidget {
                     await TrxOptionMethod.scanQR(
                       context,
                       [],
+                      pushReplacement!
                     );
                   },
                 ),
@@ -332,6 +338,10 @@ class HomePageBody extends StatelessWidget {
           children: [
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/sala-logo.png",
+                  width: 10.w,
+                ),
                 title: "SALA Digital",
                 action: () {
                   underContstuctionAnimationDailog(context: context);
@@ -343,6 +353,10 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/koompi-fifi.png",
+                  width: 10.w,
+                ),
                 title: "KOOMPI Fi-Fi",
                 action: () {
                   underContstuctionAnimationDailog(context: context);
@@ -358,7 +372,11 @@ class HomePageBody extends StatelessWidget {
           children: [
             Expanded(
               child: MarketPlaceMenuItem(
-                title: "Land Tokens",
+                image: Image.asset(
+                  "assets/logo/selendra-logo.png",
+                  width: 6.w,
+                ),
+                title: "Funan DApp",
                 action: () {
                   underContstuctionAnimationDailog(context: context);
                 },
@@ -369,6 +387,10 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/opensea.png",
+                  width: 10.w,
+                ),
                 title: "OpenSea",
                 action: () {
                   underContstuctionAnimationDailog(context: context);
