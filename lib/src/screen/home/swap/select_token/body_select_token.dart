@@ -1,14 +1,19 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/search_c.dart';
 import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
+import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 
 class SelectSwapTokenBody extends StatelessWidget {
   final TextEditingController? searchController;
+  final Function? query;
 
   SelectSwapTokenBody({ 
     Key? key,
     this.searchController,
+    this.query
   }) : super(key: key);
 
   @override
@@ -31,20 +36,35 @@ class SelectSwapTokenBody extends StatelessWidget {
         ]
       ),
 
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _searchToken(context, searchController!),
-      
-            _tokenList(context),
-          ],
-        ),
+      body: Consumer<SwapProvider>(
+        builder: (context, provider, widget){
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                _searchToken(provider.label, context, searchController!, query),
+
+                Stack(
+                  children: [
+                    
+                    provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls2) : Container(),
+                    // List Asset
+
+                    // Items Searched
+                    provider.searched.isNotEmpty ? _tokenList(context, provider.searched) : Container()
+                  ],
+                )
+          
+              ],
+            )
+          );
+        }
       ),
     );
   }
 
-  Widget _searchToken(BuildContext context, TextEditingController controller){
+  Widget _searchToken(String label, BuildContext context, TextEditingController controller, Function? query){
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
@@ -77,19 +97,21 @@ class SelectSwapTokenBody extends StatelessWidget {
           fillColor: hexaCodeToColor("#114463"),
           suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor("#AAAAAA"), size: 20),
         ),
+        onChanged: (String value){
+          query!(label, value);
+        },
       ),
     );
   }
 
-  Widget _tokenList(BuildContext context){
+  Widget _tokenList(BuildContext context, List<SwapTokenListModel> ls){
     return Consumer<SwapProvider>(
       builder: (context, provider, widget){
         return ListView.builder(
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
-          itemCount: provider.label == "first" ? provider.ls.length : provider.ls2.length,//SwapTokenListModel().lsSwapToken.length,
+          itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
           itemBuilder: (context, index){
-            print(provider.label == "first" ? provider.ls.length : provider.ls2.length);
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Column(
@@ -99,10 +121,10 @@ class SelectSwapTokenBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SwapTokenList(
-                      title: provider.label == "first" ? provider.ls[index].title : provider.ls2[index].title,
-                      subtitle: provider.label == "first" ? provider.ls[index].subtitle : provider.ls2[index].subtitle,
-                      isActive: provider.label == "first" ? provider.ls[index].isActive : provider.ls2[index].isActive,
-                      image: provider.label == "first" ? provider.ls[index].image : provider.ls2[index].image,
+                      title: ls[index].title,
+                      subtitle: ls[index].subtitle,
+                      isActive: ls[index].isActive,
+                      image: ls[index].image,
                       action: (){
                         
                         if (provider.label == "first"){

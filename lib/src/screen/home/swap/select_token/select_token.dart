@@ -13,6 +13,7 @@ class SelectSwapToken extends StatefulWidget {
 class _SelectSwapTokenState extends State<SelectSwapToken> {
 
   final TextEditingController _searchController = TextEditingController();
+  SwapProvider? _swapProvider;
 
   @override
   initState(){
@@ -26,10 +27,26 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
     super.dispose();
   }
 
+  void query(String? label, String value){
+    print("query $value");
+    _swapProvider = Provider.of<SwapProvider>(context, listen: false);
+    _swapProvider!.searched = [];
+    if (label == "first"){
+      _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+    } else {
+      _swapProvider!.searched = _swapProvider!.ls2.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+
+    }
+    print("_swapProvider!.searched ${_swapProvider!.searched}");
+    setState(() { });
+    // mySetState(() { });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SelectSwapTokenBody(
       searchController: _searchController,
+      query: query
     );
   }
 }

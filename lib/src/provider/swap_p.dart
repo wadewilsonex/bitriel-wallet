@@ -17,6 +17,7 @@ class SwapProvider extends ChangeNotifier{
 
   List<SwapTokenListModel> ls = [];
   List<SwapTokenListModel> ls2 = [];
+  List<SwapTokenListModel> searched = [];
 
   SwapTokenListModel swapTokenListModel = SwapTokenListModel();
   SwapTokenListModel swapTokenListModel2 = SwapTokenListModel();

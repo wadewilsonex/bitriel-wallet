@@ -176,6 +176,9 @@ class SwapPageBody extends StatelessWidget {
                   textAlign: TextAlign.start,
                   showCursor: true,
                   style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w800),
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(10),
+                  ],
                   decoration: InputDecoration(
                     hintText: "0",
                     hintStyle: TextStyle(
