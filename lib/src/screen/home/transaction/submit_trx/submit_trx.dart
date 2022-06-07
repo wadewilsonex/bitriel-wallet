@@ -374,7 +374,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
               } else if (contractM.symbol == "BTC"){
 
-                await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
+                // await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
               } else if (contractM.symbol == "KGO"){
 
                 await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);

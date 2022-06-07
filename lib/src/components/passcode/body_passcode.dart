@@ -20,15 +20,32 @@ class PasscodeBody extends StatelessWidget{
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
-      body: Padding(
+      body: Container(
+        color: Colors.red,
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
           children: [
 
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
-            ),
+            // Show AppBar Only In Landing Pages
+            if(label! == true) MyAppBar(
+              title: "Passcode",
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ) 
+            else Container(),
+            
+            // Expanded(
+            //   child: 
+            // )
+
+            // SizedBox(
+            //   height: 10.h
+            // ),
 
             MyText(
               text: isFirst! ? 'PIN!' : 'Verify PIN!',
@@ -45,8 +62,8 @@ class PasscodeBody extends StatelessWidget{
             //   ),
             // ),
 
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 5.h,
             ),
             
             Column(
@@ -58,7 +75,7 @@ class PasscodeBody extends StatelessWidget{
                 passCodeContents[0]
               ],
             ), 
-            const SizedBox(height: 80),
+            SizedBox(height: 5.h),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,7 +90,7 @@ class PasscodeBody extends StatelessWidget{
               ],
             ),
 
-            const SizedBox(height: 80),
+            SizedBox(height: 10.h),
             ReuseNumPad(pinIndexSetup!, clearPin!)
           ],
         ),
@@ -198,85 +215,83 @@ class ReuseNumPad extends StatelessWidget {
 
   Widget _buildNumberPad(context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                ReuseKeyBoardNum(1, () {
-                  pinIndexSetup('1');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(2, () {
-                  pinIndexSetup('2');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(3, () {
-                  pinIndexSetup('3');
-                }),
-              ],
-            ),
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(1, () {
+                pinIndexSetup('1');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(2, () {
+                pinIndexSetup('2');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(3, () {
+                pinIndexSetup('3');
+              }),
+            ],
+          ),
 
-            SizedBox(height: 10),
-            Row(
-              children: <Widget>[
-                ReuseKeyBoardNum(4, () {
-                  pinIndexSetup('4');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(5, () {
-                  pinIndexSetup('5');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(6, () {
-                  pinIndexSetup('6');
-                }),
-              ],
-            ),
+          SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(4, () {
+                pinIndexSetup('4');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(5, () {
+                pinIndexSetup('5');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(6, () {
+                pinIndexSetup('6');
+              }),
+            ],
+          ),
 
-            SizedBox(height: 10),
-            Row(
-              children: <Widget>[
-                ReuseKeyBoardNum(7, () {
-                  pinIndexSetup('7');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(8, () {
-                  pinIndexSetup('8');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(9, () {
-                  pinIndexSetup('9');
-                }),
-              ],
-            ),
-            
-            SizedBox(height: 10),
-            Row(
-              children: <Widget>[
-                Expanded(child: Container()),
-                // ReuseKeyBoardNum(null, null, child: Container()),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(0, () {
-                  pinIndexSetup('0');
-                }),
-                SizedBox(width: 19),
-                ReuseKeyBoardNum(
-                  null, 
-                  () {
-                    clearPin();
-                  },
-                  child: Transform.rotate(
-                    angle: 70.6858347058,
-                    child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+          SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(7, () {
+                pinIndexSetup('7');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(8, () {
+                pinIndexSetup('8');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(9, () {
+                pinIndexSetup('9');
+              }),
+            ],
+          ),
+          
+          SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              Expanded(child: Container()),
+              // ReuseKeyBoardNum(null, null, child: Container()),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(0, () {
+                pinIndexSetup('0');
+              }),
+              SizedBox(width: 19),
+              ReuseKeyBoardNum(
+                null, 
+                () {
+                  clearPin();
+                },
+                child: Transform.rotate(
+                  angle: 70.6858347058,
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

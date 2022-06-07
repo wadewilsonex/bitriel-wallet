@@ -103,7 +103,7 @@ class AssetsItemComponent extends StatelessWidget {
                   MyText(
                     top: 4.0,
                     text: scModel!.name!,
-                    fontSize: 15.sp,
+                    fontSize: 12,
                     color: AppColors.tokenNameColor
                   )
             
@@ -159,7 +159,7 @@ class AssetsItemComponent extends StatelessWidget {
                 children: [
                   MyText(
                     text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
-                    fontSize: 18.sp,
+                    fontSize: 15.5,
                     fontWeight: FontWeight.bold,
                     color: AppColors.whiteColorHexa
                   ),
@@ -196,7 +196,7 @@ class AssetsItemComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 MyText(
-                  fontSize: 18.sp,
+                  fontSize: 15,
                   // width: double.infinity,
                   text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                   textAlign: TextAlign.right,

@@ -17,7 +17,6 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final acc = Provider.of<ApiProvider>(context).accountM;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return Container(
@@ -30,19 +29,24 @@ class MenuHeader extends StatelessWidget {
       child: SizedBox(
         child: Consumer<ApiProvider>(
           builder: (context, value, child) {
+            print("value.accountM.address ${value.accountM.address}");
             return Row(
               children: [
                 
                 InkWell(
-                  onTap: acc.address == null ? null : () {
+                  onTap: value.accountM.address == null ? null : () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Account())
                     );
                   },
                   child: AvatarShimmer(
-                    txt: acc.addressIcon,
-                    child: SvgPicture.string(acc.addressIcon!)
+                    txt: value.accountM.addressIcon,
+                    child: SvgPicture.string(
+                      value.accountM.addressIcon ?? '',
+                      // width: 8.0,
+                      height: 8.0,
+                    )
                   )
                 ),
                   
@@ -52,16 +56,16 @@ class MenuHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     
-                    TextShimmer(txt: acc.name),
+                    TextShimmer(txt: value.accountM.name),
                     
                     WidgetShimmer(
-                      txt: acc.address, 
+                      txt: value.accountM.address, 
                       child: Row(
                         children: [
                           
                           MyText(
                             right: 5,
-                            text: acc.address!.replaceRange(5, acc.address!.length - 5, "....."),
+                            text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "....."),
                             color: isDarkTheme
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
@@ -71,7 +75,7 @@ class MenuHeader extends StatelessWidget {
                           InkWell(
                             onTap: () async {
                               await Clipboard.setData(
-                                ClipboardData(text: acc.address!),
+                                ClipboardData(text: value.accountM.address ??''),
                               );
                               Fluttertoast.showToast(
                                 msg: "Copied address",

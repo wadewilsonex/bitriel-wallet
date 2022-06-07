@@ -13,6 +13,12 @@ class SwapModel {
 
 class SwapPageModel {
 
+  String str = "123456";
+  List<String> lsTmp = [];
   int? percentActive = 0;
-  TextEditingController? myController = TextEditingController(text: "0");
+  int? length;
+  int? cursor = -1;
+  bool? isCursor = false;
+  TextEditingController? myController = TextEditingController();
+  FocusNode? focusNode = FocusNode();
 }

@@ -159,15 +159,15 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType){
+    return ResponsiveSizer( 
+      builder: (context, orientation, screenType) {
         return AnnotatedRegion(
-        value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-        child: LayoutBuilder(
-          builder: (builder, constraints) {
-            return OrientationBuilder(
-              builder: (context, orientation) {
-                SizeConfig().init(constraints, orientation);
+          value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+          child: LayoutBuilder(
+            builder: (builder, constraints) {
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  SizeConfig().init(constraints, orientation);
                   return Consumer<ThemeProvider>(
                     builder: (context, value, child) {
                       return MaterialApp(
@@ -183,6 +183,7 @@ class AppState extends State<App> {
                         // builder: (context, widget) => ResponsiveWrapper.builder(
                         //   BouncingScrollWrapper.builder(context, widget!),
                         //   maxWidth: 1200,
+                        //   // minWidth: 800,
                         //   defaultScale: true,
                         //   breakpoints: [
                         //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
@@ -199,7 +200,7 @@ class AppState extends State<App> {
             },
           ),
         );
-      },
+      }
     );
   }
 }
