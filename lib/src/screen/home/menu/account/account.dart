@@ -180,6 +180,7 @@ class _AccountState extends State<Account> {
   void initState() {
 
     _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
+    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
     super.initState();
   }
 

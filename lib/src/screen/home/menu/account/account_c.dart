@@ -104,7 +104,7 @@ class AccountC {
                 children: [
 
                   MyInputField(
-                    hintText: 'Edit Wallet Name',
+                    hintText: 'Enter Name',
                     controller: _editController,
                     onSubmit: onSubmit, 
                     focusNode: _newNode,

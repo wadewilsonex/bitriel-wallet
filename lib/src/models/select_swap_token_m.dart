@@ -7,7 +7,7 @@ class SwapTokenListModel {
   bool? isActive = false;
   String? title = '';
   String? subtitle = '';
-  Widget? image;
+  Image? image;
   
   SwapTokenListModel({this.image, this.title, this.subtitle, this.isActive});
 }

@@ -268,28 +268,16 @@ class _PasscodeState extends State<Passcode> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: globalkey,
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-
-            // Show AppBar Only In Landing Pages
-            if(widget.isAppBar!) MyAppBar(
-              title: "Passcode",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ) 
-            else Container(),
-            
-            Expanded(
-              child: PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,)
-            )
-          ],
-        ),
-      ),
-    );
+    return PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    // Scaffold(
+    //   key: globalkey,
+    //   body: SizedBox(
+    //     height: MediaQuery.of(context).size.height,
+    //     child: Column(
+    //       children: <Widget>[
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
