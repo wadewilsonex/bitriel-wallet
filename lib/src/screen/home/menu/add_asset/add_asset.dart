@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class AddAsset extends StatefulWidget {
   static const route = '/addasset';
@@ -182,28 +183,33 @@ class AddAssetState extends State<AddAsset> {
           });
         }
       } else {
-        
-        await showDialog(
+        DialogComponents().dialogCustom(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: Text('Opps'),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text('Invalid token contract address!'),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ]
-            );
-          },
+          titles: "Opps",
+          contents: "Invalid token contract address!",
         );
+        
+        // await showDialog(
+        //   context: context,
+        //   builder: (context) {
+        //     return AlertDialog(
+        //       shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
+        //       title: Align(
+        //         child: Text('Opps'),
+        //       ),
+        //       content: Padding(
+        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        //         child: Text('Invalid token contract address!'),
+        //       ),
+        //       actions: <Widget>[
+        //         TextButton(
+        //           onPressed: () => Navigator.pop(context),
+        //           child: const Text('Close'),
+        //         ),
+        //       ]
+        //     );
+        //   },
+        // );
         //await dialog('Invalid token contract address!', 'Opps');
         setState(() {
           _modelAsset.loading = false;
@@ -215,30 +221,35 @@ class AddAssetState extends State<AddAsset> {
         _modelAsset.loading = false;
       });
 
-      await showDialog(
+      DialogComponents().dialogCustom(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Oops'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(
-              "$e",
-              textAlign: TextAlign.center
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
+        titles: "Opps",
+        contents: "$e",
       );
+      // await showDialog(
+      //   context: context,
+      //   builder: (context) {
+      //     return AlertDialog(
+      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      //       title: Align(
+      //         child: Text('Oops'),
+      //       ),
+      //       content: Padding(
+      //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+      //         child: Text(
+      //         "$e",
+      //         textAlign: TextAlign.center
+      //         ),
+      //       ),
+      //       actions: <Widget>[
+      //         TextButton(
+      //           onPressed: () => Navigator.pop(context),
+      //           child: const Text('Close'),
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
       if (ApiProvider().isDebug == false) print("Error submitAsset $e");
     }
   }
