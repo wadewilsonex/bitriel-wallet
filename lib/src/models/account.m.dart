@@ -12,6 +12,8 @@ class AccountM {
   TextEditingController pinController = TextEditingController();
   TextEditingController oldPinController = TextEditingController();
   TextEditingController newPinController = TextEditingController();
+  TextEditingController editNameController = TextEditingController();
+  GlobalKey<FormState> editNameKey = GlobalKey<FormState>();
   GlobalKey<FormState> changePinKey = GlobalKey<FormState>();
   GlobalKey<FormState> backupKey = GlobalKey<FormState>();
   FocusNode pinNode = FocusNode();

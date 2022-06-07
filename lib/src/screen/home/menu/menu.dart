@@ -100,8 +100,10 @@ class MenuState extends State<Menu> {
   }
 
   void enablePassword(bool value) {
+    
     setState(() {
       _menuModel.switchPasscode = value;
+      print("passcode: ${_menuModel.switchPasscode}");
     });
   }
 

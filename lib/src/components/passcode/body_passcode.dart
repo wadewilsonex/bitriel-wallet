@@ -27,7 +27,7 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: 10.h
             ),
 
             MyText(
@@ -45,8 +45,8 @@ class PasscodeBody extends StatelessWidget{
             //   ),
             // ),
 
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: 5.h,
             ),
             
             Column(
@@ -58,7 +58,7 @@ class PasscodeBody extends StatelessWidget{
                 passCodeContents[0]
               ],
             ), 
-            const SizedBox(height: 80),
+            SizedBox(height: 5.h),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -73,7 +73,7 @@ class PasscodeBody extends StatelessWidget{
               ],
             ),
 
-            const SizedBox(height: 80),
+            SizedBox(height: 10.h),
             ReuseNumPad(pinIndexSetup!, clearPin!)
           ],
         ),

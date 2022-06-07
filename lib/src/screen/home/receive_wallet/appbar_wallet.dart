@@ -42,19 +42,20 @@ class QrViewTitle extends StatelessWidget {
             child: Consumer<WalletProvider>(
               builder: (context, value, child) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 2.w,),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w,),
                   decoration: BoxDecoration(
-                    color: hexaCodeToColor(AppColors.defiMenuItem),
+                    color: hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06),
                     borderRadius: BorderRadius.circular(8)
                   ),
                   child: ReuseDropDown(
-                    icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp,),
+                    icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.sp,),
                     initialValue: initialValue,
                     onChanged: (String? value){
                       onChanged!(value);
                     },
                     itemsList: ContractService.getConSymbol(context, contract.sortListContract),
                     style: TextStyle(
+                      fontSize: 15.sp,
                       color: isDarkTheme
                         ? hexaCodeToColor( AppColors.whiteHexaColor)
                         : hexaCodeToColor(AppColors.textColor),

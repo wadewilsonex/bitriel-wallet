@@ -196,6 +196,20 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  Future<void> readBackUpKey(String pin) async {
+    final res = await StorageServices().readSecure(DbKey.passcode);
+
+    if(widget.label == "backup"){
+      if (res == pin) {
+      Navigator.of(context).pop();
+      } else {
+        clearAll();
+        Vibration.vibrate(amplitude: 500);
+      }
+    }
+  }
+
+
   // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
     final res = await StorageServices().readSecure(DbKey.passcode);
@@ -263,7 +277,7 @@ class _PasscodeState extends State<Passcode> {
 
             // Show AppBar Only In Landing Pages
             if(widget.isAppBar!) MyAppBar(
-              title: "Set Passcode",
+              title: "Passcode",
               onPressed: () {
                 Navigator.pop(context);
               },

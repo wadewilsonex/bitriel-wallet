@@ -168,6 +168,14 @@ class _AccountState extends State<Account> {
     );
   }
 
+  void onSubmitName() {
+
+  }
+
+  void onChangeName() {
+    
+  }
+
   @override
   void initState() {
 
@@ -179,6 +187,8 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return AccountBody(
       accountModel: _accountModel,
+      onSubmitName: onSubmitName,
+      onChangeName: onChangeName,
       onChangedBackup: onChangedBackup,
       onChangedChangePin: onChangedChangePin,
       onSubmitChangePin: onSubmitChangePin,
