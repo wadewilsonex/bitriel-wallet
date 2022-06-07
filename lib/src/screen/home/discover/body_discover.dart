@@ -102,7 +102,7 @@ class DiscoverPageBody extends StatelessWidget {
                     onHorizontalDragUpdate: (details) {
                       if (details.delta.direction > 0) {
                         print("drag left");
-                        homePageModel!.pageController.jumpToPage(1);
+                        homePageModel!.pageController.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       }
                       else{
                         print("drag right");

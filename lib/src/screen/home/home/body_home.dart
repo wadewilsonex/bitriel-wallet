@@ -46,6 +46,20 @@ class HomePageBody extends StatelessWidget {
           icon: Icon(Iconsax.profile_circle, size: 6.w),
         ),
         actions: <Widget>[
+          IconButton(
+            icon: Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Iconsax.chart_3,
+                size: 6.w,
+              ),
+            ),
+            onPressed: () async {
+              
+              portfolioDailog(context: context);
+             
+            },
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
             child: IconButton(

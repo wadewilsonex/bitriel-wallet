@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/pie_chart.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
 
 import 'dialog_c.dart';
@@ -1132,6 +1133,35 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
       repeat: true,
 
     ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> portfolioDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    // contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    // lottie: Lottie.asset(
+    //   "assets/animation/page-construction.json",
+    //   width: 75.w, 
+    //   repeat: true,
+
+    // ),
+    contents2: PieChartSample2(),
+    // contents2: Column(
+    //   children: [
+        
+    //   ],
+    // ),
     btn2: MyGradientButton(
       textButton: "OK",
       begin: Alignment.bottomLeft,

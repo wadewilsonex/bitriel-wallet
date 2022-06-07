@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _model.activeIndex = index;
     });
-    _model.pageController.jumpToPage(index);
+    _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   final bool? pushReplacement = true;
