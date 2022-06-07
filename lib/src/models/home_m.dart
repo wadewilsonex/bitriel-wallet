@@ -41,7 +41,7 @@ class HomePageModel {
 
   GlobalKey<ScaffoldState>? globalKey;
 
-  PageController pageController = PageController(initialPage: 2);
+  PageController pageController = PageController(initialPage: 3);
   late int activeIndex;
   late int carouActiveIndex;
   late final Function(int index, CarouselPageChangedReason reason)? onCarouselChanged;

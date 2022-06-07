@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
+import 'package:wallet_apps/src/provider/swap_p.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,9 @@ void main() {
         ),
         ChangeNotifierProvider<SearchProvider>(
           create: (context) => SearchProvider(),
+        ),
+        ChangeNotifierProvider<SwapProvider>(
+          create: (context) => SwapProvider(),
         ),
       ],
       child: App(),

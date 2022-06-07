@@ -8,6 +8,7 @@ class NumPad extends StatelessWidget {
   final Color buttonColor;
   final TextEditingController controller;
   final Function delete;
+  final Function? onTabNum;
   final Function onSubmit;
 
   const NumPad({
@@ -16,6 +17,7 @@ class NumPad extends StatelessWidget {
     required this.buttonColor,
     required this.delete,
     required this.onSubmit,
+    required this.onTabNum,
     required this.controller,
   }) : super(key: key);
 
@@ -39,7 +41,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "1";
+                  // controller.text += "1";
+                  onTabNum!("1");
                 },
               ),
               NumberButton(
@@ -48,7 +51,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "2";
+                  // controller.text += "2";
+                  onTabNum!("2");
                 },
               ),
               NumberButton(
@@ -57,7 +61,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "3";
+                  // controller.text += "3";
+                  onTabNum!("3");
                 },
               ),
             ],
@@ -72,7 +77,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "4";
+                  // controller.text += "4";
+                  onTabNum!("4");
                 },
               ),
               NumberButton(
@@ -81,7 +87,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "5";
+                  // controller.text += "5";
+                  onTabNum!("5");
                 },
               ),
               NumberButton(
@@ -90,7 +97,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "6";
+                  // controller.text += "6";
+                  onTabNum!("6");
                 },
               ),
             ],
@@ -105,7 +113,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "7";
+                  // controller.text += "7";
+                  onTabNum!("7");
                 },
               ),
               NumberButton(
@@ -114,7 +123,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "8";
+                  // controller.text += "8";
+                  onTabNum!("8");
                 },
               ),
               NumberButton(
@@ -123,7 +133,8 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "9";
+                  // controller.text += "9";
+                  onTabNum!("9");
                 },
               ),
             ],
@@ -134,12 +145,12 @@ class NumPad extends StatelessWidget {
             children: [
               // this button is used to delete the last number
               NumberButton(
-                number:",",
+                number:".",
                 size: buttonSize,
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += ",";
+                  onTabNum!(".");
                 },
               ),
               NumberButton(
@@ -148,10 +159,18 @@ class NumPad extends StatelessWidget {
                 color: buttonColor,
                 controller: controller,
                 onPressed: (){
-                  controller.text += "0";
+                  onTabNum!("0");
                 },
               ),
               NumberButton(
+                onLongPressed: () async {
+                  while(controller.text.isNotEmpty){
+                    await Future.delayed(Duration(milliseconds: 50), (){
+
+                      delete();
+                    });
+                  }
+                },
                 onPressed: (){
                    delete();
                 },
@@ -179,7 +198,8 @@ class NumberButton extends StatelessWidget {
   final Color color;
   final TextEditingController controller;
   final Widget? icon;
-  final Function() onPressed;
+  final Function()? onPressed;
+  final Function()? onLongPressed;
 
   const NumberButton({
     Key? key,
@@ -188,6 +208,7 @@ class NumberButton extends StatelessWidget {
     required this.color,
     required this.controller,
     required this.onPressed,
+    this.onLongPressed,
     this.icon,
   }) : super(key: key);
 
@@ -197,6 +218,7 @@ class NumberButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 4,
       height: size,
       child: TextButton(
+        onLongPress: onLongPressed,
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
@@ -204,7 +226,7 @@ class NumberButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(color),
         ),
         onPressed: () {
-          onPressed();
+          onPressed!();
         },
         child: Center(
           child: icon ?? Text(

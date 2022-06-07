@@ -55,7 +55,7 @@ class MenuHeader extends StatelessWidget {
                     TextShimmer(txt: acc.name),
                     
                     WidgetShimmer(
-                      txt: acc.address, 
+                      txt: acc.address ?? '', 
                       child: Row(
                         children: [
                           
