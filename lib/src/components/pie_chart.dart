@@ -293,10 +293,11 @@ class PieChart2State extends State {
         case 0:
           return PieChartSectionData(
             color: hexaCodeToColor(AppColors.darkBgd),
-            value: double.parse(provider.sortListContract[0].balance!) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!),
+            // value: 100,
+            value: double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")) == 0.0 || double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")) == 0 ? 100 : double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")),
             radius: radius,
             // showTitle: false
-            title: provider.sortListContract[0].symbol!,
+            title: provider.sortListContract[0].balance! == "0.0" || provider.sortListContract[0].balance! == "0" ? provider.sortListContract[0].symbol : null,
             titleStyle: TextStyle(
               color: hexaCodeToColor("#FFFFFF"),
               fontSize: 15.sp,
@@ -305,10 +306,11 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: hexaCodeToColor("#EC6B56"),
-            value: double.parse(provider.sortListContract[1].balance!) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!),
+            // value: 100,
+            value: double.parse(provider.sortListContract[1].balance!.replaceAll(",", "")) == 0.0 ? 100 : double.parse(provider.sortListContract[1].balance!.replaceAll(",", "")),
             radius: radius,
             // showTitle: false
-            title: provider.sortListContract[1].symbol!,
+            title: provider.sortListContract[1].balance! == "0.0" || provider.sortListContract[1].balance! == "0" ? provider.sortListContract[1].symbol : null,
             titleStyle: TextStyle(
               color: hexaCodeToColor("#FFFFFF"),
               fontSize: 15.sp,
@@ -317,10 +319,10 @@ class PieChart2State extends State {
         case 2:
           return PieChartSectionData(
             color: hexaCodeToColor("#FFC154"),
-            value: double.parse(provider.sortListContract[2].balance!) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!),
+            value: double.parse(provider.sortListContract[2].balance!.replaceAll(",", "")) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")),
             radius: radius,
             // showTitle: false
-            title: provider.sortListContract[2].symbol!,
+            title: provider.sortListContract[2].balance! == "0.0" || provider.sortListContract[2].balance! == "0" ? provider.sortListContract[2].symbol : null,
             titleStyle: TextStyle(
               color: hexaCodeToColor("#FFFFFF"),
               fontSize: 15.sp,
@@ -329,10 +331,11 @@ class PieChart2State extends State {
         case 3:
           return PieChartSectionData(
             color: hexaCodeToColor("#47B39C"),
-            value: double.parse(provider.sortListContract[3].balance!) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!),
+            // value: 100,
+            value: double.parse(provider.sortListContract[3].balance!.replaceAll(",", "")) == 0.0 ? 100 : double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")),
             radius: radius,
             // showTitle: false
-            title: provider.sortListContract[3].symbol!,
+            title: provider.sortListContract[3].balance! == "0.0" || provider.sortListContract[3].balance! == "0" ?  provider.sortListContract[3].symbol : null,
             titleStyle: TextStyle(
               color: hexaCodeToColor("#FFFFFF"),
               fontSize: 15.sp,

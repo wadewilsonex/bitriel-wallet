@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/api_provider.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class ReceiveWallet extends StatefulWidget {
@@ -13,26 +14,17 @@ class ReceiveWallet extends StatefulWidget {
 }
 
 class ReceiveWalletState extends State<ReceiveWallet> {
-  
-  GlobalKey<ScaffoldState>? _globalKey;
-  final GlobalKey _keyQrShare = GlobalKey();
 
-  final GetWalletMethod _method = GetWalletMethod();
-  String? name = 'username';
-  String? wallet = 'wallet address';
-  int initialValue = 0;
-  List<Map<String, dynamic>>? lsContractSymbol;
+  ReceiveWalletProvider? provider;
 
   @override
   void initState() {
-    _globalKey = GlobalKey<ScaffoldState>();
-
-    name = Provider.of<ApiProvider>(context, listen: false).accountM.name ?? '';
-    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address ?? '';
+    provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
+    provider!.globalKey = GlobalKey<ScaffoldState>();
 
     findSEL();
 
-    AppServices.noInternetConnection(_globalKey!);
+    AppServices.noInternetConnection(provider!.globalKey!);
     super.initState();
   }
 
@@ -54,11 +46,11 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     //   }
     // }
     final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    lsContractSymbol = ContractService.getConSymbol(context, listCon);
-    for(int i = 0; i< lsContractSymbol!.length; i++){
-      print(lsContractSymbol![i]);
-      if (lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
-        initialValue = i;
+    provider!.lsContractSymbol = ContractService.getConSymbol(context, listCon);
+    for(int i = 0; i< provider!.lsContractSymbol!.length; i++){
+      print(provider!.lsContractSymbol![i]);
+      if (provider!.lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
+        provider!.initialValue = i;
         setState(() { });
         break;
       }
@@ -67,7 +59,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   void onChanged(String value) {
     setState(() {
-      initialValue = int.parse(value);
+      provider!.initialValue = int.parse(value);
     });
 
     changedEthAdd(value);
@@ -75,12 +67,12 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   void changedEthAdd(String value) {
     // wallet = Provider.of<ContractProvider>(context, listen: false).sortListContract[int.parse(value)].address;
-    if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
-      wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
-      wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+    if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
+      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
+    } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
+      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
     } else {
-      wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+      provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
     }
     setState(() { });
   }
@@ -89,14 +81,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      key: _globalKey,
+      key: provider!.globalKey,
       body: ReceiveWalletBody(
-        keyQrShare: _keyQrShare,
-        globalKey: _globalKey,
-        method: _method,
-        name: name ?? '',
-        wallet: wallet ?? 'Wallet address',
-        initialValue: initialValue,
         onChanged: onChanged,
       ),
     );

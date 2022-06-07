@@ -87,7 +87,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
         await _api.getAddressIcon();
           // Get From Account js
-        await _api.getCurrentAccount();
+        await _api.getCurrentAccount(context: context);
 
         final _resPk = await _api.getPrivateKey(widget.passPhrase);
         

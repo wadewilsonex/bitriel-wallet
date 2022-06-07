@@ -191,7 +191,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
           await _api.getAddressIcon();
           // Get From Account js
-          await _api.getCurrentAccount();
+          await _api.getCurrentAccount(context: context);
 
           await ContractProvider().extractAddress(_resPk);
 

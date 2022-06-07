@@ -73,12 +73,6 @@ class AssetInfoC {
                   //   wallet = _api.getKeyring.current.address!;
                   // }
                   return ReceiveWalletBody(
-                    method: _method,
-                    globalKey: _globalKey,
-                    keyQrShare: _keyQrShare,
-                    name: scModel!.name,
-                    assetInfo: 'assetInfo',
-                    wallet: scModel.address,
                     // wallet: symbol == 'BNB' || org == 'BEP-20'
                     //     ? value.ethAdd
                     //     : ApiProvider.keyring.current.address,
@@ -87,14 +81,7 @@ class AssetInfoC {
               )
             : Consumer<ApiProvider>(
                 builder: (context, value, child) {
-                  return ReceiveWalletBody(
-                    method: _method,
-                    globalKey: _globalKey,
-                    keyQrShare: _keyQrShare,
-                    name: value.accountM.name!,
-                    wallet: value.accountM.address!,
-                    assetInfo: 'assetInfo',
-                  );
+                  return ReceiveWalletBody();
                 },
               )
             ),

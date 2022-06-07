@@ -32,7 +32,7 @@ class SmartContractModel {
     this.chainDecimal,
     this.symbol,
     this.name,
-    this.balance = '0.0',
+    this.balance,
     this.logo,
     this.type,
     this.org = '',

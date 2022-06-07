@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:polkawallet_sdk/utils/localStorage.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/service/apiKeyring.dart';
 // import 'package:bip39/bip39.dart' as bip39;
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
@@ -524,7 +525,7 @@ class ApiProvider with ChangeNotifier {
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[dotIndex].address}', 'Balance')").then((value) {//_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
         print("value ${value}");
         contract.listContract[dotIndex].balance = Fmt.balance(
-          value['freeBalance'].toString(),
+          value['freeBalance'].toString() == "0" ? "0.0" : value['freeBalance'].toString(),
           int.parse(contract.listContract[dotIndex].chainDecimal!),
         );
 
@@ -553,13 +554,16 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getCurrentAccount({String funcName = 'account'}) async {
+  Future<void> getCurrentAccount({required BuildContext? context, String funcName = 'account'}) async {
     print("getCurrentAccount");
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
       print("'funcName.getSELAddr()' ${accountM.address}");
       accountM.name = _keyring.current.name;
+
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
       if (ApiProvider().isDebug == false) print("Error getCurrentAccount $e");

@@ -90,14 +90,16 @@ class TextShimmer extends StatelessWidget{
 
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    print("txt != null ${txt != null}");
     return txt != null 
     ? MyText(
       bottom: 3,
       text: txt ?? '',
+      top: 16,
+      fontSize: 16,
       color: isDarkTheme
         ? AppColors.whiteColorHexa
         : AppColors.textColor,
-      fontSize: 16,
     ) 
     : Shimmer.fromColors(
       child: Container(
@@ -107,8 +109,8 @@ class TextShimmer extends StatelessWidget{
         color: Colors.white,
       ), 
       period: const Duration(seconds: 2),
-      baseColor: highlightColor ?? Colors.white.withOpacity(opacity!),
-      highlightColor: highlightColor!,
+      baseColor: hexaCodeToColor(AppColors.textColor),
+      highlightColor: highlightColor ?? Colors.white.withOpacity(opacity!),
     );
   }
 }

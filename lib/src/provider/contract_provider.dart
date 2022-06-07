@@ -98,6 +98,7 @@ class ContractProvider with ChangeNotifier {
             org: value["org"],
             orgTest: value["org_test"],
             isContain: value["isContain"],
+            balance: value["balance"],
             show: value["show"],
             listActivity: [],
             lineChartList: value['lineChartData'],
@@ -337,7 +338,7 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio
   Future? sortAsset() async {
-    
+    print("sortAsset");
     try {
 
       sortListContract.clear();
@@ -348,7 +349,8 @@ class ContractProvider with ChangeNotifier {
       
       // 1. Add Default Asset First
       listContract.forEach((element) {
-        if (element.show!) sortListContract.addAll({element});
+        // if (element.show!) 
+        sortListContract.addAll({element});
       });
 
       // 2. Add Imported Asset
@@ -358,6 +360,7 @@ class ContractProvider with ChangeNotifier {
 
       // Sort Descending
       if (sortListContract.isNotEmpty) {
+        print("sortListContract.isNotEmpty");
         SmartContractModel tmp = SmartContractModel();
         for (int i = 0; i < sortListContract.length; i++) {
           for (int j = i + 1; j < sortListContract.length; j++) {
@@ -370,6 +373,11 @@ class ContractProvider with ChangeNotifier {
           }
         }
 
+      }
+
+      for(int i = 0; i< sortListContract.length; i++){
+
+        print("element.symbol ${sortListContract[i].symbol} element.symbol ${sortListContract[i].balance}");
       }
 
       notifyListeners();

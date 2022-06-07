@@ -73,7 +73,7 @@ class AppState extends State<App> {
           // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
           // Get From Keyring js
-          await apiProvider.getCurrentAccount(funcName: 'keyring');
+          await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance(context: context);
           
