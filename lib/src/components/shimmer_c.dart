@@ -9,7 +9,7 @@ class AvatarShimmer extends StatelessWidget{
   AvatarShimmer({this.txt, this.child});
 
   Widget build (BuildContext context){
-
+    print("txt == null ${txt}");
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Align(
       alignment: Alignment.centerLeft,
@@ -61,7 +61,8 @@ class WidgetShimmer extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return txt != null 
     ? child!
-    : Shimmer.fromColors(
+    : 
+    Shimmer.fromColors(
       child: Container(
         width: 100,
         height: 8.0,
@@ -109,8 +110,8 @@ class TextShimmer extends StatelessWidget{
         color: Colors.white,
       ), 
       period: const Duration(seconds: 2),
-      baseColor: hexaCodeToColor(AppColors.textColor),
-      highlightColor: highlightColor ?? Colors.white.withOpacity(opacity!),
+      baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(opacity!),
+      highlightColor: highlightColor ?? Colors.white,
     );
   }
 }

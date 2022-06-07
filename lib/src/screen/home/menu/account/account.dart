@@ -168,10 +168,19 @@ class _AccountState extends State<Account> {
     );
   }
 
+  void onSubmitName() {
+
+  }
+
+  void onChangeName() {
+    
+  }
+
   @override
   void initState() {
 
     _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
+    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
     super.initState();
   }
 
@@ -179,6 +188,8 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return AccountBody(
       accountModel: _accountModel,
+      onSubmitName: onSubmitName,
+      onChangeName: onChangeName,
       onChangedBackup: onChangedBackup,
       onChangedChangePin: onChangedChangePin,
       onSubmitChangePin: onSubmitChangePin,

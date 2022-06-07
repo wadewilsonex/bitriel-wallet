@@ -22,11 +22,9 @@ class ReuseDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return Theme(
       data: ThemeData(
-        canvasColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteColorHexa)
+        canvasColor: hexaCodeToColor(AppColors.darkBgd)
       ),
       child: DropdownButton<String>(
         value: initialValue,

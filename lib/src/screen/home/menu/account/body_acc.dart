@@ -9,6 +9,8 @@ import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
 class AccountBody extends StatelessWidget{
 
   final AccountM? accountModel;
+  final Function? onSubmitName;
+  final Function? onChangeName;
   final Function? onChangedBackup;
   final Function? onChangedChangePin;
   final Function? onSubmitChangePin;
@@ -17,7 +19,18 @@ class AccountBody extends StatelessWidget{
   final Function? submitBackUpKey;
   final Function? deleteAccout;
 
-  AccountBody({this.accountModel, this.onChangedBackup, this.onSubmit, this.onChangedChangePin, this.onSubmitChangePin, this.submitChangePin, this.submitBackUpKey, this.deleteAccout});
+  AccountBody({
+    this.accountModel, 
+    this.onSubmitName,
+    this.onChangeName,
+    this.onChangedBackup, 
+    this.onSubmit, 
+    this.onChangedChangePin, 
+    this.onSubmitChangePin, 
+    this.submitChangePin, 
+    this.submitBackUpKey, 
+    this.deleteAccout
+  });
 
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -95,15 +108,18 @@ class AccountBody extends StatelessWidget{
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                                 fontSize: 20,
-                                bottom: 5,
                               ),
-                              MyText(
-                                text: provider.accountM.address!,
-                                color: isDarkTheme
-                                  ? AppColors.whiteColorHexa
-                                  : AppColors.textColor,
-                                fontSize: 16,
-                                width: MediaQuery.of(context).size.width/1.5,
+
+                              Padding(
+                                padding: const EdgeInsets.all(paddingSize),
+                                child: MyText(
+                                  text: provider.accountM.address!,
+                                  color: isDarkTheme
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
+                                  fontSize: 16,
+                                  // width: MediaQuery.of(context).size.width/1.5,
+                                ),
                               )
                             ],
                           );
@@ -111,7 +127,21 @@ class AccountBody extends StatelessWidget{
                       ),
                     ),
 
-                    SizedBox(height: 5.h),
+                    SizedBox(height: 2.5.h),
+
+                    ListTileComponent(
+                      action: (){
+                        AccountC().showEditName(
+                          context,
+                          accountModel!.editNameKey,
+                          accountModel!.editNameController,
+                          accountModel!.newNode,
+                          onSubmit!,
+                          onChangeName!,
+                        );
+                      },
+                      text: 'Edit Wallet Name',
+                    ),
                     
                     ListTileComponent(
                       action: (){
@@ -133,17 +163,18 @@ class AccountBody extends StatelessWidget{
                     
                     ListTileComponent(
                       action: (){
-                        AccountC().showChangePin(
-                          context,
-                          accountModel!.changePinKey,
-                          accountModel!.oldPinController,
-                          accountModel!.newPinController,
-                          accountModel!.oldNode,
-                          accountModel!.newNode,
-                          onChangedChangePin!,
-                          onSubmitChangePin!,
-                          submitChangePin!,
-                        );
+                        Passcode(label: "Change Pin");
+                        // AccountC().showChangePin(
+                        //   context,
+                        //   accountModel!.changePinKey,
+                        //   accountModel!.oldPinController,
+                        //   accountModel!.newPinController,
+                        //   accountModel!.oldNode,
+                        //   accountModel!.newNode,
+                        //   onChangedChangePin!,
+                        //   onSubmitChangePin!,
+                        //   submitChangePin!,
+                        // );
                       },
                       text: 'Change Pin',
                     ),

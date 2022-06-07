@@ -70,7 +70,7 @@ class BackUpKeyBody extends StatelessWidget{
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
-                underContstuctionAnimationDailog(context: context);
+                // underContstuctionAnimationDailog(context: context);
                 // await Component().dialogBox(context).then((value) async {
                 //   if (value != ''){
                 //     // await disableScreenShot!();

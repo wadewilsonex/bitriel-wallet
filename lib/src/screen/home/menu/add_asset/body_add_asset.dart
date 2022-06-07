@@ -118,11 +118,11 @@ class AddAssetBody extends StatelessWidget {
                                 : AppColors.darkCard,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
+                              padding: const EdgeInsets.only(right: 16.0),
                               child: ReuseDropDown(
-                                icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
+                                icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.sp),
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 15.sp,
                                   color: hexaCodeToColor(isDarkTheme
                                     ? AppColors.whiteHexaColor
                                     : AppColors.darkCard)

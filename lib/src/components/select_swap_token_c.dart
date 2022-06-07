@@ -24,38 +24,41 @@ class SwapTokenList extends StatelessWidget {
       onTap: action == null ? null : (){
         if (isActive == false) action!();
       },
-      child: Row(
-        children: [
-
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: image!,
-          ),
-    
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              MyText(
-                text: title,
-                // fontSize: 18,
-                color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.start,
-              ),
-              MyText(
-                text: subtitle,
-                fontSize: 13,
-                color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
-                fontWeight: FontWeight.w400,
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-    
-          Expanded(child: Container()),
-        ],
+      child: Container(
+        color: hexaCodeToColor(AppColors.darkBgd),
+        child: Row(
+          children: [
+      
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: image!,
+            ),
+          
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                
+                MyText(
+                  text: title,
+                  // fontSize: 18,
+                  color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.white.withOpacity(0.5),
+                  fontWeight: FontWeight.w700,
+                  textAlign: TextAlign.start,
+                ),
+                MyText(
+                  text: subtitle,
+                  fontSize: 13,
+                  color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.white.withOpacity(0.5),
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+          
+            Expanded(child: Container()),
+          ],
+        ),
       ),
     );
   }

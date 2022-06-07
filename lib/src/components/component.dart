@@ -719,13 +719,13 @@ class MyPinput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 100,
-      margin: const EdgeInsets.only(bottom: 30),
+      // width: MediaQuery.of(context).size.width - 100,
+      // margin: const EdgeInsets.only(bottom: 30),
       child: Pinput(
         obscureText: obscureText!,
         focusNode: focusNode,
         controller: controller,
-        length: 4,
+        length: 6,
         obscuringCharacter: '⚪',
         // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
         //   color: Colors.grey.withOpacity(0.5),

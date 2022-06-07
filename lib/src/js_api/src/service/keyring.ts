@@ -55,16 +55,20 @@ async function validateAddress(address: string) {
             ? hexToU8a(address)
             : decodeAddress(address)
         );
-
+        
+        console.log("Address is valid");
         resolve(true);
       } catch (error) {
-        send("log", error);
+        // send("log", error);
+        console.log("error "+error);
 
         resolve(false);
       }
     };
 
     const isValid = isValidAddressPolkadotAddress();
+
+    return isValid;
   });
 }
 

@@ -79,6 +79,58 @@ class AccountC {
     );
   }
 
+  void showEditName(
+    BuildContext context,
+    GlobalKey<FormState> _editNameKey,
+    TextEditingController _editController,
+    FocusNode _newNode,
+    Function onSubmit,
+    Function submitChangeName
+  ) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: paddingSize,),
+          height: MediaQuery.of(context).size.height / 1.5,
+          color: isDarkTheme
+            ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
+            : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
+          child: Form(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+
+                  MyInputField(
+                    hintText: 'Enter Name',
+                    controller: _editController,
+                    onSubmit: onSubmit, 
+                    focusNode: _newNode,
+                  ),
+
+                  SizedBox(height: 10.h),
+
+                  MyGradientButton(
+                    edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    textButton: "Update",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () {
+                      submitChangeName();
+                    },
+                  ),
+                  
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void showBackup(
       BuildContext context,
       GlobalKey<FormState> _backupKey,

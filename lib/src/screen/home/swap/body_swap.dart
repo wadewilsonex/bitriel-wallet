@@ -42,9 +42,8 @@ class SwapPageBody extends StatelessWidget {
 
                   Expanded(
                     child: Divider(
-                      thickness: 1,
+                      thickness: 0.5,
                       color: hexaCodeToColor(AppColors.titleAssetColor),
-                      indent: 2.w,
                     ),
                   ),
 
@@ -80,9 +79,8 @@ class SwapPageBody extends StatelessWidget {
 
                   Expanded(
                     child: Divider(
-                      thickness: 1,
+                      thickness: 0.5,
                       color: hexaCodeToColor(AppColors.titleAssetColor),
-                      indent: 2.w,
                     ),
                   ),
                 ],
@@ -90,35 +88,34 @@ class SwapPageBody extends StatelessWidget {
             ),
             
             _getDisplay(context),
+
+            SizedBox(height: 2.h),
       
             _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
       
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: MyText(
-                text: 'Enter how much you want to swap',
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: AppColors.whiteColorHexa
-              ),
-            ),
-      
             MyText(
-              text: 'Minimum value is 0.00058714 BTC',
-              fontWeight: FontWeight.w500,
+              text: 'Enter how much you want to swap',
+              fontWeight: FontWeight.bold,
               color: AppColors.whiteColorHexa
             ),
+      
+            // MyText(
+            //   text: 'Minimum value is 0.00058714 BTC',
+            //   fontWeight: FontWeight.w500,
+            //   color: AppColors.whiteColorHexa
+            // ),
 
-            Expanded(child: Container()), 
+            // Expanded(child: Container()), 
             _buildNumberPad(context, onDeleteTxt, onTabNum),
 
-            SizedBox(height: 60.0 - paddingSize),
+            // SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(
               edgeMargin: EdgeInsets.all(paddingSize),
               textButton: "Next",
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               action: () async {
+                underContstuctionAnimationDailog(context: context);
                 // Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
               },
             ),
@@ -151,14 +148,14 @@ class SwapPageBody extends StatelessWidget {
                 MyText(
                   text: 'Available',
                   fontWeight: FontWeight.w600,
-                  fontSize: 15.sp,
+                  fontSize: 14,
                   color: AppColors.primaryColor,
                 ),
                 SizedBox(width: 10.0),
                 MyText(
                   text: '0 BTC',
                   fontWeight: FontWeight.w600,
-                  fontSize: 15.sp,
+                  fontSize: 14,
                   color: AppColors.whiteColorHexa,
                 ),
               ],
@@ -229,6 +226,7 @@ class SwapPageBody extends StatelessWidget {
               MyText(
                 text: '≈ 0',
                 fontWeight: FontWeight.bold,
+                fontSize: 18,
                 color: AppColors.whiteColorHexa,
               ),
             ],
@@ -433,7 +431,7 @@ class SwapPageBody extends StatelessWidget {
 
   Widget _buildNumberPad(context, Function? onDeleteTxt, Function? onTabNum) {
     return NumPad(
-      buttonSize: 50,
+      buttonSize: 5.h,
       buttonColor: hexaCodeToColor(AppColors.defiMenuItem),
       controller: swapPageModel!.myController!,
       delete: onDeleteTxt!,
