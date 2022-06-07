@@ -121,6 +121,23 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
           ModalRoute.withName('/')
         );
       }
+      else{
+        await DialogComponents().dialogCustom(
+          context: context,
+          titles: "Opps",
+          contents: "Wrong verify seed. Please try again!",
+          textButton: "Close",
+          btn2: MyGradientButton(
+            edgeMargin: const EdgeInsets.only(left: 20, right: 20),
+            textButton: "Close",
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {  
+              Navigator.pop(context);
+            },
+          )
+        );
+      }
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
     }

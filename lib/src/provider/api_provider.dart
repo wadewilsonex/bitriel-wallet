@@ -84,7 +84,7 @@ class ApiProvider with ChangeNotifier {
   Future<void> initApi({@required BuildContext? context}) async {
 
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
-    print("initApi");
+    print("initApi"); 
     try {
 
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {

@@ -21,7 +21,7 @@ class PasscodeBody extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       body: Container(
-        color: Colors.red,
+        // color: Colors.red,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
