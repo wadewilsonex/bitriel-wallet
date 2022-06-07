@@ -35,6 +35,7 @@ class SwapPageBody extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

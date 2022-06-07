@@ -442,6 +442,11 @@ class SubmitTrxState extends State<SubmitTrx> {
     setState(() {});
   }
 
+  
+  bool pushReplacement = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -453,6 +458,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       : Stack(
         children: <Widget>[
           SubmitTrxBody(
+            pushRepleacement: pushReplacement,
             enableInput: widget.enableInput,
             scanPayM: _scanPayM,
             pasteText: pasteText,

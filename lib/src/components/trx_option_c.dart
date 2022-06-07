@@ -112,15 +112,26 @@ class TrxOptionMethod {
   static Future scanQR(
     BuildContext context,
     List<dynamic> portfolioList,
+    bool pushReplacement,
   ) async {
     await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
       
     if (value != null) {
+      print("push replacement: $pushReplacement");
+      pushReplacement == true ?
       await Navigator.push(
         context,
         Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         // MaterialPageRoute(builder: (context) => )
+      )
+      :
+      await Navigator.pushReplacement(
+        context,
+        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        // MaterialPageRoute(builder: (context) => )
       );
+
+      
     }
     });
   }

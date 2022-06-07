@@ -16,29 +16,43 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    
+    _model.pageController.addListener(() {
+      if(_model.activeIndex != _model.pageController){
+        setState(() {
+          _model.activeIndex = _model.pageController.page!.toInt();
+        });
+      }
+    });
 
     _model.activeIndex = 2;
     _model.carouActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
-    _model.onPageChanged = (int index, CarouselPageChangedReason reason) {
+    _model.onCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
         this._model.carouActiveIndex = index;
       });
     };
   }
   
-  void onIndexChanged(int index){
+
+
+  void onPageChanged(int index){
+    print("tab $index");
     setState(() {
       _model.activeIndex = index;
-      _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
     });
+    _model.pageController.jumpToPage(index);
   }
 
+  final bool? pushReplacement = true;
+  
   @override
   Widget build(BuildContext context) {
     return HomePageBody(
       homePageModel: _model,
-      onIndexChanged: onIndexChanged,
+      onPageChanged: onPageChanged,
+      pushReplacement: pushReplacement,
     );
   }
 }

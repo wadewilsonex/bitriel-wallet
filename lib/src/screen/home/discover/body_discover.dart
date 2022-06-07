@@ -8,10 +8,12 @@ import 'package:wallet_apps/src/models/discover_m.dart';
 
 class DiscoverPageBody extends StatelessWidget {
 
+  final HomePageModel? homePageModel;
   final TabController tabController;
   const DiscoverPageBody({
     Key? key,
     required this.tabController,
+    this.homePageModel,
   }) : super(key: key);
 
   @override
@@ -40,53 +42,92 @@ class DiscoverPageBody extends StatelessWidget {
               ],
               controller: tabController,
               labelColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              indicatorColor: hexaCodeToColor(AppColors.whiteColorHexa),
+              indicatorColor: hexaCodeToColor("#D4D6E3"),
               indicatorSize: TabBarIndicatorSize.tab,
+              indicatorWeight: 0.5,
             ),
 
             SizedBox(height: paddingSize,),
+
+
+
             Expanded(
               child: TabBarView(
                 children: [
-
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: DiscoverContent.lsSelendraSwap!.length,
-                    itemBuilder: (context, index){
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: paddingSize,),
-                              child: DiscoverContent.lsSelendraSwap![index],
+                  GestureDetector(
+                    onHorizontalDragUpdate: (details) {
+                      if (details.delta.direction > 0) {
+                        print("drag left");
+                        tabController.animateTo(1);
+                      }
+                      else{
+                        print("drag right");
+                        homePageModel!.globalKey!.currentState!.openDrawer();
+                      }
+                    },
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: DiscoverContent.lsSelendraSwap!.length,
+                      itemBuilder: (context, index){
+                        return GestureDetector(
+                          onHorizontalDragUpdate: (details) {
+                            if (details.delta.direction > 0) {
+                              print("drag left");
+                              tabController.animateTo(1);
+                            }
+                            else{
+                              print("drag right");
+                              homePageModel!.globalKey!.currentState!.openDrawer();
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: paddingSize,),
+                                  child: DiscoverContent.lsSelendraSwap![index],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    }
+                          ),
+                        );
+                      }
+                    ),
                   ),
                   
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: DiscoverContent.lsSwapExchange.length,
-                    itemBuilder: (context, index){
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                              child: DiscoverContent.lsSwapExchange[index],
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+                  GestureDetector(
+                    onHorizontalDragUpdate: (details) {
+                      if (details.delta.direction > 0) {
+                        print("drag left");
+                        homePageModel!.pageController.jumpToPage(1);
+                      }
+                      else{
+                        print("drag right");
+                        tabController.animateTo(0);
+                      }
+                    },
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: DiscoverContent.lsSwapExchange.length,
+                      itemBuilder: (context, index){
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                                child: DiscoverContent.lsSwapExchange[index],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    ),
                   ),
                 ],
                 controller: tabController,

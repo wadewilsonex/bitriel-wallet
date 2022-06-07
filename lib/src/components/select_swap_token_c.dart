@@ -26,30 +26,27 @@ class SwapTokenList extends StatelessWidget {
       },
       child: Row(
         children: [
+
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                image!
-              ],
-            ),
+            child: image!,
           ),
     
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               MyText(
                 text: title,
-                fontSize: 18,
+                // fontSize: 18,
                 color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
               ),
               MyText(
                 text: subtitle,
-                fontSize: 10,
+                fontSize: 13,
                 color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,

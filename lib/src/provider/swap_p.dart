@@ -47,63 +47,44 @@ class SwapProvider extends ChangeNotifier{
 
       ls.add(
         SwapTokenListModel(
-          title: apiProvider!.isMainnet ? contractProvider!.sortListContract[i].org : contractProvider!.sortListContract[i].orgTest,
-          subtitle: contractProvider!.sortListContract[i].symbol,
+          title: contractProvider!.sortListContract[i].symbol,
+          subtitle: contractProvider!.sortListContract[i].name,
           isActive: index2 == i ? true : false,
-          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 4.w, height: 4.h),
+          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
         )
       );
 
       ls2.add(
         SwapTokenListModel(
-          title: apiProvider!.isMainnet ? contractProvider!.sortListContract[i].org : contractProvider!.sortListContract[i].orgTest,
-          subtitle: contractProvider!.sortListContract[i].symbol,
+          title: contractProvider!.sortListContract[i].symbol,
+          subtitle: contractProvider!.sortListContract[i].name,
           isActive: index1 == i ? true : false,
-          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 4.w, height: 4.h),
+          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
         )
       );
 
-      // l2.add(
-      //   SwapTokenList(
-      //     title: apiProvider.isMainnet ? ls[i].org : ls[i].orgTest,
-      //     subtitle: sortLs[i].symbol,
-      //     isActive: index2 == i ? true : false,
-      //     image: Image.asset(sortLs[i].logo!, width: 4.w, height: 4.h),
-      //     action: (){
+    }
 
-      //       name1 = sortLs[i].symbol!;
-      //       logo1 = sortLs[i].logo!;
-      //       index1 = i;
+  }
 
-      //       Provider.of<SwapProvider>(context, listen: false).label = "";
+  void setNewAsset(int index){
+    if (label == "first"){
 
-      //       notifyListeners();
-      //       Navigator.pop(context);
-      //     }
-      //   )
-      // );
+      name1 = contractProvider!.sortListContract[index].symbol!;
+      logo1 = contractProvider!.sortListContract[index].logo!;
+      index1 = index;
 
-      // swapTokenListModel2.lsSwapToken.add(
-      //   SwapTokenList(
-      //     title: apiProvider.isMainnet ? ls[i].org : ls[i].orgTest,
-      //     subtitle: sortLs[i].symbol,
-      //     isActive: index1 == i ? true : false,
-      //     image: Image.asset(sortLs[i].logo!, width: 4.w, height: 4.h),
-      //     action: (){
+    } else {
 
-      //       name2 = sortLs[i].symbol!;
-      //       logo2 = sortLs[i].logo!;
-      //       index2 = i;
-
-      //       Provider.of<SwapProvider>(context, listen: false).label = "";
-
-      //       notifyListeners();
-      //       Navigator.pop(context);
-      //     }
-      //   )
-      // );
+      name2 = contractProvider!.sortListContract[index].symbol!;
+      logo2 = contractProvider!.sortListContract[index].logo!;
+      index2 = index;
 
     }
 
+    setList();
+    label = "";
+    
+    notifyListeners();
   }
 }

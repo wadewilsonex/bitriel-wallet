@@ -48,25 +48,25 @@ class AddAssetBody extends StatelessWidget {
         onPressed: () {
           Navigator.pop(context);
         },
-        tile: Padding(
-          padding: const EdgeInsets.only(left: paddingSize),
-          child: IconButton(
-            /* Menu Icon */
-            // padding: edgePadding,
-            iconSize: 40.0,
-            icon: Icon(
-              Icons.search,
-              color: isDarkTheme ? Colors.white : Colors.black,
-              size: 22.5.sp,
-            ),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: SearchAsset(),
-              );
-            },
-          ),
-        ),
+        // tile: Padding(
+        //   padding: const EdgeInsets.only(left: paddingSize),
+        //   child: IconButton(
+        //     /* Menu Icon */
+        //     // padding: edgePadding,
+        //     iconSize: 40.0,
+        //     icon: Icon(
+        //       Icons.search,
+        //       color: isDarkTheme ? Colors.white : Colors.black,
+        //       size: 22.5.sp,
+        //     ),
+        //     onPressed: () {
+        //       showSearch(
+        //         context: context,
+        //         delegate: SearchAsset(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ),
       Expanded(
         child: BodyScaffold(
@@ -122,6 +122,7 @@ class AddAssetBody extends StatelessWidget {
                               child: ReuseDropDown(
                                 icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
                                 style: TextStyle(
+                                  fontSize: 16.sp,
                                   color: hexaCodeToColor(isDarkTheme
                                     ? AppColors.whiteHexaColor
                                     : AppColors.darkCard)
@@ -215,14 +216,15 @@ class AddAssetBody extends StatelessWidget {
 
               const SizedBox(height: 40.0),
 
-              MyFlatButton(
+              MyGradientButton(
+                edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
                 textButton: "Submit",
-                edgeMargin: const EdgeInsets.only(left: 66, right: 66),
-                hasShadow: assetM!.enable,
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
                 action: !assetM!.enable ? null : () async {
                   await submitAsset!();
-                }//assetM!.enable ? submitAsset : null,
-              )
+                }
+              ),
             ],
           ),
         ),

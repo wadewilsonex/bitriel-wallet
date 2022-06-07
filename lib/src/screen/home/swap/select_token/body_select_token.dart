@@ -38,25 +38,28 @@ class SelectSwapTokenBody extends StatelessWidget {
 
       body: Consumer<SwapProvider>(
         builder: (context, provider, widget){
-          return SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 _searchToken(provider.label, context, searchController!, query),
-
-                Stack(
-                  children: [
-                    
-                    provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls2) : Container(),
-                    // List Asset
-
-                    // Items Searched
-                    provider.searched.isNotEmpty ? _tokenList(context, provider.searched) : Container()
-                  ],
-                )
           
+                Expanded(
+                  child: Stack(
+                    children: [
+                      
+                      provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls2) : Container(),
+                      // List Asset
+          
+                      // Items Searched
+                      provider.searched.isNotEmpty ? _tokenList(context, provider.searched) : Container()
+                    ],
+                  )
+              
+                )
               ],
-            )
+            ),
           );
         }
       ),
@@ -126,24 +129,13 @@ class SelectSwapTokenBody extends StatelessWidget {
                       isActive: ls[index].isActive,
                       image: ls[index].image,
                       action: (){
-                        
-                        if (provider.label == "first"){
+                        if (provider.searched.isNotEmpty){
 
-                          provider.name1 = provider.contractProvider!.sortListContract[index].symbol!;
-                          provider.logo1 = provider.contractProvider!.sortListContract[index].logo!;
-                          provider.index1 = index;
-
-                        } else {
-
-                          provider.name2 = provider.contractProvider!.sortListContract[index].symbol!;
-                          provider.logo2 = provider.contractProvider!.sortListContract[index].logo!;
-                          provider.index2 = index;
-
+                          index = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
+                          print(Provider.of<SwapProvider>(context, listen: false).ls[index].title);
                         }
-
-                        provider.setList();
-                        Provider.of<SwapProvider>(context, listen: false).label = "";
-                        Provider.of<SwapProvider>(context, listen: false).notifyListeners();
+                        provider.setNewAsset(index);
+                        provider.searched = [];
                         Navigator.pop(context);
                       },
                     ),

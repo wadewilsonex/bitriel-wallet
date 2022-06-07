@@ -32,11 +32,23 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
     _swapProvider!.searched = [];
     if (label == "first"){
-      _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+      _swapProvider!.searched = _swapProvider!.ls.where((element) {
+        element.subtitle!.toLowerCase();
+        if ( element.subtitle!.toLowerCase().contains(value.toLowerCase()) == true){
+
+          return element.subtitle!.toLowerCase().contains(value.toLowerCase());
+        }
+        else if (element.title!.toLowerCase().contains(value.toLowerCase())){
+
+          return element.title!.toLowerCase().contains(value.toLowerCase());
+        }
+        return false;
+      }).toList();
     } else {
       _swapProvider!.searched = _swapProvider!.ls2.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 
     }
+
     print("_swapProvider!.searched ${_swapProvider!.searched}");
     setState(() { });
     // mySetState(() { });
