@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/provider/search_p.dart';
 
 class MyBottomSheet {
   dynamic response;
+  bool pushReplacement = false;
 
   Future<dynamic> trxOptions({BuildContext? context, List? portfolioList, String? asset}) {
     final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
@@ -45,6 +46,7 @@ class MyBottomSheet {
                           await TrxOptionMethod.scanQR(
                             context,
                             portfolioList!,
+                            pushReplacement
                           );
                         } catch (e) {
                           if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");

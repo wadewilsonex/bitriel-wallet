@@ -268,7 +268,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
     // To Disable Asset Loading
     contract.setReady();
-  }
+  } 
   
   Future<void> inAppUpdate() async {
     AppUpdate appUpdate = AppUpdate();
@@ -280,6 +280,8 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       await InAppUpdate.completeFlexibleUpdate();
     }
   }
+
+  bool pushReplacement = true;
 
   @override
   Widget build(BuildContext context) {
@@ -317,6 +319,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
           await TrxOptionMethod.scanQR(
             context,
             _homeM.portfolioList,
+            pushReplacement
           );
         },
         child: SvgPicture.asset(

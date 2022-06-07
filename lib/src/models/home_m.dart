@@ -44,6 +44,5 @@ class HomePageModel {
   PageController pageController = PageController(initialPage: 2);
   late int activeIndex;
   late int carouActiveIndex;
-
-  late final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
+  late final Function(int index, CarouselPageChangedReason reason)? onCarouselChanged;
 }

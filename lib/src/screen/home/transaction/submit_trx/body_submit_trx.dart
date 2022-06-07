@@ -17,8 +17,10 @@ class SubmitTrxBody extends StatelessWidget {
 
   final PopupMenuItem Function(Map<String, dynamic>)? item;
   final Function? pasteText;
+  final bool? pushRepleacement;
 
   const SubmitTrxBody({
+    this.pushRepleacement,
     this.pasteText,
     this.enableInput,
     this.scanPayM,
@@ -35,6 +37,25 @@ class SubmitTrxBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<MyInputField> listInput = [
       MyInputField(
+        suffixIcon: GestureDetector(
+          onTap: () async {
+            
+            await TrxOptionMethod.scanQR(
+              context,
+              [],
+              pushRepleacement!,
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: SvgPicture.asset(
+              AppConfig.iconsPath+'qr_code.svg',
+              width: 4.w,
+              height: 4.h,
+              color: Colors.white,
+            ),
+          ),
+        ),
         pBottom: 16,
         hintText: "Receiver address",
         textInputFormatter: [
