@@ -1,4 +1,6 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'dart:ui';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
@@ -118,27 +120,6 @@ class Component {
     );
   }
 
-  Widget seedContainer(BuildContext context, String txt, int index, int rmIndex, Function? onTap){
-    return GestureDetector(
-      onTap: (){
-        onTap!(index, rmIndex);
-      },
-      child: Container(
-        width: (MediaQuery.of(context).size.width / 3) - 34,
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
-          borderRadius: const BorderRadius.all(Radius.circular(50)),
-        ), 
-        // color: grey,
-        child: MyText(
-          text: txt,
-          color2: Colors.white, fontSize: 15, fontWeight: FontWeight.bold
-        ),
-      )
-    );
-  }
 }
 
 class MyFlatButton extends StatelessWidget {
@@ -194,6 +175,9 @@ class MyFlatButton extends StatelessWidget {
       ),
       // ignore: deprecated_member_use
       child: FlatButton(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         onPressed: action == null ? null : (){
           action!();
         },
@@ -202,8 +186,6 @@ class MyFlatButton extends StatelessWidget {
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: MyText(
-          pTop: 20,
-          pBottom: 20,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
@@ -271,10 +253,11 @@ class MyGradientButton extends StatelessWidget {
         // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
       child: MaterialButton(
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: child ?? MyText(
-          pTop: 20,
-          pBottom: 20,
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
@@ -291,7 +274,7 @@ class MyText extends StatelessWidget {
   final String? text;
   final String? color;
   final Color? color2;
-  final double? fontSize;
+  double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
   final double? right;
@@ -306,11 +289,11 @@ class MyText extends StatelessWidget {
   final TextAlign? textAlign;
   final TextOverflow? overflow;
 
-  const MyText({
+  MyText({
     this.text,
     this.color,
     this.color2,
-    this.fontSize = 18,
+    this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
     this.right = 0,
@@ -324,7 +307,9 @@ class MyText extends StatelessWidget {
     this.height,
     this.textAlign = TextAlign.center,
     this.overflow,
-  });
+  }){
+    fontSize = fontSize!.sp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +324,8 @@ class MyText extends StatelessWidget {
           style: TextStyle(
             fontWeight: fontWeight,
             color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
-            fontSize: fontSize),
+            fontSize: fontSize!
+          ),
           textAlign: textAlign,
           overflow: overflow,
         ),
@@ -498,7 +484,7 @@ class MyIconButton extends StatelessWidget {
         onPressed!();
       },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           child ?? SvgPicture.asset(
             AppConfig.iconsPath+'$icon',
@@ -506,9 +492,9 @@ class MyIconButton extends StatelessWidget {
             height: iconSize ?? 30,
             color: isDarkTheme ? Colors.white : Colors.black,
           ),
+          SizedBox(height: 5),
           MyText(
             text: title,
-            fontSize: 12,
             color: txtColor,
             
           )
@@ -601,9 +587,9 @@ class MyRowHeader extends StatelessWidget {
             child: Container(
                 margin: const EdgeInsets.only(left: 1.5),
                 alignment: Alignment.centerLeft,
-                child: const MyText(text: "Your assets")),
+                child: MyText(text: "Your assets")),
           ),
-          const Expanded(
+          Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: MyText(text: "QTY"),
@@ -667,22 +653,35 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
   await showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        title: Align(
-          child: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
-        ),
-        content: Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: Text(contents, textAlign: TextAlign.center),
-        ),
-        actions: <Widget>[
-          btn2 ?? Container(),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const MyText(text: 'Close'),
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: AlertDialog(
+          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: MyText(
+              text: title,
+              fontWeight: FontWeight.w600,
+              color: AppColors.whiteColorHexa,
+              fontSize: 18, 
+            ),
           ),
-        ],
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0,),
+            child: MyText(
+              text: contents, 
+              color: AppColors.whiteColorHexa,
+              textAlign: TextAlign.center
+            ),
+          ),
+          actions: <Widget>[
+            btn2 ?? Container(),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: MyText(text: 'Close', color: AppColors.whiteColorHexa),
+            ),
+          ],
+        ),
       );
     },
   );
@@ -720,13 +719,13 @@ class MyPinput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 100,
-      margin: const EdgeInsets.only(bottom: 30),
+      // width: MediaQuery.of(context).size.width - 100,
+      // margin: const EdgeInsets.only(bottom: 30),
       child: Pinput(
         obscureText: obscureText!,
         focusNode: focusNode,
         controller: controller,
-        length: 4,
+        length: 6,
         obscuringCharacter: '⚪',
         // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
         //   color: Colors.grey.withOpacity(0.5),

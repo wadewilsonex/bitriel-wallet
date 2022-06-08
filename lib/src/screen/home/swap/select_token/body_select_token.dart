@@ -1,14 +1,19 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/search_c.dart';
 import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
+import 'package:wallet_apps/src/provider/search_p.dart';
+import 'package:wallet_apps/src/provider/swap_p.dart';
 
 class SelectSwapTokenBody extends StatelessWidget {
-
   final TextEditingController? searchController;
+  final Function? query;
 
-  const SelectSwapTokenBody({ 
+  SelectSwapTokenBody({ 
     Key? key,
     this.searchController,
+    this.query
   }) : super(key: key);
 
   @override
@@ -24,25 +29,45 @@ class SelectSwapTokenBody extends StatelessWidget {
               size: 25,
             ),
             onPressed: () {
+              Provider.of<SwapProvider>(context, listen: false).label = "";
               Navigator.pop(context);
             },
           )
         ]
       ),
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _searchToken(context, searchController!),
-      
-            _tokenList(context),
-          ],
-        ),
+      body: Consumer<SwapProvider>(
+        builder: (context, provider, widget){
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                _searchToken(provider.label, context, searchController!, query),
+          
+                Expanded(
+                  child: Stack(
+                    children: [
+                      
+                      provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls2) : Container(),
+                      // List Asset
+          
+                      // Items Searched
+                      provider.searched.isNotEmpty ? _tokenList(context, provider.searched) : Container()
+                    ],
+                  )
+              
+                )
+              ],
+            ),
+          );
+        }
       ),
     );
   }
 
-  Widget _searchToken(BuildContext context, TextEditingController controller){
+  Widget _searchToken(String label, BuildContext context, TextEditingController controller, Function? query){
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
@@ -75,27 +100,50 @@ class SelectSwapTokenBody extends StatelessWidget {
           fillColor: hexaCodeToColor("#114463"),
           suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor("#AAAAAA"), size: 20),
         ),
+        onChanged: (String value){
+          query!(label, value);
+        },
       ),
     );
   }
 
-  Widget _tokenList(BuildContext context){
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      itemCount: SwapTokenListModel().lsSwapToken.length,
-      itemBuilder: (context, index){
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SwapTokenListModel().lsSwapToken[index],
+  Widget _tokenList(BuildContext context, List<SwapTokenListModel> ls){
+    return Consumer<SwapProvider>(
+      builder: (context, provider, widget){
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
+          itemBuilder: (context, index){
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SwapTokenList(
+                      title: ls[index].title,
+                      subtitle: ls[index].subtitle,
+                      isActive: ls[index].isActive,
+                      image: ls[index].image,
+                      action: (){
+                        if (provider.searched.isNotEmpty){
+
+                          index = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
+                          print(Provider.of<SwapProvider>(context, listen: false).ls[index].title);
+                        }
+                        provider.setNewAsset(index);
+                        provider.searched = [];
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          }
         );
       }
     );

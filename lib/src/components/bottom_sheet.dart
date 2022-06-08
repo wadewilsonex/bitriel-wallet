@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/provider/search_p.dart';
 
 class MyBottomSheet {
   dynamic response;
+  bool pushReplacement = false;
 
   Future<dynamic> trxOptions({BuildContext? context, List? portfolioList, String? asset}) {
     final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
@@ -45,6 +46,7 @@ class MyBottomSheet {
                           await TrxOptionMethod.scanQR(
                             context,
                             portfolioList!,
+                            pushReplacement
                           );
                         } catch (e) {
                           if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");
@@ -126,7 +128,7 @@ class MyBottomSheet {
           height: MediaQuery.of(context).size.height - 107,
           child: Column(
             children: [
-              const Align(
+              Align(
                 child: MyText(
                   color: "#FFFFFF",
                   top: 20,
@@ -139,7 +141,7 @@ class MyBottomSheet {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
-                    const MyText(text: "There are no notification found")
+                    MyText(text: "There are no notification found")
                   ],
                 ),
               )

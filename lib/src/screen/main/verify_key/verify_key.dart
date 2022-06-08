@@ -6,7 +6,6 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/body_verify_key.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:bip39/bip39.dart' as bip39;
 
 class VerifyPassphrase extends StatefulWidget {
 
@@ -78,9 +77,9 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     try {
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
       print("res $res");
-      if (res == true){
+      if (res == true){ 
 
-        dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+        dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
 
         dynamic _json = await api.apiKeyring.importAccount(
           api.getKeyring,
@@ -98,18 +97,19 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
 
         await importAccountNAsset(api);
-
+        
+        
         await DialogComponents().dialogCustom(
           context: context,
           contents: "You have successfully create your account.",
           textButton: "Complete",
-          image: Image.asset("assets/icons/success.png"),
+          image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
           btn2: MyGradientButton(
-            edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+            edgeMargin: const EdgeInsets.only(left: 20, right: 20),
             textButton: "Complete",
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            action: () async {
+            action: () async {  
               Navigator.pop(context);
             },
           )
@@ -119,6 +119,23 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
           context, 
           Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
           ModalRoute.withName('/')
+        );
+      }
+      else{
+        await DialogComponents().dialogCustom(
+          context: context,
+          titles: "Opps",
+          contents: "Wrong verify seed. Please try again!",
+          textButton: "Close",
+          btn2: MyGradientButton(
+            edgeMargin: const EdgeInsets.only(left: 20, right: 20),
+            textButton: "Close",
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {  
+              Navigator.pop(context);
+            },
+          )
         );
       }
     } catch (e) {
@@ -140,7 +157,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await _api.getAddressIcon();
       // Get From Account js
-      await _api.getCurrentAccount();
+      await _api.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(_resPk);
 
@@ -150,7 +167,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+      // await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

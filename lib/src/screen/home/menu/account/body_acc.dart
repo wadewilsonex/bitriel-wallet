@@ -9,6 +9,8 @@ import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
 class AccountBody extends StatelessWidget{
 
   final AccountM? accountModel;
+  final Function? onSubmitName;
+  final Function? onChangeName;
   final Function? onChangedBackup;
   final Function? onChangedChangePin;
   final Function? onSubmitChangePin;
@@ -17,7 +19,18 @@ class AccountBody extends StatelessWidget{
   final Function? submitBackUpKey;
   final Function? deleteAccout;
 
-  AccountBody({this.accountModel, this.onChangedBackup, this.onSubmit, this.onChangedChangePin, this.onSubmitChangePin, this.submitChangePin, this.submitBackUpKey, this.deleteAccout});
+  AccountBody({
+    this.accountModel, 
+    this.onSubmitName,
+    this.onChangeName,
+    this.onChangedBackup, 
+    this.onSubmit, 
+    this.onChangedChangePin, 
+    this.onSubmitChangePin, 
+    this.submitChangePin, 
+    this.submitBackUpKey, 
+    this.deleteAccout
+  });
 
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -41,7 +54,7 @@ class AccountBody extends StatelessWidget{
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(8),
                   color: isDarkTheme
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -52,14 +65,14 @@ class AccountBody extends StatelessWidget{
                     
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 25,
-                        bottom: 25,
-                      ),
+                      // padding: const EdgeInsets.only(
+                      //   left: 20,
+                      //   right: 20,
+                      //   top: 25,
+                      //   bottom: 25,
+                      // ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
+                        borderRadius: BorderRadius.circular(8),
                         // color: isDarkTheme
                         //   ? Colors.white.withOpacity(0.06)
                         //   : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -75,6 +88,7 @@ class AccountBody extends StatelessWidget{
                                     alignment: Alignment.centerLeft,
                                     margin: const EdgeInsets.only(
                                       bottom: 16,
+                                      top: 16,
                                     ),
                                     width: 70,
                                     height: 70,
@@ -94,24 +108,45 @@ class AccountBody extends StatelessWidget{
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                                 fontSize: 20,
-                                bottom: 5,
                               ),
-                              MyText(
-                                text: provider.accountM.address!,
-                                color: isDarkTheme
-                                  ? AppColors.whiteColorHexa
-                                  : AppColors.textColor,
-                                fontSize: 16,
-                                width: MediaQuery.of(context).size.width/1.5,
+
+                              Padding(
+                                padding: const EdgeInsets.all(paddingSize),
+                                child: MyText(
+                                  text: provider.accountM.address!,
+                                  color: isDarkTheme
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.textColor,
+                                  fontSize: 16,
+                                  // width: MediaQuery.of(context).size.width/1.5,
+                                ),
                               )
                             ],
                           );
                         }
                       ),
                     ),
+
+                    SizedBox(height: 2.5.h),
+
+                    ListTileComponent(
+                      action: (){
+                        underContstuctionAnimationDailog(context: context);
+                        // AccountC().showEditName(
+                        //   context,
+                        //   accountModel!.editNameKey,
+                        //   accountModel!.editNameController,
+                        //   accountModel!.newNode,
+                        //   onSubmit!,
+                        //   onChangeName!,
+                        // );
+                      },
+                      text: 'Edit Wallet Name',
+                    ),
                     
                     ListTileComponent(
                       action: (){
+                        underContstuctionAnimationDailog(context: context);
                         // AccountC().showBackup(
                         //   context,
                         //   accountModel!.backupKey,
@@ -121,31 +156,33 @@ class AccountBody extends StatelessWidget{
                         //   onSubmit!,
                         //   submitBackUpKey!,
                         // );
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
                       },
                       text: 'Backup Key',
                     ),
                     
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
                     
                     ListTileComponent(
                       action: (){
-                        AccountC().showChangePin(
-                          context,
-                          accountModel!.changePinKey,
-                          accountModel!.oldPinController,
-                          accountModel!.newPinController,
-                          accountModel!.oldNode,
-                          accountModel!.newNode,
-                          onChangedChangePin!,
-                          onSubmitChangePin!,
-                          submitChangePin!,
-                        );
+                        underContstuctionAnimationDailog(context: context);
+                        // Passcode(label: "Change Pin");
+                        // AccountC().showChangePin(
+                        //   context,
+                        //   accountModel!.changePinKey,
+                        //   accountModel!.oldPinController,
+                        //   accountModel!.newPinController,
+                        //   accountModel!.oldNode,
+                        //   accountModel!.newNode,
+                        //   onChangedChangePin!,
+                        //   onSubmitChangePin!,
+                        //   submitChangePin!,
+                        // );
                       },
                       text: 'Change Pin',
                     ),
 
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () async {
                         // await contract.unsubscribeNetwork();
@@ -155,9 +192,9 @@ class AccountBody extends StatelessWidget{
                         alignment: Alignment.center,
                         margin: const EdgeInsets.only(left: 16, right: 16),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        height: 70,
+                        height: 7.h,
                         child: MyText(
                           text: 'Delete Account',
                           color: "#FF0000",

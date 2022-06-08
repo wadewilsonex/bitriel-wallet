@@ -129,32 +129,37 @@ class AppServices {
       if (support) {
         canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
       } else {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: MyText(
-                  text: "Oops",
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text("Your doesn't support finger print",
-                    textAlign: TextAlign.center),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
+          await customDialog(
+            context, 
+            'Opps', 
+            "Your device doesn't support finger print",
+          );
+        // await showDialog(
+        //   context: context,
+        //   builder: (context) {
+        //     return AlertDialog(
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(10.0)),
+        //       title: Align(
+        //         child: MyText(
+        //           text: "Oops",
+        //           fontWeight: FontWeight.w600,
+        //         ),
+        //       ),
+        //       content: Padding(
+        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        //         child: Text("Your device doesn't support finger print",
+        //             textAlign: TextAlign.center),
+        //       ),
+        //       actions: <Widget>[
+        //         TextButton(
+        //           onPressed: () => Navigator.pop(context),
+        //           child: const Text('Close'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       }
 
       // ignore: unused_catch_clause

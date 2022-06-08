@@ -4,42 +4,10 @@ import 'package:wallet_apps/index.dart';
 
 class SwapTokenListModel {
 
-  List<SwapTokenList> lsSwapToken = [
-    SwapTokenList(
-      title: "Selendra",
-      subtitle: "SEL",
-      image: Image.asset("assets/SelendraCircle-White.png", width: 50, height: 50),
-      action: () {
-
-      },
-    ),
-
-    SwapTokenList(
-      title: "Selendra",
-      subtitle: "SEL",
-      image: Image.asset("assets/SelendraCircle-White.png", width: 50, height: 50),
-      action: () {
-
-      },
-    ),
-    
-    SwapTokenList(
-      title: "Selendra",
-      subtitle: "SEL",
-      image: Image.asset("assets/SelendraCircle-White.png", width: 50, height: 50),
-      action: () {
-
-      },
-    ),
-
-    SwapTokenList(
-      title: "Selendra",
-      subtitle: "SEL",
-      image: Image.asset("assets/SelendraCircle-White.png", width: 50, height: 50),
-      action: () {
-
-      },
-    ),
-    
-  ];
+  bool? isActive = false;
+  String? title = '';
+  String? subtitle = '';
+  Image? image;
+  
+  SwapTokenListModel({this.image, this.title, this.subtitle, this.isActive});
 }

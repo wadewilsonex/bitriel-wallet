@@ -2,195 +2,163 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
+import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/receive_wallet/appbar_wallet.dart';
 
 class ReceiveWalletBody extends StatelessWidget {
   
-  final GlobalKey<ScaffoldState>? globalKey;
-  final GlobalKey? keyQrShare;
-  final HomeModel? homeM;
-  final GetWalletMethod? method;
   final Function? onChanged;
-  final String? name;
-  final String? wallet;
-  final int? initialValue;
-  final String? assetInfo;
 
   const ReceiveWalletBody({
-    this.keyQrShare,
-    this.globalKey,
-    this.homeM,
-    this.method,
     this.onChanged,
-    this.name,
-    this.wallet,
-    this.initialValue,
-    this.assetInfo,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return Column(
-      children: <Widget>[
-        
-        MyAppBar(
-          title: "Receive wallet",
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        
-        Expanded(
-          child: (wallet == 'wallet address')
-          ? Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/no_data.svg', height: 200),
-                  const MyText(text: "There are no wallet found")
-                ],
-              ),
-            )
-          : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              
-              RepaintBoundary(
-                key: keyQrShare,
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 45.0,
-                    left: 16.0,
-                    right: 16.0,
-                    top: 16.0
+    return Consumer<ReceiveWalletProvider>(
+      builder: (context, provider, widget){
+        return Column(
+          children: <Widget>[
+            
+            MyAppBar(
+              title: "Receive",
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            
+            Expanded(
+              child: 
+              // (provider.accountM!.address == null)
+              // ? Expanded(
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         SvgPicture.asset('assets/icons/no_data.svg', height: 200),
+              //         MyText(text: "There are no wallet found")
+              //       ],
+              //     ),
+              //   )
+              // : 
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  
+                  RepaintBoundary(
+                    key: provider.keyQrShare,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        bottom: 2.5.h,
+                        left: paddingSize,
+                        right: paddingSize,
+                        top: 16.0
+                      ),
+                      padding: const EdgeInsets.all(paddingSize),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        // boxShadow: [shadow(context)],
+                        color: isDarkTheme
+                          ? Colors.white.withOpacity(0.06)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                      ),
+                      child: Column(
+                        children: [
+                          
+                          QrViewTitle(
+                            // assetInfo: provider.assetInfo,
+                            initialValue: provider.initialValue.toString(),
+                            onChanged: onChanged,
+                          ),
+      
+                          MyText(
+                            bottom: 2.5.h,
+                            text: "Scan the qr code to perform transaction",
+                            fontSize: 16,
+                            color: isDarkTheme
+                              ? AppColors.whiteColorHexa
+                              : AppColors.textColor,
+                          ),
+                          
+                          // Qr View
+                          qrCodeGenerator(
+                            provider.accountM!.address ?? '',
+                            AppConfig.logoQrEmbedded,
+                            provider.keyQrShare,
+                          ),
+      
+                          Padding(
+                            padding: EdgeInsets.only(top: 5, bottom: 10),
+                            child: TextShimmer(
+                              txt: provider.accountM!.name,
+                            )
+                          ),
+      
+                          // Padding(
+                          //   padding: EdgeInsets.only(top: 16, bottom: 16),
+                          //   child: TextShimmer(
+                          //     width: 300,
+                          //     txt: wallet,
+                          //     highlightColor: Colors.white,
+                          //   )
+                          // ),
+                          // MyText(
+                          //   text: name ?? 'User name',
+                          //   bottom: 16,
+                          //   top: 16,
+                          //   fontSize: 16,
+                          //   color: isDarkTheme
+                          //     ? AppColors.whiteColorHexa
+                          //     : AppColors.textColor,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
+
+                          MyText(
+                            width: 100.w,
+                            text: provider.accountM!.address ?? '',
+                            color: AppColors.secondarytext,
+                            fontSize: 16,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    // boxShadow: [shadow(context)],
-                    color: isDarkTheme
-                      ? Colors.white.withOpacity(0.06)
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
-                  ),
-                  child: Column(
+      
+                  Column(
                     children: [
-                      
-                      QrViewTitle(
-                        assetInfo: assetInfo,
-                        initialValue: initialValue.toString(),
-                        onChanged: onChanged,
+                      MyGradientButton(
+                        edgeMargin: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
+                        textButton: "Copy",
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        action: () {
+                          Clipboard.setData(
+                            ClipboardData(text: provider.accountM!.address),
+                          );
+                          /* Copy Text */
+                          provider.method.snackBar('Copied', provider.globalKey!);
+                        },
                       ),
-
-                      // Qr View
-                      qrCodeGenerator(
-                        wallet ?? '',
-                        AppConfig.logoQrEmbedded,
-                        keyQrShare!,
-                      ),
-
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 16, bottom: 16),
-                      //   child: TextShimmer(
-                      //     txt: name,
-                      //   )
-                      // ),
-
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 16, bottom: 16),
-                      //   child: TextShimmer(
-                      //     width: 300,
-                      //     txt: wallet,
-                      //     highlightColor: Colors.white,
-                      //   )
-                      // ),
-                      MyText(
-                        text: name ?? 'User name',
-                        bottom: 16,
-                        top: 16,
-                        color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                      ),
-                      MyText(
-                        width: 300,
-                        text: wallet ?? '',
-                        color: AppColors.secondarytext,
-                        fontSize: 16,
-                        bottom: 16,
-                      ),
-                      MyText(
-                        text: "Scan the qr code to perform transaction",
-                        fontSize: 16,
-                        color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Container(
-                margin: const EdgeInsets.only(bottom: 21),
-                // ignore: deprecated_member_use
-                child: FlatButton(
-                  onPressed: () {
-                    method!.qrShare(keyQrShare!, wallet!);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.share,
-                        color: hexaCodeToColor(AppColors.secondary),
-                        size: 30,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                        ),
-                        child: const MyText(
-                          text: "SHARE MY CODE",
-                          color: AppColors.secondary,
-                        ),
+                      MyFlatButton(
+                        isTransparent: true,
+                        buttonColor: AppColors.whiteHexaColor,
+                        edgeMargin:
+                            const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                        textButton: "Share",
+                        action: () {
+                          provider.method.qrShare(provider.keyQrShare, provider.accountM!.address!);
+                        },
                       )
                     ],
                   ),
-                ),
-              ),
-              
-              // ignore: deprecated_member_use
-              FlatButton(
-                onPressed: () {
-                  Clipboard.setData(
-                    ClipboardData(text: wallet),
-                  );
-                  /* Copy Text */
-                  method!.snackBar('Copied', globalKey!);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.content_copy,
-                      color: hexaCodeToColor(AppColors.secondary),
-                      size: 30,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: const MyText(
-                        text: "COPY ADDRESS",
-                        color: AppColors.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
-      ),
-      ],
+                  
+                ],
+              )
+            ),
+          ],
+        );
+      }
     );
   }
 }

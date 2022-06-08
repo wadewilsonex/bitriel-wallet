@@ -20,12 +20,11 @@ class BackUpKeyBody extends StatelessWidget{
         leading: IconButton(
           /* Menu Icon */
 
-          padding: const EdgeInsets.only(left: 16, right: 8),
           iconSize: 40.0,
           icon: Icon(
             Platform.isAndroid ? LineAwesomeIcons.arrow_left : LineAwesomeIcons.angle_left,
             color: isDarkTheme ? Colors.white : Colors.black,
-            size: 36,
+            size: 22.5.sp,
           ),
           onPressed: (){
             Navigator.pop(context);
@@ -33,14 +32,15 @@ class BackUpKeyBody extends StatelessWidget{
         ),
         elevation: 0,
         backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        title: MyText(text: 'Export Account', fontSize: 16, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
-      body: Card(
-        color: Colors.white.withOpacity(0.06),
-        margin: EdgeInsets.all(paddingSize),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+
+            SizedBox(height: 2.5.h),
 
             ListTileComponent(
               text: "Keystore (json)",
@@ -65,9 +65,12 @@ class BackUpKeyBody extends StatelessWidget{
               },
             ),
 
+            SizedBox(height: 2.5.h),
+            
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
+                // underContstuctionAnimationDailog(context: context);
                 // await Component().dialogBox(context).then((value) async {
                 //   if (value != ''){
                 //     // await disableScreenShot!();

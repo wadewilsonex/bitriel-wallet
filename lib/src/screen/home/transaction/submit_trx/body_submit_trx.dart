@@ -17,8 +17,10 @@ class SubmitTrxBody extends StatelessWidget {
 
   final PopupMenuItem Function(Map<String, dynamic>)? item;
   final Function? pasteText;
+  final bool? pushRepleacement;
 
   const SubmitTrxBody({
+    this.pushRepleacement,
     this.pasteText,
     this.enableInput,
     this.scanPayM,
@@ -35,8 +37,27 @@ class SubmitTrxBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<MyInputField> listInput = [
       MyInputField(
+        suffixIcon: GestureDetector(
+          onTap: () async {
+            
+            await TrxOptionMethod.scanQR(
+              context,
+              [],
+              pushRepleacement!,
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: SvgPicture.asset(
+              AppConfig.iconsPath+'qr_code.svg',
+              width: 4.w,
+              height: 4.h,
+              color: Colors.white,
+            ),
+          ),
+        ),
         pBottom: 16,
-        labelText: "Receiver address",
+        hintText: "Receiver address",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(TextField.noMaxLength),
         ],
@@ -48,7 +69,7 @@ class SubmitTrxBody extends StatelessWidget {
       ),
       MyInputField(
         pBottom: 16,
-        labelText: "Amount",
+        hintText: "Amount",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(
             TextField.noMaxLength,
@@ -73,7 +94,7 @@ class SubmitTrxBody extends StatelessWidget {
     return Column(
       children: [
         MyAppBar(
-          title: "Send wallet",
+          title: "Send",
           onPressed: () {
             Navigator.pop(context);
           },
@@ -98,12 +119,9 @@ class SubmitTrxBody extends StatelessWidget {
                       ),
 
                       child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 11.0,
-                          bottom: 11.0,
-                          left: 26.0,
-                          right: 14.0,
-                        ),
+                        padding: const EdgeInsets.fromLTRB(
+                          paddingSize, 0, paddingSize, 0
+                        ), 
                         decoration: BoxDecoration(
                           color: isDarkTheme
                             ? Colors.white.withOpacity(0.06)
@@ -122,6 +140,7 @@ class SubmitTrxBody extends StatelessWidget {
                               ),
                             ),
                             ReuseDropDown(
+                              icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
                               initialValue: scanPayM!.assetValue.toString(),
                               onChanged: onChangeDropDown,
                               itemsList: ContractService.getConSymbol(context, contract.sortListContract),
@@ -129,7 +148,7 @@ class SubmitTrxBody extends StatelessWidget {
                                 color: isDarkTheme
                                   ? Colors.white
                                   : hexaCodeToColor(AppColors.blackColor),
-                                fontSize: 18,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w600
                               ),
                             ),

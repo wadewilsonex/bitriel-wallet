@@ -3,7 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'dart:math';
-
+import 'package:wallet_apps/src/components/pie_chart.dart';
 class AssetsPageBody extends StatelessWidget {
   const AssetsPageBody({ Key? key }) : super(key: key);
 
@@ -21,9 +21,12 @@ class AssetsPageBody extends StatelessWidget {
       
             SizedBox(height: 25),
       
-            _selendraNetworkList(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              child: _selendraNetworkList(context),
+            ),
 
-            SizedBox(height: 25),
+            // SizedBox(height: 25),
 
             // _otherNetworkList(context),
           ],
@@ -50,6 +53,12 @@ class AssetsPageBody extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
+              
+              // PieChartSample1(),
+
+              // PieChartSample2(),
+
+              // PieChartSample3(),
 
               if(provider.accountM.addressIcon == null)
               Shimmer.fromColors(
@@ -77,13 +86,13 @@ class AssetsPageBody extends StatelessWidget {
                   color: hexaCodeToColor(AppColors.sliderColor),
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: Colors.white, blurRadius: 20.0),
+                    BoxShadow(color: Colors.white, blurRadius: 10.0),
                   ],
                 ),
                 child: SvgPicture.string(provider.accountM.addressIcon!),
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 2.h),
               if(provider.accountM.addressIcon == null)
               Shimmer.fromColors(
                 child: Container(
@@ -100,17 +109,18 @@ class AssetsPageBody extends StatelessWidget {
                 bottom: 3,
                 text: provider.accountM.name ?? '',
                 color: AppColors.whiteColorHexa,
-                fontSize: 20,
+                fontSize: 20.sp,
               ),
 
-              SizedBox(height: 15),
+              SizedBox(height: 2.h),
               MyText(
-                text: "\$134.72",
+                text: "≈ \$134.72",
                 color: AppColors.whiteColorHexa,
-                fontSize: 16,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
               ),
 
-              SizedBox(height: 25),
+              SizedBox(height: 3.h),
 
               _operationRequest(context),
             ],
@@ -121,59 +131,55 @@ class AssetsPageBody extends StatelessWidget {
   }
 
   Widget _selendraNetworkList(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize-10),
-      child: Container(
-        child: Column(
-          children: [
+    return Container(
+      child: Column(
+        children: [
 
-            Row(
-              children: [
-                MyText(
-                  text: "Assets",
-                  // text: "Selendra Network",
-                  color: AppColors.titleAssetColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500
+          Row(
+            children: [
+              MyText(
+                text: "Assets",
+                // text: "Selendra Network",
+                color: AppColors.titleAssetColor,
+                fontWeight: FontWeight.w500
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 1,
+                  color: hexaCodeToColor(AppColors.titleAssetColor),
+                  indent: 2.w,
                 ),
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: hexaCodeToColor(AppColors.titleAssetColor),
-                    indent: 20,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
 
-            Consumer<ContractProvider>(
-              builder: (context, value, child) {
-                return Column(
-                  children: [
-                    for (int index = 0; index < value.sortListContract.length; index++)
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            Transition(
-                              child: AssetInfo(
-                                index: index,
-                                scModel: value.sortListContract[index]
-                              ),
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          Consumer<ContractProvider>(
+            builder: (context, value, child) {
+              return Column(
+                children: [
+                  for (int index = 0; index < value.sortListContract.length; index++)
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          Transition(
+                            child: AssetInfo(
+                              index: index,
+                              scModel: value.sortListContract[index]
                             ),
-                          );
-                        },
-                        child: AssetsItemComponent(
-                          scModel: value.sortListContract[index]
-                        )
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          ),
+                        );
+                      },
+                      child: AssetsItemComponent(
+                        scModel: value.sortListContract[index]
                       )
-                  ]
-                );
-              },
-            ),
-          ],
-        ),
+                    )
+                ]
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -208,27 +214,20 @@ class AssetsPageBody extends StatelessWidget {
   }
 
   Widget _operationRequest(BuildContext context) {
-    double width = 150;
-    double height = 55;
+    double width = 30.w;
+    double height = 7.h;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         
         MyGradientButton(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
-              
-              Transform.rotate(
-                angle: pi * 45,
-                child: Icon(Iconsax.import, color: Colors.white, size: 35),
-              ),
-              
               MyText(
                 text: "Send",
-                fontSize: 16,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
@@ -236,7 +235,7 @@ class AssetsPageBody extends StatelessWidget {
           ),
           height: height,
           width: width,
-          lsColor: ["#2EF9C8", "#0D6BA6"],
+          lsColor: ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -251,22 +250,20 @@ class AssetsPageBody extends StatelessWidget {
         
         MyGradientButton(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
               MyText(
                 text: "Receieve",
-                fontSize: 16,
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
-              Icon(Iconsax.import, color: Colors.white, size: 35),
             ],
           ),
           height: height,
           width: width,
-          lsColor: ["#0D6BA6", "#2EF9C8"],
+          lsColor: ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){

@@ -35,7 +35,7 @@ class SwapBody extends StatelessWidget{
                   },
                 ),
                 
-                SizedBox(height: 16.0),
+
                 Column(
                   children: [
                     MyText(
@@ -51,14 +51,14 @@ class SwapBody extends StatelessWidget{
                       overflow: TextOverflow.ellipsis,
                       bottom: 20.0,
                       top: 16.0,
-                      left: 16.0,
+                      left: 16,
                     ),
 
                     // Swap Contents
                     Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                      padding: const EdgeInsets.symmetric(vertical: paddingSize),
                       decoration: BoxDecoration(
                         color: isDarkTheme
                           ? Colors.white.withOpacity(0.06)
@@ -70,7 +70,7 @@ class SwapBody extends StatelessWidget{
                         children: [
 
                           MyText(
-                            left: 20,
+                            left: 16,
                             width: double.infinity,
                             text: 'Amount',
                             fontWeight: FontWeight.bold,
@@ -79,13 +79,13 @@ class SwapBody extends StatelessWidget{
                               : AppColors.textColor,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,
-                            bottom: 4.0,
+                            bottom: 1.5.h,
                           ),
 
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.only(left: 16, bottom: 10, top: 10),
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.only(left: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: paddingSize),
                             decoration: BoxDecoration(
                               color: isDarkTheme
                                 ? hexaCodeToColor(AppColors.darkBgd)
@@ -111,9 +111,10 @@ class SwapBody extends StatelessWidget{
                                       color: isDarkTheme
                                         ? hexaCodeToColor(AppColors.whiteColorHexa)
                                         : hexaCodeToColor(AppColors.textColor),
-                                      fontSize: 18.0
+                                      fontSize: 15.sp
                                     ),
                                     decoration: InputDecoration(
+                                      
                                       prefixIconConstraints: BoxConstraints(
                                         minWidth: 0,
                                         minHeight: 0,
@@ -121,7 +122,7 @@ class SwapBody extends StatelessWidget{
                                       border: InputBorder.none,
                                       hintText: '0.00',
                                       hintStyle: TextStyle(
-                                        fontSize: 20.0,
+                                        fontSize: 15.sp,
                                         color: isDarkTheme
                                           ? hexaCodeToColor(AppColors.darkSecondaryText)
                                           : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
@@ -137,17 +138,13 @@ class SwapBody extends StatelessWidget{
                                     onFieldSubmitted: (value) {},
                                   )
                                 ),
-                                
+
                                 TextButton(
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                  ),
                                   onPressed: () async {
                                     await fetchMax!(context);
                                   },
                                   child: MyText(
                                     text: 'Max',
-                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.secondarytext,
                                   ),
@@ -158,7 +155,7 @@ class SwapBody extends StatelessWidget{
 
                           // Swap Button
                           MyGradientButton(
-                            edgeMargin: EdgeInsets.all(paddingSize),
+                            edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
                             textButton: "Swap",
                             begin: Alignment.bottomLeft,
                             end: Alignment.topRight,

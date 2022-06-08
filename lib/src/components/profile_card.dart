@@ -83,7 +83,7 @@ class ProfileCard extends StatelessWidget {
                     if (!value.isConnected)
                       Container()
                     else
-                      const Align(
+                      Align(
                         alignment: Alignment.bottomRight,
                         child: SizedBox(
                           width: 150,

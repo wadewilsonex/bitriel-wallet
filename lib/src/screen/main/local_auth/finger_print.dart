@@ -92,18 +92,18 @@ class _FingerPrintState extends State<FingerPrint> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
 
-            const SizedBox(
-              height: 135.0,
+            SizedBox(
+              height: 10.0.h,
             ),
-            Image.asset("assets/logo/fingerprint.png", scale: 0.9,),
+            Image.asset("assets/logo/fingerprint.png", width: 30.w,),
             const SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             MyText(
               width: 275,
               top: 19.0,
-              text: 'Increase your security!',
-              fontSize: 34,
+              text: 'Increase your \nsecurity!',
+              fontSize: 21.sp,
               fontWeight: FontWeight.bold,
               color: isDarkTheme
                 ? AppColors.whiteColorHexa
@@ -113,9 +113,9 @@ class _FingerPrintState extends State<FingerPrint> {
               height: 20.0,
             ),
             MyText(
-              top: 19.0,
+              top: 20.0,
+              width: 80.w,
               text: 'Activate biometrics for your wallet to make it even more secure.',
-              fontSize: 16,
               color: isDarkTheme
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,

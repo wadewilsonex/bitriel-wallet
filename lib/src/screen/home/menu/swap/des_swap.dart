@@ -15,9 +15,10 @@ class SwapDescription extends StatelessWidget {
           color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
+          fontSize: 16,
           bottom: 4.0,
           top: 32.0,
-          left: 16.0,
+          // left: 16.0,
         ),
         MyText(
           width: double.infinity,
@@ -30,7 +31,7 @@ class SwapDescription extends StatelessWidget {
           textAlign: TextAlign.start,
           bottom: 4.0,
           top: 16.0,
-          left: 16.0,
+          // left: 16.0,
           right: 16.0,
         ),
         MyText(
@@ -45,7 +46,7 @@ class SwapDescription extends StatelessWidget {
           textAlign: TextAlign.start,
           bottom: 4.0,
           top: 16.0,
-          left: 16.0,
+          // left: 16.0,
           right: 16.0,
         ),
         MyText(
@@ -60,7 +61,7 @@ class SwapDescription extends StatelessWidget {
           textAlign: TextAlign.start,
           bottom: 4.0,
           top: 16.0,
-          left: 16.0,
+          // left: 16.0,
           right: 16.0,
         ),
       ],

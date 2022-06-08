@@ -38,11 +38,7 @@ class WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
-      body: BodyScaffold(
-        isSafeArea: true,
-        bottom: 0,
-        child: WelcomeBody(),
-      ),
+      body: WelcomeBody(),
     );
   }
 }

@@ -1,9 +1,14 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/pie_chart.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
+
+import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
 /* Size */
@@ -249,7 +254,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                     height: 100,
                     width: 100,
                   ),
-                  const MyText(
+                  MyText(
                     text: 'SUCCESS!',
                     fontSize: 22,
                     top: 45,
@@ -360,7 +365,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 24,
                 ),
-                const MyText(
+                MyText(
                   text: 'Selendra Airdrop',
                   //color: '#000000',
                   fontSize: 28,
@@ -369,7 +374,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 16,
                 ),
-                const MyText(
+                MyText(
                   text:
                       'Selendra will conduct 3 airdrops. Each drop will have 6 sessions with a total of 31,415,927 SEL tokens. Each session will last as long as 3 months to distribute to as many people as possible. The first airdrop will take place in April 2021, during Khmer New Year. Enjoy the airdrop, everyone.',
                   textAlign: TextAlign.start,
@@ -459,8 +464,8 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Center(
-            child: MyText(
+        title: Center(
+          child: MyText(
           text: 'Transaction Detail',
           fontWeight: FontWeight.bold,
         )),
@@ -472,7 +477,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
             children: [
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Date: ',
                     fontSize: 14.0,
                   ),
@@ -487,7 +492,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Destination: ',
                     fontSize: 14.0,
                   ),
@@ -502,7 +507,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Sender: ',
                     fontSize: 14.0,
                   ),
@@ -517,7 +522,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Organization: ',
                     fontSize: 14.0,
                   ),
@@ -532,7 +537,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  const MyText(
+                  MyText(
                     text: 'Amount: ',
                     fontSize: 14.0,
                   ),
@@ -622,18 +627,26 @@ Widget progress({String? content}) {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CircularProgressIndicator(
-              backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation(
-                hexaCodeToColor(AppColors.secondary)
-              )
+            Lottie.asset(
+              "assets/animation/blockchain-animation.json",
+              repeat: true,
+              width: 75.w,
             ),
+            // CircularProgressIndicator(
+            //   backgroundColor: Colors.transparent,
+            //   valueColor: AlwaysStoppedAnimation(
+            //     hexaCodeToColor(AppColors.secondary)
+            //   )
+            // ),
             if (content == null)
             Container()
             else
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-              child: textScale(text: content, hexaColor: "#FFFFFF"),
+              child: MyText(
+                text: content, 
+                color: AppColors.whiteColorHexa,
+              ),
             ),
           ],
         )
@@ -647,7 +660,27 @@ dialogLoading(BuildContext context, {String? content}) {
     barrierDismissible: true,
     context: context,
     builder: (context) {
-      return progress(content: content);
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: progress(content: content)
+      );
+      // WillPopScope(
+      //   onWillPop: () => Future(() => false),
+      //   child: ,
+      // );
+    }
+  );
+}
+
+dialogLoadingCustom(BuildContext context) {
+  return showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return MyText(
+        text: "This processing may take a bit longer\nPlease wait a moment",
+        textAlign: TextAlign.center,
+      );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
       //   child: ,
@@ -813,14 +846,13 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
           borderRadius: BorderRadius.circular(6),
           color: Colors.white,
         ),
-        width: 300.0,
-        height: 300.0,
+        width: 45.w,
         child: QrImage(
           backgroundColor: Colors.white,
 
           //embeddedImage: AssetImage(logoName),
           embeddedImageStyle: QrEmbeddedImageStyle(
-            size: const Size(70, 70),
+            // size: Size(10.w, 10.h),
           ),
           // version: QrVersions.auto,
           data: wallet,
@@ -1086,5 +1118,80 @@ Widget disableNativePopBackButton(Widget child) {
   return WillPopScope(
     onWillPop: () => Future(() => false),
     child: child,
+  );
+}
+
+Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/page-construction.json",
+      width: 75.w, 
+      repeat: true,
+
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> portfolioDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    // contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    // lottie: Lottie.asset(
+    //   "assets/animation/page-construction.json",
+    //   width: 75.w, 
+    //   repeat: true,
+
+    // ),
+    contents2: PieChartSample2(),
+    // contents2: Column(
+    //   children: [
+        
+    //   ],
+    // ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/page-construction.json",
+      width: 75.w, 
+      repeat: true,
+
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
   );
 }

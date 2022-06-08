@@ -304,12 +304,15 @@ class _AssetInfoState extends State<AssetInfo> {
         bottom: 0,
         height: MediaQuery.of(context).size.height,
         child: NestedScrollView(
+          // floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBox) {
             return [
 
               SliverAppBar(
-                pinned: true,
-                expandedHeight: 77,
+                elevation: 0,
+                // pinned: true,
+                floating: true,
+                snap: true,
                 forceElevated: innerBox,
                 automaticallyImplyLeading: false,
                 leading: Container(),
@@ -320,100 +323,95 @@ class _AssetInfoState extends State<AssetInfo> {
 
                   // AppBar
                   Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: Icon(
-                                    Platform.isAndroid
-                                      ? Icons.arrow_back
-                                      : Icons.arrow_back_ios,
-                                    color: isDarkTheme
-                                      ? Colors.white
-                                      : Colors.black,
-                                    size: 28
+                      child: Container(
+                        color: hexaCodeToColor(AppColors.bluebgColor),
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: Icon(
+                                      Platform.isAndroid
+                                        ? Icons.arrow_back
+                                        : Icons.arrow_back_ios,
+                                      color: isDarkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                      size: 22.5.sp
+                                    )
                                   )
-                                )
-                              ),
-
-                              Container(
-                                width: 40,
-                                height: 40,
-                                padding: const EdgeInsets.all(6),
-                                // margin: const EdgeInsets.only(right: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.white
                                 ),
-                                child: Image.asset(
+
+                                Image.asset(
                                   widget.scModel!.logo!,
                                   fit: BoxFit.contain,
+                                  width: 10.w,
+                                  height: 10.h,
                                 ),
-                              ),
 
-                              // Container(
-                              //   alignment: Alignment.centerLeft,
-                              //   margin: const EdgeInsets.only(right: 8),
-                              //   width: 40,
-                              //   height: 40,
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(5),
-                              //   ),
-                              //   child: Image.asset(
-                              //     widget.scModel!.logo!,
-                              //     fit: BoxFit.contain,
-                              //   ),
-                              // ),
-                              MyText(
-                                left: 10,
-                                fontSize: 18.0,
-                                color: isDarkTheme
-                                  ? AppColors.whiteHexaColor
-                                  : AppColors.blackColor,
-                                text: widget.scModel!.symbol!
-                                // widget.scModel!.id! == null
-                                //     ? widget.scModel!.symbol!
-                                //     : widget.scModel!.id!.toUpperCase(),
-                              ),
-
-                              Expanded(child: Container()),
-
-                              // Right Text
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: MyText(
-                                  fontSize: 16.0,
-                                  text: widget.scModel!.org,
-                                  fontWeight: FontWeight.w700,
+                                // Container(
+                                //   alignment: Alignment.centerLeft,
+                                //   margin: const EdgeInsets.only(right: 8),
+                                //   width: 40,
+                                //   height: 40,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(5),
+                                //   ),
+                                //   child: Image.asset(
+                                //     widget.scModel!.logo!,
+                                //     fit: BoxFit.contain,
+                                //   ),
+                                // ),
+                                MyText(
+                                  left: 2.w,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
                                   color: isDarkTheme
                                     ? AppColors.whiteHexaColor
-                                    : AppColors.darkCard,
-                                )
-                              ),
-                            ],
-                          )
-                        )
+                                    : AppColors.blackColor,
+                                  text: widget.scModel!.symbol!
+                                  // widget.scModel!.id! == null
+                                  //     ? widget.scModel!.symbol!
+                                  //     : widget.scModel!.id!.toUpperCase(),
+                                ),
+
+                                Expanded(child: Container()),
+
+                                // Right Text
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: MyText(
+                                    text: widget.scModel!.org,
+                                    fontWeight: FontWeight.w700,
+                                    color: isDarkTheme
+                                      ? AppColors.whiteHexaColor
+                                      : AppColors.darkCard,
+                                  )
+                                ),
+                              ],
+                            )
+                          ),
+                      )
                       ),
                 ]),
               ),
 
               // Under Line of AppBar
-              SliverList(
-                delegate: SliverChildListDelegate([
-                Divider(
-                  height: 3,
-                  color: isDarkTheme
-                    ? bg
-                    : Colors.grey.shade400)
-              ])),
+              // SliverList(
+              //   delegate: SliverChildListDelegate([
+              //   Divider(
+              //     height: 3,
+              //     color: isDarkTheme
+              //       ? bg
+              //       : Colors.grey.shade400)
+              // ])),
 
               // Body
               SliverList(
@@ -431,7 +429,7 @@ class _AssetInfoState extends State<AssetInfo> {
                           MyText(
                             text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
                             //AppColors.secondarytext,
-                            fontSize: 32,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: isDarkTheme
@@ -445,7 +443,7 @@ class _AssetInfoState extends State<AssetInfo> {
                               ? '≈ \$$totalUsd'
                               : '≈ \$0.00',
 
-                            fontSize: 28,
+                            fontSize: 18,
                             color: isDarkTheme
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
@@ -474,7 +472,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                 text: double.parse(widget.scModel!.change24h!).isNegative
                                   ? '${widget.scModel!.change24h}%'
                                   : '+${widget.scModel!.change24h}%',
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: double.parse(widget.scModel!.change24h!).isNegative
                                   ? '#FF0000'
@@ -485,7 +483,7 @@ class _AssetInfoState extends State<AssetInfo> {
                               : Flexible(
                                 child: MyText(
                                   text: widget.scModel!.change24h!,
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
                                     ? '#00FF00'
@@ -495,16 +493,16 @@ class _AssetInfoState extends State<AssetInfo> {
                             ],
                           ),
 
-                          MyText(
-                            text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
-                            //AppColors.secondarytext,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: isDarkTheme
-                              ? AppColors.whiteColorHexa
-                              : AppColors.textColor,
-                          ),
+                          // MyText(
+                          //   text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
+                          //   //AppColors.secondarytext,
+                          //   fontSize: 18,
+                          //   fontWeight: FontWeight.bold,
+                          //   overflow: TextOverflow.ellipsis,
+                          //   color: isDarkTheme
+                          //     ? AppColors.whiteColorHexa
+                          //     : AppColors.textColor,
+                          // ),
 
                           // Container(
                           //   margin: const EdgeInsets.only(top: 40),
@@ -609,12 +607,12 @@ class _AssetInfoState extends State<AssetInfo> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 32.0,
-                      color: isDarkTheme
-                          ? bg
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
-                    ),
+                    // Container(
+                    //   height: 32.0,
+                    //   color: isDarkTheme
+                    //       ? bg
+                    //       : hexaCodeToColor(AppColors.whiteHexaColor),
+                    // ),
                     Container(
                       //padding: const EdgeInsets.only(top: 32.0),
                       child: Row(
@@ -635,18 +633,19 @@ class _AssetInfoState extends State<AssetInfo> {
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 0
-                                          ? hexaCodeToColor(AppColors.secondary)
+                                          ? hexaCodeToColor("#D4D6E3")
                                           : Colors.transparent,
-                                      width: 1.5,
+                                      width: 2,
                                     ),
                                   ),
                                 ),
                                 child: MyText(
-                                  text: "Details",
+                                  fontWeight: FontWeight.bold,
+                                  text: "Activity",
                                   color: _tabIndex == 0
-                                      ? AppColors.secondary
+                                      ? AppColors.whiteColorHexa
                                       : isDarkTheme
-                                          ? AppColors.darkSecondaryText
+                                          ? AppColors.iconColor
                                           : AppColors.textColor,
                                 ),
                               ),
@@ -668,19 +667,18 @@ class _AssetInfoState extends State<AssetInfo> {
                                   border: Border(
                                     bottom: BorderSide(
                                       color: _tabIndex == 1
-                                          ? hexaCodeToColor(AppColors.secondary)
+                                          ? hexaCodeToColor("#D4D6E3")
                                           : Colors.transparent,
-                                      width: 1.5,
+                                      width: 2,
                                     ),
                                   ),
                                 ),
                                 child: MyText(
-                                  text: "Activity",
+                                  fontWeight: FontWeight.w600,
+                                  text: "Details",
                                   color: _tabIndex == 1
-                                      ? AppColors.secondary
-                                      : isDarkTheme
-                                          ? AppColors.iconColor
-                                          : AppColors.textColor,
+                                      ? AppColors.whiteColorHexa
+                                      : AppColors.iconColor
                                 ),
                               ),
                             ),
@@ -700,26 +698,6 @@ class _AssetInfoState extends State<AssetInfo> {
               onPageChange(index);
             },
             children: <Widget>[
-              if (widget.scModel!.marketData != null)
-                Container(
-                  color: isDarkTheme
-                      ? bg
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
-                  child: AssetDetail(widget.scModel!.marketData!),
-                )
-              else
-                Container(
-                  color: isDarkTheme
-                      ? bg
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      AppConfig.iconsPath+'no_data.svg',
-                      width: 150,
-                      height: 150,
-                    ),
-                  ),
-                ),
               Consumer<ContractProvider>(builder: (context, value, child) {
                 return widget.transactionInfo == null
                     ? Container(
@@ -750,7 +728,28 @@ class _AssetInfoState extends State<AssetInfo> {
                         //   ),
                         // ),
                         );
-              })
+              }),
+
+              if (widget.scModel!.marketData != null)
+                Container(
+                  color: isDarkTheme
+                      ? bg
+                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                  child: AssetDetail(widget.scModel!.marketData!),
+                )
+              else
+                Container(
+                  color: isDarkTheme
+                      ? bg
+                      : hexaCodeToColor(AppColors.whiteHexaColor),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      AppConfig.iconsPath+'no_data.svg',
+                      width: 150,
+                      height: 150,
+                    ),
+                  ),
+                ),
               // Container(
               //   color: isDarkTheme
               //       ? hexaCodeToColor(AppColors.darkCard)

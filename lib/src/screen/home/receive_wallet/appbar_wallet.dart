@@ -19,7 +19,7 @@ class QrViewTitle extends StatelessWidget {
     final contract = Provider.of<ContractProvider>(context);
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 30),
+      padding: EdgeInsets.only(bottom: 2.5.h),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -41,16 +41,25 @@ class QrViewTitle extends StatelessWidget {
             alignment: Alignment.topRight,
             child: Consumer<WalletProvider>(
               builder: (context, value, child) {
-                return ReuseDropDown(
-                  initialValue: initialValue,
-                  onChanged: (String? value){
-                    onChanged!(value);
-                  },
-                  itemsList: ContractService.getConSymbol(context, contract.sortListContract),
-                  style: TextStyle(
-                    color: isDarkTheme
-                      ? hexaCodeToColor( AppColors.darkSecondaryText)
-                      : hexaCodeToColor(AppColors.textColor),
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w,),
+                  decoration: BoxDecoration(
+                    color: hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06),
+                    borderRadius: BorderRadius.circular(8)
+                  ),
+                  child: ReuseDropDown(
+                    icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.sp,),
+                    initialValue: initialValue,
+                    onChanged: (String? value){
+                      onChanged!(value);
+                    },
+                    itemsList: ContractService.getConSymbol(context, contract.sortListContract),
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      color: isDarkTheme
+                        ? hexaCodeToColor( AppColors.whiteHexaColor)
+                        : hexaCodeToColor(AppColors.textColor),
+                    ),
                   ),
                 );
               },

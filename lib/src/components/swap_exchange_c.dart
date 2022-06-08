@@ -8,7 +8,7 @@ class SwapExchange extends StatelessWidget {
   SwapExchange({
     this.title,
     this.image,
-    @required this.action,
+    @required this.action
   });
 
   @override
@@ -27,7 +27,7 @@ class SwapExchange extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,7 +43,6 @@ class SwapExchange extends StatelessWidget {
               children: [
                 MyText(
                   text: title,
-                  fontSize: 18,
                   color: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,

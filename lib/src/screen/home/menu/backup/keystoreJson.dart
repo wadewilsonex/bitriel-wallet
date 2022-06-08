@@ -18,7 +18,7 @@ class KeyStoreJson extends StatelessWidget{
           icon: Icon(
             Platform.isAndroid ? LineAwesomeIcons.arrow_left : LineAwesomeIcons.angle_left,
             color: isDarkTheme ? Colors.white : Colors.black,
-            size: 36,
+            size: 22.5.sp,
           ),
           onPressed: (){
             Navigator.pop(context);
@@ -42,32 +42,46 @@ class KeyStoreJson extends StatelessWidget{
             ),
           ),
 
-          TextButton(
-            onPressed: () {
+          MyGradientButton(
+            edgeMargin: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
+            textButton: "Copy",
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () {
               Clipboard.setData(
                 ClipboardData(text: json.encode(keystore)),
               );
               /* Copy Text */
               snackBar(context, 'Copied keystore!');
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.content_copy,
-                  color: hexaCodeToColor(AppColors.secondary),
-                  size: 30,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: const MyText(
-                    text: "COPY ADDRESS",
-                    color: AppColors.secondary,
-                  ),
-                ),
-              ],
-            ),
           ),
+          
+          // TextButton(
+          //   onPressed: () {
+          //     Clipboard.setData(
+          //       ClipboardData(text: json.encode(keystore)),
+          //     );
+          //     /* Copy Text */
+          //     snackBar(context, 'Copied keystore!');
+          //   },
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       Icon(
+          //         Iconsax.copy,
+          //         color: hexaCodeToColor(AppColors.whiteHexaColor),
+          //         size: 22.5.sp,
+          //       ),
+          //       Container(
+          //         padding: const EdgeInsets.only(left: 10.0),
+          //         child: MyText(
+          //           text: "COPY ADDRESS",
+          //           color: AppColors.whiteHexaColor,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

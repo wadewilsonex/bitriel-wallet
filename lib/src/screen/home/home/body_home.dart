@@ -4,6 +4,7 @@ import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
+import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
@@ -13,12 +14,14 @@ import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 class HomePageBody extends StatelessWidget {
 
   final HomePageModel? homePageModel;
-  final Function(int index)? onIndexChanged;
+  final bool? pushReplacement;
+  final Function(int index)? onPageChanged;
 
   const HomePageBody({ 
     Key? key, 
     this.homePageModel,
-    this.onIndexChanged
+    this.onPageChanged,
+    this.pushReplacement,
     }) : super(key: key);
 
 
@@ -33,35 +36,59 @@ class HomePageBody extends StatelessWidget {
       ),
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: AppBar(
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(AppColors.bluebgColor) : hexaCodeToColor(AppColors.darkBgd),
         elevation: 0,
+        leadingWidth: 15.w,
         leading: IconButton(
           onPressed: () {
             homePageModel!.globalKey!.currentState!.openDrawer();
           },
-          icon: Icon(Iconsax.profile_circle, size: 25),
+          icon: Icon(Iconsax.profile_circle, size: 6.w),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Iconsax.scan,
-              size: 25,
+            icon: Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Iconsax.chart_3,
+                size: 6.w,
+              ),
             ),
             onPressed: () async {
               
-              await TrxOptionMethod.scanQR(
-                context,
-                [],
-              );
+              portfolioDailog(context: context);
+             
             },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
+            child: IconButton(
+              icon: Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  Iconsax.scan,
+                  size: 6.w,
+                ),
+              ),
+              onPressed: () async {
+                
+                await TrxOptionMethod.scanQR(
+                  context,
+                  [],
+                  pushReplacement!,
+                );
+              },
+            ),
           )
         ],
       ),
       body: PageView(
+        physics: CustomPageViewScrollPhysics(),
         controller: homePageModel!.pageController,
-        onPageChanged: onIndexChanged,
+        // onPageChanged: onPageChanged,
         children: [
 
-          DiscoverPage(),
+          DiscoverPage(homePageModel: homePageModel!),
 
           AssetsPage(),
 
@@ -81,7 +108,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
-                    fontSize: 20,
+                    fontSize: 17.5,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -97,7 +124,7 @@ class HomePageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
-                    fontSize: 20,
+                    fontSize: 17.5,
                     color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -117,8 +144,7 @@ class HomePageBody extends StatelessWidget {
       ),
       bottomNavigationBar: MyBottomAppBar(
         index: homePageModel!.activeIndex,
-        apiStatus: true,
-        onIndexChanged: onIndexChanged,
+        onIndexChanged: onPageChanged,
       ),
     );
   }
@@ -129,11 +155,11 @@ class HomePageBody extends StatelessWidget {
         CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 1,  
-            aspectRatio: 26 / 9,
+            aspectRatio: 32 / 9,
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
-            onPageChanged: homePageModel!.onPageChanged,
+            onPageChanged: homePageModel!.onCarouselChanged,
           ),
           items: imgList
             .map((item) => Padding(
@@ -153,7 +179,7 @@ class HomePageBody extends StatelessWidget {
                   child: Image.network(
                     item,
                     fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width, 
+                    width: MediaQuery.of(context).size.width,
                   ),
                 ),
               ),
@@ -167,8 +193,8 @@ class HomePageBody extends StatelessWidget {
           count: imgList.length,
           effect: SlideEffect(
             radius: 5.0,
-            dotWidth: 25.0,
-            dotHeight: 2.0,
+            dotWidth: 25.0.sp,
+            dotHeight: 5.0.sp,
             paintStyle: PaintingStyle.fill,
             dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
             activeDotColor: hexaCodeToColor(AppColors.sliderColor),
@@ -180,6 +206,8 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _menu(BuildContext context) {
+    double iconSize = 7.w;
+
     return Column(
       children: [
         Padding(
@@ -190,10 +218,11 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
+                    underContstuctionAnimationDailog(context: context);
                   },
                 ),
               ),
@@ -203,10 +232,11 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
+                    underContstuctionAnimationDailog(context: context);
                   },
                 ),
               ),
@@ -224,12 +254,16 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: Colors.white, size: 35),
+                    child: Icon(Iconsax.import, color: Colors.white, size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   action: () {
+                    Navigator.push(
+                      context, 
+                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    );
                   },
                 ),
               ),
@@ -239,10 +273,14 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.import, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
+                    Navigator.push(
+                      context, 
+                      Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    );
                   },
                 ),
               ),
@@ -252,10 +290,15 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: Colors.white, size: 35),
+                  icon: Icon(Iconsax.scan, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
-                  action: () {
+                  action: () async {
+                    await TrxOptionMethod.scanQR(
+                      context,
+                      [],
+                      pushReplacement!
+                    );
                   },
                 ),
               ),
@@ -273,12 +316,12 @@ class HomePageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               "assets/logo/bitriel-logo-v2.png",
-              width: 25,
-              height: 25,
+              width: 7.w,
+              height: 7.h,
             ),
             title: "Bitriel DEX",
             action: () {
-        
+              underContstuctionAnimationDailog(context: context);
             },
           ),
         ),
@@ -289,12 +332,12 @@ class HomePageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               "assets/logo/uniswap-logo.png",
-              width: 40,
-              height: 40,
+              width: 10.w,
+              height: 10.h,
             ),
             title: "Uniswap",
             action: () {
-        
+              underContstuctionAnimationDailog(context: context);
             },
           ),
         )
@@ -309,9 +352,13 @@ class HomePageBody extends StatelessWidget {
           children: [
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/sala-logo.png",
+                  width: 10.w,
+                ),
                 title: "SALA Digital",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             ),
@@ -320,9 +367,13 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/koompi-fifi.png",
+                  width: 10.w,
+                ),
                 title: "KOOMPI Fi-Fi",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             )
@@ -335,9 +386,13 @@ class HomePageBody extends StatelessWidget {
           children: [
             Expanded(
               child: MarketPlaceMenuItem(
-                title: "Land Tokens",
+                image: Image.asset(
+                  "assets/logo/selendra-logo.png",
+                  width: 6.w,
+                ),
+                title: "Funan DApp",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             ),
@@ -346,9 +401,13 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: MarketPlaceMenuItem(
+                image: Image.asset(
+                  "assets/logo/opensea.png",
+                  width: 10.w,
+                ),
                 title: "OpenSea",
                 action: () {
-            
+                  underContstuctionAnimationDailog(context: context);
                 },
               ),
             )

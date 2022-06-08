@@ -45,17 +45,20 @@ class FillPinState extends State<FillPin> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      title: const MyText(
+      title: MyText(
         top: 16,
         bottom: 16,
         text: "Fill your pin",
+        color: AppColors.whiteHexaColor,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            color: hexaCodeToColor(AppColors.darkBgd),
             padding: const EdgeInsets.only(right: 13, bottom: 20),
             child: MyPinput(
               getWalletM: GetWalletModel(),
@@ -103,7 +106,7 @@ class FillPinState extends State<FillPin> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const MyText(text: "Close"),
+              child: MyText(text: "Close", color: AppColors.whiteHexaColor),
             ),
           )
         ],

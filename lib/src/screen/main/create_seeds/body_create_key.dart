@@ -30,7 +30,7 @@ class CreateSeedsBody extends StatelessWidget {
                   subTitle: 'Write down or copy these words in the order and save them somewhere safe.'
                 ),
                 
-                SizedBox(height: 100),
+                SizedBox(height: 7.h),
                 Column(
                   children: [
                     Row(
@@ -53,31 +53,75 @@ class CreateSeedsBody extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 50),
-                GestureDetector(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppConfig.iconsPath+'refresh-2.svg'),
-                      SizedBox(width: 9),
-                      MyText(
-                        text: "Generate new seed",
-                        color: AppColors.whiteColorHexa,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,  
-                        top: 4,
+                SizedBox(height: 3.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              SizedBox(width: 9),
+                              MyText(
+                                text: "Generate new seed",
+                                fontSize: 14,
+                                color: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.bold,  
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () => generateKey()
                       ),
-                    ],
-                  ),
-                  onTap: () => generateKey()
+                    ),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              SizedBox(width: 9),
+                              MyText(
+                                text: "Copy",
+                                fontSize: 14,
+                                color: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.bold,  
+                              ),
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                'Copied to clipboard',
+                                textAlign: TextAlign.center,
+                              ),
+                              duration: Duration(seconds: 1),
+                            ));
+                            Clipboard.setData(
+                              ClipboardData(text: createKeyModel!.seed!),
+                            );
+                        }
+                      ),
+                    ),
+                  ],
                 ),
 
-                SizedBox(height: 86),
+                SizedBox(height: 7.h),
                 MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
                   color: AppColors.lowWhite,
-                  fontSize: 16,
                 ),
 
 

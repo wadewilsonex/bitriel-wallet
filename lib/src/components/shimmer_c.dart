@@ -9,7 +9,7 @@ class AvatarShimmer extends StatelessWidget{
   AvatarShimmer({this.txt, this.child});
 
   Widget build (BuildContext context){
-
+    print("txt == null ${txt}");
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Align(
       alignment: Alignment.centerLeft,
@@ -35,8 +35,8 @@ class AvatarShimmer extends StatelessWidget{
           : Colors.grey[100]!,
       ) 
       : Container(
-        width: 60,
-        height: 60,
+        width: 12.50.w,
+        height: 12.50.h,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           color: isDarkTheme
@@ -61,7 +61,8 @@ class WidgetShimmer extends StatelessWidget{
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return txt != null 
     ? child!
-    : Shimmer.fromColors(
+    : 
+    Shimmer.fromColors(
       child: Container(
         width: 100,
         height: 8.0,
@@ -90,14 +91,16 @@ class TextShimmer extends StatelessWidget{
 
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    print("txt != null ${txt != null}");
     return txt != null 
     ? MyText(
       bottom: 3,
       text: txt ?? '',
+      top: 16,
+      fontSize: 16,
       color: isDarkTheme
         ? AppColors.whiteColorHexa
         : AppColors.textColor,
-      fontSize: 16,
     ) 
     : Shimmer.fromColors(
       child: Container(
@@ -107,8 +110,8 @@ class TextShimmer extends StatelessWidget{
         color: Colors.white,
       ), 
       period: const Duration(seconds: 2),
-      baseColor: highlightColor ?? Colors.white.withOpacity(opacity!),
-      highlightColor: highlightColor!,
+      baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(opacity!),
+      highlightColor: highlightColor ?? Colors.white,
     );
   }
 }

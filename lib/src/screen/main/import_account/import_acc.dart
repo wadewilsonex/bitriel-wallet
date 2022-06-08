@@ -1,10 +1,10 @@
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class ImportAcc extends StatefulWidget {
@@ -65,6 +65,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   void onSubmit() async {
+    print("onSubmit $enable");
     if (enable == true){
       Navigator.push(
         context, 
@@ -247,6 +248,7 @@ class ImportAccState extends State<ImportAcc> {
     print("verifySeeds");
     try {
       enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
+      print("enable $enable");
       setState(() { });
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
@@ -254,6 +256,13 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> addAccount() async {
+
+    // Lottie.asset('assets/animation/blockchain-animation.json');
+    // MyText(
+    //   text: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment",
+    //   fontSize: 14.sp,
+    //   color: AppColors.whiteColorHexa,
+    // );
     
     dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
 
@@ -279,9 +288,9 @@ class ImportAccState extends State<ImportAcc> {
       context: context,
       contents: "You have successfully create your account.",
       textButton: "Complete",
-      image: Image.asset("assets/icons/success.png"),
+      image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
       btn2: MyGradientButton(
-        edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+        edgeMargin: const EdgeInsets.only(left: 20, right: 20),
         textButton: "Complete",
         begin: Alignment.bottomLeft,
         end: Alignment.topRight,
@@ -310,7 +319,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await _api.getAddressIcon();
       // Get From Account js
-      await _api.getCurrentAccount();
+      await _api.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(_resPk);
 
@@ -320,7 +329,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      // await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

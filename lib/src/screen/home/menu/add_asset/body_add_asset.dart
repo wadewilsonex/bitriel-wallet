@@ -44,30 +44,29 @@ class AddAssetBody extends StatelessWidget {
     final api = Provider.of<ApiProvider>(context);
     return Column(children: [
       MyAppBar(
-        title: "Add asset",
+        title: "Add Asset",
         onPressed: () {
           Navigator.pop(context);
         },
-        tile: Padding(
-          padding: const EdgeInsets.only(right: 30.0),
-          child: IconButton(
-            /* Menu Icon */
-            // padding: edgePadding,
-            padding: const EdgeInsets.only(left: 30),
-            iconSize: 40.0,
-            icon: Icon(
-              Icons.search,
-              color: isDarkTheme ? Colors.white : Colors.black,
-              size: 30,
-            ),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: SearchAsset(),
-              );
-            },
-          ),
-        ),
+        // tile: Padding(
+        //   padding: const EdgeInsets.only(left: paddingSize),
+        //   child: IconButton(
+        //     /* Menu Icon */
+        //     // padding: edgePadding,
+        //     iconSize: 40.0,
+        //     icon: Icon(
+        //       Icons.search,
+        //       color: isDarkTheme ? Colors.white : Colors.black,
+        //       size: 22.5.sp,
+        //     ),
+        //     onPressed: () {
+        //       showSearch(
+        //         context: context,
+        //         delegate: SearchAsset(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ),
       Expanded(
         child: BodyScaffold(
@@ -80,11 +79,11 @@ class AddAssetBody extends StatelessWidget {
               ),
               SvgPicture.asset(
                 AppConfig.iconsPath+'contract.svg',
-                width: 200,
-                height: 200,
+                width: 20.w,
+                height: 20.h,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Form(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
@@ -93,7 +92,7 @@ class AddAssetBody extends StatelessWidget {
 
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        height: 65,
+                        // height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.06),
@@ -119,9 +118,11 @@ class AddAssetBody extends StatelessWidget {
                                 : AppColors.darkCard,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
+                              padding: const EdgeInsets.only(right: 16.0),
                               child: ReuseDropDown(
+                                icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.sp),
                                 style: TextStyle(
+                                  fontSize: 15.sp,
                                   color: hexaCodeToColor(isDarkTheme
                                     ? AppColors.whiteHexaColor
                                     : AppColors.darkCard)
@@ -139,7 +140,7 @@ class AddAssetBody extends StatelessWidget {
 
                       MyInputField(
                         pBottom: 16.0,
-                        labelText: "Token Contract Address",
+                        hintText: "Token Contract Address",
                         textInputFormatter: [
                           LengthLimitingTextInputFormatter(TextField.noMaxLength)
                         ],
@@ -150,6 +151,28 @@ class AddAssetBody extends StatelessWidget {
                           : null,
                         onChanged: onChanged,
                         onSubmit: onSubmit,
+                        suffixIcon: GestureDetector(
+                          onTap: () async {
+                            final _response = await Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => QrScanner()
+                              )
+                            );
+                            
+                            if (_response != null) {
+                              qrRes!(_response.toString());
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: SvgPicture.asset(
+                              AppConfig.iconsPath+'qr_code.svg',
+                              width: 4.w,
+                              height: 4.h,
+                              color: isDarkTheme ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
 
                       if (tokenSymbol == 'SEL')
@@ -186,31 +209,6 @@ class AddAssetBody extends StatelessWidget {
                       else
                         Container(),
 
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: GestureDetector(
-                          onTap: () async {
-                            final _response = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => QrScanner()
-                              )
-                            );
-                            
-                            if (_response != null) {
-                              qrRes!(_response.toString());
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: SvgPicture.asset(
-                              AppConfig.iconsPath+'qr_code.svg',
-                              width: 40,
-                              height: 40,
-                              color: isDarkTheme ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -218,14 +216,15 @@ class AddAssetBody extends StatelessWidget {
 
               const SizedBox(height: 40.0),
 
-              MyFlatButton(
+              MyGradientButton(
+                edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
                 textButton: "Submit",
-                edgeMargin: const EdgeInsets.only(left: 66, right: 66),
-                hasShadow: assetM!.enable,
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
                 action: !assetM!.enable ? null : () async {
                   await submitAsset!();
-                }//assetM!.enable ? submitAsset : null,
-              )
+                }
+              ),
             ],
           ),
         ),
@@ -274,14 +273,15 @@ class AddAssetBody extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     MyText(
-                        width: double.infinity,
-                        text: 'Add', //portfolioData[0]["data"]['balance'],
-                        color: AppColors.secondary,
-                        textAlign: TextAlign.right,
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.w700),
+                      width: double.infinity,
+                      text: 'Add', //portfolioData[0]["data"]['balance'],
+                      color: AppColors.secondary,
+                      textAlign: TextAlign.right,
+                      overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.w700
+                    ),
                   ],
                 ),
               ),
