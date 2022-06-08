@@ -315,7 +315,7 @@ class ImportAccState extends State<ImportAcc> {
     /// It will be wrong data of that each connection. 
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await _api.connectPolNon(context: context).then((value) async {
+    await _api.connectSELNode(context: context).then((value) async {
 
       await _api.getAddressIcon();
       // Get From Account js

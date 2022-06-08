@@ -59,6 +59,7 @@ class AppConfig {
   /*All network list that bitriel wallet support*/
   static List<NetworkParams> networkList = [
     //[0]= selendra, [1]= polkadot, [2] = ethereum, [3] = binance smart chain
+    
     NetworkParams(
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       httpUrlMN: 'https://app.selendra.org/',
