@@ -89,7 +89,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           ),
       
                           Padding(
-                            padding: EdgeInsets.only(top: 16, bottom: 16),
+                            padding: EdgeInsets.only(top: 5, bottom: 10),
                             child: TextShimmer(
                               txt: provider.accountM!.name,
                             )

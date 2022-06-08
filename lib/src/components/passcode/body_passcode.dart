@@ -91,7 +91,9 @@ class PasscodeBody extends StatelessWidget{
             ),
 
             SizedBox(height: 10.h),
-            ReuseNumPad(pinIndexSetup!, clearPin!)
+            ReuseNumPad(pinIndexSetup!, clearPin!),
+            
+            SizedBox(height: 10.h),
           ],
         ),
       )

@@ -49,7 +49,8 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 1,
           onTap: () {
-            Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            underContstuctionAnimationDailog(context: context);
+            // Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
         
@@ -65,28 +66,28 @@ class MenuBody extends StatelessWidget {
         // Account
         const MenuSubTitle(index: 3),
 
-        MyListTile(
-          icon: Icon(Iconsax.lock, color: Colors.white, size: 22.5.sp),
-          enable: false,
-          index: 3,
-          subIndex: 0,
-          trailing: Switch(
-            value: model!.switchPasscode,
-            onChanged: (value) async {
-              // Navigator.pushNamed(context, AppText.passcodeView);
-              final res = await Navigator.push(
-                context,
-                Transition(child: Passcode(isAppBar: true, label: 'fromHome',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-              );
-              if (res == true) {
-                enablePassword!(true);
-              } else if (res == false) {
-                enablePassword!(false);
-              }
-            },
-          ),
-          onTap: null,
-        ),
+        // MyListTile(
+        //   icon: Icon(Iconsax.lock, color: Colors.white, size: 22.5.sp),
+        //   enable: false,
+        //   index: 3,
+        //   subIndex: 0,
+        //   trailing: Switch(
+        //     value: model!.switchPasscode,
+        //     onChanged: (value) async {
+        //       // Navigator.pushNamed(context, AppText.passcodeView);
+        //       final res = await Navigator.push(
+        //         context,
+        //         Transition(child: Passcode(isAppBar: true, label: 'fromHome',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        //       );
+        //       if (res == true) {
+        //         enablePassword!(true);
+        //       } else if (res == false) {
+        //         enablePassword!(false);
+        //       }
+        //     },
+        //   ),
+        //   onTap: null,
+        // ),
 
         MyListTile(
           icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 22.5.sp),

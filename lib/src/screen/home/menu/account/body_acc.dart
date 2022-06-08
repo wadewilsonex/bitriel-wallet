@@ -131,20 +131,22 @@ class AccountBody extends StatelessWidget{
 
                     ListTileComponent(
                       action: (){
-                        AccountC().showEditName(
-                          context,
-                          accountModel!.editNameKey,
-                          accountModel!.editNameController,
-                          accountModel!.newNode,
-                          onSubmit!,
-                          onChangeName!,
-                        );
+                        underContstuctionAnimationDailog(context: context);
+                        // AccountC().showEditName(
+                        //   context,
+                        //   accountModel!.editNameKey,
+                        //   accountModel!.editNameController,
+                        //   accountModel!.newNode,
+                        //   onSubmit!,
+                        //   onChangeName!,
+                        // );
                       },
                       text: 'Edit Wallet Name',
                     ),
                     
                     ListTileComponent(
                       action: (){
+                        underContstuctionAnimationDailog(context: context);
                         // AccountC().showBackup(
                         //   context,
                         //   accountModel!.backupKey,
@@ -154,7 +156,7 @@ class AccountBody extends StatelessWidget{
                         //   onSubmit!,
                         //   submitBackUpKey!,
                         // );
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
                       },
                       text: 'Backup Key',
                     ),
@@ -163,7 +165,8 @@ class AccountBody extends StatelessWidget{
                     
                     ListTileComponent(
                       action: (){
-                        Passcode(label: "Change Pin");
+                        underContstuctionAnimationDailog(context: context);
+                        // Passcode(label: "Change Pin");
                         // AccountC().showChangePin(
                         //   context,
                         //   accountModel!.changePinKey,

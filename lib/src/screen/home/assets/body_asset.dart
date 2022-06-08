@@ -112,7 +112,7 @@ class AssetsPageBody extends StatelessWidget {
                 fontSize: 20.sp,
               ),
 
-              SizedBox(height: 6.h),
+              SizedBox(height: 2.h),
               MyText(
                 text: "≈ \$134.72",
                 color: AppColors.whiteColorHexa,
