@@ -49,8 +49,8 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 1,
           onTap: () {
-            underContstuctionAnimationDailog(context: context);
-            // Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            // underContstuctionAnimationDailog(context: context);
+            Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
         

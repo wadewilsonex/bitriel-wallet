@@ -1,6 +1,6 @@
 {
     "name": "@polkawallet/js-api",
-    "version": "0.0.2",
+    "version": "0.4.6",
     "main": "index.js",
     "license": "Apache-2.0",
     "keywords": [
@@ -21,60 +21,38 @@
     "scripts": {
         "clean": "rm -rf dist/",
         "build": "webpack --mode production",
-        "build-dev": "webpack -d --mode development"
+        "build-dev": "webpack --mode development"
     },
     "resolutions": {
-        "@polkadot/api": "^6.0.1"
+        "@polkadot/api": "^8.5.1"
     },
     "dependencies": {
-        "@babel/core": "^7.18.2",
-        "@babel/preset-env": "^7.18.2",
-        "@babel/preset-typescript": "^7.17.12",
-        "@polkadot/api": "^6.3.1",
-        "@polkadot/api-contract": "^6.3.1",
-        "@polkadot/api-derive": "6.3.1",
-        "@polkadot/keyring": "7.4.1",
-        "@polkadot/metadata": "4.17.1",
-        "@polkadot/networks": "7.4.1",
-        "@polkadot/rpc-core": "6.3.1",
-        "@polkadot/rpc-provider": "6.3.1",
-        "@polkadot/types": "6.3.1",
-        "@polkadot/types-known": "6.3.1",
-        "@polkadot/ui-shared": "^0.85.5",
-        "@polkadot/util": "7.4.1",
-        "@polkadot/util-crypto": "7.4.1",
-        "@polkadot/x-global": "7.4.1",
-        "@polkadot/x-randomvalues": "7.4.1",
-        "@polkadot/x-textdecoder": "7.4.1",
-        "babel-loader": "^8.2.5",
-        "bn.js": "^5.2.0",
-        "caniuse-lite": "^1.0.30001342",
-        "crypto-browserify": "^3.12.0",
-        "ejs": "^3.1.8",
-        "ethers": "^5.4.2",
-        "glob-parent": "^6.0.2",
+        "@polkadot/api": "^8.5.1",
+        "@polkadot/api-contract": "^8.7.1",
+        "@polkadot/extension-dapp": "^0.43.2",
+        "@polkadot/ui-shared": "^2.2.1",
+        "@walletconnect/client": "2.0.0-alpha.26",
+        "bn.js": "^5.2.1",
+        "ethers": "^5.6.8",
         "oo7-substrate": "^0.8.0",
-        "scryptsy": "^2.1.0",
+        "process": "^0.11.10",
         "secp256k1": "^3.8.0",
-        "typescript": "^4.1.3"
+        "typescript": "^4.5.5"
     },
-    "devDependenciesadb": {
-        "@babel/core": "^7.8.3",
-        "@babel/polyfill": "^7.8.3",
-        "@babel/preset-env": "^7.18.2",
-        "@babel/preset-typescript": "^7.10.4",
-        "@webpack-cli/info": "^0.2.0",
-        "@webpack-cli/init": "^1.0.3",
-        "babel-loader": "^8.2.5",
+    "devDependencies": {
+        "@babel/core": "^7.14.8",
+        "@babel/plugin-transform-runtime": "^7.14.5",
+        "@babel/preset-env": "^7.14.8",
+        "@babel/preset-typescript": "^7.14.5",
+        "babel-loader": "^8.0.6",
+        "crypto-browserify": "^3.12.0",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.9.0",
         "eslint-plugin-prettier": "^3.1.2",
         "prettier": "^1.19.1",
-        "webpack": "^5.73.0",
-        "webpack-cli": "^3.3.12"
-    },
-    "devDependencies": {
-        "webpack": "^5.73.0",
+        "source-map-loader": "^3.0.1",
+        "stream-browserify": "^3.0.0",
+        "webpack": "^5.65.0",
         "webpack-cli": "^4.9.2"
     }
 }
