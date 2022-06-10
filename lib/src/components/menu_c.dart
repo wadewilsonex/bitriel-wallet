@@ -20,87 +20,85 @@ class MenuHeader extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,),
-      margin:  EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+      margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       decoration: BoxDecoration(
         color: hexaCodeToColor("#114463"),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: SizedBox(
-        child: Consumer<ApiProvider>(
-          builder: (context, value, child) {
-            print("value.accountM.address ${value.accountM.address}");
-            return Row(
-              children: [
+      child: Consumer<ApiProvider>(
+        builder: (context, value, child) {
+          print("value.accountM.address ${value.accountM.address}");
+          return Row(
+            children: [
+              
+              InkWell(
+                onTap: value.accountM.address == null ? null : () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Account())
+                  );
+                },
+                child: AvatarShimmer(
+                  txt: value.accountM.addressIcon,
+                  child: SvgPicture.string(
+                    value.accountM.addressIcon ?? '',
+                    width: 5.0.w,
+                    // height: 8.0,
+                  )
+                )
+              ),
                 
-                InkWell(
-                  onTap: value.accountM.address == null ? null : () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Account())
-                    );
-                  },
-                  child: AvatarShimmer(
-                    txt: value.accountM.addressIcon,
-                    child: SvgPicture.string(
-                      value.accountM.addressIcon ?? '',
-                      // width: 8.0,
-                      height: 8.0,
+              const SizedBox(width: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  TextShimmer(txt: value.accountM.name),
+                  
+                  WidgetShimmer(
+                    txt: value.accountM.address, 
+                    child: Row(
+                      children: [
+                        
+                        MyText(
+                          right: 5,
+                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "....."),
+                          color: isDarkTheme
+                            ? AppColors.whiteColorHexa
+                            : AppColors.textColor,
+                          fontSize: 16,
+                          textAlign: TextAlign.left
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            await Clipboard.setData(
+                              ClipboardData(text: value.accountM.address ??''),
+                            );
+                            Fluttertoast.showToast(
+                              msg: "Copied address",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                            );
+                          }, 
+                          child: SvgPicture.asset(
+                            AppConfig.iconsPath+'qr_code.svg',
+                            width: 5.w,
+                            height: 5.w,
+                            color: hexaCodeToColor(AppColors.secondary),
+                          )
+                        )
+                      ]
                     )
                   )
-                ),
-                  
-                const SizedBox(width: 5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    
-                    TextShimmer(txt: value.accountM.name),
-                    
-                    WidgetShimmer(
-                      txt: value.accountM.address, 
-                      child: Row(
-                        children: [
-                          
-                          MyText(
-                            right: 5,
-                            text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "....."),
-                            color: isDarkTheme
-                              ? AppColors.whiteColorHexa
-                              : AppColors.textColor,
-                            fontSize: 16,
-                            textAlign: TextAlign.left
-                          ),
-                          InkWell(
-                            onTap: () async {
-                              await Clipboard.setData(
-                                ClipboardData(text: value.accountM.address ??''),
-                              );
-                              Fluttertoast.showToast(
-                                msg: "Copied address",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                              );
-                            }, 
-                            child: SvgPicture.asset(
-                              AppConfig.iconsPath+'qr_code.svg',
-                              width: 20,
-                              height: 20,
-                              color: hexaCodeToColor(AppColors.secondary),
-                            )
-                          )
-                        ]
-                      )
-                    )
 
 
-                  ],
-                )
-              ],
-            );
-          },
-        ),
+                ],
+              )
+            ],
+          );
+        },
       ),
     );
   }

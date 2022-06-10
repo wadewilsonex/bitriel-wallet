@@ -114,6 +114,10 @@ dependencies:
   flutter_screen_lock: 5.0.12
   ai_progress: 2.0.0
   responsive_sizer: 3.0.8
+
+  # Third-party
+  wallet_connect:
+  eth_sig_util: ^0.0.7
   
   # Download
   # path_provider:

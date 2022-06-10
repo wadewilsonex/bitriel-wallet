@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   build:
     dependency: transitive
     description:
@@ -262,6 +269,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -297,6 +311,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  eth_sig_util:
+    dependency: "direct main"
+    description:
+      name: eth_sig_util
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   fake_async:
     dependency: transitive
     description:
@@ -1241,6 +1262,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.3-nullsafety.0"
+  wallet_connect:
+    dependency: "direct main"
+    description:
+      name: wallet_connect
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   watcher:
     dependency: transitive
     description:

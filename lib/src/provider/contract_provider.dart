@@ -741,11 +741,11 @@ class ContractProvider with ChangeNotifier {
       await initBscClient();
       final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddress);
       // final contract = await initBsc(contractAddress);
-      final ethFunction = contract.function(functionName);
+      final function = contract.function(functionName);
 
       final res = await _bscClient!.call(
         contract: contract,
-        function: ethFunction,
+        function: function,
         params: args,
       );
       print("res query $res");

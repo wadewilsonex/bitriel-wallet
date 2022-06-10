@@ -48,25 +48,6 @@ class AddAssetBody extends StatelessWidget {
         onPressed: () {
           Navigator.pop(context);
         },
-        // tile: Padding(
-        //   padding: const EdgeInsets.only(left: paddingSize),
-        //   child: IconButton(
-        //     /* Menu Icon */
-        //     // padding: edgePadding,
-        //     iconSize: 40.0,
-        //     icon: Icon(
-        //       Icons.search,
-        //       color: isDarkTheme ? Colors.white : Colors.black,
-        //       size: 22.5.sp,
-        //     ),
-        //     onPressed: () {
-        //       showSearch(
-        //         context: context,
-        //         delegate: SearchAsset(),
-        //       );
-        //     },
-        //   ),
-        // ),
       ),
       Expanded(
         child: BodyScaffold(
@@ -82,6 +63,7 @@ class AddAssetBody extends StatelessWidget {
                 width: 20.w,
                 height: 20.h,
               ),
+              
               Container(
                 // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Form(
@@ -96,15 +78,7 @@ class AddAssetBody extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.06),
-                          // hexaCodeToColor(isDarkTheme
-                          //   ? 
-                          //   : AppColors.whiteHexaColor),
                           borderRadius: BorderRadius.circular(8.0),
-                          // border: Border.all(
-                          //   width: initialValue != null ? 1 : 0,
-                          //   color: initialValue != null
-                          //     ? hexaCodeToColor(AppColors.secondary)
-                          //     : Colors.transparent)
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -292,17 +266,18 @@ class AddAssetBody extends StatelessWidget {
     );
   }
 
-  Widget rowDecorationStyle(BuildContext context, bool isDark,
-      {Widget? child, double mTop = 0, double mBottom = 16}) {
+  Widget rowDecorationStyle(BuildContext context, bool isDark, {Widget? child, double mTop = 0, double mBottom = 16}) {
     return Container(
-        margin: EdgeInsets.only(top: mTop, left: 16, right: 16, bottom: 16),
-        padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-        decoration: BoxDecoration(
-          boxShadow: [shadow(context)],
-          color: hexaCodeToColor(
-              isDark ? AppColors.darkCard : AppColors.whiteHexaColor),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: child);
+      margin: EdgeInsets.only(top: mTop, left: 16, right: 16, bottom: 16),
+      padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
+      decoration: BoxDecoration(
+        boxShadow: [shadow(context)],
+        color: Colors.white.withOpacity(0.06),
+        // hexaCodeToColor(
+        //     isDark ? AppColors.darkCard : AppColors.whiteHexaColor),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: child
+    );
   }
 }
