@@ -17,10 +17,30 @@ class _SwapPageState extends State<SwapPage> {
   SwapProvider? _swapProvider;
   ContractProvider? _contractProvider;
 
+  List<double> percentage = [
+    0.25,
+    0.50,
+    0.75,
+    1.00
+  ];
+
+  double calculateAmount(List<double> percentage, int index, double amount){
+    double calculate = percentage[index] * amount;
+    
+    return calculate;
+
+  }
+
   void percentTap(int index){
+
+    print("_swapProvider!.balance1 ${_swapProvider!.balance1}");
 
     setState(() {
       _model.percentActive = index;
+      // _model.myController!.text = calculateAmount(percentage, _model.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(RegExp('[^A-Za-z0-9]'), ""))).toString();
+      _model.myController!.text = calculateAmount(percentage, _model.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(",", ""))).toStringAsFixed(5);
+      _model.cursor = _model.myController!.text.length;
+      setCursor();
     });
   }
 
@@ -61,30 +81,37 @@ class _SwapPageState extends State<SwapPage> {
     }
     print("onDeleteTxt _model.cursor ${_model.cursor}");
   }
+
   void onTabNum(String txt) async {
     print("_model.myController!.selection.base.offset ${_model.myController!.selection.base.offset}");
+
+    print("onTabNum");
     _model.cursor = _model.myController!.selection.base.offset;
-    if (_model.myController!.text.isEmpty){
 
-      if ( _model.myController!.text.isEmpty && txt == "."){
-        _model.myController!.text += "0";
-      }
-      _model.myController!.text += txt;
-      _model.cursor = _model.myController!.text.length;
+    if (checkCommaLength() == false && isMultiComma(txt) == false){
+      if (_model.myController!.text.isEmpty){
 
-    } else {
-
-      if (isCursorMove()){
-        _model.lsTmp = _model.myController!.text.split("");
-        _model.lsTmp.insert(_model.cursor!, txt);
-
-        _model.myController!.text = _model.lsTmp.join();;
-      } 
-      else {
+        if ( _model.myController!.text.isEmpty && txt == "."){
+          _model.myController!.text += "0";
+        }
         _model.myController!.text += txt;
+        _model.cursor = _model.myController!.text.length;
+
+      } else {
+
+        if (isCursorMove()){
+          _model.lsTmp = _model.myController!.text.split("");
+          _model.lsTmp.insert(_model.cursor!, txt);
+
+          _model.myController!.text = _model.lsTmp.join();;
+        } 
+        else {
+          _model.myController!.text += txt;
+        }
+        _model.cursor = _model.cursor!+1;
       }
-      _model.cursor = _model.cursor!+1;
     }
+
     setCursor(newPos: _model.cursor);
     // resetCursor();
 
@@ -103,6 +130,7 @@ class _SwapPageState extends State<SwapPage> {
     //   });
     // });
   }
+  
 
   void setCursor({ int? newPos}){
     print("setCursor _model.cursor ${_model.cursor}");
@@ -111,12 +139,52 @@ class _SwapPageState extends State<SwapPage> {
     setState(() { });
   }
   
+  /* -- Validation -- */
+
   bool isCursorMove(){
 
     print("_model.length ${_model.length}");
     print("_model.cursor ${_model.cursor}");
     if (_model.cursor == -1) return false;
     return _model.cursor != _model.length;
+  }
+
+  bool isMultiComma(String txt){
+    
+    for (int i = 0; i< _model.myController!.text.length; i++){
+      if (txt != ".") break;
+      if (_model.myController!.text[i] == "."){
+        print("isMultiComma true");
+        return true;
+      }
+    }
+    print("isMultiComma false");
+    return false;
+  }
+
+  bool checkCommaLength(){
+
+    int dotPosition = _model.myController!.text.indexOf(".");
+    print("dotPosition $dotPosition");
+
+    if (dotPosition != -1 && dotPosition != _model.myController!.text.length) {
+      print("check comma");
+      print("(_model.myController!.text.length - dotPosition) ${(_model.myController!.text.length - dotPosition)}");
+      // print(int.parse((_model.myController!.text[dotPosition])));
+
+      if ( (_model.myController!.text.length - dotPosition) > 5){
+
+        _model.myController!.text = double.parse(_model.myController!.text).toStringAsFixed(5);
+
+        setState(() {});
+        
+        print("_model.myController!.text ${_model.myController!.text}");
+        print("checkCommaLength true");
+        return true;
+      }
+    } 
+    print("checkCommaLength false");
+    return false;
   }
 
   void resetCursor(){
@@ -168,6 +236,7 @@ class _SwapPageState extends State<SwapPage> {
       swapPageModel: _model,
       percentTap: percentTap,
       onTabNum: onTabNum,
+      calculateAmount: calculateAmount,
     );
   }
 }

@@ -104,6 +104,7 @@ class MenuState extends State<Menu> {
     setState(() {
       _menuModel.switchPasscode = value;
       print("passcode: ${_menuModel.switchPasscode}");
+      // print("passcode: ${_menuModel.}")
     });
   }
 
