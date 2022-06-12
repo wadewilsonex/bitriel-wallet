@@ -80,7 +80,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initApi $e");
+      if (ApiProvider().isDebug == true) print("Error initApi $e");
     }
   }
 
@@ -98,7 +98,7 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error readTheme $e");
+      if (ApiProvider().isDebug == true) print("Error readTheme $e");
     }
   }
 

@@ -25,9 +25,9 @@ class _ContentsBackupState extends State<ContentsBackup> {
 
       // setState(() {});
     } on PlatformException catch (p) {
-      if (ApiProvider().isDebug == false) print("Platform $p");
+      if (ApiProvider().isDebug == true) print("Platform $p");
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("error $e");
+      if (ApiProvider().isDebug == true) print("error $e");
     }
   }
 

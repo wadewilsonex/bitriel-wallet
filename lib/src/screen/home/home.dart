@@ -143,7 +143,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
       await StorageServices.storeData(mkPro.sortDataMarket, DbKey.marketkPrice);
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error marketPriceInitializer $e");
+      if (ApiProvider().isDebug == true) print("Error marketPriceInitializer $e");
     }
   }
 
@@ -170,17 +170,17 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
       // break;
       case AppLifecycleState.inactive:
         // Handle this case
-        if (ApiProvider().isDebug == false) print('inactive');
+        if (ApiProvider().isDebug == true) print('inactive');
 
         break;
       case AppLifecycleState.paused:
         // Handle this case
-        if (ApiProvider().isDebug == false) print('paused');
+        if (ApiProvider().isDebug == true) print('paused');
         onPause();
 
         break;
       case AppLifecycleState.detached:
-        if (ApiProvider().isDebug == false) print('detached');
+        if (ApiProvider().isDebug == true) print('detached');
         break;
     }
   }

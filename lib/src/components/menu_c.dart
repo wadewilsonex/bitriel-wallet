@@ -28,7 +28,6 @@ class MenuHeader extends StatelessWidget {
       ),
       child: Consumer<ApiProvider>(
         builder: (context, value, child) {
-          print("value.accountM.address ${value.accountM.address}");
           return Row(
             children: [
               

@@ -24,8 +24,9 @@ class SubmitTrxService {
 
       final chainDecimal = _contract.sortListContract[scanPay.assetValue!].chainDecimal;
       TxFeeEstimateResult fee;
-      
+      print("_contract.sortListContract[scanPay.assetValue!].symbol == 'SEL' ${_contract.sortListContract[scanPay.assetValue!].symbol == "SEL"}");
       if (_contract.sortListContract[scanPay.assetValue!].symbol == "SEL"){
+        
         return await _api.connectSELNode(context: context).then((value) async {
 
           fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
@@ -83,7 +84,7 @@ class SubmitTrxService {
         // }
     } catch (e) {
       await customDialog(context, 'Opps', e.toString());
-      if (ApiProvider().isDebug == false) print("Error sendNative $e");
+      if (ApiProvider().isDebug == true) print("Error sendNative $e");
     }
     return false;
   }

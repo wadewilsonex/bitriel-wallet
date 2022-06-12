@@ -139,7 +139,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
     return res;
   }

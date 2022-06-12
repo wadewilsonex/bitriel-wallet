@@ -40,7 +40,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     await FlutterScreenshotSwitcher.enableScreenshots();
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error enableScreenshot $e");
+      if (ApiProvider().isDebug == true) print("Error enableScreenshot $e");
     }
   }
 

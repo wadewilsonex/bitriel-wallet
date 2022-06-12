@@ -23,9 +23,9 @@ class WalletConnectComponent with ChangeNotifier {
   late WCClient wcClient;
   late SharedPreferences prefs;
   late TextEditingController textEditingController;
-  late String walletAddress, privateKey;
+  late String walletAddress = "", privateKey = "";
   WCSession? session;
-  bool connected = false;
+  bool isApprove = false;
   WCSessionStore? sessionStore;
   BuildContext? context;
   final web3client = Web3Client(
@@ -68,7 +68,7 @@ class WalletConnectComponent with ChangeNotifier {
 
   set setBuildContext(BuildContext context) {
     this.context = context;
-    notifyListeners();
+    // notifyListeners();
   }
   
   initSession() async {
@@ -90,19 +90,24 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   qrScanHandler(String value) {
-    print("qrScanHandler $value");
-    final session = WCSession.from(value);
-    debugPrint('session $session');
-    final peerMeta = WCPeerMeta(
-      name: "Example Wallet",
-      url: "https://example.wallet",
-      description: "Example Wallet",
-      icons: [
-        "https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png"
-      ],
-    );
-    walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
-    wcClient.connectNewSession(session: session, peerMeta: peerMeta);
+    try {
+
+      print("qrScanHandler $value");
+      final session = WCSession.from(value);
+      debugPrint('session $session');
+      final peerMeta = WCPeerMeta(
+        name: "Example Wallet",
+        url: session.bridge,
+        description: "Example Wallet",
+        icons: [
+          // "https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png"
+        ],
+      );
+      // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
+      wcClient.connectNewSession(session: session, peerMeta: peerMeta);
+    } catch (e){
+      print("error qrScanHandler $e");
+    }
   }
 
   connectToPreviousSession() async {
@@ -111,8 +116,8 @@ class WalletConnectComponent with ChangeNotifier {
     // debugPrint("_sessionSaved ${jsonDecode(_sessionSaved!)['remotePeerMeta']}");
     // Navigator.push(context!, MaterialPageRoute(builder: (context) => WalletConnectPage())); // walletConnect: jsonDecode(_sessionSaved)['remotePeerMeta']
     sessionStore = _sessionSaved != null
-        ? WCSessionStore.fromJson(jsonDecode(_sessionSaved))
-        : null;
+      ? WCSessionStore.fromJson(jsonDecode(_sessionSaved))
+      : null;
     if (sessionStore != null) {
       debugPrint('_sessionStore $sessionStore');
       wcClient.connectFromSessionStore(sessionStore!);
@@ -127,6 +132,18 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   onConnect() {
+    print("onConnect");
+    // print(sessionStore!.session.toJson());
+
+    // Close Dialog Approve
+    if (isApprove) Navigator.pop(context!);
+
+    isApprove = false;
+
+    Navigator.push(
+      context!, 
+      Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+    );
     // setState(() {
     //   connected = true;
     // });
@@ -135,33 +152,36 @@ class WalletConnectComponent with ChangeNotifier {
   // After Scan QR
   onSessionRequest(int id, WCPeerMeta peerMeta) async {
     print("onSessionRequest $walletAddress");
+    print("peerMeta.icons.isNotEmpty ${peerMeta.icons.isNotEmpty}");
     await showDialog(
       context: context!,
       builder: (_) {
         return SimpleDialog(
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
           title: Column(
             children: [
-              if (peerMeta.icons.isNotEmpty)
-                Container(
-                  height: 100.0,
-                  width: 100.0,
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Image.network(peerMeta.icons.first.replaceAll("localhost", ip!)),
-                ),
-              Text(peerMeta.name),
+              // if (peerMeta.icons.isNotEmpty)
+              //   Container(
+              //     height: 100.0,
+              //     width: 100.0,
+              //     padding: const EdgeInsets.only(bottom: 8.0),
+              //     child: Image.network(peerMeta.icons.first.replaceAll("localhost", ip!)),
+              //   ),
+              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
             ],
           ),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
+
             if (peerMeta.description.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(peerMeta.description),
+                child: MyText(text: peerMeta.description, color: AppColors.lowWhite,),
               ),
             if (peerMeta.url.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text('Connection to ${peerMeta.url}'),
+                child: MyText(text: 'Connection to ${peerMeta.url}', color: AppColors.lowWhite),
               ),
             Row(
               children: [
@@ -169,26 +189,32 @@ class WalletConnectComponent with ChangeNotifier {
                   child: TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Theme.of(context!).colorScheme.secondary,
+                      backgroundColor: hexaCodeToColor(AppColors.orangeColor),
                     ),
                     onPressed: () async {
+                      isApprove = true;
                       wcClient.approveSession(
-                        accounts: [walletAddress],
+                        accounts: [Provider.of<ContractProvider>(context!, listen: false).ethAdd],
                         // TODO: Mention Chain ID while connecting
                         chainId: 1,
                       );
+
+                      print("approve");
+
+                      await StorageServices.storeData(wcClient.sessionStore.toJson(), 'session');
                       sessionStore = wcClient.sessionStore;
 
-                      prefs = await SharedPreferences.getInstance();
-                      await prefs.setString('session', jsonEncode(wcClient.sessionStore.toJson()));
-                      print("Start navigate");
-                      await Navigator.pushReplacement(
-                        context!, 
-                        MaterialPageRoute(builder: (context) => WalletConnectPage())
-                      );
+                      // Close Approve Dialog
+                      // Navigator.pop(context!);
+
+                      // print("Start navigate");
+                      // await Navigator.pushReplacement(
+                      //   context!, 
+                      //   Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      // );
                       // Navigator.pop(context!);
                     },
-                    child: Text('APPROVE'),
+                    child: MyText(text: 'APPROVE', color: AppColors.lowWhite,),
                   ),
                 ),
                 const SizedBox(width: 16.0),
@@ -196,13 +222,13 @@ class WalletConnectComponent with ChangeNotifier {
                   child: TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: Theme.of(context!).colorScheme.secondary,
+                      backgroundColor: hexaCodeToColor(AppColors.orangeColor),
                     ),
                     onPressed: () {
                       wcClient.rejectSession();
                       Navigator.pop(context!);
                     },
-                    child: Text('REJECT'),
+                    child: MyText(text: 'REJECT', color: AppColors.lowWhite),
                   ),
                 ),
               ],
@@ -218,20 +244,21 @@ class WalletConnectComponent with ChangeNotifier {
       context: context!,
       builder: (_) {
         return SimpleDialog(
-          title: Text("Error"),
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          title: MyText(text: "Error", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text('Some Error Occured. $message'),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom: 8.0),
+            //   child: MyText(text: "Some Error Occured. $message", color: AppColors.lowWhite,),
+            // ),
             Row(
               children: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: Theme.of(context!).colorScheme.secondary,
-                  ),
+                  // style: TextButton.styleFrom(
+                  //   primary: Colors.white,
+                  //   backgroundColor: hexaCodeToColor(AppColors.orangeColor),
+                  // ),
                   onPressed: () {
                     Navigator.pop(context!);
                   },
@@ -247,31 +274,37 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   onSessionClosed(int? code, String? reason) async {
-    await prefs.remove('session');
+    await StorageServices.removeKey('session');
     await showDialog(
       context: context!,
       builder: (_) {
         return SimpleDialog(
-          title: Text("Session Ended"),
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          title: MyText(text: "Session Ended", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text('Some Error Occured. ERROR CODE: $code'),
-            ),
+
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom: 8.0),
+            //   child: MyText(text: "Some Error Occured. ERROR CODE: $code", color: AppColors.lowWhite,),
+            // ),
             if (reason != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text('Failure Reason: $reason'),
+                child: MyText(text: "Failure Reason: $reason", color: AppColors.lowWhite,),
               ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: Theme.of(context!).colorScheme.secondary,
-                  ),
+                  // style: TextButton.styleFrom(
+                  //   primary: Colors.white,
+                  //   backgroundColor: Theme.of(context!).colorScheme.secondary,
+                  // ),
                   onPressed: () {
+                    // Close Dialog
+                    Navigator.pop(context!);
+                    // Close Wallet Connect Page
                     Navigator.pop(context!);
                   },
                   child: Text('CLOSE'),
@@ -323,6 +356,7 @@ class WalletConnectComponent with ChangeNotifier {
       ethereumTransaction: ethereumTransaction,
       title: 'Send Transaction',
       onConfirm: () async {
+        
         final creds = EthPrivateKey.fromHex(privateKey);
         final txhash = await web3client.sendTransaction(
           creds,

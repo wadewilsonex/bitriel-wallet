@@ -45,7 +45,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == true) print("Error validateEtherAddress $e");
     }
     return false;
   }
@@ -56,7 +56,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) print("Error validateAddress $e");
     }
     return false;
   }
@@ -144,7 +144,7 @@ class AddAssetState extends State<AddAsset> {
         // await enableAnimation();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error addAsset $e");
+      if (ApiProvider().isDebug == true) print("Error addAsset $e");
     }
   }
 
@@ -167,6 +167,7 @@ class AddAssetState extends State<AddAsset> {
       if (res || resEther) {
 
         if (res) {
+
           if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
             setState(() {
               _modelAsset.match = true;
@@ -177,6 +178,7 @@ class AddAssetState extends State<AddAsset> {
 
           // Check And Add Address ERC-20 || BEP-20
           if (initialValue == 'Ethereum') {
+
             await searchEtherContract();
           } else {
             print("bsc");
@@ -184,7 +186,7 @@ class AddAssetState extends State<AddAsset> {
             _tokenSymbol = res[0].toString();
           }
           setState(() {
-          
+            
             _modelAsset.loading = false;
           });
         }
@@ -256,7 +258,7 @@ class AddAssetState extends State<AddAsset> {
       //     );
       //   },
       // );
-      if (ApiProvider().isDebug == false) print("Error submitAsset $e");
+      if (ApiProvider().isDebug == true) print("Error submitAsset $e");
     }
   }
 
@@ -270,7 +272,7 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == true) print("Error searchEtherContract $e");
     }
   }
 

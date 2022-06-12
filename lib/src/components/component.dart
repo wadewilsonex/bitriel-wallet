@@ -148,7 +148,6 @@ class MyFlatButton extends StatelessWidget {
     this.width = double.infinity,
     this.height,
     this.isTransparent = false,
-
     @required this.action,
   });
 

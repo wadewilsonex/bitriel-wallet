@@ -137,7 +137,7 @@ class ApiProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error connectPolNon $e");
+      if (ApiProvider().isDebug == true) print("Error connectPolNon $e");
     }
 
     return res ?? NetworkParams();
@@ -303,7 +303,7 @@ class ApiProvider with ChangeNotifier {
 
       return jsonDecode(res.body);
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Err getAddressUxto $e");
+      if (ApiProvider().isDebug == true) print("Err getAddressUxto $e");
     }
   }
 
@@ -329,7 +329,7 @@ class ApiProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err getBtcBalance $e");
+      if (ApiProvider().isDebug == true) print("Err getBtcBalance $e");
     }
   }
 
@@ -368,7 +368,7 @@ class ApiProvider with ChangeNotifier {
       res = await _sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
     return res;
   }
@@ -379,7 +379,7 @@ class ApiProvider with ChangeNotifier {
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateEther $e");
+      if (ApiProvider().isDebug == true) print("Error validateEther $e");
     }
     return false;
   }
@@ -390,7 +390,7 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider._sdk.api.getPrivateKey(mnemonic);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getPrivateKey $e");
+      if (ApiProvider().isDebug == true) print("Error getPrivateKey $e");
     }
     return '';
   }
@@ -401,7 +401,7 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) print("Error validateAddress $e");
     }
     return false;
   }
@@ -428,7 +428,7 @@ class ApiProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error connectSELNode $e");
+      if (ApiProvider().isDebug == true) print("Error connectSELNode $e");
     }
     return null;
   }
@@ -454,7 +454,7 @@ class ApiProvider with ChangeNotifier {
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getChainDecimal $e");
+      if (ApiProvider().isDebug == true) print("Error getChainDecimal $e");
     }
   }
 
@@ -479,7 +479,7 @@ class ApiProvider with ChangeNotifier {
       //   notifyListeners();
       // });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error subscribeSELBalance $e");
+      if (ApiProvider().isDebug == true) print("Error subscribeSELBalance $e");
     }
   }
 
@@ -510,7 +510,7 @@ class ApiProvider with ChangeNotifier {
         await subscribeDotBalance(context: context);
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err getDotChainDecimal $e");
+      if (ApiProvider().isDebug == true) print("Err getDotChainDecimal $e");
     }
   }
 
@@ -536,7 +536,7 @@ class ApiProvider with ChangeNotifier {
       // await connectSELNode(context: context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error subscribeDotBalance $e");
+      if (ApiProvider().isDebug == true) print("Error subscribeDotBalance $e");
     }
   }
 
@@ -550,7 +550,7 @@ class ApiProvider with ChangeNotifier {
       accountM.addressIcon = res.toString();
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error get icon from address $e");
+      if (ApiProvider().isDebug == true) print("Error get icon from address $e");
     }
   }
 
@@ -566,7 +566,7 @@ class ApiProvider with ChangeNotifier {
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error getCurrentAccount $e");
+      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
     }
 
     notifyListeners();
@@ -595,7 +595,7 @@ class ApiProvider with ChangeNotifier {
       final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
       return encryted;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error encryptPrivateKey $e");
+      if (ApiProvider().isDebug == true) print("Error encryptPrivateKey $e");
     }
     return '';
   }

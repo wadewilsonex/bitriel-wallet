@@ -97,9 +97,9 @@ class _WalletConnectPageState extends State<WalletConnectPage> {
 
   @override
   void initState() {
-    StorageServices.fetchData("session").then((value) {
-      print("Session $value");
-    });
+    // StorageServices.fetchData("session").then((value) {
+    //   print("Session $value");
+    // });
     super.initState();
   }
 

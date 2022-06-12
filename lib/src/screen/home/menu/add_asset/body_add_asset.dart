@@ -192,7 +192,7 @@ class AddAssetBody extends StatelessWidget {
 
               MyGradientButton(
                 edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
-                textButton: "Submit",
+                textButton: "Search",
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 action: !assetM!.enable ? null : () async {

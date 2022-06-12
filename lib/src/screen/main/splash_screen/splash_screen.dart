@@ -72,7 +72,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
+      if (ApiProvider().isDebug == true) print("Error Splash screen $e");
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
     }
   }

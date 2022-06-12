@@ -26,27 +26,31 @@ class WalletConnectBody extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final darkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Consumer<WalletConnectComponent>(
       builder: (context, provider, widget){
-        print("provider.sessionStore! ${provider.ip}");
+        // print("provider.sessionStore! ${provider.sessionStore!.toJson()}");
         return Scaffold(
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
           appBar: AppBar(
-            title: Text("WalletConnect"),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: MyText(text: "WalletConnect", color: darkTheme ? AppColors.lowWhite : AppColors.blackColor,),
             actions: [
               TextButton(
                 onPressed: () async {
+                  
+                  // await StorageServices().clearKeySecure("session");
                   provider.wcClient.killSession();
-                  await Future.delayed(
-                    const Duration(milliseconds: 1500),
-                    (){
-                      // Close Dialog Message
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    }
-                  );
+                  // await Future.delayed(
+                  //   const Duration(milliseconds: 1500),
+                  //   (){
+                  //     // Close Dialog Message
+                      // Navigator.pop(context);
+                  //     Navigator.pop(context);
+                  //   }
+                  // );
                 }, 
-                child: MyText(text: "Disconnect", color2: Colors.white,)
+                child: MyText(text: "Disconnect", color2: Colors.red, fontWeight: FontWeight.bold,)
               )
             ],
           ),
@@ -58,25 +62,28 @@ class WalletConnectBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
 
-                  Padding(
-                    padding: EdgeInsets.only(bottom: paddingSize),
-                    child: Image.network(provider.sessionStore!.remotePeerMeta.icons.first.replaceAll("localhost", provider.ip!), width: 80,),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(bottom: paddingSize),
+                  //   child: Image.network(provider.sessionStore!.remotePeerMeta.icons.first.replaceAll("localhost", provider.ip!), width: 80,),
+                  // ),
 
-                  MyText(
-                    text: provider.sessionStore!.remotePeerMeta.name,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    bottom: paddingSize+paddingSize
-                  ),
+                  // MyText(
+                  //   text: provider.sessionStore!.remotePeerMeta.name,
+                  //   fontSize: 23,
+                  //   fontWeight: FontWeight.bold,
+                  //   bottom: paddingSize+paddingSize
+                  // ),
 
                   Row(
                     children: [
+
                       MyText(
-                        text: "Connected to"
+                        text: "Connected to",
+                        color: AppColors.lowWhite,
                       ),
                       Expanded(
                         child: MyText(
+                          color: AppColors.lowWhite,
                           textAlign: TextAlign.end,
                           text: provider.sessionStore!.remotePeerMeta.url,
                           color2: Colors.grey,
@@ -93,17 +100,19 @@ class WalletConnectBody extends StatelessWidget {
                     )
                   ),
 
-                  Consumer<ApiProvider>(
+                  Consumer<ContractProvider>(
                     builder: (context, provider, widget){
                       return Row(
                         children: [
                           MyText(
-                            text: "Address"
+                            text: "Address",
+                            color: AppColors.lowWhite,
                           ),
                           Expanded(
                             child: MyText(
+                              color: AppColors.lowWhite,
                               textAlign: TextAlign.end,
-                              text: provider.accountM.address!.replaceRange( 10, provider.accountM.address!.length - 10, "....."),
+                              text: provider.ethAdd != '' ? provider.ethAdd.replaceRange( 10, provider.ethAdd.length - 10, ".....") : '...',
                               color2: Colors.grey,
                             )
                           ),
@@ -122,13 +131,20 @@ class WalletConnectBody extends StatelessWidget {
                   Row(
                     children: [
                       MyText(
-                        text: "Network"
+                        text: "Network",
+                        color: AppColors.lowWhite,
                       ),
-                      Expanded(child: Container(),),
-                      MyText(
-                        text: provider.sessionStore!.remotePeerMeta.name.replaceAll("Network", ""),
-                        color2: Colors.grey,
-                      )
+
+                      SizedBox(width: 5.w,),
+                      Expanded(
+                        child: MyText(
+                          text: provider.sessionStore!.remotePeerMeta.name.replaceAll("Network", ""),
+                          color: AppColors.lowWhite,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      
                     ]
                   ),
 
@@ -142,12 +158,13 @@ class WalletConnectBody extends StatelessWidget {
                   Row(
                     children: [
                       MyText(
-                        text: "Signed Transactions"
+                        text: "Signed Transactions",
+                        color: AppColors.lowWhite,
                       ),
                       Expanded(child: Container(),),
                       MyText(
                         text: "0",
-                        color2: Colors.grey,
+                        color: AppColors.lowWhite,
                       )
                     ]
                   ),

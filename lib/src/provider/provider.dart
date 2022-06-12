@@ -125,7 +125,7 @@ class ContractsBalance {
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("error refetchContractBalance $e ");
+      if (ApiProvider().isDebug == true) print("error refetchContractBalance $e ");
     }
 
   }

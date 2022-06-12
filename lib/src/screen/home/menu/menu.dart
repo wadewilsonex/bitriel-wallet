@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -27,6 +28,8 @@ class MenuState extends State<Menu> {
   @override
   void initState() {
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
+
+    Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
 
     readBio();
     checkAvailableBio();

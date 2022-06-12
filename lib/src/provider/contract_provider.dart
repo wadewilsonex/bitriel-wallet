@@ -110,7 +110,7 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
 
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initJson $e");
+      if (ApiProvider().isDebug == true) print("Error initJson $e");
     }
   }
 
@@ -143,7 +143,7 @@ class ContractProvider with ChangeNotifier {
           
       return true;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error setSavedList $e");
+      if (ApiProvider().isDebug == true) print("Error setSavedList $e");
     }
     return false;
   }
@@ -184,7 +184,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err addListActivity $e");
+      if (ApiProvider().isDebug == true) print("Err addListActivity $e");
     }
   }
 
@@ -198,7 +198,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err updateNativeTxStt $e");
+      if (ApiProvider().isDebug == true) print("Err updateNativeTxStt $e");
     }
   }
 
@@ -240,7 +240,7 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err selTokenWallet $e");
+      if (ApiProvider().isDebug == true) print("Err selTokenWallet $e");
     }
   }
 
@@ -266,7 +266,7 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.selV2Index].address = ethAdd;//'0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error selv2TokenWallet $e");
+      if (ApiProvider().isDebug == true) print("Error selv2TokenWallet $e");
     }
   }
 
@@ -293,7 +293,7 @@ class ContractProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == false) print("Err kgoTokenWallet $e");
+        if (ApiProvider().isDebug == true) print("Err kgoTokenWallet $e");
       }
     }
   }
@@ -313,7 +313,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err ethWallet $e");
+      if (ApiProvider().isDebug == true) print("Err ethWallet $e");
     }
   }
 
@@ -332,7 +332,7 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error bnbWallet $e");
+      if (ApiProvider().isDebug == true) print("Error bnbWallet $e");
     }
   }
 
@@ -352,11 +352,30 @@ class ContractProvider with ChangeNotifier {
         // if (element.show!) 
         sortListContract.addAll({element});
       });
-
+      print("finish listContract");
       // 2. Add Imported Asset
       addedContract.forEach((element) {
+        print("symbol ${element.symbol}");
+        print("id ${element.id}");
+        print("address ${element.address}");
+        print("symbol ${element.symbol}");
+        print("balance ${element.balance}");
+        print("type ${element.type}");
+        print("logo ${element.logo}");
+        print("org ${element.org}");
+        print("orgTest ${element.orgTest}");
+        print("marketData ${element.marketData}");
+        print("lineChartList ${element.lineChartList}");
+        print("change24h ${element.change24h}");
+        print("marketPrice ${element.marketPrice}");
+        print("name ${element.name}");
+        print("chainDecimal ${element.chainDecimal}");
+        print("contract ${element.contract}");
+        print("contractTest ${element.contractTest}");
+        print("lineChartModel ${element.lineChartModel}!");
         if (element.show!) sortListContract.addAll({element});
       });
+      print("finish addedContract");
 
       // Sort Descending
       if (sortListContract.isNotEmpty) {
@@ -383,7 +402,7 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error sortAsset $e");
+      if (ApiProvider().isDebug == true) print("Error sortAsset $e");
     }
     
     return null;
@@ -503,7 +522,7 @@ class ContractProvider with ChangeNotifier {
 
       return contract;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err initBsc $e");
+      if (ApiProvider().isDebug == true) print("Err initBsc $e");
     }
     return null;
   }
@@ -517,7 +536,7 @@ class ContractProvider with ChangeNotifier {
     } on ArgumentError {
       // Not valid
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err validateEvmAddr $e");
+      if (ApiProvider().isDebug == true) print("Err validateEvmAddr $e");
     }
     return _isValid;
   }
@@ -590,7 +609,7 @@ class ContractProvider with ChangeNotifier {
       final gasPrice = await _bscClient!.getGasPrice();
       return gasPrice;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getBscGasPrice $e");
+      if (ApiProvider().isDebug == true) print("Error getBscGasPrice $e");
     }
 
   }
@@ -708,7 +727,7 @@ class ContractProvider with ChangeNotifier {
 
       return swap;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error swap $e");
+      if (ApiProvider().isDebug == true) print("Error swap $e");
       throw new Exception(e);
     }
   }
@@ -730,7 +749,7 @@ class ContractProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error queryEther $e");
+      if (ApiProvider().isDebug == true) print("Error queryEther $e");
     }
     return null;
   }
@@ -1141,6 +1160,14 @@ class ContractProvider with ChangeNotifier {
             listActivity: [],
             balance: tmpBalance.toString(),
             lineChartModel: LineChartModel(),
+            type: '',
+            orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+            marketData: Market(),
+            lineChartList: [],
+            change24h: '',
+            marketPrice: '',
+            contract: '',
+            contractTest: '',
           );
           
           newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
@@ -1162,7 +1189,7 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err addAsset $e");
+      if (ApiProvider().isDebug == true) print("Err addAsset $e");
     }
   }
 

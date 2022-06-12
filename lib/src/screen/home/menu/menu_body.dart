@@ -1,5 +1,8 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:wallet_connect/wc_session_store.dart';
 
 class MenuBody extends StatelessWidget {
   final Map<String, dynamic>? userInfo;
@@ -58,8 +61,32 @@ class MenuBody extends StatelessWidget {
           // icon: Icon(Iconsax.wallet, color: Colors.white, size: 22.5.sp),
           index: 1,
           subIndex: 2,
-          onTap: () {
-            underContstuctionAnimationDailog(context: context);
+          onTap: () async {
+            WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+            _wConnectC.setBuildContext = context;
+            await StorageServices.fetchData('session').then((value) async {
+              print("session $value");
+              if (value == null){
+
+                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
+                print("my value $value");
+                if (value != null){
+                  
+                  _wConnectC.qrScanHandler(value);
+                  print("finish qrScanHandler");
+                }
+              } else {
+                print("session ${value.runtimeType}");
+                _wConnectC.sessionStore = WCSessionStore.fromJson(value);
+                try {
+
+                  _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
+                } catch (e){
+                  print("error _wConnectC.wcClient $e");
+                }
+              }
+            });
+            // underContstuctionAnimationDailog(context: context);
           },
         ),
 

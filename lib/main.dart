@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
@@ -54,6 +55,9 @@ void main() {
         ),
         ChangeNotifierProvider<ReceiveWalletProvider>(
           create: (context) => ReceiveWalletProvider(),
+        ),
+        ChangeNotifierProvider<WalletConnectComponent>(
+          create: (context) => WalletConnectComponent(),
         ),
       ],
       child: App(),
