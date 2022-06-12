@@ -19,7 +19,7 @@
         "contract_test": "0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030",
         "address": "",
         "logo": "assets/SelendraCircle-Blue.png",
-        "symbol": "SEL",
+        "symbol": "oSEL",
         "org": "BEP-20",
         "org_test": "BEP-20",
         "balance": "0.0",
@@ -57,7 +57,7 @@
     {
         "id": "ethereum",
         "name": "Ethereum",
-        "contract": "",
+        "contract": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
         "contract_test": "",
         "address": "",
         "logo": "assets/eth.png",

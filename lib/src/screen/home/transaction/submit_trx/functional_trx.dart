@@ -68,7 +68,7 @@ class TrxFunctional {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      // if (ApiProvider().isDebug == false) print('1');
+      // if (ApiProvider().isDebug == true) print('1');
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -80,7 +80,7 @@ class TrxFunctional {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      // if (ApiProvider().isDebug == false) print('2');
+      // if (ApiProvider().isDebug == true) print('2');
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -123,7 +123,7 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("err sendTxBnb $e");
+      if (ApiProvider().isDebug == true) print("err sendTxBnb $e");
     }
   }
 
@@ -190,7 +190,7 @@ class TrxFunctional {
           await navigateAssetInfo(txInfo, nativeService: coinService);
         }
       } catch (e) {
-        if (ApiProvider().isDebug == false) print('Err sendTxEvm $e');
+        if (ApiProvider().isDebug == true) print('Err sendTxEvm $e');
         if (e.toString() == 'insufficient funds for gas * price + value') {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
@@ -201,7 +201,7 @@ class TrxFunctional {
   }
 
   Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-    if (ApiProvider().isDebug == false) print("sendTxBep20");
+    if (ApiProvider().isDebug == true) print("sendTxBep20");
     try {
 
       if (txInfo.privateKey != null) {
@@ -217,7 +217,7 @@ class TrxFunctional {
           }
         } catch (e) {
           // Navigator.pop(context);
-          if (ApiProvider().isDebug == false) print('Error sendTxBep20 $e');
+          if (ApiProvider().isDebug == true) print('Error sendTxBep20 $e');
           if (e.toString() == 'insufficient funds for gas * price + value') {
             await customDialog('Opps', 'Insufficient funds for gas');
           } else {
@@ -226,7 +226,7 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error sendTxBep20 $e");
+      if (ApiProvider().isDebug == true) print("Error sendTxBep20 $e");
     }
   }
 
@@ -364,7 +364,7 @@ class TrxFunctional {
 
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Err navigateAssetInfo $e");
+      if (ApiProvider().isDebug == true) print("Err navigateAssetInfo $e");
     }
   }
 
@@ -397,7 +397,7 @@ class TrxFunctional {
   //     }
   //   } catch (e) {
   //     Navigator.pop(context);
-  //     if (ApiProvider().isDebug == false) print(e.message.toString());
+  //     if (ApiProvider().isDebug == true) print(e.message.toString());
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
   //       await customDialog('Opps', 'Insufficient funds for gas');
@@ -498,8 +498,8 @@ class TrxFunctional {
     final _api = Provider.of<ApiProvider>(context!, listen: false);
     final _contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (ApiProvider().isDebug == false) print("_contract.listContract[_api.selNativeIndex].address ${_contract.listContract[_api.selNativeIndex].address}");
-    if (ApiProvider().isDebug == false) print("_api.getKeyring.current.pubKey ${_api.getKeyring.current.pubKey}");
+    if (ApiProvider().isDebug == true) print("_contract.listContract[_api.selNativeIndex].address ${_contract.listContract[_api.selNativeIndex].address}");
+    if (ApiProvider().isDebug == true) print("_api.getKeyring.current.pubKey ${_api.getKeyring.current.pubKey}");
 
     final sender = TxSenderData(
       _contract.listContract[_api.selNativeIndex].address,
@@ -508,10 +508,10 @@ class TrxFunctional {
 
     final txInfo = TxInfoData('balances', 'transfer', sender);
 
-    if (ApiProvider().isDebug == false) print("txInfo $txInfo");
+    if (ApiProvider().isDebug == true) print("txInfo $txInfo");
 
     final chainDecimal = _contract.listContract[_api.selNativeIndex].chainDecimal;
-    if (ApiProvider().isDebug == false) print("_contract.listContract[_api.selNativeIndex].chainDecimal ${_contract.listContract[_api.selNativeIndex].chainDecimal}");
+    if (ApiProvider().isDebug == true) print("_contract.listContract[_api.selNativeIndex].chainDecimal ${_contract.listContract[_api.selNativeIndex].chainDecimal}");
     try {
       final Map? hash = await _api.getSdk.api.tx.signAndSend(
         txInfo,
@@ -655,19 +655,19 @@ class TrxFunctional {
       //       }
       //     } else {
 
-      //       if (ApiProvider().isDebug == false) print("BEP-20 ${contract.sortListContract[index].address}");
+      //       if (ApiProvider().isDebug == true) print("BEP-20 ${contract.sortListContract[index].address}");
       //       // final contractAddr = ContractProvider().findContractAddr(asset);
-      //       // if (ApiProvider().isDebug == false) print("Found $contractAddr");
+      //       // if (ApiProvider().isDebug == true) print("Found $contractAddr");
       //       dynamic balance = await ContractProvider().query(contract.sortListContract[index].address, 'balanceOf', [EthereumAddress.fromHex(contract.ethAdd)]);
             
-      //       if (ApiProvider().isDebug == false) print("Balance $balance");
-      //       if (ApiProvider().isDebug == false) print(contract.sortListContract[index].chainDecimal.toString());
+      //       if (ApiProvider().isDebug == true) print("Balance $balance");
+      //       if (ApiProvider().isDebug == true) print(contract.sortListContract[index].chainDecimal.toString());
       //       balance = Fmt.bigIntToDouble(
       //         balance[0] as BigInt,
       //         int.parse(contract.sortListContract[index].chainDecimal.toString()),
       //       ).toString();
 
-      //       if (ApiProvider().isDebug == false) print("After Balance $balance");
+      //       if (ApiProvider().isDebug == true) print("After Balance $balance");
       //       if (double.parse(balance) < double.parse(amount)) {
       //         _enough = false;
       //       }
@@ -679,7 +679,7 @@ class TrxFunctional {
         _enough = false;
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error checkBalanceofCoin $e");
+      if (ApiProvider().isDebug == true) print("Error checkBalanceofCoin $e");
     }
     return _enough;
   }
@@ -695,9 +695,9 @@ class TrxFunctional {
       switch (asset) {
         case "SEL":
           bool res = false;
-          if (ApiProvider().isDebug == false) print("org validateAddr $org");
+          if (ApiProvider().isDebug == true) print("org validateAddr $org");
           if (org == 'BEP-20'){
-            if (ApiProvider().isDebug == false) print("Evm addr");
+            if (ApiProvider().isDebug == true) print("Evm addr");
             res = await conPro.validateEvmAddr(address);
           } else {
             res = await apiPro.validateAddress(address);
@@ -722,7 +722,7 @@ class TrxFunctional {
 
       return _isValid;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Erorr validateAddr $e");
+      if (ApiProvider().isDebug == true) print("Erorr validateAddr $e");
       return _isValid;
     }
   }
@@ -753,7 +753,7 @@ class TrxFunctional {
       // }
 
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error getNetworkGasPrice $e");
+      if (ApiProvider().isDebug == true) print("Error getNetworkGasPrice $e");
     }
 
     return _gasPrice!;
@@ -761,8 +761,8 @@ class TrxFunctional {
 
   Future<dynamic>? estGasFeePrice(double? gasFee, String? asset) async {
 
-    if (ApiProvider().isDebug == false) print("gasFee ${gasFee ?? 'no gas'}");
-    if (ApiProvider().isDebug == false) print("asset ${asset ?? 'no asset'}");
+    if (ApiProvider().isDebug == true) print("gasFee ${gasFee ?? 'no gas'}");
+    if (ApiProvider().isDebug == true) print("asset ${asset ?? 'no asset'}");
 
     String? marketPrice;
     try {
@@ -781,8 +781,8 @@ class TrxFunctional {
           marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
           break;
         default:
-          if (ApiProvider().isDebug == false) print("api!.bnbIndex ${api!.bnbIndex}");
-          if (ApiProvider().isDebug == false) print("contract.listContract[api!.bnbIndex].marketData!.currentPrice! ${contract.listContract[api!.bnbIndex].marketData!.currentPrice!}");
+          if (ApiProvider().isDebug == true) print("api!.bnbIndex ${api!.bnbIndex}");
+          if (ApiProvider().isDebug == true) print("contract.listContract[api!.bnbIndex].marketData!.currentPrice! ${contract.listContract[api!.bnbIndex].marketData!.currentPrice!}");
           marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
@@ -791,7 +791,7 @@ class TrxFunctional {
 
       return estGasFeePrice;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error estGasFeePrice $e");
+      if (ApiProvider().isDebug == true) print("Error estGasFeePrice $e");
     }
     return marketPrice!;
   }
@@ -868,14 +868,14 @@ class TrxFunctional {
           maxGas = await contract.getBnbMaxGas(reciever, amount);
           break;
         default:
-          if (ApiProvider().isDebug == false) print("contract.sortListContract[index].org! ${contract.sortListContract[index].org!}");
+          if (ApiProvider().isDebug == true) print("contract.sortListContract[index].org! ${contract.sortListContract[index].org!}");
           if (contract.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
             maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
           }
           break;
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error estMaxGas $e");
+      if (ApiProvider().isDebug == true) print("Error estMaxGas $e");
     }
     return maxGas!;
   }

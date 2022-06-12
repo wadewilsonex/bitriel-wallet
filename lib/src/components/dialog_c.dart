@@ -80,7 +80,7 @@ class DialogComponents {
               fontWeight: FontWeight.bold,
               color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
             ) : Container(),
-            buttonPadding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            buttonPadding: btn2 != null ? EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -103,6 +103,9 @@ class DialogComponents {
               btn ?? Container(),
         
               btn2 ?? TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.zero)
+                ),
                 onPressed: () async {
                   // await FlutterScreenshotSwitcher.enableScreenshots();
                   Navigator.pop(context);

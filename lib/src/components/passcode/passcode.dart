@@ -83,7 +83,6 @@ class _PasscodeState extends State<Passcode> {
     clearAll();
     _isFirst = false;
 
-    print("Dispose");
     super.dispose();
   }
 
@@ -118,7 +117,6 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> clearVerifyPin(String pin) async {
-      print("clearVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
@@ -127,7 +125,6 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = false;
       });
     } else {
-      print("firstPin == pin ${firstPin == pin}");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure(DbKey.passcode);
         // Navigator.pop(context, false);
@@ -146,15 +143,26 @@ class _PasscodeState extends State<Passcode> {
       setState(() {
         _isFirst = false;
       });
+
+      if (widget.label == "fromSendTx"){
+        Navigator.pop(context, pin);
+      } else {
+        Navigator.pop(context, true);
+      }
+      
+      if (mounted) {
+        setState(() {
+          _isFirst = false;
+        });
+      }
+      
     } else {
       if (firstPin == pin) {
 
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromHome" || widget.label == "fromSplash" || widget.label == "fromMenu"){
-          Navigator.pop(context, true);
-        } else if (widget.label == "fromCreateSeeds"){
+        if (widget.label == "fromCreateSeeds"){
 
           Navigator.push(
             context, 
@@ -172,20 +180,18 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        }
-        else if(widget.label == "trxSubmit"){
+        } else {
           Navigator.pop(context, true);
-          
         }
-        else if (widget.label == "fromMenu"){
-          if(res == null){
-            await StorageServices().writeSecure(DbKey.passcode, pin);
-          }
-          if(_isFirst == false){ 
-            await StorageServices().clearKeySecure(DbKey.passcode);
-            Navigator.pop(context, true);
-          }
-        }
+        // else if (widget.label == "fromMenu"){
+        //   if(res == null){
+              
+        //   }
+        //   else{ 
+        //     await StorageServices().clearKeySecure(DbKey.passcode);
+        //     Navigator.pop(context, true);
+        //   }
+        // }
 
       } else {
         clearAll();

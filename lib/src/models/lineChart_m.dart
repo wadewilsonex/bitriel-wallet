@@ -65,7 +65,6 @@ class LineChartModel {
   };
 
   LineChartModel prepareGraphChart(SmartContractModel contract) {
-
     contract.lineChartModel = LineChartModel();
     contract.lineChartModel!.values = [];
     contract.lineChartModel!.divider = 5;
@@ -98,7 +97,7 @@ class LineChartModel {
         contract.lineChartModel!.leftTitlesInterval = ((contract.lineChartModel!.maxY - contract.lineChartModel!.minY) / (contract.lineChartModel!.leftLabelsCount - 1));//((contract.lineChartModel.maxY - contract.lineChartModel.minY) / ( (contract.lineChartModel.leftLabelsCount ?? 6) - 1)).floorToDouble();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error prepareGraphChart $e");
+      if (ApiProvider().isDebug == true) print("Error prepareGraphChart $e");
     }
 
     return contract.lineChartModel!;

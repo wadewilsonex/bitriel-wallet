@@ -25,7 +25,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> getCurrentAccount() async {
 
     // await Future.delayed(const Duration(seconds: 1), () async {
-    //   Navigator.pushReplacement(context, RouteAnimation(enterPage: HomePage()));
+    //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
     // });
     
@@ -72,7 +72,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
+      if (ApiProvider().isDebug == true) print("Error Splash screen $e");
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
     }
   }

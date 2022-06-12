@@ -18,7 +18,6 @@ class SwapTokenList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("SwapTokenList isActive $isActive");
 
     return GestureDetector(
       onTap: action == null ? null : (){

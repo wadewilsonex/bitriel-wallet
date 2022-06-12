@@ -115,8 +115,11 @@ class SwapPageBody extends StatelessWidget {
             //   color: AppColors.whiteColorHexa
             // ),
 
-            // Expanded(child: Container()), 
-            _buildNumberPad(context, onDeleteTxt, onTabNum),
+            Expanded(
+              child:  Center(
+                child: _buildNumberPad(context, onDeleteTxt, onTabNum)
+              ),
+            ), 
 
             // SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(

@@ -34,6 +34,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   FlareControls flareController = FlareControls();
 
+  ContractProvider? _contractProvider;
+
   AssetInfoC c = AssetInfoC();
 
   bool disable = false;
@@ -41,6 +43,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   @override
   void initState() {
+    _contractProvider = Provider.of<ContractProvider>(context, listen: false);
     if (widget.asset != null){
       _scanPayM.asset = widget.asset;
     } else {
@@ -132,7 +135,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!, context: context);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error onSubmit $e");
+      if (ApiProvider().isDebug == true) print("Error onSubmit $e");
     }
   }
 
@@ -173,7 +176,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // First Execute
   Future<void> validateSubmit() async {
-    
+    print("validateSubmit");
     final contract = Provider.of<ContractProvider>(context, listen: false);
     _scanPayM.asset = contract.sortListContract[_scanPayM.assetValue!].symbol;
     try {
@@ -183,6 +186,8 @@ class SubmitTrxState extends State<SubmitTrx> {
       final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: contract.sortListContract[_scanPayM.assetValue!].org);
       
       if ( isNative() || contract.sortListContract[_scanPayM.assetValue!].symbol == "DOT"){
+
+        print("isNative");
         // Close Dialog
         Navigator.pop(context);
         
@@ -261,12 +266,13 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               await Navigator.push(
                 context,
-                RouteAnimation(
-                  enterPage: ConfirmationTx(
+                Transition(
+                  child: ConfirmationTx(
                     trxInfo: trxFunc!.txInfo,
                     sendTrx: sendTrx,
                     gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
                   ),
+                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                 ),
               );
             } else {
@@ -279,14 +285,14 @@ class SubmitTrxState extends State<SubmitTrx> {
         }
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err validateSubmit $e");
+      if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
     }
   }
 
   // Second Execute
   Future<void>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
 
-    ContractProvider _contract = Provider.of<ContractProvider>(context!, listen: false);
+    print("sendTrx");
     try {
       // Unfocus All Field Input
       await Future.delayed(const Duration(milliseconds: 100), () {
@@ -295,14 +301,16 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       // Start Loading Before Dialog Pin
       // Init member variables of Trx Functional
-      trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
+      trxFunc!.contract = Provider.of<ContractProvider>(context!, listen: false);
 
       trxFunc!.api = Provider.of<ApiProvider>(context, listen: false);
 
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
-      await dialogBox().then((String? resPin) async {
+      // await  dialogBox().then((String? resPin) async {
+      await Navigator.push(context, Transition(child: Passcode(label: 'fromSendTx'), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+        print("resPin $resPin");
         if (resPin != null) {
 
           // Second: Start Loading For Sending
@@ -313,10 +321,11 @@ class SubmitTrxState extends State<SubmitTrx> {
           if (
             isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "DOT"
           ){
-
+            print("Send native");
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
-                await ContractsBalance().refetchContractBalance(context: context);
+                print("after send trx $value");
+                // await ContractsBalance().refetchContractBalance(context: context);
                 enableAnimation();  
               } else {
 
@@ -325,6 +334,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               }
             });
           } else {
+            print("Send ERC-20 || BEP-20");
             /* ------------------Check and Get Private------------ */
             // Get Private Key Only BTC Contract
             if (_scanPayM.asset == 'BTC') {
@@ -354,7 +364,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 _scanPayM.controlReceiverAddress.text,
               );
 
-              SmartContractModel contractM = _contract.sortListContract[_scanPayM.assetValue!];
+              SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue!];
 
               /* -------------Processing Transaction----------- */
               if (contractM.symbol == "SEL"){
@@ -406,9 +416,9 @@ class SubmitTrxState extends State<SubmitTrx> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err sendTrx $e");
+      if (ApiProvider().isDebug == true) print("Err sendTrx $e");
       //Close Dialog
-      Navigator.pop(context);
+      Navigator.pop(context!);
 
       // Condition For RPCError
       await trxFunc!.customDialog("Oops", "${e.runtimeType.toString() == 'RPCError' ? 'insufficient funds for gas' : e}");

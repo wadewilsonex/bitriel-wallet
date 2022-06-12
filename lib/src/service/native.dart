@@ -61,7 +61,7 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        if (ApiProvider().isDebug == false) print("Error listenTransfer $e");
+        if (ApiProvider().isDebug == true) print("Error listenTransfer $e");
       }
     })
     .where((receipt) => receipt != null)
@@ -93,7 +93,7 @@ class NativeService implements INativeService {
       );
 
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Err sendTx $e");
+      if (ApiProvider().isDebug == true) print("Err sendTx $e");
     }
 
     return res!;

@@ -74,6 +74,8 @@ class AppConfig {
       wsUrlTN: 'wss://westend-rpc.polkadot.io',
       ss58: 0,
     ),
+
+    // Ethereum
     NetworkParams(
       httpUrlMN: 'https://mainnet.infura.io/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
       wsUrlMN: 'wss://mainnet.infura.io/ws/v3/93a7248515ca45d0ba4bbbb8c33f1bda',
@@ -82,10 +84,12 @@ class AppConfig {
       scanMn: 'https://etherscan.io/tx/',
       scanTN: 'https://rinkeby.etherscan.io/tx',
     ),
+
+    //Bscscan
     NetworkParams(
       httpUrlMN: 'https://bsc-dataseed.binance.org/',
       wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
-      httpUrlTN: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+      httpUrlTN: 'https://data-seed-prebsc-2-s1.binance.org:8545/',
       wsUrlTN: 'wss://bsc-ws-node.nariox.org:443',
       scanMn: 'https://bscscan.com/tx/',
       scanTN: 'https://testnet.bscscan.com/tx/',

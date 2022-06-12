@@ -49,7 +49,7 @@ class _SwapState extends State<Swap> {
     } catch (e) {
       print("Error swap $e");
       Navigator.pop(context);
-      // if (ApiProvider().isDebug == false) print(e.message);
+      // if (ApiProvider().isDebug == true) print(e.message);
 
       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas');
@@ -189,7 +189,7 @@ class _SwapState extends State<Swap> {
         await swapWithoutAp();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error confirmFunction $e");
+      if (ApiProvider().isDebug == true) print("Error confirmFunction $e");
     }
   }
 

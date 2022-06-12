@@ -59,8 +59,7 @@ class AppState extends State<App> {
 
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
-          await apiProvider.connectSELNode(context: context);
-        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
+        await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 
@@ -80,7 +79,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initApi $e");
+      if (ApiProvider().isDebug == true) print("Error initApi $e");
     }
   }
 
@@ -98,7 +97,7 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error readTheme $e");
+      if (ApiProvider().isDebug == true) print("Error readTheme $e");
     }
   }
 

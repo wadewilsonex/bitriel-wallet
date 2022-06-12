@@ -73,8 +73,9 @@ class MyAppBar extends StatelessWidget {
   final Function? onPressed;
   final Color? color;
   final Widget? tile;
+  double? fontSize;
 
-  const MyAppBar({
+  MyAppBar({
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -83,8 +84,11 @@ class MyAppBar extends StatelessWidget {
     @required this.title,
     this.color,
     this.onPressed,
-    this.tile
-  });
+    this.tile,
+    this.fontSize = 16
+  }){
+    fontSize = fontSize!.sp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +122,7 @@ class MyAppBar extends StatelessWidget {
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,
-                  fontSize: 18,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.w600
                 ),
               ],

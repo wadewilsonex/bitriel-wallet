@@ -57,11 +57,9 @@ class DiscoverPageBody extends StatelessWidget {
                   GestureDetector(
                     onHorizontalDragUpdate: (details) {
                       if (details.delta.direction > 0) {
-                        print("drag left");
                         tabController.animateTo(1);
                       }
                       else{
-                        print("drag right");
                         homePageModel!.globalKey!.currentState!.openDrawer();
                       }
                     },
@@ -73,11 +71,9 @@ class DiscoverPageBody extends StatelessWidget {
                         return GestureDetector(
                           onHorizontalDragUpdate: (details) {
                             if (details.delta.direction > 0) {
-                              print("drag left");
                               tabController.animateTo(1);
                             }
                             else{
-                              print("drag right");
                               homePageModel!.globalKey!.currentState!.openDrawer();
                             }
                           },
@@ -101,11 +97,9 @@ class DiscoverPageBody extends StatelessWidget {
                   GestureDetector(
                     onHorizontalDragUpdate: (details) {
                       if (details.delta.direction > 0) {
-                        print("drag left");
                         homePageModel!.pageController.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       }
                       else{
-                        print("drag right");
                         tabController.animateTo(0);
                       }
                     },

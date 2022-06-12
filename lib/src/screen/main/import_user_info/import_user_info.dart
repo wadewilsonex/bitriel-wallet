@@ -214,7 +214,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   //     // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
   //   } catch (e) {
-  //     if (ApiProvider().isDebug == false) print("Error queryBtcData $e");
+  //     if (ApiProvider().isDebug == true) print("Error queryBtcData $e");
   //   }
   // }
 

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class AddAsset extends StatefulWidget {
   static const route = '/addasset';
@@ -44,7 +45,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == true) print("Error validateEtherAddress $e");
     }
     return false;
   }
@@ -55,7 +56,7 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) print("Error validateAddress $e");
     }
     return false;
   }
@@ -85,19 +86,20 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> addAsset() async {
-
     bool isMatch = false;
     
     try {
 
       dialogLoading(context);
 
-      final lsContract = await Provider.of<ContractProvider>(context, listen: false).listContract;
+      final lsContract = await Provider.of<ContractProvider>(context, listen: false).sortListContract;
       lsContract.forEach((element) async {
         if (_modelAsset.controllerAssetCode.text == element.address){
           isMatch = true;
         }
       });
+
+      print("isMatch $isMatch");
 
       if (isMatch){
 
@@ -143,7 +145,16 @@ class AddAssetState extends State<AddAsset> {
         await enableAnimation();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error addAsset $e");
+
+      // Close Dialog Loading
+      Navigator.pop(context);
+      if (ApiProvider().isDebug == true) print("Error addAsset $e");
+
+      DialogComponents().dialogCustom(
+        context: context,
+        titles: "Opps",
+        contents: e.toString(),
+      );
     }
   }
 
@@ -154,15 +165,19 @@ class AddAssetState extends State<AddAsset> {
         _modelAsset.loading = true;
       });
 
+      // Validate For ERC-20 || BEP-20
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
 
+      // Validate For Substrate Address
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
 
       print("resEther: $resEther");
       print("res: $res");
       
       if (res || resEther) {
+
         if (res) {
+
           if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
             setState(() {
               _modelAsset.match = true;
@@ -171,14 +186,19 @@ class AddAssetState extends State<AddAsset> {
           }
         } else {
 
+          // Check And Add Address ERC-20 || BEP-20
           if (initialValue == 'Ethereum') {
+
             await searchEtherContract();
           } else {
+            print("bsc");
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
             _tokenSymbol = res[0].toString();
           }
+
+          print("Finish query");
           setState(() {
-          
+            
             _modelAsset.loading = false;
           });
         }
@@ -250,7 +270,7 @@ class AddAssetState extends State<AddAsset> {
       //     );
       //   },
       // );
-      if (ApiProvider().isDebug == false) print("Error submitAsset $e");
+      if (ApiProvider().isDebug == true) print("Error submitAsset $e");
     }
   }
 
@@ -264,7 +284,7 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == true) print("Error searchEtherContract $e");
     }
   }
 
@@ -312,7 +332,8 @@ class AddAssetState extends State<AddAsset> {
     flareController.play('Checkmark');
 
     Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+      // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushReplacement(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
     });
   }
 
@@ -322,6 +343,7 @@ class AddAssetState extends State<AddAsset> {
       key: globalKey,
       body: Stack(
         children: [
+          
           AddAssetBody(
             assetM: _modelAsset,
             initialValue: initialValue.toString(),
