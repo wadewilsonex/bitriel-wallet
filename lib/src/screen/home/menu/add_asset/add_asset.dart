@@ -86,19 +86,20 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> addAsset() async {
-
     bool isMatch = false;
     
     try {
 
       dialogLoading(context);
 
-      final lsContract = await Provider.of<ContractProvider>(context, listen: false).listContract;
+      final lsContract = await Provider.of<ContractProvider>(context, listen: false).sortListContract;
       lsContract.forEach((element) async {
         if (_modelAsset.controllerAssetCode.text == element.address){
           isMatch = true;
         }
       });
+
+      print("isMatch $isMatch");
 
       if (isMatch){
 
@@ -140,11 +141,20 @@ class AddAssetState extends State<AddAsset> {
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
-        // await StorageServices.storeAssetData(context);
-        // await enableAnimation();
+        await StorageServices.storeAssetData(context);
+        await enableAnimation();
       }
     } catch (e) {
+
+      // Close Dialog Loading
+      Navigator.pop(context);
       if (ApiProvider().isDebug == true) print("Error addAsset $e");
+
+      DialogComponents().dialogCustom(
+        context: context,
+        titles: "Opps",
+        contents: e.toString(),
+      );
     }
   }
 
@@ -185,6 +195,8 @@ class AddAssetState extends State<AddAsset> {
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
             _tokenSymbol = res[0].toString();
           }
+
+          print("Finish query");
           setState(() {
             
             _modelAsset.loading = false;

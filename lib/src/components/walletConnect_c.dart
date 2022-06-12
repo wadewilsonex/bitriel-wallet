@@ -54,14 +54,13 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   void getIP() async {
-    print("getIP");
+    // print("getIP");
     List<NetworkInterface> l = await NetworkInterface.list();
     for (int i = 0; i < l.length; i++ ){
       _internetAddress = l[0].addresses;
       ip = _internetAddress![0].address;
       break;
     }
-    print("my ip $ip");
 
     notifyListeners();
   }
@@ -72,11 +71,9 @@ class WalletConnectComponent with ChangeNotifier {
   }
   
   initSession() async {
-    print("initSession");
     final pref = await SharedPreferences.getInstance();
     String? value = pref.getString("session");
     if (value != null){
-      print("initSession ${value.runtimeType}");
       sessionStore = WCSessionStore.fromJson(jsonDecode(value));
       notifyListeners();
     }
@@ -92,9 +89,7 @@ class WalletConnectComponent with ChangeNotifier {
   qrScanHandler(String value) {
     try {
 
-      print("qrScanHandler $value");
       final session = WCSession.from(value);
-      debugPrint('session $session');
       final peerMeta = WCPeerMeta(
         name: "Example Wallet",
         url: session.bridge,
@@ -106,7 +101,7 @@ class WalletConnectComponent with ChangeNotifier {
       // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
       wcClient.connectNewSession(session: session, peerMeta: peerMeta);
     } catch (e){
-      print("error qrScanHandler $e");
+      if (ApiProvider().isDebug == true) print("error qrScanHandler $e");
     }
   }
 
@@ -119,7 +114,6 @@ class WalletConnectComponent with ChangeNotifier {
       ? WCSessionStore.fromJson(jsonDecode(_sessionSaved))
       : null;
     if (sessionStore != null) {
-      debugPrint('_sessionStore $sessionStore');
       wcClient.connectFromSessionStore(sessionStore!);
     } else {
       ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
@@ -132,7 +126,6 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   onConnect() {
-    print("onConnect");
     // print(sessionStore!.session.toJson());
 
     // Close Dialog Approve
@@ -151,8 +144,6 @@ class WalletConnectComponent with ChangeNotifier {
 
   // After Scan QR
   onSessionRequest(int id, WCPeerMeta peerMeta) async {
-    print("onSessionRequest $walletAddress");
-    print("peerMeta.icons.isNotEmpty ${peerMeta.icons.isNotEmpty}");
     await showDialog(
       context: context!,
       builder: (_) {
@@ -198,8 +189,6 @@ class WalletConnectComponent with ChangeNotifier {
                         // TODO: Mention Chain ID while connecting
                         chainId: 1,
                       );
-
-                      print("approve");
 
                       await StorageServices.storeData(wcClient.sessionStore.toJson(), 'session');
                       sessionStore = wcClient.sessionStore;
@@ -363,7 +352,6 @@ class WalletConnectComponent with ChangeNotifier {
           _wcEthTxToWeb3Tx(ethereumTransaction),
           chainId: wcClient.chainId!,
         );
-        debugPrint('txhash $txhash');
         wcClient.approveRequest<String>(
           id: id,
           result: txhash,
@@ -396,13 +384,9 @@ class WalletConnectComponent with ChangeNotifier {
           abi, EthereumAddress.fromHex(ethereumTransaction.to));
       final dataBytes = hexToBytes(ethereumTransaction.data);
       final funcBytes = dataBytes.take(4).toList();
-      debugPrint("funcBytes $funcBytes");
       final maibiFunctions = contract.functions
           .where((element) => listEquals<int>(element.selector, funcBytes));
       if (maibiFunctions.isNotEmpty) {
-        debugPrint("isNotEmpty");
-        contractFunction = maibiFunctions.first;
-        debugPrint("function ${contractFunction.name}");
         // contractFunction.parameters.forEach((element) {
         //   debugPrint("params ${element.name} ${element.type.name}");
         // });
@@ -413,7 +397,7 @@ class WalletConnectComponent with ChangeNotifier {
         gasPrice = await web3client.estimateGas();
       }
     } catch (e, trace) {
-      debugPrint("failed to decode\n$e\n$trace");
+      if (ApiProvider().isDebug == true) debugPrint("failed to decode\n$e\n$trace");
     }
     await showDialog(
       context: context!,
@@ -681,7 +665,6 @@ class WalletConnectComponent with ChangeNotifier {
                             await creds.signPersonalMessage(encodedMessage);
                         signedDataHex = bytesToHex(signedData, include0x: true);
                       }
-                      debugPrint('SIGNED $signedDataHex');
                       wcClient.approveRequest<String>(
                         id: id,
                         result: signedDataHex,

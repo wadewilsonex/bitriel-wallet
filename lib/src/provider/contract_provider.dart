@@ -46,6 +46,7 @@ class ContractProvider with ChangeNotifier {
   List<SmartContractModel> addedContract = [];
 
   List<SmartContractModel> sortListContract = [];
+  SmartContractModel? tmp;
 
   ContractService get getSelToken => _selToken!;
   ContractService get getSelv2 => _selV2!;
@@ -138,7 +139,6 @@ class ContractProvider with ChangeNotifier {
           addedContract = List<SmartContractModel>.from(value);
         }
       });
-          
       notifyListeners();
           
       return true;
@@ -212,26 +212,24 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print("Err updateTxStt $e");
+      if (ApiProvider().isDebug == true) print("Err updateTxStt $e");
     }
   }
 
   Future<void> selTokenWallet(BuildContext context) async {
-
     try {
 
       await initBscClient();
       final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest! );//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
       //final contract = await initBsc(listContract[0].address);
       _selToken = new ContractService(_bscClient!, contract);
-
       final balance = await _selToken!.getTokenBalance(getEthAddr(ethAdd));
 
       final chainDecimal = await _selToken!.getChainDecimal();
 
       listContract[apiProvider.selV1Index].balance = Fmt.bigIntToDouble(
         balance,
-        int.parse(chainDecimal.toString()),
+        chainDecimal.toInt(),
       ).toString();
 
       listContract[apiProvider.selV1Index].chainDecimal = chainDecimal.toString();
@@ -338,7 +336,6 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio
   Future? sortAsset() async {
-    print("sortAsset");
     try {
 
       sortListContract.clear();
@@ -352,53 +349,50 @@ class ContractProvider with ChangeNotifier {
         // if (element.show!) 
         sortListContract.addAll({element});
       });
-      print("finish listContract");
+
       // 2. Add Imported Asset
       addedContract.forEach((element) {
-        print("symbol ${element.symbol}");
-        print("id ${element.id}");
-        print("address ${element.address}");
-        print("symbol ${element.symbol}");
-        print("balance ${element.balance}");
-        print("type ${element.type}");
-        print("logo ${element.logo}");
-        print("org ${element.org}");
-        print("orgTest ${element.orgTest}");
-        print("marketData ${element.marketData}");
-        print("lineChartList ${element.lineChartList}");
-        print("change24h ${element.change24h}");
-        print("marketPrice ${element.marketPrice}");
-        print("name ${element.name}");
-        print("chainDecimal ${element.chainDecimal}");
-        print("contract ${element.contract}");
-        print("contractTest ${element.contractTest}");
-        print("lineChartModel ${element.lineChartModel}!");
-        if (element.show!) sortListContract.addAll({element});
+        // print("symbol ${element.symbol}");
+        // print("id ${element.id}");
+        // print("address ${element.address}");
+        // print("symbol ${element.symbol}");
+        // print("balance ${element.balance}");
+        // print("type ${element.type}");
+        // print("logo ${element.logo}");
+        // print("org ${element.org}");
+        // print("orgTest ${element.orgTest}");
+        // print("marketData ${element.marketData}");
+        // print("lineChartList ${element.lineChartList}");
+        // print("change24h ${element.change24h}");
+        // print("marketPrice ${element.marketPrice}");
+        // print("name ${element.name}");
+        // print("chainDecimal ${element.chainDecimal}");
+        // print("contract ${element.contract}");
+        // print("contractTest ${element.contractTest}");
+        // print("lineChartModel ${element.lineChartModel}!");
+        // if (element.show!) 
+        sortListContract.addAll({element});
       });
-      print("finish addedContract");
 
       // Sort Descending
       if (sortListContract.isNotEmpty) {
-        print("sortListContract.isNotEmpty");
-        SmartContractModel tmp = SmartContractModel();
+
+        tmp = new SmartContractModel();
         for (int i = 0; i < sortListContract.length; i++) {
+          // if (sortListContract[i].balance!.contains(",")) {
+          //   sortListContract[i].balance = sortListContract[i].balance!.replaceAll(",", "");
+          // } 
+
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
-
-            if ( (double.parse(sortListContract[j].balance!)) > (double.parse(sortListContract[i].balance!)) ) {
+            if ( (double.parse(sortListContract[j].balance!.replaceAll(",", ""))) > (double.parse(sortListContract[i].balance!.replaceAll(",", ""))) ) {
               sortListContract[i] = sortListContract[j];
-              sortListContract[j] = tmp;
+              sortListContract[j] = tmp!;
             }
           }
         }
 
       }
-
-      for(int i = 0; i< sortListContract.length; i++){
-
-        print("element.symbol ${sortListContract[i].symbol} element.symbol ${sortListContract[i].balance}");
-      }
-
       notifyListeners();
       
     } catch (e) {
@@ -616,7 +610,6 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> approveSwap(String privateKey) async {
 
-    print("contract provider approveSwap");
     try {
 
       await initBscClient();
@@ -656,8 +649,6 @@ class ContractProvider with ChangeNotifier {
         fetchChainIdFromNetworkId: true,
       );
 
-      print("my approve $approve");
-
       return approve;
     } catch (e) {
       if (ApiProvider().isDebug) print("Error approveSwap $e");
@@ -667,12 +658,9 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<dynamic> checkAllowance() async {
-    print("checkAllowance");
     try {
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
-      print("apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest! ${apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest!}");
-      print("_appConfig.swapAddr ${_appConfig.swapAddr}");
       final res = await query(
         apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest!,
         'allowance',
@@ -681,8 +669,6 @@ class ContractProvider with ChangeNotifier {
           EthereumAddress.fromHex(_appConfig.swapAddr)
         ],
       );
-      
-      print("res $res");
 
       return res.first;
     } catch (e) {
@@ -755,24 +741,17 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<List> query(String contractAddress, String functionName, List args) async {
-    print("query");
-    try {
-      await initBscClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddress);
-      // final contract = await initBsc(contractAddress);
-      final function = contract.function(functionName);
+    await initBscClient();
+    final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddress);
+    // final contract = await initBsc(contractAddress);
+    final function = contract.function(functionName);
 
-      final res = await _bscClient!.call(
-        contract: contract,
-        function: function,
-        params: args,
-      );
-      print("res query $res");
-      return res;
-    } catch (e) {
-      if (ApiProvider().isDebug) print("Error query $e");
-    }
-    return [];
+    final res = await _bscClient!.call(
+      contract: contract,
+      function: function,
+      params: args,
+    );
+    return res;
   }
 
   Future<void> extractAddress(String privateKey) async {
@@ -788,13 +767,10 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getEtherAddr() async {
-    print("getEtherAddr");
     try {
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
       ethAdd = ethAddr!;
-
-      print("EthAddr $ethAdd");
 
       notifyListeners();
     } catch (e) {
@@ -1069,7 +1045,6 @@ class ContractProvider with ChangeNotifier {
             ).toString(); 
 
           } else if (network == 'Binance Smart Chain'){
-
             symbol = await query(contractAddr!, 'symbol', []);
             name = await query(contractAddr, 'name', []);
             decimal = await query(contractAddr, 'decimals', []);
@@ -1170,7 +1145,7 @@ class ContractProvider with ChangeNotifier {
             contractTest: '',
           );
           
-          newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
+          // newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
           // print(newContract.id);
           // print(newContract.name);
           // print(newContract.symbol);
@@ -1190,8 +1165,23 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Err addAsset $e");
+      throw e;  
     }
   }
+
+  // Future<void> saveAddedToken() async {
+  //   print("saveAddedToken");
+  //   await StorageServices.fetchData(DbKey.addedContract).then((value) async {
+  //     if (value != null){
+  //       List<Map<String, dynamic>> tmp = value;
+  //       addedContract.forEach((element) {
+  //         tmp.addAll({SmartContractModel.toMap(element)});
+  //       });
+  //       print("addedContract ${addedContract.toList()}");
+  //       await StorageServices.storeData(tmp, DbKey.addedContract);
+  //     }
+  //   });
+  // }
 
   Future<void> addContractToken(TokenModel tokenModel) async {
     token!.add(tokenModel);

@@ -751,7 +751,7 @@ class MyPinput extends StatelessWidget {
         // eachFieldConstraints: getWalletM!.boxConstraint,
         // textStyle: consSt TextStyle(fontSize: 18, color: Colors.white),
         onChanged: (String value){
-          print("On changed $value");
+          // print("On changed $value");
           // onChanged!(value);
         },
         onCompleted: onCompleted,

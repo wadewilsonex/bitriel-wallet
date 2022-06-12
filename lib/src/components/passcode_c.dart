@@ -160,7 +160,6 @@ class PassCodeComponent{
       deleteButton: const Icon(Icons.delete),
       didConfirmed: (matchedText) {
 
-        print(matchedText);
         Navigator.push(context, MaterialPageRoute(builder: (context) => ContentsBackup()));
         // ignore: avoid_print
       },  

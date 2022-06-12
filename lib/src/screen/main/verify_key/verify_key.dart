@@ -167,7 +167,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      // await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

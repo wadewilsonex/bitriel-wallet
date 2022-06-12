@@ -329,7 +329,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      // await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

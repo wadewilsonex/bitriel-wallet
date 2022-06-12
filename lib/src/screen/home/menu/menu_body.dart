@@ -3,8 +3,10 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_connect/wc_session_store.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class MenuBody extends StatelessWidget {
+  
   final Map<String, dynamic>? userInfo;
   final MenuModel? model;
   final Function? enablePassword;
@@ -65,24 +67,21 @@ class MenuBody extends StatelessWidget {
             WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
             _wConnectC.setBuildContext = context;
             await StorageServices.fetchData('session').then((value) async {
-              print("session $value");
               if (value == null){
 
                 String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
-                print("my value $value");
+                
                 if (value != null){
                   
                   _wConnectC.qrScanHandler(value);
-                  print("finish qrScanHandler");
                 }
               } else {
-                print("session ${value.runtimeType}");
                 _wConnectC.sessionStore = WCSessionStore.fromJson(value);
                 try {
 
                   _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
                 } catch (e){
-                  print("error _wConnectC.wcClient $e");
+                  if (ApiProvider().isDebug == true) print("error _wConnectC.wcClient $e");
                 }
               }
             });
@@ -93,28 +92,28 @@ class MenuBody extends StatelessWidget {
         // Account
         const MenuSubTitle(index: 3),
 
-        // MyListTile(
-        //   icon: Icon(Iconsax.lock, color: Colors.white, size: 22.5.sp),
-        //   enable: false,
-        //   index: 3,
-        //   subIndex: 0,
-        //   trailing: Switch(
-        //     value: model!.switchPasscode,
-        //     onChanged: (value) async {
-        //       // Navigator.pushNamed(context, AppText.passcodeView);
-        //       final res = await Navigator.push(
-        //         context,
-        //         Transition(child: Passcode(isAppBar: true, label: 'fromHome',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        //       );
-        //       if (res == true) {
-        //         enablePassword!(true);
-        //       } else if (res == false) {
-        //         enablePassword!(false);
-        //       }
-        //     },
-        //   ),
-        //   onTap: null,
-        // ),
+        MyListTile(
+          icon: Icon(Iconsax.lock, color: Colors.white, size: 22.5.sp),
+          enable: false,
+          index: 3,
+          subIndex: 0,
+          trailing: Switch(
+            value: model!.switchPasscode,
+            onChanged: (value) async {
+              // Navigator.pushNamed(context, AppText.passcodeView);
+              final res = await Navigator.push(
+                context,
+                Transition(child: Passcode(isAppBar: true, label: 'fromMenu',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
+              if (res == true) {
+                enablePassword!(true);
+              } else if (res == false) {
+                enablePassword!(false);
+              }
+            },
+          ),
+          onTap: null,
+        ),
 
         MyListTile(
           icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 22.5.sp),

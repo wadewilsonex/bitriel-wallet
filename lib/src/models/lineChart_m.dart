@@ -65,7 +65,6 @@ class LineChartModel {
   };
 
   LineChartModel prepareGraphChart(SmartContractModel contract) {
-
     contract.lineChartModel = LineChartModel();
     contract.lineChartModel!.values = [];
     contract.lineChartModel!.divider = 5;

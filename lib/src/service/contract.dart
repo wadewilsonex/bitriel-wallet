@@ -17,6 +17,10 @@ class ContractService implements IContractService {
   ContractFunction _decimalFunction() => _contract.function('decimals');
 
   Future<List> _queryContract(DeployedContract contract, ContractFunction function, List args) async {
+    print("_queryContract");
+    print("contract.address ${contract.address}");
+    print("function.name ${function.name}");
+    print("args); ${args}");
     try {
 
       final res = await _client.call(
@@ -24,6 +28,7 @@ class ContractService implements IContractService {
         function: function,
         params: args,
       );
+      print("_queryContract res ${res}");
       return res;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error _queryContract $e");
@@ -46,7 +51,7 @@ class ContractService implements IContractService {
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
     try {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
-      print(res.first);
+      print(res);
       return res.first as BigInt;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error getTokenBalance $e");
@@ -178,8 +183,16 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getChainDecimal() async {
-    final res = await _queryContract(_contract, _decimalFunction(), []);
-    return res.first;
+    print("getChainDecimal");
+    try {
+      
+      final res = await _queryContract(_contract, _decimalFunction(), []);
+      print("res ${res} ${res.runtimeType}");
+      return res.first;
+    } catch (e){
+      print("err getChainDecimal $e");
+    }
+    return 0 as BigInt;
   }
 
   @override

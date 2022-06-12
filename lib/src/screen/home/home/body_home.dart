@@ -433,7 +433,6 @@ class HomePageBody extends StatelessWidget {
     return AnimatedBuilder(
       animation: animation,
       builder: (context, widget) {
-        print(pagePosition);
 
         return SizedBox(
           width: 200,

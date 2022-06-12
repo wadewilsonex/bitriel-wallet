@@ -26,17 +26,19 @@ class PasscodeBody extends StatelessWidget{
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label! == true) MyAppBar(
+            if(label != null) MyAppBar(
               title: "Passcode",
               onPressed: () {
                 Navigator.pop(context);
               },
             ) 
+            else Container(),
+
+            if(label != null) Expanded(child: Container(),) 
             else Container(),
             
             // Expanded(

@@ -213,8 +213,8 @@ class AddAssetBody extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: 50,
-            width: 50,
+            height: 9.w,
+            width: 9.w,
             padding: const EdgeInsets.all(6),
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(

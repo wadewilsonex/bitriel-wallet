@@ -15,6 +15,9 @@ class SwapProvider extends ChangeNotifier{
   String name2 = "";
   String logo2 = "";
 
+  String balance1 = "";
+  String balance2 = "";
+
   List<SwapTokenListModel> ls = [];
   List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
@@ -35,7 +38,8 @@ class SwapProvider extends ChangeNotifier{
     logo1 = contractProvider!.sortListContract[0].logo!;
     name2 = contractProvider!.sortListContract[1].symbol!;
     logo2 = contractProvider!.sortListContract[1].logo!;
-    
+    balance1 = contractProvider!.sortListContract[0].balance!;
+    balance2 = contractProvider!.sortListContract[1].balance!;
   }
 
   void setList(){
@@ -51,6 +55,8 @@ class SwapProvider extends ChangeNotifier{
           subtitle: contractProvider!.sortListContract[i].name,
           isActive: index2 == i ? true : false,
           image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
+          balance: contractProvider!.sortListContract[i].balance,
+          
         )
       );
 
@@ -60,6 +66,7 @@ class SwapProvider extends ChangeNotifier{
           subtitle: contractProvider!.sortListContract[i].name,
           isActive: index1 == i ? true : false,
           image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
+          balance: contractProvider!.sortListContract[i].balance,
         )
       );
 
@@ -73,12 +80,14 @@ class SwapProvider extends ChangeNotifier{
       name1 = contractProvider!.sortListContract[index].symbol!;
       logo1 = contractProvider!.sortListContract[index].logo!;
       index1 = index;
+      balance1 = contractProvider!.sortListContract[index].balance!;
 
     } else {
 
       name2 = contractProvider!.sortListContract[index].symbol!;
       logo2 = contractProvider!.sortListContract[index].logo!;
       index2 = index;
+      balance2 = contractProvider!.sortListContract[index].balance!;
 
     }
 

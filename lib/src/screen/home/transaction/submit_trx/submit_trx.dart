@@ -307,7 +307,9 @@ class SubmitTrxState extends State<SubmitTrx> {
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
-      await dialogBox().then((String? resPin) async {
+      // await  dialogBox().then((String? resPin) async {
+      await Navigator.push(context, Transition(child: Passcode(label: 'fromSendTx'), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+        print("resPin $resPin");
         if (resPin != null) {
 
           // Second: Start Loading For Sending
