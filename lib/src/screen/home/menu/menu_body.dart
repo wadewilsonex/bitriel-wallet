@@ -85,9 +85,9 @@ class MenuBody extends StatelessWidget {
               await StorageServices().readSecure(DbKey.passcode)!.then((value) => {
                 print("read passcode key: $value"),
               });
-              if (res == true) {
+              if (res == '') {
                 enablePassword!(true);
-              } else if (res == false) {
+              } else {
                 enablePassword!(false);
               }
             },

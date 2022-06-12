@@ -152,7 +152,7 @@ class _PasscodeState extends State<Passcode> {
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromHome" || widget.label == "fromSplash"|| widget.label == "fromMenu"){
+        if (widget.label == "fromHome" || widget.label == "fromSplash" || widget.label == "fromMenu"){
           Navigator.pop(context, true);
         } else if (widget.label == "fromCreateSeeds"){
 
@@ -173,15 +173,19 @@ class _PasscodeState extends State<Passcode> {
             )
           );
         }
-        // else if (widget.label == "fromMenu"){
-        //   if(res == null){
-              
-        //   }
-        //   else{ 
-        //     await StorageServices().clearKeySecure(DbKey.passcode);
-        //     Navigator.pop(context, true);
-        //   }
-        // }
+        else if(widget.label == "trxSubmit"){
+          Navigator.pop(context, true);
+          
+        }
+        else if (widget.label == "fromMenu"){
+          if(res == null){
+            await StorageServices().writeSecure(DbKey.passcode, pin);
+          }
+          if(_isFirst == false){ 
+            await StorageServices().clearKeySecure(DbKey.passcode);
+            Navigator.pop(context, true);
+          }
+        }
 
       } else {
         clearAll();

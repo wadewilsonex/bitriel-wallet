@@ -725,7 +725,7 @@ class MyPinput extends StatelessWidget {
         obscureText: obscureText!,
         focusNode: focusNode,
         controller: controller,
-        length: 6,
+        length: 4,
         obscuringCharacter: '⚪',
         // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
         //   color: Colors.grey.withOpacity(0.5),
