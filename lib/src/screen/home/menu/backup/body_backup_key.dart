@@ -70,6 +70,18 @@ class BackUpKeyBody extends StatelessWidget{
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
+                await Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
+                  print("formBackUp $value");
+                  // await disableScreenShot!();
+                  ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
+                  await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
+                    if (res!.seed != null){
+                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
+                    } else {
+                      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
+                    }
+                  });
+                });
                 // underContstuctionAnimationDailog(context: context);
                 // await Component().dialogBox(context).then((value) async {
                 //   if (value != ''){

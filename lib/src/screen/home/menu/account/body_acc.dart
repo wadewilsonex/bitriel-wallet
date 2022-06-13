@@ -146,7 +146,7 @@ class AccountBody extends StatelessWidget{
                     
                     ListTileComponent(
                       action: (){
-                        underContstuctionAnimationDailog(context: context);
+                        // underContstuctionAnimationDailog(context: context);
                         // AccountC().showBackup(
                         //   context,
                         //   accountModel!.backupKey,
@@ -156,7 +156,13 @@ class AccountBody extends StatelessWidget{
                         //   onSubmit!,
                         //   submitBackUpKey!,
                         // );
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
+                        Navigator.push(
+                          context, 
+                          Transition(
+                            child: BackUpKeyBody(),
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          )
+                        );
                       },
                       text: 'Backup Key',
                     ),
@@ -164,9 +170,9 @@ class AccountBody extends StatelessWidget{
                     // const SizedBox(height: 20),
                     
                     ListTileComponent(
-                      action: (){
-                        underContstuctionAnimationDailog(context: context);
-                        // Passcode(label: "Change Pin");
+                      action: ()  async {
+                        // underContstuctionAnimationDailog(context: context);
+                        // Passcode(label: PassCodeLabel.formChangePin);
                         // AccountC().showChangePin(
                         //   context,
                         //   accountModel!.changePinKey,
@@ -178,27 +184,40 @@ class AccountBody extends StatelessWidget{
                         //   onSubmitChangePin!,
                         //   submitChangePin!,
                         // );
+                        final res = await Navigator.push(
+                          context, 
+                          Transition(
+                            child: Passcode(label: PassCodeLabel.fromChangePin,),
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          )
+                        );
+
+                        // await Provider.of<ApiProvider>(context, listen: false).
                       },
                       text: 'Change Pin',
                     ),
 
                     // const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () async {
-                        // await contract.unsubscribeNetwork();
-                        await deleteAccout!();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 7.h,
-                        child: MyText(
-                          text: 'Delete Account',
-                          color: "#FF0000",
-                          fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.all(paddingSize),
+                      child: GestureDetector(
+                        onTap: () async {
+                          // await contract.unsubscribeNetwork();
+                          await deleteAccout!();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          // margin: const EdgeInsets.only(left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.red.withOpacity(0.3)
+                          ),
+                          height: 7.h,
+                          child: MyText(
+                            text: 'Delete Account',
+                            color: "#FF0000",
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

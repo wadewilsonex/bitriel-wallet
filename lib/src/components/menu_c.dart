@@ -35,7 +35,10 @@ class MenuHeader extends StatelessWidget {
                 onTap: value.accountM.address == null ? null : () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Account())
+                    Transition(
+                      child: Account(),
+                      transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    )
                   );
                 },
                 child: AvatarShimmer(

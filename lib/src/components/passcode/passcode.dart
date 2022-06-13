@@ -12,7 +12,9 @@ enum PassCodeLabel {
   fromCreateSeeds,
   fromImportSeeds,
   fromSendTx,
-  fromMenu
+  fromMenu,
+  fromChangePin,
+  fromBackUp
 }
 
 class Passcode extends StatefulWidget {
@@ -151,6 +153,7 @@ class _PasscodeState extends State<Passcode> {
       firstPin = pin;
 
       clearAll();
+
       setState(() {
         _isFirst = false;
       });
@@ -174,8 +177,11 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = false;
       });
 
-      if (widget.label == PassCodeLabel.fromSendTx){
+      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromChangePin){
         Navigator.pop(context, pin);
+      }
+      if (widget.label == PassCodeLabel.fromMenu) {
+        Navigator.pop(context, true);
       }
       
       if (mounted) {
@@ -208,6 +214,9 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
+        } else if (widget.label == PassCodeLabel.fromChangePin){
+          
+          Navigator.pop(context, pin);
         } else {
           Navigator.pop(context, true);
         }

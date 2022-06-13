@@ -577,6 +577,22 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> changePin({required BuildContext? context, String? passOld, String? newOld}) async {
+    // try {
+
+    //   accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+    //   accountM.name = _keyring.current.name;
+
+    //   Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      
+    //   contractProvider!.setSELNativeAddr(accountM.address!);
+    // } catch (e){
+    //   if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    // }
+
+    // notifyListeners();
+  }
+
   Future<List> getCheckInList(String attender) async {
     final res = await _sdk.api.service.webView!.evalJavascript('settings.getCheckInList(aContract,"$attender")');
     return res;
