@@ -21,6 +21,18 @@ publish_to: none
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
+parts:
+  uet-lms:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+    build-packages:
+      - libsecret-1-dev
+      - libjsoncpp-dev
+    stage-packages:
+      - libsecret-1-dev
+      - libjsoncpp-dev
+      
 dependencies:
   cupertino_icons:
   
@@ -50,7 +62,6 @@ dependencies:
   # Backend
   http: 
   connectivity_plus:
-  connectivity_wrapper:
   async:
 
   # Image service
@@ -119,6 +130,12 @@ dependencies:
   wallet_connect:
   eth_sig_util: ^0.0.7
   
+  # webview_flutter
+  flutter_inappwebview: ^5.4.3+7
+
+  # Device Preview
+  device_preview: ^1.1.0
+
   # Download
   # path_provider:
   # downloads_path_provider_28:
