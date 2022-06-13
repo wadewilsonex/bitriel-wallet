@@ -59,13 +59,17 @@ class _FingerPrintState extends State<FingerPrint> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: hexaCodeToColor(AppColors.darkBgd),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: const Align(
-              child: Text('Message'),
+            title: Align(
+              child: Text('Message', style: TextStyle(color: hexaCodeToColor(AppColors.whiteColorHexa)),),
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: MyText(text: e.toString()),
+              child: MyText(
+                text: "Your device doesn't have finger print! Set up to enable this feature",
+                color: AppColors.lowWhite
+              ),
             ),
             actions: <Widget>[
               TextButton(
