@@ -85,9 +85,8 @@ class MyAppBar extends StatelessWidget {
     this.color,
     this.onPressed,
     this.tile,
-    this.fontSize = 16
+    this.fontSize,
   }){
-    fontSize = fontSize!.sp;
   }
 
   @override
@@ -122,7 +121,7 @@ class MyAppBar extends StatelessWidget {
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,
-                  fontSize: fontSize,
+                  fontSize: 17,
                   fontWeight: FontWeight.w600
                 ),
               ],
