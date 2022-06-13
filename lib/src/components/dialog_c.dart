@@ -163,3 +163,15 @@ class DialogComponents {
     );
   }
 }
+
+void messageToast(){
+
+        
+  // MotionToast.success(
+  //   title:  Text("Success"),
+  //   description:  Text("Scan had connected"),
+  //   layoutOrientation: ORIENTATION.ltr,
+  //   animationType: ANIMATION.fromLeft, width:  300,
+  //   position: MOTION_TOAST_POSITION.top,
+  // ).show(context);
+}

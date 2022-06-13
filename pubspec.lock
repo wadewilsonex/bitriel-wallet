@@ -858,6 +858,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7+3"
+  motion_toast:
+    dependency: "direct main"
+    description:
+      name: motion_toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.9"
   nested:
     dependency: transitive
     description:

@@ -28,8 +28,6 @@ class ApiProvider with ChangeNotifier {
   MyApiKeyring? _apiKeyring;
 
   KeyringStorage _keyringStorage = KeyringStorage();
-  LocalStorage _storageOld = LocalStorage();
-  KeyringStorage _storage = KeyringStorage();
 
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
@@ -565,6 +563,8 @@ class ApiProvider with ChangeNotifier {
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+
+      print("getCurrentAccount ${accountM.address}");
       accountM.name = _keyring.current.name;
 
       Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
@@ -577,20 +577,32 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changePin({required BuildContext? context, String? passOld, String? newOld}) async {
-    // try {
+  Future<void> checkPassword({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
+    try {
 
-    //   accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
-    //   accountM.name = _keyring.current.name;
+      accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
+      accountM.name = _keyring.current.name;
 
-    //   Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
       
-    //   contractProvider!.setSELNativeAddr(accountM.address!);
-    // } catch (e){
-    //   if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
-    // }
+      contractProvider!.setSELNativeAddr(accountM.address!);
+    } catch (e){
+      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    }
 
-    // notifyListeners();
+    notifyListeners();
+  }
+
+  Future<void> changePin({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
+    try {
+
+      await _sdk.webView!.evalJavascript("keyring.changePassword('$pubKey', '$passOld', '$passNew')");
+      
+    } catch (e){
+      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    }
+
+    notifyListeners();
   }
 
   Future<List> getCheckInList(String attender) async {
