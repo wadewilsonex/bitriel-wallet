@@ -64,7 +64,7 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error initContract $e");
+      if (ApiProvider().isDebug == true) print("Error initContract $e");
     }
 
     return _deployedContract!;
@@ -83,7 +83,7 @@ class AirDropProvider with ChangeNotifier {
       );
 
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error airdropTokenAddress $e");
+      if (ApiProvider().isDebug == true) print("Error airdropTokenAddress $e");
     }
   }
 
@@ -98,7 +98,7 @@ class AirDropProvider with ChangeNotifier {
       );
       res = (res / BigInt.from(pow(10, 9)));
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getTrxFee $e");
+      if (ApiProvider().isDebug == true) print("Error getTrxFee $e");
     }
     return '';
   }
@@ -172,7 +172,7 @@ class AirDropProvider with ChangeNotifier {
       });
 
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error signUp $e");
+      if (ApiProvider().isDebug == true) print("Error signUp $e");
     }
   }
 
@@ -278,7 +278,7 @@ class AirDropProvider with ChangeNotifier {
       // });
       // print("Done connect to mongo");
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error signToDb $e");
+      if (ApiProvider().isDebug == true) print("Error signToDb $e");
     }
   }
   

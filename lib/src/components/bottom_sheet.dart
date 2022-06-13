@@ -49,7 +49,7 @@ class MyBottomSheet {
                             pushReplacement
                           );
                         } catch (e) {
-                          if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");
+                          if (ApiProvider().isDebug == true) print("error TrxOptionMethod.scanQR $e");
                         }
                         
                       },

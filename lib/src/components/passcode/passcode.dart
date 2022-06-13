@@ -53,7 +53,31 @@ class _PasscodeState extends State<Passcode> {
 
   bool? _isFirst;
 
+  bool? is4digits = false;
+
   List<String> currentPin = ["", "", "", "", "", ""];
+  
+  void init4Digits() {
+    currentPin = ["", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
+
+  void init6Digits() {
+    currentPin = ["", "", "", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
 
   @override
   void initState() {
@@ -67,7 +91,7 @@ class _PasscodeState extends State<Passcode> {
   void clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == 6) {
+    } else if (pinIndex == (is4digits! ? 4 : 6)) {
       lsControl[pinIndex-1].text = "";
       pinIndex--;
     } else {
@@ -83,7 +107,6 @@ class _PasscodeState extends State<Passcode> {
     clearAll();
     _isFirst = false;
 
-    print("Dispose");
     super.dispose();
   }
 
@@ -92,12 +115,12 @@ class _PasscodeState extends State<Passcode> {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       pinIndex = 1;
-    } else if (pinIndex < 6) {
+    } else if (pinIndex < (is4digits! ? 4 : 6)) {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       ++pinIndex;
 
-      if (pinIndex == 6){
+      if (pinIndex == (is4digits! ? 4 : 6)){
         
         String strPin = "";
 
@@ -118,7 +141,6 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> clearVerifyPin(String pin) async {
-      print("clearVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
@@ -127,7 +149,6 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = false;
       });
     } else {
-      print("firstPin == pin ${firstPin == pin}");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure(DbKey.passcode);
         // Navigator.pop(context, false);
@@ -146,15 +167,24 @@ class _PasscodeState extends State<Passcode> {
       setState(() {
         _isFirst = false;
       });
+
+      if (widget.label == "fromSendTx"){
+        Navigator.pop(context, pin);
+      }
+      
+      if (mounted) {
+        setState(() {
+          _isFirst = false;
+        });
+      }
+      
     } else {
       if (firstPin == pin) {
 
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromHome" || widget.label == "fromSplash"|| widget.label == "fromMenu"){
-          Navigator.pop(context, true);
-        } else if (widget.label == "fromCreateSeeds"){
+        if (widget.label == "fromCreateSeeds"){
 
           Navigator.push(
             context, 
@@ -172,6 +202,8 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
+        } else {
+          Navigator.pop(context, true);
         }
         // else if (widget.label == "fromMenu"){
         //   if(res == null){
@@ -275,9 +307,25 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  void onPressedDigit() {
+    setState(() {
+      clearAll();
+      is4digits = !is4digits!;
+      is4digits == true ? init4Digits() : init6Digits();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    return PasscodeBody(
+      label: widget.label, 
+      isFirst: _isFirst, 
+      lsControl: lsControl, 
+      pinIndexSetup: pinIndexSetup, 
+      clearPin: clearPin,
+      is4digits: is4digits,  
+      onPressedDigit: onPressedDigit
+    );
     // Scaffold(
     //   key: globalkey,
     //   body: SizedBox(

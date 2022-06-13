@@ -71,7 +71,7 @@ class GetWalletMethod {
 
       Share.shareFiles([file.path], text: _wallet);
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error qrShare ${e.toString()}");
+      if (ApiProvider().isDebug == true) print("Error qrShare ${e.toString()}");
     }
   }
 

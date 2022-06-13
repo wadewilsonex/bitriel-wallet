@@ -59,15 +59,17 @@ class AssetsItemComponent extends StatelessWidget {
             
                       MyText(
                         text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
                           ? AppColors.darkSecondaryText
                           : AppColors.darkSecondaryText,
                         textAlign: TextAlign.start,
                       )
+                      
                     ],
                   ),
+                  
             
                   // Flexible(
                   //   child: Text.rich(

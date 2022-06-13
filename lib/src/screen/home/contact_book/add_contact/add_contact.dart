@@ -94,7 +94,7 @@ class _AddContactState extends State<AddContact> {
     } catch (e) {
       // Close Dialog Loading
       Navigator.pop(context);
-      if (ApiProvider().isDebug == false) print("Error submitContact $e");
+      if (ApiProvider().isDebug == true) print("Error submitContact $e");
     }
   }
 

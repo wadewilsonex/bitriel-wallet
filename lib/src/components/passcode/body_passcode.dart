@@ -7,8 +7,10 @@ class PasscodeBody extends StatelessWidget{
   final List<TextEditingController>? lsControl;
   final Function? pinIndexSetup;
   final Function? clearPin;
+  final bool? is4digits;
+  final Function? onPressedDigit;
 
-  PasscodeBody({this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin});
+  PasscodeBody({this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -26,17 +28,19 @@ class PasscodeBody extends StatelessWidget{
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label! == true) MyAppBar(
+            if(label != null) MyAppBar(
               title: "Passcode",
               onPressed: () {
                 Navigator.pop(context);
               },
             ) 
+            else Container(),
+
+            if(label != null) Expanded(child: Container(),) 
             else Container(),
             
             // Expanded(
@@ -77,7 +81,7 @@ class PasscodeBody extends StatelessWidget{
             ), 
             SizedBox(height: 5.h),
 
-            Row(
+            is4digits == false ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 
@@ -88,9 +92,32 @@ class PasscodeBody extends StatelessWidget{
                 ReusePinNum(outlineInputBorder, lsControl![4]),
                 ReusePinNum(outlineInputBorder, lsControl![5]),
               ],
+            )
+            : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                
+                ReusePinNum(outlineInputBorder, lsControl![0]),
+                ReusePinNum(outlineInputBorder, lsControl![1]),
+                ReusePinNum(outlineInputBorder, lsControl![2]),
+                ReusePinNum(outlineInputBorder, lsControl![3]),
+              ],
             ),
 
-            SizedBox(height: 10.h),
+            SizedBox(height: 5.h),
+
+            TextButton(
+              onPressed: !isFirst! ? null : () {
+                onPressedDigit!();
+              }, 
+              child: MyText(
+                text: is4digits == false ? "4 digits passcode" : "6 digits passcode",
+                color2: isFirst! ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            SizedBox(height: 2.h),
             ReuseNumPad(pinIndexSetup!, clearPin!),
             
             SizedBox(height: 10.h),

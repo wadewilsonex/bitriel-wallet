@@ -98,7 +98,7 @@ class _AccountState extends State<Account> {
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("_deleteAccount ${e.toString()}");
+      if (ApiProvider().isDebug == true) print("_deleteAccount ${e.toString()}");
       // await dialog(context, e.toString(), 'Opps');
     }
   }
@@ -117,7 +117,7 @@ class _AccountState extends State<Account> {
       }
     } catch (e) {
       //await dialog(context, e.toString(), 'Opps');
-      if (ApiProvider().isDebug == false) print("Error getBackupKey $e");
+      if (ApiProvider().isDebug == true) print("Error getBackupKey $e");
     }
     _accountModel.pinController.text = '';
   }

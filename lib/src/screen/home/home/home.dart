@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
 
 
   void onPageChanged(int index){
-    print("tab $index");
     setState(() {
       _model.activeIndex = index;
     });

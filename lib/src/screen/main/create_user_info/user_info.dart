@@ -1,11 +1,12 @@
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
+import 'package:defichaindart/defichaindart.dart';
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-// import 'package:bip39/bip39.dart' as bip39;
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -40,7 +41,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     await FlutterScreenshotSwitcher.enableScreenshots();
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error enableScreenshot $e");
+      if (ApiProvider().isDebug == true) print("Error enableScreenshot $e");
     }
   }
 
@@ -200,8 +201,8 @@ class MyUserInfoState extends State<MyUserInfo> {
           await StorageServices().writeSecure(DbKey.private, _res);
 
           await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-          // await queryBtcData();
+          
+          await _api.queryBtcData(context, widget.passPhrase, _userInfoM.confirmPasswordCon.text);
 
           await ContractsBalance().getAllAssetBalance(context: context);
           await successDialog(context, "Account is created.");
@@ -223,38 +224,6 @@ class MyUserInfoState extends State<MyUserInfo> {
     api.setAccount(accM);
     Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
-
-  // Future<void> queryBtcData() async {
-
-  //   final contractPro = Provider.of<ContractProvider>(context, listen: false);
-  //   final api = Provider.of<ApiProvider>(context, listen: false);
-    
-  //   try {
-  //     final seed = bip39.mnemonicToSeed(widget.passPhrase);
-  //     final hdWallet = HDWallet.fromSeed(seed);
-      
-  //     contractPro.listContract[api.btcIndex].address = hdWallet.address!;
-      
-  //     final keyPair = ECPair.fromWIF(hdWallet.wif!);
-
-  //     final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-  //     await StorageServices.storeData(bech32Address, DbKey.bech32);
-  //     await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
-
-  //     final res = await api.encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
-
-  //     await StorageServices().writeSecure(DbKey.btcwif, res);
-
-  //     // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
-
-  //     // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
-  //     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-  //     // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
-
-  //   } catch (e) {
-  //     await customDialog(context, 'Oops', e.toString());
-  //   }
-  // }
 
   PopupMenuItem item(Map<String, dynamic> list) {
     return PopupMenuItem(

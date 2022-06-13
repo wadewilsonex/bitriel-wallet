@@ -41,7 +41,7 @@ class StorageServices {
       _decode = jsonEncode(_data);
       _preferences!.setString(_path, _decode!);
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error storeData $e");
+      if (ApiProvider().isDebug == true) print("Error storeData $e");
     }
     return _preferences!;
   }
@@ -74,7 +74,7 @@ class StorageServices {
       await _preferences!.setString(DbKey.listContract, lsContract);
       await _preferences!.setString(DbKey.addedContract, adContract);
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error storeAssetData $e");
+      if (ApiProvider().isDebug == true) print("Error storeAssetData $e");
     }
   }
 
@@ -221,7 +221,7 @@ class StorageServices {
       }
 
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error fetchAsset $e");
+      if (ApiProvider().isDebug == true) print("Error fetchAsset $e");
     }
     //return _preferences.getString(_path);
   }

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 5.0.0+72
+version: 5.0.0+74
 #6 feature
 #8 debug
 #1 refactor
@@ -87,10 +87,10 @@ dependencies:
   animations:
   provider:
   web3dart: 
-  # bip39:
+  bip39:
 
-  # dart_ecpair:
-  # defichaindart:
+  dart_ecpair:
+  defichaindart:
 
   flutter_secure_storage:
   flutter_screenshot_switcher:
@@ -114,6 +114,10 @@ dependencies:
   flutter_screen_lock: 5.0.12
   ai_progress: 2.0.0
   responsive_sizer: 3.0.8
+
+  # Third-party
+  wallet_connect:
+  eth_sig_util: ^0.0.7
   
   # Download
   # path_provider:

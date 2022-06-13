@@ -117,7 +117,6 @@ class TrxOptionMethod {
     await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
       
     if (value != null) {
-      print("push replacement: $pushReplacement");
       pushReplacement == true ?
       await Navigator.push(
         context,

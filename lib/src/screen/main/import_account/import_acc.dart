@@ -52,7 +52,7 @@ class ImportAccState extends State<ImportAcc> {
       
       setState((){});
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
     return res;
   }
@@ -102,7 +102,7 @@ class ImportAccState extends State<ImportAcc> {
 
     //   }
     // } catch (e) {
-    //   if (ApiProvider().isDebug == false) print("Error submit $e");
+    //   if (ApiProvider().isDebug == true) print("Error submit $e");
     // }
   }
 
@@ -251,7 +251,7 @@ class ImportAccState extends State<ImportAcc> {
       print("enable $enable");
       setState(() { });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
   }
 
@@ -329,7 +329,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      // await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 
