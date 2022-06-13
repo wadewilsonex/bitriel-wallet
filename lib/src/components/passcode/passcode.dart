@@ -7,10 +7,19 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
+enum PassCodeLabel {
+  fromSplash,
+  fromCreateSeeds,
+  fromImportSeeds,
+  fromSendTx,
+  fromMenu,
+  fromChangePin,
+  fromBackUp
+}
 
 class Passcode extends StatefulWidget {
 
-  final String? label;
+  final PassCodeLabel? label;
   final bool? isAppBar;
   const Passcode({this.isAppBar = false, required this.label});
   //static const route = '/passcode';
@@ -81,7 +90,6 @@ class _PasscodeState extends State<Passcode> {
 
   @override
   void initState() {
-
     StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
     authToHome();
     _isFirst = true;
@@ -128,7 +136,7 @@ class _PasscodeState extends State<Passcode> {
           strPin += lsControl[i].text;
         }
         
-        if (widget.label == "fromSplash") {
+        if (widget.label == PassCodeLabel.fromSplash) {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
@@ -145,6 +153,7 @@ class _PasscodeState extends State<Passcode> {
       firstPin = pin;
 
       clearAll();
+
       setState(() {
         _isFirst = false;
       });
@@ -168,8 +177,11 @@ class _PasscodeState extends State<Passcode> {
         _isFirst = false;
       });
 
-      if (widget.label == "fromSendTx"){
+      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromChangePin){
         Navigator.pop(context, pin);
+      }
+      if (widget.label == PassCodeLabel.fromMenu) {
+        Navigator.pop(context, true);
       }
       
       if (mounted) {
@@ -184,7 +196,7 @@ class _PasscodeState extends State<Passcode> {
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromCreateSeeds"){
+        if (widget.label == PassCodeLabel.fromCreateSeeds){
 
           Navigator.push(
             context, 
@@ -193,7 +205,7 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else if (widget.label == "fromImportSeeds"){
+        } else if (widget.label == PassCodeLabel.fromImportSeeds){
 
           Navigator.push(
             context, 
@@ -202,6 +214,9 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
+        } else if (widget.label == PassCodeLabel.fromChangePin){
+          
+          Navigator.pop(context, pin);
         } else {
           Navigator.pop(context, true);
         }

@@ -36,7 +36,7 @@ class ListTileComponent extends StatelessWidget{
 
               Icon(
                 Icons.arrow_forward_ios, 
-                size: 22.5.sp,
+                size: 18.5.sp,
                 color: hexaCodeToColor(isDarkTheme
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor)

@@ -113,11 +113,15 @@ class AssetsPageBody extends StatelessWidget {
               ),
 
               SizedBox(height: 2.h),
-              MyText(
-                text: "≈ \$134.72",
-                color: AppColors.whiteColorHexa,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
+              Consumer<ContractProvider>(
+                builder: (context, provider, widget){
+                  return MyText(
+                    text: "≈ \$${provider.mainBalance.toStringAsFixed(5)}",
+                    color: AppColors.whiteColorHexa,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  );
+                }
               ),
 
               SizedBox(height: 3.h),

@@ -76,7 +76,6 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
     try {
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
-      print("res $res");
       if (res == true){ 
 
         dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
@@ -97,7 +96,6 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
 
         await importAccountNAsset(api);
-        
         
         await DialogComponents().dialogCustom(
           context: context,

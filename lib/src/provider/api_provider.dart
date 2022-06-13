@@ -52,7 +52,7 @@ class ApiProvider with ChangeNotifier {
   String? _jsCode;
 
   bool isMainnet = true;
-  bool isDebug = false;
+  bool isDebug = true;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -422,7 +422,7 @@ class ApiProvider with ChangeNotifier {
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
         res = value;
-        await getSelNativeChainDecimal(context: context);
+        if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context);
       });
 
       // final res = await _sdk.webView!.evalJavascript("settings.connect(${jsonEncode([node].map((e) => e.endpoint).toList())})");
@@ -436,7 +436,9 @@ class ApiProvider with ChangeNotifier {
     return null;
   }
 
-  // Connect SEL Chain
+  /// Connect SEL Chain
+  /// 
+  /// Inside This Chain Decimal Also Call Get Balance
   Future<void> getSelNativeChainDecimal({@required BuildContext? context}) async {
     try {
       dynamic res;
@@ -462,24 +464,28 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {
+    print("subSELNativeBalance");
     try {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
-      Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address!);
+      // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address!);
+      print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
+      print("Balance ${value['freeBalance']}");
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
           int.parse(contract.listContract[selNativeIndex].chainDecimal!),
         );
         await contract.sortAsset();
       });
-      // await _sdk.api.account.subscribeBalance(contract.listContract[0].address, (res) {
-      //   contract.listContract[0].balance = Fmt.balance(
+      // await _sdk.api.account.subscribeBalance(contract.listContract[selNativeIndex].address, (res) async {
+        
+      //   print("finish subscribeBalance ${res.freeBalance}");
+      //   contract.listContract[selNativeIndex].balance = Fmt.balance(
       //     res.freeBalance.toString(),
-      //     int.parse(contract.listContract[0].chainDecimal!),
+      //     int.parse(contract.listContract[selNativeIndex].chainDecimal!),
       //   );
-
-      //   notifyListeners();
+      //   await contract.sortAsset();
       // });
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error subscribeSELBalance $e");
@@ -523,7 +529,6 @@ class ApiProvider with ChangeNotifier {
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       // final msgChannel = 'NBalance';
       // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
-
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[dotIndex].address}', 'Balance')").then((value) {//_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
         
         contract.listContract[dotIndex].balance = Fmt.balance(
@@ -570,6 +575,22 @@ class ApiProvider with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<void> changePin({required BuildContext? context, String? passOld, String? newOld}) async {
+    // try {
+
+    //   accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+    //   accountM.name = _keyring.current.name;
+
+    //   Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      
+    //   contractProvider!.setSELNativeAddr(accountM.address!);
+    // } catch (e){
+    //   if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    // }
+
+    // notifyListeners();
   }
 
   Future<List> getCheckInList(String attender) async {

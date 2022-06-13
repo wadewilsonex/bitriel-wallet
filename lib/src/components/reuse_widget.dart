@@ -232,7 +232,10 @@ BoxDecoration signOutColor() {
 /* Dialog of response from server */
 // ignore: type_annotate_public_apis
 
-Future<void> successDialog(BuildContext context, String operationText) async {
+Future<void> successDialog(
+  BuildContext context, String operationText, {
+    Widget? route = const HomePage()
+}) async {
   await Future.delayed(Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
@@ -273,7 +276,7 @@ Future<void> successDialog(BuildContext context, String operationText) async {
                   end: Alignment.topRight,
                   action: (){
                     Navigator.pop(context);
-                    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage()), ModalRoute.withName('/'));
+                    Navigator.pushAndRemoveUntil(context, Transition(child: route!), ModalRoute.withName('/'));
                   }
                 )
 

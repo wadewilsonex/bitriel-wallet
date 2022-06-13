@@ -61,6 +61,8 @@ class ContractProvider with ChangeNotifier {
 
   Web3Client get bscClient => _bscClient!;
   
+  double mainBalance = 0.0;
+  
   AppConfig _appConfig = AppConfig();
 
   Future<void> initBep20Service(String contract) async {
@@ -338,6 +340,7 @@ class ContractProvider with ChangeNotifier {
   Future? sortAsset() async {
     try {
 
+      mainBalance = 0;
       sortListContract.clear();
       
       await StorageServices.fetchData(DbKey.hdWallet).then((value) {
@@ -348,6 +351,7 @@ class ContractProvider with ChangeNotifier {
       listContract.forEach((element) {
         // if (element.show!) 
         sortListContract.addAll({element});
+        mainBalance = mainBalance + double.parse(element.balance!.replaceAll(",", ""));
       });
 
       // 2. Add Imported Asset
@@ -371,6 +375,8 @@ class ContractProvider with ChangeNotifier {
         // print("contractTest ${element.contractTest}");
         // print("lineChartModel ${element.lineChartModel}!");
         // if (element.show!) 
+        // print("value.balance!.replaceAll(',', '') ${value.replaceAll(",", "")}");
+        mainBalance = mainBalance + double.parse(element.balance!.replaceAll(",", ""));
         sortListContract.addAll({element});
       });
 

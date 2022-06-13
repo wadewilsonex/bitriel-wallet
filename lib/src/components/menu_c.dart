@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class MenuHeader extends StatelessWidget {
   
   final Map<String, dynamic>? userInfo;
-
+ 
   const MenuHeader({this.userInfo});
 
   @override
@@ -35,7 +35,10 @@ class MenuHeader extends StatelessWidget {
                 onTap: value.accountM.address == null ? null : () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Account())
+                    Transition(
+                      child: Account(),
+                      transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    )
                   );
                 },
                 child: AvatarShimmer(
