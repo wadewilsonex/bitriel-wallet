@@ -107,7 +107,7 @@ class MenuBody extends StatelessWidget {
               );
               if (res == true) {
                 enablePassword!(true);
-              } else if (res == false) {
+              } else {
                 enablePassword!(false);
               }
             },

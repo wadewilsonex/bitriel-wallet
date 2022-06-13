@@ -60,7 +60,31 @@ class _PasscodeState extends State<Passcode> {
 
   bool? _isFirst;
 
+  bool? is4digits = false;
+
   List<String> currentPin = ["", "", "", "", "", ""];
+  
+  void init4Digits() {
+    currentPin = ["", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
+
+  void init6Digits() {
+    currentPin = ["", "", "", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
 
   @override
   void initState() {
@@ -73,7 +97,7 @@ class _PasscodeState extends State<Passcode> {
   void clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == 6) {
+    } else if (pinIndex == (is4digits! ? 4 : 6)) {
       lsControl[pinIndex-1].text = "";
       pinIndex--;
     } else {
@@ -97,12 +121,12 @@ class _PasscodeState extends State<Passcode> {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       pinIndex = 1;
-    } else if (pinIndex < 6) {
+    } else if (pinIndex < (is4digits! ? 4 : 6)) {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       ++pinIndex;
 
-      if (pinIndex == 6){
+      if (pinIndex == (is4digits! ? 4 : 6)){
         
         String strPin = "";
 
@@ -289,9 +313,25 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  void onPressedDigit() {
+    setState(() {
+      clearAll();
+      is4digits = !is4digits!;
+      is4digits == true ? init4Digits() : init6Digits();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    return PasscodeBody(
+      label: widget.label, 
+      isFirst: _isFirst, 
+      lsControl: lsControl, 
+      pinIndexSetup: pinIndexSetup, 
+      clearPin: clearPin,
+      is4digits: is4digits,  
+      onPressedDigit: onPressedDigit
+    );
     // Scaffold(
     //   key: globalkey,
     //   body: SizedBox(

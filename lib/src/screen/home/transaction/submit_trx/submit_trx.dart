@@ -96,7 +96,8 @@ class SubmitTrxState extends State<SubmitTrx> {
       builder: (BuildContext context) {
         return Material(
           color: Colors.transparent,
-          child: FillPin(),
+          // child: FillPin(),
+          child: Passcode(label: PassCodeLabel.fromSendTx),
         );
       }
     );
