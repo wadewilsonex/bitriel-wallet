@@ -44,7 +44,7 @@ class SubmitTrxService {
 
           await sendTx(_api, scanPay, password, context, txInfoData, chainDecimal);
 
-          await _api.subSELNativeBalance(context: context);
+          await _api.getSelNativeChainDecimal(context: context);
           return true;
         });
       } else {

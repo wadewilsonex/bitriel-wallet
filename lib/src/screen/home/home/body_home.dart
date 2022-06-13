@@ -216,7 +216,7 @@ class HomePageBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: MenuItem(
+                child: MyMenuItem(
                   title: "Swap",
                   icon: Icon(Iconsax.card_coin, color: Colors.white, size: iconSize),
                   begin: Alignment.topLeft,
@@ -230,7 +230,7 @@ class HomePageBody extends StatelessWidget {
               SizedBox(width: 10,),
 
               Expanded(
-                child: MenuItem(
+                child: MyMenuItem(
                   title: "Staking",
                   icon: Icon(Iconsax.discount_shape, color: Colors.white, size: iconSize),
                   begin: Alignment.topRight,
@@ -250,7 +250,7 @@ class HomePageBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: MenuItem(
+                child: MyMenuItem(
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
@@ -271,7 +271,7 @@ class HomePageBody extends StatelessWidget {
               SizedBox(width: 10,),
 
               Expanded(
-                child: MenuItem(
+                child: MyMenuItem(
                   title: "Recieve",
                   icon: Icon(Iconsax.import, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomCenter,
@@ -288,7 +288,7 @@ class HomePageBody extends StatelessWidget {
               SizedBox(width: 10,),
 
               Expanded(
-                child: MenuItem(
+                child: MyMenuItem(
                   title: "Pay",
                   icon: Icon(Iconsax.scan, color: Colors.white, size: iconSize),
                   begin: Alignment.bottomRight,

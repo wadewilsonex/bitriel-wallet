@@ -27,7 +27,7 @@ class AppState extends State<App> {
     MarketProvider().fetchTokenMarketPrice(context);
     // readTheme();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       await initApi();
 

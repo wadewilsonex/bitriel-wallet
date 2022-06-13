@@ -81,12 +81,9 @@ class _SwapState extends State<Swap> {
           if (approveHash != null) {
             // await Future.delayed(Duration(seconds: 10));
             final approveStatus = await contract.getSwap.listenTransfer(approveHash);
-            print("approveStatus getSwap $approveStatus");
 
             if (approveStatus!) {
               final resAllow = await ContractProvider().checkAllowance();
-              
-              print("resAllow $resAllow");
 
               if (resAllow.toString() == '0') {
                 final swapHash = await swap(res);

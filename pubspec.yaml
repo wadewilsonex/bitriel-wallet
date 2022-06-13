@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 5.0.0+73
+version: 5.0.1+76
 #6 feature
 #8 debug
 #1 refactor
@@ -62,7 +62,7 @@ dependencies:
   qr_code_scanner:
 
   # Chart
-  fl_chart: 0.46.0
+  fl_chart: ^0.46.0
   pie_chart:
 
   # Icons
@@ -81,7 +81,7 @@ dependencies:
   shimmer:
 
   # Authentication & Verification
-  local_auth: 1.1.11
+  local_auth:
   web_socket_channel:
     # path: ../
   animations:
@@ -96,7 +96,7 @@ dependencies:
   flutter_screenshot_switcher:
 
   #Contact
-  fluttercontactpicker: 
+  fluttercontactpicker: ^4.7.0
   
   #animation
   flare_flutter:
@@ -107,13 +107,13 @@ dependencies:
   fluttertoast:
   in_app_update:
   tutorial_coach_mark:
-  transition: 2.0.2
+  transition: ^2.0.2
   lottie: ^1.3.0
 
   # flutter lock passcode
-  flutter_screen_lock: 5.0.12
-  ai_progress: 2.0.0
-  responsive_sizer: 3.0.8
+  flutter_screen_lock: ^5.0.12
+  ai_progress: ^2.0.0
+  responsive_sizer: ^3.0.8
 
   # Third-party
   wallet_connect:

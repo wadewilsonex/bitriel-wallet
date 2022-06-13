@@ -7,7 +7,7 @@ class BioAuth {
     // ignore: join_return_with_assignment
    return await _localAuth.authenticate(
       localizedReason: 'Please complete the biometrics to proceed.',
-      stickyAuth: true,
+      // stickyAuth: true,
     );
 
   }

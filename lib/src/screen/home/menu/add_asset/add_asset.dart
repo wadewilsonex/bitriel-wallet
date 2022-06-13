@@ -170,9 +170,6 @@ class AddAssetState extends State<AddAsset> {
 
       // Validate For Substrate Address
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-
-      print("resEther: $resEther");
-      print("res: $res");
       
       if (res || resEther) {
 

@@ -2,7 +2,7 @@ import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{
   
-  final String? label;
+  final PassCodeLabel? label;
   final bool? isFirst;
   final List<TextEditingController>? lsControl;
   final Function? pinIndexSetup;
@@ -30,7 +30,7 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label != null) MyAppBar(
+            if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
               title: "Passcode",
               onPressed: () {
                 Navigator.pop(context);
@@ -71,7 +71,7 @@ class PasscodeBody extends StatelessWidget{
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (label == 'fromSplash')
+                if (label == PassCodeLabel.fromSplash)
                 passCodeContents[1]
                 else 
                 passCodeContents[0]

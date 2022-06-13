@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
@@ -308,7 +309,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       // Show Dialog Fill PIN
       // await  dialogBox().then((String? resPin) async {
-      await Navigator.push(context, Transition(child: Passcode(label: 'fromSendTx'), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+      await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
         print("resPin $resPin");
         if (resPin != null) {
 
@@ -454,8 +455,6 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   
   bool pushReplacement = false;
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -17,13 +17,15 @@ class ContractsBalance {
 
       // await contractProvider.setSavedList().then((value) async {
 
-        // await contractProvider.selTokenWallet(context);
-        // await contractProvider.selv2TokenWallet(context);
-        // await contractProvider.ethWallet();
-        // await contractProvider.bnbWallet();
-        // await contractProvider.kgoTokenWallet();
+        await apiProvider.getSelNativeChainDecimal(context: context);
 
-        // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
+        await contractProvider.selTokenWallet(context);
+        await contractProvider.selv2TokenWallet(context);
+        await contractProvider.ethWallet();
+        await contractProvider.bnbWallet();
+        await contractProvider.kgoTokenWallet();
+
+        if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Request Polkadot Contract
         await apiProvider.getBtcBalance(context: context);
   //4
@@ -71,6 +73,11 @@ class ContractsBalance {
       final api = Provider.of<ApiProvider>(context, listen: false);
       dynamic balance;
       
+      await api.connectSELNode(context: context).then((value) async {
+        
+        await api.getSelNativeChainDecimal(context: context);
+      });
+
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
           if (conProvider.listContract[i].org == "ERC-20"){
@@ -110,6 +117,11 @@ class ContractsBalance {
           }
         }
       }
+      // await api.connectPolNon(context: context).then((value) async {
+
+      //   await api.getDotChainDecimal(context: context);
+      //   await api.subscribeDotBalance(context: context);
+      // });
 
       // conProvider.addedContract.forEach((element) async {
       //   if (element.org == "ERC-20"){

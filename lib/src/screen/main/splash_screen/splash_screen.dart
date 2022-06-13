@@ -195,7 +195,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   bool _checkIfDarkModeEnabled() {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
     return darkModeOn;
   }

@@ -103,7 +103,7 @@ class MenuBody extends StatelessWidget {
               // Navigator.pushNamed(context, AppText.passcodeView);
               final res = await Navigator.push(
                 context,
-                Transition(child: Passcode(isAppBar: true, label: 'fromMenu',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                Transition(child: Passcode(isAppBar: true, label: PassCodeLabel.fromMenu,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
               );
               if (res == true) {
                 enablePassword!(true);
