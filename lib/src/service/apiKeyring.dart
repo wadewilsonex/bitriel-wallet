@@ -7,12 +7,18 @@ import 'package:wallet_apps/src/service/encryptSeed_s.dart';
 import 'package:polkawallet_sdk/api/types/addressIconData.dart';
 import 'package:polkawallet_sdk/api/types/verifyResult.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
+import 'package:wallet_apps/src/service/serviceKeyring.dart';
 
 class MyApiKeyring extends ApiKeyring {
 
   final PolkawalletApi apiRoot;
   final ServiceKeyring service;
   MyApiKeyring(this.apiRoot, this.service) : super(apiRoot, service);
+
+  // MyServiceKeyring setServiceKeyring(ServiceKeyring se){
+  //   service.serviceRoot = se.serviceRoot;
+  //   return service;
+  // }
 
   @override
   Future<KeyPairData> addAccount(
@@ -232,17 +238,23 @@ class MyApiKeyring extends ApiKeyring {
   /// check password of account
   @override
   Future<bool> checkPassword(KeyPairData account, String pass) async {
-    final res = await service.checkPassword(account.pubKey, pass);
-    return res;
+    try {
+
+      final res = await service.checkPassword(account.pubKey, pass);
+      print("checkPassword res $res");
+      return res;
+    } catch (e){
+      return false;
+    }
   }
 
   /// change password of account
   @override
-  Future<KeyPairData?> changePassword(
-      Keyring keyring, String passOld, passNew) async {
+  Future<KeyPairData?> changePassword(Keyring keyring, String passOld, passNew) async {
     final acc = keyring.current;
     // 1. change password of keyPair in webView
     final res = await service.changePassword(acc.pubKey, passOld, passNew);
+    print("changePassword $res");
     if (res == null) {
       return null;
     }

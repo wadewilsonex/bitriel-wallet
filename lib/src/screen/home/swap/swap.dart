@@ -113,22 +113,6 @@ class _SwapPageState extends State<SwapPage> {
     }
 
     setCursor(newPos: _model.cursor);
-    // resetCursor();
-
-    // await Future.delayed(Duration(milliseconds: 50), (){
-
-    //   setState(() {
-        
-    //     if (_model.myController!.text != "0") {
-    //       _model.myController!.text = _model.myController!.text.substring(0, _model.myController!.text.length - 1);
-
-    //       // Remove Cursor
-    //       // if (_model.myController!.selection.base != (_model.myController!.text.length-1)){
-    //       //   _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!-1, "");
-    //       // }
-    //     }
-    //   });
-    // });
   }
   
 
