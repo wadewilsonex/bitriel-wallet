@@ -55,9 +55,9 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
     AppServices.noInternetConnection(_homeM.globalKey!);
 
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).subscribeBscbalance(context);
       await Provider.of<ContractProvider>(context, listen: false).subscribeEthbalance();
     });
@@ -204,7 +204,7 @@ class HomeState extends State<Home>  with TickerProviderStateMixin, WidgetsBindi
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

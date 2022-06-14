@@ -108,7 +108,6 @@ class AssetsItemComponent extends StatelessWidget {
                     fontSize: 12,
                     color: AppColors.tokenNameColor
                   )
-            
                   // if (scModel!.marketPrice!.isEmpty)
                   //   MyText(
                   //     top: 4.0,

@@ -76,6 +76,7 @@ class WelcomeBody extends StatelessWidget {
                     const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromImportSeeds)));
                   Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
               )

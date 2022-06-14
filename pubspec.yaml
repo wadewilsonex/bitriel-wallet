@@ -70,7 +70,7 @@ dependencies:
   ######## Permission Package ########
   # Camera
   qr_flutter: 
-  qr_code_scanner:
+  qr_code_scanner: ^1.0.0
 
   # Chart
   fl_chart: ^0.46.0
@@ -136,6 +136,8 @@ dependencies:
   # Device Preview
   device_preview: ^1.1.0
 
+  flutter_native_splash: ^2.2.3
+
   # Download
   # path_provider:
   # downloads_path_provider_28:
@@ -160,15 +162,14 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_native_splash:
 
 # run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
 flutter_native_splash: 
   color: "#023859"
-  color_dark: "#023859"
   
   image: assets/logo/bitriel-splash.png
   android: true
+  android12: false
   ios: true
  
 
