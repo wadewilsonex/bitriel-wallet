@@ -107,22 +107,22 @@ class SubmitTrxBody extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-
-                    // MyText(
-                    //   text: "Available balance",
-                    //   color: AppColors.lowWhite,
-                    //   fontSize: 20,
-                    // ),
                     
-                    // Consumer<ContractProvider>(
-                    //   builder: (context, provider, widget){
-                    //     return MyText(
-                    //       text: provider.sortListContract.elementAt(provider.sortListContract.indexOf(scanPayM!.asset!)).balance,
-                    //       color: AppColors.lowWhite,
-                    //       fontSize: 20,
-                    //     );
-                    //   }
-                    // ),
+                    MyText(
+                      text: "${scanPayM!.balance!} ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+
+                    SizedBox(height: 1.h,),
+
+                    MyText(
+                      text: "available balance",
+                      color: AppColors.lowWhite,
+                    ),
+
+                    SizedBox(height: 10.h,),
 
                     listInput[0],
                     

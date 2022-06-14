@@ -119,7 +119,6 @@ class ApiProvider with ChangeNotifier {
       polNode.endpoint = isMainnet ? AppConfig.networkList[1].wsUrlMN : AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
       polNode.ss58 = 0;
 
-
       // selNode.name = 'Indranet hosted By Selendra';
       // selNode.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
       // selNode.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
@@ -467,7 +466,7 @@ class ApiProvider with ChangeNotifier {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address!);
-      print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
+      // print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
       print("Balance ${value['freeBalance']}");
         contract.listContract[selNativeIndex].balance = Fmt.balance(
@@ -477,14 +476,15 @@ class ApiProvider with ChangeNotifier {
         await contract.sortAsset();
       });
       // await _sdk.api.account.subscribeBalance(contract.listContract[selNativeIndex].address, (res) async {
-        
       //   print("finish subscribeBalance ${res.freeBalance}");
       //   contract.listContract[selNativeIndex].balance = Fmt.balance(
       //     res.freeBalance.toString(),
       //     int.parse(contract.listContract[selNativeIndex].chainDecimal!),
       //   );
+      //   print("my balance ${contract.listContract[selNativeIndex].balance}");
       //   await contract.sortAsset();
       // });
+
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error subscribeSELBalance $e");
     }

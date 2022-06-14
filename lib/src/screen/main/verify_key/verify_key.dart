@@ -78,7 +78,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
       if (res == true){ 
 
-        dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
+        dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
         dynamic _json = await api.apiKeyring.importAccount(
           api.getKeyring,

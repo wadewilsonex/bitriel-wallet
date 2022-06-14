@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:wallet_apps/index.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 
@@ -7,28 +9,23 @@ class SubmitTrxService {
   Future<bool> sendNative(ModelScanPay scanPay, String password, BuildContext context, {@required TransactionInfo? txInfo} ) async {
 
     try {
-      // await trxFunc!.sendTx(scanPay.controlReceiverAddress.text, scanPay.controlAmount.text);
       String? mhash;
-
-      //final res = await validateAddress(target);
 
       final _api = Provider.of<ApiProvider>(context, listen: false);
       final _contract = Provider.of<ContractProvider>(context, listen: false);
 
       final sender = TxSenderData(
-        _contract.sortListContract[scanPay.assetValue!].address,
+        _contract.sortListContract[scanPay.assetValue].address,
         _api.getKeyring.current.pubKey,
       );
 
       final txInfoData = TxInfoData('balances', 'transfer', sender);
 
-      final chainDecimal = _contract.sortListContract[scanPay.assetValue!].chainDecimal;
+      final chainDecimal = _contract.sortListContract[scanPay.assetValue].chainDecimal;
       TxFeeEstimateResult fee;
-      print("_contract.sortListContract[scanPay.assetValue!].symbol == 'SEL' ${_contract.sortListContract[scanPay.assetValue!].symbol == "SEL"}");
-      if (_contract.sortListContract[scanPay.assetValue!].symbol == "SEL"){
+      if (_contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         
         return await _api.connectSELNode(context: context).then((value) async {
-
           fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [

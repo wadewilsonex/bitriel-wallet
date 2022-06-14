@@ -120,9 +120,14 @@ class _AccountState extends State<Account> {
       dialogLoading(context);
       final api = await Provider.of<ApiProvider>(context, listen: false);
       final changePass = await api.apiKeyring.changeName(api.getKeyring, _accountModel.editNameController.text);
-
+      String funcName = "account";
       await api.getAddressIcon();
-      await api.getCurrentAccount(context: context, funcName: 'keyring');
+      while(true){
+        print("funcName $funcName");
+        await api.getCurrentAccount(context: context, funcName: funcName);
+        if (api.accountM.address != null) break;
+        else funcName = 'keyring';
+      }
 
       Navigator.pop(context);
       if (changePass != null) {
