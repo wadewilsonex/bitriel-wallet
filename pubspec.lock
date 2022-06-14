@@ -829,7 +829,18 @@ packages:
       name: mobx
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.7"
+=======
+    version: "2.0.7+3"
+  motion_toast:
+    dependency: "direct main"
+    description:
+      name: motion_toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.9"
+>>>>>>> 29f583ed2b366501a7d1444c21b7ac1f49eb0ecc
   nested:
     dependency: transitive
     description:

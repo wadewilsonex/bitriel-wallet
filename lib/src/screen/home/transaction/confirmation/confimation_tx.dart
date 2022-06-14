@@ -5,12 +5,12 @@ import 'package:wallet_apps/src/components/appbar_c.dart';
 class ConfirmationTx extends StatelessWidget {
   final TransactionInfo? trxInfo;
   final Function? sendTrx;
-  final String? gasFeetoEther;
+  // final String? gasFeetoEther;
   const ConfirmationTx({
     Key? key,
     this.trxInfo,
     this.sendTrx,
-    this.gasFeetoEther,
+    // this.gasFeetoEther,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

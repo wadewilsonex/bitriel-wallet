@@ -70,8 +70,6 @@ class _SwapState extends State<Swap> {
 
       await Component().dialogBox(context).then((value) async {
         final res = await AppServices.getPrivateKey(value, context);
-
-        if (ApiProvider().isDebug) print("res getPrivateKey $res");
         if (res != '') {
           dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
           final approveHash = await approve(res!);

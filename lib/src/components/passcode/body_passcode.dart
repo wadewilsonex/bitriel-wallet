@@ -2,6 +2,8 @@ import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{
   
+  final String? titleStatus;
+  final String? subStatus;
   final PassCodeLabel? label;
   final bool? isFirst;
   final List<TextEditingController>? lsControl;
@@ -10,7 +12,10 @@ class PasscodeBody extends StatelessWidget{
   final bool? is4digits;
   final Function? onPressedDigit;
 
-  PasscodeBody({this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
+  PasscodeBody({
+    this.titleStatus,
+    this.subStatus,
+    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -42,35 +47,26 @@ class PasscodeBody extends StatelessWidget{
 
             if(label != null) Expanded(child: Container(),) 
             else Container(),
-            
-            // Expanded(
-            //   child: 
-            // )
 
-            // SizedBox(
-            //   height: 10.h
-            // ),
-
-            MyText(
+            if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN!' : 'Verify PIN!',
               color: AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
+            ) 
+            // For Change PIN
+            else MyText(
+              text: titleStatus,
+              color: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
-            // Text(
-            //   isFirst! ? 'PIN!' : 'Verify PIN!',
-            //   style: TextStyle(
-            //     fontSize: 26.0,
-            //     fontWeight: FontWeight.bold,
-                
-            //   ),
-            // ),
 
             SizedBox(
               height: 5.h,
             ),
             
-            Column(
+            if (subStatus == null) Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (label == PassCodeLabel.fromSplash)
@@ -78,7 +74,14 @@ class PasscodeBody extends StatelessWidget{
                 else 
                 passCodeContents[0]
               ],
+            ) 
+            // For Change PIN
+            else MyText(
+              text: subStatus,
+              color: AppColors.whiteColorHexa,
+              fontWeight: FontWeight.bold,
             ), 
+
             SizedBox(height: 5.h),
 
             is4digits == false ? Row(

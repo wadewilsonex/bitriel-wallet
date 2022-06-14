@@ -230,13 +230,13 @@ class EncryptSeed extends KeyringPrivateStore{
 
   @override
   Future<void> updateEncryptedSeed(String? pubKey, passOld, passNew) async {
-    final seed = await (getDecryptedSeed(pubKey, passOld)as Future<Map<String, dynamic>>);
-    encryptSeedAndSave(pubKey, seed['seed'], seed['type'], passNew);
+    final seed = await (getDecryptedSeed(pubKey, passOld));
+    encryptSeedAndSave(pubKey, seed!['seed'], seed['type'], passNew);
   }
 
   @override
   Future<Map<String, dynamic>?> getDecryptedSeed(
-      String? pubKey, password) async {
+      String? pubKey, password) async { 
     final key = Encrypt.passwordToEncryptKey(password);
     final mnemonic = _storage.encryptedMnemonics.val[pubKey];
     if (mnemonic != null) {

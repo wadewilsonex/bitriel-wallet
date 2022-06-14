@@ -35,21 +35,13 @@ class _AccountState extends State<Account> {
     }
   }
 
-  void onSubmitChangePin() async{
-    await submitChangePin();
-  }
 
   Future<void> submitBackUpKey() async {
     if (_accountModel.pinController.text.isNotEmpty) {
       await getBackupKey(_accountModel.pinController.text);
     }
   }
-
-  Future<void> submitChangePin() async {
-    if (_accountModel.oldPinController.text.isNotEmpty && _accountModel.newPinController.text.isNotEmpty) {
-      await _changePin(_accountModel.oldPinController.text, _accountModel.newPinController.text);
-    }
-  }
+  
 
   Future<void> deleteAccout() async {
     await customDialog(
@@ -122,32 +114,32 @@ class _AccountState extends State<Account> {
     _accountModel.pinController.text = '';
   }
 
-  Future<void> _changePin(String oldPass, String newPass) async {
-
-    // setState(() {
-    //   _accountModel.loading = true;
-    // });
+  Future<void> _changeName() async {
     dialogLoading(context);
-    final res = await Provider.of<ApiProvider>(context, listen: false);
-    final changePass = await res.apiKeyring.changePassword(res.getKeyring, oldPass, newPass);
-    if (changePass != null) {
-      await customDialog(context, 'Change Pin', 'You pin has changed!!!');
-    } else {
-      await customDialog(context, 'Opps', 'Change Failed!!!');
-    
-      // setState(() {
-      //   _accountModel.loading = false;
-      // });
-    }
-    // setState(() {
-    //   _accountModel.loading = false;
-    // });
+    if (_accountModel.editNameController.text.isNotEmpty){
+      dialogLoading(context);
+      final api = await Provider.of<ApiProvider>(context, listen: false);
+      final changePass = await api.apiKeyring.changeName(api.getKeyring, _accountModel.editNameController.text);
+      String funcName = "account";
+      await api.getAddressIcon();
+      while(true){
+        print("funcName $funcName");
+        await api.getCurrentAccount(context: context, funcName: funcName);
+        if (api.accountM.address != null) break;
+        else funcName = 'keyring';
+      }
 
-    // Close Dialog
-    Navigator.pop(context);
-    _accountModel.oldPinController.text = '';
-    _accountModel.newPinController.text = '';
-    _accountModel.oldNode.requestFocus();
+      Navigator.pop(context);
+      if (changePass != null) {
+        await customDialog(context, 'Change Name', 'You name has changed!!!');
+      } else {
+        await customDialog(context, 'Oops', 'Change Failed!!!');
+      }
+
+      _accountModel.editNameController.text = '';
+      // Close Dialog
+      Navigator.pop(context);
+    }
   }
 
   void copyToClipBoard(String text, BuildContext context) {
@@ -176,6 +168,37 @@ class _AccountState extends State<Account> {
     
   }
 
+  Future<void> submitChangePin() async {
+    // if (_accountModel.oldPassController.text.isNotEmpty && _accountModel.newPassController.text.isNotEmpty) {
+    //   await _changePin(_accountModel.oldPassController.text, _accountModel.newPassController.text);
+    // }
+  }
+
+  Future<void> _changePin() async {
+
+    // setState(() {
+    //   _accountModel.loading = true;
+    // });
+    dialogLoading(context);
+    final res = await Provider.of<ApiProvider>(context, listen: false);
+    await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text).then((value) {
+      print("checkPassword $value");
+    });
+    final changePass = await res.apiKeyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
+    if (changePass != null) {
+      await customDialog(context, 'Change Pin', 'You pin has changed!!!');
+    } else {
+
+      await customDialog(context, 'Opps', 'Change Failed!!!');
+    }
+
+    // Close Dialog
+    Navigator.pop(context);
+    // _accountModel.oldPassController.text = '';
+    // _accountModel.newPassController.text = '';
+    // _accountModel.oldNode.requestFocus();
+  }
+
   @override
   void initState() {
 
@@ -191,11 +214,12 @@ class _AccountState extends State<Account> {
       onSubmitName: onSubmitName,
       onChangeName: onChangeName,
       onChangedBackup: onChangedBackup,
-      onChangedChangePin: onChangedChangePin,
-      onSubmitChangePin: onSubmitChangePin,
       onSubmit: onSubmit,
-      submitChangePin: submitChangePin,
+      onChangedChangePin: onChangedChangePin,
+      onSubmitChangePin: submitChangePin,
+      submitChangePin: _changePin,
       submitBackUpKey: submitBackUpKey,
+      changeName: _changeName,
       deleteAccout: deleteAccout
     );
   }

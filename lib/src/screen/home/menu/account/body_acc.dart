@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/screen/home/menu/account/account_c.dart';
+import 'package:wallet_apps/src/screen/home/menu/account/c_account.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
+import 'package:wallet_apps/src/screen/home/menu/changePin/changePin.dart';
 
 class AccountBody extends StatelessWidget{
 
@@ -17,6 +18,7 @@ class AccountBody extends StatelessWidget{
   final Function? onSubmit;
   final Function? submitChangePin;
   final Function? submitBackUpKey;
+  final Function? changeName;
   final Function? deleteAccout;
 
   AccountBody({
@@ -24,11 +26,12 @@ class AccountBody extends StatelessWidget{
     this.onSubmitName,
     this.onChangeName,
     this.onChangedBackup, 
-    this.onSubmit, 
+    this.onSubmit,
     this.onChangedChangePin, 
     this.onSubmitChangePin, 
     this.submitChangePin, 
     this.submitBackUpKey, 
+    this.changeName, 
     this.deleteAccout
   });
 
@@ -96,14 +99,14 @@ class AccountBody extends StatelessWidget{
                                       borderRadius:BorderRadius.circular(5),
                                     ),
                                     child: SvgPicture.string(
-                                      value.accountM.addressIcon!,
+                                      value.accountM.addressIcon ?? '',
                                     ),
                                   );
                                 },
                               ),
                               
                               MyText(
-                                text: provider.accountM.name,
+                                text: provider.accountM.name ?? '',
                                 color: isDarkTheme
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
@@ -113,7 +116,7 @@ class AccountBody extends StatelessWidget{
                               Padding(
                                 padding: const EdgeInsets.all(paddingSize),
                                 child: MyText(
-                                  text: provider.accountM.address!,
+                                  text: provider.accountM.address ?? '',
                                   color: isDarkTheme
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
@@ -131,15 +134,15 @@ class AccountBody extends StatelessWidget{
 
                     ListTileComponent(
                       action: (){
-                        underContstuctionAnimationDailog(context: context);
-                        // AccountC().showEditName(
-                        //   context,
-                        //   accountModel!.editNameKey,
-                        //   accountModel!.editNameController,
-                        //   accountModel!.newNode,
-                        //   onSubmit!,
-                        //   onChangeName!,
-                        // );
+                        // underContstuctionAnimationDailog(context: context);
+                        AccountC().showEditName(
+                          context,
+                          accountModel!.editNameKey,
+                          accountModel!.editNameController,
+                          accountModel!.newNode,
+                          onChangeName!,
+                          changeName
+                        );
                       },
                       text: 'Edit Wallet Name',
                     ),
@@ -184,10 +187,11 @@ class AccountBody extends StatelessWidget{
                         //   onSubmitChangePin!,
                         //   submitChangePin!,
                         // );
+
                         final res = await Navigator.push(
                           context, 
                           Transition(
-                            child: Passcode(label: PassCodeLabel.fromChangePin,),
+                            child: ChangePin(),
                             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                           )
                         );

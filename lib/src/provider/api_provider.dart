@@ -28,8 +28,6 @@ class ApiProvider with ChangeNotifier {
   MyApiKeyring? _apiKeyring;
 
   KeyringStorage _keyringStorage = KeyringStorage();
-  LocalStorage _storageOld = LocalStorage();
-  KeyringStorage _storage = KeyringStorage();
 
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
@@ -120,7 +118,6 @@ class ApiProvider with ChangeNotifier {
       polNode.name = 'Polkadot(Live, hosted by PatractLabs)';
       polNode.endpoint = isMainnet ? AppConfig.networkList[1].wsUrlMN : AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
       polNode.ss58 = 0;
-
 
       // selNode.name = 'Indranet hosted By Selendra';
       // selNode.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
@@ -469,7 +466,7 @@ class ApiProvider with ChangeNotifier {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address!);
-      print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
+      // print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
       print("Balance ${value['freeBalance']}");
         contract.listContract[selNativeIndex].balance = Fmt.balance(
@@ -479,14 +476,15 @@ class ApiProvider with ChangeNotifier {
         await contract.sortAsset();
       });
       // await _sdk.api.account.subscribeBalance(contract.listContract[selNativeIndex].address, (res) async {
-        
       //   print("finish subscribeBalance ${res.freeBalance}");
       //   contract.listContract[selNativeIndex].balance = Fmt.balance(
       //     res.freeBalance.toString(),
       //     int.parse(contract.listContract[selNativeIndex].chainDecimal!),
       //   );
+      //   print("my balance ${contract.listContract[selNativeIndex].balance}");
       //   await contract.sortAsset();
       // });
+
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error subscribeSELBalance $e");
     }
@@ -565,6 +563,8 @@ class ApiProvider with ChangeNotifier {
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+
+      print("getCurrentAccount ${accountM.address}");
       accountM.name = _keyring.current.name;
 
       Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
@@ -577,20 +577,32 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changePin({required BuildContext? context, String? passOld, String? newOld}) async {
-    // try {
+  Future<void> checkPassword({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
+    try {
 
-    //   accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
-    //   accountM.name = _keyring.current.name;
+      accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
+      accountM.name = _keyring.current.name;
 
-    //   Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
       
-    //   contractProvider!.setSELNativeAddr(accountM.address!);
-    // } catch (e){
-    //   if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
-    // }
+      contractProvider!.setSELNativeAddr(accountM.address!);
+    } catch (e){
+      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    }
 
-    // notifyListeners();
+    notifyListeners();
+  }
+
+  Future<void> changePin({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
+    try {
+
+      await _sdk.webView!.evalJavascript("keyring.changePassword('$pubKey', '$passOld', '$passNew')");
+      
+    } catch (e){
+      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+    }
+
+    notifyListeners();
   }
 
   Future<List> getCheckInList(String attender) async {

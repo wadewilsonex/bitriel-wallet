@@ -264,7 +264,7 @@ class ImportAccState extends State<ImportAcc> {
     //   color: AppColors.whiteColorHexa,
     // );
     
-    dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
+    dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
     dynamic _json = await _api!.apiKeyring.importAccount(
       _api!.getKeyring,

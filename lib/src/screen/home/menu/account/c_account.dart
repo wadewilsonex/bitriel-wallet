@@ -37,10 +37,10 @@ class AccountC {
                     controller: _oldPinController,
                     focusNode: _oldNode,
                     obcureText: true,
-                    validateField: (value) => value.isEmpty || value.length < 4
-                      ? 'Please fill in old 4 digits pin'
+                    validateField: (value) => value.isEmpty || value.length < 6
+                      ? 'Please fill in old 6 digits pin'
                       : null,
-                    textInputFormatter: [LengthLimitingTextInputFormatter(4)],
+                    textInputFormatter: [LengthLimitingTextInputFormatter(6)],
                     onSubmit: onSubmit,
                   ),
                   const SizedBox(height: 16.0),
@@ -50,9 +50,9 @@ class AccountC {
                     focusNode: _newNode,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 6
-                        ? 'Please fill in new 4 digits pin'
+                        ? 'Please fill in new 6 digits pin'
                         : null,
-                    textInputFormatter: [LengthLimitingTextInputFormatter(4)],
+                    textInputFormatter: [LengthLimitingTextInputFormatter(6)],
                     onSubmit: onSubmit,
                     // onChanged: (String value){},
                   ),
@@ -84,8 +84,8 @@ class AccountC {
     GlobalKey<FormState> _editNameKey,
     TextEditingController _editController,
     FocusNode _newNode,
-    Function onSubmit,
-    Function submitChangeName
+    Function submitChangeName,
+    Function? changeName
   ) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -94,7 +94,7 @@ class AccountC {
         final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize,),
-          height: MediaQuery.of(context).size.height / 1.5,
+          height: MediaQuery.of(context).size.height / 2,
           color: isDarkTheme
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
@@ -106,7 +106,9 @@ class AccountC {
                   MyInputField(
                     hintText: 'Enter Name',
                     controller: _editController,
-                    onSubmit: onSubmit, 
+                    onSubmit: () async {
+                      await changeName!();
+                    }, 
                     focusNode: _newNode,
                   ),
 
@@ -117,8 +119,8 @@ class AccountC {
                     textButton: "Update",
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
-                    action: () {
-                      submitChangeName();
+                    action: () async {
+                      await changeName!();
                     },
                   ),
                   

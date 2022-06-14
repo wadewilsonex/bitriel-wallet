@@ -21,14 +21,17 @@ class Passcode extends StatefulWidget {
 
   final PassCodeLabel? label;
   final bool? isAppBar;
-  const Passcode({this.isAppBar = false, required this.label});
+  Passcode({
+    this.isAppBar = false, 
+    this.label
+  });
   //static const route = '/passcode';
 
   @override
-  _PasscodeState createState() => _PasscodeState();
+  PasscodeState createState() => PasscodeState();
 }
 
-class _PasscodeState extends State<Passcode> {
+class PasscodeState extends State<Passcode> {
 
   dynamic res;
   List<TextEditingController> lsControl = [
@@ -60,7 +63,7 @@ class _PasscodeState extends State<Passcode> {
 
   String? firstPin;
 
-  bool? _isFirst;
+  bool? isFirst;
 
   bool? is4digits = false;
 
@@ -92,7 +95,7 @@ class _PasscodeState extends State<Passcode> {
   void initState() {
     StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
     authToHome();
-    _isFirst = true;
+    isFirst = true;
     super.initState();
   }
 
@@ -113,7 +116,7 @@ class _PasscodeState extends State<Passcode> {
   void dispose(){
 
     clearAll();
-    _isFirst = false;
+    isFirst = false;
 
     super.dispose();
   }
@@ -155,7 +158,7 @@ class _PasscodeState extends State<Passcode> {
       clearAll();
 
       setState(() {
-        _isFirst = false;
+        isFirst = false;
       });
     } else {
       if (firstPin == pin) {
@@ -174,7 +177,7 @@ class _PasscodeState extends State<Passcode> {
 
       clearAll();
       setState(() {
-        _isFirst = false;
+        isFirst = false;
       });
 
       if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromChangePin){
@@ -186,7 +189,7 @@ class _PasscodeState extends State<Passcode> {
       
       if (mounted) {
         setState(() {
-          _isFirst = false;
+          isFirst = false;
         });
       }
       
@@ -334,7 +337,7 @@ class _PasscodeState extends State<Passcode> {
   Widget build(BuildContext context) {
     return PasscodeBody(
       label: widget.label, 
-      isFirst: _isFirst, 
+      isFirst: isFirst, 
       lsControl: lsControl, 
       pinIndexSetup: pinIndexSetup, 
       clearPin: clearPin,

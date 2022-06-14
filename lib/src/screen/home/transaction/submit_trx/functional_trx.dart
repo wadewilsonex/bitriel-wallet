@@ -29,23 +29,31 @@ class TrxFunctional {
       context: context!,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
+              fontSize: 20,
               text: text1,
+              color: AppColors.lowWhite,
               fontWeight: FontWeight.w600,
             ),
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(
-              text2,
+            child: MyText(
+              text: text2,
+              color: AppColors.lowWhite,
               textAlign: TextAlign.center,
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Close'),
+              child: MyText(
+                text: 'Close',
+                color: AppColors.lowWhite,
+                fontWeight: FontWeight.bold,
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
