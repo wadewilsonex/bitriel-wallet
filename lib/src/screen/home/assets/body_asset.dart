@@ -40,7 +40,6 @@ class AssetsPageBody extends StatelessWidget {
 
     return Consumer<ApiProvider>(
       builder: (context, provider, widget){
-
         return Container(
           decoration: BoxDecoration(
             color: hexaCodeToColor(AppColors.bluebgColor),
@@ -116,22 +115,23 @@ class AssetsPageBody extends StatelessWidget {
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: "${provider.mainBalance.toStringAsFixed(5)} BTC",
+                    text: "≈ \$${provider.totalAmount.toStringAsFixed(5)}",
                     color: AppColors.whiteColorHexa,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   );
                 }
-              ),SizedBox(height: 2.h),
-              Consumer<ContractProvider>(
-                builder: (context, provider, widget){
-                  return MyText(
-                    text: "≈ \$ ${provider.mainBalance.toStringAsFixed(5)}",
-                    color: AppColors.whiteColorHexa,
-                    fontWeight: FontWeight.bold,
-                  );
-                }
               ),
+              // SizedBox(height: 2.h),
+              // Consumer<ContractProvider>(
+              //   builder: (context, provider, widget){
+              //     return MyText(
+              //       text: "≈ \$ ${provider.mainBalance.toStringAsFixed(5)}",
+              //       color: AppColors.whiteColorHexa,
+              //       fontWeight: FontWeight.bold,
+              //     );
+              //   }
+              // ),
 
               SizedBox(height: 3.h),
 

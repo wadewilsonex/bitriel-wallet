@@ -192,23 +192,35 @@ class AssetsItemComponent extends StatelessWidget {
               ),
             ),
             // Total Amount
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                MyText(
-                  fontSize: 15,
-                  // width: double.infinity,
-                  text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
-                  textAlign: TextAlign.right,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                  bottom: 4.0,
-                  overflow: TextOverflow.fade,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  MyText(
+                    top: 4.0,
+                    fontSize: 15,
+                    // width: double.infinity,
+                    text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+                    textAlign: TextAlign.right,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
+                    overflow: TextOverflow.fade,
+                  ),
+                  MyText(
+                    top: 4.0,
+                    fontSize: 12,
+                    // width: double.infinity,
+                    text: scModel!.marketPrice!.isNotEmpty ? "\$${(double.parse(scModel!.balance!) * double.parse(scModel!.marketPrice!)).toString()}" : '\$0.0',
+                    textAlign: TextAlign.right,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.tokenNameColor,
+                    overflow: TextOverflow.fade,
+                  ),
+                ],
+              ),
             ),
 
             // Graph Chart

@@ -32,6 +32,8 @@ class ContractsBalance {
         /// Fetch and Fill Market Price Into Asset
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         
+        /// Fetch main balance
+        await apiProvider.totalBalance(context: context);
         // await isBtcContain(context: context);
         // await apiProvider.connectSELNode(context: context);
         // await apiProvider.connectSELNode(context: context);
