@@ -92,7 +92,7 @@ class SwapPageBody extends StatelessWidget {
             SizedBox(height: 2.h),
       
             _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
-      
+            
             MyText(
               text: 'Enter how much you want to swap',
               fontWeight: FontWeight.bold,
@@ -105,8 +105,11 @@ class SwapPageBody extends StatelessWidget {
             //   color: AppColors.whiteColorHexa
             // ),
 
-            // Expanded(child: Container()), 
+            Expanded(child: Container()), 
             _buildNumberPad(context, onDeleteTxt, onTabNum),
+
+            // SizedBox(height: 2.h),
+            Expanded(child: Container()),
 
             // SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(
