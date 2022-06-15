@@ -47,6 +47,7 @@ class AssetsItemComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      
                       MyText(
                         text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                         fontSize: 15.5,
@@ -124,6 +125,7 @@ class AssetsItemComponent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+
                 MyText(
                   fontSize: 15,
                   // width: double.infinity,
@@ -138,7 +140,7 @@ class AssetsItemComponent extends StatelessWidget {
                 ),
                 MyText(
                   top: 4.0,
-                  text: scModel!.money!.toStringAsFixed(4),
+                  text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
                   fontSize: 12,
                   color: AppColors.tokenNameColor
                 )

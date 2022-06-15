@@ -126,8 +126,8 @@ class AssetsPageBody extends StatelessWidget {
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: "≈ \$ ${ (provider.mainBalance).toStringAsFixed(5) }",
-                    color: AppColors.whiteColorHexa,
+                    text: "≈ \$ ${ (provider.mainBalance).toStringAsFixed(2) }",
+                    color: AppColors.tokenNameColor,
                     fontWeight: FontWeight.bold,
                   );
                 }

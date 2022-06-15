@@ -353,7 +353,6 @@ class ContractProvider with ChangeNotifier {
         // print("element.balance! ${element.balance!}");
         if (element.marketPrice!.isNotEmpty) element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         else element.money = 0.0;
-        print("${element.symbol} ${element.money}");
         mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
         sortListContract.addAll({element});
       });
@@ -405,8 +404,6 @@ class ContractProvider with ChangeNotifier {
         }
 
       }
-
-      print("mainBalance $mainBalance");
       notifyListeners();
       
     } catch (e) {
