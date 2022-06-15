@@ -45,12 +45,16 @@ class SubmitTrxState extends State<SubmitTrx> {
   @override
   void initState() {
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    
     if (widget.asset != null){
       _scanPayM.asset = widget.asset;
     } else {
-      _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
-      _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
-      _scanPayM.assetValue = 0;
+
+      if (_contractProvider!.sortListContract.isNotEmpty){
+        _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
+        _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+        _scanPayM.assetValue = 0;
+      }
     }
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
@@ -200,17 +204,6 @@ class SubmitTrxState extends State<SubmitTrx> {
           Navigator.pop(context);
           
           await sendTrx(trxFunc!.txInfo!, context: context);
-          // await Navigator.push(
-          //   context,
-          //   Transition(
-          //     child: ConfirmationTx(
-          //       trxInfo: trxFunc!.txInfo,
-          //       sendTrx: sendTrx,
-          //       // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
-          //     ),
-          //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          //   ),
-          // );
         } else {
 
           if (!isValid) {

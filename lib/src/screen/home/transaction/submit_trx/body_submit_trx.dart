@@ -127,59 +127,52 @@ class SubmitTrxBody extends StatelessWidget {
                     listInput[0],
                     
                     /* Type of payment */
-                    Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 16,
-                        left: paddingSize,
-                        right: paddingSize,
-                      ),
+                    // Container(
+                    //   margin: const EdgeInsets.only(
+                    //     bottom: 16,
+                    //     left: paddingSize,
+                    //     right: paddingSize,
+                    //   ),
 
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(
-                          paddingSize, 0, paddingSize, 0
-                        ), 
-                        decoration: BoxDecoration(
-                          color: isDarkTheme
-                            ? Colors.white.withOpacity(0.06)
-                            : hexaCodeToColor(AppColors.whiteHexaColor),
-                          borderRadius: BorderRadius.circular(size5),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: MyText(
-                                text: 'Asset',
-                                textAlign: TextAlign.left,
-                                color: isDarkTheme
-                                  ? AppColors.darkSecondaryText
-                                  : AppColors.textColor,
-                              ),
-                            ),
-                            ReuseDropDown(
-                              icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
-                              initialValue: scanPayM!.assetValue.toString(),
-                              onChanged: onChangeDropDown,
-                              itemsList: ContractService.getConSymbol(context, contract.sortListContract),
-                              style: TextStyle(
-                                color: isDarkTheme
-                                  ? Colors.white
-                                  : hexaCodeToColor(AppColors.blackColor),
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    //   child: Container(
+                    //     padding: const EdgeInsets.fromLTRB(
+                    //       paddingSize, 0, paddingSize, 0
+                    //     ), 
+                    //     decoration: BoxDecoration(
+                    //       color: isDarkTheme
+                    //         ? Colors.white.withOpacity(0.06)
+                    //         : hexaCodeToColor(AppColors.whiteHexaColor),
+                    //       borderRadius: BorderRadius.circular(size5),
+                    //     ),
+                    //     child: Row(
+                    //       children: <Widget>[
+                    //         Expanded(
+                    //           child: MyText(
+                    //             text: 'Asset',
+                    //             textAlign: TextAlign.left,
+                    //             color: isDarkTheme
+                    //               ? AppColors.darkSecondaryText
+                    //               : AppColors.textColor,
+                    //           ),
+                    //         ),
+                    //         ReuseDropDown(
+                    //           icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 22.5.sp),
+                    //           initialValue: scanPayM!.assetValue.toString(),
+                    //           onChanged: onChangeDropDown,
+                    //           itemsList: ContractService.getConSymbol(context, contract.sortListContract),
+                    //           style: TextStyle(
+                    //             color: isDarkTheme
+                    //               ? Colors.white
+                    //               : hexaCodeToColor(AppColors.blackColor),
+                    //             fontSize: 15.sp,
+                    //             fontWeight: FontWeight.w600
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
 
-                      // child: customDropDown(
-                      //   scanPayM.asset ?? "Asset name",
-                      //   list,
-                      //   scanPayM,
-                      //   onChangeDropDown,
-                      //   item,
-                      // ),
-                    ),
+                    // ),
 
                     listInput[1],
                     

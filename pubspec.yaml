@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 5.0.0+79
+version: 5.0.0+80
 #6 feature
 #8 debug
 #1 refactor
@@ -21,17 +21,17 @@ publish_to: none
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-parts:
-  uet-lms:
-    source: .
-    plugin: flutter
-    flutter-target: lib/main.dart
-    build-packages:
-      - libsecret-1-dev
-      - libjsoncpp-dev
-    stage-packages:
-      - libsecret-1-dev
-      - libjsoncpp-dev
+# parts:
+#   uet-lms:
+#     source: .
+#     plugin: flutter
+#     flutter-target: lib/main.dart
+#     build-packages:
+#       - libsecret-1-dev
+#       - libjsoncpp-dev
+#     stage-packages:
+#       - libsecret-1-dev
+#       - libjsoncpp-dev
       
 dependencies:
   cupertino_icons:
@@ -138,6 +138,7 @@ dependencies:
   device_preview: ^1.1.0
 
   flutter_native_splash: ^2.2.3
+  mobile_scanner: ^2.0.0
 
   # Download
   # path_provider:

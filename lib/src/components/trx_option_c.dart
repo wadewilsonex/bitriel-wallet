@@ -9,8 +9,7 @@ class MyBottomSheetItem extends StatelessWidget {
   final String? icon;
   final void Function()? action;
 
-  const MyBottomSheetItem(
-      {@required this.subTitle, @required this.icon, @required this.action});
+  const MyBottomSheetItem({@required this.subTitle, @required this.icon, @required this.action});
 
   @override
   Widget build(BuildContext context) {

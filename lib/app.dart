@@ -48,12 +48,12 @@ class AppState extends State<App> {
       contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
-        // if (value){
-        //   // Sort After MarketPrice Filled Into Asset
-        //   await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        if (value){
+          // Sort After MarketPrice Filled Into Asset
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-        //   contractProvider.setReady();
-        // }
+          contractProvider.setReady();
+        }
       });
       
       await apiProvider.initApi(context: context).then((value) async {

@@ -56,8 +56,8 @@ class HomePageBody extends StatelessWidget {
             ),
             onPressed: () async {
               
-              // portfolioDailog(context: context);
-              underContstuctionAnimationDailog(context: context);
+              portfolioDailog(context: context);
+              // underContstuctionAnimationDailog(context: context);
              
             },
           ),
