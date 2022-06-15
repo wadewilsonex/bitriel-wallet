@@ -97,10 +97,6 @@ export 'package:wallet_apps/src/route/router.dart';
 //Check In
 export 'package:wallet_apps/src/screen/home/check_in/check_in.dart';
 /* Home Screen */
-export 'package:wallet_apps/src/screen/home/home.dart';
-export 'package:wallet_apps/src/screen/home/home.dart';
-export 'package:wallet_apps/src/screen/home/body_home.dart';
-export 'package:wallet_apps/src/screen/home/body_home.dart';
 export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
 export 'package:wallet_apps/src/screen/home/claim_airdrop/claim_airdrop.dart';

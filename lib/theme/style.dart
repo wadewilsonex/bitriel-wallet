@@ -15,7 +15,7 @@ class AppStyle {
       ),
       /* Color All Text */
       textTheme: TextTheme(bodyText2: TextStyle(color: hexaCodeToColor(AppColors.textColor))),
-      canvasColor: hexaCodeToColor("#FFFFFF"),
+      canvasColor: hexaCodeToColor(AppColors.darkBgd),
       //cardColor: hexaCodeToColor(AppConfig.darkBlue50.toString()),
 
       // bottomAppBarTheme:

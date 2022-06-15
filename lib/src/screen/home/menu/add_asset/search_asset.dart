@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/reuse_widget.dart';
 import 'package:wallet_apps/src/models/token.m.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/theme/color.dart';
 
 class SearchAsset extends SearchDelegate {
@@ -84,8 +85,7 @@ class SearchAsset extends SearchDelegate {
                 onTap: () async {
                   Provider.of<ContractProvider>(context, listen: false)
                       .addToken(searchProducts[index].symbol!, context);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
@@ -124,8 +124,7 @@ class SearchAsset extends SearchDelegate {
                   Provider.of<ContractProvider>(context, listen: false)
                       .addToken(searchProducts[index].symbol!, context);
 
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 },
                 child: Container(
                   // padding: const EdgeInsets.all(8.0),

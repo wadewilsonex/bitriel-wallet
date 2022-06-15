@@ -1150,6 +1150,7 @@ Future<void> portfolioDailog({required BuildContext? context}){
     // ),
     btn2: MyGradientButton(
       textButton: "OK",
+      textColor: AppColors.lowWhite,
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
       action: () async {

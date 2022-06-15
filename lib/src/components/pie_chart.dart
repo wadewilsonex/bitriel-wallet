@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 
 class PieChartSample1 extends StatefulWidget {
@@ -14,50 +13,55 @@ class PieChartSample1State extends State {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 28,
-            ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                      pieTouchData: PieTouchData(touchCallback:
-                          (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      }),
-                      startDegreeOffset: 180,
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 1,
-                      centerSpaceRadius: 0,
-                      sections: showingSections()),
+    return Consumer<ContractProvider>(
+      builder: (context, provider, widget){
+        return AspectRatio(
+          aspectRatio: 1.3,
+          child: Card(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 28,
                 ),
-              ),
+                Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: PieChart(
+                      PieChartData(
+                        pieTouchData: PieTouchData(touchCallback:
+                            (FlTouchEvent event, pieTouchResponse) {
+                          setState(() {
+                            if (!event.isInterestedForInteractions ||
+                                pieTouchResponse == null ||
+                                pieTouchResponse.touchedSection == null) {
+                              touchedIndex = -1;
+                              return;
+                            }
+                            touchedIndex = pieTouchResponse
+                                .touchedSection!.touchedSectionIndex;
+                          });
+                        }),
+                        startDegreeOffset: 180,
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        sectionsSpace: 1,
+                        centerSpaceRadius: 0,
+                        sections: showingSections(provider)
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(ContractProvider provider) {
     return List.generate(
       4,
       (i) {
@@ -73,8 +77,8 @@ class PieChartSample1State extends State {
           case 0:
             return PieChartSectionData(
               color: color0.withOpacity(opacity),
-              value: 25,
-              title: '',
+              value: double.parse(provider.sortListContract[i].balance!),
+              title: provider.sortListContract[i].symbol!,
               radius: 80,
               titleStyle: const TextStyle(
                   fontSize: 18,
@@ -88,8 +92,8 @@ class PieChartSample1State extends State {
           case 1:
             return PieChartSectionData(
               color: color1.withOpacity(opacity),
-              value: 25,
-              title: '',
+              value: double.parse(provider.sortListContract[i].balance!),
+              title: provider.sortListContract[i].symbol!,
               radius: 65,
               titleStyle: const TextStyle(
                   fontSize: 18,
@@ -103,8 +107,8 @@ class PieChartSample1State extends State {
           case 2:
             return PieChartSectionData(
               color: color2.withOpacity(opacity),
-              value: 25,
-              title: '',
+              value: double.parse(provider.sortListContract[i].balance!),
+              title: provider.sortListContract[i].symbol!,
               radius: 60,
               titleStyle: const TextStyle(
                   fontSize: 18,
@@ -118,8 +122,8 @@ class PieChartSample1State extends State {
           case 3:
             return PieChartSectionData(
               color: color3.withOpacity(opacity),
-              value: 25,
-              title: '',
+              value: double.parse(provider.sortListContract[i].balance!),
+              title: provider.sortListContract[i].symbol!,
               radius: 70,
               titleStyle: const TextStyle(
                   fontSize: 18,
@@ -150,30 +154,34 @@ class Indicator extends StatelessWidget {
     required this.color,
     required this.text,
     required this.isSquare,
-    this.size = 16,
+    this.size = 5,
     this.textColor = const Color(0xff505050),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
-            color: color,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: paddingSize*2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: size.w,
+            height: size.w,
+            decoration: BoxDecoration(
+              shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
+              color: color,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 2.w,
-        ),
-        MyText(
-          text: text,
-           fontWeight: FontWeight.bold, color: AppColors.whiteColorHexa
-        )
-      ],
+          SizedBox(
+            width: 2.w,
+          ),
+          MyText(
+            text: text,
+             fontWeight: FontWeight.bold, color: AppColors.whiteColorHexa
+          )
+        ],
+      ),
     );
   }
 }
@@ -193,86 +201,82 @@ class PieChart2State extends State {
     return Consumer<ContractProvider>(
       builder: (context, provider, widget){
        
-        return AspectRatio(
-          aspectRatio: 7.sp,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: hexaCodeToColor(AppColors.bluebgColor),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(color: Colors.white, blurRadius: 20.0),
-                    ],
-                  ),
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback:
-                          (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 20,
-                      sections: showingSections(provider)
-                    ),
-                  ),
-                ),
-              ),
-      
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Indicator(
-                    color: hexaCodeToColor(AppColors.darkBgd),
-                    text: provider.sortListContract[0].symbol!,
-                    isSquare: true,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: hexaCodeToColor("#EC6B56"),
-                    text: provider.sortListContract[1].symbol!,
-                    isSquare: true,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: hexaCodeToColor("#FFC154"),
-                    text: provider.sortListContract[2].symbol!,
-                    isSquare: true,
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Indicator(
-                    color: hexaCodeToColor("#47B39C"),
-                    text: provider.sortListContract[3].symbol!,
-                    isSquare: true,
-                  ),
-                  SizedBox(
-                    height: 18,
-                  ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+
+            Container(
+              height: 10.h,
+              decoration: BoxDecoration(
+                color: hexaCodeToColor(AppColors.bluebgColor),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(color: Colors.white, blurRadius: 20.0),
                 ],
               ),
-            ],
-          ),
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions || pieTouchResponse == null || pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex = pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                  }),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 20,
+                  sections: showingSections(provider)
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: 5.h,
+            ),
+      
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+
+                Indicator(
+                  color: hexaCodeToColor(AppColors.orangeColor),
+                  text: provider.sortListContract[0].symbol!,
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: hexaCodeToColor(AppColors.darkBgd),
+                  text: provider.sortListContract[1].symbol!,
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: hexaCodeToColor("#FFC154"),
+                  text: provider.sortListContract[2].symbol!,
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: hexaCodeToColor("#47B39C"),
+                  text: provider.sortListContract[3].symbol!,
+                  isSquare: true,
+                ),
+              ],
+            ),
+          ],
         );
       }
     );
@@ -284,27 +288,27 @@ class PieChart2State extends State {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: hexaCodeToColor(AppColors.darkBgd),
+            color: hexaCodeToColor(AppColors.orangeColor),
             // value: 100,
-            value: double.parse(provider.sortListContract[0].balance!.replaceAll(RegExp('[^A-Za-z0-9]'), "")),
+            value: double.parse(provider.sortListContract[0].balance!.replaceAll(",", "")),
             showTitle: false,
           );
         case 1:
           return PieChartSectionData(
-            color: hexaCodeToColor("#EC6B56"),
-            value: double.parse(provider.sortListContract[1].balance!.replaceAll(RegExp('[^A-Za-z0-9]'), "")),
+            color: hexaCodeToColor(AppColors.darkBgd),
+            value: double.parse(provider.sortListContract[1].balance!.replaceAll(",", "")),
             showTitle: false,
           );
         case 2:
           return PieChartSectionData(
             color: hexaCodeToColor("#FFC154"),
-            value: double.parse(provider.sortListContract[2].balance!.replaceAll(RegExp('[^A-Za-z0-9]'), "")),
+            value: double.parse(provider.sortListContract[2].balance!.replaceAll(",", "")),
             showTitle: false,
           );
         case 3:
           return PieChartSectionData(
             color: hexaCodeToColor("#47B39C"),
-            value: double.parse(provider.sortListContract[3].balance!.replaceAll(RegExp('[^A-Za-z0-9]'), "")),
+            value: double.parse(provider.sortListContract[3].balance!.replaceAll(",", "")),
             showTitle: false,
           );
         default:

@@ -25,6 +25,7 @@ class SmartContractModel {
   List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
   LineChartModel? lineChartModel = LineChartModel();
+  double? money;
 
   SmartContractModel({
     this.id,
