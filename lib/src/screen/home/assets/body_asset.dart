@@ -39,7 +39,8 @@ class AssetsPageBody extends StatelessWidget {
   Widget _userWallet(BuildContext context) {
 
     return Consumer<ApiProvider>(
-      builder: (context, provider, widget){
+      builder: (context, apiProvider, widget){
+
         return Container(
           decoration: BoxDecoration(
             color: hexaCodeToColor(AppColors.bluebgColor),
@@ -59,7 +60,7 @@ class AssetsPageBody extends StatelessWidget {
 
               // PieChartSample3(),
 
-              if(provider.accountM.addressIcon == null)
+              if(apiProvider.accountM.addressIcon == null)
               Shimmer.fromColors(
                 child: Container(
                   width: 60,
@@ -88,11 +89,11 @@ class AssetsPageBody extends StatelessWidget {
                     BoxShadow(color: Colors.white, blurRadius: 10.0),
                   ],
                 ),
-                child: SvgPicture.string(provider.accountM.addressIcon!),
+                child: SvgPicture.string(apiProvider.accountM.addressIcon!),
               ),
 
               SizedBox(height: 2.h),
-              if(provider.accountM.addressIcon == null)
+              if(apiProvider.accountM.addressIcon == null)
               Shimmer.fromColors(
                 child: Container(
                   width: 100,
@@ -106,7 +107,7 @@ class AssetsPageBody extends StatelessWidget {
               )
               else MyText(
                 bottom: 3,
-                text: provider.accountM.name ?? '',
+                text: apiProvider.accountM.name ?? '',
                 color: AppColors.whiteColorHexa,
                 fontSize: 20.sp,
               ),
@@ -115,9 +116,18 @@ class AssetsPageBody extends StatelessWidget {
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: "≈ \$${provider.totalAmount.toStringAsFixed(5)}",
+                    text: """${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5) } BTC""",
                     color: AppColors.whiteColorHexa,
                     fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  );
+                }
+              ),SizedBox(height: 2.h),
+              Consumer<ContractProvider>(
+                builder: (context, provider, widget){
+                  return MyText(
+                    text: "≈ \$ ${ (provider.mainBalance).toStringAsFixed(5) }",
+                    color: AppColors.whiteColorHexa,
                     fontWeight: FontWeight.bold,
                   );
                 }

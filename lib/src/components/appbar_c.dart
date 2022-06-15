@@ -121,7 +121,7 @@ class MyAppBar extends StatelessWidget {
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,
-                  fontSize: 17,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.w600
                 ),
               ],
