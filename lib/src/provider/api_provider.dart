@@ -300,6 +300,32 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
+  Future<void> totalBalance({@required BuildContext? context}) async {
+    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    
+    double total = 0.0;
+
+    var balance_list = [];
+    
+    contract.sortListContract.forEach((element) {
+      if(element.marketPrice!.isNotEmpty){
+        total = double.parse(element.balance!) * double.parse(element.marketPrice!);
+        balance_list.add(total);
+      }
+    });
+
+    print("balance_list: ${balance_list}");
+    print("balance_list length: ${balance_list.length}");
+    
+
+    total = balance_list.reduce((a, b) => a + b);;
+
+
+    contract.totalAmount = total;
+  
+    print("total: ${contract.totalAmount}");
+  }
+
   Future<void> getBtcBalance({@required BuildContext? context}) async {
     final contract = await Provider.of<ContractProvider>(context!, listen: false);
     try {

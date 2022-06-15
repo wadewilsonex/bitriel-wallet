@@ -37,6 +37,7 @@ class SubmitTrxService {
             ],
           );
 
+          print("fee.partialFee: ${fee.partialFee}");
           // await customDialog(context, "Fee", "Estimated fee price: ${fee.partialFee}");
 
           await sendTx(_api, scanPay, password, context, txInfoData, chainDecimal);

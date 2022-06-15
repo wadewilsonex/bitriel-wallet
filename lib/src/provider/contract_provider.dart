@@ -46,6 +46,7 @@ class ContractProvider with ChangeNotifier {
   List<SmartContractModel> addedContract = [];
 
   List<SmartContractModel> sortListContract = [];
+
   SmartContractModel? tmp;
 
   ContractService get getSelToken => _selToken!;
@@ -62,6 +63,8 @@ class ContractProvider with ChangeNotifier {
   Web3Client get bscClient => _bscClient!;
   
   double mainBalance = 0.0;
+
+  double totalAmount = 0.0;
   
   AppConfig _appConfig = AppConfig();
 
@@ -76,6 +79,7 @@ class ContractProvider with ChangeNotifier {
     initSwapContract();
     initJson();
   }
+
 
   /// Fetch Support Contract From Json Inside Asset
   /// 

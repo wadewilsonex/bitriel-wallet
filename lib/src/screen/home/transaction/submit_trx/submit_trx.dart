@@ -185,6 +185,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       print("finish check");
       await trxFunc!.customDialog('Oops', 'Your input balance must less than available balances');
     } else {
+
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
       try {
 
@@ -336,22 +337,25 @@ class SubmitTrxState extends State<SubmitTrx> {
           if (
             isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue].symbol == "DOT"
           ){
+
             print("Send native");
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
                 print("after send trx $value");
                 // await ContractsBalance().refetchContractBalance(context: context);
-                await Navigator.push(
-                  context,
-                  Transition(
-                    child: ConfirmationTx(
-                      trxInfo: trxFunc!.txInfo,
-                      sendTrx: sendTrx,
-                      // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
-                    ),
-                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                  ),
-                );
+                // await Navigator.push(
+                //   context,
+                //   Transition(
+                //     child: ConfirmationTx(
+                //       trxInfo: trxFunc!.txInfo,
+                //       sendTrx: sendTrx,
+                //       // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+                //     ),
+                //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                //   ),
+                // );
+                // await sendTrx(txInfo, context: context);
+
                 enableAnimation();  
               } else {
 
@@ -452,7 +456,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   bool isNative(){
-    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue].symbol == "SEL" && (ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org : trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].orgTest) == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
+    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue].symbol == "SEL" && (ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].org : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].orgTest) == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
   }
 
   void unFocusAllField() {
