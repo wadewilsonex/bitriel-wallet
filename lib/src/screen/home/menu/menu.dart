@@ -43,9 +43,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkPasscode() async {
-    print("checkPasscode");
     final res = await StorageServices().readSecure(DbKey.passcode);
-    print("checkPasscode $res");
     if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
@@ -120,7 +118,6 @@ class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
-    print("isDarkTheme $isDarkTheme");
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(

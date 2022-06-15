@@ -13,11 +13,9 @@ class ContractsBalance {
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final btcAddr = await StorageServices.fetchData('bech32');
 
-      // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
+      // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: fals e).setBtcAddr(btcAddr.toString());
 
       // await contractProvider.setSavedList().then((value) async {
-
-        await apiProvider.getSelNativeChainDecimal(context: context);
 
         await contractProvider.selTokenWallet(context);
         await contractProvider.selv2TokenWallet(context);
