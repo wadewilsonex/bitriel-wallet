@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/pie_chart.dart';
 import 'package:wallet_apps/src/models/tx_history.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 import 'dialog_c.dart';
 
@@ -231,74 +232,59 @@ BoxDecoration signOutColor() {
 /* Dialog of response from server */
 // ignore: type_annotate_public_apis
 
-Future<void> successDialog(BuildContext context, String operationText) async {
+Future<void> successDialog(
+  BuildContext context, String operationText, {
+    Widget? route = const HomePage()
+}) async {
+  await Future.delayed(Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          content: Container(
-            // height: MediaQuery.of(context).size.height / 2.6,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 28,
-                  ),
-                  SvgPicture.asset(
-                    AppConfig.iconsPath+'tick.svg',
-                    height: 100,
-                    width: 100,
-                  ),
-                  MyText(
-                    text: 'SUCCESS!',
-                    fontSize: 22,
-                    top: 45,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  MyText(
-                    top: 8.0,
-                    fontSize: 16,
-                    text: 'You have successfully ' + operationText,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      // ignore: deprecated_member_use
-                      SizedBox(
-                        height: 50,
-                        width: 140,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                          ),
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              color: hexaCodeToColor('#ffffff'),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+        content: Container(
+          // height: MediaQuery.of(context).size.height / 2.6,
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+
+                Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+                MyText(
+                  text: 'SUCCESS!',
+                  fontSize: 20,
+                  top: 10,
+                  color: AppColors.lowWhite,
+                  fontWeight: FontWeight.bold,
+                ),
+                MyText(
+                  top: 8.0,
+                  color: AppColors.lowWhite,
+                  text: 'You have successfully ' + operationText,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.1,
+                ),
+
+                MyGradientButton(
+                  textButton: "Continue",
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: (){
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(context, Transition(child: route!), ModalRoute.withName('/'));
+                  }
+                )
+
+              ],
             ),
-          ));
+          ),
+        )
+      );
     },
   );
 }
@@ -1164,6 +1150,7 @@ Future<void> portfolioDailog({required BuildContext? context}){
     // ),
     btn2: MyGradientButton(
       textButton: "OK",
+      textColor: AppColors.lowWhite,
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
       action: () async {

@@ -27,7 +27,7 @@ class WalletApi {
       
         return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -39,7 +39,7 @@ class WalletApi {
       
         return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
     
@@ -50,7 +50,7 @@ class WalletApi {
       res = await get(Uri.parse('$_configEndpoint/wallet/versions.json'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
     }
     return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
   }
@@ -61,7 +61,7 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/jsCodeVersions.json'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       // return null;
     }
 
@@ -74,7 +74,7 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/js/$networkName.js'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       // return null;
     }
 
@@ -122,7 +122,7 @@ class WalletApi {
       // } else {
       // }
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       // return null;
     }
       return jsonDecode(utf8.decode(res!.bodyBytes));
@@ -136,7 +136,7 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -148,7 +148,7 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -163,7 +163,7 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -178,7 +178,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -195,7 +195,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -211,7 +211,7 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return [];
     }
   }
@@ -226,7 +226,7 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -242,7 +242,7 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -284,7 +284,7 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -299,7 +299,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -313,7 +313,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }
@@ -327,7 +327,7 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == false) print(err);
+      if (ApiProvider().isDebug == true) print(err);
       return {};
     }
   }

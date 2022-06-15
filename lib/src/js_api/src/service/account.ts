@@ -8,7 +8,7 @@ import { Keyring } from "@polkadot/keyring";
 import { ApiPromise } from "@polkadot/api";
 
 import { subscribeMessage } from "./setting";
-let isMainnet = Boolean(false);
+let isMainnet = Boolean(true);
 let testNet = 204;
 let mainnet = 972;
 let keyring = new Keyring({ ss58Format: isMainnet ? mainnet : testNet, type: "sr25519" });
@@ -59,7 +59,7 @@ async function decodeAddress(addresses: string[]) {
     });
     return res;
   } catch (err) {
-    (<any>window).send("log", { error: err.message });
+    // (<any>window).send("log", { error: err.message });
     return null;
   }
 }
@@ -74,7 +74,6 @@ async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
     (<any>res)[ss58] = {};
     pubKeys.forEach((i) => {
       (<any>res)[ss58][i] = keyring.encodeAddress(hexToU8a(i), ss58);
-      console.log("ss58", ss58);
       // For Only Import or Create Account
       if (ss58 == (isMainnet ? mainnet : testNet)) {
         selAddr = keyring.encodeAddress(hexToU8a(i), ss58);

@@ -76,10 +76,9 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
     try {
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
-      print("res $res");
       if (res == true){ 
 
-        dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
+        dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
         dynamic _json = await api.apiKeyring.importAccount(
           api.getKeyring,
@@ -97,7 +96,6 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
 
         await importAccountNAsset(api);
-        
         
         await DialogComponents().dialogCustom(
           context: context,
@@ -139,7 +137,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
     return res;
   }
@@ -167,7 +165,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      // await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

@@ -26,6 +26,7 @@ class NumPad extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           

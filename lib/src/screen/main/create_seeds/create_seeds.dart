@@ -127,7 +127,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
     _model.initial = true;
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
     generateKey();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWarning(context);
     });
     super.initState();

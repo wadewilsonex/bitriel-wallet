@@ -1,18 +1,18 @@
 import 'package:wallet_apps/index.dart';
 
-class MenuItem extends StatelessWidget {
+class MyMenuItem extends StatelessWidget {
   final String? title;
   final Widget? icon;
   final Function? action;
   final AlignmentGeometry begin;
   final AlignmentGeometry end;
   
-  MenuItem({
+  MyMenuItem({
     this.title,
     this.icon,
     required this.begin,
     required this.end,
-    @required this.action,
+    required this.action,
   });
 
   @override

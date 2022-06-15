@@ -25,7 +25,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> getCurrentAccount() async {
 
     // await Future.delayed(const Duration(seconds: 1), () async {
-    //   Navigator.pushReplacement(context, RouteAnimation(enterPage: HomePage()));
+    //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
     // });
     
@@ -72,7 +72,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
+      if (ApiProvider().isDebug == true) print("Error Splash screen $e");
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
     }
   }
@@ -160,17 +160,20 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   void readTheme() async {
+
+    print("readTheme");
     
     // Remove below link when we want light mode
     await StorageServices.storeData('dark', DbKey.themeMode);
+    await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    print("Provider.of<ThemeProvider>(context, listen: false).isDark ${Provider.of<ThemeProvider>(context, listen: false).isDark}");
+    // final res = await StorageServices.fetchData(DbKey.themeMode);
 
-    final res = await StorageServices.fetchData(DbKey.themeMode);
-
-    if (res != null) {
-      await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    } else {
-      Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
-    }
+    // if (res != null) {
+    //   await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    // } else {
+    //   Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+    // }
     //  else {
     //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
     //   // if (sysTheme) {
@@ -195,7 +198,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   bool _checkIfDarkModeEnabled() {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
     return darkModeOn;
   }

@@ -25,6 +25,7 @@ class SmartContractModel {
   List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
   LineChartModel? lineChartModel = LineChartModel();
+  double? money;
 
   SmartContractModel({
     this.id,
@@ -84,7 +85,7 @@ class SmartContractModel {
     'logo': asset.logo,
     'org': asset.org,
     'org_test': asset.orgTest,
-    'market': asset.marketData,
+    'market': null,//asset.marketData,
     'lineChartData': asset.lineChartList,
     'change24h': asset.change24h,
     'marketPrice': asset.marketPrice,

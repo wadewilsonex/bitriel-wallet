@@ -78,7 +78,7 @@ class WalletProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error fillWithMarketData $e");
+      if (ApiProvider().isDebug == true) print("Error fillWithMarketData $e");
     }
     return null;
   }

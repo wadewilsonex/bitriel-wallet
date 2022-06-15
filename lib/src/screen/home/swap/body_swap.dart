@@ -11,6 +11,7 @@ class SwapPageBody extends StatelessWidget {
   final Function? onDeleteTxt;
   final Function(String)? onChanged;
   final Function? onTabNum;
+  final Function? calculateAmount;
 
   const SwapPageBody({ 
     Key? key,
@@ -18,6 +19,7 @@ class SwapPageBody extends StatelessWidget {
     this.percentTap,
     this.onChanged,
     this.onDeleteTxt,
+    this.calculateAmount,
     required this.onTabNum
   }) : super(key: key);
 
@@ -49,6 +51,9 @@ class SwapPageBody extends StatelessWidget {
 
                   GestureDetector(
                     onTap: (){
+                      swapPageModel!.myController!.clear();
+                      swapPageModel!.percentActive = 0;
+                      
                       SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
                       dynamic tmp = swap.index1;
                       // dynamic tmp2 = swap.index2;
@@ -63,6 +68,10 @@ class SwapPageBody extends StatelessWidget {
                       tmp = swap.logo1;
                       swap.logo1 = swap.logo2;
                       swap.logo2 = tmp;
+
+                      tmp = swap.balance1;
+                      swap.balance1 = swap.balance2;
+                      swap.balance2 = tmp;
 
                       swap.setList();
                       swap.notifyListeners();
@@ -105,11 +114,11 @@ class SwapPageBody extends StatelessWidget {
             //   color: AppColors.whiteColorHexa
             // ),
 
-            Expanded(child: Container()), 
-            _buildNumberPad(context, onDeleteTxt, onTabNum),
-
-            // SizedBox(height: 2.h),
-            Expanded(child: Container()),
+            Expanded(
+              child:  Center(
+                child: _buildNumberPad(context, onDeleteTxt, onTabNum)
+              ),
+            ),
 
             // SizedBox(height: 60.0 - paddingSize),
             MyGradientButton(
@@ -154,13 +163,35 @@ class SwapPageBody extends StatelessWidget {
                   fontSize: 14,
                   color: AppColors.primaryColor,
                 ),
-                SizedBox(width: 10.0),
-                MyText(
-                  text: '0 BTC',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: AppColors.whiteColorHexa,
+                SizedBox(width: 2.w),
+
+                Consumer<SwapProvider>(
+                  builder: (context, provider, widget){
+                    return Row(
+                      children: [
+                        MyText(
+                          text: provider.balance1,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppColors.whiteColorHexa,
+                        ),
+                        SizedBox(width: 1.w),
+                        MyText(
+                          text: provider.name1,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: AppColors.whiteColorHexa,
+                        ),
+                      ],
+                    );
+                  }
                 ),
+                // MyText(
+                //   text: '0 BTC',
+                //   fontWeight: FontWeight.w600,
+                //   fontSize: 14,
+                //   color: AppColors.whiteColorHexa,
+                // ),
               ],
             ),
           ),
@@ -169,7 +200,7 @@ class SwapPageBody extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               
-              Flexible(
+              Expanded(
                 child: TextField(
                   onChanged: onChanged,
                   focusNode: swapPageModel!.focusNode,
@@ -178,7 +209,9 @@ class SwapPageBody extends StatelessWidget {
                   showCursor: true,
                   style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w800),
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(10),
+                    // LengthLimitingTextInputFormatter(4),
+                    // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0.4}'))
+                    FilteringTextInputFormatter.digitsOnly
                   ],
                   decoration: InputDecoration(
                     hintText: "0",
@@ -194,13 +227,20 @@ class SwapPageBody extends StatelessWidget {
                 )
               ),
 
-              _ddButton(
-                context: context, 
-                i: 0,
-                onPressed: (){
-                  Provider.of<SwapProvider>(context, listen: false).label = "first";
-                  Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
-                }
+              SizedBox(width: 5.w),
+
+              Flexible(
+                flex: 0,
+                child: _ddButton(
+                  context: context, 
+                  i: 0,
+                  onPressed: (){
+                    Provider.of<SwapProvider>(context, listen: false).label = "first";
+                    Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                    swapPageModel!.myController!.clear();
+                    swapPageModel!.percentActive = 0;
+                  }
+                ),
               ),            
             ],
           ),
@@ -245,6 +285,8 @@ class SwapPageBody extends StatelessWidget {
             onPressed:  (){
               Provider.of<SwapProvider>(context, listen: false).label = "second";
               Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+              swapPageModel!.myController!.clear();
+              swapPageModel!.percentActive = 0;
             }
           )
         ],
@@ -265,7 +307,7 @@ class SwapPageBody extends StatelessWidget {
       builder: (context, provider, widget){
         return GestureDetector(
           child: Container(
-            width: 30.w,
+            width: 35.w,
             decoration: BoxDecoration(
               color: hexaCodeToColor(AppColors.defiMenuItem),
               borderRadius: BorderRadius.circular(8)
@@ -283,14 +325,16 @@ class SwapPageBody extends StatelessWidget {
                     height: 6.h,
                     width: 6.w,
                   ),
-
-                  MyText(
-                    left: 10.sp,
-                    right: 10.sp,
-                    text: i == 0 ? provider.name1 : provider.name2,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                    color: AppColors.whiteColorHexa,
+                  Expanded(
+                    child: MyText(
+                      textAlign: TextAlign.start,
+                      left: 10.sp,
+                      right: 10.sp,
+                      text: i == 0 ? provider.name1 : provider.name2,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
+                      color: AppColors.whiteColorHexa,
+                    )
                   ),
 
                   Icon(
@@ -370,13 +414,36 @@ class SwapPageBody extends StatelessWidget {
   /// 
   /// Flow 3= 7.5 for Width Size Of Empty Space: 10 / 4
   Widget _tapAutoAmount(BuildContext context, int percentActive, Function percentTab){
-
+    
     List<String> percent = [
       '25%',
       '50%',
       '75%',
       '100%',
     ];
+
+
+    Consumer<SwapProvider>(
+      builder: (context, provider, widget){
+        return Row(
+          children: [
+            MyText(
+              text: provider.balance1,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: AppColors.whiteColorHexa,
+            ),
+            SizedBox(width: 1.w),
+            MyText(
+              text: provider.name1,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: AppColors.whiteColorHexa,
+            ),
+          ],
+        );
+      }
+    );
 
     String tmp = ((27.608.sp)/4).toStringAsFixed(2);
     double threeSpace = double.parse(tmp);

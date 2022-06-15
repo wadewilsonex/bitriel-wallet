@@ -1,0 +1,80 @@
+{
+    "name": "@polkawallet/js-api",
+    "version": "0.0.2",
+    "main": "index.js",
+    "license": "Apache-2.0",
+    "keywords": [
+        "Polkadot",
+        "Polkawallet"
+    ],
+    "author": "Shawn yang <dhryxy@gmail.com>",
+    "maintainers": [
+        "Shawn Yang <dhryxy@gmail.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/polkawallet-io/js_api.git"
+    },
+    "bugs": {
+        "url": "https://github.com/polkawallet-io/js_api/issues"
+    },
+    "scripts": {
+        "clean": "rm -rf dist/",
+        "build": "webpack --mode production",
+        "build-dev": "webpack -d --mode development"
+    },
+    "resolutions": {
+        "@polkadot/api": "^6.0.1"
+    },
+    "dependencies": {
+        "@babel/core": "^7.18.2",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/preset-typescript": "^7.17.12",
+        "@polkadot/api": "^6.3.1",
+        "@polkadot/api-contract": "^6.3.1",
+        "@polkadot/api-derive": "6.3.1",
+        "@polkadot/keyring": "7.4.1",
+        "@polkadot/metadata": "4.17.1",
+        "@polkadot/networks": "7.4.1",
+        "@polkadot/rpc-core": "6.3.1",
+        "@polkadot/rpc-provider": "6.3.1",
+        "@polkadot/types": "6.3.1",
+        "@polkadot/types-known": "6.3.1",
+        "@polkadot/ui-shared": "^0.85.5",
+        "@polkadot/util": "7.4.1",
+        "@polkadot/util-crypto": "7.4.1",
+        "@polkadot/x-global": "7.4.1",
+        "@polkadot/x-randomvalues": "7.4.1",
+        "@polkadot/x-textdecoder": "7.4.1",
+        "babel-loader": "^8.2.5",
+        "bn.js": "^5.2.0",
+        "caniuse-lite": "^1.0.30001342",
+        "crypto-browserify": "^3.12.0",
+        "ejs": "^3.1.8",
+        "ethers": "^5.4.2",
+        "glob-parent": "^6.0.2",
+        "oo7-substrate": "^0.8.0",
+        "scryptsy": "^2.1.0",
+        "secp256k1": "^3.8.0",
+        "typescript": "^4.1.3"
+    },
+    "devDependenciesadb": {
+        "@babel/core": "^7.8.3",
+        "@babel/polyfill": "^7.8.3",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/preset-typescript": "^7.10.4",
+        "@webpack-cli/info": "^0.2.0",
+        "@webpack-cli/init": "^1.0.3",
+        "babel-loader": "^8.2.5",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.9.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "prettier": "^1.19.1",
+        "webpack": "^5.73.0",
+        "webpack-cli": "^3.3.12"
+    },
+    "devDependencies": {
+        "webpack": "^5.73.0",
+        "webpack-cli": "^4.9.2"
+    }
+}

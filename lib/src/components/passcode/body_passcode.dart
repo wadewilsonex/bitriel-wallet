@@ -2,13 +2,20 @@ import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{
   
-  final String? label;
+  final String? titleStatus;
+  final String? subStatus;
+  final PassCodeLabel? label;
   final bool? isFirst;
   final List<TextEditingController>? lsControl;
   final Function? pinIndexSetup;
   final Function? clearPin;
+  final bool? is4digits;
+  final Function? onPressedDigit;
 
-  PasscodeBody({this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin});
+  PasscodeBody({
+    this.titleStatus,
+    this.subStatus,
+    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -26,58 +33,58 @@ class PasscodeBody extends StatelessWidget{
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label! == true) MyAppBar(
+            if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
               title: "Passcode",
               onPressed: () {
                 Navigator.pop(context);
               },
             ) 
             else Container(),
-            
-            // Expanded(
-            //   child: 
-            // )
 
-            // SizedBox(
-            //   height: 10.h
-            // ),
+            if(label != null) Expanded(child: Container(),) 
+            else Container(),
 
-            MyText(
+            if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN!' : 'Verify PIN!',
               color: AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
+            ) 
+            // For Change PIN
+            else MyText(
+              text: titleStatus,
+              color: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
-            // Text(
-            //   isFirst! ? 'PIN!' : 'Verify PIN!',
-            //   style: TextStyle(
-            //     fontSize: 26.0,
-            //     fontWeight: FontWeight.bold,
-                
-            //   ),
-            // ),
 
             SizedBox(
               height: 5.h,
             ),
             
-            Column(
+            if (subStatus == null) Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (label == 'fromSplash')
+                if (label == PassCodeLabel.fromSplash)
                 passCodeContents[1]
                 else 
                 passCodeContents[0]
               ],
+            ) 
+            // For Change PIN
+            else MyText(
+              text: subStatus,
+              color: AppColors.whiteColorHexa,
+              fontWeight: FontWeight.bold,
             ), 
+
             SizedBox(height: 5.h),
 
-            Row(
+            is4digits == false ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 
@@ -88,9 +95,32 @@ class PasscodeBody extends StatelessWidget{
                 ReusePinNum(outlineInputBorder, lsControl![4]),
                 ReusePinNum(outlineInputBorder, lsControl![5]),
               ],
+            )
+            : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                
+                ReusePinNum(outlineInputBorder, lsControl![0]),
+                ReusePinNum(outlineInputBorder, lsControl![1]),
+                ReusePinNum(outlineInputBorder, lsControl![2]),
+                ReusePinNum(outlineInputBorder, lsControl![3]),
+              ],
             ),
 
-            SizedBox(height: 10.h),
+            SizedBox(height: 5.h),
+
+            TextButton(
+              onPressed: !isFirst! ? null : () {
+                onPressedDigit!();
+              }, 
+              child: MyText(
+                text: is4digits == false ? "4 digits passcode" : "6 digits passcode",
+                color2: isFirst! ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            SizedBox(height: 2.h),
             ReuseNumPad(pinIndexSetup!, clearPin!),
             
             SizedBox(height: 10.h),
@@ -184,14 +214,14 @@ class ReusePinNum extends StatelessWidget {
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(bottom: -24.0, left: -1.3),
+          contentPadding: EdgeInsets.only(bottom: -16.0.sp, left: -5.sp),
           border: outlineInputBorder,
           filled: true,
           fillColor: hexaCodeToColor(AppColors.passcodeColor),
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 28.sp,
+          fontSize: 29.sp,
           color: hexaCodeToColor(
             AppColors.secondary,
           ),

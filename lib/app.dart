@@ -7,6 +7,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 import 'package:http/http.dart' as _http;
@@ -27,7 +28,7 @@ class AppState extends State<App> {
     MarketProvider().fetchTokenMarketPrice(context);
     // readTheme();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
       await initApi();
 
@@ -43,24 +44,23 @@ class AppState extends State<App> {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
-      
+
       contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
-        if (value){
-          // Sort After MarketPrice Filled Into Asset
-          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+        // if (value){
+        //   // Sort After MarketPrice Filled Into Asset
+        //   await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
-          contractProvider.setReady();
-        }
+        //   contractProvider.setReady();
+        // }
       });
       
       await apiProvider.initApi(context: context).then((value) async {
 
-        await apiProvider.connectPolNon(context: context).then((value) async {
-          await apiProvider.connectSELNode(context: context);
-        });
-        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
+        // await apiProvider.connectPolNon(context: context).then((value) async {
+        // });
+        await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 
@@ -80,7 +80,7 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initApi $e");
+      if (ApiProvider().isDebug == true) print("Error initApi $e");
     }
   }
 
@@ -98,7 +98,7 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error readTheme $e");
+      if (ApiProvider().isDebug == true) print("Error readTheme $e");
     }
   }
 
@@ -177,7 +177,7 @@ class AppState extends State<App> {
                         onGenerateRoute: router.generateRoute,
                         // debugShowCheckedModeBanner: false,
                         routes: {
-                          Home.route: (_) => Home(),
+                          HomePage.route: (_) => HomePage(),
                         },
                         initialRoute: AppString.splashScreenView,
                         // builder: (context, widget) => ResponsiveWrapper.builder(

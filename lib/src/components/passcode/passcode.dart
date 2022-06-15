@@ -7,19 +7,31 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
+enum PassCodeLabel {
+  fromSplash,
+  fromCreateSeeds,
+  fromImportSeeds,
+  fromSendTx,
+  fromMenu,
+  fromChangePin,
+  fromBackUp
+}
 
 class Passcode extends StatefulWidget {
 
-  final String? label;
+  final PassCodeLabel? label;
   final bool? isAppBar;
-  const Passcode({this.isAppBar = false, required this.label});
+  Passcode({
+    this.isAppBar = false, 
+    this.label
+  });
   //static const route = '/passcode';
 
   @override
-  _PasscodeState createState() => _PasscodeState();
+  PasscodeState createState() => PasscodeState();
 }
 
-class _PasscodeState extends State<Passcode> {
+class PasscodeState extends State<Passcode> {
 
   dynamic res;
   List<TextEditingController> lsControl = [
@@ -51,23 +63,46 @@ class _PasscodeState extends State<Passcode> {
 
   String? firstPin;
 
-  bool? _isFirst;
+  bool? isFirst;
+
+  bool? is4digits = false;
 
   List<String> currentPin = ["", "", "", "", "", ""];
+  
+  void init4Digits() {
+    currentPin = ["", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
+
+  void init6Digits() {
+    currentPin = ["", "", "", "", "", ""];
+    List<TextEditingController> lsControl = [
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+      TextEditingController(),
+    ];
+  }
 
   @override
   void initState() {
-
     StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
     authToHome();
-    _isFirst = true;
+    isFirst = true;
     super.initState();
   }
 
   void clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == 6) {
+    } else if (pinIndex == (is4digits! ? 4 : 6)) {
       lsControl[pinIndex-1].text = "";
       pinIndex--;
     } else {
@@ -81,9 +116,8 @@ class _PasscodeState extends State<Passcode> {
   void dispose(){
 
     clearAll();
-    _isFirst = false;
+    isFirst = false;
 
-    print("Dispose");
     super.dispose();
   }
 
@@ -92,12 +126,12 @@ class _PasscodeState extends State<Passcode> {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       pinIndex = 1;
-    } else if (pinIndex < 6) {
+    } else if (pinIndex < (is4digits! ? 4 : 6)) {
       // Add Selected PIN into List PIN
       lsControl[pinIndex].text = text;
       ++pinIndex;
 
-      if (pinIndex == 6){
+      if (pinIndex == (is4digits! ? 4 : 6)){
         
         String strPin = "";
 
@@ -105,7 +139,7 @@ class _PasscodeState extends State<Passcode> {
           strPin += lsControl[i].text;
         }
         
-        if (widget.label == "fromSplash") {
+        if (widget.label == PassCodeLabel.fromSplash) {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
@@ -118,16 +152,15 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> clearVerifyPin(String pin) async {
-      print("clearVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
       clearAll();
+
       setState(() {
-        _isFirst = false;
+        isFirst = false;
       });
     } else {
-      print("firstPin == pin ${firstPin == pin}");
       if (firstPin == pin) {
         await StorageServices().clearKeySecure(DbKey.passcode);
         // Navigator.pop(context, false);
@@ -139,23 +172,34 @@ class _PasscodeState extends State<Passcode> {
   }
 
   Future<void> setVerifyPin(String pin) async {
-    print("setVerifyPin");
     if (firstPin == null) {
       firstPin = pin;
 
       clearAll();
       setState(() {
-        _isFirst = false;
+        isFirst = false;
       });
+
+      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromChangePin){
+        Navigator.pop(context, pin);
+      }
+      if (widget.label == PassCodeLabel.fromMenu) {
+        Navigator.pop(context, true);
+      }
+      
+      if (mounted) {
+        setState(() {
+          isFirst = false;
+        });
+      }
+      
     } else {
       if (firstPin == pin) {
 
         await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
-        if (widget.label == "fromHome" || widget.label == "fromSplash"){
-          Navigator.pop(context, true);
-        } else if (widget.label == "fromCreateSeeds"){
+        if (widget.label == PassCodeLabel.fromCreateSeeds){
 
           Navigator.push(
             context, 
@@ -164,7 +208,7 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else if (widget.label == "fromImportSeeds"){
+        } else if (widget.label == PassCodeLabel.fromImportSeeds){
 
           Navigator.push(
             context, 
@@ -173,7 +217,22 @@ class _PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
+        } else if (widget.label == PassCodeLabel.fromChangePin){
+          
+          Navigator.pop(context, pin);
+        } else {
+          Navigator.pop(context, true);
         }
+        // else if (widget.label == "fromMenu"){
+        //   if(res == null){
+              
+        //   }
+        //   else{ 
+        //     await StorageServices().clearKeySecure(DbKey.passcode);
+        //     Navigator.pop(context, true);
+        //   }
+        // }
+
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -266,9 +325,25 @@ class _PasscodeState extends State<Passcode> {
     }
   }
 
+  void onPressedDigit() {
+    setState(() {
+      clearAll();
+      is4digits = !is4digits!;
+      is4digits == true ? init4Digits() : init6Digits();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PasscodeBody(label: widget.label, isFirst: _isFirst, lsControl: lsControl, pinIndexSetup: pinIndexSetup, clearPin: clearPin,);
+    return PasscodeBody(
+      label: widget.label, 
+      isFirst: isFirst, 
+      lsControl: lsControl, 
+      pinIndexSetup: pinIndexSetup, 
+      clearPin: clearPin,
+      is4digits: is4digits,  
+      onPressedDigit: onPressedDigit
+    );
     // Scaffold(
     //   key: globalkey,
     //   body: SizedBox(

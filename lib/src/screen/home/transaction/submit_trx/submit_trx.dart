@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
@@ -34,6 +35,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   FlareControls flareController = FlareControls();
 
+  ContractProvider? _contractProvider;
+
   AssetInfoC c = AssetInfoC();
 
   bool disable = false;
@@ -41,10 +44,12 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   @override
   void initState() {
+    _contractProvider = Provider.of<ContractProvider>(context, listen: false);
     if (widget.asset != null){
       _scanPayM.asset = widget.asset;
     } else {
-      _scanPayM.asset = Provider.of<ContractProvider>(context, listen: false).sortListContract[0].symbol;
+      _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
+      _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
       _scanPayM.assetValue = 0;
     }
 
@@ -92,7 +97,8 @@ class SubmitTrxState extends State<SubmitTrx> {
       builder: (BuildContext context) {
         return Material(
           color: Colors.transparent,
-          child: FillPin(),
+          // child: FillPin(),
+          child: Passcode(label: PassCodeLabel.fromSendTx),
         );
       }
     );
@@ -131,7 +137,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!, context: context);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error onSubmit $e");
+      if (ApiProvider().isDebug == true) print("Error onSubmit $e");
     }
   }
 
@@ -166,142 +172,161 @@ class SubmitTrxState extends State<SubmitTrx> {
   void onChangeDropDown(String data) {
     setState(() {
       _scanPayM.assetValue = int.parse(data);
+      _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
     });
     enableButton();
   }
 
   // First Execute
   Future<void> validateSubmit() async {
-    
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    _scanPayM.asset = contract.sortListContract[_scanPayM.assetValue!].symbol;
-    try {
+    unFocusAllField();
 
-      var gasPrice;
-      dialogLoading(context);
-      final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: contract.sortListContract[_scanPayM.assetValue!].org);
-      
-      if ( isNative() || contract.sortListContract[_scanPayM.assetValue!].symbol == "DOT"){
-        // Close Dialog
-        Navigator.pop(context);
+    if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!) ){
+      print("finish check");
+      await trxFunc!.customDialog('Oops', 'Your input balance must less than available balances');
+    } else {
+
+      _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
+      try {
+
+        var gasPrice;
+        dialogLoading(context);
+        final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
         
-        await sendTrx(trxFunc!.txInfo!, context: context);
-      } else {
+        if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
 
-        if (!isValid) {
+          print("isNative");
+          // Close Dialog
           Navigator.pop(context);
-          await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
+          
+          await sendTrx(trxFunc!.txInfo!, context: context);
+          // await Navigator.push(
+          //   context,
+          //   Transition(
+          //     child: ConfirmationTx(
+          //       trxInfo: trxFunc!.txInfo,
+          //       sendTrx: sendTrx,
+          //       // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+          //     ),
+          //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          //   ),
+          // );
         } else {
 
-          final isEnough = await trxFunc!.checkBalanceofCoin(
-            _scanPayM.asset!,
-            _scanPayM.controlAmount.text,
-            _scanPayM.assetValue!
-          );
+          if (!isValid) {
+            Navigator.pop(context);
+            await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
+          } else {
 
-          if (!isEnough && isValid) {
-            if (isValid) {
-              Navigator.pop(context);
+            final isEnough = await trxFunc!.checkBalanceofCoin(
+              _scanPayM.asset!,
+              _scanPayM.controlAmount.text,
+              _scanPayM.assetValue
+            );
+
+            if (!isEnough && isValid) {
+              if (isValid) {
+                Navigator.pop(context);
+              }
+              await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
             }
-            await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
-          }
 
-          if (isValid) {
-            gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
-          }
+            if (isValid) {
+              gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
+            }
 
-          if (isValid && isEnough) {
+            if (isValid && isEnough) {
 
-            if (gasPrice != null) {
+              if (gasPrice != null) {
 
-              final estAmtPrice = await trxFunc!.calPrice(
-                _scanPayM.asset!,
-                _scanPayM.controlAmount.text,
-              );
+                final estAmtPrice = await trxFunc!.calPrice(
+                  _scanPayM.asset!,
+                  _scanPayM.controlAmount.text,
+                );
 
-              final maxGas = await trxFunc!.estMaxGas(
-                context,
-                _scanPayM.asset!,
-                _scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text,
-                _scanPayM.assetValue!
-              );
+                final maxGas = await trxFunc!.estMaxGas(
+                  context,
+                  _scanPayM.asset!,
+                  _scanPayM.controlReceiverAddress.text,
+                  _scanPayM.controlAmount.text,
+                  _scanPayM.assetValue
+                );
 
-              final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+                final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
 
-              var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+                var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
 
-              final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
+                final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
 
-              final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
+                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
 
-              final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
 
-              final estTotalPrice = estGasFeePrice! + estToSendPrice;
+                final estTotalPrice = estGasFeePrice! + estToSendPrice;
 
-              trxFunc!.txInfo = TransactionInfo(
-                coinSymbol: _scanPayM.asset,
-                receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
-                amount: _scanPayM.controlAmount.text,
-                gasPrice: gasPrice,
-                feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
-                  ? 'BNB'
-                  : 'ETH',
-                gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-                maxGas: maxGas,
-                gasFee: gasFee.toInt().toString(),
-                totalAmt: totalAmt.toString(),
-                estAmountPrice: estAmtPrice.first.toString(),
-                estTotalPrice: estTotalPrice.toStringAsFixed(2),
-                estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-              );
+                trxFunc!.txInfo = TransactionInfo(
+                  coinSymbol: _scanPayM.asset,
+                  receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
+                  amount: _scanPayM.controlAmount.text,
+                  gasPrice: gasPrice,
+                  feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
+                    ? 'BNB'
+                    : 'ETH',
+                  gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+                  maxGas: maxGas,
+                  gasFee: gasFee.toInt().toString(),
+                  totalAmt: totalAmt.toString(),
+                  estAmountPrice: estAmtPrice.first.toString(),
+                  estTotalPrice: estTotalPrice.toStringAsFixed(2),
+                  estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+                );
+
+              }
 
               Navigator.pop(context);
-
+              
               await Navigator.push(
                 context,
-                RouteAnimation(
-                  enterPage: ConfirmationTx(
+                Transition(
+                  child: ConfirmationTx(
                     trxInfo: trxFunc!.txInfo,
                     sendTrx: sendTrx,
-                    gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+                    // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
                   ),
+                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                 ),
               );
-            } else {
-
-              Navigator.pop(context);
-              await sendTrx(trxFunc!.txInfo!, context: context);
             }
-          }
 
+          }
         }
+      } catch (e) {
+        if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
       }
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err validateSubmit $e");
     }
   }
 
   // Second Execute
   Future<void>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
-
-    ContractProvider _contract = Provider.of<ContractProvider>(context!, listen: false);
+    print("sendTrx");
     try {
       // Unfocus All Field Input
-      await Future.delayed(const Duration(milliseconds: 100), () {
-        unFocusAllField();
-      });
+      // await Future.delayed(const Duration(milliseconds: 100), () {
+      //   unFocusAllField();
+      // });
 
       // Start Loading Before Dialog Pin
       // Init member variables of Trx Functional
-      trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
+      trxFunc!.contract = _contractProvider;
 
-      trxFunc!.api = Provider.of<ApiProvider>(context, listen: false);
+      trxFunc!.api = Provider.of<ApiProvider>(context!, listen: false);
 
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
-      await dialogBox().then((String? resPin) async {
+      // await  dialogBox().then((String? resPin) async {
+      await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+        print("resPin $resPin");
         if (resPin != null) {
 
           // Second: Start Loading For Sending
@@ -310,12 +335,27 @@ class SubmitTrxState extends State<SubmitTrx> {
           trxFunc!.pin = resPin;
 
           if (
-            isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "DOT"
+            isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue].symbol == "DOT"
           ){
 
+            print("Send native");
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
-                await ContractsBalance().refetchContractBalance(context: context);
+                print("after send trx $value");
+                // await ContractsBalance().refetchContractBalance(context: context);
+                // await Navigator.push(
+                //   context,
+                //   Transition(
+                //     child: ConfirmationTx(
+                //       trxInfo: trxFunc!.txInfo,
+                //       sendTrx: sendTrx,
+                //       // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+                //     ),
+                //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                //   ),
+                // );
+                // await sendTrx(txInfo, context: context);
+
                 enableAnimation();  
               } else {
 
@@ -324,6 +364,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               }
             });
           } else {
+            print("Send ERC-20 || BEP-20");
             /* ------------------Check and Get Private------------ */
             // Get Private Key Only BTC Contract
             if (_scanPayM.asset == 'BTC') {
@@ -353,7 +394,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 _scanPayM.controlReceiverAddress.text,
               );
 
-              SmartContractModel contractM = _contract.sortListContract[_scanPayM.assetValue!];
+              SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue];
 
               /* -------------Processing Transaction----------- */
               if (contractM.symbol == "SEL"){
@@ -392,8 +433,8 @@ class SubmitTrxState extends State<SubmitTrx> {
                   
                 } else {
                   
-                  final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].address; //ContractProvider().findContractAddr(_scanPayM.asset);
-                  await Provider.of<ContractProvider>(context, listen: false).initBep20Service(contractAddr!);
+                  final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue].address; //ContractProvider().findContractAddr(_scanPayM.asset);
+                  await _contractProvider!.initBep20Service(contractAddr!);
                   await trxFunc!.sendTxBep20(trxFunc!.contract!.getBep20, txInfo);
                 }
               }
@@ -405,9 +446,9 @@ class SubmitTrxState extends State<SubmitTrx> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err sendTrx $e");
+      if (ApiProvider().isDebug == true) print("Err sendTrx $e");
       //Close Dialog
-      Navigator.pop(context);
+      Navigator.pop(context!);
 
       // Condition For RPCError
       await trxFunc!.customDialog("Oops", "${e.runtimeType.toString() == 'RPCError' ? 'insufficient funds for gas' : e}");
@@ -415,7 +456,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   bool isNative(){
-    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "SEL" && (ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].org : trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].orgTest) == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
+    return trxFunc!.contract!.sortListContract[_scanPayM.assetValue].symbol == "SEL" && (ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].org : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].orgTest) == (ApiProvider().isMainnet ? "Selendra Chain" : "Testnet") ;
   }
 
   void unFocusAllField() {
@@ -444,8 +485,6 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   
   bool pushReplacement = false;
-
-
 
   @override
   Widget build(BuildContext context) {

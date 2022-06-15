@@ -7,10 +7,10 @@ class ThemeProvider with ChangeNotifier {
 
   Future<void> changeMode() async {
     
-    isDark = !isDark;
+    isDark = true;//!isDark;
 
-    if (isDark) await StorageServices.storeData('dark', DbKey.themeMode);
-    else if (isDark == false) await StorageServices.removeKey(DbKey.themeMode);
+    // if (isDark) await StorageServices.storeData('dark', DbKey.themeMode);
+    // else if (isDark == false) await StorageServices.removeKey(DbKey.themeMode);
 
     notifyListeners();
   }

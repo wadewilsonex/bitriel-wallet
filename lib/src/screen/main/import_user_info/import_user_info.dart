@@ -81,7 +81,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       /// It will be wrong data of that each connection. 
       /// 
       /// This Function Connect Polkadot Network And then Connect Selendra Network
-      await _api.connectPolNon(context: context).then((value) async {
+      await _api.connectSELNode(context: context).then((value) async {
 
         await _api.connectSELNode(context: context);
 
@@ -184,37 +184,6 @@ class ImportUserInfoState extends State<ImportUserInfo> {
   //     }
   //   } catch (e) {
   //     print("Error $e");
-  //   }
-  // }
-
-  // Future<void> queryBtcData() async {
-
-  //   final contractPro = Provider.of<ContractProvider>(context, listen: false);
-    
-  //   try {
-  //     final seed = bip39.mnemonicToSeed(widget.passPhrase);
-  //     final hdWallet = HDWallet.fromSeed(seed);
-      
-  //     contractPro.listContract[ApiProvider().btcIndex].address = hdWallet.address!;
-      
-  //     final keyPair = ECPair.fromWIF(hdWallet.wif!);
-
-  //     final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-  //     await StorageServices.storeData(bech32Address, DbKey.bech32);
-  //     await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
-
-  //     final res = await Provider.of<ApiProvider>(context, listen: false).encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
-
-  //     await StorageServices().writeSecure(DbKey.btcwif, res);
-
-  //     // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
-
-  //     // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
-  //     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-  //     // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
-
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug == false) print("Error queryBtcData $e");
   //   }
   // }
 

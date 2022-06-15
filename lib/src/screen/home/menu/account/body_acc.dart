@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/screen/home/menu/account/account_c.dart';
+import 'package:wallet_apps/src/screen/home/menu/account/c_account.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
+import 'package:wallet_apps/src/screen/home/menu/changePin/changePin.dart';
 
 class AccountBody extends StatelessWidget{
 
@@ -17,6 +18,7 @@ class AccountBody extends StatelessWidget{
   final Function? onSubmit;
   final Function? submitChangePin;
   final Function? submitBackUpKey;
+  final Function? changeName;
   final Function? deleteAccout;
 
   AccountBody({
@@ -24,11 +26,12 @@ class AccountBody extends StatelessWidget{
     this.onSubmitName,
     this.onChangeName,
     this.onChangedBackup, 
-    this.onSubmit, 
+    this.onSubmit,
     this.onChangedChangePin, 
     this.onSubmitChangePin, 
     this.submitChangePin, 
     this.submitBackUpKey, 
+    this.changeName, 
     this.deleteAccout
   });
 
@@ -96,14 +99,14 @@ class AccountBody extends StatelessWidget{
                                       borderRadius:BorderRadius.circular(5),
                                     ),
                                     child: SvgPicture.string(
-                                      value.accountM.addressIcon!,
+                                      value.accountM.addressIcon ?? '',
                                     ),
                                   );
                                 },
                               ),
                               
                               MyText(
-                                text: provider.accountM.name,
+                                text: provider.accountM.name ?? '',
                                 color: isDarkTheme
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
@@ -113,7 +116,7 @@ class AccountBody extends StatelessWidget{
                               Padding(
                                 padding: const EdgeInsets.all(paddingSize),
                                 child: MyText(
-                                  text: provider.accountM.address!,
+                                  text: provider.accountM.address ?? '',
                                   color: isDarkTheme
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
@@ -131,22 +134,22 @@ class AccountBody extends StatelessWidget{
 
                     ListTileComponent(
                       action: (){
-                        underContstuctionAnimationDailog(context: context);
-                        // AccountC().showEditName(
-                        //   context,
-                        //   accountModel!.editNameKey,
-                        //   accountModel!.editNameController,
-                        //   accountModel!.newNode,
-                        //   onSubmit!,
-                        //   onChangeName!,
-                        // );
+                        // underContstuctionAnimationDailog(context: context);
+                        AccountC().showEditName(
+                          context,
+                          accountModel!.editNameKey,
+                          accountModel!.editNameController,
+                          accountModel!.newNode,
+                          onChangeName!,
+                          changeName
+                        );
                       },
                       text: 'Edit Wallet Name',
                     ),
                     
                     ListTileComponent(
                       action: (){
-                        underContstuctionAnimationDailog(context: context);
+                        // underContstuctionAnimationDailog(context: context);
                         // AccountC().showBackup(
                         //   context,
                         //   accountModel!.backupKey,
@@ -156,7 +159,13 @@ class AccountBody extends StatelessWidget{
                         //   onSubmit!,
                         //   submitBackUpKey!,
                         // );
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => BackUpKeyBody()));
+                        Navigator.push(
+                          context, 
+                          Transition(
+                            child: BackUpKeyBody(),
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          )
+                        );
                       },
                       text: 'Backup Key',
                     ),
@@ -164,9 +173,9 @@ class AccountBody extends StatelessWidget{
                     // const SizedBox(height: 20),
                     
                     ListTileComponent(
-                      action: (){
-                        underContstuctionAnimationDailog(context: context);
-                        // Passcode(label: "Change Pin");
+                      action: ()  async {
+                        // underContstuctionAnimationDailog(context: context);
+                        // Passcode(label: PassCodeLabel.formChangePin);
                         // AccountC().showChangePin(
                         //   context,
                         //   accountModel!.changePinKey,
@@ -178,27 +187,41 @@ class AccountBody extends StatelessWidget{
                         //   onSubmitChangePin!,
                         //   submitChangePin!,
                         // );
+
+                        final res = await Navigator.push(
+                          context, 
+                          Transition(
+                            child: ChangePin(),
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          )
+                        );
+
+                        // await Provider.of<ApiProvider>(context, listen: false).
                       },
                       text: 'Change Pin',
                     ),
 
                     // const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () async {
-                        // await contract.unsubscribeNetwork();
-                        await deleteAccout!();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: const EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 7.h,
-                        child: MyText(
-                          text: 'Delete Account',
-                          color: "#FF0000",
-                          fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: EdgeInsets.all(paddingSize),
+                      child: GestureDetector(
+                        onTap: () async {
+                          // await contract.unsubscribeNetwork();
+                          await deleteAccout!();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          // margin: const EdgeInsets.only(left: 16, right: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.red.withOpacity(0.3)
+                          ),
+                          height: 7.h,
+                          child: MyText(
+                            text: 'Delete Account',
+                            color: "#FF0000",
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

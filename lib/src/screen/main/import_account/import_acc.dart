@@ -52,7 +52,7 @@ class ImportAccState extends State<ImportAcc> {
       
       setState((){});
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
     return res;
   }
@@ -102,7 +102,7 @@ class ImportAccState extends State<ImportAcc> {
 
     //   }
     // } catch (e) {
-    //   if (ApiProvider().isDebug == false) print("Error submit $e");
+    //   if (ApiProvider().isDebug == true) print("Error submit $e");
     // }
   }
 
@@ -251,7 +251,7 @@ class ImportAccState extends State<ImportAcc> {
       print("enable $enable");
       setState(() { });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
     }
   }
 
@@ -264,7 +264,7 @@ class ImportAccState extends State<ImportAcc> {
     //   color: AppColors.whiteColorHexa,
     // );
     
-    dialogLoading(context, content: "Adding and fetching Wallet\n\nThis processing may take a bit longer\nPlease wait a moment");
+    dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
     dynamic _json = await _api!.apiKeyring.importAccount(
       _api!.getKeyring,
@@ -282,7 +282,6 @@ class ImportAccState extends State<ImportAcc> {
     );
 
     await importAccountNAsset(_api!);
-
     
     await DialogComponents().dialogCustom(
       context: context,
@@ -299,9 +298,10 @@ class ImportAccState extends State<ImportAcc> {
         },
       )
     );
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context, 
-      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
+      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+      ModalRoute.withName('/')
     );
     
   }
@@ -315,7 +315,7 @@ class ImportAccState extends State<ImportAcc> {
     /// It will be wrong data of that each connection. 
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await _api.connectPolNon(context: context).then((value) async {
+    await _api.connectSELNode(context: context, funcName: "account").then((value) async {
 
       await _api.getAddressIcon();
       // Get From Account js
@@ -329,7 +329,7 @@ class ImportAccState extends State<ImportAcc> {
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      // await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

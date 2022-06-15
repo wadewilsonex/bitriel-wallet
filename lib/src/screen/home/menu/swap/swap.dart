@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap/body_swap.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
 
@@ -49,7 +50,7 @@ class _SwapState extends State<Swap> {
     } catch (e) {
       print("Error swap $e");
       Navigator.pop(context);
-      // if (ApiProvider().isDebug == false) print(e.message);
+      // if (ApiProvider().isDebug == true) print(e.message);
 
       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas');
@@ -70,8 +71,6 @@ class _SwapState extends State<Swap> {
 
       await Component().dialogBox(context).then((value) async {
         final res = await AppServices.getPrivateKey(value, context);
-
-        if (ApiProvider().isDebug) print("res getPrivateKey $res");
         if (res != '') {
           dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
           final approveHash = await approve(res!);
@@ -81,12 +80,9 @@ class _SwapState extends State<Swap> {
           if (approveHash != null) {
             // await Future.delayed(Duration(seconds: 10));
             final approveStatus = await contract.getSwap.listenTransfer(approveHash);
-            print("approveStatus getSwap $approveStatus");
 
             if (approveStatus!) {
               final resAllow = await ContractProvider().checkAllowance();
-              
-              print("resAllow $resAllow");
 
               if (resAllow.toString() == '0') {
                 final swapHash = await swap(res);
@@ -101,7 +97,7 @@ class _SwapState extends State<Swap> {
                     await enableAnimation(
                       'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                       'Go to wallet', () {
-                      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                     });
 
                   } else {
@@ -148,7 +144,7 @@ class _SwapState extends State<Swap> {
                 enableAnimation(
                   'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                   'Go to wallet', () {
-                  Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 });
                 _swapModel.amountController!.text = '';
               } else {
@@ -189,7 +185,7 @@ class _SwapState extends State<Swap> {
         await swapWithoutAp();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error confirmFunction $e");
+      if (ApiProvider().isDebug == true) print("Error confirmFunction $e");
     }
   }
 

@@ -25,9 +25,9 @@ class FillPinState extends State<FillPin> {
     );
   }
 
-  BoxConstraints get boxConstraint {
-    return const BoxConstraints(minWidth: 60, minHeight: 80);
-  }
+  // BoxConstraints get boxConstraint {
+  //   return const BoxConstraints(minWidth: 60, minHeight: 80);
+  // }
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class FillPinState extends State<FillPin> {
         children: [
           Container(
             color: hexaCodeToColor(AppColors.darkBgd),
-            padding: const EdgeInsets.only(right: 13, bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: MyPinput(
               getWalletM: GetWalletModel(),
               controller: _pinPutController,

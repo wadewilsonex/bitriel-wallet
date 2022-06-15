@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -28,6 +29,8 @@ class MenuState extends State<Menu> {
   void initState() {
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
 
+    Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
+
     readBio();
     checkAvailableBio();
     checkPasscode();
@@ -40,9 +43,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkPasscode() async {
-
     final res = await StorageServices().readSecure(DbKey.passcode);
-
     if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
@@ -99,12 +100,17 @@ class MenuState extends State<Menu> {
     }
   }
 
-  void enablePassword(bool value) {
+  void enablePassword(bool value, {String? data}) async {
     
-    setState(() {
-      _menuModel.switchPasscode = value;
-      print("passcode: ${_menuModel.switchPasscode}");
-    });
+    _menuModel.switchPasscode = !_menuModel.switchPasscode;
+    if (_menuModel.switchPasscode){
+      await StorageServices().writeSecure(DbKey.passcode, data!);
+    } else {
+      await StorageServices().clearKeySecure(DbKey.passcode);
+    }
+    // print("passcode: ${_menuModel.}")
+
+    setState(() {});
   }
 
   /* ----------------------Side Bar -------------------------*/

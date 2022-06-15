@@ -8,7 +8,7 @@ Widget transactionActivityDetailsBody(
     child: SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const[
+        children: [
            MyAppBar(title: "Activity details"),
           // Container( /* Activity Information */
           //   margin: EdgeInsets.only(top: 30.0),

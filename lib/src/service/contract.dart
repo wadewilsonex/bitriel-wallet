@@ -26,7 +26,7 @@ class ContractService implements IContractService {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error _queryContract $e");
+      if (ApiProvider().isDebug == true) print("Error _queryContract $e");
     }
     return [];
   }
@@ -46,9 +46,10 @@ class ContractService implements IContractService {
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
     try {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
+      print(res);
       return res.first as BigInt;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getTokenBalance $e");
+      if (ApiProvider().isDebug == true) print("Error getTokenBalance $e");
     }
     return 0 as BigInt;
   }
@@ -85,7 +86,7 @@ class ContractService implements IContractService {
               return std!;
             }
           } catch (e) {
-            if (ApiProvider().isDebug == false) print("Error $e");
+            if (ApiProvider().isDebug == true) print("Error $e");
           }
         })
         .where((receipt) => receipt != null)
@@ -109,7 +110,7 @@ class ContractService implements IContractService {
     //       }
     //     });
 
-    //     if (ApiProvider().isDebug == false) print('std in try $std');
+    //     if (ApiProvider().isDebug == true) print('std in try $std');
 
     //     // Return Value For True Value And Method GetTrxReceipt Also Terminate
     //     if (std != null) return std;
@@ -125,11 +126,11 @@ class ContractService implements IContractService {
     //       return std;
     //     }
     //   } catch (e) {
-    //     if (ApiProvider().isDebug == false) print("Error $e");
+    //     if (ApiProvider().isDebug == true) print("Error $e");
     //   }
     // });
 
-    // if (ApiProvider().isDebug == false) print('mystd: $std');
+    // if (ApiProvider().isDebug == true) print('mystd: $std');
     // return std;
   }
 
@@ -164,7 +165,7 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err sendToken $e");
+      if (ApiProvider().isDebug == true) print("Err sendToken $e");
     }
 
     return res!;
@@ -177,8 +178,14 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getChainDecimal() async {
-    final res = await _queryContract(_contract, _decimalFunction(), []);
-    return res.first;
+    try {
+      
+      final res = await _queryContract(_contract, _decimalFunction(), []);
+      return res.first;
+    } catch (e){
+      print("err getChainDecimal $e");
+    }
+    return 0 as BigInt;
   }
 
   @override

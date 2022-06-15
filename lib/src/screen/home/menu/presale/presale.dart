@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/body_presale.dart';
 
 class Presale extends StatefulWidget {
@@ -41,8 +42,8 @@ class _PresaleState extends State<Presale> {
           enableAnimation(
               'contributed ${_model.amountController.text} of ${_model.listSupportToken![_model.tokenIndex]['symbol']}.',
               'Go to wallet', () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, Home.route, ModalRoute.withName('/'));
+                
+            Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
           });
           _model.amountController.text = '';
           presale.initEstSel();
@@ -72,7 +73,7 @@ class _PresaleState extends State<Presale> {
 
   //   try {} catch (e) {
   //     Navigator.pop(context);
-  //     // if (ApiProvider().isDebug == false) print(e.message);
+  //     // if (ApiProvider().isDebug == true) print(e.message);
 
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
@@ -457,7 +458,7 @@ class _PresaleState extends State<Presale> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error priceChecker $e");
+      if (ApiProvider().isDebug == true) print("Error priceChecker $e");
     }
   }
 
@@ -485,7 +486,7 @@ class _PresaleState extends State<Presale> {
         );
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error checkIsAllownce $e");
+      if (ApiProvider().isDebug == true) print("Error checkIsAllownce $e");
     }
   }
 
@@ -523,7 +524,7 @@ class _PresaleState extends State<Presale> {
         }
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error submitPresale $e");
+      if (ApiProvider().isDebug == true) print("Error submitPresale $e");
     }
   }
 
@@ -539,7 +540,7 @@ class _PresaleState extends State<Presale> {
 
       _model.balance = double.parse(contract.listContract[4].balance!);
       _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
-      // if (ApiProvider().isDebug == false) print("_model.listSupportToken ${_model.listSupportToken}");
+      // if (ApiProvider().isDebug == true) print("_model.listSupportToken ${_model.listSupportToken}");
       // await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 
       //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
@@ -547,7 +548,7 @@ class _PresaleState extends State<Presale> {
 
       setState(() {});
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initMethod $e");
+      if (ApiProvider().isDebug == true) print("Error initMethod $e");
     }
   }
 

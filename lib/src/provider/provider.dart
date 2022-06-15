@@ -7,44 +7,49 @@ class ContractsBalance {
   
   /// The function get all asset information 
   Future<void> getAllAssetBalance({@required BuildContext? context, bool? isRefresh}) async {
+    try {
 
-    final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    // final btcAddr = await StorageServices.fetchData('bech32');
+      final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
+      final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+      final btcAddr = await StorageServices.fetchData('bech32');
 
-    // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
+      // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: fals e).setBtcAddr(btcAddr.toString());
 
-    // await contractProvider.setSavedList().then((value) async {
+      // await contractProvider.setSavedList().then((value) async {
 
-      await contractProvider.selTokenWallet(context);
-      await contractProvider.selv2TokenWallet(context);
-      await contractProvider.ethWallet();
-      await contractProvider.bnbWallet();
-      await contractProvider.kgoTokenWallet();
+        await contractProvider.selTokenWallet(context);
+        await contractProvider.selv2TokenWallet(context);
+        await contractProvider.ethWallet();
+        await contractProvider.bnbWallet();
+        await contractProvider.kgoTokenWallet();
 
-      if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
-      // This Method Is Also Request Polkadot Contract
-      await apiProvider.getBtcBalance(context: context);
-//4
-      /// Fetch and Fill Market Price Into Asset
-      await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
-      
-      // await isBtcContain(context: context);
-      // await apiProvider.connectSELNode(context: context);
-      // await apiProvider.connectSELNode(context: context);
-      // await apiProvider.getSelNativeChainDecimal(context: context);
-      // await apiProvider.subSELNativeBalance(context: context);
+        if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
+        // This Method Is Also Request Polkadot Contract
+        await apiProvider.getBtcBalance(context: context);
+  //4
+        /// Fetch and Fill Market Price Into Asset
+        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        
+        /// Fetch main balance
+        await apiProvider.totalBalance(context: context);
+        // await isBtcContain(context: context);
+        // await apiProvider.connectSELNode(context: context);
+        // await apiProvider.connectSELNode(context: context);
+        // await apiProvider.getSelNativeChainDecimal(context: context);
+        // await apiProvider.subSELNativeBalance(context: context);
 
-      // Sort After MarketPrice Filled Into Asset
-      await contractProvider.sortAsset();
+        // Sort After MarketPrice Filled Into Asset
+        await contractProvider.sortAsset();
 
-      contractProvider.setReady();
-
-      
-      /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
-      await StorageServices.storeAssetData(context);
-      
-    // });
+        contractProvider.setReady();
+        
+        /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+        await StorageServices.storeAssetData(context);
+        
+      // });
+    } catch (e) {
+      if (ApiProvider().isDebug == true) print("error getAllAssetBalance $e");
+    }
   }
 
 
@@ -68,6 +73,11 @@ class ContractsBalance {
       final api = Provider.of<ApiProvider>(context, listen: false);
       dynamic balance;
       
+      await api.connectSELNode(context: context).then((value) async {
+        
+        await api.getSelNativeChainDecimal(context: context);
+      });
+
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
           if (conProvider.listContract[i].org == "ERC-20"){
@@ -107,6 +117,11 @@ class ContractsBalance {
           }
         }
       }
+      // await api.connectPolNon(context: context).then((value) async {
+
+      //   await api.getDotChainDecimal(context: context);
+      //   await api.subscribeDotBalance(context: context);
+      // });
 
       // conProvider.addedContract.forEach((element) async {
       //   if (element.org == "ERC-20"){
@@ -125,7 +140,7 @@ class ContractsBalance {
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("error refetchContractBalance $e ");
+      if (ApiProvider().isDebug == true) print("error refetchContractBalance $e ");
     }
 
   }

@@ -3,6 +3,9 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 
 class HomePage extends StatefulWidget {
+
+  static final String route = "/home";
+
   const HomePage({ Key? key }) : super(key: key);
 
   @override
@@ -38,11 +41,11 @@ class _HomePageState extends State<HomePage> {
 
 
   void onPageChanged(int index){
-    print("tab $index");
     setState(() {
       _model.activeIndex = index;
     });
-    _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
+    _model.pageController.jumpToPage(index);
+    // _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   final bool? pushReplacement = true;

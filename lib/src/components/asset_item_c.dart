@@ -47,6 +47,7 @@ class AssetsItemComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      
                       MyText(
                         text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                         fontSize: 15.5,
@@ -59,46 +60,16 @@ class AssetsItemComponent extends StatelessWidget {
             
                       MyText(
                         text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: isDarkTheme
                           ? AppColors.darkSecondaryText
                           : AppColors.darkSecondaryText,
                         textAlign: TextAlign.start,
                       )
+                      
                     ],
                   ),
-            
-                  // Flexible(
-                  //   child: Text.rich(
-                  //     TextSpan(
-                  //       children: [
-                  //         TextSpan(
-                  //           text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
-                  //             style: TextStyle(
-                  //               fontSize: 15.5.sp,
-                  //               fontWeight: FontWeight.bold,
-                  //               color: hexaCodeToColor(isDarkTheme
-                  //                 ? AppColors.whiteColorHexa
-                  //                 : AppColors.textColor,
-                  //               ),
-                  //             ),
-                  //         ),
-                  //         TextSpan(
-                  //           text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
-                  //           style: TextStyle(
-                  //             fontSize: 13.sp,
-                  //             fontWeight: FontWeight.bold,
-                  //             color: hexaCodeToColor(isDarkTheme
-                  //               ? AppColors.darkSecondaryText
-                  //               : AppColors.darkSecondaryText,
-                  //             ),
-                  //           ),
-                  //         )
-                  //       ],
-                  //     )
-                  //   )
-                  // ),
             
                   MyText(
                     top: 4.0,
@@ -106,48 +77,6 @@ class AssetsItemComponent extends StatelessWidget {
                     fontSize: 12,
                     color: AppColors.tokenNameColor
                   )
-            
-                  // if (scModel!.marketPrice!.isEmpty)
-                  //   MyText(
-                  //     top: 4.0,
-                  //     text: scModel!.name!,
-                  //     fontSize: 12,
-                  //     fontWeight: FontWeight.bold,
-                  //     color: AppColors.tokenNameColor
-                  //   )
-                  // else
-                  //   Container(
-                  //     margin: EdgeInsets.only(top: 4),
-                  //     child: Row(
-                  //       crossAxisAlignment: CrossAxisAlignment.center,
-                  //       children: [
-                          
-                  //         scModel!.change24h != null && scModel!.change24h != ''
-                  //         ? Flexible(
-                  //           child: MyText(
-                  //             text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                  //             fontSize: 12,
-                  //             fontWeight: FontWeight.bold,
-                  //             color: double.parse(scModel!.change24h!).isNegative
-                  //               ? '#FF0000'
-                  //               : isDarkTheme
-                  //                 ? '#00FF00'
-                  //                 : '#66CD00',
-                  //           ),
-                  //         )
-                  //         : Flexible(
-                  //           child: MyText(
-                  //             text: scModel!.change24h,
-                  //             fontSize: 12,
-                  //             fontWeight: FontWeight.bold,
-                  //             color: isDarkTheme
-                  //               ? '#00FF00'
-                  //               : '#66CD00',
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
                 ],
               ),
             ),
@@ -190,15 +119,17 @@ class AssetsItemComponent extends StatelessWidget {
                 ],
               ),
             ),
+            
             // Total Amount
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+
                 MyText(
                   fontSize: 15,
                   // width: double.infinity,
-                  text: scModel!.balance,//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+                  text: double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5),//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                   textAlign: TextAlign.right,
                   fontWeight: FontWeight.bold,
                   color: isDarkTheme
@@ -207,6 +138,12 @@ class AssetsItemComponent extends StatelessWidget {
                   bottom: 4.0,
                   overflow: TextOverflow.fade,
                 ),
+                MyText(
+                  top: 4.0,
+                  text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
+                  fontSize: 12,
+                  color: AppColors.tokenNameColor
+                )
               ],
             ),
 
