@@ -87,7 +87,6 @@ class MyAppBar extends StatelessWidget {
     this.tile,
     this.fontSize = 17
   }){
-    fontSize = fontSize!.sp;
   }
 
   @override

@@ -366,9 +366,10 @@ class MyBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return BottomAppBar(
-      color: isDarkTheme
-        ? hexaCodeToColor(AppColors.darkBgd)
-        : hexaCodeToColor(AppColors.whiteHexaColor),
+      color: hexaCodeToColor(AppColors.darkBgd),
+      // isDarkTheme
+      //   ? hexaCodeToColor(AppColors.darkBgd)
+      //   : hexaCodeToColor(AppColors.whiteHexaColor),
       // shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       child: SizedBox(

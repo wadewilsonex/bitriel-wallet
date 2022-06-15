@@ -61,7 +61,6 @@ class SwapPageBody extends StatelessWidget {
                       swap.index1 = swap.index2;
                       swap.index2 = tmp;
 
-
                       tmp = swap.name1;
                       swap.name1 = swap.name2;
                       swap.name2 = tmp;
@@ -308,7 +307,7 @@ class SwapPageBody extends StatelessWidget {
       builder: (context, provider, widget){
         return GestureDetector(
           child: Container(
-            width: 30.w,
+            width: 35.w,
             decoration: BoxDecoration(
               color: hexaCodeToColor(AppColors.defiMenuItem),
               borderRadius: BorderRadius.circular(8)
@@ -326,14 +325,16 @@ class SwapPageBody extends StatelessWidget {
                     height: 6.h,
                     width: 6.w,
                   ),
-
-                  MyText(
-                    left: 10.sp,
-                    right: 10.sp,
-                    text: i == 0 ? provider.name1 : provider.name2,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16.sp,
-                    color: AppColors.whiteColorHexa,
+                  Expanded(
+                    child: MyText(
+                      textAlign: TextAlign.start,
+                      left: 10.sp,
+                      right: 10.sp,
+                      text: i == 0 ? provider.name1 : provider.name2,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.sp,
+                      color: AppColors.whiteColorHexa,
+                    )
                   ),
 
                   Icon(

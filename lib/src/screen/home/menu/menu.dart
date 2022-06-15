@@ -120,6 +120,7 @@ class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
+    print("isDarkTheme $isDarkTheme");
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(

@@ -214,14 +214,14 @@ class ReusePinNum extends StatelessWidget {
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(bottom: -24.0, left: -1.3),
+          contentPadding: EdgeInsets.only(bottom: -16.0.sp, left: -5.sp),
           border: outlineInputBorder,
           filled: true,
           fillColor: hexaCodeToColor(AppColors.passcodeColor),
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 28.sp,
+          fontSize: 29.sp,
           color: hexaCodeToColor(
             AppColors.secondary,
           ),

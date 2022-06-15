@@ -7,6 +7,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 import 'package:http/http.dart' as _http;
@@ -176,7 +177,7 @@ class AppState extends State<App> {
                         onGenerateRoute: router.generateRoute,
                         // debugShowCheckedModeBanner: false,
                         routes: {
-                          Home.route: (_) => Home(),
+                          HomePage.route: (_) => HomePage(),
                         },
                         initialRoute: AppString.splashScreenView,
                         // builder: (context, widget) => ResponsiveWrapper.builder(

@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/presale_m.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/menu/presale/body_presale.dart';
 
 class Presale extends StatefulWidget {
@@ -41,8 +42,8 @@ class _PresaleState extends State<Presale> {
           enableAnimation(
               'contributed ${_model.amountController.text} of ${_model.listSupportToken![_model.tokenIndex]['symbol']}.',
               'Go to wallet', () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, Home.route, ModalRoute.withName('/'));
+                
+            Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
           });
           _model.amountController.text = '';
           presale.initEstSel();

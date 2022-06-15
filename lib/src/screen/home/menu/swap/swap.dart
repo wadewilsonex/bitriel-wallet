@@ -6,6 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap/body_swap.dart';
 import 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
 
@@ -96,7 +97,7 @@ class _SwapState extends State<Swap> {
                     await enableAnimation(
                       'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                       'Go to wallet', () {
-                      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                     });
 
                   } else {
@@ -143,7 +144,7 @@ class _SwapState extends State<Swap> {
                 enableAnimation(
                   'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                   'Go to wallet', () {
-                  Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 });
                 _swapModel.amountController!.text = '';
               } else {

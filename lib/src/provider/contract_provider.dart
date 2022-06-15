@@ -350,8 +350,12 @@ class ContractProvider with ChangeNotifier {
       // 1. Add Default Asset First
       listContract.forEach((element) {
         // if (element.show!) 
+        // print("element.balance! ${element.balance!}");
+        if (element.marketPrice!.isNotEmpty) element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+        else element.money = 0.0;
+        print("${element.symbol} ${element.money}");
+        mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
         sortListContract.addAll({element});
-        mainBalance = mainBalance + double.parse(element.balance!.replaceAll(",", ""));
       });
 
       // 2. Add Imported Asset
@@ -376,7 +380,9 @@ class ContractProvider with ChangeNotifier {
         // print("lineChartModel ${element.lineChartModel}!");
         // if (element.show!) 
         // print("value.balance!.replaceAll(',', '') ${value.replaceAll(",", "")}");
-        mainBalance = mainBalance + double.parse(element.balance!.replaceAll(",", ""));
+        if (element.marketPrice!.isNotEmpty) element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+        else element.money = 0.0;
+        mainBalance = mainBalance + element.money!;// + double.parse(element.balance!.replaceAll(",", ""));
         sortListContract.addAll({element});
       });
 
@@ -399,6 +405,8 @@ class ContractProvider with ChangeNotifier {
         }
 
       }
+
+      print("mainBalance $mainBalance");
       notifyListeners();
       
     } catch (e) {

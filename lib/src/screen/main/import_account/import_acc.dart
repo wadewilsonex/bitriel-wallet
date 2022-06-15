@@ -299,9 +299,10 @@ class ImportAccState extends State<ImportAcc> {
         },
       )
     );
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context, 
-      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
+      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+      ModalRoute.withName('/')
     );
     
   }
