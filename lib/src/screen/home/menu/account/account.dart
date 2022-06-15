@@ -72,13 +72,13 @@ class _AccountState extends State<Account> {
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
-      final event = await StorageServices.fetchData(DbKey.event);
+      // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
-      await StorageServices.storeData(event, DbKey.event);
+      // await StorageServices.storeData(event, DbKey.event);
 
       await StorageServices().clearSecure();
       

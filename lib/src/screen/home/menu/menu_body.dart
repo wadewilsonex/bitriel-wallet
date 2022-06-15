@@ -127,22 +127,6 @@ class MenuBody extends StatelessWidget {
           ),
           onTap: null,
         ),
-        // const MenuSubTitle(index: 4),
-
-        // MyListTile(
-        //   icon: Icon(Iconsax.moon, color: Colors.white, size: 22.5.sp),
-        //   index: 4,
-        //   subIndex: 0,
-        //   onTap: null,
-        //   trailing: Consumer<ThemeProvider>(
-        //     builder: (context, value, child) => Switch(
-        //       value: value.isDark,
-        //       onChanged: (value) async {
-        //         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-        //       },
-        //     ),
-        //   ),
-        // ),
 
         const MenuSubTitle(index: 5),
 
