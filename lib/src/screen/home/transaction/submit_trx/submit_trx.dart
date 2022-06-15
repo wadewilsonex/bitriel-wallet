@@ -50,11 +50,9 @@ class SubmitTrxState extends State<SubmitTrx> {
       _scanPayM.asset = widget.asset;
     } else {
 
-      if (_contractProvider!.sortListContract.isNotEmpty){
-        _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
-        _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
-        _scanPayM.assetValue = 0;
-      }
+      _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
+      _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+      _scanPayM.assetValue = 0;
     }
 
     AppServices.noInternetConnection(_scanPayM.globalKey);
@@ -109,6 +107,13 @@ class SubmitTrxState extends State<SubmitTrx> {
 
     return _result;
   }
+  
+  bool isNotEmpty(){
+    if (_scanPayM.controlReceiverAddress.text.isEmpty || _scanPayM.controlAmount.text.isEmpty){
+      return true;
+    }
+    return false;
+  }
 
   Future<bool> validateAddress(String address) async {
     final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
@@ -122,7 +127,9 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   String? validateField(String value) {
-    if (value == '' || double.parse(value.toString()) <= 0 || value == '-0') {
+    if (value == 0){
+      return 'Amount mustn\'t equal 0';
+    } else if (value == '' || double.parse(value.toString()) <= 0 || value == '-0') {
       return 'Please fill in valid amount';
     }
 
@@ -165,12 +172,6 @@ class SubmitTrxState extends State<SubmitTrx> {
     flareController.play('Checkmark');
 
     await successDialog(context, "transferred the funds.");
-    // Timer(const Duration(milliseconds: 2500), () async {
-    //   await successDialog(context, "transferred the funds.");
-
-    //   // Navigator.pushNamedAndRemoveUntil(
-    //   //     context, Home.route, ModalRoute.withName('/'));
-    // });
   }
 
   void onChangeDropDown(String data) {
@@ -185,9 +186,16 @@ class SubmitTrxState extends State<SubmitTrx> {
   Future<void> validateSubmit() async {
     unFocusAllField();
 
-    if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!) ){
+    if (double.parse(_scanPayM.controlAmount.text) == 0){
+      await trxFunc!.customDialog('Message', 'Amount mustn\'t equal 0');
+    }
+    else if (isNotEmpty()){
       print("finish check");
-      await trxFunc!.customDialog('Oops', 'Your input balance must less than available balances');
+      await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
+    }
+    else if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!) ){
+      print("finish check");
+      await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
     } else {
 
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
@@ -334,20 +342,6 @@ class SubmitTrxState extends State<SubmitTrx> {
             print("Send native");
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
-                print("after send trx $value");
-                // await ContractsBalance().refetchContractBalance(context: context);
-                // await Navigator.push(
-                //   context,
-                //   Transition(
-                //     child: ConfirmationTx(
-                //       trxInfo: trxFunc!.txInfo,
-                //       sendTrx: sendTrx,
-                //       // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
-                //     ),
-                //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                //   ),
-                // );
-                // await sendTrx(txInfo, context: context);
 
                 enableAnimation();  
               } else {
@@ -476,6 +470,17 @@ class SubmitTrxState extends State<SubmitTrx> {
     setState(() {});
   }
 
+  void scanQR() async {
+   
+    await await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
+      if (value != null){
+        setState(() {
+          _scanPayM.controlReceiverAddress.text = value;
+          
+        });
+      }
+    });
+  }
   
   bool pushReplacement = false;
 
@@ -501,6 +506,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               return validateField(value!)!;
             },
             onChangeDropDown: onChangeDropDown,
+            scanQR: scanQR,
           ),
           if (_scanPayM.isPay == false)
             Container()

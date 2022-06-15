@@ -72,6 +72,8 @@ class ApiProvider with ChangeNotifier {
     lineChartModel: LineChartModel()
   );
 
+  String? funcName;
+
   bool get isConnected => _isConnected;
 
   void setAccount(AccountM acc){
@@ -81,7 +83,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> initApi({@required BuildContext? context}) async {
-
+    funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
     try {
 
@@ -461,12 +463,8 @@ class ApiProvider with ChangeNotifier {
       dynamic res;
       
       ContractProvider contract = Provider.of<ContractProvider>(context!, listen: false);
-
-      // Get SEL native Address From Account 
-      await _sdk.webView!.evalJavascript('$funcName.getSELAddr()').then((value) async {
-        print("keyring.getSELAddr() $value");
-        contract.listContract[selNativeIndex].address = value;
-
+      
+      await querySELAddress().then((value) async {
         await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
           
           res = value;
@@ -479,6 +477,21 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error getChainDecimal $e");
     }
+  }
+
+  Future<void> querySELAddress() async {
+    
+    // Get SEL native Address From Account 
+    await _sdk.webView!.evalJavascript('account.getSELAddr()').then((value) async {
+      print("$funcName.getSELAddr() $value");
+      if (value != null){
+        contractProvider!.listContract[selNativeIndex].address = value;
+      } else {
+        await _sdk.webView!.evalJavascript('keyring.getSELAddr()').then((value) async {
+          contractProvider!.listContract[selNativeIndex].address = value;
+        });
+      }
+    });
   }
 
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {

@@ -30,11 +30,10 @@ class ImportAccState extends State<ImportAcc> {
 
   @override
   void initState() {
-
+    _importAccModel.mnemonicCon.text = "dentist body neglect clay stage forget caught bacon moment gown toast kind";
     _api = Provider.of<ApiProvider>(context, listen: false);
     AppServices.noInternetConnection(globalKey);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
-    // _importAccModel.mnemonicCon.text = 'donate slogan wear furnace idle canal raw senior pink frame truck beyond';
     super.initState();
   }
 

@@ -2,7 +2,6 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class QrScanner extends StatefulWidget {
   // final List portList;
@@ -19,35 +18,23 @@ class QrScanner extends StatefulWidget {
 
 class QrScannerState extends State<QrScanner> {
 
-  GlobalKey? _qrKey;
-  
-  QRViewController? _controller;
+  final GlobalKey qrKey = GlobalKey();
 
   Future? _onQrViewCreated(QRViewController controller) async {
     controller.resumeCamera();
     try {
-      _controller = controller;
-      _controller!.scannedDataStream.listen((event) async {
+      controller.scannedDataStream.listen((event) async {
+        controller.pauseCamera();
 
         Navigator.pop(context, event.code);
 
       });
 
     } catch (e) {
-     print("error _onQrViewCreated $e");
+     
     }
-  }
-  
-  @override
-  void initState() {
-    _qrKey = new GlobalKey();
-    super.initState();
-  }
 
-  @override
-  void dispose() {
-    _controller!.dispose();
-    super.dispose();
+    return controller;
   }
 
   @override
@@ -71,9 +58,8 @@ class QrScannerState extends State<QrScanner> {
             ),
             Expanded(
               child: QRView(
-                key: _qrKey!,
+                key: qrKey,
                 onQRViewCreated: (QRViewController qrView) async {
-                  print("hello");
                   await _onQrViewCreated(qrView);
                 },
                 overlay: QrScannerOverlayShape(

@@ -102,7 +102,9 @@ async function queryAddressWithAccountIndex(
   accIndex: string,
   ss58: number
 ) {
+  console.log(accIndex, ss58);
   const num = ss58Decode(accIndex, ss58).toJSON();
+  console.log("num num", num);
   const res = await api.query.indices.accounts(num.data);
   return res;
 }
