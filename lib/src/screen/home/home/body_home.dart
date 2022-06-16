@@ -156,7 +156,7 @@ class HomePageBody extends StatelessWidget {
         CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 1,  
-            aspectRatio: 32 / 9,
+            aspectRatio: 32 / 10,
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,

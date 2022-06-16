@@ -51,6 +51,7 @@ class ChangePinState extends State<ChangePin> {
   bool? isFirst;
 
   bool? is4digits = false;
+  bool? isNewPass = false;
 
   List<String> currentPin = ["", "", "", "", "", ""];
 
@@ -170,6 +171,7 @@ class ChangePinState extends State<ChangePin> {
           subStatus = lsMessage[5];
 
           setState(() {
+            isNewPass = true;
             isFirst = false;
           });
         } else {
@@ -284,6 +286,7 @@ class ChangePinState extends State<ChangePin> {
       lsControl: lsControl, 
       pinIndexSetup: pinIndexSetup, 
       clearPin: clearPin,
+      isNewPass: isNewPass,
       is4digits: is4digits,  
       onPressedDigit: onPressedDigit
     );

@@ -10,11 +10,13 @@ class PasscodeBody extends StatelessWidget{
   final Function? pinIndexSetup;
   final Function? clearPin;
   final bool? is4digits;
+  final bool? isNewPass;
   final Function? onPressedDigit;
 
   PasscodeBody({
     this.titleStatus,
     this.subStatus,
+    this.isNewPass = false,
     this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
 
   final outlineInputBorder = OutlineInputBorder(
@@ -110,12 +112,12 @@ class PasscodeBody extends StatelessWidget{
             SizedBox(height: 5.h),
 
             TextButton(
-              onPressed: !isFirst! ? null : () {
+              onPressed: () {
                 onPressedDigit!();
               }, 
               child: MyText(
-                text: is4digits == false ? "4 digits passcode" : "6 digits passcode",
-                color2: isFirst! ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
+                text: is4digits == false ? "Use 4 digits passcode" : "Use 6 digits passcode",
+                color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
                 fontWeight: FontWeight.bold,
               ),
             ),
