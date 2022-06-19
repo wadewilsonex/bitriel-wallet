@@ -17,11 +17,12 @@ class ContractsBalance {
 
       // await contractProvider.setSavedList().then((value) async {
 
-        await contractProvider.selTokenWallet(context);
-        await contractProvider.selv2TokenWallet(context);
-        await contractProvider.ethWallet();
-        await contractProvider.bnbWallet();
-        await contractProvider.kgoTokenWallet();
+        // await contractProvider.selTokenWallet(context);
+        // await contractProvider.selv2TokenWallet(context);
+        // await contractProvider.ethWallet();
+        // await contractProvider.bnbWallet();
+        // await contractProvider.kgoTokenWallet();
+        await contractProvider.getBep20Balance(contractIndex: 8);
 
         if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Request Polkadot Contract

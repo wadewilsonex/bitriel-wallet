@@ -235,6 +235,7 @@ class TrxFunctional {
       }
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error sendTxBep20 $e");
+      throw e;
     }
   }
 

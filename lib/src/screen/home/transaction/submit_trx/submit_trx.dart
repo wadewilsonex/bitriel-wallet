@@ -193,7 +193,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       print("finish check");
       await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
     }
-    else if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!) ){
+    else if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
       print("finish check");
       await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
     } else {
@@ -202,7 +202,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       try {
 
         var gasPrice;
-        dialogLoading(context);
+        dialogLoading(context, content: "Estimating Fee...");
         final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
         
         if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
@@ -351,6 +351,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               }
             });
           } else {
+            
             print("Send ERC-20 || BEP-20");
             /* ------------------Check and Get Private------------ */
             // Get Private Key Only BTC Contract
@@ -419,10 +420,12 @@ class SubmitTrxState extends State<SubmitTrx> {
                   );
                   
                 } else {
-                  
-                  final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue].address; //ContractProvider().findContractAddr(_scanPayM.asset);
+                  print("Sending Bep-20");
+                  final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest; //ContractProvider().findContractAddr(_scanPayM.asset);
+                  print(contractAddr);
                   await _contractProvider!.initBep20Service(contractAddr!);
-                  await trxFunc!.sendTxBep20(trxFunc!.contract!.getBep20, txInfo);
+                  print("finish init contract");
+                  await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
                 }
               }
             }

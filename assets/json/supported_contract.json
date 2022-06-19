@@ -38,7 +38,7 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": false
+        "show": true
     },
     {
         "id": "kiwigo",
@@ -106,6 +106,20 @@
         "logo": "assets/logo/btc_logo.png",
         "org": "",
         "org_test": "",
+        "balance": "0.0",
+        "show": true,
+        "isContain": true
+    },
+    {
+        "id": "rikreay",
+        "symbol": "REKREAY",
+        "name": "Rekreay",
+        "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
+        "contract_test": "",
+        "address": "",
+        "logo": "assets/logo/rekreay.jpeg",
+        "org": "BEP-20",
+        "org_test": "BEP-20",
         "balance": "0.0",
         "show": true,
         "isContain": true

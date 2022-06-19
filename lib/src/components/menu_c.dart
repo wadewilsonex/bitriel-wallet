@@ -2,6 +2,7 @@
 
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmer_c.dart';
@@ -43,11 +44,12 @@ class MenuHeader extends StatelessWidget {
                 },
                 child: AvatarShimmer(
                   txt: value.accountM.addressIcon,
-                  child: SvgPicture.string(
-                    value.accountM.addressIcon ?? '',
-                    width: 5.0.w,
-                    // height: 8.0,
-                  )
+                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0.w, height: 5.0.w)
+                  // SvgPicture.string(
+                  //   value.accountM.addressIcon ?? '',
+                  //   width: 5.0.w,
+                  //   // height: 8.0,
+                  // )
                 )
               ),
                 

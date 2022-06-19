@@ -62,6 +62,7 @@ class AppState extends State<App> {
         // });
         await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+          print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
           /// Cannot connect Both Network On the Same time
           /// 
           /// It will be wrong data of that each connection. 

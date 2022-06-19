@@ -60,57 +60,57 @@ class AssetsPageBody extends StatelessWidget {
 
               // PieChartSample3(),
 
-              if(apiProvider.accountM.addressIcon == null)
-              Shimmer.fromColors(
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  margin: EdgeInsets.only(bottom: 3),
-                  decoration: BoxDecoration(
-                    color: hexaCodeToColor(AppColors.sliderColor),
-                    shape: BoxShape.circle,
-                    // boxShadow: [
-                    //   BoxShadow(color: Colors.white, blurRadius: 20.0),
-                    // ],
-                  ),
-                ), 
-                period: const Duration(seconds: 2),
-                baseColor: hexaCodeToColor(AppColors.sliderColor),
-                highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              ) 
-              else Container(
-                width: 60,
-                height: 60,
-                margin: const EdgeInsets.only(right: 5),
-                decoration: BoxDecoration(
-                  color: hexaCodeToColor(AppColors.sliderColor),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(color: Colors.white, blurRadius: 10.0),
-                  ],
-                ),
-                child: SvgPicture.string(apiProvider.accountM.addressIcon!),
-              ),
+              // if(apiProvider.accountM.addressIcon == null)
+              // Shimmer.fromColors(
+              //   child: Container(
+              //     width: 60,
+              //     height: 60,
+              //     margin: EdgeInsets.only(bottom: 3),
+              //     decoration: BoxDecoration(
+              //       color: hexaCodeToColor(AppColors.sliderColor),
+              //       shape: BoxShape.circle,
+              //       // boxShadow: [
+              //       //   BoxShadow(color: Colors.white, blurRadius: 20.0),
+              //       // ],
+              //     ),
+              //   ), 
+              //   period: const Duration(seconds: 2),
+              //   baseColor: hexaCodeToColor(AppColors.sliderColor),
+              //   highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
+              // ) 
+              // else Container(
+              //   width: 60,
+              //   height: 60,
+              //   margin: const EdgeInsets.only(right: 5),
+              //   decoration: BoxDecoration(
+              //     color: hexaCodeToColor(AppColors.sliderColor),
+              //     shape: BoxShape.circle,
+              //     boxShadow: [
+              //       BoxShadow(color: Colors.white, blurRadius: 10.0),
+              //     ],
+              //   ),
+              //   child: SvgPicture.string(apiProvider.accountM.addressIcon!),
+              // ),
 
-              SizedBox(height: 2.h),
-              if(apiProvider.accountM.addressIcon == null)
-              Shimmer.fromColors(
-                child: Container(
-                  width: 100,
-                  height: 8.0,
-                  margin: EdgeInsets.only(bottom: 3),
-                  color: Colors.white,
-                ), 
-                period: const Duration(seconds: 2),
-                baseColor: hexaCodeToColor(AppColors.sliderColor),
-                highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              )
-              else MyText(
-                bottom: 3,
-                text: apiProvider.accountM.name ?? '',
-                color: AppColors.whiteColorHexa,
-                fontSize: 20.sp,
-              ),
+              // SizedBox(height: 2.h),
+              // if(apiProvider.accountM.addressIcon == null)
+              // Shimmer.fromColors(
+              //   child: Container(
+              //     width: 100,
+              //     height: 8.0,
+              //     margin: EdgeInsets.only(bottom: 3),
+              //     color: Colors.white,
+              //   ), 
+              //   period: const Duration(seconds: 2),
+              //   baseColor: hexaCodeToColor(AppColors.sliderColor),
+              //   highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
+              // )
+              // else MyText(
+              //   bottom: 3,
+              //   text: apiProvider.accountM.name ?? '',
+              //   color: AppColors.whiteColorHexa,
+              //   fontSize: 20.sp,
+              // ),
 
               SizedBox(height: 2.h),
               Consumer<ContractProvider>(
@@ -122,29 +122,20 @@ class AssetsPageBody extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   );
                 }
-              ),SizedBox(height: 2.h),
+              ),
+              
+              SizedBox(height: 2.h),
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                    text: provider.listContract[apiProvider.btcIndex].marketPrice == '' ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                     color: AppColors.tokenNameColor,
                     fontWeight: FontWeight.bold,
                   );
                 }
               ),
-              // SizedBox(height: 2.h),
-              // Consumer<ContractProvider>(
-              //   builder: (context, provider, widget){
-              //     return MyText(
-              //       text: "≈ \$ ${provider.mainBalance.toStringAsFixed(5)}",
-              //       color: AppColors.whiteColorHexa,
-              //       fontWeight: FontWeight.bold,
-              //     );
-              //   }
-              // ),
 
               SizedBox(height: 3.h),
-
               _operationRequest(context),
             ],
           ),

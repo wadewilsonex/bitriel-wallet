@@ -14,11 +14,6 @@ class AssetsItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // if (scModel.balance != AppString.loadingPattern && scModel.marketPrice != null) {
-    //   var res = double.parse(scModel.balance) * double.parse(scModel.marketPrice);
-    //   scModel.lineChartModel.totalUsd = res.toStringAsFixed(2);
-    // }
-
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
 
     return rowDecorationStyle(
@@ -27,15 +22,28 @@ class AssetsItemComponent extends StatelessWidget {
           children: <Widget>[
 
             // Asset Logo
-            Image.asset(
-              scModel!.logo!,
-              fit: BoxFit.contain,
-              height: 10.h,
+            scModel!.logo != null ? SizedBox(
+              height: 10.w,
               width: 10.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.asset(
+                  scModel!.logo!,
+                  fit: BoxFit.contain,
+                  height: 10.w,
+                  width: 10.w,
+                )
+              ),
+            ) 
+            : ClipRRect(
+              child: Container(
+                height: 10.w,
+                width: 10.w,
+              ),
             ),
 
-            SizedBox(width: 2.w),
             // Asset Name
+            SizedBox(width: 2.w),
             SizedBox(
               width: 25.w,
               child: Column(
@@ -73,7 +81,7 @@ class AssetsItemComponent extends StatelessWidget {
             
                   MyText(
                     top: 4.0,
-                    text: scModel!.name!,
+                    text: scModel!.name ?? '',
                     fontSize: 12,
                     color: AppColors.tokenNameColor
                   )
@@ -86,14 +94,22 @@ class AssetsItemComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  scModel!.marketPrice != null ?
                   MyText(
                     text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
                     fontSize: 15.5,
                     fontWeight: FontWeight.bold,
                     color: AppColors.whiteColorHexa
+                  )
+                  : MyText(
+                    text: '',
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.whiteColorHexa
                   ),
 
-                  Container(
+                  scModel!.change24h != null ? Container(
                     margin: EdgeInsets.only(top: 4),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +119,7 @@ class AssetsItemComponent extends StatelessWidget {
                         ? Flexible(
                           child: MyText(
                             text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                            fontSize: 16.sp,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: double.parse(scModel!.change24h!).isNegative
                               ? '#FF0000'
@@ -115,7 +131,8 @@ class AssetsItemComponent extends StatelessWidget {
                         : Container(),
                       ],
                     ),
-                  ),
+                  )
+                  : Container(),
                 ],
               ),
             ),
@@ -126,6 +143,7 @@ class AssetsItemComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
 
+                scModel!.balance != null ? 
                 MyText(
                   fontSize: 15,
                   // width: double.infinity,
@@ -137,13 +155,17 @@ class AssetsItemComponent extends StatelessWidget {
                     : AppColors.textColor,
                   bottom: 4.0,
                   overflow: TextOverflow.fade,
-                ),
+                ) 
+                : Container(),
+
+                scModel!.money != null ? 
                 MyText(
                   top: 4.0,
                   text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
                   fontSize: 12,
                   color: AppColors.tokenNameColor
-                )
+                ) 
+                : Container()
               ],
             ),
 

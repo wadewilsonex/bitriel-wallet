@@ -19,7 +19,7 @@ class ContractProvider with ChangeNotifier {
   Client? _httpClient;
   Web3Client? _bscClient, _etherClient;
 
-  ContractService? _selToken, _selV2, _kgo, _swap, _atd, _bep20, _erc20;
+  ContractService? _selToken, _selV2, _kgo, _swap, _atd, _bep20, _erc20, _conService;
   NativeService? _eth, _bnb;
 
   StreamSubscription<String>? streamSubscriptionBsc;
@@ -37,7 +37,7 @@ class ContractProvider with ChangeNotifier {
 
   /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
   /// 
-  /// (6 DOT) (7 BTC) (8 ATT) (9 SEL Testnet)
+  /// (6 DOT) (7 BTC) (8 RekReay) (9 ATT)
   List<SmartContractModel> listContract = [];
 
   /// This property for ERC-20 and BEP-20 contract added
@@ -298,6 +298,36 @@ class ContractProvider with ChangeNotifier {
         notifyListeners();
       } catch (e) {
         if (ApiProvider().isDebug == true) print("Err kgoTokenWallet $e");
+      }
+    }
+  }
+
+  Future<void> getBep20Balance({required int contractIndex}) async {
+    print("getBep20Balance");
+    if (apiProvider.isMainnet){
+      try {
+
+        await initBscClient();
+        final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[contractIndex].contract! : listContract[contractIndex].contractTest!);
+        
+        _conService = new ContractService(_bscClient!, contract);
+        final balance = await _conService!.getTokenBalance(getEthAddr(ethAdd));
+        print("balance $balance");
+        final chainDecimal = await _conService!.getChainDecimal();
+        print("chainDecimal $chainDecimal");
+
+        listContract[contractIndex].balance = Fmt.bigIntToDouble(
+          balance,
+          int.parse(chainDecimal.toString()),
+        ).toString();
+
+        listContract[contractIndex].chainDecimal = chainDecimal.toString();
+        listContract[contractIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[contractIndex]);
+        listContract[contractIndex].address = ethAdd;
+
+        notifyListeners();
+      } catch (e) {
+        if (ApiProvider().isDebug == true) print("Err getBep20Balance $e");
       }
     }
   }

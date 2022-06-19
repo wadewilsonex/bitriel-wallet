@@ -488,6 +488,7 @@ class ApiProvider with ChangeNotifier {
         contractProvider!.listContract[selNativeIndex].address = value;
       } else {
         await _sdk.webView!.evalJavascript('keyring.getSELAddr()').then((value) async {
+          print("keyring.getSELAddr() $value");
           contractProvider!.listContract[selNativeIndex].address = value;
         });
       }

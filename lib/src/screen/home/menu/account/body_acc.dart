@@ -1,3 +1,4 @@
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
@@ -98,9 +99,10 @@ class AccountBody extends StatelessWidget{
                                     decoration: BoxDecoration(
                                       borderRadius:BorderRadius.circular(5),
                                     ),
-                                    child: SvgPicture.string(
-                                      value.accountM.addressIcon ?? '',
-                                    ),
+                                    child: randomAvatar(value.accountM.addressIcon ?? '')
+                                    // SvgPicture.string(
+                                    //   value.accountM.addressIcon ?? '',
+                                    // ),
                                   );
                                 },
                               ),
