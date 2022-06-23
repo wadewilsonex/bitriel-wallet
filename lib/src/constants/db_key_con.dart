@@ -24,4 +24,5 @@ class DbKey{
   static String signData = "signData_key";
   static String token = "token_key";
   static String event = "event_key";
+  static String coinData = "coinData";
 }

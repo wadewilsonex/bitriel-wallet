@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
 class SubmitTrx extends StatefulWidget {
@@ -36,6 +37,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   FlareControls flareController = FlareControls();
 
   ContractProvider? _contractProvider;
+  ApiProvider? _apiProvider;
 
   AssetInfoC c = AssetInfoC();
 
@@ -45,6 +47,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   @override
   void initState() {
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
+    _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     
     if (widget.asset != null){
       _scanPayM.asset = widget.asset;
@@ -190,11 +193,10 @@ class SubmitTrxState extends State<SubmitTrx> {
       await trxFunc!.customDialog('Message', 'Amount mustn\'t equal 0');
     }
     else if (isNotEmpty()){
-      print("finish check");
       await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
     }
     else if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
-      print("finish check");
+
       await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
     } else {
 
@@ -225,25 +227,33 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.assetValue
             );
 
+            print("isEnough $isEnough");
+
             if (!isEnough && isValid) {
               if (isValid) {
                 Navigator.pop(context);
               }
-              await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
+              await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
             }
 
             if (isValid) {
               gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
             }
-
+            print("gasPrice $gasPrice");
+            print("isValid $isValid");
+            print("isValid $isEnough");
             if (isValid && isEnough) {
 
               if (gasPrice != null) {
-
+                print("_scanPayM.asset! ${_scanPayM.asset ?? 'null'}");
+                print("_scanPayM.controlAmount.text ${_scanPayM.controlAmount.text}");
                 final estAmtPrice = await trxFunc!.calPrice(
                   _scanPayM.asset!,
                   _scanPayM.controlAmount.text,
                 );
+                // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
+
+                print("estAmtPrice $estAmtPrice");
 
                 final maxGas = await trxFunc!.estMaxGas(
                   context,
@@ -253,15 +263,25 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.assetValue
                 );
 
+                print("maxGas $maxGas");
+
                 final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
 
                 var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+                print("gasFeeToEther $gasFeeToEther");
+
+                // Check BNB balance for Fee
+                if (gasFeeToEther >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
+                  throw new ExceptionHandler("You do not have sufficient fee for transaction.");
+                }
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
-
+                print("estGasFeePrice $estGasFeePrice");
                 final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
 
                 final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+
+                print("estToSendPrice $estToSendPrice");
 
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
 
@@ -301,8 +321,19 @@ class SubmitTrxState extends State<SubmitTrx> {
 
           }
         }
-      } catch (e) {
+      } on ExceptionHandler catch (e){
+
+        // Close Dialog Estimating Fee
+        Navigator.pop(context);
         if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
+        await trxFunc!.customDialog("Oops", e.cause);
+      }
+      catch (e) {
+        
+        // Close Dialog Estimating Fee
+        Navigator.pop(context);
+        if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
+        await trxFunc!.customDialog("Oops", e.toString());
       }
     }
   }
@@ -311,13 +342,6 @@ class SubmitTrxState extends State<SubmitTrx> {
   Future<void>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
     print("sendTrx");
     try {
-      // Unfocus All Field Input
-      // await Future.delayed(const Duration(milliseconds: 100), () {
-      //   unFocusAllField();
-      // });
-
-      // Start Loading Before Dialog Pin
-      // Init member variables of Trx Functional
       trxFunc!.contract = _contractProvider;
 
       trxFunc!.api = Provider.of<ApiProvider>(context!, listen: false);
@@ -341,6 +365,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             print("Send native");
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
+              print("after sendNative $value");
               if (value == true){
 
                 enableAnimation();  
@@ -384,30 +409,37 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue];
 
+              print(contractM.symbol);
+
               /* -------------Processing Transaction----------- */
               if (contractM.symbol == "SEL"){
                 if (contractM.org == 'BEP-20'){
 
-                  await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelToken, txInfo);
+                  await trxFunc!.sendTxBep20(_contractProvider!.getSelToken, txInfo);
                 } else {
                   //trxFunc!.sendTx(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
                 }
-              } else if (contractM.symbol == "SEL (v2)"){
+              } 
+              else if (contractM.symbol == "SEL (v2)" || contractM.symbol == "SEL (v1)"){
 
-                await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelv2, txInfo);
-              } else if (contractM.symbol == "BNB"){
-
-                await trxFunc!.sendTxEvm(trxFunc!.contract!.getBnb, txInfo);
-              } else if (contractM.symbol == "ETH"){
+                await trxFunc!.sendTxBep20(contractM.symbol!.contains('v2') ? _contractProvider!.getSelv2 : _contractProvider!.getSelToken, txInfo);
+              } 
+              else if (contractM.symbol == "BNB"){
+                await trxFunc!.sendTxEvm(_contractProvider!.getBnb, txInfo);
+              } 
+              else if (contractM.symbol == "ETH"){
 
                 await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
-              } else if (contractM.symbol == "BTC"){
+              } 
+              else if (contractM.symbol == "BTC"){
 
                 // await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
-              } else if (contractM.symbol == "KGO"){
+              } 
+              else if (contractM.symbol == "KGO"){
 
-                await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);
-              } else {
+                await trxFunc!.sendTxBep20(_contractProvider!.getKgo, txInfo);
+              } 
+              else {
                 if (_scanPayM.asset!.contains('ERC-20')) {
 
                   final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
@@ -430,18 +462,14 @@ class SubmitTrxState extends State<SubmitTrx> {
               }
             }
 
-            await ContractsBalance().refetchContractBalance(context: context);
+            Provider.of<ContractsBalance>(context, listen: false).refetchContractBalance(context: context);
             enableAnimation();
           }
         }
       });
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err sendTrx $e");
-      //Close Dialog
+    } catch (e){
       Navigator.pop(context!);
-
-      // Condition For RPCError
-      await trxFunc!.customDialog("Oops", "${e.runtimeType.toString() == 'RPCError' ? 'insufficient funds for gas' : e}");
+      throw Exception(e);
     }
   }
 

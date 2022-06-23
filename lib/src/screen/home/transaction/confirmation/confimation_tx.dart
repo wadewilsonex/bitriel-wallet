@@ -243,6 +243,7 @@ class ConfirmationTx extends StatelessWidget {
 
   Widget spaceRow(List<Widget> children) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: children,
     );

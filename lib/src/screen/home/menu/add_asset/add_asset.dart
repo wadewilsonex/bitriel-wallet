@@ -94,7 +94,7 @@ class AddAssetState extends State<AddAsset> {
 
       final lsContract = await Provider.of<ContractProvider>(context, listen: false).sortListContract;
       lsContract.forEach((element) async {
-        if (_modelAsset.controllerAssetCode.text == element.address){
+        if (_modelAsset.controllerAssetCode.text == (ApiProvider().isMainnet ? element.contract : element.contractTest)){
           isMatch = true;
         }
       });

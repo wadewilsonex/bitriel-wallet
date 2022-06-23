@@ -49,6 +49,8 @@ class ContractProvider with ChangeNotifier {
 
   SmartContractModel? tmp;
 
+  int mainDecimal = 18;
+
   ContractService get getSelToken => _selToken!;
   ContractService get getSelv2 => _selV2!;
   ContractService get getKgo => _kgo!;
@@ -363,7 +365,6 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.bnbIndex].balance = balance.toString();
       listContract[apiProvider.bnbIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.bnbIndex]);
       listContract[apiProvider.bnbIndex].address = ethAdd;
-
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error bnbWallet $e");
@@ -1090,17 +1091,21 @@ class ContractProvider with ChangeNotifier {
             ).toString(); 
 
           } else if (network == 'Binance Smart Chain'){
+            print("Query info bep-20 contract");
             symbol = await query(contractAddr!, 'symbol', []);
             name = await query(contractAddr, 'name', []);
             decimal = await query(contractAddr, 'decimals', []);
             balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-
+            print("Decimal $decimal");
             tmpBalance = Fmt.bigIntToDouble(
               balance[0] as BigInt,
               int.parse(decimal[0].toString()),
             ).toString();
             
           }
+          print("name $name");
+          print("symbol $symbol");
+          print("finish query");
 
           // if (network == 'Ethereum') {
 
@@ -1168,28 +1173,34 @@ class ContractProvider with ChangeNotifier {
           //   // }
           // }
 
-          SmartContractModel newContract = SmartContractModel(
-            id: name[0].toLowerCase(),
-            name: name[0],
-            symbol: symbol[0],
-            address: contractAddr!,
-            org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-            isContain: true,
-            logo: AppConfig.assetsPath+'circle.png',
-            chainDecimal: decimal[0].toString(),
-            listActivity: [],
-            balance: tmpBalance.toString(),
-            lineChartModel: LineChartModel(),
-            type: '',
-            orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-            marketData: Market(),
-            lineChartList: [],
-            change24h: '',
-            marketPrice: '',
-            contract: '',
-            contractTest: '',
-          );
-          
+          // SmartContractModel newContract = SmartContractModel(
+          //   id: name[0].toLowerCase(),
+          //   name: name[0].toLowerCase(),
+          //   symbol: symbol[0],
+          //   chainDecimal: decimal[0].toString(),
+          //   balance: tmpBalance.toString(),
+          //   address: ethAdd,
+          //   isContain: true,
+          //   logo: AppConfig.assetsPath+'circle.png',
+          //   listActivity: [],
+          //   lineChartModel: LineChartModel(),
+          //   type: '',
+          //   org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+          //   orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+          //   marketData: Market(),
+          //   lineChartList: [],
+          //   change24h: '',
+          //   marketPrice: '',
+          //   contract: apiProvider.isMainnet ? contractAddr: '',
+          //   contractTest: apiProvider.isMainnet ? '' : contractAddr,
+          // );
+
+          // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);
+          // await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(newContract.id!).then((value){
+            
+          //   print(value);
+          // });
+          // print("newContract.marketPrice ${newContract.marketPrice}");
           // newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
           // print(newContract.id);
           // print(newContract.name);
@@ -1203,7 +1214,7 @@ class ContractProvider with ChangeNotifier {
           // print(newContract.balance);
           // print(newContract.lineChartModel);
           
-          addedContract.add(newContract);
+          // addedContract.add(newContract);
         }
       // }
       

@@ -20,19 +20,19 @@ class WelcomeState extends State<Welcome> {
 
   @override
   void initState() {
-    inAppUpdate();
+    // inAppUpdate();
     AppServices.noInternetConnection(globalKey);
     super.initState();
   }
   
-  Future<void> inAppUpdate() async {
-    AppUpdate appUpdate = AppUpdate();
-    final result = await appUpdate.checkUpdate();
-    if (result.availableVersionCode == 1){
-      await appUpdate.performImmediateUpdate();
-      await InAppUpdate.completeFlexibleUpdate();
-    }
-  }
+  // Future<void> inAppUpdate() async {
+  //   AppUpdate appUpdate = AppUpdate();
+  //   final result = await appUpdate.checkUpdate();
+  //   if (result.availableVersionCode == 1){
+  //     await appUpdate.performImmediateUpdate();
+  //     await InAppUpdate.completeFlexibleUpdate();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

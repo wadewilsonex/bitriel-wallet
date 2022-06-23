@@ -128,7 +128,7 @@ class AssetsPageBody extends StatelessWidget {
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: provider.listContract[apiProvider.btcIndex].marketPrice == '' ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                    text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                     color: AppColors.tokenNameColor,
                     fontWeight: FontWeight.bold,
                   );

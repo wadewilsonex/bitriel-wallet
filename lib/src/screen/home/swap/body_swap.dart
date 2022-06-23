@@ -186,12 +186,6 @@ class SwapPageBody extends StatelessWidget {
                     );
                   }
                 ),
-                // MyText(
-                //   text: '0 BTC',
-                //   fontWeight: FontWeight.w600,
-                //   fontSize: 14,
-                //   color: AppColors.whiteColorHexa,
-                // ),
               ],
             ),
           ),
@@ -313,17 +307,24 @@ class SwapPageBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(8)
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 2.sp),
+              padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 13.sp),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
               
-                  Image.asset(
-                    i == 0 ? provider.logo1 : provider.logo2,
-                    height: 6.h,
+                  SizedBox(
+                    height: 6.w,
                     width: 6.w,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.asset(
+                        i == 0 ? provider.logo1 : provider.logo2,
+                        height: 6.h,
+                        width: 6.w,
+                      )
+                    ),
                   ),
                   Expanded(
                     child: MyText(

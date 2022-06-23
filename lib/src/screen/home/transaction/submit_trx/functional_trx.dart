@@ -199,7 +199,7 @@ class TrxFunctional {
         }
       } catch (e) {
         if (ApiProvider().isDebug == true) print('Err sendTxEvm $e');
-        if (e.toString() == 'insufficient funds for gas * price + value') {
+        if (e.toString().contains('insufficient funds for gas * price + value')) {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
           await customDialog('Opps', e.toString());
@@ -210,32 +210,28 @@ class TrxFunctional {
 
   Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
     if (ApiProvider().isDebug == true) print("sendTxBep20");
-    try {
+    
+    if (txInfo.privateKey != null) {
+      try {
+        final hash = await tokenService.sendToken(txInfo);
+        print("hello hash $hash");
+        if (hash != null) {
+          txInfo.hash = hash;
+          txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
+          txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
 
-      if (txInfo.privateKey != null) {
-        try {
-          final hash = await tokenService.sendToken(txInfo);
-
-          if (hash != null) {
-            txInfo.hash = hash;
-            txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
-            txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
-
-            await navigateAssetInfo(txInfo, tokenService: tokenService);
-          }
-        } catch (e) {
-          // Navigator.pop(context);
-          if (ApiProvider().isDebug == true) print('Error sendTxBep20 $e');
-          if (e.toString() == 'insufficient funds for gas * price + value') {
-            await customDialog('Opps', 'Insufficient funds for gas');
-          } else {
-            await customDialog('Opps', e.toString());
-          }
+          await navigateAssetInfo(txInfo, tokenService: tokenService);
         }
+      } catch (e) {
+        // Navigator.pop(context);
+        if (ApiProvider().isDebug == true) print('Error sendTxBep20 $e');
+        if (e.toString().contains('insufficient funds for gas * price + value')) {
+          await customDialog('Opps', 'Insufficient funds for gas');
+        } else {
+          await customDialog('Opps', e.toString());
+        }
+        throw new Exception(e);
       }
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error sendTxBep20 $e");
-      throw e;
     }
   }
 
@@ -684,7 +680,7 @@ class TrxFunctional {
 
       //     break;
       // }
-      if (double.parse(contract.sortListContract[index].balance!) < double.parse(amount)) {
+      if (double.parse(contract.sortListContract[index].balance!.replaceAll(",", "")) < double.parse(amount)) {
         _enough = false;
       }
     } catch (e) {
@@ -866,6 +862,9 @@ class TrxFunctional {
 
           maxGas = await contract.getBep20MaxGas('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
 
+          break;
+        case 'SEL (v1)(BEP-20)':
+          maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV1Index].address!, reciever, amount);
           break;
         case 'SEL (v2)(BEP-20)':
           maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV2Index].address!, reciever, amount);

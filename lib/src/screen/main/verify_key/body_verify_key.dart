@@ -121,8 +121,14 @@ class VerifyPassphraseBody extends StatelessWidget {
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  action: () {
-                    verify!();
+                  action: () async {
+                    await Navigator.push(
+                      context, 
+                      Transition(
+                        child: FingerPrint(importAccount: verify,),
+                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                      )
+                    );
                   },
                 )
               ],

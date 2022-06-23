@@ -39,7 +39,7 @@ class SmartContractModel {
     this.org = '',
     this.orgTest = '',
     this.marketData,
-    this.marketPrice = '',
+    this.marketPrice = '0',
     this.change24h = '',
     this.isContain, 
     this.show,
@@ -63,13 +63,12 @@ class SmartContractModel {
       contract: json['contract'],
       contractTest: json['contract_test'],
       chainDecimal: json['chainDecimal'],
-      // marketData: Market.fromJson(json['market'] as Map<String, dynamic>),
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
       lineChartList: json['lineChartData'] != null
         ? List<List<double>>.from(json["lineChartData"].map((x) => List<double>.from(x.map((x) => x.toDouble()))))
         : null,
       change24h: json['change24h'],
-      marketPrice: json['marketPrice'],
+      marketPrice: json['marketPrice'] ?? '0',
       name: json['name'],
       lineChartModel: json['lineChartModel'] == null ? LineChartModel() : LineChartModel.fromJson(json['lineChartModel']),
       show: json['show']

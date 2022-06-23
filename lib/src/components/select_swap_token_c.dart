@@ -30,7 +30,10 @@ class SwapTokenList extends StatelessWidget {
       
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: image!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: image
+              ),
             ),
           
             Column(

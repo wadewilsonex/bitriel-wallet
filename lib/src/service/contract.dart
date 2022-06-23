@@ -140,12 +140,14 @@ class ContractService implements IContractService {
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
-
+      print("credentials $credentials");
       final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount);
+      print("txInfo ${txInfo}");
 
       final sender = await credentials.extractAddress();
-
+      print("sender $sender");
       final maxGas = await getMaxGas(sender, txInfo);
+      print("maxGas $maxGas");
 
       // final decimal = await getChainDecimal();
 
@@ -153,7 +155,7 @@ class ContractService implements IContractService {
         credentials,
         Transaction.callContract(
           contract: _contract,
-          maxGas: maxGas.toInt(),
+          maxGas: int.parse(trxInfo.maxGas!),
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,
@@ -166,9 +168,10 @@ class ContractService implements IContractService {
       
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Err sendToken $e");
+      throw Exception(e);
     }
 
-    return res!;
+    return res;
   }
 
   @override
@@ -190,6 +193,9 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
+    print("Sender $sender");
+    print("_contract.address ${trxInfo.receiver}");
+    print("BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18)) ${BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: _contract.address,
@@ -200,7 +206,7 @@ class ContractService implements IContractService {
         ],
       ),
     );
-
+    print("maxGas $maxGas");
     return maxGas;
   }
 

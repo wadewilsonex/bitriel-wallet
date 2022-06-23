@@ -5,6 +5,10 @@ import 'package:wallet_apps/src/provider/contract_provider.dart';
 import '../../index.dart';
 
 class MarketProvider with ChangeNotifier {
+  
+  http.Response? _res;
+
+  List<Map<String, dynamic>>? lsCoin;
 
   List<String> id = [
     'kiwigo',
@@ -24,6 +28,11 @@ class MarketProvider with ChangeNotifier {
       data = Market.fromJson(i);
     }
     return data;
+  }
+
+  set setLsCoin(List<dynamic> ls){
+    lsCoin = [];
+    lsCoin = List<Map<String, dynamic>>.from(ls);
   }
 
   Future<List<List<double>>?> fetchLineChartData(String id) async {
@@ -126,5 +135,11 @@ class MarketProvider with ChangeNotifier {
     // }
 
     notifyListeners();
+  }
+
+  Future<dynamic> queryCoinFromMarket(String id) async {
+    print("id $id");
+    print("queryCoinFromMarket");
+    return json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id}'))).body);
   }
 }

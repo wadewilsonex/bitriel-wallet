@@ -8,23 +8,21 @@ class PortfolioServices {
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
 
     walletProvider.clearPortfolio();
-
-    final api = Provider.of<ApiProvider>(context, listen: false);
     // await marketProvider.fetchTokenMarketPrice(context);
 
     // if (marketProvider.sortDataMarket.isEmpty){
 
-    if (api.nativeM.balance == null) {
-      walletProvider.addAvaibleToken({
-        'symbol': api.nativeM.symbol!,
-        'balance': '0',
-      });
-    } else {
-      walletProvider.addAvaibleToken({
-        'symbol': api.nativeM.symbol!,
-        'balance': api.nativeM.balance!.replaceAll(RegExp(','), ''),
-      });
-    }
+    // if (api.nativeM.balance == null) {
+    //   walletProvider.addAvaibleToken({
+    //     'symbol': api.nativeM.symbol!,
+    //     'balance': '0',
+    //   });
+    // } else {
+    //   walletProvider.addAvaibleToken({
+    //     'symbol': api.nativeM.symbol!,
+    //     'balance': api.nativeM.balance!.replaceAll(RegExp(','), ''),
+    //   });
+    // }
 
     // if (contract.kmpi.isContain) {
     //   walletProvider.addAvaibleToken({
