@@ -111,6 +111,20 @@
         "isContain": true
     },
     {
+        "id": "rekreay",
+        "name": "RekReay",
+        "contract": "",
+        "contract_test": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
+        "address": "",
+        "logo": "assets/token_logo/rekreay.png",
+        "symbol": "REK",
+        "org": "BEP-20",
+        "balance": "0.0",
+        "org_test": "BEP-20",
+        "show": true,
+        "isContain": true
+    },
+    {
         "id": "attendant",
         "name": "ATTENDANT",
         "contract": "",
