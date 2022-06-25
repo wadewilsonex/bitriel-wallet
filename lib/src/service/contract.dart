@@ -141,7 +141,7 @@ class ContractService implements IContractService {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
       print("credentials $credentials");
-      final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount);
+      final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
       print("txInfo ${txInfo}");
 
       final sender = await credentials.extractAddress();
@@ -195,14 +195,14 @@ class ContractService implements IContractService {
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
     print("Sender $sender");
     print("_contract.address ${trxInfo.receiver}");
-    print("BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18)) ${BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))}");
+    print("BigInt.from(double.parse(trxInfo.amount!) * pow(10, decimal!)) ${BigInt.from(double.parse(trxInfo.amount!) * pow(10, double.parse(trxInfo.chainDecimal!)))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: _contract.address,
       data: _sendFunction().encodeCall(
         [
           trxInfo.receiver,
-          BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
+          BigInt.from(double.parse(trxInfo.amount!) * pow(10, double.parse(trxInfo.chainDecimal!)))
         ],
       ),
     );

@@ -34,6 +34,7 @@ class ContractProvider with ChangeNotifier {
 
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
+  MarketProvider? _marketProvider;
 
   /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
   /// 
@@ -285,13 +286,16 @@ class ContractProvider with ChangeNotifier {
         //final contract = await initBsc(listContract[2].address);
         _kgo = new ContractService(_bscClient!, contract);
 
-        final balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+        dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+        print("balance kgo $balance");
         final chainDecimal = await _kgo!.getChainDecimal();
-
+        print("chainDecimal kgo $chainDecimal");
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
           int.parse(chainDecimal.toString()),
         ).toString();
+
+        print("listContract[apiProvider.kgoIndex].balance ${listContract[apiProvider.kgoIndex].balance}");
 
         listContract[apiProvider.kgoIndex].chainDecimal = chainDecimal.toString();
         listContract[apiProvider.kgoIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.kgoIndex]);
@@ -344,6 +348,7 @@ class ContractProvider with ChangeNotifier {
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
 
       listContract[apiProvider.ethIndex].balance = balance.toString();
+      listContract[apiProvider.ethIndex].chainDecimal = 18.toString();
       listContract[apiProvider.ethIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.ethIndex]);
       listContract[apiProvider.ethIndex].address = ethAdd;
 
@@ -361,8 +366,8 @@ class ContractProvider with ChangeNotifier {
       _bnb = new NativeService(_bscClient!);
 
       final balance = await _bnb!.getBalance(getEthAddr(ethAdd));
-
       listContract[apiProvider.bnbIndex].balance = balance.toString();
+      listContract[apiProvider.bnbIndex].chainDecimal = 18.toString();
       listContract[apiProvider.bnbIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.bnbIndex]);
       listContract[apiProvider.bnbIndex].address = ethAdd;
       notifyListeners();
@@ -1019,7 +1024,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> addToken(String symbol, BuildContext context, {String? contractAddr, String? network}) async {
-    
+    if (_marketProvider == null) _marketProvider = Provider.of<MarketProvider>(context, listen: false);
     try {
 
       // if (symbol == 'SEL') {
@@ -1077,7 +1082,7 @@ class ContractProvider with ChangeNotifier {
           dynamic decimal;
           dynamic balance;
           dynamic tmpBalance;
-
+          
           if (network == 'Ethereum'){
             
             symbol = await queryEther(contractAddr!, 'symbol', []);
@@ -1105,7 +1110,13 @@ class ContractProvider with ChangeNotifier {
           }
           print("name $name");
           print("symbol $symbol");
+          print("decimal $decimal");
           print("finish query");
+
+          await _marketProvider!.searchCoinFromMarket(symbol[0]);
+          print("finish searchCoinFromMarket ${_marketProvider!.lsCoin}");
+          await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
+          // print("finish queryCoinFromMarket ${)}");
 
           // if (network == 'Ethereum') {
 
@@ -1173,27 +1184,27 @@ class ContractProvider with ChangeNotifier {
           //   // }
           // }
 
-          // SmartContractModel newContract = SmartContractModel(
-          //   id: name[0].toLowerCase(),
-          //   name: name[0].toLowerCase(),
-          //   symbol: symbol[0],
-          //   chainDecimal: decimal[0].toString(),
-          //   balance: tmpBalance.toString(),
-          //   address: ethAdd,
-          //   isContain: true,
-          //   logo: AppConfig.assetsPath+'circle.png',
-          //   listActivity: [],
-          //   lineChartModel: LineChartModel(),
-          //   type: '',
-          //   org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-          //   orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-          //   marketData: Market(),
-          //   lineChartList: [],
-          //   change24h: '',
-          //   marketPrice: '',
-          //   contract: apiProvider.isMainnet ? contractAddr: '',
-          //   contractTest: apiProvider.isMainnet ? '' : contractAddr,
-          // );
+          SmartContractModel newContract = SmartContractModel(
+            id: _marketProvider!.queried!['id'],
+            name: _marketProvider!.queried!['name'],
+            symbol: symbol[0],
+            chainDecimal: decimal[0].toString(),
+            balance: tmpBalance.toString(),
+            address: ethAdd,
+            isContain: true,
+            logo: _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
+            listActivity: [],
+            lineChartModel: LineChartModel(),
+            type: '',
+            org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+            orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+            marketData: Market(),
+            lineChartList: [],
+            change24h: _marketProvider!.queried!['price_change_percentage_24h'].toString(),
+            marketPrice: _marketProvider!.queried!['current_price'].toString(),
+            contract: apiProvider.isMainnet ? contractAddr: '',
+            contractTest: apiProvider.isMainnet ? '' : contractAddr,
+          );
 
           // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);
           // await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(newContract.id!).then((value){
@@ -1202,19 +1213,27 @@ class ContractProvider with ChangeNotifier {
           // });
           // print("newContract.marketPrice ${newContract.marketPrice}");
           // newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
-          // print(newContract.id);
-          // print(newContract.name);
-          // print(newContract.symbol);
-          // print(newContract.address);
-          // print(newContract.org);
-          // print(newContract.isContain);
-          // print(newContract.logo);
-          // print(newContract.chainDecimal);
-          // print(newContract.listActivity);
-          // print(newContract.balance);
-          // print(newContract.lineChartModel);
+          print("id ${newContract.id}");
+          print("name ${newContract.name}");
+          print("symbol ${newContract.symbol}");
+          print("chainDecimal ${newContract.chainDecimal}");
+          print("balance ${newContract.balance}");
+          print("address ${newContract.address}");
+          print("isContain ${newContract.isContain}");
+          print("logo ${newContract.logo}");
+          print("listActivity ${newContract.listActivity}");
+          print("lineChartModel ${newContract.lineChartModel}");
+          print("type ${newContract.type}");
+          print("org ${newContract.org}");
+          print("orgTest ${newContract.orgTest}");
+          print("marketData ${newContract.marketData}");
+          print("lineChartList ${newContract.lineChartList}");
+          print("change24h ${newContract.change24h}");
+          print("marketPrice ${newContract.marketPrice}");
+          print("contract ${newContract.contract}");
+          print("contractTest ${newContract.contractTest}");
           
-          // addedContract.add(newContract);
+          addedContract.add(newContract);
         }
       // }
       

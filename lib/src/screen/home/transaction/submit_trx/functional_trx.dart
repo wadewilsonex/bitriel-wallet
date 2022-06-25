@@ -101,12 +101,13 @@ class TrxFunctional {
 
   /* ------------------Transaction--------------- */
 
-  Future<void> sendTxBnb(String reciever, String amount) async {
+  Future<void> sendTxBnb(String reciever, String amount, {required String? chainDecimal}) async {
     try{
       if (privateKey != null) {
 
         final hash = await contract!.getBnb.sendTx(
           TransactionInfo(
+            chainDecimal: chainDecimal,
             privateKey: privateKey,
             receiver: contract!.getEthAddr(reciever),
             amount: amount
@@ -153,13 +154,15 @@ class TrxFunctional {
   //   }
   // }
 
-  Future<void> sendTxEther(String reciever, String amount) async {
+  Future<void> sendTxEther(String reciever, String amount, {required String? chainDecimal}) async {
     try {
       if (privateKey != null) {
         final txInfo = TransactionInfo(
-            privateKey: privateKey,
-            receiver: contract!.getEthAddr(reciever),
-            amount: amount);
+          chainDecimal: chainDecimal,
+          privateKey: privateKey,
+          receiver: contract!.getEthAddr(reciever),
+          amount: amount
+        );
         final hash = await contract!.getEth.sendTx(txInfo);
         if (hash != null) {
           final status = await contract!.getEth.listenTransfer(hash);
@@ -764,7 +767,7 @@ class TrxFunctional {
     return _gasPrice!;
   }
 
-  Future<dynamic>? estGasFeePrice(double? gasFee, String? asset) async {
+  Future<dynamic>? estGasFeePrice(double? gasFee, String? asset, {int? assetIndex}) async {
 
     if (ApiProvider().isDebug == true) print("gasFee ${gasFee ?? 'no gas'}");
     if (ApiProvider().isDebug == true) print("asset ${asset ?? 'no asset'}");
@@ -776,7 +779,6 @@ class TrxFunctional {
       final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       await MarketProvider().fetchTokenMarketPrice(context!);
-
       switch (asset) {
         
         case 'BTC':
@@ -786,13 +788,16 @@ class TrxFunctional {
           marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
           break;
         default:
-          if (ApiProvider().isDebug == true) print("api!.bnbIndex ${api!.bnbIndex}");
-          if (ApiProvider().isDebug == true) print("contract.listContract[api!.bnbIndex].marketData!.currentPrice! ${contract.listContract[api!.bnbIndex].marketData!.currentPrice!}");
-          marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
+          
+          marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+          print(marketPrice);
+          // marketPrice = (contract.listContract.where((element) {
+          //   if (element.symbol == asset) return true;
+          //   return false;
+          // }).toList())[0].marketPrice;//[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
-
-      final estGasFeePrice = (gasFee! / pow(10, 9)) * double.parse(marketPrice);
+      final estGasFeePrice = (gasFee! / pow(10, int.parse(contract.sortListContract[assetIndex!].chainDecimal!)) )* double.parse(marketPrice!);
 
       return estGasFeePrice;
     } catch (e) {
@@ -801,49 +806,50 @@ class TrxFunctional {
     return marketPrice!;
   }
 
-  Future<List>? calPrice(String asset, String amount) async {
+  Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
     String? marketPrice;
     var estPrice;
+    print("calPrice");
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
+    // await MarketProvider().fetchTokenMarketPrice(context!);
 
-    await MarketProvider().fetchTokenMarketPrice(context!);
-
-    switch (asset) {
+    // switch (asset) {
       
-      case 'KGO (BEP-20)':
-        marketPrice = contract.listContract[api!.kgoIndex].marketData!.currentPrice!;
-        break;
-      case 'ETH':
-        marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
-        break;
-      case 'BNB':
-        marketPrice = contract.listContract[api!.bnbIndex].marketData!.currentPrice!;
-        break;
-      case 'DOT':
-        marketPrice = contract.listContract[api!.dotIndex].marketData!.currentPrice!;
-        break;
-      case 'BTC':
-        marketPrice = contract.listContract[api!.btcIndex].marketData!.currentPrice!;
-        break;
-      default:
-        estPrice = '\$0.00';
-        break;
-    }
+    //   case 'KGO (BEP-20)':
+    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+    //     break;
+    //   case 'ETH':
+    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+    //     break;
+    //   case 'BNB':
+    //   print("contract.listContract[api!.bnbIndex].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}");
+    //     marketPrice = contract.sortListContract[assetIndex].marketPrice;
+    //     break;
+    //   case 'DOT':
+    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+    //     break;
+    //   case 'BTC':
+    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+    //     break;
+    //   default:
+    //     estPrice = '\$0.00';
+    //     break;
+    // }
+    marketPrice = contract.sortListContract[assetIndex!].marketPrice;
 
-    if (marketPrice != null)
-      estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
+    if (marketPrice != null) estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
-    return [estPrice, marketPrice ?? '0']; //res.toStringAsFixed(2);
+    return [estPrice, marketPrice]; //res.toStringAsFixed(2);
   }
 
   Future<String>? estMaxGas(BuildContext context, String asset, String reciever, String amount, int index) async {
 
 
     String? maxGas = '';
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+    final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
-    
+    print("asset $asset");
     try {
 
       switch (asset) {
@@ -851,35 +857,17 @@ class TrxFunctional {
         //   maxGas = await api.calBtcMaxGas();
         //   break;
         case 'ETH':
-          maxGas = await contract.getEthMaxGas(reciever, amount);
-          break;
-        case 'SEL (BEP-20)':
-
-          //  final contract = await AppUtils.contractfromAssets(
-          //   AppConfig.bep20Path, '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
-          // maxGas = await contract.getBep20MaxGas(
-          //     contract.listContract[0].address, reciever, amount);
-
-          maxGas = await contract.getBep20MaxGas('0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030', reciever, amount);
-
-          break;
-        case 'SEL (v1)(BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV1Index].address!, reciever, amount);
-          break;
-        case 'SEL (v2)(BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[api.selV2Index].address!, reciever, amount);
-          break;
-        case 'KGO (BEP-20)':
-          maxGas = await contract.getBep20MaxGas(contract.listContract[api.kgoIndex].address!, reciever, amount);
+          print("Eth $asset");
+          maxGas = await contractProvider.getEthMaxGas(reciever, amount);
           break;
         case 'BNB':
-          maxGas = await contract.getBnbMaxGas(reciever, amount);
+          maxGas = await contractProvider.getBnbMaxGas(reciever, amount);
           break;
+        
         default:
-          if (ApiProvider().isDebug == true) print("contract.sortListContract[index].org! ${contract.sortListContract[index].org!}");
-          if (contract.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
-            maxGas = await contract.getBep20MaxGas(contract.sortListContract[index].address!, reciever, amount);
-          }
+            maxGas = await contractProvider.getBep20MaxGas( (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, reciever, amount);
+          // if (contractProvider.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
+          // }
           break;
       }
     } catch (e) {

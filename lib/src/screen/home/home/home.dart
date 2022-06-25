@@ -5,8 +5,9 @@ import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 class HomePage extends StatefulWidget {
 
   static final String route = "/home";
+  final int activePage;
 
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({ Key? key, this.activePage = 2 }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -28,7 +29,8 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    _model.activeIndex = 2;
+    _model.activeIndex = widget.activePage;
+    _model.pageController = PageController(initialPage: widget.activePage);
     _model.carouActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onCarouselChanged = (int index, CarouselPageChangedReason reason) {
@@ -37,8 +39,6 @@ class _HomePageState extends State<HomePage> {
       });
     };
   }
-  
-
 
   void onPageChanged(int index){
     setState(() {

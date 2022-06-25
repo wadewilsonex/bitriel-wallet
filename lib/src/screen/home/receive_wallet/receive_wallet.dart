@@ -20,6 +20,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   @override
   void initState() {
     provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
+    provider!.initialValue = 0;
     provider!.globalKey = GlobalKey<ScaffoldState>();
 
     findSEL();

@@ -41,18 +41,18 @@ class AppState extends State<App> {
   Future<void> initApi() async {
     
     // Fetch Name and Symbol Coin
-    await StorageServices.fetchData(DbKey.coinData).then((value) {
-      if (value == null){
+    // await StorageServices.fetchData(DbKey.coinData).then((value) {
+    //   if (value == null){
 
-        _http.get(Uri.parse("https://api.coingecko.com/api/v3/coins/list")).then((value) async {
-          dynamic data = await json.decode(value.body);
-          await StorageServices.storeData(data, DbKey.coinData);
-          Provider.of<MarketProvider>(context, listen: false).setLsCoin = data;
-        });
-      } else {
-        Provider.of<MarketProvider>(context, listen: false).setLsCoin = value;
-      }
-    });
+    //     _http.get(Uri.parse("https://api.coingecko.com/api/v3/coins/list")).then((value) async {
+    //       dynamic data = await json.decode(value.body);
+    //       await StorageServices.storeData(data, DbKey.coinData);
+    //       Provider.of<MarketProvider>(context, listen: false).setLsCoin = data;
+    //     });
+    //   } else {
+    //     Provider.of<MarketProvider>(context, listen: false).setLsCoin = value;
+    //   }
+    // });
 
     try {
     

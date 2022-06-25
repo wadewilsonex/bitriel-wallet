@@ -87,6 +87,8 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> addAsset() async {
     bool isMatch = false;
+
+    FocusScope.of(context).unfocus();
     
     try {
 

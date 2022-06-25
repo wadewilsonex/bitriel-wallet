@@ -4,6 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
@@ -31,6 +32,7 @@ class SubmitTrx extends StatefulWidget {
 class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional? trxFunc;
+  double decimal = 0;
 
   final ModelScanPay _scanPayM = ModelScanPay();
 
@@ -82,6 +84,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       estAmountPrice: '',
       estTotalPrice: '',
       estGasFeePrice: '',
+      chainDecimal: "0"
     );
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
@@ -174,7 +177,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     });
     flareController.play('Checkmark');
 
-    await successDialog(context, "transferred the funds.");
+    await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
   void onChangeDropDown(String data) {
@@ -187,6 +190,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // First Execute
   Future<void> validateSubmit() async {
+
     unFocusAllField();
 
     if (double.parse(_scanPayM.controlAmount.text) == 0){
@@ -250,6 +254,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 final estAmtPrice = await trxFunc!.calPrice(
                   _scanPayM.asset!,
                   _scanPayM.controlAmount.text,
+                  assetIndex: _scanPayM.assetValue
                 );
                 // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
 
@@ -262,23 +267,27 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.controlAmount.text,
                   _scanPayM.assetValue
                 );
-
+                
                 print("maxGas $maxGas");
+                print("_contractProvider!.sortListContract[_scanPayM.assetValue].symbol! ${_contractProvider!.sortListContract[_scanPayM.assetValue].symbol}");
+                print("_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal! ${_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal ?? 'my null'}");
+                decimal = double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!);
+                print("decimal $decimal");
 
                 final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
-
-                var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+                print("Gasfee $gasFee");
+                var gasFeeToEther = (gasFee / pow(10, decimal)).toString();
                 print("gasFeeToEther $gasFeeToEther");
 
                 // Check BNB balance for Fee
-                if (gasFeeToEther >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
+                if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
                   throw new ExceptionHandler("You do not have sufficient fee for transaction.");
                 }
 
-                final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
+                final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
                 print("estGasFeePrice $estGasFeePrice");
-                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
-
+                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, decimal)).toString());
+                print("totalAmt $totalAmt");
                 final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
 
                 print("estToSendPrice $estToSendPrice");
@@ -286,6 +295,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
 
                 trxFunc!.txInfo = TransactionInfo(
+                  chainDecimal: decimal.toString(),
                   coinSymbol: _scanPayM.asset,
                   receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
                   amount: _scanPayM.controlAmount.text,

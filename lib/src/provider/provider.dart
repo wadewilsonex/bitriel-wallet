@@ -31,12 +31,12 @@ class ContractsBalance extends ChangeNotifier {
         print("kgoTokenWallet");
 
         //()[0]['current_price'].toString();
-        print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('ethereum'));
-        print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('usdt'));
+        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('ethereum'));
+        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('usdt'));
         // if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
-        // This Method Is Also Request Polkadot Contract
+        // This Method Is Also Requeste Polkadot Contract
         await apiProvider.getBtcBalance(context: context);
         print("getBtcBalance");
   //4
@@ -91,52 +91,41 @@ class ContractsBalance extends ChangeNotifier {
         await api.getSelNativeChainDecimal(context: context);
       });
 
-      print("Start query web3 contract");
-
-      conProvider.ethWallet();
-      conProvider.bnbWallet();
 
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
-          print("Symbol ${conProvider.listContract[i].symbol}");
-          print("org ${conProvider.listContract[i].org}");
-          print("contractTest ${api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!}");
-        
-          if (conProvider.listContract[i].org == "ERC-20"){
-            balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            print("balance erc $balance");
-            conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, 18))).toString();
-            // Fmt.bigIntToDouble(
-            //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
-            //   int.parse(decimal),
-            // ).toString();
-            print("finish erc-20");
-          } else if (conProvider.listContract[i].org == "BEP-20") {
-            // decimal = await conProvider.get
-            balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, 18))).toString();
-            // Fmt.bigIntToDouble(
-            //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
-            //   int.parse(decimal),
-            // ).toString();
-            print("finish bep-20");
+          if (conProvider.listContract[i].symbol != "ATT"){
+
+            if (conProvider.listContract[i].org == "ERC-20"){
+              balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.listContract[i].chainDecimal!)))).toString();
+              // Fmt.bigIntToDouble(
+              //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
+              //   int.parse(decimal),
+              // ).toString();
+            } else if (conProvider.listContract[i].org == "BEP-20") {
+              // decimal = await conProvider.get
+              balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
+              
+              
+              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.listContract[i].chainDecimal!)))).toString();
+              // Fmt.bigIntToDouble(
+              //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
+              //   int.parse(decimal),
+              // ).toString();
+            }
           }
+          balance = [];
         }
       }
 
-      print(conProvider.addedContract.length);
       for (int i = 0; i < conProvider.addedContract.length; i++){
-        print("hello");
-        print((api.isMainnet ? conProvider.addedContract[i].contract : conProvider.addedContract[i].contractTest) != "");
         if ( (api.isMainnet ? conProvider.addedContract[i].contract : conProvider.addedContract[i].contractTest) != ""){
-          print("Symbol ${conProvider.addedContract[i].symbol}");
-          print("org ${conProvider.addedContract[i].org}");
-          print("contractTest ${api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!}");
-        
+          print("conProvider.addedContract[i].symbol ${conProvider.addedContract[i].symbol}");
           if (conProvider.addedContract[i].org == "ERC-20"){
             balance = await conProvider.queryEther(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
             print("balance erc $balance");
-            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, 18))).toString();
+            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
             // Fmt.bigIntToDouble(
             //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
             //   int.parse(decimal),
@@ -145,15 +134,22 @@ class ContractsBalance extends ChangeNotifier {
           } else if (conProvider.addedContract[i].org == "BEP-20") {
             // decimal = await conProvider.get
             balance = await conProvider.query(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, 18))).toString();
+            print("Bep-20");
+            print("conProvider.addedContract[i].chainDecimal! ${conProvider.addedContract[i].chainDecimal!}");
+            print("conProvider.addedContract[i].balance ${conProvider.addedContract[i].balance}");
+            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
             // Fmt.bigIntToDouble(
             //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
             //   int.parse(decimal),
             // ).toString();
-            print("finish bep-20");
           }
         }
       }
+      print("end addedContract");
+
+      await conProvider.kgoTokenWallet();
+      await conProvider.ethWallet();
+      await conProvider.bnbWallet();
 
       await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 

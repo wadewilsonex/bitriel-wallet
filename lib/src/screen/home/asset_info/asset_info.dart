@@ -266,7 +266,14 @@ class _AssetInfoState extends State<AssetInfo> {
 
                                 ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset(
+                                child: widget.scModel!.logo!.contains('http') 
+                                ? Image.network(
+                                  widget.scModel!.logo!,
+                                  fit: BoxFit.contain,
+                                  width: 10.w,
+                                  height: 10.w,
+                                )
+                                : Image.asset(
                                     widget.scModel!.logo!,
                                     fit: BoxFit.contain,
                                     width: 10.w,

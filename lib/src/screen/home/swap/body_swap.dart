@@ -319,7 +319,13 @@ class SwapPageBody extends StatelessWidget {
                     width: 6.w,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
+                      child: (i == 0 ? provider.logo1 : provider.logo2).contains('http') 
+                      ? Image.network(
+                        i == 0 ? provider.logo1 : provider.logo2,
+                        height: 6.h,
+                        width: 6.w,
+                      )
+                      : Image.asset(
                         i == 0 ? provider.logo1 : provider.logo2,
                         height: 6.h,
                         width: 6.w,

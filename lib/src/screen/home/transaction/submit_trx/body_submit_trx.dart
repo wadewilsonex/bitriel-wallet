@@ -106,6 +106,7 @@ class SubmitTrxBody extends StatelessWidget {
                   children: <Widget>[
                     
                     MyText(
+                      width: MediaQuery.of(context).size.width/1.5,
                       text: "${scanPayM!.balance!} ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
