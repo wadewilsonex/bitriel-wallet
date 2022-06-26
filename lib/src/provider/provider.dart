@@ -33,7 +33,7 @@ class ContractsBalance extends ChangeNotifier {
         //()[0]['current_price'].toString();
         // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('ethereum'));
         // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('usdt'));
-        // if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
+        if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
@@ -91,11 +91,14 @@ class ContractsBalance extends ChangeNotifier {
         await api.getSelNativeChainDecimal(context: context);
       });
 
+      if (api.isMainnet) await conProvider.getBep20Balance(contractIndex: 8);
 
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
           if (conProvider.listContract[i].symbol != "ATT"){
-
+            if (conProvider.listContract[i].symbol == "KGO") {
+              
+            }
             if (conProvider.listContract[i].org == "ERC-20"){
               balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
               conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.listContract[i].chainDecimal!)))).toString();

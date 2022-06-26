@@ -773,6 +773,7 @@ class TrxFunctional {
     if (ApiProvider().isDebug == true) print("asset ${asset ?? 'no asset'}");
 
     String? marketPrice;
+    String? chainDecimal;
     try {
 
       api = Provider.of<ApiProvider>(context!, listen: false);
@@ -797,7 +798,10 @@ class TrxFunctional {
           // }).toList())[0].marketPrice;//[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
-      final estGasFeePrice = (gasFee! / pow(10, int.parse(contract.sortListContract[assetIndex!].chainDecimal!)) )* double.parse(marketPrice!);
+      
+      marketPrice = (marketPrice == 0) ? "1" : marketPrice!;
+      chainDecimal = contract.sortListContract[assetIndex!].chainDecimal! == "0" ? "18" : contract.sortListContract[assetIndex].chainDecimal!;
+      final estGasFeePrice = (gasFee! / pow(10, int.parse(chainDecimal) ) ) * double.parse(marketPrice);
 
       return estGasFeePrice;
     } catch (e) {
@@ -836,7 +840,8 @@ class TrxFunctional {
     //     estPrice = '\$0.00';
     //     break;
     // }
-    marketPrice = contract.sortListContract[assetIndex!].marketPrice;
+    // "0" For Contract That Has 0 Decimal
+    marketPrice = contract.sortListContract[assetIndex!].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
 
     if (marketPrice != null) estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
@@ -865,7 +870,14 @@ class TrxFunctional {
           break;
         
         default:
-            maxGas = await contractProvider.getBep20MaxGas( (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, reciever, amount);
+          print("(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest) ${(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)}");
+          maxGas = await contractProvider.getBep20MaxGas( 
+            (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
+            reciever, 
+            amount, 
+            decimal: int.parse(contractProvider.sortListContract[index].chainDecimal!)
+          );
+          print("maxGas $maxGas");
           // if (contractProvider.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
           // }
           break;

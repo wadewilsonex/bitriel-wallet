@@ -619,12 +619,14 @@ class ContractProvider with ChangeNotifier {
     return maxGas.toString();
   }
 
-  Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount) async {
+  Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
     await initBscClient();
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
     final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
     final txFunction = bep20Contract.function('transfer');
+
+    print("pow(10, decimal) ${pow(10, decimal)}");
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -633,10 +635,12 @@ class ContractProvider with ChangeNotifier {
       data: txFunction.encodeCall(
         [
           EthereumAddress.fromHex(reciever),
-          BigInt.from(double.parse(amount) * pow(10, 18))
+          BigInt.from(double.parse(amount) * pow(10, 0))
         ],
       ),
     );
+    
+    print("getBep20MaxGas maxGas $maxGas");
 
     // print(getSelToken.getMaxGas(
     //     EthereumAddress.fromHex(ethAddr),

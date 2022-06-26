@@ -49,8 +49,8 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
-  bool isMainnet = false;
-  bool isDebug = true;
+  bool isMainnet = true;
+  bool isDebug = false;
   
   int selNativeIndex = 0;
   int selV1Index = 1;

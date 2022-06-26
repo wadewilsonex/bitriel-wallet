@@ -276,7 +276,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
                 print("Gasfee $gasFee");
-                var gasFeeToEther = (gasFee / pow(10, decimal)).toString();
+                var gasFeeToEther = (gasFee / pow(10, 18)).toString();
                 print("gasFeeToEther $gasFeeToEther");
 
                 // Check BNB balance for Fee
@@ -286,7 +286,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
                 print("estGasFeePrice $estGasFeePrice");
-                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, decimal)).toString());
+                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
                 print("totalAmt $totalAmt");
                 final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
 
