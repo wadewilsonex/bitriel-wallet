@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class SubmitTrxBody extends StatelessWidget {
@@ -181,6 +182,28 @@ class SubmitTrxBody extends StatelessWidget {
                       begin: Alignment.bottomLeft,
                       end: Alignment.topRight,
                       action: scanPayM!.enable ? validateSubmit : null,
+                    ),
+
+                    MyGradientButton(
+                      edgeMargin: EdgeInsets.all(paddingSize),
+                      textButton: "Estimate Gas",
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: () async {
+                        ContractProvider contractProvider = Provider.of<ContractProvider>(context, listen: false);
+                        dynamic maxGas = await contractProvider.getBep20MaxGas( 
+                          (ApiProvider().isMainnet ? contractProvider.sortListContract[scanPayM!.assetValue].contract : contractProvider.sortListContract[scanPayM!.assetValue].contractTest)!, 
+                          scanPayM!.controlReceiverAddress.text, 
+                          scanPayM!.controlAmount.text, 
+                          decimal: int.parse(contractProvider.sortListContract[scanPayM!.assetValue].chainDecimal!)
+                        );
+                        print("maxGas $maxGas");
+
+                        await TrxFunctional.init(context: context, validateAddress: (){}).getNetworkGasPrice(scanPayM!.asset!)!.then((value) {
+                          print("getNetworkGasPrice $value");
+                        });
+                        
+                      },
                     ),
                   ],
                 ),

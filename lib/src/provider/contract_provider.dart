@@ -367,6 +367,7 @@ class ContractProvider with ChangeNotifier {
 
       final balance = await _bnb!.getBalance(getEthAddr(ethAdd));
       listContract[apiProvider.bnbIndex].balance = balance.toString();
+      print("listContract[apiProvider.bnbIndex].balance ${listContract[apiProvider.bnbIndex].balance}");
       listContract[apiProvider.bnbIndex].chainDecimal = 18.toString();
       listContract[apiProvider.bnbIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.bnbIndex]);
       listContract[apiProvider.bnbIndex].address = ethAdd;
@@ -396,6 +397,8 @@ class ContractProvider with ChangeNotifier {
         mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
         sortListContract.addAll({element});
       });
+
+      print("finish listContract");
 
       // 2. Add Imported Asset
       addedContract.forEach((element) {
@@ -621,9 +624,16 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
     await initBscClient();
-    final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
+    print("contractAddr $contractAddr");
+    print("reciever $reciever");
+    print("amount $amount");
+    print("decimal $decimal");
+
+    final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
+    print("bep20Contract ${bep20Contract.address}");
+    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    print("ethAddr $ethAddr");
     final txFunction = bep20Contract.function('transfer');
 
     print("pow(10, decimal) ${pow(10, decimal)}");
@@ -631,11 +641,12 @@ class ContractProvider with ChangeNotifier {
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
       to: bep20Contract.address,
+      // maxPriorityFeePerGas: EtherAmount.inWei(BigInt.from(100)),
       //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
       data: txFunction.encodeCall(
         [
           EthereumAddress.fromHex(reciever),
-          BigInt.from(double.parse(amount) * pow(10, 0))
+          BigInt.from(double.parse(amount) * pow(10, decimal))
         ],
       ),
     );

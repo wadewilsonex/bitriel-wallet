@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/Volumes/NewPart/flutter"
-export "FLUTTER_APPLICATION_PATH=/Volumes/Project/bitriel"
+export "FLUTTER_APPLICATION_PATH=/Volumes/Project/bitriel-wallet"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
-export "FLUTTER_BUILD_NAME=5.0.3"
-export "FLUTTER_BUILD_NUMBER=84"
+export "FLUTTER_BUILD_NAME=5.0.4"
+export "FLUTTER_BUILD_NUMBER=85"
 export "DART_OBFUSCATION=false"
 export "TRACK_WIDGET_CREATION=false"
 export "TREE_SHAKE_ICONS=false"
