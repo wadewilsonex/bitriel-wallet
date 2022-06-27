@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/home/samallen/flutter"
-export "FLUTTER_APPLICATION_PATH=/home/samallen/Documents/bitriel"
+export "FLUTTER_APPLICATION_PATH=/home/samallen/Desktop/bitriel-wallet"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=5.0.1"
