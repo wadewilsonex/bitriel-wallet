@@ -151,11 +151,14 @@ class ContractService implements IContractService {
 
       // final decimal = await getChainDecimal();
 
+      print("EtherAmount.inWei(BigInt.from(10)) ${EtherAmount.inWei(BigInt.from(10))}");
+
       res = await _client.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: _contract,
           maxGas: int.parse(trxInfo.maxGas!),
+          gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 5),
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,

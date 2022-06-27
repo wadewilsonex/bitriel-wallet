@@ -34,7 +34,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   TrxFunctional? trxFunc;
   double decimal = 0;
 
-  final ModelScanPay _scanPayM = ModelScanPay();
+  ModelScanPay _scanPayM = ModelScanPay();
 
   FlareControls flareController = FlareControls();
 
@@ -86,6 +86,8 @@ class SubmitTrxState extends State<SubmitTrx> {
       estGasFeePrice: '',
       chainDecimal: "0"
     );
+    
+    _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -293,6 +295,14 @@ class SubmitTrxState extends State<SubmitTrx> {
                 print("estToSendPrice $estToSendPrice");
 
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
+                
+                print("*****Summary");
+                print("maxGas ${maxGas}");
+                print("gasFee ${gasFee}");
+                print("totalAmt ${totalAmt}");
+                print("estAmtPrice ${estAmtPrice.first}");
+                print("estTotalPrice ${estTotalPrice}");
+                print("estGasFeePrice ${estGasFeePrice}");
 
                 trxFunc!.txInfo = TransactionInfo(
                   chainDecimal: decimal.toString(),

@@ -752,7 +752,6 @@ class TrxFunctional {
       } else {
 
         final res = await ContractProvider().getBscGasPrice();
-
         _gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       }
       // else if (asset == 'SEL') {
@@ -791,7 +790,7 @@ class TrxFunctional {
         default:
           
           marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-          print(marketPrice);
+          print("marketPrice ${marketPrice.runtimeType}");
           // marketPrice = (contract.listContract.where((element) {
           //   if (element.symbol == asset) return true;
           //   return false;
@@ -799,7 +798,7 @@ class TrxFunctional {
           break;
       }
       
-      marketPrice = (marketPrice == 0) ? "1" : marketPrice!;
+      marketPrice = (marketPrice == "0") ? "1" : marketPrice!;
       chainDecimal = contract.sortListContract[assetIndex!].chainDecimal! == "0" ? "18" : contract.sortListContract[assetIndex].chainDecimal!;
       final estGasFeePrice = (gasFee! / pow(10, int.parse(chainDecimal) ) ) * double.parse(marketPrice);
 
@@ -845,7 +844,7 @@ class TrxFunctional {
 
     if (marketPrice != null) estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
-    return [estPrice, marketPrice]; //res.toStringAsFixed(2);
+    return [estPrice, "0"];//marketPrice]; //res.toStringAsFixed(2);
   }
 
   Future<String>? estMaxGas(BuildContext context, String asset, String reciever, String amount, int index) async {

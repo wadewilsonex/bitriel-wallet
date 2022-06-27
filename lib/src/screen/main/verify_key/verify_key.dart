@@ -123,7 +123,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         await DialogComponents().dialogCustom(
           context: context,
           titles: "Opps",
-          contents: "Wrong verify seed. Please try again!",
+          contents: "Invalid seeds spot. Please try again!",
           textButton: "Close",
           btn2: MyGradientButton(
             edgeMargin: const EdgeInsets.only(left: 20, right: 20),
@@ -151,7 +151,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     /// It will be wrong data of that each connection. 
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await _api.connectPolNon(context: context).then((value) async {
+    await _api.connectSELNode(context: context).then((value) async {
 
       await _api.getAddressIcon();
       // Get From Account js

@@ -163,4 +163,5 @@ class ContractsBalance extends ChangeNotifier {
     }
 
   }
+  
 }

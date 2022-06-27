@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.dart';
+import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:defichaindart/defichaindart.dart';
 // import 'package:defichaindart/defichaindart.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
@@ -50,7 +50,7 @@ class ApiProvider with ChangeNotifier {
   String? _jsCode;
 
   bool isMainnet = true;
-  bool isDebug = false;
+  bool isDebug = true;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -644,16 +644,16 @@ class ApiProvider with ChangeNotifier {
 
   Future<String> decryptPrivateKey(String privateKey, String password) async {
     final String key = Encrypt.passwordToEncryptKey(password);
-    final String decryted = await FlutterAesEcbPkcs5.decryptString(privateKey, key);
-    return decryted;
+    final String? decryted = await FlutterAesEcbPkcs5.decryptString(privateKey, key);
+    return decryted!;
   }
 
   Future<String> encryptPrivateKey(String privateKey, String password) async {
     try {
 
       final String key = Encrypt.passwordToEncryptKey(password);
-      final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
-      return encryted;
+      final String? encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+      return encryted!;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error encryptPrivateKey $e");
     }

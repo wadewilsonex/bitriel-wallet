@@ -97,7 +97,7 @@ dependencies:
     # path: ../
   animations:
   provider:
-  web3dart: 
+  web3dart:
   bip39:
 
   dart_ecpair:
