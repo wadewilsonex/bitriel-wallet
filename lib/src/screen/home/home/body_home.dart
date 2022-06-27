@@ -166,7 +166,7 @@ class HomePageBody extends StatelessWidget {
             .map((item) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Card(
-                margin: EdgeInsets.only(
+                margin: EdgeInsets.only(  
                   top: 10.0,
                   bottom: 10.0,
                 ),
@@ -177,7 +177,7 @@ class HomePageBody extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(8.0),
                   ),
-                  child: Image.network(
+                  child: Image.asset(
                     item,
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,

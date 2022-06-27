@@ -54,7 +54,9 @@ class SwapProvider extends ChangeNotifier{
           title: contractProvider!.sortListContract[i].symbol,
           subtitle: contractProvider!.sortListContract[i].name,
           isActive: index2 == i ? true : false,
-          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
+          image: contractProvider!.sortListContract[i].logo!.contains('http') 
+          ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10.w)
+          : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
           balance: contractProvider!.sortListContract[i].balance,
           
         )
@@ -65,7 +67,9 @@ class SwapProvider extends ChangeNotifier{
           title: contractProvider!.sortListContract[i].symbol,
           subtitle: contractProvider!.sortListContract[i].name,
           isActive: index1 == i ? true : false,
-          image: Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
+          image: contractProvider!.sortListContract[i].logo!.contains('http') 
+          ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10.w)
+          : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10.w),
           balance: contractProvider!.sortListContract[i].balance,
         )
       );

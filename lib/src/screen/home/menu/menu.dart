@@ -67,6 +67,7 @@ class MenuState extends State<Menu> {
 
   Future<void> readBio() async {
     await StorageServices.readSaveBio().then((value) {
+      print("My bio $value");
       setState(() {
         _menuModel.switchBio = value;
       });

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 5.0.1+81
+version: 5.0.4+85
 #6 feature
 #8 debug
 #1 refactor
@@ -139,7 +139,7 @@ dependencies:
 
   flutter_native_splash: ^2.2.3
   mobile_scanner: ^2.0.0
-
+  random_avatar: 
   # Download
   # path_provider:
   # downloads_path_provider_28:
@@ -157,7 +157,7 @@ dependency_overrides:
        url: https://github.com/google/charts
        path: charts_flutter
 
-  permission_handler: ^8.3.0
+  permission_handler: ^10.0.0
   # get_storage:
   # flutter_aes_ecb_pkcs5:
 
@@ -205,6 +205,7 @@ flutter:
     - assets/token_logo/
     - assets/json/
     - assets/logo/
+    - assets/ads/
     - assets/illustration/
 
     # - ../assets/

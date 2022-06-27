@@ -19,7 +19,7 @@ class ContractProvider with ChangeNotifier {
   Client? _httpClient;
   Web3Client? _bscClient, _etherClient;
 
-  ContractService? _selToken, _selV2, _kgo, _swap, _atd, _bep20, _erc20;
+  ContractService? _selToken, _selV2, _kgo, _swap, _atd, _bep20, _erc20, _conService;
   NativeService? _eth, _bnb;
 
   StreamSubscription<String>? streamSubscriptionBsc;
@@ -34,10 +34,11 @@ class ContractProvider with ChangeNotifier {
 
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
+  MarketProvider? _marketProvider;
 
   /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
   /// 
-  /// (6 DOT) (7 BTC) (8 ATT) (9 SEL Testnet)
+  /// (6 DOT) (7 BTC) (8 RekReay) (9 ATT)
   List<SmartContractModel> listContract = [];
 
   /// This property for ERC-20 and BEP-20 contract added
@@ -48,6 +49,8 @@ class ContractProvider with ChangeNotifier {
   List<SmartContractModel> sortListContract = [];
 
   SmartContractModel? tmp;
+
+  int mainDecimal = 18;
 
   ContractService get getSelToken => _selToken!;
   ContractService get getSelv2 => _selV2!;
@@ -283,13 +286,16 @@ class ContractProvider with ChangeNotifier {
         //final contract = await initBsc(listContract[2].address);
         _kgo = new ContractService(_bscClient!, contract);
 
-        final balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+        dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+        print("balance kgo $balance");
         final chainDecimal = await _kgo!.getChainDecimal();
-
+        print("chainDecimal kgo $chainDecimal");
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
           int.parse(chainDecimal.toString()),
         ).toString();
+
+        print("listContract[apiProvider.kgoIndex].balance ${listContract[apiProvider.kgoIndex].balance}");
 
         listContract[apiProvider.kgoIndex].chainDecimal = chainDecimal.toString();
         listContract[apiProvider.kgoIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.kgoIndex]);
@@ -298,6 +304,36 @@ class ContractProvider with ChangeNotifier {
         notifyListeners();
       } catch (e) {
         if (ApiProvider().isDebug == true) print("Err kgoTokenWallet $e");
+      }
+    }
+  }
+
+  Future<void> getBep20Balance({required int contractIndex}) async {
+    print("getBep20Balance");
+    if (apiProvider.isMainnet){
+      try {
+
+        await initBscClient();
+        final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[contractIndex].contract! : listContract[contractIndex].contractTest!);
+        
+        _conService = new ContractService(_bscClient!, contract);
+        final balance = await _conService!.getTokenBalance(getEthAddr(ethAdd));
+        print("balance $balance");
+        final chainDecimal = await _conService!.getChainDecimal();
+        print("chainDecimal $chainDecimal");
+
+        listContract[contractIndex].balance = Fmt.bigIntToDouble(
+          balance,
+          int.parse(chainDecimal.toString()),
+        ).toString();
+
+        listContract[contractIndex].chainDecimal = chainDecimal.toString();
+        listContract[contractIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[contractIndex]);
+        listContract[contractIndex].address = ethAdd;
+
+        notifyListeners();
+      } catch (e) {
+        if (ApiProvider().isDebug == true) print("Err getBep20Balance $e");
       }
     }
   }
@@ -312,6 +348,7 @@ class ContractProvider with ChangeNotifier {
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
 
       listContract[apiProvider.ethIndex].balance = balance.toString();
+      listContract[apiProvider.ethIndex].chainDecimal = 18.toString();
       listContract[apiProvider.ethIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.ethIndex]);
       listContract[apiProvider.ethIndex].address = ethAdd;
 
@@ -329,11 +366,10 @@ class ContractProvider with ChangeNotifier {
       _bnb = new NativeService(_bscClient!);
 
       final balance = await _bnb!.getBalance(getEthAddr(ethAdd));
-
       listContract[apiProvider.bnbIndex].balance = balance.toString();
+      listContract[apiProvider.bnbIndex].chainDecimal = 18.toString();
       listContract[apiProvider.bnbIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.bnbIndex]);
       listContract[apiProvider.bnbIndex].address = ethAdd;
-
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error bnbWallet $e");
@@ -583,12 +619,14 @@ class ContractProvider with ChangeNotifier {
     return maxGas.toString();
   }
 
-  Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount) async {
+  Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
     await initBscClient();
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
     final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
     final txFunction = bep20Contract.function('transfer');
+
+    print("pow(10, decimal) ${pow(10, decimal)}");
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -597,10 +635,12 @@ class ContractProvider with ChangeNotifier {
       data: txFunction.encodeCall(
         [
           EthereumAddress.fromHex(reciever),
-          BigInt.from(double.parse(amount) * pow(10, 18))
+          BigInt.from(double.parse(amount) * pow(10, 0))
         ],
       ),
     );
+    
+    print("getBep20MaxGas maxGas $maxGas");
 
     // print(getSelToken.getMaxGas(
     //     EthereumAddress.fromHex(ethAddr),
@@ -988,7 +1028,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> addToken(String symbol, BuildContext context, {String? contractAddr, String? network}) async {
-    
+    if (_marketProvider == null) _marketProvider = Provider.of<MarketProvider>(context, listen: false);
     try {
 
       // if (symbol == 'SEL') {
@@ -1046,7 +1086,7 @@ class ContractProvider with ChangeNotifier {
           dynamic decimal;
           dynamic balance;
           dynamic tmpBalance;
-
+          
           if (network == 'Ethereum'){
             
             symbol = await queryEther(contractAddr!, 'symbol', []);
@@ -1060,17 +1100,27 @@ class ContractProvider with ChangeNotifier {
             ).toString(); 
 
           } else if (network == 'Binance Smart Chain'){
+            print("Query info bep-20 contract");
             symbol = await query(contractAddr!, 'symbol', []);
             name = await query(contractAddr, 'name', []);
             decimal = await query(contractAddr, 'decimals', []);
             balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-
+            print("Decimal $decimal");
             tmpBalance = Fmt.bigIntToDouble(
               balance[0] as BigInt,
               int.parse(decimal[0].toString()),
             ).toString();
             
           }
+          print("name $name");
+          print("symbol $symbol");
+          print("decimal $decimal");
+          print("finish query");
+
+          await _marketProvider!.searchCoinFromMarket(symbol[0]);
+          print("finish searchCoinFromMarket ${_marketProvider!.lsCoin}");
+          await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
+          // print("finish queryCoinFromMarket ${)}");
 
           // if (network == 'Ethereum') {
 
@@ -1139,39 +1189,53 @@ class ContractProvider with ChangeNotifier {
           // }
 
           SmartContractModel newContract = SmartContractModel(
-            id: name[0].toLowerCase(),
-            name: name[0],
+            id: _marketProvider!.queried!['id'],
+            name: _marketProvider!.queried!['name'],
             symbol: symbol[0],
-            address: contractAddr!,
-            org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-            isContain: true,
-            logo: AppConfig.assetsPath+'circle.png',
             chainDecimal: decimal[0].toString(),
-            listActivity: [],
             balance: tmpBalance.toString(),
+            address: ethAdd,
+            isContain: true,
+            logo: _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
+            listActivity: [],
             lineChartModel: LineChartModel(),
             type: '',
+            org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
             orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
             marketData: Market(),
             lineChartList: [],
-            change24h: '',
-            marketPrice: '',
-            contract: '',
-            contractTest: '',
+            change24h: _marketProvider!.queried!['price_change_percentage_24h'].toString(),
+            marketPrice: _marketProvider!.queried!['current_price'].toString(),
+            contract: apiProvider.isMainnet ? contractAddr: '',
+            contractTest: apiProvider.isMainnet ? '' : contractAddr,
           );
-          
+
+          // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);
+          // await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(newContract.id!).then((value){
+            
+          //   print(value);
+          // });
+          // print("newContract.marketPrice ${newContract.marketPrice}");
           // newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
-          // print(newContract.id);
-          // print(newContract.name);
-          // print(newContract.symbol);
-          // print(newContract.address);
-          // print(newContract.org);
-          // print(newContract.isContain);
-          // print(newContract.logo);
-          // print(newContract.chainDecimal);
-          // print(newContract.listActivity);
-          // print(newContract.balance);
-          // print(newContract.lineChartModel);
+          print("id ${newContract.id}");
+          print("name ${newContract.name}");
+          print("symbol ${newContract.symbol}");
+          print("chainDecimal ${newContract.chainDecimal}");
+          print("balance ${newContract.balance}");
+          print("address ${newContract.address}");
+          print("isContain ${newContract.isContain}");
+          print("logo ${newContract.logo}");
+          print("listActivity ${newContract.listActivity}");
+          print("lineChartModel ${newContract.lineChartModel}");
+          print("type ${newContract.type}");
+          print("org ${newContract.org}");
+          print("orgTest ${newContract.orgTest}");
+          print("marketData ${newContract.marketData}");
+          print("lineChartList ${newContract.lineChartList}");
+          print("change24h ${newContract.change24h}");
+          print("marketPrice ${newContract.marketPrice}");
+          print("contract ${newContract.contract}");
+          print("contractTest ${newContract.contractTest}");
           
           addedContract.add(newContract);
         }

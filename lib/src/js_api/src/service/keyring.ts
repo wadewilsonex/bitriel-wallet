@@ -82,8 +82,10 @@ function recover(keyType: string, cryptoType: KeypairType, key: string, password
     let rawSeed = "";
     try {
       switch (keyType) {
+
         case "mnemonic":
           keyPair = keyring.addFromMnemonic(key, {}, cryptoType);
+          selAddr = keyPair.address;
           mnemonic = key;
           break;
         case "rawSeed":
@@ -95,6 +97,10 @@ function recover(keyType: string, cryptoType: KeypairType, key: string, password
           keyPair = keyring.addFromJson(keystore);
           try {
             keyPair.decodePkcs8(password);
+
+            // if (ss58 == (acc.isMainnet ? acc.mainnet : acc.testNet)){
+            //   selAddr = keyring.encodeAddress(keyPair.publicKey, ss58);
+            // }
           } catch (err) {
             resolve(null);
           }

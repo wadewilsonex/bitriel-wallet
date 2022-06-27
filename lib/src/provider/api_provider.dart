@@ -50,7 +50,7 @@ class ApiProvider with ChangeNotifier {
   String? _jsCode;
 
   bool isMainnet = true;
-  bool isDebug = true;
+  bool isDebug = false;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -61,16 +61,6 @@ class ApiProvider with ChangeNotifier {
   int dotIndex = 6;
   int btcIndex = 7;
   int attIndex = 8;
-
-  SmartContractModel nativeM = SmartContractModel(
-    id: 'selendra',
-    logo: AppConfig.assetsPath+'SelendraCircle-White.png',
-    symbol: 'SEL',
-    name: "SELENDRA",
-    balance: '0.0',
-    org: 'Testnet',
-    lineChartModel: LineChartModel()
-  );
 
   String? funcName;
 
@@ -83,6 +73,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> initApi({@required BuildContext? context}) async {
+    
     funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
     try {
@@ -90,6 +81,7 @@ class ApiProvider with ChangeNotifier {
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
+      print("finish load json");
 
       // Setup ss58Format base on Network
       // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
@@ -311,7 +303,7 @@ class ApiProvider with ChangeNotifier {
     
     contract.sortListContract.forEach((element) {
       if(element.marketPrice!.isNotEmpty){
-        total = double.parse(element.balance!) * double.parse(element.marketPrice!);
+        total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         balance_list.add(total);
       }
     });
@@ -469,6 +461,7 @@ class ApiProvider with ChangeNotifier {
           
           res = value;
           contract.listContract[selNativeIndex].chainDecimal = res[0].toString();
+          print("contract.listContract[selNativeIndex].chainDecimal ${contract.listContract[selNativeIndex].chainDecimal}");
           await subSELNativeBalance(context: context);
 
           notifyListeners();
@@ -488,6 +481,7 @@ class ApiProvider with ChangeNotifier {
         contractProvider!.listContract[selNativeIndex].address = value;
       } else {
         await _sdk.webView!.evalJavascript('keyring.getSELAddr()').then((value) async {
+          print("keyring.getSELAddr() $value");
           contractProvider!.listContract[selNativeIndex].address = value;
         });
       }

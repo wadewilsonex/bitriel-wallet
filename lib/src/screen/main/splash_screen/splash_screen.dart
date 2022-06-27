@@ -83,12 +83,15 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     final passCode = await StorageServices().readSecure(DbKey.passcode);
 
-    if (bio == false && passCode != '') {
+    if (bio == true) {
       
       Navigator.pushReplacement(
         context,
-        RouteAnimation(
-          enterPage: HomePage(),
+        Transition(
+          transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+          child: FingerPrint(
+            isEnable: true,
+          ),
         ),
       );
 
@@ -102,8 +105,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       if (bio) {
         Navigator.pushReplacement(
           context,
-          RouteAnimation(
-            enterPage: FingerPrint(),
+          Transition(
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+            child: FingerPrint(
+              isEnable: true,
+            ),
           ),
         );
       } 

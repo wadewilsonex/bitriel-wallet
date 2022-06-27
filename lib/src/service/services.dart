@@ -126,6 +126,7 @@ class AppServices {
     try {
       // Check For Support Device
       bool support = await LocalAuthentication().isDeviceSupported();
+      print("support $support");
       if (support) {
         canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
       } else {
@@ -217,16 +218,16 @@ class Encryptt {
   }
 }
 
-class AppUpdate {
+// class AppUpdate {
   
-  Future<AppUpdateInfo> checkUpdate() async {
-    return await InAppUpdate.checkForUpdate();
-  }
+//   Future<AppUpdateInfo> checkUpdate() async {
+//     return await InAppUpdate.checkForUpdate();
+//   }
 
-  Future<void> performImmediateUpdate() async {
-    await InAppUpdate.performImmediateUpdate();
-  }
-}
+//   Future<void> performImmediateUpdate() async {
+//     await InAppUpdate.performImmediateUpdate();
+//   }
+// }
 
 class SendTrx extends ApiTx{
 

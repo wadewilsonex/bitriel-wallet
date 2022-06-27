@@ -19,7 +19,7 @@
         "contract_test": "0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030",
         "address": "",
         "logo": "assets/SelendraCircle-Blue.png",
-        "symbol": "oSEL",
+        "symbol": "SEL (v1)",
         "org": "BEP-20",
         "org_test": "BEP-20",
         "balance": "0.0",
@@ -30,7 +30,7 @@
         "id": "selendra v2",
         "name": "SELENDRA",
         "contract": "0x30bAb6B88dB781129c6a4e9B7926738e3314Cf1C",
-        "contract_test": "0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C",
+        "contract_test": "0x46bF747AC87b5db70096d9e88debd72D4C7f3C",
         "address": "",
         "logo": "assets/SelendraCircle-Blue.png",
         "symbol": "SEL (v2)",
@@ -38,7 +38,7 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": false
+        "show": true
     },
     {
         "id": "kiwigo",
@@ -111,6 +111,7 @@
         "isContain": true
     },
     {
+<<<<<<< HEAD
         "id": "rekreay",
         "name": "RekReay",
         "contract": "",
@@ -121,6 +122,18 @@
         "org": "BEP-20",
         "balance": "0.0",
         "org_test": "BEP-20",
+=======
+        "id": "rikreay",
+        "symbol": "REKREAY",
+        "name": "Rekreay",
+        "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
+        "contract_test": "",
+        "address": "",
+        "logo": "assets/logo/rekreay.jpeg",
+        "org": "BEP-20",
+        "org_test": "BEP-20",
+        "balance": "0.0",
+>>>>>>> origin/v2-daveat
         "show": true,
         "isContain": true
     },

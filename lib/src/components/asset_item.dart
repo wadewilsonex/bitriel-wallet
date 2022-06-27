@@ -111,7 +111,7 @@ class AssetItem extends StatelessWidget {
                           )
                           : Flexible(
                             child: MyText(
-                              text: scModel!.change24h,
+                              text: scModel!.change24h ?? '',
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: isDarkTheme

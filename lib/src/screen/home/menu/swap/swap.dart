@@ -69,50 +69,53 @@ class _SwapState extends State<Swap> {
     try {
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      await Component().dialogBox(context).then((value) async {
-        final res = await AppServices.getPrivateKey(value, context);
-        if (res != '') {
-          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
-          final approveHash = await approve(res!);
+      await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+        print("resPin $resPin");
+        if (resPin != null) {
+          final res = await AppServices.getPrivateKey(resPin, context);
+          if (res != '') {
+            dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+            final approveHash = await approve(res!);
 
-          if (ApiProvider().isDebug) print("approveHash $approveHash");
+            if (ApiProvider().isDebug) print("approveHash $approveHash");
 
-          if (approveHash != null) {
-            // await Future.delayed(Duration(seconds: 10));
-            final approveStatus = await contract.getSwap.listenTransfer(approveHash);
+            if (approveHash != null) {
+              // await Future.delayed(Duration(seconds: 10));
+              final approveStatus = await contract.getSwap.listenTransfer(approveHash);
 
-            if (approveStatus!) {
-              final resAllow = await ContractProvider().checkAllowance();
+              if (approveStatus!) {
+                final resAllow = await ContractProvider().checkAllowance();
 
-              if (resAllow.toString() == '0') {
-                final swapHash = await swap(res);
+                if (resAllow.toString() == '0') {
+                  final swapHash = await swap(res);
 
-                if (swapHash != null) {
-                  final isSuccess = await contract.getSwap.listenTransfer(swapHash);
+                  if (swapHash != null) {
+                    final isSuccess = await contract.getSwap.listenTransfer(swapHash);
 
-                  print("contract.getSwap.listenTransfer(swapHash) $isSuccess");
+                    print("contract.getSwap.listenTransfer(swapHash) $isSuccess");
 
-                  if (isSuccess!) {
-                    Navigator.pop(context);
-                    await enableAnimation(
-                      'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
-                      'Go to wallet', () {
-                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
-                    });
+                    if (isSuccess!) {
+                      Navigator.pop(context);
+                      await enableAnimation(
+                        'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
+                        'Go to wallet', () {
+                    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+                      });
 
-                  } else {
-                    Navigator.pop(context);
-                    await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Something went wrong with your transaction.');
+                    } else {
+                      Navigator.pop(context);
+                      await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Something went wrong with your transaction.');
+                    }
                   }
-                }
 
+                } else {
+                  Navigator.pop(context);
+                  await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: '$resAllow');
+                }
               } else {
                 Navigator.pop(context);
-                await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: '$resAllow');
+                await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Approval is $approveStatus');
               }
-            } else {
-              Navigator.pop(context);
-              await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Approval is $approveStatus');
             }
           }
         }
@@ -126,10 +129,11 @@ class _SwapState extends State<Swap> {
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    await Component().dialogBox(context).then((value) async {
+    await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+      print("resPin $resPin");
       try {
-        final res = await AppServices.getPrivateKey(value, context);
-        if (res != '') {
+        if (resPin != null) {
+          final res = await AppServices.getPrivateKey(resPin, context);
           dialogLoading(context);
           final String? hash = await contract.swap(_swapModel.amountController!.text, res!);
           if (hash != null) {
@@ -159,7 +163,11 @@ class _SwapState extends State<Swap> {
         }
       } catch (e) {
         Navigator.pop(context);
-        await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: e.toString());
+        await DialogComponents().dialogCustom(
+          context: context, 
+          titles: 'Oops', 
+          contents: e.toString().contains("You do not have sufficient funds for transaction.") ? 'Ins' : e.toString()
+        );
       }
     });
   }
@@ -246,20 +254,17 @@ class _SwapState extends State<Swap> {
             // SizedBox(
             //   height: MediaQuery.of(context).size.width * 0.08,
             // ),
-            SvgPicture.asset(
-              AppConfig.iconsPath+'tick.svg',
-              height: 100,
-              width: 100,
-            ),
+            Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
             MyText(
               text: 'SUCCESS!',
-              fontSize: 22,
-              top: MediaQuery.of(context).size.width * 0.1,
+              fontSize: 20,
+              top: 10,
+              color: AppColors.lowWhite,
               fontWeight: FontWeight.bold,
             ),
             MyText(
               top: 8.0,
-              fontSize: 16,
+              color: AppColors.lowWhite,
               text: 'You have successfully ' + operationText,
             ),
           ],
@@ -268,26 +273,17 @@ class _SwapState extends State<Swap> {
       btn2: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 50,
-            width: 140,
-            child: ElevatedButton(
-              onPressed: () {
+
+          Expanded(
+            child: MyGradientButton(
+              textButton: btnText,
+              lsColor: [ "#808080", "#808080"],
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: (){
                 Navigator.pop(context);
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
-                foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-              ),
-              child: Text(
-                'Close',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+              }
+            )
           ),
 
           SizedBox(
@@ -295,26 +291,17 @@ class _SwapState extends State<Swap> {
             height: 50,
           ),
 
-          SizedBox(
-            height: 50,
-            width: 140,
-            child: ElevatedButton(
-              onPressed: (){
+          Expanded(
+            child: MyGradientButton(
+              textButton: btnText,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: (){
                 onPressed();
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-              ),
-              child: Text(
-                btnText,
-                style: TextStyle(
-                  color: hexaCodeToColor('#ffffff'),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+              }
+            )
           )
+
         ],
       )
     );
@@ -331,13 +318,11 @@ class _SwapState extends State<Swap> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: 20,
-              ),
               MyText(
                 text: 'Swapping',
+                color: AppColors.lowWhite,
                 //color: '#000000',
-                fontSize: 28,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
               SizedBox(
@@ -345,52 +330,41 @@ class _SwapState extends State<Swap> {
               ),
               SvgPicture.asset(
                 AppConfig.iconsPath+'arrow.svg',
-                height: 100,
-                width: 100,
+                height: 15.w,
+                width: 15.w,
                 color: hexaCodeToColor(AppColors.secondary),
               ),
               MyText(
                 text: 'SEL v1 to SEL v2',
-                fontSize: 28,
                 fontWeight: FontWeight.bold,
+                color: AppColors.lowWhite,
                 top: 40,
                 bottom: 8.0,
               ),
               MyText(
                 text: '$amount of SEL v1',
-                fontSize: 16,
                 color2: hexaCodeToColor(AppColors.secondary),
-              ),
-              SizedBox(
-                height: 50,
               ),
             ],
           ),
         ),
       ),
       btn2: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+
           SizedBox(
-            height: 60,
-            width: 200,
-            child: ElevatedButton(
-              onPressed: () async {
+            height: 7.h,
+            width: MediaQuery.of(context).size.width / 1.5,
+            child: MyGradientButton(
+              textButton: "CONFIRM",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
                 Navigator.pop(context);
                 await confirmFunction();
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                foregroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
-              ),
-              child: Text(
-                'CONFIRM',
-                style: TextStyle(
-                  color: hexaCodeToColor('#ffffff'),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              }
             ),
           )
         ],

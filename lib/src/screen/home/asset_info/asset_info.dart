@@ -147,76 +147,6 @@ class _AssetInfoState extends State<AssetInfo> {
     });
   }
 
-  // Future? getCheckInList() async {
-
-  //   final res = await ApiProvider().getCheckInList(ApiProvider.keyring.keyPairs[0].address!);
-
-  //   setState(() {
-  //     _checkInList.clear();
-  //   });
-
-  //   for (final i in res) {
-  //     final String latlong = i['location'].toString();
-
-  //     await addressName(LatLng(double.parse(latlong.split(',')[0]), double.parse(latlong.split(',')[1]))).then((value) async {
-  //       if (value != null) {
-  //         await dateConvert(int.parse(i['time'].toString())).then((time) {
-  //           setState(() {
-  //             _checkInList
-  //                 .add({'time': time, 'location': value, 'status': true});
-  //           });
-  //         });
-  //       }
-  //     });
-  //   }
-  //   if (!mounted) return;
-  //   return res;
-  // }
-
-  // Future? getCheckOutList() async {
-
-  //   final res = await ApiProvider().getCheckOutList(ApiProvider.keyring.keyPairs[0].address!);
-
-  //   setState(() {
-  //     _checkOutList.clear();
-  //   });
-
-  //   for (final i in res) {
-  //     final String latlong = i['location'].toString();
-
-  //     await addressName(LatLng(double.parse(latlong.split(',')[0]), double.parse(latlong.split(',')[1]))).then((value) async {
-  //       if (value != null) {
-  //         await dateConvert(int.parse(i['time'].toString())).then((time) {
-  //           setState(() {
-  //             _checkOutList
-  //                 .add({'time': time, 'location': value, 'status': false});
-  //           });
-  //         });
-  //       }
-  //     });
-  //   }
-  //   if (!mounted) return;
-  //   return res;
-  // }
-
-  // Future<void> initATD() async {
-  //   if (widget.tokenSymbol == "ATD") {
-  //     Provider.of<ContractProvider>(context, listen: false).getAStatus();
-  //     await getCheckInList();
-  //     await getCheckOutList();
-  //     sortList();
-  //   }
-  // }
-
-  // Future<String> addressName(LatLng place) async {
-  //   final List? placemark = await placemarkFromCoordinates(place.latitude, place.longitude);
-
-  //   return placemark![0].thoroughfare ??
-  //       '' + ", " + placemark[0].subLocality ??
-  //       '' + ", " + placemark[0].administrativeArea ??
-  //       '';
-  // }
-
   Future<String> dateConvert(int millisecond) async {
     final df = DateFormat('dd-MM-yyyy hh:mm a');
     final DateTime date = DateTime.fromMillisecondsSinceEpoch(millisecond);
@@ -243,22 +173,6 @@ class _AssetInfoState extends State<AssetInfo> {
   Future<void> showDetailDialog(TxHistory txHistory) async {
     await txDetailDialog(context, txHistory);
   }
-
-  // Future<void> qrRes() async {
-  //   final _response =
-  //       await Navigator.push(context, transitionRoute(QrScanner()));
-
-  //   if (_response != null && _response != "null") {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => CheckIn(
-  //           qrRes: _response.toString(),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
 
   void onPageChange(int index) {
     setState(() {
@@ -350,26 +264,23 @@ class _AssetInfoState extends State<AssetInfo> {
                                   )
                                 ),
 
-                                Image.asset(
+                                ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: widget.scModel!.logo!.contains('http') 
+                                ? Image.network(
                                   widget.scModel!.logo!,
                                   fit: BoxFit.contain,
                                   width: 10.w,
-                                  height: 10.h,
+                                  height: 10.w,
+                                )
+                                : Image.asset(
+                                    widget.scModel!.logo!,
+                                    fit: BoxFit.contain,
+                                    width: 10.w,
+                                    height: 10.w,
+                                  )
                                 ),
 
-                                // Container(
-                                //   alignment: Alignment.centerLeft,
-                                //   margin: const EdgeInsets.only(right: 8),
-                                //   width: 40,
-                                //   height: 40,
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(5),
-                                //   ),
-                                //   child: Image.asset(
-                                //     widget.scModel!.logo!,
-                                //     fit: BoxFit.contain,
-                                //   ),
-                                // ),
                                 MyText(
                                   left: 2.w,
                                   fontSize: 18.0,
@@ -404,16 +315,6 @@ class _AssetInfoState extends State<AssetInfo> {
                 ]),
               ),
 
-              // Under Line of AppBar
-              // SliverList(
-              //   delegate: SliverChildListDelegate([
-              //   Divider(
-              //     height: 3,
-              //     color: isDarkTheme
-              //       ? bg
-              //       : Colors.grey.shade400)
-              // ])),
-
               // Body
               SliverList(
                 delegate: SliverChildListDelegate(
@@ -440,9 +341,10 @@ class _AssetInfoState extends State<AssetInfo> {
                           
                           MyText(
                             top: 8.0,
-                            text: widget.scModel!.balance != AppString.loadingPattern && widget.scModel!.marketPrice != null
-                              ? '≈ \$$totalUsd'
-                              : '≈ \$0.00',
+                            text: "≈ \$ ${widget.scModel!.money!.toStringAsFixed(2)}",
+                            // widget.scModel!.balance != AppString.loadingPattern && widget.scModel!.marketPrice != null
+                            //   ? '≈ \$$totalUsd'
+                            //   : '≈ \$0.00',
 
                             fontSize: 18,
                             color: isDarkTheme
@@ -451,28 +353,15 @@ class _AssetInfoState extends State<AssetInfo> {
                             //fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 8.0),
-                          // if (widget.scModel!.marketPrice == null)
-                          //   Container()
-                          // else
                             
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // MyText(
-                              //   text: widget.scModel!.marketPrice != null ? '\$ ${widget.scModel!.marketPrice}' : '',
-                              //   fontSize: 14,
-                              //   fontWeight: FontWeight.bold,
-                              //   color: isDarkTheme
-                              //     ? AppColors.whiteColorHexa
-                              //     : AppColors.textColor,
-                              // ),
 
                               const SizedBox(width: 6.0),
                               widget.scModel!.change24h != null && widget.scModel!.change24h != ''
                               ? MyText(
-                                text: double.parse(widget.scModel!.change24h!).isNegative
-                                  ? '${widget.scModel!.change24h}%'
-                                  : '+${widget.scModel!.change24h}%',
+                                text: "≈ \$ ${widget.scModel!.money!.toStringAsFixed(2)}",
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: double.parse(widget.scModel!.change24h!).isNegative
@@ -494,198 +383,79 @@ class _AssetInfoState extends State<AssetInfo> {
                             ],
                           ),
 
-                          // MyText(
-                          //   text: '${widget.scModel!.balance}${' ${widget.scModel!.symbol}'}',
-                          //   //AppColors.secondarytext,
-                          //   fontSize: 18,
-                          //   fontWeight: FontWeight.bold,
-                          //   overflow: TextOverflow.ellipsis,
-                          //   color: isDarkTheme
-                          //     ? AppColors.whiteColorHexa
-                          //     : AppColors.textColor,
-                          // ),
-
-                          // Container(
-                          //   margin: const EdgeInsets.only(top: 40),
-                          //   padding: widget.scModel!.symbol == 'ATD'
-                          //     ? const EdgeInsets.symmetric()
-                          //     : const EdgeInsets.symmetric(vertical: 16.0),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          //     children: [
-                          //       SizedBox(
-                          //         height: 50,
-                          //         width: 150,
-                          //         // ignore: deprecated_member_use
-                          //         child: Consumer<ContractProvider>(
-                          //           builder: (context, provider, widgets){
-                          //             return ElevatedButton(
-                          //               onPressed: () async {
-                          //                 try {
-
-                          //                   if(widget.scModel!.symbol != 'ATT') {
-                                              
-                          //                     await MyBottomSheet().trxOptions(
-                          //                       context: context,
-                          //                       portfolioList: provider.sortListContract
-                          //                     );
-                          //                   } else {
-                          //                     dialogLoading(context);
-                          //                     await Future.delayed(Duration(milliseconds: 1300), (){});
-                          //                     // Close Loading
-                          //                     Navigator.pop(context);
-                          //                     await successDialog(context, "check in!");
-                          //                   }
-                          //                 } catch (e) {
-                          //                   // print("Error Transfer $e");
-                          //                 }
-                          //               },
-                          //               style: ButtonStyle(
-                          //                 backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                          //               ),
-                          //               // disabledColor: Colors.grey[700],
-                          //               // focusColor: hexaCodeToColor(AppColors.secondary),
-                          //               child: MyText(
-                          //                 text: widget.scModel!.symbol == 'ATT' ? 'Check In' : 'Transfer',
-                          //                 color: AppColors.whiteColorHexa
-                          //               ),
-                          //             );
-                          //           },
-                          //         ),
-                          //       ),
-                                
-                          //       const SizedBox(width: 16.0),
-                          //       SizedBox(
-                          //         height: 50,
-                          //         width: 150,
-                          //         // ignore: deprecated_member_use
-                          //         child: FlatButton(
-                          //           onPressed: () async {
-                          //             if(widget.scModel!.symbol != 'ATT') {
-                          //               // if (widget.scModel!.symbol == 'BTC') {
-                          //               //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-                          //               // } else if (widget.scModel!.org == 'Testnet'){
-                          //               //   widget.scModel!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-                          //               // } else if ( widget.scModel!.symbol != 'DOT'){
-                          //               //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-                          //               // } else {
-                          //               //   widget.scModel!.address = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
-                          //               // }
-                          //               setState(() { });
-                          //               AssetInfoC().showRecieved(
-                          //                 context,
-                          //                 _method,
-                          //                 symbol: widget.scModel!.symbol,
-                          //                 org: widget.scModel!.org,
-                          //                 scModel: widget.scModel
-                          //               );
-                                        
-                          //             } else {
-                          //               dialogLoading(context);
-                          //               await Future.delayed(Duration(milliseconds: 1300), (){});
-                          //               // Close Loading
-                          //               Navigator.pop(context);
-                          //               await successDialog(context, "check out!");
-                          //             }
-                          //           },
-                          //           color: hexaCodeToColor(
-                          //             AppColors.secondary,
-                          //           ),
-                          //           disabledColor: Colors.grey[700],
-                          //           focusColor: hexaCodeToColor(
-                          //             AppColors.secondary,
-                          //           ),
-                          //           child: MyText(
-                          //             text: widget.scModel!.symbol == 'ATT' ? 'Check Out' : 'Recieved',
-                          //             color: AppColors.whiteColorHexa,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-
                         ],
                       ),
                     ),
-                    // Container(
-                    //   height: 32.0,
-                    //   color: isDarkTheme
-                    //       ? bg
-                    //       : hexaCodeToColor(AppColors.whiteHexaColor),
-                    // ),
-                    Container(
-                      //padding: const EdgeInsets.only(top: 32.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                onTabChange(0);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: isDarkTheme
-                                      ? bg
-                                      : hexaCodeToColor(
-                                          AppColors.whiteHexaColor),
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: _tabIndex == 0
-                                          ? hexaCodeToColor("#D4D6E3")
-                                          : Colors.transparent,
-                                      width: 2,
-                                    ),
+                    
+                    // TabBar
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              onTabChange(0);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: isDarkTheme
+                                    ? bg
+                                    : hexaCodeToColor(
+                                        AppColors.whiteHexaColor),
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: _tabIndex == 0
+                                        ? hexaCodeToColor("#D4D6E3")
+                                        : Colors.transparent,
+                                    width: 2,
                                   ),
                                 ),
-                                child: MyText(
-                                  fontWeight: FontWeight.bold,
-                                  text: "Activity",
-                                  color: _tabIndex == 0
-                                      ? AppColors.whiteColorHexa
-                                      : isDarkTheme
-                                          ? AppColors.iconColor
-                                          : AppColors.textColor,
-                                ),
+                              ),
+                              child: MyText(
+                                fontWeight: FontWeight.bold,
+                                text: "Activity",
+                                color: _tabIndex == 0
+                                    ? AppColors.whiteColorHexa
+                                    : isDarkTheme
+                                        ? AppColors.iconColor
+                                        : AppColors.textColor,
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                onTabChange(1);
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: isDarkTheme
-                                      ? bg
-                                      : hexaCodeToColor(
-                                          AppColors.whiteHexaColor),
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: _tabIndex == 1
-                                          ? hexaCodeToColor("#D4D6E3")
-                                          : Colors.transparent,
-                                      width: 2,
-                                    ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              onTabChange(1);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: isDarkTheme
+                                  ? bg
+                                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: _tabIndex == 1
+                                      ? hexaCodeToColor("#D4D6E3")
+                                      : Colors.transparent,
+                                    width: 2,
                                   ),
                                 ),
-                                child: MyText(
-                                  fontWeight: FontWeight.w600,
-                                  text: "Details",
-                                  color: _tabIndex == 1
-                                      ? AppColors.whiteColorHexa
-                                      : AppColors.iconColor
-                                ),
+                              ),
+                              child: MyText(
+                                fontWeight: FontWeight.w600,
+                                text: "Details",
+                                color: _tabIndex == 1
+                                    ? AppColors.whiteColorHexa
+                                    : AppColors.iconColor
                               ),
                             ),
                           ),
-                        ],
-                      ), //
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -714,21 +484,11 @@ class _AssetInfoState extends State<AssetInfo> {
                         ),
                       )
                     : Container(
-                        color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
-                        child: ActivityList(
-                          transactionInfo: widget.transactionInfo,
-                        )
-                        // child: SingleChildScrollView(
-                        //   physics: NeverScrollableScrollPhysics(),
-                        //   child: Column(
-                        //     children: [
-                        //       ActivityItem(),
-                        //       ActivityItem(),
-                        //       ActivityItem(),
-                        //     ],
-                        //   ),
-                        // ),
-                        );
+                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+                      child: ActivityList(
+                        transactionInfo: widget.transactionInfo,
+                      ),
+                    );
               }),
 
               if (widget.scModel!.marketData != null)

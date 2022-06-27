@@ -39,6 +39,20 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+    
+    // Fetch Name and Symbol Coin
+    // await StorageServices.fetchData(DbKey.coinData).then((value) {
+    //   if (value == null){
+
+    //     _http.get(Uri.parse("https://api.coingecko.com/api/v3/coins/list")).then((value) async {
+    //       dynamic data = await json.decode(value.body);
+    //       await StorageServices.storeData(data, DbKey.coinData);
+    //       Provider.of<MarketProvider>(context, listen: false).setLsCoin = data;
+    //     });
+    //   } else {
+    //     Provider.of<MarketProvider>(context, listen: false).setLsCoin = value;
+    //   }
+    // });
 
     try {
     
@@ -62,6 +76,7 @@ class AppState extends State<App> {
         // });
         await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+          print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
           /// Cannot connect Both Network On the Same time
           /// 
           /// It will be wrong data of that each connection. 

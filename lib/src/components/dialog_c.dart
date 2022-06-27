@@ -135,7 +135,7 @@ class DialogComponents {
                 image != null ? SizedBox(height: 3.h) : Container(),
                 MyText(
                   text: contents,
-                  fontSize: 17,
+                  // fontSize: 17,
                   color: AppColors.whiteColorHexa, 
                 )
               ],

@@ -22,6 +22,7 @@ class SubmitTrxService {
       final txInfoData = TxInfoData('balances', 'transfer', sender);
 
       final chainDecimal = _contract.sortListContract[scanPay.assetValue].chainDecimal;
+      print("chainDecimal $chainDecimal");
       TxFeeEstimateResult fee;
       if (_contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         
@@ -41,10 +42,11 @@ class SubmitTrxService {
           // await customDialog(context, "Fee", "Estimated fee price: ${fee.partialFee}");
 
           await sendTx(_api, scanPay, password, context, txInfoData, chainDecimal);
-
+          print("finish sendTx");
           await _api.getSelNativeChainDecimal(context: context);
           return true;
         });
+        
       } else {
         return await _api.connectPolNon(context: context).then((value) async {
           fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(

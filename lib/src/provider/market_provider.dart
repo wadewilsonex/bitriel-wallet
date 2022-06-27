@@ -5,6 +5,11 @@ import 'package:wallet_apps/src/provider/contract_provider.dart';
 import '../../index.dart';
 
 class MarketProvider with ChangeNotifier {
+  
+  http.Response? _res;
+
+  List<Map<String, dynamic>>? lsCoin;
+  Map<String, dynamic>? queried;
 
   List<String> id = [
     'kiwigo',
@@ -24,6 +29,11 @@ class MarketProvider with ChangeNotifier {
       data = Market.fromJson(i);
     }
     return data;
+  }
+
+  set setLsCoin(List<dynamic> ls){
+    lsCoin = [];
+    lsCoin = List<Map<String, dynamic>>.from(ls);
   }
 
   Future<List<List<double>>?> fetchLineChartData(String id) async {
@@ -127,4 +137,27 @@ class MarketProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
+    print("id $id");
+    print("queryCoinFromMarket");
+    _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
+    print("_res ${_res!.body}");
+    lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
+    print(lsCoin);
+    lsCoin = lsCoin!.where((element){
+      if (element['symbol'].toLowerCase() == id.toLowerCase() && element['market_cap_rank'] != null){
+        return true;
+      }
+      return false;
+    }).toList();
+    return lsCoin!;
+  }
+
+  Future<void> queryCoinFromMarket(String id) async {
+    print("id $id");
+    print("queryCoinFromMarket");
+    queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id}'))).body)[0];
+  }
+  
 }
