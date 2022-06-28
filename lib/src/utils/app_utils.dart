@@ -95,7 +95,6 @@ class AppUtils {
   }
 
   List<String> randomThreeEachNumber(){
-    print("randomThreeEachNumber");
     // First Number
     String rd1 = Random().nextInt(12).toString();
     while(rd1 == "0"){

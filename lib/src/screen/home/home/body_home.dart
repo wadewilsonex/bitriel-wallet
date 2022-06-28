@@ -13,12 +13,14 @@ import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 
 class HomePageBody extends StatelessWidget {
 
+  final bool? isTrx;
   final HomePageModel? homePageModel;
   final bool? pushReplacement;
   final Function(int index)? onPageChanged;
 
   const HomePageBody({ 
     Key? key, 
+    this.isTrx,
     this.homePageModel,
     this.onPageChanged,
     this.pushReplacement,
@@ -91,7 +93,7 @@ class HomePageBody extends StatelessWidget {
 
           DiscoverPage(homePageModel: homePageModel!),
 
-          AssetsPage(),
+          AssetsPage(isTrx: isTrx,),
 
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),

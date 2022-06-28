@@ -6,8 +6,9 @@ class HomePage extends StatefulWidget {
 
   static final String route = "/home";
   final int activePage;
+  final bool? isTrx;
 
-  const HomePage({ Key? key, this.activePage = 2 }) : super(key: key);
+  const HomePage({ Key? key, this.activePage = 2, this.isTrx}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return HomePageBody(
+      isTrx: widget.isTrx,
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,

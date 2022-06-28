@@ -17,8 +17,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return RouteAnimation(enterPage: ImportAcc());
     case AppString.contentBackup:
       return RouteAnimation(enterPage: ContentsBackup());
-    case AppString.confirmationTxView:
-      return RouteAnimation(enterPage: ConfirmationTx());
     // case AppString.checkinView:
     //   return RouteAnimation(enterPage: const CheckIn());
     //   break;

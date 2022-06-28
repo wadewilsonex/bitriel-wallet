@@ -126,7 +126,6 @@ class AppServices {
     try {
       // Check For Support Device
       bool support = await LocalAuthentication().isDeviceSupported();
-      print("support $support");
       if (support) {
         canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
       } else {

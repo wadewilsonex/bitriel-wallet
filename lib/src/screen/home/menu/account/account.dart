@@ -123,7 +123,6 @@ class _AccountState extends State<Account> {
       String funcName = "account";
       await api.getAddressIcon();
       while(true){
-        print("funcName $funcName");
         await api.getCurrentAccount(context: context, funcName: funcName);
         if (api.accountM.address != null) break;
         else funcName = 'keyring';
@@ -181,9 +180,7 @@ class _AccountState extends State<Account> {
     // });
     dialogLoading(context);
     final res = await Provider.of<ApiProvider>(context, listen: false);
-    await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text).then((value) {
-      print("checkPassword $value");
-    });
+    await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
     final changePass = await res.apiKeyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
     if (changePass != null) {
       await customDialog(context, 'Change Pin', 'You pin has changed!!!');

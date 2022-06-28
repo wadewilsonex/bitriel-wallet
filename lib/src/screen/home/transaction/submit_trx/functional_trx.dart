@@ -190,16 +190,17 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxEvm(NativeService coinService, TransactionInfo txInfo) async {
+  Future<dynamic> sendTxEvm(NativeService coinService, TransactionInfo txInfo) async {
     if (txInfo.privateKey != null) {
       try {
         final hash = await coinService.sendTx(txInfo);
 
-        if (hash != null) {
-          txInfo.hash = hash;
-          txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
-          await navigateAssetInfo(txInfo, nativeService: coinService);
-        }
+        // if (hash != null) {
+        //   txInfo.hash = hash;
+        //   txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+        //   await navigateAssetInfo(txInfo, nativeService: coinService);
+        // }
+        return hash;
       } catch (e) {
         if (ApiProvider().isDebug == true) print('Err sendTxEvm $e');
         if (e.toString().contains('insufficient funds for gas * price + value')) {
@@ -211,19 +212,18 @@ class TrxFunctional {
     }
   }
 
-  Future<String?> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
+  Future<dynamic> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
     if (ApiProvider().isDebug == true) print("sendTxBep20");
     
     if (txInfo.privateKey != null) {
       try {
-        final hash = await tokenService.sendToken(txInfo);
-        print("hello hash $hash");
+        String? hash = await tokenService.sendToken(txInfo);
         // if (hash != null) {
         //   txInfo.hash = hash;
         //   txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
         //   txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
 
-        //   await navigateAssetInfo(txInfo, tokenService: tokenService);
+          // await navigateAssetInfo(txInfo, tokenService: tokenService);
         // }
         return hash;
       } catch (e) {
@@ -416,7 +416,7 @@ class TrxFunctional {
   //   }
   // }
 
-  Future<void> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount) async {
+  Future<dynamic> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount) async {
     try {
       if (privateKey != null) {
         final String? hash = await contract!.sendTxEthCon(
@@ -447,6 +447,7 @@ class TrxFunctional {
           //     enableAnimation();
           //   }
           // });
+          return hash;
         } else {
           Navigator.pop(context!);
           await customDialog('Opps', 'Something went wrong!');
@@ -791,7 +792,6 @@ class TrxFunctional {
         default:
           
           marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-          print("marketPrice ${marketPrice.runtimeType}");
           // marketPrice = (contract.listContract.where((element) {
           //   if (element.symbol == asset) return true;
           //   return false;
@@ -813,7 +813,6 @@ class TrxFunctional {
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
     String? marketPrice;
     var estPrice;
-    print("calPrice");
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
     // await MarketProvider().fetchTokenMarketPrice(context!);
@@ -854,7 +853,6 @@ class TrxFunctional {
     String? maxGas = '';
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
-    print("asset $asset");
     try {
 
       switch (asset) {
@@ -862,7 +860,6 @@ class TrxFunctional {
         //   maxGas = await api.calBtcMaxGas();
         //   break;
         case 'ETH':
-          print("Eth $asset");
           maxGas = await contractProvider.getEthMaxGas(reciever, amount);
           break;
         case 'BNB':
@@ -870,14 +867,12 @@ class TrxFunctional {
           break;
         
         default:
-          print("(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest) ${(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)}");
           maxGas = await contractProvider.getBep20MaxGas( 
             (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
             reciever, 
             amount, 
             decimal: int.parse(contractProvider.sortListContract[index].chainDecimal!)
           );
-          print("maxGas $maxGas");
           // if (contractProvider.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
           // }
           break;
