@@ -16,14 +16,14 @@ public final class GeneratedPluginRegistrant {
   private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
     try {
-      flutterEngine.getPlugins().add(new com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin());
-    } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin aes_ecb_pkcs5_flutter, com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin", e);
-    }
-    try {
       flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.connectivity.ConnectivityPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin connectivity_plus, dev.fluttercommunity.plus.connectivity.ConnectivityPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin flutter_aes_ecb_pkcs5, com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new com.pichillilorenzo.flutter_inappwebview.InAppWebViewFlutterPlugin());
@@ -98,7 +98,7 @@ public final class GeneratedPluginRegistrant {
     try {
       flutterEngine.getPlugins().add(new com.baseflow.permissionhandler.PermissionHandlerPlugin());
     } catch(Exception e) {
-      Log.e(TAG, "Error registering plugin permission_handler, com.baseflow.permissionhandler.PermissionHandlerPlugin", e);
+      Log.e(TAG, "Error registering plugin permission_handler_android, com.baseflow.permissionhandler.PermissionHandlerPlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new net.touchcapture.qr.flutterqr.FlutterQrPlugin());

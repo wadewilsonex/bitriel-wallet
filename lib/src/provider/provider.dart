@@ -83,7 +83,7 @@ class ContractsBalance extends ChangeNotifier {
       final api = Provider.of<ApiProvider>(context, listen: false);
       dynamic balance;
       
-      api.connectSELNode(context: context).then((value) async {
+      await api.connectSELNode(context: context).then((value) async {
         
         await api.getSelNativeChainDecimal(context: context);
       });

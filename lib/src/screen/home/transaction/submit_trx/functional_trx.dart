@@ -211,20 +211,21 @@ class TrxFunctional {
     }
   }
 
-  Future<void> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
+  Future<String?> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
     if (ApiProvider().isDebug == true) print("sendTxBep20");
     
     if (txInfo.privateKey != null) {
       try {
         final hash = await tokenService.sendToken(txInfo);
         print("hello hash $hash");
-        if (hash != null) {
-          txInfo.hash = hash;
-          txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
-          txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
+        // if (hash != null) {
+        //   txInfo.hash = hash;
+        //   txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
+        //   txInfo.timeStamp = DateFormat('yyyy-MM-dd HH:mm:ss a').format(DateTime.now());
 
-          await navigateAssetInfo(txInfo, tokenService: tokenService);
-        }
+        //   await navigateAssetInfo(txInfo, tokenService: tokenService);
+        // }
+        return hash;
       } catch (e) {
         // Navigator.pop(context);
         if (ApiProvider().isDebug == true) print('Error sendTxBep20 $e');

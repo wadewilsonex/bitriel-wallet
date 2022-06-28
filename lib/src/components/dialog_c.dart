@@ -105,7 +105,7 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding, String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){

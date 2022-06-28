@@ -151,6 +151,8 @@ class ContractService implements IContractService {
 
       // final decimal = await getChainDecimal();
 
+      double decimal = double.parse(txInfo.chainDecimal!);
+
       print("EtherAmount.inWei(BigInt.from(10)) ${EtherAmount.inWei(BigInt.from(10))}");
 
       res = await _client.sendTransaction(
@@ -162,7 +164,7 @@ class ContractService implements IContractService {
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,
-            BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
+            BigInt.from(double.parse(trxInfo.amount!) * pow(10, decimal) )
           ],
         ),
         chainId: null,
