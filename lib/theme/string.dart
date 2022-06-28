@@ -17,7 +17,6 @@ class AppString {
   static const String navigationDrawerView = '/navigationdrawer';
   static const String inviteFriendView = '/invitefriend';
   static const String setupAccView = '/importUserInfo';
-  static const String confirmationTxView = '/confirmationTx';
 
   static const String contactAppBarTitle = 'Contact List';
   static const String confirmTxTitle = 'Confirm Transaction';

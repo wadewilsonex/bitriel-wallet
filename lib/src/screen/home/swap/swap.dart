@@ -33,8 +33,6 @@ class _SwapPageState extends State<SwapPage> {
 
   void percentTap(int index){
 
-    print("_swapProvider!.balance1 ${_swapProvider!.balance1}");
-
     setState(() {
       _model.percentActive = index;
       // _model.myController!.text = calculateAmount(percentage, _model.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(RegExp('[^A-Za-z0-9]'), ""))).toString();
@@ -53,7 +51,6 @@ class _SwapPageState extends State<SwapPage> {
     if (_model.myController!.text.isNotEmpty){
 
       if (_model.myController!.text.contains("0.")){
-        print("onDeleteTxt ${_model.myController!.text.length}");
         print(_model.myController!.text == "0.");
         if (_model.myController!.text == "0."){
           _model.myController!.text = _model.myController!.text.replaceRange(0, _model.myController!.text.length, "");
@@ -63,7 +60,6 @@ class _SwapPageState extends State<SwapPage> {
           _model.myController!.text = _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!, "");
       }
       else if (isCursorMove()){
-        print("Start delete on cursor");
         _model.myController!.text = _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!, "");
       } 
       else {
@@ -71,7 +67,6 @@ class _SwapPageState extends State<SwapPage> {
         // setCursor();
       }
       _model.cursor = _model.cursor!-1;
-      print("new _model.cursor ${_model.cursor}");
       setCursor(newPos: _model.cursor);
       
       // if (_model.cursor != -1){
@@ -79,13 +74,9 @@ class _SwapPageState extends State<SwapPage> {
       // }
 
     }
-    print("onDeleteTxt _model.cursor ${_model.cursor}");
   }
 
   void onTabNum(String txt) async {
-    print("_model.myController!.selection.base.offset ${_model.myController!.selection.base.offset}");
-
-    print("onTabNum");
     _model.cursor = _model.myController!.selection.base.offset;
 
     if (checkCommaLength() == false && isMultiComma(txt) == false){
@@ -117,7 +108,6 @@ class _SwapPageState extends State<SwapPage> {
   
 
   void setCursor({ int? newPos}){
-    print("setCursor _model.cursor ${_model.cursor}");
     _model.myController!.selection = TextSelection.fromPosition(TextPosition(offset: newPos ?? _model.myController!.text.length));
     _model.cursor = _model.myController!.text.length;;
     setState(() { });
@@ -126,9 +116,6 @@ class _SwapPageState extends State<SwapPage> {
   /* -- Validation -- */
 
   bool isCursorMove(){
-
-    print("_model.length ${_model.length}");
-    print("_model.cursor ${_model.cursor}");
     if (_model.cursor == -1) return false;
     return _model.cursor != _model.length;
   }
@@ -138,22 +125,17 @@ class _SwapPageState extends State<SwapPage> {
     for (int i = 0; i< _model.myController!.text.length; i++){
       if (txt != ".") break;
       if (_model.myController!.text[i] == "."){
-        print("isMultiComma true");
         return true;
       }
     }
-    print("isMultiComma false");
     return false;
   }
 
   bool checkCommaLength(){
 
     int dotPosition = _model.myController!.text.indexOf(".");
-    print("dotPosition $dotPosition");
 
     if (dotPosition != -1 && dotPosition != _model.myController!.text.length) {
-      print("check comma");
-      print("(_model.myController!.text.length - dotPosition) ${(_model.myController!.text.length - dotPosition)}");
       // print(int.parse((_model.myController!.text[dotPosition])));
 
       if ( (_model.myController!.text.length - dotPosition) > 5){
@@ -161,18 +143,14 @@ class _SwapPageState extends State<SwapPage> {
         _model.myController!.text = double.parse(_model.myController!.text).toStringAsFixed(5);
 
         setState(() {});
-        
-        print("_model.myController!.text ${_model.myController!.text}");
-        print("checkCommaLength true");
+      
         return true;
       }
     } 
-    print("checkCommaLength false");
     return false;
   }
 
   void resetCursor(){
-    print("selection.base.offset ${_model.myController!.selection.base.offset}");
 
     // When Input Over 2 number
     // if (_model.myController!.selection.base.offset != -1){

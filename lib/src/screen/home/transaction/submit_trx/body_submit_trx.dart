@@ -173,8 +173,9 @@ class SubmitTrxBody extends StatelessWidget {
 
                     ),
                     Container(
-                      margin: const EdgeInsets.only(
-                        // bottom: 16,
+                      margin: EdgeInsets.only(
+                        top: 10.sp,
+                        bottom: 15.sp,
                         left: paddingSize,
                         right: paddingSize,
                       ),
@@ -203,27 +204,6 @@ class SubmitTrxBody extends StatelessWidget {
                       action: scanPayM!.enable ? validateSubmit : null,
                     ),
 
-                    // MyGradientButton(
-                    //   edgeMargin: EdgeInsets.all(paddingSize),
-                    //   textButton: "Estimate Gas",
-                    //   begin: Alignment.bottomLeft,
-                    //   end: Alignment.topRight,
-                    //   action: () async {
-                    //     ContractProvider contractProvider = Provider.of<ContractProvider>(context, listen: false);
-                    //     dynamic maxGas = await contractProvider.getBep20MaxGas( 
-                    //       (ApiProvider().isMainnet ? contractProvider.sortListContract[scanPayM!.assetValue].contract : contractProvider.sortListContract[scanPayM!.assetValue].contractTest)!, 
-                    //       scanPayM!.controlReceiverAddress.text, 
-                    //       scanPayM!.controlAmount.text, 
-                    //       decimal: int.parse(contractProvider.sortListContract[scanPayM!.assetValue].chainDecimal!)
-                    //     );
-                    //     print("maxGas $maxGas");
-
-                    //     await TrxFunctional.init(context: context, validateAddress: (){}).getNetworkGasPrice(scanPayM!.asset!)!.then((value) {
-                    //       print("getNetworkGasPrice $value");
-                    //     });
-                        
-                    //   },
-                    // ),
                   ],
                 ),
               ),

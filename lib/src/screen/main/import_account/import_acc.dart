@@ -63,7 +63,6 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   void onSubmit() async {
-    print("onSubmit $enable");
     if (enable == true){
       Navigator.push(
         context, 
@@ -243,10 +242,8 @@ class ImportAccState extends State<ImportAcc> {
   }
   
   Future<void> verifySeeds() async {
-    print("verifySeeds");
     try {
       enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
-      print("enable $enable");
       setState(() { });
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");

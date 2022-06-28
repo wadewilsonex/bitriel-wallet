@@ -102,8 +102,6 @@ class AddAssetState extends State<AddAsset> {
         }
       });
 
-      print("isMatch $isMatch");
-
       if (isMatch){
 
         Navigator.pop(context);
@@ -191,12 +189,10 @@ class AddAssetState extends State<AddAsset> {
 
             await searchEtherContract();
           } else {
-            print("bsc");
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
             _tokenSymbol = res[0].toString();
           }
 
-          print("Finish query");
           setState(() {
             
             _modelAsset.loading = false;

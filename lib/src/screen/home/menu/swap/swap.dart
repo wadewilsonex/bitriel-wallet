@@ -26,9 +26,7 @@ class _SwapState extends State<Swap> {
 
     try {
       _hash = await contract.approveSwap(pKey);
-      print("My hash $_hash");
     } on Exception catch (e) {
-      print("Error approve ${e.toString()}");
       Navigator.pop(context);
       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas'); //DialogComponents().dialogCustom(context: context, titles: , 'Insufficient funds for gas');
@@ -41,14 +39,12 @@ class _SwapState extends State<Swap> {
 
   // Swap Function 
   Future<String>? swap(String pKey) async {
-    print("swap");
     String? _hash;
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     try {
       _hash = await contract.swap(_swapModel.amountController!.text, pKey);
     } catch (e) {
-      print("Error swap $e");
       Navigator.pop(context);
       // if (ApiProvider().isDebug == true) print(e.message);
 
@@ -70,7 +66,6 @@ class _SwapState extends State<Swap> {
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
       await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
-        print("resPin $resPin");
         if (resPin != null) {
           final res = await AppServices.getPrivateKey(resPin, context);
           if (res != '') {
@@ -91,8 +86,6 @@ class _SwapState extends State<Swap> {
 
                   if (swapHash != null) {
                     final isSuccess = await contract.getSwap.listenTransfer(swapHash);
-
-                    print("contract.getSwap.listenTransfer(swapHash) $isSuccess");
 
                     if (isSuccess!) {
                       Navigator.pop(context);
@@ -130,7 +123,6 @@ class _SwapState extends State<Swap> {
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
     await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
-      print("resPin $resPin");
       try {
         if (resPin != null) {
           final res = await AppServices.getPrivateKey(resPin, context);
@@ -199,7 +191,6 @@ class _SwapState extends State<Swap> {
 
   // Check Validation Before Swap
   void validateSwap() async {
-    print("validateSwap");
     // Loading
     try {
 
@@ -207,17 +198,11 @@ class _SwapState extends State<Swap> {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      print("_swapModel.amountController!.text ${_swapModel.amountController!.text}");
-      print("contract.listContract[ApiProvider().selV1Index].balance! ${contract.listContract[ApiProvider().selV1Index].balance!}");
-
-      print("double.parse(_swapModel.amountController!.text) > double.parse(contract.listContract[ApiProvider().selV1Index].balance!) ||  double.parse(contract.listContract[ApiProvider().selV1Index].balance!) == 0 ${double.parse(_swapModel.amountController!.text) > double.parse(contract.listContract[ApiProvider().selV1Index].balance!) ||  double.parse(contract.listContract[ApiProvider().selV1Index].balance!) == 0}");
-
       if (double.parse(_swapModel.amountController!.text) > double.parse(contract.listContract[ApiProvider().selV1Index].balance!) ||  double.parse(contract.listContract[ApiProvider().selV1Index].balance!) == 0) {
         // Close Loading
         Navigator.pop(context);
         DialogComponents().dialogCustom(context: context, titles: 'Insufficient Balance', contents: 'Your loaded balance is not enough to swap.');
       } else {
-        print("My false");
         Navigator.pop(context);
         await confirmDialog(_swapModel.amountController!.text, await swap);
       }
@@ -308,7 +293,6 @@ class _SwapState extends State<Swap> {
   }
 
   Future<void> confirmDialog(String amount, Function swap) async {
-    print("confirmDialog");
     await DialogComponents().dialogCustom(
       context: context, 
       contents2: SingleChildScrollView(

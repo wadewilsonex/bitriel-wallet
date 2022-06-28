@@ -28,7 +28,6 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
   }
 
   void query(String? label, String value){
-    print("query $value");
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
     _swapProvider!.searched = [];
     if (label == "first"){
@@ -49,7 +48,6 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
     }
 
-    print("_swapProvider!.searched ${_swapProvider!.searched}");
     setState(() { });
     // mySetState(() { });
   }
