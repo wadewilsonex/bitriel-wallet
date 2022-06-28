@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
@@ -330,9 +331,9 @@ class AddAssetState extends State<AddAsset> {
     });
     flareController.play('Checkmark');
 
-    Timer(const Duration(milliseconds: 2500), () {
+    Timer(const Duration(seconds: 1), () {
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-      Navigator.pushReplacement(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT));
+      Navigator.pushReplacement(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
     });
   }
 
@@ -364,13 +365,27 @@ class AddAssetState extends State<AddAsset> {
                 sigmaX: 5.0,
                 sigmaY: 5.0,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(_flareController, AppConfig.animationPath+"check.flr", "Checkmark"),
-                  ),
-                ],
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Lottie.asset(
+                        "assets/animation/check.json",
+                        alignment: Alignment.center,
+                        width: 60.w,
+                      )
+                    // CustomAnimation.flareAnimation(
+                      //   flareController,
+                      //   AppConfig.animationPath+"check.flr",
+                      //   "Checkmark",
+                      // ),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

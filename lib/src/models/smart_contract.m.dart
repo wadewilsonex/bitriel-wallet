@@ -51,6 +51,7 @@ class SmartContractModel {
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
+    if (json['symbol'] == "BTC") print("json['symbol'].length ${json['symbol'].length}");
     return SmartContractModel(
       id: json['id'],
       address: json['address'],

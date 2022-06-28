@@ -64,6 +64,8 @@ class ContractProvider with ChangeNotifier {
   NativeService get getEth => _eth!;
 
   Web3Client get bscClient => _bscClient!;
+
+  String get getEtherAddress => ethAdd;
   
   double mainBalance = 0.0;
 
@@ -838,6 +840,17 @@ class ContractProvider with ChangeNotifier {
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
       ethAdd = ethAddr!;
 
+      notifyListeners();
+    } catch (e) {
+      if (ApiProvider().isDebug) print("Error getEtherAddr $e");
+    }
+  }
+  Future<void> getBtcAddr() async {
+    print("getBtcAddr");
+    try {
+
+      listContract[apiProvider.btcIndex].address = await StorageServices().readSecure(DbKey.bech32);
+      print("listContract[apiProvider.btcIndex].address ${listContract[apiProvider.btcIndex].address}");
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug) print("Error getEtherAddr $e");

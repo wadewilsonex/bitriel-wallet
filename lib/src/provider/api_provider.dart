@@ -71,6 +71,8 @@ class ApiProvider with ChangeNotifier {
 
     notifyListeners();
   }
+  
+  AccountM get getAccount => accountM;
 
   Future<void> initApi({@required BuildContext? context}) async {
     
@@ -140,7 +142,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> queryBtcData(BuildContext context, String _seeds, String _passCode) async {
-
+    print("queryBtcData");
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
     
     try {
@@ -148,6 +150,8 @@ class ApiProvider with ChangeNotifier {
       final hdWallet = HDWallet.fromSeed(seed);
       
       contractPro.listContract[btcIndex].address = hdWallet.address!;
+
+      print("hdWallet.address! ${hdWallet.address!}");
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
@@ -161,9 +165,9 @@ class ApiProvider with ChangeNotifier {
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
-      // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
+      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
+      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
 
     } catch (e) {
       await customDialog(context, 'Oops', e.toString());
@@ -594,7 +598,7 @@ class ApiProvider with ChangeNotifier {
       print("getCurrentAccount ${accountM.address}");
       accountM.name = _keyring.current.name;
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
@@ -610,7 +614,7 @@ class ApiProvider with ChangeNotifier {
       accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
       accountM.name = _keyring.current.name;
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){

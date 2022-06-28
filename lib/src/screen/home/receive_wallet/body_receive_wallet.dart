@@ -143,8 +143,7 @@ class ReceiveWalletBody extends StatelessWidget {
                       MyFlatButton(
                         isTransparent: true,
                         buttonColor: AppColors.whiteHexaColor,
-                        edgeMargin:
-                            const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                        edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                         textButton: "Share",
                         action: () {
                           provider.method.qrShare(provider.keyQrShare, provider.accountM!.address!);
