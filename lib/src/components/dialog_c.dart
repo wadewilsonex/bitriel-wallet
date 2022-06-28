@@ -105,13 +105,14 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding, String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: AlertDialog(
+            contentPadding: contentPadding!,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
@@ -128,7 +129,7 @@ class DialogComponents {
         
                 lottie != null ? lottie : Container(),
                 
-                lottie != null ? SizedBox(height: 3.h) : Container(),
+                // lottie != null ? SizedBox(height: 3.h) : Container(),
                 
                 image != null ? image : Container(),
                 
