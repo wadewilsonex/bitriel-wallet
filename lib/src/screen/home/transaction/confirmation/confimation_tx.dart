@@ -86,7 +86,7 @@ class ConfirmationTx extends StatelessWidget {
                             MyText(
                               textAlign: TextAlign.left,
                               text: addr ?? '',
-                              bottom: 8.0,
+                              // bottom: 8.0,
                               overflow: TextOverflow.ellipsis,
                               color: isDarkTheme
                                 ? AppColors.darkSecondaryText
@@ -243,7 +243,7 @@ class ConfirmationTx extends StatelessWidget {
 
   Widget spaceRow(List<Widget> children) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: children,
     );

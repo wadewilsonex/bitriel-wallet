@@ -616,6 +616,7 @@ Widget progress({String? content}) {
             Lottie.asset(
               "assets/animation/blockchain-animation.json",
               repeat: true,
+              reverse: true,
               width: 75.w,
             ),
             // CircularProgressIndicator(
@@ -1110,14 +1111,15 @@ Widget disableNativePopBackButton(Widget child) {
 Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
   return DialogComponents().dialogCustom(
     context: context,
+    contentPadding: EdgeInsets.zero,
     contents: "Under Construction",
     textButton: "OK",
     // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
     lottie: Lottie.asset(
-      "assets/animation/page-construction.json",
-      width: 75.w, 
+      "assets/animation/under-construction.json",
       repeat: true,
-
+      reverse: true,
+      height: 25.h,
     ),
     btn2: MyGradientButton(
       textButton: "OK",
@@ -1137,7 +1139,7 @@ Future<void> portfolioDailog({required BuildContext? context}){
     textButton: "OK",
     // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
     // lottie: Lottie.asset(
-    //   "assets/animation/page-construction.json",
+    //   "assets/animation/under-construction.json",
     //   width: 75.w, 
     //   repeat: true,
 
@@ -1167,7 +1169,7 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
     textButton: "OK",
     // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
     lottie: Lottie.asset(
-      "assets/animation/page-construction.json",
+      "assets/animation/under-construction.json",
       width: 75.w, 
       repeat: true,
 
