@@ -171,15 +171,13 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   Future enableAnimation() async {
 
-    await ContractsBalance().getAllAssetBalance(context: context);
-    // Close Dialog Loading
-    Navigator.pop(context);
     setState(() {
       _scanPayM.isPay = true;
       disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 1), (){
+    await Future.delayed(Duration(milliseconds: 1500), (){
+
       Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,)), ModalRoute.withName('/'));
     });
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
@@ -204,7 +202,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     else if (isNotEmpty()){
       await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
     }
-    else if ( double.parse(_scanPayM.controlAmount.text) >= double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
+    else if ( double.parse(_scanPayM.controlAmount.text) > double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
 
       await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
     } else {
@@ -480,12 +478,16 @@ class SubmitTrxState extends State<SubmitTrx> {
                   print(contractAddr);
                   await _contractProvider!.initBep20Service(contractAddr!);
                   print("finish init contract");
-                  await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
+                  await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo).then((value) {
+                    if (value != null){
+                      Navigator.pop(context);
+                    }
+                  });
                 }
               }
             }
 
-            Provider.of<ContractsBalance>(context, listen: false).refetchContractBalance(context: context);
+            await Provider.of<ContractsBalance>(context, listen: false).refetchContractBalance(context: context);
             enableAnimation();
           }
         }
@@ -582,6 +584,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       child: Lottie.asset(
                         "assets/animation/check.json",
                         alignment: Alignment.center,
+                        repeat: false,
                         width: 60.w,
                       )
                     // CustomAnimation.flareAnimation(
