@@ -13,9 +13,9 @@ class ContractsBalance extends ChangeNotifier {
 
       final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      final btcAddr = await StorageServices.fetchData('bech32');
-
-      // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: fals e).setBtcAddr(btcAddr.toString());
+      final btcAddr = await StorageServices.fetchData(DbKey.bech32);
+      print("BtcAddr $btcAddr");
+      if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
 
       // await contractProvider.setSavedList().then((value) async {
 
@@ -30,9 +30,6 @@ class ContractsBalance extends ChangeNotifier {
         await contractProvider.kgoTokenWallet();
         print("kgoTokenWallet");
 
-        //()[0]['current_price'].toString();
-        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('ethereum'));
-        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('usdt'));
         if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet

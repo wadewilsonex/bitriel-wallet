@@ -17,12 +17,17 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   ReceiveWalletProvider? provider;
 
+  String? symbol;
+
+  String? ethAddr;
+
   @override
   void initState() {
     provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
     provider!.initialValue = 0;
     provider!.globalKey = GlobalKey<ScaffoldState>();
-
+    symbol = ApiProvider().isMainnet ? 'SEL (Selendra Chain)': 'SEL (Testnet)';
+    ethAddr = Provider.of<ContractProvider>(context, listen: false).getEtherAddress;
     findSEL();
 
     AppServices.noInternetConnection(provider!.globalKey!);
@@ -37,20 +42,10 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void findSEL(){
-
-    // final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    // for(int i = 0; i< listCon.length; i++){
-    //   if (listCon[i].symbol == 'SEL'){
-    //     initialValue = i;
-    //     setState(() { });
-    //     break;
-    //   }
-    // }
-    final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+    List<SmartContractModel> listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
     provider!.lsContractSymbol = ContractService.getConSymbol(context, listCon);
     for(int i = 0; i< provider!.lsContractSymbol!.length; i++){
-      print(provider!.lsContractSymbol![i]);
-      if (provider!.lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
+      if (provider!.lsContractSymbol![i]['symbol'] == symbol){
         provider!.initialValue = i;
         setState(() { });
         break;
@@ -67,14 +62,14 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void changedEthAdd(String value) {
-    // wallet = Provider.of<ContractProvider>(context, listen: false).sortListContract[int.parse(value)].address;
     if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
-      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
-      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+      provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().btcIndex].address;
+    } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == symbol || provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
+      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).getAccount.address!;
     } else {
-      provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+      provider!.accountM!.address = ethAddr;
     }
+    provider!.notifyListeners();
     setState(() { });
   }
 

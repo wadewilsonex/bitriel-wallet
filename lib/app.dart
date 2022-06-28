@@ -30,6 +30,7 @@ class AppState extends State<App> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
       await initApi();
 
       clearOldBtcAddr();

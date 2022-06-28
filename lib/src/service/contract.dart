@@ -224,7 +224,7 @@ class ContractService implements IContractService {
       for (int i = 0; i < ls.length; i++){
         String org = _getOrg(i, _api, ls);
         tmp.add({
-          "symbol": "${ls[i].symbol} ${ org != '' ? '($org)' : ''}",
+          "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
           "index": i
         });
       }

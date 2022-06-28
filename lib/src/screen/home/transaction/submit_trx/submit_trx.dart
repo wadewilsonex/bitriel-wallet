@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
@@ -177,9 +178,11 @@ class SubmitTrxState extends State<SubmitTrx> {
       _scanPayM.isPay = true;
       disable = true;
     });
-    flareController.play('Checkmark');
-
-    await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
+    // flareController.play('Checkmark');
+    await Future.delayed(Duration(seconds: 1), (){
+      Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,)), ModalRoute.withName('/'));
+    });
+    // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
   void onChangeDropDown(String data) {
@@ -568,17 +571,27 @@ class SubmitTrxState extends State<SubmitTrx> {
                 sigmaX: 5.0,
                 sigmaY: 5.0,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(
-                      flareController,
-                      AppConfig.animationPath+"check.flr",
-                      "Checkmark",
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Lottie.asset(
+                        "assets/animation/check.json",
+                        alignment: Alignment.center,
+                        width: 60.w,
+                      )
+                    // CustomAnimation.flareAnimation(
+                      //   flareController,
+                      //   AppConfig.animationPath+"check.flr",
+                      //   "Checkmark",
+                      // ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
         ],
