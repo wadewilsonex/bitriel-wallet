@@ -117,7 +117,7 @@ class SubmitTrxBody extends StatelessWidget {
                     SizedBox(height: 1.h,),
 
                     MyText(
-                      text: "available balance",
+                      text: "Available balance",
                       color: AppColors.lowWhite,
                     ),
 

@@ -36,7 +36,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
       // disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 2), (){});
+    await Future.delayed(Duration(seconds: 3), (){});
     Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
@@ -273,7 +273,6 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
               ],
             ),
 
-            if (widget.scanPayM!.isPay == false) MyText(text: "Hello lottie", color2: Colors.white,),
             if (widget.scanPayM!.isPay == false)
               Container()
             else

@@ -88,7 +88,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       chainDecimal: "0"
     );
     
-    _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
+    // _scanPayM.controlReceiverAddress.text = "seZt2QtqVN515CqU2YrsviLLJq9grYxY89ZNAbVqVkCkffnkf";
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -169,16 +169,16 @@ class SubmitTrxState extends State<SubmitTrx> {
     }
   }
 
-  Future enableAnimation({BuildContext? context}) async {
+  Future enableAnimation(BuildContext context) async {
 
-    Navigator.pop(context!);
+    Navigator.pop(context);
     setState(() {
       _scanPayM.isPay = true;
       // disable = true;
     });
     // flareController.play('Checkmark');
     await Future.delayed(Duration(seconds: 3), (){});
-    // Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
+    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
@@ -332,7 +332,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   // Second Execute
-  Future<dynamic>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
+  Future<dynamic> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
     try {
       trxFunc!.contract = _contractProvider;
 
@@ -357,7 +357,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
 
-                enableAnimation();  
+                enableAnimation(context);
               } else {
 
                 // Close Dialog

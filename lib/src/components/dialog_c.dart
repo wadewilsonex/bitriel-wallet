@@ -57,7 +57,7 @@ class DialogComponents {
               ),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -76,11 +76,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 15.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp,),
                           
                           SizedBox(width: 2.w,),
                           MyText(
-                            text: "Copy address",
+                            text: "Copy",
+                            top: 5,
                             color: AppColors.lowWhite,
                           )
                         ],
