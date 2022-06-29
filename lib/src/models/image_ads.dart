@@ -1,6 +1,6 @@
-final List<String> imgList = [
-  "assets/ads/mini.png",
-  "assets/ads/pro.png"
+final List<Map<String, dynamic>> imgList = [
+  {"title": "KOOMPI Mini", 'asset': "assets/ads/mini.png", "url": "https://www.koompi.com/koompi/mini"},
+  {"title": "KOOMPI Pro", 'asset': "assets/ads/pro.png", "url": "https://www.koompi.com/koompi/pro"},
   // 'https://scontent.fpnh24-1.fna.fbcdn.net/v/t39.30808-6/285738608_1214692592638000_6478994246840550730_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=e3f864&_nc_eui2=AeGqTurOE1JpaoHoyzKKLGYA80IicvsWJijzQiJy-xYmKFz8Uoww-SsV0VDkV0GYpejDY8O8rpN-s_XSdguLioJw&_nc_ohc=glejGT5L0TAAX-Apj4x&_nc_ht=scontent.fpnh24-1.fna&oh=00_AT887WC9Fl9CT_S0H2UPdoLiGdoqhCDz67P8kTInQGRCug&oe=62A91C75',
   // 'https://www.koompi.com/images/banners/pro.png',
   // 'https://www.koompi.com/images/banners/mini.png',

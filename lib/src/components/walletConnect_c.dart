@@ -237,10 +237,10 @@ class WalletConnectComponent with ChangeNotifier {
           title: MyText(text: "Error", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: MyText(text: "Some Error Occured. $message", color: AppColors.lowWhite,),
-            // ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: MyText(text: "Some Error Occured. $message", color: AppColors.lowWhite,),
+            ),
             Row(
               children: [
                 TextButton(
