@@ -273,40 +273,37 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
               ],
             ),
 
-            if (widget.scanPayM!.isPay == false) MyText(text: "Hello lottie", color2: Colors.white,),
-            if (widget.scanPayM!.isPay == false)
-              Container()
-            else
-              BackdropFilter(
-                // Fill Blur Background
-                filter: ImageFilter.blur(
-                  sigmaX: 5.0,
-                  sigmaY: 5.0,
-                ),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Lottie.asset(
-                          "assets/animation/check.json",
-                          alignment: Alignment.center,
-                          repeat: false,
-                          width: 60.w,
-                        )
-                      // CustomAnimation.flareAnimation(
-                        //   flareController,
-                        //   AppConfig.animationPath+"check.flr",
-                        //   "Checkmark",
-                        // ),
-                      ),
-                    ],
-                  ),
+            if (widget.scanPayM!.isPay == true)
+            BackdropFilter(
+              // Fill Blur Background
+              filter: ImageFilter.blur(
+                sigmaX: 5.0,
+                sigmaY: 5.0,
+              ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Lottie.asset(
+                        "assets/animation/check.json",
+                        alignment: Alignment.center,
+                        repeat: false,
+                        width: 60.w,
+                      )
+                    // CustomAnimation.flareAnimation(
+                      //   flareController,
+                      //   AppConfig.animationPath+"check.flr",
+                      //   "Checkmark",
+                      // ),
+                    ),
+                  ],
                 ),
               ),
+            ),
 
           ]
         )

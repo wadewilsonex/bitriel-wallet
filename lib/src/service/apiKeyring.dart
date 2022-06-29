@@ -256,12 +256,12 @@ class MyApiKeyring extends ApiKeyring {
       return null;
     }
     // 2. if success in webView, then update encrypted seed in local storage.
-    EncryptSeed(keyring.store.ss58List).updateEncryptedSeed(acc.pubKey, passOld, passNew);
+    await EncryptSeed(keyring.store.ss58List).updateEncryptedSeed(acc.pubKey, passOld, passNew);
 
     // update json meta data
     service.updateKeyPairMetaData(res, acc.name);
     // update keyPair date in storage
-    EncryptSeed(keyring.store.ss58List).updateAccount(res);
+    await EncryptSeed(keyring.store.ss58List).updateAccount(res);
     return KeyPairData.fromJson(res as Map<String, dynamic>);
   }
 
@@ -272,14 +272,13 @@ class MyApiKeyring extends ApiKeyring {
     // update json meta data
     service.updateKeyPairMetaData(json, name);
     // update keyPair date in storage
-    EncryptSeed(keyring.store.ss58List).updateAccount(json);
+    await EncryptSeed(keyring.store.ss58List).updateAccount(json);
     return KeyPairData.fromJson(json);
   }
 
   /// Check if derive path is valid, return [null] if valid,
   /// and return error message if invalid.
-  Future<String?> checkDerivePath(
-      String seed, path, CryptoType cryptoType) async {
+  Future<String?> checkDerivePath(String seed, path, CryptoType cryptoType) async {
     String? res = await service.checkDerivePath(seed, path, cryptoType);
     return res;
   }

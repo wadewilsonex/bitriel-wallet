@@ -180,7 +180,7 @@ class PasscodeState extends State<Passcode> {
         isFirst = false;
       });
 
-      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromChangePin){
+      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp){
         Navigator.pop(context, pin);
       }
       if (widget.label == PassCodeLabel.fromMenu) {
@@ -195,8 +195,8 @@ class PasscodeState extends State<Passcode> {
       
     } else {
       if (firstPin == pin) {
-
-        await StorageServices().writeSecure(DbKey.passcode, pin);
+        
+        // await StorageServices().writeSecure(DbKey.passcode, pin);
 
         clearAll();
         if (widget.label == PassCodeLabel.fromCreateSeeds){
@@ -217,9 +217,6 @@ class PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else if (widget.label == PassCodeLabel.fromChangePin){
-          
-          Navigator.pop(context, pin);
         } else {
           Navigator.pop(context, true);
         }
