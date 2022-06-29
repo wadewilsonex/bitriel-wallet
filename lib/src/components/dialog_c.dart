@@ -57,7 +57,7 @@ class DialogComponents {
               ),
 
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -76,11 +76,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 15.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp,),
                           
                           SizedBox(width: 2.w,),
                           MyText(
-                            text: "Copy address",
+                            text: "Copy",
+                            top: 5,
                             color: AppColors.lowWhite,
                           )
                         ],
@@ -105,7 +106,7 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding, String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){

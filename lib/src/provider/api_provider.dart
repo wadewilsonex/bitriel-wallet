@@ -71,6 +71,8 @@ class ApiProvider with ChangeNotifier {
 
     notifyListeners();
   }
+  
+  AccountM get getAccount => accountM;
 
   Future<void> initApi({@required BuildContext? context}) async {
     
@@ -81,7 +83,6 @@ class ApiProvider with ChangeNotifier {
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
-      print("finish load json");
 
       // Setup ss58Format base on Network
       // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
@@ -98,7 +99,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams> connectPolNon({@required BuildContext? context}) async {
-    print("connectPolNon");
     dynamic res;
     try {
 
@@ -140,7 +140,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> queryBtcData(BuildContext context, String _seeds, String _passCode) async {
-
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
     
     try {
@@ -161,9 +160,9 @@ class ApiProvider with ChangeNotifier {
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
-      // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
+      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
-      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
+      // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
 
     } catch (e) {
       await customDialog(context, 'Oops', e.toString());
@@ -308,16 +307,10 @@ class ApiProvider with ChangeNotifier {
       }
     });
 
-    print("balance_list: ${balance_list}");
-    print("balance_list length: ${balance_list.length}");
-    
-
     total = balance_list.reduce((a, b) => a + b);;
-
 
     contract.totalAmount = total;
   
-    print("total: ${contract.totalAmount}");
   }
 
   Future<void> getBtcBalance({@required BuildContext? context}) async {
@@ -420,7 +413,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring'}) async {
-    print("connectSELNode");
     try {
 
       NetworkParams node = NetworkParams();
@@ -450,7 +442,6 @@ class ApiProvider with ChangeNotifier {
   /// 
   /// Inside This Chain Decimal Also Call Get Balance
   Future<void> getSelNativeChainDecimal({@required BuildContext? context, String? funcName = 'keyring'}) async {
-    print("getSelNativeChainDecimal");
     try {
       dynamic res;
       
@@ -461,7 +452,6 @@ class ApiProvider with ChangeNotifier {
           
           res = value;
           contract.listContract[selNativeIndex].chainDecimal = res[0].toString();
-          print("contract.listContract[selNativeIndex].chainDecimal ${contract.listContract[selNativeIndex].chainDecimal}");
           await subSELNativeBalance(context: context);
 
           notifyListeners();
@@ -476,12 +466,10 @@ class ApiProvider with ChangeNotifier {
     
     // Get SEL native Address From Account 
     await _sdk.webView!.evalJavascript('account.getSELAddr()').then((value) async {
-      print("$funcName.getSELAddr() $value");
       if (value != null){
         contractProvider!.listContract[selNativeIndex].address = value;
       } else {
         await _sdk.webView!.evalJavascript('keyring.getSELAddr()').then((value) async {
-          print("keyring.getSELAddr() $value");
           contractProvider!.listContract[selNativeIndex].address = value;
         });
       }
@@ -489,7 +477,6 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> subSELNativeBalance({@required BuildContext? context}) async {
-    print("subSELNativeBalance");
     try {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
@@ -591,10 +578,9 @@ class ApiProvider with ChangeNotifier {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
 
-      print("getCurrentAccount ${accountM.address}");
       accountM.name = _keyring.current.name;
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
@@ -610,7 +596,7 @@ class ApiProvider with ChangeNotifier {
       accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
       accountM.name = _keyring.current.name;
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(this);
+      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){

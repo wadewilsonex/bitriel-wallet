@@ -78,7 +78,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
-    print("checkBio");
     final bio = await StorageServices.readSaveBio();
 
     final passCode = await StorageServices().readSecure(DbKey.passcode);
@@ -166,13 +165,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   void readTheme() async {
-
-    print("readTheme");
     
     // Remove below link when we want light mode
     await StorageServices.storeData('dark', DbKey.themeMode);
     await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    print("Provider.of<ThemeProvider>(context, listen: false).isDark ${Provider.of<ThemeProvider>(context, listen: false).isDark}");
     // final res = await StorageServices.fetchData(DbKey.themeMode);
 
     // if (res != null) {

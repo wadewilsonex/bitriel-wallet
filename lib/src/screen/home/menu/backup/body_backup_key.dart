@@ -71,7 +71,6 @@ class BackUpKeyBody extends StatelessWidget{
               text: "Mnemonic",
               action: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
-                  print("formBackUp $value");
                   // await disableScreenShot!();
                   ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
                   await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {

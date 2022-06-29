@@ -217,7 +217,6 @@ class MyApiKeyring extends ApiKeyring {
   @override
   Future<SeedBackupData?> getDecryptedSeed(Keyring keyring, password) async {
     final Map? data = await EncryptSeed(EncryptSeed(keyring.store.ss58List).ss58List).getDecryptedSeed(keyring.current.pubKey, password);
-    print("getDecryptedSeed $data");
     if (data == null) {
       return null;
     }
@@ -241,7 +240,6 @@ class MyApiKeyring extends ApiKeyring {
     try {
 
       final res = await service.checkPassword(account.pubKey, pass);
-      print("checkPassword res $res");
       return res;
     } catch (e){
       return false;
@@ -254,7 +252,6 @@ class MyApiKeyring extends ApiKeyring {
     final acc = keyring.current;
     // 1. change password of keyPair in webView
     final res = await service.changePassword(acc.pubKey, passOld, passNew);
-    print("changePassword $res");
     if (res == null) {
       return null;
     }

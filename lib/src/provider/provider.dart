@@ -13,43 +13,28 @@ class ContractsBalance extends ChangeNotifier {
 
       final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      final btcAddr = await StorageServices.fetchData('bech32');
-
-      // if (btcAddr != null) Provider.of<ApiProvider>(context, listen: fals e).setBtcAddr(btcAddr.toString());
+      final btcAddr = await StorageServices.fetchData(DbKey.bech32);
+      if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
 
       // await contractProvider.setSavedList().then((value) async {
 
         await contractProvider.selTokenWallet(context);
-        print("selTokenWallet");
         await contractProvider.selv2TokenWallet(context);
-        print("selv2TokenWallet");
         await contractProvider.ethWallet();
-        print("ethWallet");
         await contractProvider.bnbWallet();
-        print("bnbWallet");
         await contractProvider.kgoTokenWallet();
-        print("kgoTokenWallet");
 
-        //()[0]['current_price'].toString();
-        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('ethereum'));
-        // print(await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket('usdt'));
         if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
         await apiProvider.getBtcBalance(context: context);
-        print("getBtcBalance");
-  //4
+        
         /// Fetch and Fill Market Price Into Asset
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
         
         /// Fetch main balance
         await apiProvider.totalBalance(context: context);
-        // await isBtcContain(context: context);
-        // await apiProvider.connectSELNode(context: context);
-        // await apiProvider.connectSELNode(context: context);
-        // await apiProvider.getSelNativeChainDecimal(context: context);
-        // await apiProvider.subSELNativeBalance(context: context);
 
         // Sort After MarketPrice Filled Into Asset
         await contractProvider.sortAsset();
@@ -86,7 +71,7 @@ class ContractsBalance extends ChangeNotifier {
       final api = Provider.of<ApiProvider>(context, listen: false);
       dynamic balance;
       
-      api.connectSELNode(context: context).then((value) async {
+      await api.connectSELNode(context: context).then((value) async {
         
         await api.getSelNativeChainDecimal(context: context);
       });

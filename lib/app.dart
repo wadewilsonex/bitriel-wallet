@@ -30,6 +30,7 @@ class AppState extends State<App> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
       await initApi();
 
       clearOldBtcAddr();
@@ -76,7 +77,6 @@ class AppState extends State<App> {
         // });
         await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
-          print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
           /// Cannot connect Both Network On the Same time
           /// 
           /// It will be wrong data of that each connection. 

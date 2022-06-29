@@ -140,18 +140,14 @@ class ContractService implements IContractService {
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
-      print("credentials $credentials");
       final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
-      print("txInfo ${txInfo}");
 
       final sender = await credentials.extractAddress();
-      print("sender $sender");
       final maxGas = await getMaxGas(sender, txInfo);
-      print("maxGas $maxGas");
 
       // final decimal = await getChainDecimal();
 
-      print("EtherAmount.inWei(BigInt.from(10)) ${EtherAmount.inWei(BigInt.from(10))}");
+      double decimal = double.parse(txInfo.chainDecimal!);
 
       res = await _client.sendTransaction(
         credentials,
@@ -162,7 +158,7 @@ class ContractService implements IContractService {
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,
-            BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
+            BigInt.from(double.parse(trxInfo.amount!) * pow(10, decimal) )
           ],
         ),
         chainId: null,
@@ -189,17 +185,13 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _decimalFunction(), []);
       return res.first;
     } catch (e){
-      print("err getChainDecimal $e");
+      // print("err getChainDecimal $e");
     }
     return 0 as BigInt;
   }
 
   @override
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
-    print("Sender $sender");
-    print("_contract.address ${trxInfo.receiver}");
-    print("double.parse(trxInfo.chainDecimal!) 1");
-    print("BigInt.from(double.parse(trxInfo.amount!) * pow(10, decimal!)) ${BigInt.from(double.parse(trxInfo.amount!) * pow(10, 0))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: _contract.address,
@@ -210,7 +202,6 @@ class ContractService implements IContractService {
         ],
       ),
     );
-    print("maxGas $maxGas");
     return maxGas;
   }
 
@@ -224,7 +215,7 @@ class ContractService implements IContractService {
       for (int i = 0; i < ls.length; i++){
         String org = _getOrg(i, _api, ls);
         tmp.add({
-          "symbol": "${ls[i].symbol} ${ org != '' ? '($org)' : ''}",
+          "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
           "index": i
         });
       }

@@ -116,7 +116,7 @@ class PasscodeBody extends StatelessWidget{
                 onPressedDigit!();
               }, 
               child: MyText(
-                text: is4digits == false ? "Use 4 digits passcode" : "Use 6 digits passcode",
+                text: is4digits == false ? "Switch to 4 digits passcode" : "Switch to 6 digits passcode",
                 color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
                 fontWeight: FontWeight.bold,
               ),
