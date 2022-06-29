@@ -64,7 +64,6 @@ class ContractsBalance extends ChangeNotifier {
   }
 
   Future<void> refetchContractBalance({@required BuildContext? context}) async {
-    print("refetchContractBalance");
     try {
 
       final conProvider = Provider.of<ContractProvider>(context!, listen: false);
@@ -109,22 +108,16 @@ class ContractsBalance extends ChangeNotifier {
 
       for (int i = 0; i < conProvider.addedContract.length; i++){
         if ( (api.isMainnet ? conProvider.addedContract[i].contract : conProvider.addedContract[i].contractTest) != ""){
-          print("conProvider.addedContract[i].symbol ${conProvider.addedContract[i].symbol}");
           if (conProvider.addedContract[i].org == "ERC-20"){
             balance = await conProvider.queryEther(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            print("balance erc $balance");
             conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
             // Fmt.bigIntToDouble(
             //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
             //   int.parse(decimal),
             // ).toString();
-            print("finish erc-20");
           } else if (conProvider.addedContract[i].org == "BEP-20") {
             // decimal = await conProvider.get
             balance = await conProvider.query(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            print("Bep-20");
-            print("conProvider.addedContract[i].chainDecimal! ${conProvider.addedContract[i].chainDecimal!}");
-            print("conProvider.addedContract[i].balance ${conProvider.addedContract[i].balance}");
             conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
             // Fmt.bigIntToDouble(
             //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
@@ -133,7 +126,6 @@ class ContractsBalance extends ChangeNotifier {
           }
         }
       }
-      print("end addedContract");
 
       await conProvider.kgoTokenWallet();
       await conProvider.ethWallet();

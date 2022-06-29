@@ -164,7 +164,7 @@ class AppServices {
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == true) print("Erorr $e");
+      if (ApiProvider().isDebug == true) print("Error checkBiometrics $e");
       // canCheckBiometrics = false;
     }
 

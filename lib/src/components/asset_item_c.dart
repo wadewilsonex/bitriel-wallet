@@ -20,6 +20,7 @@ class AssetsItemComponent extends StatelessWidget {
     return rowDecorationStyle(
         color: hexaCodeToColor(AppColors.darkBgd),
         child: Slidable(
+          enabled: false,
           endActionPane: ActionPane(
             motion: ScrollMotion(),
             children: [

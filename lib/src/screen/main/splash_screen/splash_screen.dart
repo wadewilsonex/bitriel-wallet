@@ -165,25 +165,31 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   void readTheme() async {
-    
-    // Remove below link when we want light mode
-    await StorageServices.storeData('dark', DbKey.themeMode);
-    await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    // final res = await StorageServices.fetchData(DbKey.themeMode);
+    try {
 
-    // if (res != null) {
-    //   await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    // } else {
-    //   Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
-    // }
-    //  else {
-    //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // if (sysTheme) {
-    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // } else {
-    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // }
-    // }
+    
+      // Remove below link when we want light mode
+      await StorageServices.storeData('dark', DbKey.themeMode);
+      await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+
+      // final res = await StorageServices.fetchData(DbKey.themeMode);
+
+      // if (res != null) {
+      //   await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      // } else {
+      //   Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+      // }
+      //  else {
+      //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      //   // if (sysTheme) {
+      //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      //   // } else {
+      //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      //   // }
+      // }
+    } catch (e) {
+      if(ApiProvider().isDebug) print("Error readTheme $e");
+    }
   }
 
   void systemThemeChange() async {
