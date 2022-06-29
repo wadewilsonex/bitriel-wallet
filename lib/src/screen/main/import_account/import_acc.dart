@@ -322,6 +322,9 @@ class ImportAccState extends State<ImportAcc> {
       
       await StorageServices().writeSecure(DbKey.private, _res);
 
+      // Store PIN 6 Digit
+      // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
+
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
       await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);

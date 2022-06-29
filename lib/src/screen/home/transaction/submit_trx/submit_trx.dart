@@ -346,6 +346,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   // Second Execute
   Future<dynamic>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
     try {
+
       trxFunc!.contract = _contractProvider;
 
       trxFunc!.api = Provider.of<ApiProvider>(context!, listen: false);

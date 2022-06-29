@@ -297,6 +297,8 @@ class ChangePinState extends State<ChangePin> {
       final _res = await _apiProvider!.encryptPrivateKey(_resPk, newPass!);
       
       await StorageServices().writeSecure(DbKey.private, _res);
+
+      await StorageServices().writeSecure(DbKey.passcode, newPass!);
       // final _encrypt = await Provider.of<ApiProvider>(context, listen: false).getPrivateKey(seeds['seed']);
 
 

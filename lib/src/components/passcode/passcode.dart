@@ -195,8 +195,13 @@ class PasscodeState extends State<Passcode> {
       
     } else {
       if (firstPin == pin) {
-        
-        // await StorageServices().writeSecure(DbKey.passcode, pin);
+        print("pin $pin");
+        await StorageServices().readSecure(DbKey.passcode)!.then((value) async {
+          print("Read passcode $value");
+          if (value == ""){
+            await StorageServices().writeSecure(DbKey.passcode, pin);
+          }
+        });
 
         clearAll();
         if (widget.label == PassCodeLabel.fromCreateSeeds){
