@@ -70,7 +70,7 @@ class AssetsItemComponent extends StatelessWidget {
               // Asset Name
               SizedBox(width: 2.w),
               SizedBox(
-                width: 25.w,
+                width: 30.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class AssetsItemComponent extends StatelessWidget {
                   ],
                 ),
               ),
-        
+              
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -162,6 +162,8 @@ class AssetsItemComponent extends StatelessWidget {
                 ),
               ),
               
+              Expanded(child: Container()),
+
               // Total Amount
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
