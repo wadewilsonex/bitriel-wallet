@@ -167,7 +167,6 @@ class AssetsPageBody extends StatelessWidget {
       child: Column(
         children: [
 
-
           Row(
             children: [
               MyText(
