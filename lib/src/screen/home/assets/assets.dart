@@ -37,11 +37,22 @@ class _AssetsPageState extends State<AssetsPage> {
     super.initState();
   }
 
+  int categoryIndex = 0;
+
+  void _onTapCategories(int index){
+    setState(() {
+      categoryIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => await scrollRefresh(),
-      child: AssetsPageBody()
+      child: AssetsPageBody(
+        categoryIndex: categoryIndex,
+        onTapCategories: _onTapCategories,
+      )
     );
   }
 }

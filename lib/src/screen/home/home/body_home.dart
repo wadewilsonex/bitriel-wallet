@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
@@ -7,6 +8,7 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
@@ -17,6 +19,7 @@ class HomePageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final bool? pushReplacement;
   final Function(int index)? onPageChanged;
+  final Function? onTapWeb;
 
   const HomePageBody({ 
     Key? key, 
@@ -24,13 +27,15 @@ class HomePageBody extends StatelessWidget {
     this.homePageModel,
     this.onPageChanged,
     this.pushReplacement,
+    this.onTapWeb,
     }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
+
+    return Scaffold(
       key: homePageModel!.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
@@ -165,24 +170,32 @@ class HomePageBody extends StatelessWidget {
             onPageChanged: homePageModel!.onCarouselChanged,
           ),
           items: imgList
-            .map((item) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: Card(
-                margin: EdgeInsets.only(  
-                  top: 10.0,
-                  bottom: 10.0,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
+            .map((item) => GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Card(
+                  margin: EdgeInsets.only(  
+                    top: 10.0,
+                    bottom: 10.0,
                   ),
-                  child: Image.asset(
-                    item,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                    child: Image.asset(
+                      item['asset'],
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   ),
                 ),
               ),

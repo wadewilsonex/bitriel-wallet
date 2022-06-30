@@ -69,26 +69,13 @@ class TrxFunctional {
 
   /* --------------Local Storage----------------- */
 
-  Future<String>? getBtcPrivateKey(String pin, {@required BuildContext? context}) async {
-    // String privateKey;
-
+  Future<dynamic>? getPrivateKey(String pin, {@required BuildContext? context}) async {
+    privateKey = null;
     try {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      // if (ApiProvider().isDebug == true) print('1');
-      // await customDialog('Opps', 'PIN verification failed');
-    }
-
-    return privateKey!;
-  }
-
-  Future<String>? getPrivateKey(String pin, {@required BuildContext? context}) async {
-    try {
-      privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
-    } catch (e) {
-      // Navigator.pop(context);
-      // if (ApiProvider().isDebug == true) print('2');
+      if (ApiProvider().isDebug == true) print('Error getPrivateKey $e');
       // await customDialog('Opps', 'PIN verification failed');
     }
 

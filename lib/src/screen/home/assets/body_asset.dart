@@ -1,11 +1,20 @@
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
+import 'package:wallet_apps/src/components/category_card_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'dart:math';
 import 'package:wallet_apps/src/components/pie_chart.dart';
 class AssetsPageBody extends StatelessWidget {
-  const AssetsPageBody({ Key? key }) : super(key: key);
+
+  final Function? onTapCategories;
+  final int? categoryIndex;
+
+  const AssetsPageBody({ 
+    Key? key,
+    this.onTapCategories,
+    this.categoryIndex,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +24,21 @@ class AssetsPageBody extends StatelessWidget {
         isSafeArea: true,
         bottom: 0,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
             _userWallet(context),
       
-            SizedBox(height: 25),
-      
+            // SizedBox(height: 25),
+
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: SizedBox(
+                height: 30.sp,
+                child: categoryToken()
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: _selendraNetworkList(context),
@@ -149,6 +167,7 @@ class AssetsPageBody extends StatelessWidget {
       child: Column(
         children: [
 
+
           Row(
             children: [
               MyText(
@@ -166,6 +185,7 @@ class AssetsPageBody extends StatelessWidget {
               ),
             ],
           ),
+
 
           Consumer<ContractProvider>(
             builder: (context, value, child) {
@@ -288,6 +308,30 @@ class AssetsPageBody extends StatelessWidget {
           }
         )
       ],
+    );
+  }
+
+  Widget categoryToken(){
+
+    List<String> categories = [
+      "All",
+      "Native",
+      "BEP-20",
+      "ERC-20",
+    ];
+
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: categories.length,
+      itemBuilder: (BuildContext context, int index) {
+        return CategoryCard(
+          index: index,
+          title: categories[index],
+          selectedIndex: categoryIndex!,
+          onTap: onTapCategories!,
+        );
+      },
     );
   }
 }

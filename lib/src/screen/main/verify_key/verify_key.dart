@@ -161,7 +161,11 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
       final _res = await _api.encryptPrivateKey(_resPk, widget.createKeyModel!.passCode);
       
+      // Store Private Key with Encrypt With PassCode Or PIN.
       await StorageServices().writeSecure(DbKey.private, _res);
+
+      // Store PIN 6 Digit
+      await StorageServices().writeSecure(DbKey.passcode, widget.createKeyModel!.passCode);
 
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 

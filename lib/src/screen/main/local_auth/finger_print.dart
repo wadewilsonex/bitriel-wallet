@@ -28,14 +28,17 @@ class _FingerPrintState extends State<FingerPrint> {
 
   @override
   void initState() {
-    if (widget.isEnable!) authenticate();
+    if (widget.isEnable!) {
+      Future.delayed(Duration(milliseconds: 500), () async {
+        await authenticate();
+      });
+    }
     globalkey = GlobalKey<ScaffoldState>();
     super.initState();
   }
 
   Future<void> authenticate() async {
     bool authenticate = false;
-
     try {
 
       dialogLoading(context);
@@ -66,6 +69,8 @@ class _FingerPrintState extends State<FingerPrint> {
       await Future.delayed(const Duration(milliseconds: 300), () {});
       AppServices.openSnackBar(globalkey!, e.message);
     } catch (e) {
+
+      if (ApiProvider().isDebug) print("Error authenticate $e");
 
       // Close Dialog
       Navigator.pop(context);
