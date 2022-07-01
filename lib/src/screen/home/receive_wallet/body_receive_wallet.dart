@@ -8,9 +8,11 @@ import 'package:wallet_apps/src/screen/home/receive_wallet/appbar_wallet.dart';
 
 class ReceiveWalletBody extends StatelessWidget {
   
+  final int? assetIndex;
   final Function? onChanged;
 
   const ReceiveWalletBody({
+    this.assetIndex,
     this.onChanged,
   });
 
@@ -66,11 +68,16 @@ class ReceiveWalletBody extends StatelessWidget {
                       child: Column(
                         children: [
                           
-                          QrViewTitle(
-                            // assetInfo: provider.assetInfo,
-                            initialValue: provider.initialValue.toString(),
-                            onChanged: onChanged,
-                          ),
+                          if (assetIndex == null) Consumer<ReceiveWalletProvider>(
+                            builder: (context, value, widget){
+                              return QrViewTitle(
+                                // assetInfo: provider.assetInfo,
+                                listContract: value.lsContractSymbol,
+                                initialValue: provider.initialValue.toString(),
+                                onChanged: onChanged,
+                              );
+                            },
+                          ) else SizedBox(height: 5.5.h,),
       
                           MyText(
                             bottom: 2.5.h,

@@ -9,14 +9,14 @@ class QrViewTitle extends StatelessWidget {
   final String? assetInfo;
   final String? initialValue;
   final Function? onChanged;
+  final List<Map<String, dynamic>>? listContract;
 
-  QrViewTitle({this.assetInfo, this.initialValue, this.onChanged});
+  QrViewTitle({this.assetInfo, this.initialValue, this.onChanged, required this.listContract});
 
   @override
   Widget build(BuildContext context) {
 
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final contract = Provider.of<ContractProvider>(context);
 
     return Padding(
       padding: EdgeInsets.only(bottom: 2.5.h),
@@ -53,7 +53,7 @@ class QrViewTitle extends StatelessWidget {
                     onChanged: (String? value){
                       onChanged!(value);
                     },
-                    itemsList: ContractService.getConSymbol(context, contract.sortListContract),
+                    itemsList: listContract,//ContractService.getConSymbol(context, listContract!),
                     style: TextStyle(
                       fontSize: 15.sp,
                       color: isDarkTheme

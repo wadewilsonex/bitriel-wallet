@@ -12,18 +12,21 @@ import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
 class SubmitTrx extends StatefulWidget {
+  final int? assetIndex;
   final String? _walletKey;
   final String? asset;
   final List<dynamic>? _listPortfolio;
   final bool? enableInput;
 
   const SubmitTrx(
-      // ignore: avoid_positional_boolean_parameters
-      this._walletKey,
-      // ignore: avoid_positional_boolean_parameters
-      this.enableInput,
-      this._listPortfolio,
-      {this.asset});
+    this.assetIndex,
+    // ignore: avoid_positional_boolean_parameters
+    this._walletKey,
+    // ignore: avoid_positional_boolean_parameters
+    this.enableInput,
+    this._listPortfolio,
+    {this.asset}
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -54,10 +57,16 @@ class SubmitTrxState extends State<SubmitTrx> {
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     
-    if (widget.asset != null){
-      _scanPayM.asset = widget.asset;
+    // if (widget.asset != null){
+
+    /// Occure when user tap on Asset from Assets Detail Page.
+    if (widget.assetIndex != null){
+      _scanPayM.asset = _contractProvider!.sortListContract[widget.assetIndex!].symbol;
+      _scanPayM.balance = _contractProvider!.sortListContract[widget.assetIndex!].balance;
+      _scanPayM.assetValue = widget.assetIndex!;
     } else {
 
+    /// Occure when user tap on Asset from Assets Page.
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
       _scanPayM.assetValue = 0;
