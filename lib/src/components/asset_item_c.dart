@@ -162,7 +162,7 @@ class AssetsItemComponent extends StatelessWidget {
                 ),
               ),
               
-              Expanded(child: Container()),
+              // Expanded(child: Container()),
 
               // Total Amount
               Column(

@@ -21,24 +21,15 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return GestureDetector(
-      onTap: () {
-        onTap(index);
+    return MyFlatButton(
+      edgeMargin: EdgeInsets.symmetric(vertical: 8),
+      textColor: AppColors.blackColor,
+      width: 25.w,
+      textButton: title,
+      buttonColor: index == selectedIndex ? AppColors.secondary : AppColors.whiteColorHexa,
+      action: () {
+        onTap(index, isTap: true);
       },
-      child: Card(
-        color: index == selectedIndex ?hexaCodeToColor(AppColors.secondary) : Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width /4,
-          child: MyText(
-            text: title,
-          )
-        ),
-      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
@@ -6,30 +7,34 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'dart:math';
 import 'package:wallet_apps/src/components/pie_chart.dart';
 class AssetsPageBody extends StatelessWidget {
-
+  final HomePageModel? homePageModel;
+  final AssetPageModel? model;
   final Function? onTapCategories;
-  final int? categoryIndex;
+  final Function? onHorizontalChanged;
 
   const AssetsPageBody({ 
     Key? key,
+    this.homePageModel,
     this.onTapCategories,
-    this.categoryIndex,
+    this.model,
+    this.onHorizontalChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BodyScaffold(
-        physic: BouncingScrollPhysics(),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        // physic: NeverScrollableScrollPhysics(),
         isSafeArea: true,
         bottom: 0,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
             _userWallet(context),
-      
-            // SizedBox(height: 25),
 
             Padding(
               padding: const EdgeInsets.all(paddingSize),
@@ -41,8 +46,74 @@ class AssetsPageBody extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: _selendraNetworkList(context),
+              child: Row(
+                children: [
+                  MyText(
+                    text: "Assets",
+                    // text: "Selendra Network",
+                    color: AppColors.titleAssetColor,
+                    fontWeight: FontWeight.w500
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: hexaCodeToColor(AppColors.titleAssetColor),
+                      indent: 2.w,
+                    ),
+                  ),
+                ],
+              ),
             ),
+
+            Flexible(
+              child: TabBarView(
+                controller: model!.tabController,
+                children: [
+            
+                  _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                  _selendraNetworkList(context, model!.nativeAssets!, ),
+                  _selendraNetworkList(context, model!.bep20Assets  !, networkIndex: 2),
+                  _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                ]
+              ),
+            )
+            // else if (model!.pageController!.page == 1.0) Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //   child: _selendraNetworkList(context, model!.nativeAssets!),
+            // ) 
+            // else if (model!.pageController!.page == 2.0) Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //   child: _selendraNetworkList(context, model!.bep20Assets!),
+            // )
+            // else if (model!.pageController!.page == 3.0) Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //   child: _selendraNetworkList(context, model!.erc20Assets!),
+            // ),
+            // Expanded( 
+            //   child: PageView(
+            //     controller: model!.pageController,
+            //     onPageChanged: (index){
+            //       onTapCategories!(index);
+            //       // model!.pageController.
+            //     },
+            //     children: [
+                  
+                  
+            //       Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //         child: _selendraNetworkList(context, model!.nativeAssets!),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //         child: _selendraNetworkList(context, model!.bep20Assets!),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            //         child: _selendraNetworkList(context, model!.erc20Assets!),
+            //       )
+            //     ]
+            //   )
+            // ),
 
             // SizedBox(height: 25),
 
@@ -162,58 +233,79 @@ class AssetsPageBody extends StatelessWidget {
     );
   }
 
-  Widget _selendraNetworkList(BuildContext context){
-    return Container(
-      child: Column(
+  Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, {int? networkIndex}){
+    return GestureDetector(
+      onHorizontalDragEnd: (details) {
+        print("onHorizontalChanged ${details.primaryVelocity!.toDouble()}");
+        onHorizontalChanged!(details);
+      },
+      child: Stack(
         children: [
 
-          Row(
-            children: [
-              MyText(
-                text: "Assets",
-                // text: "Selendra Network",
-                color: AppColors.titleAssetColor,
-                fontWeight: FontWeight.w500
-              ),
-              Expanded(
-                child: Divider(
-                  thickness: 1,
-                  color: hexaCodeToColor(AppColors.titleAssetColor),
-                  indent: 2.w,
+          if (lsAsset.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: lsAsset.length,
+              itemBuilder: (context, index){
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      Transition(
+                        child: AssetInfo(
+                          index: index,
+                          scModel: lsAsset[index]
+                        ),
+                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                      ),
+                    );
+                  },
+                  child: AssetsItemComponent(
+                    scModel: lsAsset[index]
+                  )
+                );
+              }
+            )
+              
+          ),
+
+          // if (lsAsset.isEmpty && )
+          // Lottie.asset(AppConfig.animationPath+"no-data.json"),
+
+          if (lsAsset.isEmpty && networkIndex != null) Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Lottie.asset(AppConfig.animationPath+"no-data.json"),
+                MyText(
+                  text: "Don't see your token?",
+                  color2: Colors.grey.shade400
                 ),
-              ),
-            ],
-          ),
+          
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(builder: (context) => AddAsset(network: networkIndex == 2 ? 0 : 1,))
+                    );
+                  },
+                  child: MyText(
+                    text: "Import asset",
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    // left: 5.sp
+                  )
+                )
+              ],
+            ),
+          )
 
-
-          Consumer<ContractProvider>(
-            builder: (context, value, child) {
-              return Column(
-                children: [
-                  for (int index = 0; index < value.sortListContract.length; index++)
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          Transition(
-                            child: AssetInfo(
-                              index: index,
-                              scModel: value.sortListContract[index]
-                            ),
-                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                          ),
-                        );
-                      },
-                      child: AssetsItemComponent(
-                        scModel: value.sortListContract[index]
-                      )
-                    )
-                ]
-              );
-            },
-          ),
         ],
-      ),
+      )
+      
     );
   }
 
@@ -312,25 +404,24 @@ class AssetsPageBody extends StatelessWidget {
 
   Widget categoryToken(){
 
-    List<String> categories = [
-      "All",
-      "Native",
-      "BEP-20",
-      "ERC-20",
-    ];
-
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: categories.length,
+      itemCount: model!.categories!.length,
       itemBuilder: (BuildContext context, int index) {
-        return CategoryCard(
-          index: index,
-          title: categories[index],
-          selectedIndex: categoryIndex!,
-          onTap: onTapCategories!,
+        return Row(
+          children: [
+            CategoryCard(
+              index: index,
+              title: model!.categories![index],
+              selectedIndex: model!.categoryIndex!,
+              onTap: onTapCategories!,
+            ),
+
+            SizedBox(width: 2.5.w),
+          ],
         );
-      },
+      }
     );
   }
 }

@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   
   HomePageModel _model = HomePageModel();
 
+  final bool? pushReplacement = true;
 
   @override
   void initState() {
@@ -51,8 +52,6 @@ class _HomePageState extends State<HomePage> {
     });
     // _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
-
-  final bool? pushReplacement = true;
   
   @override
   Widget build(BuildContext context) {

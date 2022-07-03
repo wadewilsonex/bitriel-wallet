@@ -98,7 +98,7 @@ class HomePageBody extends StatelessWidget {
 
           DiscoverPage(homePageModel: homePageModel!),
 
-          AssetsPage(isTrx: isTrx,),
+          AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),

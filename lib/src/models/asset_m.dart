@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:wallet_apps/index.dart';
 
 class ModelAsset {
   bool enable = false;
@@ -142,4 +143,49 @@ class Market {
         "roi": roi,
         "last_updated": lastUpdated!.toIso8601String(),
       };
+}
+
+class AssetPageModel {
+
+  List<String>? categories;
+  List<SmartContractModel>? nativeAssets;
+  List<SmartContractModel>? bep20Assets;
+  List<SmartContractModel>? erc20Assets;
+
+  int? categoryIndex;
+
+  PageController? pageController;
+  TabController? tabController;
+
+  AssetPageModel(){
+    categories = [
+      "All",
+      "Native",
+      "BEP-20",
+      "ERC-20",
+    ];
+    categoryIndex = 0;
+    pageController = PageController();
+  }
+
+  void assetFilter(BuildContext context){
+    
+    nativeAssets = [];
+    bep20Assets = [];
+    erc20Assets = [];
+    print("Provider.of<ContractProvider>(context, listen: false).sortListContract ${Provider.of<ContractProvider>(context, listen: false).sortListContract.length}");
+    Provider.of<ContractProvider>(context, listen: false).sortListContract.forEach((element) {
+      if (element.org == "BEP-20" || element.orgTest == "BEP-20") {
+        bep20Assets!.add(element);
+      } else if (element.org == "ERC-20" || element.orgTest == "ERC-20") {
+        erc20Assets!.add(element);
+      } else {
+        nativeAssets!.add(element);
+      }
+    });
+    
+    print("nativeAssets ${nativeAssets!.length}");
+    print("bep20Assets ${bep20Assets!.length}");
+    print("erc20Assets ${erc20Assets!.length}");
+  }
 }

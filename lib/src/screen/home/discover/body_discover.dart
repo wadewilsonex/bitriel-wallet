@@ -49,11 +49,10 @@ class DiscoverPageBody extends StatelessWidget {
 
             SizedBox(height: paddingSize,),
 
-
-
             Expanded(
               child: TabBarView(
                 children: [
+                  
                   GestureDetector(
                     onHorizontalDragUpdate: (details) {
                       if (details.delta.direction > 0) {
