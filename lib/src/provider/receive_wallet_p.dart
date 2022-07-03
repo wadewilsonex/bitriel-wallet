@@ -17,8 +17,6 @@ class ReceiveWalletProvider with ChangeNotifier {
       accountM!.address = acocunt.address;
       accountM!.pubKey = acocunt.pubKey;
       accountM!.addressIcon = acocunt.addressIcon;
-
-      notifyListeners();
     }
   }
 }

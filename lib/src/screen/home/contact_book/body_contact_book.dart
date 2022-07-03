@@ -109,6 +109,7 @@ class _ContactBookBodyState extends State<ContactBookBody> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) => SubmitTrx(
+                                                    0,
                                                     widget.model!.contactBookList![index].address.text,
                                                     false,
                                                     const [],

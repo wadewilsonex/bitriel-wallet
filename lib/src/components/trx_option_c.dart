@@ -105,7 +105,7 @@ class TrxOptionMethod {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SubmitTrx("", true, portfolioList)));
+            builder: (context) => SubmitTrx(0, "", true, portfolioList)));
   }
 
   /* Scan QR Code */
@@ -120,13 +120,13 @@ class TrxOptionMethod {
       pushReplacement == true ?
       await Navigator.push(
         context,
-        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        Transition(child: SubmitTrx(0, value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         // MaterialPageRoute(builder: (context) => )
       )
       :
       await Navigator.pushReplacement(
         context,
-        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        Transition(child: SubmitTrx(0, value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         // MaterialPageRoute(builder: (context) => )
       );
 

@@ -209,11 +209,9 @@ class ContractService implements IContractService {
     List<Map<String, dynamic>> tmp = [];
 
     if (ls.isNotEmpty){
-
-      ApiProvider _api = Provider.of<ApiProvider>(context, listen: false);
       
       for (int i = 0; i < ls.length; i++){
-        String org = _getOrg(i, _api, ls);
+        String org = _getOrg(i, ls);
         tmp.add({
           "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
           "index": i
@@ -224,5 +222,5 @@ class ContractService implements IContractService {
     return tmp;
   }
 
-  static String _getOrg(int i, ApiProvider _api, List<SmartContractModel> ls) => (_api.isMainnet ? ls[i].org : ls[i].orgTest)!;
+  static String _getOrg(int i, List<SmartContractModel> ls) => (ApiProvider().isMainnet ? ls[i].org : ls[i].orgTest)!;
 }
