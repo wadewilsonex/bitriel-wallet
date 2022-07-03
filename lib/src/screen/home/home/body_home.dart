@@ -68,6 +68,7 @@ class HomePageBody extends StatelessWidget {
              
             },
           ),
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
             child: IconButton(
@@ -278,7 +279,7 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: SubmitTrx(0, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),

@@ -65,7 +65,7 @@ class AssetsPageBody extends StatelessWidget {
               ),
             ),
 
-            Flexible(
+            Expanded(
               child: TabBarView(
                 controller: model!.tabController,
                 children: [
@@ -239,13 +239,12 @@ class AssetsPageBody extends StatelessWidget {
         print("onHorizontalChanged ${details.primaryVelocity!.toDouble()}");
         onHorizontalChanged!(details);
       },
-      child: Stack(
-        children: [
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        child: Stack(
+          children: [
 
-          if (lsAsset.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            child: ListView.builder(
+            ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               itemCount: lsAsset.length,
               itemBuilder: (context, index){
@@ -267,24 +266,28 @@ class AssetsPageBody extends StatelessWidget {
                   )
                 );
               }
-            )
-              
-          ),
+            ),
 
-          // if (lsAsset.isEmpty && )
-          // Lottie.asset(AppConfig.animationPath+"no-data.json"),
+            // if (lsAsset.isEmpty && )
+            // Lottie.asset(AppConfig.animationPath+"no-data.json"),
 
-          if (lsAsset.isEmpty && networkIndex != null) Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            if (lsAsset.isEmpty && networkIndex != null) Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Lottie.asset(AppConfig.animationPath+"no-data.json"),
+                SizedBox(
+                  height: 60.sp,
+                  child: OverflowBox(
+                    minHeight: 60.h,
+                    maxHeight: 60.h,
+                    child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w),
+                  )
+                ),
                 MyText(
                   text: "Don't see your token?",
-                  color2: Colors.grey.shade400
+                  color2: Colors.grey.shade400,
+                  bottom: 10.sp,
                 ),
-          
+            
                 GestureDetector(
                   onTap: (){
                     Navigator.push(
@@ -300,10 +303,10 @@ class AssetsPageBody extends StatelessWidget {
                   )
                 )
               ],
-            ),
-          )
-
-        ],
+            )
+          ]
+        )
+          
       )
       
     );
@@ -366,7 +369,7 @@ class AssetsPageBody extends StatelessWidget {
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: SubmitTrx(0, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
           }
         ),

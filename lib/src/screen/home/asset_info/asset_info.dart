@@ -352,36 +352,41 @@ class _AssetInfoState extends State<AssetInfo> {
                               : AppColors.textColor,
                             //fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 8.0),
-                            
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
 
-                              const SizedBox(width: 6.0),
-                              widget.scModel!.change24h != null && widget.scModel!.change24h != ''
-                              ? MyText(
-                                text: "≈ \$ ${widget.scModel!.money!.toStringAsFixed(2)}",
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: double.parse(widget.scModel!.change24h!).isNegative
-                                  ? '#FF0000'
-                                  : isDarkTheme
-                                    ? '#00FF00'
-                                    : '#66CD00',
-                              )
-                              : Flexible(
-                                child: MyText(
-                                  text: widget.scModel!.change24h!,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
-                                    ? '#00FF00'
-                                    : '#66CD00',
-                                )
-                              )
-                            ],
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: _operationRequest(context),
                           ),
+                            
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: [
+
+                          //     const SizedBox(width: 6.0),
+                          //     widget.scModel!.change24h != null && widget.scModel!.change24h != ''
+                          //     ? MyText(
+                          //       text: "≈ \$ ${widget.scModel!.money!.toStringAsFixed(2)}",
+                          //       fontSize: 16,
+                          //       fontWeight: FontWeight.bold,
+                          //       color: double.parse(widget.scModel!.change24h!).isNegative
+                          //         ? '#FF0000'
+                          //         : isDarkTheme
+                          //           ? '#00FF00'
+                          //           : '#66CD00',
+                          //     )
+                          //     : Flexible(
+                          //       child: MyText(
+                          //         text: widget.scModel!.change24h!,
+                          //         fontSize: 16,
+                          //         fontWeight: FontWeight.bold,
+                          //         color: isDarkTheme
+                          //           ? '#00FF00'
+                          //           : '#66CD00',
+                          //       )
+                          //     )
+                          //   ],
+                          // ),
 
                         ],
                       ),
@@ -526,6 +531,70 @@ class _AssetInfoState extends State<AssetInfo> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _operationRequest(BuildContext context) {
+    double width = 30.w;
+    double height = 7.h;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        
+        MyGradientButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: [
+              MyText(
+                text: "Send",
+                color: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          ),
+          height: height,
+          width: width,
+          lsColor: ["#035A8F", "#035A8F"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: SubmitTrx(widget.index, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          }
+        ),
+
+        SizedBox(width: 10,),
+        
+        MyGradientButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: [
+              MyText(
+                text: "Receieve",
+                color: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          ),
+          height: height,
+          width: width,
+          lsColor: ["#035A8F", "#035A8F"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: ReceiveWallet(assetIndex: widget.index,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          }
+        )
+      ],
     );
   }
 }
