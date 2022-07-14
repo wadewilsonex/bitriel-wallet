@@ -798,6 +798,8 @@ class TrxFunctional {
   }
 
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
+
+    print("calPrice");
     String? marketPrice;
     var estPrice;
 
@@ -827,11 +829,12 @@ class TrxFunctional {
     //     break;
     // }
     // "0" For Contract That Has 0 Decimal
-    marketPrice = contract.sortListContract[assetIndex!].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
+    print('contract.sortListContract[assetIndex!].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}');
+    marketPrice = contract.sortListContract[assetIndex].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
 
     if (marketPrice != null) estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
-    return [estPrice, "0"];//marketPrice]; //res.toStringAsFixed(2);
+    return [estPrice, marketPrice]; //res.toStringAsFixed(2);
   }
 
   Future<String>? estMaxGas(BuildContext context, String asset, String reciever, String amount, int index) async {

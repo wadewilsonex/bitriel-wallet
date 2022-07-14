@@ -154,7 +154,7 @@ class ContractService implements IContractService {
         Transaction.callContract(
           contract: _contract,
           maxGas: int.parse(trxInfo.maxGas!),
-          gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 5),
+          // gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 5),
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,

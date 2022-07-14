@@ -103,7 +103,9 @@ class SubmitTrxState extends State<SubmitTrx> {
       chainDecimal: "0"
     );
     
-    // _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
+    _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
+    _scanPayM.controlAmount.text = "1";
+    _scanPayM.enable = true;
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -227,10 +229,12 @@ class SubmitTrxState extends State<SubmitTrx> {
 
         var gasPrice;
         dialogLoading(context, content: "Estimating Fee...");
+        print("_scanPayM.asset! ${_scanPayM.asset!}");
+        print("_scanPayM.controlReceiverAddress! ${_scanPayM.controlReceiverAddress.text}");
         final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
-        
+        print(isValid.runtimeType);
         if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
-
+          print("Native");
           // Close Dialog
           Navigator.pop(context);
           
@@ -240,7 +244,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
           });
         } else {
-
+          print("No Native");
           if (!isValid) {
             Navigator.pop(context);
             await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
@@ -252,6 +256,8 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.assetValue
             );
 
+            print("isEnough $isEnough");
+
             if (!isEnough && isValid) {
               if (isValid) {
                 Navigator.pop(context);
@@ -260,9 +266,14 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
 
             if (isValid) {
-              gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
+              gasPrice = await trxFunc!.getNetworkGasPrice(
+                _scanPayM.asset!, 
+                // network: "ERC-20"
+              );
             }
             if (isValid && isEnough) {
+
+              print("finish gasPrice $gasPrice");
 
               if (gasPrice != null) {
                 
@@ -271,6 +282,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.controlAmount.text,
                   assetIndex: _scanPayM.assetValue
                 );
+                print("estAmtPrice $estAmtPrice");
                 // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
 
                 final maxGas = await trxFunc!.estMaxGas(
@@ -278,13 +290,18 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.asset!,
                   _scanPayM.controlReceiverAddress.text,
                   _scanPayM.controlAmount.text,
-                  _scanPayM.assetValue
+                  _scanPayM.assetValue, 
+                  // network: "ERC-20"
                 );
-                
-                decimal = double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!);
+                print("maxGas $maxGas");
 
+                print("_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal! ${_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal ?? 'yeah null'}");
+                decimal = double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!);
+                print("decimal $decimal");
                 final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+                print("gasFee $gasFee");
                 var gasFeeToEther = (gasFee / pow(10, 18)).toString();
+                print("gasFeeToEther $gasFeeToEther");
 
                 // Check BNB balance for Fee
                 if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
@@ -292,10 +309,15 @@ class SubmitTrxState extends State<SubmitTrx> {
                 }
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
+                print("estGasFeePrice $estGasFeePrice");
                 final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
-                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+                print("totalAmt $totalAmt");
+                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
+                print("estToSendPrice $estToSendPrice");
 
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
+
+                print("estTotalPrice $estTotalPrice");
                 
                 trxFunc!.txInfo = TransactionInfo(
                   chainDecimal: decimal.toString(),

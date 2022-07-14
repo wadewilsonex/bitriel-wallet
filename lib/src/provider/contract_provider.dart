@@ -615,6 +615,11 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
+    print("getBep20MaxGas");
+    print("contractAddr $contractAddr");
+    print("reciever $reciever");
+    print("amount $amount");
+    print("decimal $decimal");
     await initBscClient();
 
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
@@ -1084,7 +1089,6 @@ class ContractProvider with ChangeNotifier {
           dynamic tmpBalance;
           
           if (network == 'Ethereum'){
-            
             symbol = await queryEther(contractAddr!, 'symbol', []);
             name = await queryEther(contractAddr, 'name', []);
             decimal = await queryEther(contractAddr, 'decimals', []);
@@ -1094,6 +1098,7 @@ class ContractProvider with ChangeNotifier {
               balance[0] as BigInt,
               int.parse(decimal[0].toString()),
             ).toString(); 
+            print("tmpBalance $tmpBalance");
 
           } else if (network == 'Binance Smart Chain'){
             symbol = await query(contractAddr!, 'symbol', []);
@@ -1107,8 +1112,18 @@ class ContractProvider with ChangeNotifier {
             
           }
 
+          print("network $network");
+          print("symbol $symbol");
+          print("name $name");
+          print("decimals $decimal");
+          print("balanceOf $balance");
+          print("contractAddr $contractAddr");
+
           await _marketProvider!.searchCoinFromMarket(symbol[0]);
-          await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
+          print("finish market ${_marketProvider!.lsCoin}");
+          print("finish lsCoin ${_marketProvider!.lsCoin!.isNotEmpty}");
+          if (_marketProvider!.lsCoin!.isNotEmpty) await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
+          print("finish queryCoinFromMarket");
           // print("finish queryCoinFromMarket ${)}");
 
           // if (network == 'Ethereum') {
