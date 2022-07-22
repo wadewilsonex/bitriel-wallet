@@ -49,8 +49,8 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
-  bool isMainnet = true;
-  bool isDebug = false;
+  bool isMainnet = false;
+  bool isDebug = true;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -84,7 +84,7 @@ class ApiProvider with ChangeNotifier {
         _jsCode = js;
       });
 
-      // Setup ss58Format base on Network
+      // Setup ss58Format base on Networkgg
       // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
 
       await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
@@ -380,6 +380,7 @@ class ApiProvider with ChangeNotifier {
   }
   
   Future<bool> validateEther(String address) async {
+    print("validateEther");
     try {
 
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
@@ -451,7 +452,7 @@ class ApiProvider with ChangeNotifier {
         await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
           
           res = value;
-          contract.listContract[selNativeIndex].chainDecimal = res[0].toString();
+          contract.listContract[selNativeIndex].chainDecimal = res[0];
           await subSELNativeBalance(context: context);
 
           notifyListeners();
@@ -485,7 +486,7 @@ class ApiProvider with ChangeNotifier {
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
-          int.parse(contract.listContract[selNativeIndex].chainDecimal!),
+          contract.listContract[selNativeIndex].chainDecimal!,
         );
         await contract.sortAsset();
       });
@@ -527,7 +528,7 @@ class ApiProvider with ChangeNotifier {
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
         res = value;
-        contract.setDotAddr(_keyring.allAccounts[0].address!, res[0].toString());
+        contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });
     } catch (e) {
@@ -545,7 +546,7 @@ class ApiProvider with ChangeNotifier {
         
         contract.listContract[dotIndex].balance = Fmt.balance(
           value['freeBalance'].toString() == "0" ? "0.0" : value['freeBalance'].toString(),
-          int.parse(contract.listContract[dotIndex].chainDecimal!),
+          contract.listContract[dotIndex].chainDecimal!,
         );
 
         contract.listContract[dotIndex].lineChartModel = LineChartModel().prepareGraphChart(contract.listContract[dotIndex]);

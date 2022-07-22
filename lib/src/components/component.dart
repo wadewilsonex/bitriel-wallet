@@ -95,9 +95,9 @@ class Component {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       CircularProgressIndicator(
-                          backgroundColor: Colors.transparent,
-                          valueColor: AlwaysStoppedAnimation(
-                              hexaCodeToColor(AppColors.secondary))),
+                        backgroundColor: Colors.transparent,
+                        valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.secondary))
+                      ),
                       contents != null
                           ? MyText(
                               top: 10,
@@ -184,10 +184,12 @@ class MyFlatButton extends StatelessWidget {
         disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
         focusColor: hexaCodeToColor(AppColors.secondary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: MyText(
-          text: textButton!,
-          color: textColor!,
-          fontWeight: fontWeight!,
+        child: Center(
+          child: MyText(
+            text: textButton!,
+            color: textColor!,
+            fontWeight: fontWeight!,
+          ),
         ),
       ),
     );
@@ -260,6 +262,8 @@ class MyGradientButton extends StatelessWidget {
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
+          width: 100,
+          overflow: TextOverflow.ellipsis,
         ),
         onPressed: action == null ? null : (){
           action!();
@@ -421,6 +425,7 @@ class BodyScaffold extends StatelessWidget {
   final double? height;
   final ScrollPhysics? physic;
   final bool? isSafeArea;
+  final ScrollController? scrollController;
 
   const BodyScaffold({
     this.left = 0,
@@ -432,6 +437,7 @@ class BodyScaffold extends StatelessWidget {
     this.width,
     this.physic,
     this.isSafeArea = true,
+    this.scrollController
   });
 
   @override
@@ -439,6 +445,7 @@ class BodyScaffold extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SingleChildScrollView(
       physics: physic,
+      controller: scrollController,
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,

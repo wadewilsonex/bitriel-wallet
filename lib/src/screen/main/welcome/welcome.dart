@@ -10,8 +10,6 @@ class Welcome extends StatefulWidget {
 }
 
 class WelcomeState extends State<Welcome> {
-  
-  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   bool? status;
   int? currentVersion;
@@ -21,7 +19,7 @@ class WelcomeState extends State<Welcome> {
   @override
   void initState() {
     // inAppUpdate();
-    AppServices.noInternetConnection(globalKey);
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
   
@@ -37,7 +35,6 @@ class WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: globalKey,
       body: WelcomeBody(),
     );
   }

@@ -5,35 +5,36 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyBottomSheetItem extends StatelessWidget {
+  
   final String? subTitle;
   final String? icon;
   final void Function()? action;
 
-  const MyBottomSheetItem(
-      {@required this.subTitle, @required this.icon, @required this.action});
+  const MyBottomSheetItem({@required this.subTitle, @required this.icon, @required this.action});
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return GestureDetector(
-        onTap: action,
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              AppConfig.assetsPath+'$icon',
-              width: 30,
-              height: 30,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-            MyText(
-              top: 6,
-              text: subTitle,
-              fontSize: 12,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            )
-          ],
-        ));
+      onTap: action,
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            AppConfig.assetsPath+'$icon',
+            width: 30,
+            height: 30,
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+          MyText(
+            top: 6,
+            text: subTitle,
+            fontSize: 12,
+            color:
+                isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+          )
+        ],
+      )
+    );
   }
 }
 
@@ -105,7 +106,7 @@ class TrxOptionMethod {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => SubmitTrx(0, "", true, portfolioList)));
+            builder: (context) => SubmitTrx("", true, portfolioList)));
   }
 
   /* Scan QR Code */
@@ -116,22 +117,22 @@ class TrxOptionMethod {
   ) async {
     await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
       
-    if (value != null) {
-      pushReplacement == true ?
-      await Navigator.push(
-        context,
-        Transition(child: SubmitTrx(0, value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        // MaterialPageRoute(builder: (context) => )
-      )
-      :
-      await Navigator.pushReplacement(
-        context,
-        Transition(child: SubmitTrx(0, value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        // MaterialPageRoute(builder: (context) => )
-      );
+      if (value != null) {
+        pushReplacement == true ?
+        await Navigator.push(
+          context,
+          Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          // MaterialPageRoute(builder: (context) => )
+        )
+        :
+        await Navigator.pushReplacement(
+          context,
+          Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          // MaterialPageRoute(builder: (context) => )
+        );
 
-      
-    }
+        
+      }
     });
   }
 }

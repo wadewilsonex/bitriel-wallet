@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
+import 'package:wallet_apps/src/components/indecator_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/selendra_swap_c.dart';
@@ -41,10 +42,27 @@ class DiscoverPageBody extends StatelessWidget {
                 ),
               ],
               controller: tabController,
-              labelColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              indicatorColor: hexaCodeToColor("#D4D6E3"),
+              // labelColor: hexaCodeToColor(AppColors.whiteColorHexa),
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 0.5,
+              indicator: CustomTabIndicator(
+                color: Colors.white,
+              )
+              // UnderlineTabIndicator(
+              //   borderSide: BorderSide(width: 2, color: Colors.white),
+              //   insets: EdgeInsets.symmetric(horizontal: 60)
+              // )
+              // BoxDecoration(
+              // //   color: 
+              // // hexaCodeToColor("#D4D6E3"),
+              // // indicatorColor: 
+              //   shape: BoxShape.circle,//RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              //   // borderRadius: BorderRadius.circular(10),
+
+              //   border: Border.fromBorderSide(BorderSide(style: BorderStyle.values[2]))//Border(bottom: BorderSide() , top: BorderSide.none, right: BorderSide.none, left: BorderSide.none)
+              //   // borderSide: BorderSide(width: 3, color: Colors.white),
+              //   // insets: EdgeInsets.symmetric(horizontal: 70)
+              // ),
             ),
 
             SizedBox(height: paddingSize,),
@@ -96,7 +114,7 @@ class DiscoverPageBody extends StatelessWidget {
                   GestureDetector(
                     onHorizontalDragUpdate: (details) {
                       if (details.delta.direction > 0) {
-                        homePageModel!.pageController.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.ease);
+                        homePageModel!.pageController!.animateToPage(1, duration: Duration(milliseconds: 300), curve: Curves.ease);
                       }
                       else{
                         tabController.animateTo(0);

@@ -34,7 +34,6 @@ class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       key: homePageModel!.globalKey,
       drawer: Theme(
@@ -279,7 +278,7 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: SubmitTrx(0, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),

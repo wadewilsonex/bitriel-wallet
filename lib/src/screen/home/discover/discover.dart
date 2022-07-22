@@ -24,6 +24,7 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
     DiscoverContent.initContext(context: context);
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    AppServices.noInternetConnection(context: context);
   }
 
   @override

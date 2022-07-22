@@ -186,6 +186,7 @@ class _SwapPageState extends State<SwapPage> {
       setState(() { });
 
     });
+    AppServices.noInternetConnection(context: context);
 
     super.initState();
   }

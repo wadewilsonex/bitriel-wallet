@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/home/samallen/flutter
-FLUTTER_APPLICATION_PATH=/home/samallen/Desktop/bitriel-wallet
+FLUTTER_ROOT=/Volumes/NewPart/flutter
+FLUTTER_APPLICATION_PATH=/Volumes/Project/bitriel
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=5.0.7

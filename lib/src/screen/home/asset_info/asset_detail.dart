@@ -13,6 +13,7 @@ class AssetDetail extends StatefulWidget {
 }
 
 class _AssetDetailState extends State<AssetDetail> {
+  
   String totalSupply = '';
 
   String circulatingSupply = '';
@@ -36,18 +37,18 @@ class _AssetDetailState extends State<AssetDetail> {
 
   @override
   void initState() {
-    if (widget.marketData.totalSupply != 'null') {
+    if (widget.marketData.totalSupply != null) {
       totalSupply = convert(widget.marketData.totalSupply!);
     }
-    if (widget.marketData.circulatingSupply != 'null') {
+    if (widget.marketData.circulatingSupply != null) {
       circulatingSupply = convert(widget.marketData.circulatingSupply!);
     }
 
-    if (widget.marketData.marketCap != 'null') {
+    if (widget.marketData.marketCap != null) {
       marketCap = convert(widget.marketData.marketCap!);
     }
 
-    if (widget.marketData.marketCapChange24H != 'null') {
+    if (widget.marketData.marketCapChange24H != null) {
       marketCapChange24h = convert(widget.marketData.marketCapChange24H!);
     }
     // totalSupply = convert(widget.marketData.totalSupply);
@@ -68,29 +69,29 @@ class _AssetDetailState extends State<AssetDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             MyText(
               text: 'Price Today',
               textAlign: TextAlign.left,
               fontWeight: FontWeight.bold,
               top: 16.0,
               bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             ),
             line(),
-            textRow('Price', '\$${widget.marketData.currentPrice}', ''),
+            textRow('Price', '\$${widget.marketData.currentPrice ?? ''}', ''),
             line(),
             textRow(
                 'Price Change 24h',
-                '\$${widget.marketData.priceChange24H} ',
-                ' ${widget.marketData.priceChangePercentage24H}%'),
+                '\$${widget.marketData.priceChange24H ?? ''} ',
+                ' ${widget.marketData.priceChangePercentage24H ?? ''}%'),
             line(),
             textRow(
                 '24h Low / 24 High',
-                '\$${widget.marketData.low24H} / \$${widget.marketData.high24H}',
+                '\$${widget.marketData.low24H ?? ''} / \$${widget.marketData.high24H ?? ''}',
                 ''),
             line(),
-            textRow('Market Rank', '#${widget.marketData.marketCapRank}', ''),
+            textRow('Market Rank', '#${widget.marketData.marketCapRank ?? ''}', ''),
             line(),
             MyText(
               text: 'Market Cap',
@@ -116,9 +117,9 @@ class _AssetDetailState extends State<AssetDetail> {
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             ),
             line(),
-            textRow('All Time High', '\$${widget.marketData.ath}', ''),
+            textRow('All Time High', '\$${widget.marketData.ath ?? ''}', ''),
             line(),
-            textRow('All Time Low', '\$${widget.marketData.atl}', ''),
+            textRow('All Time Low', '\$${widget.marketData.atl ?? ''}', ''),
             line(),
             MyText(
               text: 'Supply',
@@ -130,13 +131,13 @@ class _AssetDetailState extends State<AssetDetail> {
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             ),
             line(),
-            textRow(
-                'Circulating Supply',
-                '$circulatingSupply ${widget.marketData.symbol!.toUpperCase()}',
-                ''),
-            line(),
-            textRow('Total Supply',
-                '$totalSupply ${widget.marketData.symbol!.toUpperCase()}', ''),
+            // textRow(
+            //     'Circulating Supply',
+            //     '$circulatingSupply ${widget.marketData.symbol!.toUpperCase() }',
+            //     ''),
+            // line(),
+            // textRow('Total Supply',
+            //     '$totalSupply ${widget.marketData.symbol!.toUpperCase()}', ''),
           ],
         ),
       ),

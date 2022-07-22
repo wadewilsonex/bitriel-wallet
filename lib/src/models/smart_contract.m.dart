@@ -9,7 +9,7 @@ class SmartContractModel {
   String? address;
   String? contract;
   String? contractTest;
-  String? chainDecimal;
+  int? chainDecimal;
   String? symbol;
   String? name;
   String? balance;

@@ -8,7 +8,7 @@ class MarketProvider with ChangeNotifier {
   
   http.Response? _res;
 
-  List<Map<String, dynamic>>? lsCoin;
+  List<Map<String, dynamic>>? lsCoin = [];
   Map<String, dynamic>? queried;
 
   List<String> id = [
@@ -119,7 +119,7 @@ class MarketProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == true) print("error market $e");
+        if (ApiProvider().isDebug == true) print("Error fetchTokenMarketPrice $e");
         return;
       }
     }
@@ -140,19 +140,31 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
-    _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
-    lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
-    lsCoin = lsCoin!.where((element){
-      if (element['symbol'].toLowerCase() == id.toLowerCase() && element['market_cap_rank'] != null){
-        return true;
-      }
-      return false;
-    }).toList();
+    try {
+
+      _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
+      lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
+      lsCoin = lsCoin!.where((element){
+        if (element['symbol'].toLowerCase() == id.toLowerCase() && element['market_cap_rank'] != null){
+          return true;
+        }
+        return false;
+      }).toList();
+      return lsCoin!;
+    } catch (e) {
+      if (ApiProvider().isDebug == true) print("Error searchCoinFromMarket $e");
+    }
     return lsCoin!;
   }
 
   Future<void> queryCoinFromMarket(String id) async {
-    queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id}'))).body)[0];
+    try {
+
+      queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id}'))).body)[0];
+    } catch (e){
+      if (ApiProvider().isDebug == true) print("error queryCoinFromMarket $e");
+      return;
+    }
   }
   
 }

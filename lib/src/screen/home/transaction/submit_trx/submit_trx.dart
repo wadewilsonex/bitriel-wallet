@@ -12,20 +12,25 @@ import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
 class SubmitTrx extends StatefulWidget {
-  final int? assetIndex;
+  
+  // final int? assetIndex;
   final String? _walletKey;
   final String? asset;
   final List<dynamic>? _listPortfolio;
   final bool? enableInput;
+  final SmartContractModel? scModel;
 
   const SubmitTrx(
-    this.assetIndex,
+    // this.assetIndex,
     // ignore: avoid_positional_boolean_parameters
     this._walletKey,
     // ignore: avoid_positional_boolean_parameters
     this.enableInput,
     this._listPortfolio,
-    {this.asset}
+    {
+      this.asset,
+      this.scModel
+    }
   );
 
   @override
@@ -37,42 +42,43 @@ class SubmitTrx extends StatefulWidget {
 class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional? trxFunc;
-  double decimal = 0;
+  int decimal = 0;
 
   ModelScanPay _scanPayM = ModelScanPay();
-
-  FlareControls flareController = FlareControls();
 
   ContractProvider? _contractProvider;
   ApiProvider? _apiProvider;
 
-  AssetInfoC c = AssetInfoC();
-
   bool disable = false;
-  final bool _loading = false;
+  bool _loading = false;
+  
   String? _pin;
 
   @override
   void initState() {
+
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    
-    // if (widget.asset != null){
 
     /// Occure when user tap on Asset from Assets Detail Page.
-    if (widget.assetIndex != null){
-      _scanPayM.asset = _contractProvider!.sortListContract[widget.assetIndex!].symbol;
-      _scanPayM.balance = _contractProvider!.sortListContract[widget.assetIndex!].balance;
-      _scanPayM.assetValue = widget.assetIndex!;
-    } else {
+    if (widget.scModel != null){
+
+      print(widget.scModel!.symbol ?? '');
+      print(widget.scModel!.balance ?? '');
+      _scanPayM.asset = widget.scModel!.symbol;
+      _scanPayM.balance = widget.scModel!.balance;
+      _scanPayM.assetValue = _contractProvider!.sortListContract.indexOf(widget.scModel!);
+      // _scanPayM.assetValue = widget.assetIndex!;
+    }
 
     /// Occure when user tap on Asset from Assets Page.
+    else {
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
       _scanPayM.assetValue = 0;
     }
 
-    AppServices.noInternetConnection(_scanPayM.globalKey);
+    AppServices.noInternetConnection(context: context);
 
     _scanPayM.controlReceiverAddress.text = widget._walletKey!;
     _scanPayM.portfolio = widget._listPortfolio!;
@@ -81,7 +87,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       _pin = value;
     });
 
-    // Initalize Functional Of Trx
+    // Initialize Functional Of Trx
     trxFunc = TrxFunctional.init(
       context: context,
       enableAnimation: enableAnimation,
@@ -100,36 +106,16 @@ class SubmitTrxState extends State<SubmitTrx> {
       estAmountPrice: '',
       estTotalPrice: '',
       estGasFeePrice: '',
-      chainDecimal: "0"
+      chainDecimal: 0
     );
     
     // _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
+    // _scanPayM.controlAmount.text = "1";
+    // _scanPayM.enable= true;
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
 
     super.initState();
-  }
-
-  void removeAllFocus() {
-    _scanPayM.nodeAmount.unfocus();
-    _scanPayM.nodeMemo.unfocus();
-  }
-
-  Future<String> dialogBox() async {
-    /* Show Pin Code For Fill Out */
-    final String _result = await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Colors.transparent,
-          // child: FillPin(),
-          child: Passcode(label: PassCodeLabel.fromSendTx),
-        );
-      }
-    );
-
-    return _result;
   }
   
   bool isNotEmpty(){
@@ -192,7 +178,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       // disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 2), (){});
+    await Future.delayed(Duration(seconds: 1), (){});
     Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
@@ -221,16 +207,20 @@ class SubmitTrxState extends State<SubmitTrx> {
       await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
     } else {
 
+      print("Start validate");
+
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
 
       try {
 
         var gasPrice;
         dialogLoading(context, content: "Estimating Fee...");
+        print("_scanPayM.asset! ${_scanPayM.asset!}");
+        print("_scanPayM.controlReceiverAddress! ${_scanPayM.controlReceiverAddress.text}");
         final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
-        
+        print(isValid.runtimeType);
         if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
-
+          print("Native");
           // Close Dialog
           Navigator.pop(context);
           
@@ -240,7 +230,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
           });
         } else {
-
+          print("No Native");
           if (!isValid) {
             Navigator.pop(context);
             await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
@@ -252,6 +242,8 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.assetValue
             );
 
+            print("isEnough $isEnough");
+
             if (!isEnough && isValid) {
               if (isValid) {
                 Navigator.pop(context);
@@ -260,9 +252,14 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
 
             if (isValid) {
-              gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
+              gasPrice = await trxFunc!.getNetworkGasPrice(
+                _scanPayM.asset!, 
+                network: "ERC-20"
+              );
             }
             if (isValid && isEnough) {
+
+              print("finish gasPrice $gasPrice");
 
               if (gasPrice != null) {
                 
@@ -271,6 +268,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.controlAmount.text,
                   assetIndex: _scanPayM.assetValue
                 );
+                print("estAmtPrice $estAmtPrice");
                 // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
 
                 final maxGas = await trxFunc!.estMaxGas(
@@ -278,13 +276,18 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.asset!,
                   _scanPayM.controlReceiverAddress.text,
                   _scanPayM.controlAmount.text,
-                  _scanPayM.assetValue
+                  _scanPayM.assetValue, 
+                  network: "ERC-20"
                 );
-                
-                decimal = double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!);
+                print("maxGas $maxGas");
 
+                print("_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal! ${_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal ?? 'yeah null'}");
+                decimal = _contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
+                print("decimal $decimal");
                 final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+                print("gasFee $gasFee");
                 var gasFeeToEther = (gasFee / pow(10, 18)).toString();
+                print("gasFeeToEther $gasFeeToEther");
 
                 // Check BNB balance for Fee
                 if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
@@ -292,13 +295,18 @@ class SubmitTrxState extends State<SubmitTrx> {
                 }
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
+                print("estGasFeePrice $estGasFeePrice");
                 final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
-                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+                print("totalAmt $totalAmt");
+                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
+                print("estToSendPrice $estToSendPrice");
 
                 final estTotalPrice = estGasFeePrice! + estToSendPrice;
+
+                print("estTotalPrice $estTotalPrice");
                 
                 trxFunc!.txInfo = TransactionInfo(
-                  chainDecimal: decimal.toString(),
+                  chainDecimal: decimal,
                   coinSymbol: _scanPayM.asset,
                   receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
                   amount: _scanPayM.controlAmount.text,
@@ -339,7 +347,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
         // Close Dialog Estimating Fee
         Navigator.pop(context);
-        if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
+        if (ApiProvider().isDebug == true) print("Err validateSubmit ExceptionHandler $e");
         await trxFunc!.customDialog("Oops", e.cause);
       }
       catch (e) {
@@ -422,6 +430,10 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue];
 
+            print("contractM.symbol ${contractM.symbol}");
+            print("_scanPayM.asset! ${_scanPayM.asset!}");
+            print("_scanPayM.org ${contractM.org}");
+
             /* -------------Processing Transaction----------- */
             if (contractM.symbol == "SEL"){
               if (contractM.org == 'BEP-20'){
@@ -451,19 +463,31 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getKgo, txInfo);
             } 
             else {
-              if (_scanPayM.asset!.contains('ERC-20')) {
+              print("_scanPayM.asset!.contains('ERC-20') ${_scanPayM.asset!.contains('ERC-20')}");
+              final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
+              print("contractM.org!.contains('ERC-20')");
+              if (contractM.org!.contains('ERC-20')) {
 
-                final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
-                final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
-                _scanPayM.hash = await trxFunc!.sendTxErc(
-                  contractAddr,
-                  chainDecimal![0].toString(),
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text
-                );
+                // final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
+                // final chainDecimal = await ContractProvider().queryEther(contractAddr!, 'decimals', []);
+
+                print("contractAddr! $contractAddr!");
+                await _contractProvider!.initErc20Service(contractAddr!);
+                print("finish ether");
+                _scanPayM.hash = await trxFunc!.sendTxErc20(_contractProvider!.getErc20, txInfo);
+                // print("contractAddr ${contractAddr}");
+                // print("chainDecimal![0].toString() ${chainDecimal![0].toString()}");
+                // print("_scanPayM.controlReceiverAddress.text ${_scanPayM.controlReceiverAddress.text}");
+                // print("_scanPayM.controlAmount.tex ${_scanPayM.controlAmount.text}");
+
+                // _scanPayM.hash = await trxFunc!.sendTxErc(
+                //   contractAddr,
+                //   chainDecimal[0].toString(),
+                //   _scanPayM.controlReceiverAddress.text,
+                //   _scanPayM.controlAmount.text
+                // );
                 
               } else {
-                final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest; //ContractProvider().findContractAddr(_scanPayM.asset);
                 await _contractProvider!.initBep20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
               }

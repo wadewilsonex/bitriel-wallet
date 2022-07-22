@@ -23,10 +23,11 @@ class CategoryCard extends StatelessWidget {
     
     return MyFlatButton(
       edgeMargin: EdgeInsets.symmetric(vertical: 8),
-      textColor: AppColors.blackColor,
+      textColor: index == selectedIndex ? AppColors.whiteColorHexa : AppColors.iconColor,
       width: 25.w,
       textButton: title,
       buttonColor: index == selectedIndex ? AppColors.secondary : AppColors.whiteColorHexa,
+      isTransparent: index == selectedIndex ? false : true,
       action: () {
         onTap(index, isTap: true);
       },

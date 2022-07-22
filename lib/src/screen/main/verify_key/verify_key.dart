@@ -45,6 +45,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
 
   @override
   void initState() {
+    AppServices.noInternetConnection(context: context);
     remove3Seeds();
     super.initState();
   }
