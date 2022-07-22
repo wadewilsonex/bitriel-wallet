@@ -1249,7 +1249,6 @@ class ContractProvider with ChangeNotifier {
           //   //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol[0].toString());
           //   // }
           // }
-          print("_marketProvider!.lsCoin!.isEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : '1' ${_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : '1'}");
 
           SmartContractModel newContract = SmartContractModel(
             id: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['id'],
@@ -1273,7 +1272,10 @@ class ContractProvider with ChangeNotifier {
             contractTest: apiProvider.isMainnet ? '' : contractAddr,
           );
           
-          newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * double.parse(_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : '1') );
+          print("_marketProvider!.lsCoin!.isNotEmpty ${_marketProvider!.lsCoin!.isNotEmpty}");
+          print("_marketProvider!.queried!['price_change_percentage_24h'] ${_marketProvider!.queried!['price_change_percentage_24h'].runtimeType}");
+          print("double.parse(tmpBalance.replaceAll(',', '')) ${double.parse(tmpBalance.replaceAll(',', ''))}");
+          newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * (_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : 1.0) );
 
           // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);
           // await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(newContract.id!).then((value){

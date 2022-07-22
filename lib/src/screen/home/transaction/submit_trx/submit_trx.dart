@@ -254,7 +254,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             if (isValid) {
               gasPrice = await trxFunc!.getNetworkGasPrice(
                 _scanPayM.asset!, 
-                network: "ERC-20"
+                network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
               );
             }
             if (isValid && isEnough) {
@@ -277,7 +277,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                   _scanPayM.controlReceiverAddress.text,
                   _scanPayM.controlAmount.text,
                   _scanPayM.assetValue, 
-                  network: "ERC-20"
+                  network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
                 );
                 print("maxGas $maxGas");
 

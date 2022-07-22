@@ -895,6 +895,7 @@ class TrxFunctional {
 
       
       if (network != null && network == "ERC-20"){
+        print("network != null && network == 'ERC-20'");
         maxGas = await contractProvider.getErc20MaxGas(
           (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
           reciever, 
@@ -903,11 +904,13 @@ class TrxFunctional {
         );
       }
       else if (asset == 'ETH'){
+        print("asset == 'ETH'");
         maxGas = await contractProvider.getEthMaxGas(reciever, amount);
       }
       else if ( asset == 'BNB'){
-
+        print("asset == 'BNB'");
         maxGas = await contractProvider.getBnbMaxGas(reciever, amount);
+        print("maxGas");
       }
         
       else {

@@ -108,7 +108,7 @@ class AddAssetState extends State<AddAsset> {
       });
 
       if (_modelAsset.added){
-
+        _modelAsset.added = false;
         Navigator.pop(context);
         
         await showDialog(
@@ -168,6 +168,7 @@ class AddAssetState extends State<AddAsset> {
     try {
     
       setState(() {
+        _tokenSymbol = "";
         _modelAsset.loading = true;
       });
 
@@ -179,15 +180,15 @@ class AddAssetState extends State<AddAsset> {
       print("res Bsc $res");
       if (res || resEther) {
 
-        if (res) {
+        // if (res) {
 
-          if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
-            setState(() {
-              _modelAsset.match = true;
-              _modelAsset.loading = false;
-            });
-          }
-        } else {
+          // if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
+          //   setState(() {
+          //     _modelAsset.match = true;
+          //     _modelAsset.loading = false;
+          //   });
+          // }
+        // } else {
 
           // Check And Add Address ERC-20 || BEP-20
           if (initialValue == 1) { // 1 = Ethereum
@@ -202,7 +203,7 @@ class AddAssetState extends State<AddAsset> {
             
             _modelAsset.loading = false;
           });
-        }
+        // }
       } else {
         DialogComponents().dialogCustom(
           context: context,
