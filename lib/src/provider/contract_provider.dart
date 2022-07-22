@@ -654,6 +654,11 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
+    print("getBep20MaxGas");
+    print("contractAddr $contractAddr");
+    print("reciever $reciever");
+    print("amount $amount");
+    print("decimal $decimal");
     await initBscClient();
 
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
@@ -1164,6 +1169,13 @@ class ContractProvider with ChangeNotifier {
             ).toString();
             
           }
+
+          print("network $network");
+          print("symbol $symbol");
+          print("name $name");
+          print("decimals $decimal");
+          print("balanceOf $balance");
+          print("contractAddr $contractAddr");
 
           await _marketProvider!.searchCoinFromMarket(symbol[0]);
           print("finish market ${_marketProvider!.lsCoin}");

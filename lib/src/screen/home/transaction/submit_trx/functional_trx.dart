@@ -843,6 +843,8 @@ class TrxFunctional {
   }
 
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
+
+    print("calPrice");
     String? marketPrice;
     var estPrice;
 
