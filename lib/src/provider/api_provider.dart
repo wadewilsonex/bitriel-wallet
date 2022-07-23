@@ -49,8 +49,8 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
-  bool isMainnet = false;
-  bool isDebug = true;
+  bool isMainnet = true;
+  bool isDebug = false;
   
   int selNativeIndex = 0;
   int selV1Index = 1;
@@ -380,7 +380,6 @@ class ApiProvider with ChangeNotifier {
   }
   
   Future<bool> validateEther(String address) async {
-    print("validateEther");
     try {
 
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');

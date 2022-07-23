@@ -195,9 +195,7 @@ class PasscodeState extends State<Passcode> {
       
     } else {
       if (firstPin == pin) {
-        print("pin $pin");
         await StorageServices().readSecure(DbKey.passcode)!.then((value) async {
-          print("Read passcode $value");
           if (value == ""){
             await StorageServices().writeSecure(DbKey.passcode, pin);
           }

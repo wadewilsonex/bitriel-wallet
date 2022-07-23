@@ -81,7 +81,6 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   Widget build(BuildContext context) {
-    print("widget.scModel!.marketData ${widget.scModel!.marketData ?? ''}");
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _globalKey,

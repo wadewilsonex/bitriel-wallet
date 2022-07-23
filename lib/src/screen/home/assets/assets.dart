@@ -53,6 +53,7 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
 
   @override
   void initState() {
+    
     _model.tabController = TabController(initialIndex: 0, length: 4, vsync: this);
     _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
     _model.indicator = GlobalKey<RefreshIndicatorState>();

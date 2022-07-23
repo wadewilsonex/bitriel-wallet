@@ -177,7 +177,6 @@ class AssetPageModel {
     nativeAssets = [];
     bep20Assets = [];
     erc20Assets = [];
-    print("Provider.of<ContractProvider>(context, listen: false).sortListContract ${Provider.of<ContractProvider>(context, listen: false).sortListContract.length}");
     Provider.of<ContractProvider>(context, listen: false).sortListContract.forEach((element) {
       if (element.org == "BEP-20" || element.orgTest == "BEP-20") {
         bep20Assets!.add(element);
@@ -187,9 +186,5 @@ class AssetPageModel {
         nativeAssets!.add(element);
       }
     });
-    
-    print("nativeAssets ${nativeAssets!.length}");
-    print("bep20Assets ${bep20Assets!.length}");
-    print("erc20Assets ${erc20Assets!.length}");
   }
 }

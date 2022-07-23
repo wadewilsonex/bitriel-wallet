@@ -207,7 +207,6 @@ class TrxFunctional {
     if (txInfo.privateKey != null) {
       try {
         String? hash = await tokenService.sendToken(txInfo);
-        print("hash $hash");
         // if (hash != null) {
         //   txInfo.hash = hash;
         //   txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;
@@ -434,7 +433,6 @@ class TrxFunctional {
   // }
 
   Future<dynamic> sendTxErc(String contractAddr, String chainDecimal, String reciever, String amount) async {
-    print("sendTxErc");
     try {
       if (privateKey != null) {
         final String? hash = await contract!.sendTxEthCon(
@@ -444,8 +442,6 @@ class TrxFunctional {
           reciever,
           amount,
         );
-
-        print("hash $hash");
 
         if (hash != null) {
           final status = await contract!.getEth.listenTransfer(hash);
@@ -743,9 +739,7 @@ class TrxFunctional {
         //   break;
 
         default:
-          print("Default");
           final res = await conPro.validateEvmAddr(address);
-          print('res $res');
           _isValid = res;
           break;
       }
@@ -758,7 +752,6 @@ class TrxFunctional {
   }
 
   Future<String>? getNetworkGasPrice(String asset, {String? network}) async {
-    print("getNetworkGasPrice $asset");
 
     String? _gasPrice;
 
@@ -767,9 +760,7 @@ class TrxFunctional {
       // if (asset == 'SEL (BEP-20)' || asset == 'SEL v2 (BEP-20)' || asset == 'KGO (BEP-20)' || asset == 'BNB') {
       // } else 
       if (network != null && network == "ERC-20"){
-        print("ERC-20");
         final res = await ContractProvider().getErc20GasPrice();
-        print("res $res");
         _gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       } 
       else if (asset == 'ETH') {
@@ -781,7 +772,6 @@ class TrxFunctional {
         _gasPrice = '88';
       } 
       else {
-        print("BEP-20");
         final res = await ContractProvider().getBscGasPrice();
         _gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       }
@@ -827,7 +817,6 @@ class TrxFunctional {
           // }).toList())[0].marketPrice;//[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
-      print("marketPrice $marketPrice");
       // marketPrice = (marketPrice == "0" || marketPrice == "") ? "1" : marketPrice!;
       // chainDecimal = contract.sortListContract[assetIndex!].chainDecimal! == "0" ? "18" : contract.sortListContract[assetIndex].chainDecimal!;
       // final estGasFeePrice = (gasFee! / pow(10, int.parse(chainDecimal) ) ) * double.parse(marketPrice);
@@ -844,7 +833,6 @@ class TrxFunctional {
 
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
 
-    print("calPrice");
     String? marketPrice;
     var estPrice;
 
@@ -875,9 +863,7 @@ class TrxFunctional {
     // }
     // "0" For Contract That Has 0 Decimal
     marketPrice = contract.sortListContract[assetIndex!].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
-    print("marketPrice $marketPrice");
     marketPrice = marketPrice!.isEmpty ? "0" : marketPrice;
-    print("marketPrice $marketPrice");
     estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
     return [estPrice, marketPrice]; //res.toStringAsFixed(2);
@@ -885,17 +871,13 @@ class TrxFunctional {
 
   Future<String>? estMaxGas(BuildContext context, String asset, String reciever, String amount, int index, {String? network}) async {
 
-    print("estMaxGas $asset");
-
     String? maxGas = '';
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
-    print("_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal! ${contractProvider.sortListContract[index].chainDecimal ?? 'yeah null'}");
     try {
 
       
       if (network != null && network == "ERC-20"){
-        print("network != null && network == 'ERC-20'");
         maxGas = await contractProvider.getErc20MaxGas(
           (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
           reciever, 
@@ -904,17 +886,13 @@ class TrxFunctional {
         );
       }
       else if (asset == 'ETH'){
-        print("asset == 'ETH'");
         maxGas = await contractProvider.getEthMaxGas(reciever, amount);
       }
       else if ( asset == 'BNB'){
-        print("asset == 'BNB'");
         maxGas = await contractProvider.getBnbMaxGas(reciever, amount);
-        print("maxGas");
       }
         
       else {
-        print("getBep20MaxGas");
         maxGas = await contractProvider.getBep20MaxGas( 
           (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
           reciever, 

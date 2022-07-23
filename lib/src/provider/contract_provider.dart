@@ -172,7 +172,7 @@ class ContractProvider with ChangeNotifier {
         return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN!).cast<String>();
       });
     } catch (e){
-      print("Error initBscClient $e");
+      if (ApiProvider().isDebug) print("Error initBscClient $e");
     }
   }
 
@@ -654,11 +654,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<String> getBep20MaxGas(String contractAddr, String reciever, String amount, {required int decimal}) async {
-    print("getBep20MaxGas");
-    print("contractAddr $contractAddr");
-    print("reciever $reciever");
-    print("amount $amount");
-    print("decimal $decimal");
     await initBscClient();
 
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
@@ -1141,22 +1136,15 @@ class ContractProvider with ChangeNotifier {
           dynamic tmpBalance;
           
           if (network == 'Ethereum'){
-            print("network $network");
             symbol = await queryEther(contractAddr!, 'symbol', []);
-            print("symbol $symbol");
             name = await queryEther(contractAddr, 'name', []);
-            print("name $name");
             decimal = await queryEther(contractAddr, 'decimals', []);
-            print("decimals $decimal");
-            print("convert ${(decimal[0] as BigInt ).toInt()}");
             balance = await queryEther(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-            print("balanceOf $balance");
 
             tmpBalance = Fmt.bigIntToDouble(
               balance[0] as BigInt,
               (decimal[0] as BigInt ).toInt(),
             ).toString(); 
-            print("tmpBalance $tmpBalance");
 
           } else if (network == 'Binance Smart Chain'){
             symbol = await query(contractAddr!, 'symbol', []);
@@ -1170,18 +1158,8 @@ class ContractProvider with ChangeNotifier {
             
           }
 
-          print("network $network");
-          print("symbol $symbol");
-          print("name $name");
-          print("decimals $decimal");
-          print("balanceOf $balance");
-          print("contractAddr $contractAddr");
-
           await _marketProvider!.searchCoinFromMarket(symbol[0]);
-          print("finish market ${_marketProvider!.lsCoin}");
-          print("finish lsCoin ${_marketProvider!.lsCoin!.isNotEmpty}");
           if (_marketProvider!.lsCoin!.isNotEmpty) await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
-          print("finish queryCoinFromMarket");
           // print("finish queryCoinFromMarket ${)}");
 
           // if (network == 'Ethereum') {
@@ -1272,9 +1250,6 @@ class ContractProvider with ChangeNotifier {
             contractTest: apiProvider.isMainnet ? '' : contractAddr,
           );
           
-          print("_marketProvider!.lsCoin!.isNotEmpty ${_marketProvider!.lsCoin!.isNotEmpty}");
-          print("_marketProvider!.queried!['price_change_percentage_24h'] ${_marketProvider!.queried!['price_change_percentage_24h'].runtimeType}");
-          print("double.parse(tmpBalance.replaceAll(',', '')) ${double.parse(tmpBalance.replaceAll(',', ''))}");
           newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * (_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : 1.0) );
 
           // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);

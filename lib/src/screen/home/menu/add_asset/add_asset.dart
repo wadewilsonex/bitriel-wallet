@@ -174,10 +174,8 @@ class AddAssetState extends State<AddAsset> {
 
       // Validate For ERC-20 || BEP-20
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
-      print("resEther $resEther");
       // Validate For Substrate Address
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-      print("res Bsc $res");
       if (res || resEther) {
 
         // if (res) {
