@@ -41,7 +41,7 @@ class AddAssetState extends State<AddAsset> {
     _modelAsset.result = {};
     _modelAsset.match = false;
     initialValue = widget.network;
-    AppServices.noInternetConnection(globalKey);
+    AppServices.noInternetConnection(context: context);
 
     super.initState();
   }
@@ -93,7 +93,6 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> addAsset() async {
-    bool isMatch = false;
 
     FocusScope.of(context).unfocus();
     
@@ -104,12 +103,12 @@ class AddAssetState extends State<AddAsset> {
       final lsContract = await Provider.of<ContractProvider>(context, listen: false).sortListContract;
       lsContract.forEach((element) async {
         if (_modelAsset.controllerAssetCode.text == (ApiProvider().isMainnet ? element.contract : element.contractTest)){
-          isMatch = true;
+          _modelAsset.added = true;
         }
       });
 
-      if (isMatch){
-
+      if (_modelAsset.added){
+        _modelAsset.added = false;
         Navigator.pop(context);
         
         await showDialog(
@@ -169,29 +168,28 @@ class AddAssetState extends State<AddAsset> {
     try {
     
       setState(() {
+        _tokenSymbol = "";
         _modelAsset.loading = true;
       });
 
       // Validate For ERC-20 || BEP-20
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
-
       // Validate For Substrate Address
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-      
       if (res || resEther) {
 
-        if (res) {
+        // if (res) {
 
-          if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
-            setState(() {
-              _modelAsset.match = true;
-              _modelAsset.loading = false;
-            });
-          }
-        } else {
+          // if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
+          //   setState(() {
+          //     _modelAsset.match = true;
+          //     _modelAsset.loading = false;
+          //   });
+          // }
+        // } else {
 
           // Check And Add Address ERC-20 || BEP-20
-          if (initialValue == 'Ethereum') {
+          if (initialValue == 1) { // 1 = Ethereum
 
             await searchEtherContract();
           } else {
@@ -203,7 +201,7 @@ class AddAssetState extends State<AddAsset> {
             
             _modelAsset.loading = false;
           });
-        }
+        // }
       } else {
         DialogComponents().dialogCustom(
           context: context,
@@ -211,72 +209,25 @@ class AddAssetState extends State<AddAsset> {
           contents: "Invalid token contract address!",
         );
         
-        // await showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return AlertDialog(
-        //       shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
-        //       title: Align(
-        //         child: Text('Opps'),
-        //       ),
-        //       content: Padding(
-        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //         child: Text('Invalid token contract address!'),
-        //       ),
-        //       actions: <Widget>[
-        //         TextButton(
-        //           onPressed: () => Navigator.pop(context),
-        //           child: const Text('Close'),
-        //         ),
-        //       ]
-        //     );
-        //   },
-        // );
-        //await dialog('Invalid token contract address!', 'Opps');
         setState(() {
           _modelAsset.loading = false;
         });
       }
     } catch (e) {
-      setState(() {
-      
-        _modelAsset.loading = false;
-      });
+      setState(() {_modelAsset.loading = false;});
 
       DialogComponents().dialogCustom(
         context: context,
         titles: "Opps",
         contents: "$e",
       );
-      // await showDialog(
-      //   context: context,
-      //   builder: (context) {
-      //     return AlertDialog(
-      //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      //       title: Align(
-      //         child: Text('Oops'),
-      //       ),
-      //       content: Padding(
-      //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-      //         child: Text(
-      //         "$e",
-      //         textAlign: TextAlign.center
-      //         ),
-      //       ),
-      //       actions: <Widget>[
-      //         TextButton(
-      //           onPressed: () => Navigator.pop(context),
-      //           child: const Text('Close'),
-      //         ),
-      //       ],
-      //     );
-      //   },
-      // );
+
       if (ApiProvider().isDebug == true) print("Error submitAsset $e");
     }
   }
 
   Future<void> searchEtherContract() async {
+    print('searchEtherContract');
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
       if (res != null) {
@@ -333,7 +284,7 @@ class AddAssetState extends State<AddAsset> {
     });
     flareController.play('Checkmark');
 
-    Timer(const Duration(seconds: 1), () {
+    await Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
       Navigator.pushReplacement(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
     });

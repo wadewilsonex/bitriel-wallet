@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:wallet_apps/index.dart';
 
 class ModelAsset {
+
   bool enable = false;
   bool loading = false;
   bool match = false;
@@ -147,10 +148,13 @@ class Market {
 
 class AssetPageModel {
 
+  GlobalKey<RefreshIndicatorState>? indicator;
   List<String>? categories;
   List<SmartContractModel>? nativeAssets;
   List<SmartContractModel>? bep20Assets;
   List<SmartContractModel>? erc20Assets;
+  ScrollController? scrollController;
+  int assetLength = 1;
 
   int? categoryIndex;
 
@@ -173,7 +177,6 @@ class AssetPageModel {
     nativeAssets = [];
     bep20Assets = [];
     erc20Assets = [];
-    print("Provider.of<ContractProvider>(context, listen: false).sortListContract ${Provider.of<ContractProvider>(context, listen: false).sortListContract.length}");
     Provider.of<ContractProvider>(context, listen: false).sortListContract.forEach((element) {
       if (element.org == "BEP-20" || element.orgTest == "BEP-20") {
         bep20Assets!.add(element);
@@ -183,9 +186,5 @@ class AssetPageModel {
         nativeAssets!.add(element);
       }
     });
-    
-    print("nativeAssets ${nativeAssets!.length}");
-    print("bep20Assets ${bep20Assets!.length}");
-    print("erc20Assets ${erc20Assets!.length}");
   }
 }

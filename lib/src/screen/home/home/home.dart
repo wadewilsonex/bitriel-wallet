@@ -24,18 +24,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
     
-    _model.pageController.addListener(() {
+    _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController){
         setState(() {
-          _model.activeIndex = _model.pageController.page!.toInt();
+          _model.activeIndex = _model.pageController!.page!.toInt();
         });
       }
     });
 
+    // For PageView
     _model.activeIndex = widget.activePage;
     _model.pageController = PageController(initialPage: widget.activePage);
+
+    // For CarouselPage
     _model.carouActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onCarouselChanged = (int index, CarouselPageChangedReason reason) {
@@ -43,12 +45,15 @@ class _HomePageState extends State<HomePage> {
         this._model.carouActiveIndex = index;
       });
     };
+    AppServices.noInternetConnection(context: context);
+    super.initState();
+    
   }
 
   void onPageChanged(int index){
     setState(() {
       _model.activeIndex = index;
-      _model.pageController.jumpToPage(index);
+      _model.pageController!.jumpToPage(index);
     });
     // _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }

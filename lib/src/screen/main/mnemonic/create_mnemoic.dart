@@ -16,6 +16,7 @@ class CreateMnemonic extends StatefulWidget {
 class _CreateMnemonicState extends State<CreateMnemonic> {
   @override
   void initState() {
+    AppServices.noInternetConnection(context: context);
     disableScreenShot();
     super.initState();
   }

@@ -130,6 +130,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWarning(context);
     });
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 

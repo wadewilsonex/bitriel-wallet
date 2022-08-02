@@ -26,8 +26,6 @@ class ConfirmationTx extends StatefulWidget {
 
 class _ConfirmationTxState extends State<ConfirmationTx> {
 
-
-
   Future enableAnimation({BuildContext? context}) async {
 
     Navigator.pop(context!);
@@ -37,7 +35,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
     });
     // flareController.play('Checkmark');
     await Future.delayed(Duration(seconds: 3), (){});
-    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
+    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 

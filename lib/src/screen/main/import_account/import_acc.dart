@@ -31,7 +31,7 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
     _api = Provider.of<ApiProvider>(context, listen: false);
-    AppServices.noInternetConnection(globalKey);
+    AppServices.noInternetConnection(context: context);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
     super.initState();
   }

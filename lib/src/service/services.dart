@@ -13,9 +13,10 @@ import 'package:polkawallet_sdk/api/api.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppServices {
+
   static int myNumCount = 0;
 
-  static Future noInternetConnection(GlobalKey<ScaffoldState> globalKey) async {
+  static Future noInternetConnection({required BuildContext? context}) async {
     try {
       final Connectivity _connectivity = Connectivity();
 
@@ -23,15 +24,19 @@ class AppServices {
 
       _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         if (result == ConnectivityResult.none) {
-          openSnackBar(globalKey, AppString.contentConnection);
+          // openSnackBar(globalKey, AppString.contentConnection);
+          ScaffoldMessenger.of(context!).showSnackBar(
+            snackBarBody(AppString.contentConnection, context),
+          );
         } else {
+          ScaffoldMessenger.of(context!).removeCurrentSnackBar();
           // ignore: deprecated_member_use
-          globalKey.currentState!.removeCurrentSnackBar();
+          // globalKey.currentState!.removeCurrentSnackBar();
         }
       });
 
       if (myResult == ConnectivityResult.none) {
-        openSnackBar(globalKey, AppString.contentConnection);
+        snackBarBody(AppString.contentConnection, context!);
       }
     } catch (e) {}
   }
@@ -55,9 +60,11 @@ class AppServices {
     } catch (e) {}
   }
 
-  static void openSnackBar(GlobalKey<ScaffoldState> globalKey, String content) {
+  static void openSnackBar(context, String content) {
     // ignore: deprecated_member_use
-    globalKey.currentState!.showSnackBar(snackBarBody(content, globalKey));
+    ScaffoldMessenger.of(context!).showSnackBar(
+      snackBarBody(content, context),
+    );
   }
 
   // ignore: avoid_void_async
@@ -68,7 +75,7 @@ class AppServices {
     // );
   }
 
-  static SnackBar snackBarBody(String content, globalKey) {
+  static SnackBar snackBarBody(String content, BuildContext context) {
     return SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: const Duration(days: 365),
@@ -81,7 +88,7 @@ class AppServices {
         label: "Close",
         textColor: Colors.white,
         onPressed: () {
-          globalKey.currentState.removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
         },
       ),
     );
@@ -205,6 +212,25 @@ class AppServices {
     });
     return tmp;
   }
+
+  List<SmartContractModel> sortAsset(List<SmartContractModel> lsAsset){
+    SmartContractModel tmp = SmartContractModel();
+    for (int i = 0; i < lsAsset.length; i++) {
+      // if (lsAsset[i].balance!.contains(",")) {
+      //   lsAsset[i].balance = lsAsset[i].balance!.replaceAll(",", "");
+      // } 
+
+      for (int j = i + 1; j < lsAsset.length; j++) {
+        tmp = lsAsset[i];
+        if ( (double.parse(lsAsset[j].balance!.replaceAll(",", ""))) > (double.parse(lsAsset[i].balance!.replaceAll(",", ""))) ) {
+          lsAsset[i] = lsAsset[j];
+          lsAsset[j] = tmp;
+        }
+      }
+    }
+    return lsAsset;
+  }
+
 }
 
 class Encryptt {

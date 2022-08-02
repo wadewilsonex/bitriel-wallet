@@ -28,6 +28,7 @@ class _FingerPrintState extends State<FingerPrint> {
 
   @override
   void initState() {
+    AppServices.noInternetConnection(context: context);
     if (widget.isEnable!) {
       Future.delayed(Duration(milliseconds: 500), () async {
         await authenticate();
@@ -175,7 +176,7 @@ class _FingerPrintState extends State<FingerPrint> {
                 )
               ],
             ),
-          ],
+          ], 
         ),
       ),
     );

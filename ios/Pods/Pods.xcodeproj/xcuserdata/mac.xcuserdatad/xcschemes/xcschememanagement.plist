@@ -94,12 +94,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>aes_ecb_pkcs5_flutter.xcscheme</key>
+		<key>connectivity_plus.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>connectivity_plus.xcscheme</key>
+		<key>flutter_aes_ecb_pkcs5.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

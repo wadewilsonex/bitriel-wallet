@@ -83,7 +83,7 @@ class ApiProvider with ChangeNotifier {
         _jsCode = js;
       });
 
-      // Setup ss58Format base on Network
+      // Setup ss58Format base on Networkgg
       // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
 
       await _keyring.init([
@@ -481,8 +481,7 @@ class ApiProvider with ChangeNotifier {
             .evalJavascript('settings.getChainDecimal(api)')
             .then((value) async {
           res = value;
-          contract.listContract[selNativeIndex].chainDecimal =
-              res[0].toString();
+          contract.listContract[selNativeIndex].chainDecimal = res[0];
           await subSELNativeBalance(context: context);
 
           notifyListeners();
@@ -522,7 +521,7 @@ class ApiProvider with ChangeNotifier {
           .then((value) async {
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
-          int.parse(contract.listContract[selNativeIndex].chainDecimal!),
+          contract.listContract[selNativeIndex].chainDecimal!,
         );
         await contract.sortAsset();
       });
@@ -569,8 +568,7 @@ class ApiProvider with ChangeNotifier {
           .evalJavascript('settings.getChainDecimal(api)')
           .then((value) async {
         res = value;
-        contract.setDotAddr(
-            _keyring.allAccounts[0].address!, res[0].toString());
+        contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });
     } catch (e) {
@@ -591,38 +589,8 @@ class ApiProvider with ChangeNotifier {
         //_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
 
         contract.listContract[dotIndex].balance = Fmt.balance(
-          value['freeBalance'].toString() == "0"
-              ? "0.0"
-              : value['freeBalance'].toString(),
-          int.parse(contract.listContract[dotIndex].chainDecimal!),
-        );
-
-        contract.listContract[dotIndex].lineChartModel =
-            LineChartModel().prepareGraphChart(contract.listContract[dotIndex]);
-      });
-
-      // await connectSELNode(context: context);
-
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error subscribeDotBalance $e");
     }
-  }
 
-  Future<void> getAddressIcon() async {
-    try {
-      final res = await _sdk.api.account.getPubKeyIcons(
-        [_keyring.keyPairs[0].pubKey!],
-      );
-
-      accountM.addressIcon = res.toString();
-      notifyListeners();
-    } catch (e) {
-      if (ApiProvider().isDebug == true)
-        print("Error get icon from address $e");
-    }
-  }
-
-  Future<void> getCurrentAccount(
       {required BuildContext? context, String funcName = 'account'}) async {
     try {
       accountM.address =

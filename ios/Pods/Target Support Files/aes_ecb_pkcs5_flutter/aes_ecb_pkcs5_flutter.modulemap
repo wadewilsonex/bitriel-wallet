@@ -1,6 +1,0 @@
-framework module aes_ecb_pkcs5_flutter {
-  umbrella header "aes_ecb_pkcs5_flutter-umbrella.h"
-
-  export *
-  module * { export * }
-}

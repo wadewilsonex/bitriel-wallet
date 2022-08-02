@@ -7,10 +7,12 @@ import 'package:wallet_apps/src/service/contract.dart';
 class ReceiveWallet extends StatefulWidget {
   //static const route = '/recievewallet';
   final int? assetIndex;
+  final SmartContractModel? scModel;
 
   ReceiveWallet({
     Key? key,
     this.assetIndex,
+    @required this.scModel
   }) : super(key: key);
 
   @override
@@ -30,7 +32,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   @override
   void initState() {
-    print("hello init ${widget.assetIndex}");
 
     provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
     provider!.globalKey = GlobalKey<ScaffoldState>();
@@ -44,7 +45,8 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
     if (widget.assetIndex == null) findAsset();
     else {
-      provider!.initialValue = widget.assetIndex!;
+      provider!.initialValue = Provider.of<ContractProvider>(context, listen: false).sortListContract.indexOf(widget.scModel!);
+      // _scanPayM.assetValue = ;
     }
     provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.initialValue].address;
     print(Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.initialValue].address);
@@ -70,7 +72,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     //   findAsset();
     // }
 
-    AppServices.noInternetConnection(provider!.globalKey!);
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 
@@ -88,7 +90,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
         break;
       }
     }
-    print("provider!.lsContractSymbol![i]['symbol'] ${provider!.lsContractSymbol![provider!.initialValue]['symbol']}");
 
   }
 
@@ -101,7 +102,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   }
 
   void changedEthAdd(String value) {
-    print("provider!.lsContractSymbol![int.parse(value)]['symbol'] ${provider!.lsContractSymbol![int.parse(value)]['symbol']}");
     if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
       provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().btcIndex].address;
     } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == symbol || provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){

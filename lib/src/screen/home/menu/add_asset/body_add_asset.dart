@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 import 'package:wallet_apps/src/screen/home/menu/add_asset/search_asset.dart';
 
@@ -43,12 +44,18 @@ class AddAssetBody extends StatelessWidget {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     final api = Provider.of<ApiProvider>(context);
     return Column(children: [
+
       MyAppBar(
         title: "Add Asset",
-        onPressed: () {
+        onPressed: () async {
           Navigator.pop(context);
+          // Timer(const Duration(seconds: 1), () {
+          //   // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+          //   Navigator.pushReplacement(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
+          // });
         },
       ),
+
       Expanded(
         child: BodyScaffold(
           height: MediaQuery.of(context).size.height,

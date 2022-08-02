@@ -22,7 +22,7 @@ class TrxActivityState extends State<TrxActivity> {
 
   @override
   void initState() {
-    AppServices.noInternetConnection(_globalKey);
+    AppServices.noInternetConnection(context: context);
     readTxHistory();
 
     super.initState();

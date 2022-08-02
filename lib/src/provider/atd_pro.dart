@@ -38,7 +38,7 @@ class Attendance extends ChangeNotifier {
     try {
       contractService = ContractService(_contractProvider!.bscClient, deployedContract!);
       BigInt decimal = await contractService!.getChainDecimal();
-      _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal = decimal.toString();
+      _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal = decimal.toInt();
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error getChainDecimal $e");
     }
@@ -63,7 +63,7 @@ class Attendance extends ChangeNotifier {
         _contractProvider!.listContract[_apiProvider!.attIndex].lineChartModel = LineChartModel().prepareGraphChart(_contractProvider!.listContract[_apiProvider!.attIndex]);
         
         notifyListeners();
-        return Fmt.bigIntToDouble(balance[0] as BigInt, int.parse(_contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!));
+        return Fmt.bigIntToDouble(balance[0] as BigInt, _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!);
       }
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Err checkBalanceAdd $e");

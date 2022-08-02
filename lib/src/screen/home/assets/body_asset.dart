@@ -11,6 +11,7 @@ class AssetsPageBody extends StatelessWidget {
   final AssetPageModel? model;
   final Function? onTapCategories;
   final Function? onHorizontalChanged;
+  final Function? onVerticalUpdate;
 
   const AssetsPageBody({ 
     Key? key,
@@ -18,24 +19,25 @@ class AssetsPageBody extends StatelessWidget {
     this.onTapCategories,
     this.model,
     this.onHorizontalChanged,
+    this.onVerticalUpdate
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BodyScaffold(
-        height: MediaQuery.of(context).size.height,
+        scrollController: model!.scrollController,
         width: MediaQuery.of(context).size.width,
         // physic: NeverScrollableScrollPhysics(),
-        isSafeArea: true,
+        isSafeArea: false,
         bottom: 0,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.min,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
             _userWallet(context),
-
+        
             Padding(
               padding: const EdgeInsets.all(paddingSize),
               child: SizedBox(
@@ -43,14 +45,13 @@ class AssetsPageBody extends StatelessWidget {
                 child: categoryToken()
               ),
             ),
-
+        
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Row(
                 children: [
                   MyText(
                     text: "Assets",
-                    // text: "Selendra Network",
                     color: AppColors.titleAssetColor,
                     fontWeight: FontWeight.w500
                   ),
@@ -64,59 +65,84 @@ class AssetsPageBody extends StatelessWidget {
                 ],
               ),
             ),
+        
+            Column(
+              children: [
+                GestureDetector(
+                  onHorizontalDragEnd: (details) {
+                    onHorizontalChanged!(details);
+                  },
+                  onVerticalDragUpdate: (detail){
+                    
+                    onVerticalUpdate!(detail);
+                  },
 
-            Expanded(
-              child: TabBarView(
-                controller: model!.tabController,
-                children: [
-            
-                  _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                  _selendraNetworkList(context, model!.nativeAssets!, ),
-                  _selendraNetworkList(context, model!.bep20Assets  !, networkIndex: 2),
-                  _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-                ]
-              ),
+                  child: Container(
+                    // Provide Screen Height Per Assets Length (model!.assetLength)
+                    // width: MediaQuery.of(context).size.width,
+                    height: 8.h * model!.assetLength,
+                    child: TabBarView(
+                      controller: model!.tabController,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                    
+                        _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                        _selendraNetworkList(context, model!.nativeAssets!, ),
+                        _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
+                        _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                      ]
+                    ),
+                  )
+                ),
+
+                if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
+                GestureDetector(
+                  onHorizontalDragEnd: (details) {
+                    onHorizontalChanged!(details);
+                  },
+                  onVerticalDragUpdate: (details) {
+
+                    // Prevent Scroll When Empty Asset
+                    if(model!.assetLength > 5) onVerticalUpdate!(details);
+                  },
+                  child: SizedBox(
+                    height: 60.sp,
+                    child: OverflowBox(
+                      minHeight: 60.h,
+                      maxHeight: 60.h,
+                      child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w),
+                    )
+                  ),
+                ),
+
+                // Add Asset For BEP-20
+                if (model!.tabController!.index == 2) 
+                addMoreAsset(context, EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+
+                // Add Asset For ERC-20
+                else if (model!.tabController!.index == 3) 
+                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                
+                // For Gesture
+                if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3) && model!.assetLength < 5)
+                GestureDetector(
+                  onHorizontalDragEnd: (details) {
+                    onHorizontalChanged!(details);
+                  },
+                  onVerticalDragUpdate: (details) {
+
+                    // Prevent Scroll When Empty Asset
+                    if(model!.assetLength > 5) onVerticalUpdate!(details);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 8.h * 5,
+                    color: Colors.transparent,
+                  ),
+                )
+              ],
             )
-            // else if (model!.pageController!.page == 1.0) Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //   child: _selendraNetworkList(context, model!.nativeAssets!),
-            // ) 
-            // else if (model!.pageController!.page == 2.0) Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //   child: _selendraNetworkList(context, model!.bep20Assets!),
-            // )
-            // else if (model!.pageController!.page == 3.0) Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //   child: _selendraNetworkList(context, model!.erc20Assets!),
-            // ),
-            // Expanded( 
-            //   child: PageView(
-            //     controller: model!.pageController,
-            //     onPageChanged: (index){
-            //       onTapCategories!(index);
-            //       // model!.pageController.
-            //     },
-            //     children: [
-                  
-                  
-            //       Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //         child: _selendraNetworkList(context, model!.nativeAssets!),
-            //       ),
-            //       Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //         child: _selendraNetworkList(context, model!.bep20Assets!),
-            //       ),
-            //       Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            //         child: _selendraNetworkList(context, model!.erc20Assets!),
-            //       )
-            //     ]
-            //   )
-            // ),
-
-            // SizedBox(height: 25),
-
+            
             // _otherNetworkList(context),
           ],
         ),
@@ -234,80 +260,34 @@ class AssetsPageBody extends StatelessWidget {
   }
 
   Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, {int? networkIndex}){
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        print("onHorizontalChanged ${details.primaryVelocity!.toDouble()}");
-        onHorizontalChanged!(details);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-        child: Stack(
-          children: [
-
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: lsAsset.length,
-              itemBuilder: (context, index){
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      Transition(
-                        child: AssetInfo(
-                          index: index,
-                          scModel: lsAsset[index]
-                        ),
-                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                      ),
-                    );
-                  },
-                  child: AssetsItemComponent(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: lsAsset.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index){
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                Transition(
+                  child: AssetInfo(
+                    index: index,
                     scModel: lsAsset[index]
-                  )
-                );
-              }
-            ),
-
-            // if (lsAsset.isEmpty && )
-            // Lottie.asset(AppConfig.animationPath+"no-data.json"),
-
-            if (lsAsset.isEmpty && networkIndex != null) Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 60.sp,
-                  child: OverflowBox(
-                    minHeight: 60.h,
-                    maxHeight: 60.h,
-                    child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w),
-                  )
+                  ),
+                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                 ),
-                MyText(
-                  text: "Don't see your token?",
-                  color2: Colors.grey.shade400,
-                  bottom: 10.sp,
-                ),
-            
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(builder: (context) => AddAsset(network: networkIndex == 2 ? 0 : 1,))
-                    );
-                  },
-                  child: MyText(
-                    text: "Import asset",
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    // left: 5.sp
-                  )
-                )
-              ],
+              );
+            },
+            child: AssetsItemComponent(
+              scModel: lsAsset[index]
             )
-          ]
-        )
-          
+          );
+        }
       )
+          
+      // )
       
     );
   }
@@ -369,7 +349,7 @@ class AssetsPageBody extends StatelessWidget {
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx(0, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
           }
         ),
@@ -383,7 +363,7 @@ class AssetsPageBody extends StatelessWidget {
 
             children: [
               MyText(
-                text: "Receieve",
+                text: "Receive",
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
@@ -425,6 +405,49 @@ class AssetsPageBody extends StatelessWidget {
           ],
         );
       }
+    );
+  }
+
+  Widget addMoreAsset(BuildContext context, EdgeInsetsGeometry padding){
+    return GestureDetector(
+      onHorizontalDragEnd: (details) {
+        onHorizontalChanged!(details);
+      },
+      onVerticalDragUpdate: (details) {
+        onVerticalUpdate!(details);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        color: Colors.transparent,
+        padding: padding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            
+            MyText(
+              text: "Don't see your token?",
+              color2: Colors.grey.shade400,
+              bottom: 10.sp,
+            ),
+        
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) => AddAsset(network: model!.tabController!.index == 2 ? 0 : 1,))
+                );
+              },
+              child: MyText(
+                text: "Import asset",
+                color: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+                // left: 5.sp
+              )
+            )
+          ],
+        ),
+      ),
     );
   }
 }

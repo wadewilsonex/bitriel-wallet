@@ -32,7 +32,7 @@ class SubmitTrxService {
               scanPay.controlReceiverAddress.text,
               Fmt.tokenInt(
                 scanPay.controlAmount.text,
-                int.parse(chainDecimal!),
+                chainDecimal!,
               ).toString(),
             ],
           );
@@ -51,7 +51,7 @@ class SubmitTrxService {
               scanPay.controlReceiverAddress.text,
               Fmt.tokenInt(
                 scanPay.controlAmount.text,
-                int.parse(chainDecimal!),
+                chainDecimal!,
               ).toString(),
             ],
           );
@@ -85,7 +85,7 @@ class SubmitTrxService {
     return false;
   }
 
-  Future<void> sendTx(ApiProvider api, ModelScanPay scanPay, String password, BuildContext context, TxInfoData txInfoData, String chainDecimal ) async {
+  Future<void> sendTx(ApiProvider api, ModelScanPay scanPay, String password, BuildContext context, TxInfoData txInfoData, int chainDecimal ) async {
 
     Map? hash = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).signAndSend(
       txInfoData,
@@ -93,7 +93,7 @@ class SubmitTrxService {
         scanPay.controlReceiverAddress.text,
         Fmt.tokenInt(
           scanPay.controlAmount.text,
-          int.parse(chainDecimal),
+          chainDecimal,
         ).toString(),
       ],
       password,

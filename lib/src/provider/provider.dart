@@ -85,7 +85,7 @@ class ContractsBalance extends ChangeNotifier {
             }
             if (conProvider.listContract[i].org == "ERC-20"){
               balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.listContract[i].chainDecimal!)))).toString();
+              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
               // Fmt.bigIntToDouble(
               //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
               //   int.parse(decimal),
@@ -95,7 +95,7 @@ class ContractsBalance extends ChangeNotifier {
               balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
               
               
-              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.listContract[i].chainDecimal!)))).toString();
+              conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
               // Fmt.bigIntToDouble(
               //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
               //   int.parse(decimal),
@@ -110,7 +110,7 @@ class ContractsBalance extends ChangeNotifier {
         if ( (api.isMainnet ? conProvider.addedContract[i].contract : conProvider.addedContract[i].contractTest) != ""){
           if (conProvider.addedContract[i].org == "ERC-20"){
             balance = await conProvider.queryEther(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
+            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.addedContract[i].chainDecimal! ))).toString();
             // Fmt.bigIntToDouble(
             //   BigInt.parse(balance[0].toString().replaceAll(",", "")),
             //   int.parse(decimal),
@@ -118,7 +118,7 @@ class ContractsBalance extends ChangeNotifier {
           } else if (conProvider.addedContract[i].org == "BEP-20") {
             // decimal = await conProvider.get
             balance = await conProvider.query(api.isMainnet ? conProvider.addedContract[i].contract! : conProvider.addedContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, int.parse(conProvider.addedContract[i].chainDecimal!)))).toString();
+            conProvider.addedContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.addedContract[i].chainDecimal! ))).toString();
             // Fmt.bigIntToDouble(
             //   balance[0].toString().contains(",") ? BigInt.parse(balance[0].toString().replaceAll(",", "")) : balance[0].toString() as BigInt,
             //   int.parse(decimal),

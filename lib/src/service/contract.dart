@@ -141,24 +141,20 @@ class ContractService implements IContractService {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
       final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
-
       final sender = await credentials.extractAddress();
       final maxGas = await getMaxGas(sender, txInfo);
 
       // final decimal = await getChainDecimal();
-
-      double decimal = double.parse(txInfo.chainDecimal!);
-
       res = await _client.sendTransaction(
         credentials,
         Transaction.callContract(
           contract: _contract,
-          maxGas: int.parse(trxInfo.maxGas!),
-          gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 5),
+          maxGas: maxGas.toInt(), //int.parse(trxInfo.maxGas!),
+          // gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 5),
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,
-            BigInt.from(double.parse(trxInfo.amount!) * pow(10, decimal) )
+            BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))
           ],
         ),
         chainId: null,
@@ -185,7 +181,7 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _decimalFunction(), []);
       return res.first;
     } catch (e){
-      // print("err getChainDecimal $e");
+      if (ApiProvider().isDebug) print("err getChainDecimal $e");
     }
     return 0 as BigInt;
   }
@@ -198,7 +194,7 @@ class ContractService implements IContractService {
       data: _sendFunction().encodeCall(
         [
           trxInfo.receiver,
-          BigInt.from(double.parse(trxInfo.amount!) * pow(10, double.parse(trxInfo.chainDecimal!)))
+          BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))
         ],
       ),
     );

@@ -15,15 +15,6 @@ import 'asset_detail.dart';
 class AssetInfo extends StatefulWidget {
   final int? index;
   final SmartContractModel? scModel;
-
-  // final String id;
-  // final String assetLogo;
-  // final String balance;
-  // final String tokenSymbol;
-  // final String org;
-  // final String marketPrice;
-  // final String priceChange24h;
-  // final Market marketData;
   final List<TransactionInfo>? transactionInfo;
   final bool? showActivity;
 
@@ -32,16 +23,6 @@ class AssetInfo extends StatefulWidget {
     @required this.scModel,
     this.transactionInfo,
     this.showActivity
-    // this.id,
-    // this.assetLogo,
-    // this.balance,
-    // this.tokenSymbol,
-    // this.org,
-    // this.marketPrice,
-    // this.priceChange24h,
-    // this.marketData,
-    // this.transactionInfo,
-    // this.showActivity,
   });
 
   @override
@@ -50,128 +31,17 @@ class AssetInfo extends StatefulWidget {
 
 class _AssetInfoState extends State<AssetInfo> {
   
-  final FlareControls _flareController = FlareControls();
-  final ModelScanPay _scanPayM = ModelScanPay();
-  final GetWalletMethod _method = GetWalletMethod();
   PageController controller = PageController();
   String totalUsd = '';
 
   int _tabIndex = 0;
 
-  final TxHistory _txHistoryModel = TxHistory();
+  double logoSize = 8.w;
 
-  final List<Map> _checkInList = [];
-  final List<Map> _checkOutList = [];
-  List<Map> _checkAll = [];
   GlobalKey<ScaffoldState>? _globalKey;
-
-  Future enableAnimation() async {
-    Navigator.pop(context);
-    setState(() {
-      _scanPayM.isPay = true;
-    });
-    _flareController.play('Checkmark');
-    Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
-    });
-  }
-
-  Future<List<TxHistory>> readTxHistory() async {
-    await StorageServices.fetchData(DbKey.txtHistory).then((value) {
-      if (value != null) {
-        for (final i in value) {
-          // ignore: unnecessary_parenthesis
-          if ((i['symbol'] == 'SEL')) {
-            _txHistoryModel.tx.add(TxHistory(
-              date: i['date'].toString(),
-              symbol: i['symbol'].toString(),
-              destination: i['destination'].toString(),
-              sender: i['sender'].toString(),
-              amount: i['amount'].toString(),
-              org: i['fee'].toString(),
-            ));
-          } else {
-            _txHistoryModel.txKpi.add(
-              TxHistory(
-                date: i['date'].toString(),
-                symbol: i['symbol'].toString(),
-                destination: i['destination'].toString(),
-                sender: i['sender'].toString(),
-                amount: i['amount'].toString(),
-                org: i['fee'].toString(),
-              ),
-            );
-          }
-        }
-      }
-    });
-    setState(() {});
-    return _txHistoryModel.tx;
-  }
-
-  Future<void> deleteHistory(int index, String symbol) async {
-    try {
-
-      final SharedPreferences _preferences = await SharedPreferences.getInstance();
-
-      if (symbol == 'SEL') {
-        _txHistoryModel.tx.removeAt(index);
-      } else {
-        _txHistoryModel.txKpi.removeAt(index);
-      }
-
-      final newTxList = List.from(_txHistoryModel.tx)..addAll(_txHistoryModel.txKpi);
-
-      await clearOldHistory().then((value) async {
-        await _preferences.setString('txhistory', jsonEncode(newTxList));
-      });
-
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error _deleteHistory $e");
-    }
-    return null;
-  }
-
-  Future<void> clearOldHistory() async {
-    await StorageServices.removeKey(DbKey.txtHistory);
-  }
-
-  Future<void> refresh() async {
-    await Future.delayed(const Duration(seconds: 3)).then((value) async {
-      if (widget.scModel!.symbol == "ATD") {
-        // Provider.of<ContractProvider>(context, listen: false).getAStatus();
-        // await getCheckInList();
-        // await getCheckOutList();
-        await sortList();
-      }
-    });
-  }
-
-  Future<String> dateConvert(int millisecond) async {
-    final df = DateFormat('dd-MM-yyyy hh:mm a');
-    final DateTime date = DateTime.fromMillisecondsSinceEpoch(millisecond);
-
-    return df.format(date);
-  }
-
-  Future<void> sortList() async {
-    _checkAll = List.from(_checkInList)..addAll(_checkOutList);
-
-    _checkAll.sort(
-      (a, b) => a['time'].toString().compareTo(
-            b['time'].toString(),
-          ),
-    );
-    setState(() {});
-    if (!mounted) return;
-  }
 
   String onSubmit(String value) {
     return value;
-  }
-
-  Future<void> showDetailDialog(TxHistory txHistory) async {
-    await txDetailDialog(context, txHistory);
   }
 
   void onPageChange(int index) {
@@ -196,6 +66,7 @@ class _AssetInfoState extends State<AssetInfo> {
       _tabIndex = 1;
       controller = PageController(initialPage: 1);
     }
+    AppServices.noInternetConnection(context: context);
 
     super.initState();
   }
@@ -210,7 +81,6 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   Widget build(BuildContext context) {
-
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
       key: _globalKey,
@@ -270,20 +140,20 @@ class _AssetInfoState extends State<AssetInfo> {
                                 ? Image.network(
                                   widget.scModel!.logo!,
                                   fit: BoxFit.contain,
-                                  width: 10.w,
-                                  height: 10.w,
+                                  width: logoSize,
+                                  height: logoSize,
                                 )
                                 : Image.asset(
                                     widget.scModel!.logo!,
                                     fit: BoxFit.contain,
-                                    width: 10.w,
-                                    height: 10.w,
+                                    width: logoSize,
+                                    height: logoSize,
                                   )
                                 ),
 
                                 MyText(
                                   left: 2.w,
-                                  fontSize: 18.0,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                   color: isDarkTheme
                                     ? AppColors.whiteHexaColor
@@ -300,7 +170,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: MyText(
-                                    text: widget.scModel!.org,
+                                    text: ApiProvider().isMainnet ? widget.scModel!.org : widget.scModel!.orgTest,
                                     fontWeight: FontWeight.w700,
                                     color: isDarkTheme
                                       ? AppColors.whiteHexaColor
@@ -356,7 +226,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: _operationRequest(context),
+                            child: _operationRequest(context, widget.scModel!),
                           ),
                             
                           // Row(
@@ -534,7 +404,7 @@ class _AssetInfoState extends State<AssetInfo> {
     );
   }
 
-  Widget _operationRequest(BuildContext context) {
+  Widget _operationRequest(BuildContext context, SmartContractModel scModel) {
     double width = 30.w;
     double height = 7.h;
     return Row(
@@ -562,7 +432,7 @@ class _AssetInfoState extends State<AssetInfo> {
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx(widget.index, "", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: SubmitTrx("", true, [], scModel: scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
           }
         ),
@@ -576,7 +446,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
             children: [
               MyText(
-                text: "Receieve",
+                text: "Receive",
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
@@ -590,7 +460,7 @@ class _AssetInfoState extends State<AssetInfo> {
           action: (){
             Navigator.push(
               context, 
-              Transition(child: ReceiveWallet(assetIndex: widget.index,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: ReceiveWallet(assetIndex: widget.index, scModel: widget.scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
           }
         )

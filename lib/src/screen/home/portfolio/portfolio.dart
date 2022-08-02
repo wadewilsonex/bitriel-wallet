@@ -21,6 +21,7 @@ class PortfolioState extends State<Portfolio>{
   @override
   void initState(){
     setChartData();
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 

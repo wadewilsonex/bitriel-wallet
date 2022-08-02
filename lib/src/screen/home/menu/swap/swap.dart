@@ -92,8 +92,9 @@ class _SwapState extends State<Swap> {
                       await enableAnimation(
                         'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                         'Go to wallet', () {
-                    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
-                      });
+                          Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+                        }
+                      );
 
                     } else {
                       Navigator.pop(context);
@@ -140,7 +141,7 @@ class _SwapState extends State<Swap> {
                 enableAnimation(
                   'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
                   'Go to wallet', () {
-                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 });
                 _swapModel.amountController!.text = '';
               } else {
@@ -333,25 +334,18 @@ class _SwapState extends State<Swap> {
           ),
         ),
       ),
-      btn2: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-
-          SizedBox(
-            height: 7.h,
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: MyGradientButton(
-              textButton: "CONFIRM",
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              action: () async {
-                Navigator.pop(context);
-                await confirmFunction();
-              }
-            ),
-          )
-        ],
+      btn2: SizedBox(
+        height: 7.h,
+        width: MediaQuery.of(context).size.width / 1.5,
+        child: MyGradientButton(
+          textButton: "CONFIRM",
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          action: () async {
+            Navigator.pop(context);
+            await confirmFunction();
+          }
+        ),
       )
     );
   }
@@ -368,6 +362,7 @@ class _SwapState extends State<Swap> {
   @override
   void initState() {
     _swapModel.amountController = TextEditingController();
+    AppServices.noInternetConnection(context: context);
     // Future.delayed(Duration(seconds: 2), (){
 
     //   successDialog("1", "Close", (){});
