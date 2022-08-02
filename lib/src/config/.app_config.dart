@@ -63,8 +63,8 @@ class AppConfig {
     NetworkParams(
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       httpUrlMN: 'https://app.selendra.org/',
-      wsUrlTN: 'wss://rpc1-testnet.selendra.org/',
-      wsUrlMN: 'wss://api-mainnet.selendra.org',
+      wsUrlTN: 'wss://rpc-testnet.selendra.org/',
+      wsUrlMN: 'wss://rpc-mainnet.selendra.org',
       ss58: 204,
       ss58MN: 972
     ),

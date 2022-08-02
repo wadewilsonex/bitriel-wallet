@@ -205,6 +205,7 @@ class TrxFunctional {
     if (txInfo.privateKey != null) {
       try {
         String? hash = await tokenService.sendToken(txInfo);
+        print("hash token: $hash");
         // if (hash != null) {
         //   txInfo.hash = hash;
         //   txInfo.scanUrl = ApiProvider().isMainnet ? AppConfig.networkList[3].scanMn! : AppConfig.networkList[3].scanTN! + txInfo.hash!;

@@ -11,10 +11,12 @@ class ReceiveWalletBody extends StatelessWidget {
   final int? assetIndex;
   final Function? onChanged;
 
-  const ReceiveWalletBody({
+  ReceiveWalletBody({
     this.assetIndex,
     this.onChanged,
   });
+
+  final double? logoSize = 12.w;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class ReceiveWalletBody extends StatelessWidget {
               //   )
               // : 
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   
                   RepaintBoundary(
@@ -57,17 +59,49 @@ class ReceiveWalletBody extends StatelessWidget {
                         right: paddingSize,
                         top: 16.0
                       ),
-                      padding: const EdgeInsets.all(paddingSize),
+                      padding: const EdgeInsets.all(paddingSize + 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
                         // boxShadow: [shadow(context)],
                         color: isDarkTheme
-                          ? Colors.white.withOpacity(0.06)
+                          ? Colors.white
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Column(
                         children: [
-                          
+                          if (assetIndex != null) Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return Column(
+                                children: [
+
+                                  ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: provider.sortListContract[assetIndex!].logo!.contains('http') 
+                                  ? Image.network(
+                                    provider.sortListContract[assetIndex!].logo!,
+                                    fit: BoxFit.contain,
+                                    width: logoSize,
+                                    height: logoSize,
+                                  )
+                                  : Image.asset(
+                                      provider.sortListContract[assetIndex!].logo!,
+                                      fit: BoxFit.contain,
+                                      width: logoSize,
+                                      height: logoSize,
+                                    )
+                                  ),
+
+                                  MyText(
+                                    top: paddingSize - 5,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    text: provider.sortListContract[assetIndex!].symbol
+                                  )
+                                ],
+                              );
+                            },
+                          ) else Container(),
+
                           if (assetIndex == null) Consumer<ReceiveWalletProvider>(
                             builder: (context, value, widget){
                               return QrViewTitle(
@@ -77,15 +111,13 @@ class ReceiveWalletBody extends StatelessWidget {
                                 onChanged: onChanged,
                               );
                             },
-                          ) else SizedBox(height: 5.5.h,),
+                          ) else SizedBox(height: 2.h,),
       
                           MyText(
                             bottom: 2.5.h,
-                            text: "Scan the qr code to perform transaction",
+                            text: "Scan the QR code to pay me",
                             fontSize: 16,
-                            color: isDarkTheme
-                              ? AppColors.whiteColorHexa
-                              : AppColors.textColor,
+                            color: AppColors.darkBgd
                           ),
                           
                           // Qr View
@@ -122,43 +154,85 @@ class ReceiveWalletBody extends StatelessWidget {
                           // ),
 
                           MyText(
-                            width: 100.w,
                             text: provider.accountM!.address ?? '',
-                            color: AppColors.secondarytext,
+                            color: AppColors.darkBgd,
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+
+                          Column(
+                            children: [
+                              MyGradientButton(
+                                edgeMargin: const EdgeInsets.only(top: 15),
+                                textButton: "Copy",
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
+                                action: () {
+                                  Clipboard.setData(
+                                    ClipboardData(text: provider.accountM!.address),
+                                  );
+                                  /* Copy Text */
+                                  provider.method.snackBar('Copied', provider.globalKey!);
+                                },
+                              ),
+                              MyFlatButton(
+                                isTransparent: true,
+                                buttonColor: AppColors.whiteHexaColor,
+                                textColor: AppColors.darkBgd,
+                                textButton: "Share",
+                                action: () {
+                                  provider.method.qrShare(provider.keyQrShare, provider.accountM!.address!);
+                                },
+                              )
+                            ],
                           ),
                         ],
                       ),
                     ),
+                  ),      
+
+                  assetIndex != null ? Consumer<ContractProvider>(
+                    builder: (context, provider, widget){
+                      
+                      return Column(
+                        children: [
+                          MyText(
+                            text: "Note: This address only receives ${provider.sortListContract[assetIndex!].symbol} ${ApiProvider().isMainnet ? provider.sortListContract[assetIndex!].org : provider.sortListContract[assetIndex!].orgTest}",
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.whiteColorHexa,
+                          ),
+                          MyText(
+                            text: "Do not transfer from other public chain.",
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.whiteColorHexa,
+                          )
+                        ],
+                      );
+                    }
+                  )
+                  : Consumer<ReceiveWalletProvider>(
+                    builder: (context, provider, widget){
+                      
+                      return Column(
+                        children: [
+                          MyText(
+                            text: "Note: This address only receives ${provider.lsContractSymbol![provider.initialValue]["symbol"]}",
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.whiteColorHexa,
+                          ),
+                          MyText(
+                            text: "Do not transfer from other public chain.",
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.whiteColorHexa,
+                          )
+                        ],
+                      );
+                    }
                   ),
-      
-                  Column(
-                    children: [
-                      MyGradientButton(
-                        edgeMargin: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
-                        textButton: "Copy",
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        action: () {
-                          Clipboard.setData(
-                            ClipboardData(text: provider.accountM!.address),
-                          );
-                          /* Copy Text */
-                          provider.method.snackBar('Copied', provider.globalKey!);
-                        },
-                      ),
-                      MyFlatButton(
-                        isTransparent: true,
-                        buttonColor: AppColors.whiteHexaColor,
-                        edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                        textButton: "Share",
-                        action: () {
-                          provider.method.qrShare(provider.keyQrShare, provider.accountM!.address!);
-                        },
-                      )
-                    ],
-                  ),
-                  
+
+                  Expanded(
+                    child: Image.asset("assets/logo/bitriel-text-logo.png", width: 100,),
+                  )
                 ],
               )
             ),

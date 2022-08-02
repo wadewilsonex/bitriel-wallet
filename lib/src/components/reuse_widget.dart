@@ -825,14 +825,6 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: hexaCodeToColor(AppColors.secondarytext),
-          ),
-          borderRadius: BorderRadius.circular(6),
-          color: Colors.white,
-        ),
         width: 45.w,
         child: QrImage(
           backgroundColor: Colors.white,

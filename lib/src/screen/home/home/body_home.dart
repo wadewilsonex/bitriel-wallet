@@ -116,22 +116,6 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "DeFi",
-                    fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
-                    textAlign: TextAlign.start,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-                  child: _defiMenu(context),
-                ),
-          
-                SizedBox(height: 25), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                  child: MyText(
                     text: "Marketplace",
                     fontSize: 17.5,
                     color: AppColors.whiteColorHexa,
@@ -142,6 +126,22 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
                   child: _marketPlaceMenu(context),
+                ),
+          
+                SizedBox(height: 25), 
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "Selendra ECO System",
+                    fontSize: 17.5,
+                    color: AppColors.whiteColorHexa,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
+                  child: _selEcoSysMenu(context),
                 ),
                 
               ],
@@ -326,17 +326,17 @@ class HomePageBody extends StatelessWidget {
     );
   }
 
-  Widget _defiMenu(BuildContext context) {
+  Widget _marketPlaceMenu(BuildContext context) {
     return Row(
       children: [
         Expanded(
           child: DefiMenuItem(
             image: Image.asset(
-              "assets/logo/bitriel-logo-v2.png",
-              width: 7.w,
-              height: 7.h,
+              "assets/logo/opensea.png",
+              width: 10.w,
+              height: 10.h,
             ),
-            title: "Bitriel DEX",
+            title: "OpenSea",
             action: () {
               underContstuctionAnimationDailog(context: context);
             },
@@ -362,7 +362,7 @@ class HomePageBody extends StatelessWidget {
     );
   }
 
-  Widget _marketPlaceMenu(BuildContext context) {
+  Widget _selEcoSysMenu(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -419,10 +419,10 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: MarketPlaceMenuItem(
                 image: Image.asset(
-                  "assets/logo/opensea.png",
+                  "assets/logo/bitriel-logo-v2.png",
                   width: 10.w,
                 ),
-                title: "OpenSea",
+                title: "Bitriel DEX",
                 action: () {
                   underContstuctionAnimationDailog(context: context);
                 },

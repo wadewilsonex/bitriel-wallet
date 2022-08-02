@@ -24,7 +24,7 @@ class ReuseDropDown extends StatelessWidget {
 
     return Theme(
       data: ThemeData(
-        canvasColor: hexaCodeToColor(AppColors.darkBgd)
+        canvasColor: hexaCodeToColor(AppColors.whiteColorHexa)
       ),
       child: DropdownButton<String>(
         value: initialValue,

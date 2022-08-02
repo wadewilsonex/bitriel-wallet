@@ -91,15 +91,15 @@ class AssetsItemComponent extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
               
-                        MyText(
-                          text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkTheme
-                            ? AppColors.darkSecondaryText
-                            : AppColors.darkSecondaryText,
-                          textAlign: TextAlign.start,
-                        )
+                        // MyText(
+                        //   text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
+                        //   fontSize: 12,
+                        //   fontWeight: FontWeight.bold,
+                        //   color: isDarkTheme
+                        //     ? AppColors.darkSecondaryText
+                        //     : AppColors.darkSecondaryText,
+                        //   textAlign: TextAlign.start,
+                        // )
                         
                       ],
                     ),
