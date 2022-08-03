@@ -31,14 +31,14 @@ class MenuBody extends StatelessWidget {
         // Wallet
         const MenuSubTitle(index: 1),
         
-        MyListTile(
-          icon: Icon(Iconsax.card_coin, color: Colors.white, size: 22.5.sp),
-          index: 2,
-          subIndex: 1,
-          onTap: () {
-            Navigator.push(context, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-          },
-        ),
+        // MyListTile(
+        //   icon: Icon(Iconsax.card_coin, color: Colors.white, size: 22.5.sp),
+        //   index: 2,
+        //   subIndex: 1,
+        //   onTap: () {
+        //     Navigator.push(context, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //   },
+        // ),
 
         MyListTile(
           icon: Icon(Iconsax.note_2, color: Colors.white, size: 22.5.sp),

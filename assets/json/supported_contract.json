@@ -38,7 +38,7 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": true
+        "show": false
     },
     {
         "id": "kiwigo",
@@ -136,6 +136,6 @@
         "balance": "0.0",
         "org_test": "BEP-20",
         "show": false,
-        "isContain": true
+        "isContain": false
     }
 ]

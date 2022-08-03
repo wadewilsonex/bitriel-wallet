@@ -1,16 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-<<<<<<< HEAD
 export "FLUTTER_ROOT=C:\Users\Daveat\Documents\dev_en\flutter"
 export "FLUTTER_APPLICATION_PATH=C:\Users\Daveat\Documents\bitriel"
-=======
-export "FLUTTER_ROOT=/Volumes/NewPart/flutter"
-export "FLUTTER_APPLICATION_PATH=/Volumes/Project/bitriel"
->>>>>>> 58df449cb28ba0d522dbddc70e830927e4951f0a
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
-export "FLUTTER_BUILD_NAME=5.0.7"
-export "FLUTTER_BUILD_NUMBER=89"
+export "FLUTTER_BUILD_NAME=5.0.10"
+export "FLUTTER_BUILD_NUMBER=93"
 export "DART_OBFUSCATION=false"
 export "TRACK_WIDGET_CREATION=false"
 export "TREE_SHAKE_ICONS=false"

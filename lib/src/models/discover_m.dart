@@ -54,14 +54,14 @@ class DiscoverContent {
         },
       ),
 
-      SelendraSwap(
-        title: "Swap SEL from V1 to V2",
-        subtitle: "If you have SEL v1, now it’s a good time to swap it to v2",
-        image: Image.asset("assets/SelendraCircle-White.png",), 
-        action: () {
-          Navigator.push(_context!, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-        },
-      ),
+      // SelendraSwap(
+      //   title: "Swap SEL from V1 to V2",
+      //   subtitle: "If you have SEL v1, now it’s a good time to swap it to v2",
+      //   image: Image.asset("assets/SelendraCircle-White.png",), 
+      //   action: () {
+      //     Navigator.push(_context!, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+      //   },
+      // ),
 
       SelendraSwap(
         title: "Stacking SEL Token",

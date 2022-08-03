@@ -18,8 +18,8 @@ class ContractsBalance extends ChangeNotifier {
 
       // await contractProvider.setSavedList().then((value) async {
 
-        await contractProvider.selTokenWallet(context);
-        await contractProvider.selv2TokenWallet(context);
+        // await contractProvider.selTokenWallet(context);
+        // await contractProvider.selv2TokenWallet(context);
         await contractProvider.ethWallet();
         await contractProvider.bnbWallet();
         await contractProvider.kgoTokenWallet();

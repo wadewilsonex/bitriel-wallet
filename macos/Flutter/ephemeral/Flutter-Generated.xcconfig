@@ -1,15 +1,10 @@
 // This is a generated file; do not edit or check into version control.
-<<<<<<< HEAD
 FLUTTER_ROOT=C:\Users\Daveat\Documents\dev_en\flutter
 FLUTTER_APPLICATION_PATH=C:\Users\Daveat\Documents\bitriel
-=======
-FLUTTER_ROOT=/Volumes/NewPart/flutter
-FLUTTER_APPLICATION_PATH=/Volumes/Project/bitriel
->>>>>>> 58df449cb28ba0d522dbddc70e830927e4951f0a
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=5.0.7
-FLUTTER_BUILD_NUMBER=89
+FLUTTER_BUILD_NAME=5.0.10
+FLUTTER_BUILD_NUMBER=93
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=false
 TREE_SHAKE_ICONS=false
