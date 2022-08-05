@@ -21,6 +21,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin connectivity_plus, dev.fluttercommunity.plus.connectivity.ConnectivityPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new com.example.launchexternalapp.LaunchexternalappPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin external_app_launcher, com.example.launchexternalapp.LaunchexternalappPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin flutter_aes_ecb_pkcs5, com.smallbuer.flutter_aes_ecb_pkcs5.FlutterAesEcbPkcs5Plugin", e);

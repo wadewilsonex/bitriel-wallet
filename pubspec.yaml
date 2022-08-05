@@ -145,11 +145,7 @@ dependencies:
   # path_provider:
   # downloads_path_provider_28:
 
-  google_fonts: ^2.3.1
-  unicons: ^2.1.0
-  get: ^4.6.1
-  sizer: ^2.0.15
-  crypto_font_icons: ^1.0.1
+  external_app_launcher: ^3.1.0
   
 dependency_overrides:
     # git:

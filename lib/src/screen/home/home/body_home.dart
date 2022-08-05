@@ -12,6 +12,7 @@ import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -373,8 +374,11 @@ class HomePageBody extends StatelessWidget {
                   width: 10.w,
                 ),
                 title: "SALA Digital",
-                action: () {
-                  underContstuctionAnimationDailog(context: context);
+                action: () async {
+                  await LaunchApp.openApp(
+                  androidPackageName: 'com.koompi.sala',
+                  // openStore: false
+                );
                 },
               ),
             ),
