@@ -8,7 +8,7 @@ import { Keyring } from "@polkadot/keyring";
 import { ApiPromise } from "@polkadot/api";
 
 import { subscribeMessage } from "./setting";
-let isMainnet = Boolean(false);
+let isMainnet = Boolean(true);
 let testNet = 204;
 let mainnet = 972;
 let keyring = new Keyring({ ss58Format: isMainnet ? mainnet : testNet, type: "sr25519" });
