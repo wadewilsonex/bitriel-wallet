@@ -1,12 +1,19 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../index.dart';
 
 class AssetDetail extends StatefulWidget {
-  final Market marketData;
-  const AssetDetail(this.marketData);
+  // final Market marketData;
+  final SmartContractModel scModel;
+  const AssetDetail(
+    // this.marketData, 
+    this.scModel
+  );
 
   @override
   _AssetDetailState createState() => _AssetDetailState();
@@ -37,20 +44,23 @@ class _AssetDetailState extends State<AssetDetail> {
 
   @override
   void initState() {
-    if (widget.marketData.totalSupply != null) {
-      totalSupply = convert(widget.marketData.totalSupply!);
-    }
-    if (widget.marketData.circulatingSupply != null) {
-      circulatingSupply = convert(widget.marketData.circulatingSupply!);
-    }
+    // print("widget.scModel.marketData!.description: ${widget.scModel.marketData!.description}");
+    // print("asset detail market data: ${widget.scModel.marketData!.name}");
+    // print("asset detail json: ${widget.scModel.name}");
+    // if (widget.marketData.totalSupply != null) {
+    //   totalSupply = convert(widget.marketData.totalSupply!);
+    // }
+    // if (widget.marketData.circulatingSupply != null) {
+    //   circulatingSupply = convert(widget.marketData.circulatingSupply!);
+    // }
 
-    if (widget.marketData.marketCap != null) {
-      marketCap = convert(widget.marketData.marketCap!);
-    }
+    // if (widget.marketData.marketCap != null) {
+    //   marketCap = convert(widget.marketData.marketCap!);
+    // }
 
-    if (widget.marketData.marketCapChange24H != null) {
-      marketCapChange24h = convert(widget.marketData.marketCapChange24H!);
-    }
+    // if (widget.marketData.marketCapChange24H != null) {
+    //   marketCapChange24h = convert(widget.marketData.marketCapChange24H!);
+    // }
     // totalSupply = convert(widget.marketData.totalSupply);
     // circulatingSupply = convert(widget.marketData.circulatingSupply);
     // marketCap = convert(widget.marketData.marketCap);
@@ -67,79 +77,14 @@ class _AssetDetailState extends State<AssetDetail> {
       child: Container(
         margin: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            
+            widget.scModel.marketData == null 
+            ? assetFromJson()
+            : assetFromApi(),
 
-            MyText(
-              text: 'Price Today',
-              textAlign: TextAlign.left,
-              fontWeight: FontWeight.bold,
-              top: 16.0,
-              bottom: 16.0,
-              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow('Price', '\$${widget.marketData.currentPrice ?? ''}', ''),
-            line(),
-            textRow(
-                'Price Change 24h',
-                '\$${widget.marketData.priceChange24H ?? ''} ',
-                ' ${widget.marketData.priceChangePercentage24H ?? ''}%'),
-            line(),
-            textRow(
-                '24h Low / 24 High',
-                '\$${widget.marketData.low24H ?? ''} / \$${widget.marketData.high24H ?? ''}',
-                ''),
-            line(),
-            textRow('Market Rank', '#${widget.marketData.marketCapRank ?? ''}', ''),
-            line(),
-            MyText(
-              text: 'Market Cap',
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.left,
-              top: 16,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow('Market Cap', '\$$marketCap', ''),
-            line(),
-            textRow('Market Cap Change 24h', '\$$marketCapChange24h', ''),
-            line(),
-            MyText(
-              text: 'Price History',
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.left,
-              top: 16.0,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow('All Time High', '\$${widget.marketData.ath ?? ''}', ''),
-            line(),
-            textRow('All Time Low', '\$${widget.marketData.atl ?? ''}', ''),
-            line(),
-            MyText(
-              text: 'Supply',
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.left,
-              top: 16.0,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            // textRow(
-            //     'Circulating Supply',
-            //     '$circulatingSupply ${widget.marketData.symbol!.toUpperCase() }',
-            //     ''),
-            // line(),
-            // textRow('Total Supply',
-            //     '$totalSupply ${widget.marketData.symbol!.toUpperCase()}', ''),
           ],
-        ),
+        )
       ),
     );
   }
@@ -159,14 +104,13 @@ class _AssetDetailState extends State<AssetDetail> {
     final isDarkTheme =
         Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 24.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0,),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MyText(
             text: leadingText,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            fontWeight: FontWeight.bold,
+            color: isDarkTheme ? "#C1C1C1" : AppColors.textColor,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
@@ -191,6 +135,114 @@ class _AssetDetailState extends State<AssetDetail> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget assetFromJson() {
+    return widget.scModel.description != null ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MyText(
+          text: 'Token Info',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+          color: AppColors.whiteColorHexa
+        ),
+
+        SizedBox(height: 16.0),
+
+        textRow('Token Name', '${widget.scModel.symbol!.toUpperCase()}', ''),
+
+        textRow('Project Name', '${widget.scModel.name}', ''),
+
+        textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+
+        line(),
+
+        SizedBox(height: 10.0),
+
+        MyText(
+          text: 'About ${widget.scModel.name}',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+          color: AppColors.whiteColorHexa,
+        ),
+
+        SizedBox(height: 16.0),
+
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.description}',
+          color: AppColors.whiteColorHexa,
+        ),
+      ],
+    )
+    :
+    SizedBox(
+      height: 60.sp,
+      child: OverflowBox(
+        minHeight: 60.h,
+        maxHeight: 60.h,
+        child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w, repeat: false),
+      )
+    );
+  }
+
+
+  Widget assetFromApi() {
+    return widget.scModel.marketData!.description != null ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MyText(
+          text: 'Token Info',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+          color: AppColors.whiteColorHexa
+        ),
+
+        SizedBox(height: 16.0),
+
+        textRow('Token Name', '${(widget.scModel.marketData!.symbol)!.toUpperCase()}', ''),
+
+        textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
+
+        textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
+
+        line(),
+
+        SizedBox(height: 10.0),
+
+        MyText(
+          text: 'About ${widget.scModel.marketData!.name}',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+          color: AppColors.whiteColorHexa,
+        ),
+
+        SizedBox(height: 16.0),
+
+        widget.scModel.marketData!.description == null ?
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.marketData!.description}',
+          color: AppColors.whiteColorHexa,
+        )
+        :
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.description}',
+          color: AppColors.whiteColorHexa,
+        ),
+      ],
+    )
+    :
+    SizedBox(
+      height: 60.sp,
+      child: OverflowBox(
+        minHeight: 60.h,
+        maxHeight: 60.h,
+        child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w, repeat: false),
+      )
     );
   }
 }

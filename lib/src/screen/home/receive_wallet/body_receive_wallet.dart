@@ -26,11 +26,28 @@ class ReceiveWalletBody extends StatelessWidget {
         return Column(
           children: <Widget>[
             
-            MyAppBar(
-              title: "Receive",
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            SafeArea(
+              child: Stack(
+                children: [
+                  MyAppBar(
+                    title: "Receive",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+            
+                  assetIndex == null ? Consumer<ReceiveWalletProvider>(
+                    builder: (context, value, widget){
+                      return QrViewTitle(
+                        // assetInfo: provider.assetInfo,
+                        listContract: value.lsContractSymbol,
+                        initialValue: provider.initialValue.toString(),
+                        onChanged: onChanged,
+                      );
+                    },
+                  ) : Container()
+                ],
+              ),
             ),
             
             Expanded(
@@ -102,16 +119,16 @@ class ReceiveWalletBody extends StatelessWidget {
                             },
                           ) else Container(),
 
-                          if (assetIndex == null) Consumer<ReceiveWalletProvider>(
-                            builder: (context, value, widget){
-                              return QrViewTitle(
-                                // assetInfo: provider.assetInfo,
-                                listContract: value.lsContractSymbol,
-                                initialValue: provider.initialValue.toString(),
-                                onChanged: onChanged,
-                              );
-                            },
-                          ) else SizedBox(height: 2.h,),
+                          // if (assetIndex == null) Consumer<ReceiveWalletProvider>(
+                          //   builder: (context, value, widget){
+                          //     return QrViewTitle(
+                          //       // assetInfo: provider.assetInfo,
+                          //       listContract: value.lsContractSymbol,
+                          //       initialValue: provider.initialValue.toString(),
+                          //       onChanged: onChanged,
+                          //     );
+                          //   },
+                          // ) else SizedBox(height: 2.h,),
       
                           MyText(
                             bottom: 2.5.h,

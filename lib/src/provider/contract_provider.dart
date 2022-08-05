@@ -117,6 +117,8 @@ class ContractProvider with ChangeNotifier {
             isContain: value["isContain"],
             balance: value["balance"],
             show: value["show"],
+            maxSupply: value["max_supply"],
+            description: value["description"],
             listActivity: [],
             lineChartList: value['lineChartData'],
             lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
