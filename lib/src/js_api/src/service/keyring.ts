@@ -14,7 +14,7 @@ import { DispatchError } from "@polkadot/types/interfaces";
 import { ContractPromise } from "@polkadot/api-contract";
 import acc from './account';
 
-let keyring = new Keyring({ ss58Format: acc.isMainnet ? acc.mainnet : acc.testNet, type: "sr25519" });
+let keyring = new Keyring({ ss58Format: 204, type: "sr25519" });
 
 var selAddr;
 
@@ -150,7 +150,7 @@ async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
     ss58Formats.forEach((ss58) => {
       const pubKey = u8aToHex(keyPair.publicKey);
       (<any>res)[ss58][pubKey] = keyring.encodeAddress(keyPair.publicKey, ss58);
-      if (ss58 == (acc.isMainnet ? acc.mainnet : acc.testNet)){
+      if (ss58 == 204){
         selAddr = keyring.encodeAddress(keyPair.publicKey, ss58);
       }
     });
@@ -159,7 +159,7 @@ async function initKeys(accounts: KeyringPair$Json[], ss58Formats: number[]) {
 }
 
 async function getSELAddr() {
-  console.log("From Keyring getSELAddr acc.isMainnet ? acc.mainnet : acc.testNet" + acc.isMainnet ? acc.mainnet : acc.testNet);
+  console.log("From Keyring getSELAddr acc.isMainnet ? acc.mainnet : acc.testNet" + 204);
   return selAddr;
 }
 

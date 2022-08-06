@@ -572,11 +572,17 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getCurrentAccount({required BuildContext? context, String funcName = 'account'}) async {
+    print("getCurrentAccount");
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
-
       accountM.name = _keyring.current.name;
+      accountM.pubKey = _keyring.current.pubKey;
+      print(_keyring.current);
+      print(_keyring.current.observation);
+      print(accountM.address);
+      print(accountM.name);
+      print(accountM.pubKey);
 
       Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       

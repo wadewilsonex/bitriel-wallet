@@ -66,7 +66,7 @@ class AppConfig {
       wsUrlTN: 'wss://rpc-testnet.selendra.org/',
       wsUrlMN: 'wss://rpc-mainnet.selendra.org',
       ss58: 204,
-      ss58MN: 972
+      ss58MN: 204
     ),
     
     NetworkParams(
