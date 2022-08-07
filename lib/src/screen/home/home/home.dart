@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_options.dart';
+import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -19,6 +24,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   
   HomePageModel _model = HomePageModel();
+
+  PostRequest _postRequest = PostRequest();
+
+  Random _random = Random();
+
+  int? randomNum;
 
   final bool? pushReplacement = true;
 
@@ -57,6 +68,88 @@ class _HomePageState extends State<HomePage> {
     });
     // _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
+
+  Future<void> _scanLogin(String url) async {
+
+    dialogLoading(
+      context,
+      content: "Requesting SEL"
+    );
+
+    while (true){
+
+      randomNum = _random.nextInt(7);
+      if (randomNum != 0) break;
+    }
+
+    await Future.delayed(Duration(seconds: randomNum!), () async {
+
+      try {
+        await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).accountM.address!).then((value) async {
+        
+          // Close Dialog
+          Navigator.pop(context);
+        
+          if (json.decode(value.body)['success'] == true){
+
+            await DialogComponents().dialogCustom(
+              context: context,
+              contentsFontSize: 17,
+              titlesFontSize: 17,
+              contents: "500 SEL\nOn the way!",
+              textButton: "Complete",
+              image: Image.asset("assets/icons/success.png", width: 18.w, height: 8.h),
+              btn2: Container(),
+              btn: null
+            );
+            
+            // Navigator.pop(context);
+            // List<int> convert = decode['id'].toString().codeUnits;
+            // Uint8List uint8list = Uint8List.fromList(convert);
+            // String _credentials = await _signId(decode['id']);
+            // print("_credentials $_credentials");
+            // String signedDataHex = EthSigUtil.signMessage(
+            //   privateKey: _credentials,
+            //   message: uint8list
+            // );
+            // print("signedDataHex $signedDataHex");
+            // Navigator.pop(context);
+
+          } else {
+            await DialogComponents().dialogCustom(
+              contentsFontSize: 17,
+              titlesFontSize: 17,
+              context: context,
+              contents: "${json.decode(value.body)['data']}",
+              titles: "Oops",
+              btn2: Container(),
+              btn: null
+            );
+          }
+        });
+      } catch (e) {
+        
+        // Close Dialog
+        Navigator.pop(context);
+        
+        await DialogComponents().dialogCustom(
+          context: context,
+          contents: "${e.toString()}",
+          titles: "Oops",
+          btn2: Container(),
+          btn: null
+        );
+
+      }
+    });
+
+  }
+
+  // Future<String> _signId(String id) async {
+
+  //   return await Provider.of<ApiProvider>(context, listen: false).getPrivateKey("august midnight obvious fragile pretty begin useless collect elder ability enhance series");
+
+  // }
   
   @override
   Widget build(BuildContext context) {
@@ -65,6 +158,7 @@ class _HomePageState extends State<HomePage> {
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
+      getReward: _scanLogin
     );
   }
 }

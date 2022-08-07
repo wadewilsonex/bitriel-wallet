@@ -575,8 +575,8 @@ class ApiProvider with ChangeNotifier {
     try {
 
       accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
-
       accountM.name = _keyring.current.name;
+      accountM.pubKey = _keyring.current.pubKey;
 
       Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       

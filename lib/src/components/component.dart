@@ -262,7 +262,7 @@ class MyGradientButton extends StatelessWidget {
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
-          width: 100,
+          // width: 100,
           overflow: TextOverflow.ellipsis,
         ),
         onPressed: action == null ? null : (){
