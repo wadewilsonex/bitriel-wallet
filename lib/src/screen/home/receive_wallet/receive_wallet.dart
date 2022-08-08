@@ -45,11 +45,11 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
     if (widget.assetIndex == null) findAsset();
     else {
-      provider!.initialValue = Provider.of<ContractProvider>(context, listen: false).sortListContract.indexOf(widget.scModel!);
+      provider!.assetsIndex = Provider.of<ContractProvider>(context, listen: false).sortListContract.indexOf(widget.scModel!);
       // _scanPayM.assetValue = ;
     }
-    provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.initialValue].address;
-    print(Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.initialValue].address);
+    provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.assetsIndex].address;
+    print(Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.assetsIndex].address);
 
     // print("after ${widget.assetIndex!}");
 
@@ -86,7 +86,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   void findAsset(){
     for(int i = 0; i< provider!.lsContractSymbol!.length; i++){
       if (provider!.lsContractSymbol![i]['symbol'] == symbol){
-        provider!.initialValue = i;
+        provider!.assetsIndex = i;
         break;
       }
     }
@@ -95,7 +95,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
   void onChanged(String value) {
     setState(() {
-      provider!.initialValue = int.parse(value);
+      provider!.assetsIndex = int.parse(value);
     });
 
     changedEthAdd(value);
@@ -118,7 +118,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     return Scaffold(
       key: provider!.globalKey,
       body: ReceiveWalletBody(
-        assetIndex: widget.assetIndex,
+        // assetIndex: widget.assetIndex,
         onChanged: onChanged,
       ),
     );

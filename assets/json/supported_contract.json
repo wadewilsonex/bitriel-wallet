@@ -10,7 +10,9 @@
         "org_test": "Testnet",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "3,141,592,653",
+        "description": "SEL is the native token, unit of account, and fuel to operate on Selendra Blockchain system. While Selendra as the system will bridge to the outside blockchains, allows it users to liquidate and transact with anyone that interacts on the Internet."
     },
     {
         "id": "selendra",
@@ -24,7 +26,9 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": false
+        "show": false,
+        "max_supply": "",
+        "description": ""
     },
     {
         "id": "selendra v2",
@@ -38,7 +42,9 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": false
+        "show": false,
+        "max_supply": "",
+        "description": ""
     },
     {
         "id": "kiwigo",
@@ -52,7 +58,9 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "isContain": true,
-        "show": true
+        "show": true,
+        "max_supply": "",
+        "description": "KiwiGo is a super-app for frontier markets that provides a wide array of services empowering local businesses and individuals in their daily lives, from e-wallet, ride-hailing, food and grocery delivery, last-mile delivery, news aggregator, classifieds to in-app."
     },
     {
         "id": "ethereum",
@@ -66,7 +74,9 @@
         "org_test": "",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "",
+        "description": "Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether is the native cryptocurrency of the platform. Among cryptocurrencies, Ether is second only to Bitcoin in market capitalization. Ethereum was conceived in 2013 by programmer Vitalik Buterin."
     },
     {
         "id": "binance smart chain",
@@ -80,7 +90,9 @@
         "org_test": "",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "",
+        "description": "Binance Coin is the cryptocurrency issued by Binance exchange and trades with the BNB symbol. As of Q2 2022, Binance Exchange is the largest cryptocurrency exchange in the world, with a volume of $7.6 billion."
     },
     {
         "id": "polkadot",
@@ -94,7 +106,9 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "",
+        "description": "Polkadot is an open source blockchain platform and cryptocurrency. It provides interconnectivity and interoperability between blockchains, by enabling independent chains to securely exchange messages and perform transactions with each other without a trusted third-party."
     },
     {
         "id": "bitcoin",
@@ -108,7 +122,9 @@
         "org_test": "",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "",
+        "description": "Bitcoin is a decentralized digital currency that can be transferred on the peer-to-peer bitcoin network. Bitcoin transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain."
     },
     {
         "id": "rekreay",
@@ -122,7 +138,9 @@
         "org_test": "BEP-20",
         "balance": "0.0",
         "show": true,
-        "isContain": true
+        "isContain": true,
+        "max_supply": "",
+        "description": "REKREAY is a decentralized financial payment network that rebuilds the traditional payment stack on the blockchain. It utilizes a basket of fiat-pegged stablecoins, algorithmically stabilized by its reserve currency REKREAY, to facilitate programmable payments and open financial infrastructure development. As of December 2020, the network has transacted an estimated $299 billion for over 2 million users."
     },
     {
         "id": "attendant",
@@ -136,6 +154,8 @@
         "balance": "0.0",
         "org_test": "BEP-20",
         "show": false,
-        "isContain": false
+        "isContain": false,
+        "max_supply": "",
+        "description": ""
     }
 ]

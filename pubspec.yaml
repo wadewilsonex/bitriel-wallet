@@ -144,6 +144,8 @@ dependencies:
   # Download
   # path_provider:
   # downloads_path_provider_28:
+
+  external_app_launcher: ^3.1.0
   
 dependency_overrides:
     # git:

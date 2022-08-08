@@ -60,6 +60,7 @@ class _AssetInfoState extends State<AssetInfo> {
 
   @override
   void initState() {
+
     _globalKey = GlobalKey<ScaffoldState>();
 
     if (widget.showActivity != null) {
@@ -299,6 +300,7 @@ class _AssetInfoState extends State<AssetInfo> {
                             ),
                           ),
                         ),
+                        
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
@@ -366,26 +368,40 @@ class _AssetInfoState extends State<AssetInfo> {
                     );
               }),
 
-              if (widget.scModel!.marketData != null)
-                Container(
-                  color: isDarkTheme
-                      ? bg
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
-                  child: AssetDetail(widget.scModel!.marketData!),
-                )
-              else
-                Container(
-                  color: isDarkTheme
-                      ? bg
-                      : hexaCodeToColor(AppColors.whiteHexaColor),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      AppConfig.iconsPath+'no_data.svg',
-                      width: 150,
-                      height: 150,
-                    ),
-                  ),
-                ),
+              Container(
+                color: isDarkTheme
+                  ? bg
+                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                  child: AssetDetail(widget.scModel!),
+                // child: AssetDetail(widget.scModel!.marketData!, widget.scModel!),
+              )
+              // else if (widget.scModel!.description != "")
+              //   Container(
+              //     color: isDarkTheme
+              //       ? bg
+              //       : hexaCodeToColor(AppColors.whiteHexaColor),
+              //     child: Center(
+              //       child: MyText(text: widget.scModel!.description,)
+              //       // SvgPicture.asset(
+              //       //   AppConfig.iconsPath+'no_data.svg',
+              //       //   width: 150,
+              //       //   height: 150,
+              //       // ),
+              //     ),
+              //   )
+              // : 
+              // Container(
+              //   color: isDarkTheme
+              //     ? bg
+              //     : hexaCodeToColor(AppColors.whiteHexaColor),
+              //   child: Center(
+              //     child: SvgPicture.asset(
+              //       AppConfig.iconsPath+'no_data.svg',
+              //       width: 150,
+              //       height: 150,
+              //     ),
+              //   ),
+              // ),
               // Container(
               //   color: isDarkTheme
               //       ? hexaCodeToColor(AppColors.darkCard)

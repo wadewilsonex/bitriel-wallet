@@ -27,8 +27,6 @@ class ApiProvider with ChangeNotifier {
   Keyring _keyring = Keyring();
   MyApiKeyring? _apiKeyring;
 
-  KeyringStorage _keyringStorage = KeyringStorage();
-
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
   MyApiKeyring get apiKeyring => _apiKeyring!;

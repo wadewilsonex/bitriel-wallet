@@ -55,6 +55,7 @@ class Market {
     this.atlDate,
     this.roi,
     this.lastUpdated,
+    this.description,
   });
 
   String? id;
@@ -83,6 +84,7 @@ class Market {
   DateTime? atlDate;
   String? roi;
   DateTime? lastUpdated;
+  String? description;
 
   factory Market.fromJson(Map<String, dynamic> json) {
     return Market(
@@ -113,6 +115,7 @@ class Market {
         atlDate: DateTime.parse(json["atl_date"].toString()),
         roi: json["roi"].toString(),
         lastUpdated: DateTime.parse(json["last_updated"].toString()),
+        description: json["description"].toString(),
       );
     }
 
@@ -143,6 +146,7 @@ class Market {
         "atl_date": atlDate!.toIso8601String(),
         "roi": roi,
         "last_updated": lastUpdated!.toIso8601String(),
+        "description": description,
       };
 }
 
