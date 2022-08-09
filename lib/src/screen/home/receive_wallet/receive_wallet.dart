@@ -115,12 +115,9 @@ class ReceiveWalletState extends State<ReceiveWallet> {
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
-      key: provider!.globalKey,
-      body: ReceiveWalletBody(
-        // assetIndex: widget.assetIndex,
-        onChanged: onChanged,
-      ),
+    return ReceiveWalletBody(
+      // assetIndex: widget.assetIndex,
+      onChanged: onChanged,
     );
   }
 }

@@ -217,7 +217,7 @@ class MyGradientButton extends StatelessWidget {
 
   const MyGradientButton({
     this.child,
-    this.textButton,
+    this.textButton = "",
     this.lsColor = const [ "#F27649", "#F28907" ],
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
