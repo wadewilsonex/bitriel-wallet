@@ -348,14 +348,15 @@ class MyLogo extends StatelessWidget {
   final double? left;
 
   const MyLogo(
-      {@required this.logoPath,
-      this.color = "#FFFFFF",
-      this.width = 60,
-      this.height = 60,
-      this.top = 0,
-      this.right = 0,
-      this.bottom = 0,
-      this.left = 0});
+    {@required this.logoPath,
+    this.color = "#FFFFFF",
+    this.width = 60,
+    this.height = 60,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 0,
+    this.left = 0}
+  );
 
   @override
   Widget build(BuildContext context) {

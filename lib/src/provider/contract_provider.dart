@@ -94,36 +94,42 @@ class ContractProvider with ChangeNotifier {
   /// Fetch Support Contract From Json Inside Asset
   /// 
   /// Run First 
-  void initJson() async {
+  Future<void> initJson() async {
     try {
 
-      final json = await rootBundle.loadString(AssetPath.contractJson);
-      final decode = jsonDecode(json);
-      
-      listContract.clear();
-      
-      decode.forEach((value){
-        listContract.add(
-          SmartContractModel(
-            id: value['id'],
-            name: value["name"],
-            logo: value["logo"],
-            address: value['address'],
-            contract: value['contract'],
-            contractTest: value['contract_test'],
-            symbol: value["symbol"],
-            org: value["org"],
-            orgTest: value["org_test"],
-            isContain: value["isContain"],
-            balance: value["balance"],
-            show: value["show"],
-            maxSupply: value["max_supply"],
-            description: value["description"],
-            listActivity: [],
-            lineChartList: value['lineChartData'],
-            lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-          )
-        );
+      await setSavedList().then((value) async {
+        print("setSavedList initJson $value");
+        if (value == false){
+
+          final json = await rootBundle.loadString(AssetPath.contractJson);
+          final decode = jsonDecode(json);
+          
+          listContract.clear();
+          
+          decode.forEach((value){
+            listContract.add(
+              SmartContractModel(
+                id: value['id'],
+                name: value["name"],
+                logo: value["logo"],
+                address: value['address'],
+                contract: value['contract'],
+                contractTest: value['contract_test'],
+                symbol: value["symbol"],
+                org: value["org"],
+                orgTest: value["org_test"],
+                isContain: value["isContain"],
+                balance: value["balance"],
+                show: value["show"],
+                maxSupply: value["max_supply"],
+                description: value["description"],
+                listActivity: [],
+                lineChartList: value['lineChartData'],
+                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+              )
+            );
+          });
+        }
       });
 
       notifyListeners();

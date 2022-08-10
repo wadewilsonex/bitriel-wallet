@@ -793,8 +793,7 @@ Widget logoSize(
   double width,
   double height,
 ) {
-  return Image.asset(logoName,
-      width: width, height: height, color: Colors.white);
+  return Image.asset(logoName,width: width, height: height, color: Colors.white);
 }
 
 /* -----------------------------------Text Style--------------------------------------------------- */

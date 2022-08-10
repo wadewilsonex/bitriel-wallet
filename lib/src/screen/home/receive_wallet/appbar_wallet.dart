@@ -24,11 +24,33 @@ class QrViewTitle extends StatelessWidget {
         return DropdownButtonHideUnderline(
           child: DropdownButton2(
             isExpanded: true,
+            dropdownElevation: 16,
+            dropdownPadding: EdgeInsets.zero,
+            dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: hexaCodeToColor(AppColors.primary), width: 1)
+            ),
+            itemHeight: 50,
+            itemPadding: EdgeInsets.zero,
             icon: Icon(Icons.arrow_drop_down, color: hexaCodeToColor(AppColors.secondary),),
             items: listContract!.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
               return DropdownMenuItem<String>(
                 value: value['index'].toString(),
-                child: Text(value['symbol'])
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: MyText(text: value['symbol'], color2: Colors.white, overflow: TextOverflow.ellipsis,),
+                      ),
+                    ),
+                    Divider(
+                      color: hexaCodeToColor(AppColors.primary), 
+                      height: 1,
+                    )
+                  ],
+                )
               );
             }).toList(),
             // value: initialValue,

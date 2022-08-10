@@ -38,6 +38,11 @@ class ReceiveWalletBody extends StatelessWidget {
 
                 Expanded(
                   // width: MediaQuery.of(context).size.width/2,
+                  child: Container(),
+                ),
+
+                SizedBox(
+                  width: 130,
                   child: Consumer<ReceiveWalletProvider>(
                     builder: (context, value, widget){
                       return QrViewTitle(
@@ -48,7 +53,7 @@ class ReceiveWalletBody extends StatelessWidget {
                       );
                     },
                   ),
-                ),
+                )
               ],
             ),
           ),
