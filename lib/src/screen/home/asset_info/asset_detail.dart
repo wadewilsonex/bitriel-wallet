@@ -86,19 +86,17 @@ class _AssetDetailState extends State<AssetDetail> {
   }
 
   Widget line() {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       height: 1,
       color: isDarkTheme
-          ? hexaCodeToColor(AppColors.titleAssetColor)
-          : hexaCodeToColor(AppColors.textColor),
+        ? hexaCodeToColor(AppColors.titleAssetColor)
+        : hexaCodeToColor(AppColors.textColor),
     );
   }
 
   Widget textRow(String leadingText, String trailingText, String endingText) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
+    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0,),
       child: Row(
@@ -114,17 +112,17 @@ class _AssetDetailState extends State<AssetDetail> {
               MyText(
                 text: trailingText,
                 color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
                 overflow: TextOverflow.ellipsis,
               ),
               MyText(
                 text: endingText,
                 color: endingText != '' && endingText.substring(1, 2) == '-'
-                    ? '#FF0000'
-                    : isDarkTheme
-                        ? '#00FF00'
-                        : '#66CD00',
+                  ? '#FF0000'
+                  : isDarkTheme
+                      ? '#00FF00'
+                      : '#66CD00',
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -150,6 +148,8 @@ class _AssetDetailState extends State<AssetDetail> {
         textRow('Token Name', '${widget.scModel.symbol!.toUpperCase()}', ''),
 
         textRow('Project Name', '${widget.scModel.name}', ''),
+
+        textRow('Token Standard', '${widget.scModel.org}', ''),
 
         textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
 

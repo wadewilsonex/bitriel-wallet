@@ -65,7 +65,7 @@ class AppState extends State<App> {
         // Setup Cache
         if (value){
           // Sort After MarketPrice Filled Into Asset
-          // await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+          await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
           contractProvider.setReady();
         }

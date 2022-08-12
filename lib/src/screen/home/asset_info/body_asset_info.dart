@@ -18,7 +18,7 @@ class AssetInfoBody extends StatelessWidget {
     required this.onPageChange
   }) : super(key: key);
 
-  double logoSize = 8.w;
+  double logoSize = 15.w;
 
   @override
   Widget build(BuildContext context) {
@@ -75,23 +75,6 @@ class AssetInfoBody extends StatelessWidget {
                                   )
                                 ),
 
-                                ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: assetInfoModel!.smartContractModel!.logo!.contains('http') 
-                                ? Image.network(
-                                  assetInfoModel!.smartContractModel!.logo!,
-                                  fit: BoxFit.contain,
-                                  width: logoSize,
-                                  height: logoSize,
-                                )
-                                : Image.asset(
-                                    assetInfoModel!.smartContractModel!.logo!,
-                                    fit: BoxFit.contain,
-                                    width: logoSize,
-                                    height: logoSize,
-                                  )
-                                ),
-
                                 MyText(
                                   left: 2.w,
                                   fontSize: 17,
@@ -136,13 +119,61 @@ class AssetInfoBody extends StatelessWidget {
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
+
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
+
+                          // Logo
+                          GestureDetector(
+                            onTap: (){
+                              
+                            },
+                            child: Stack(
+                              children: [
+
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(80),
+                                  child: assetInfoModel!.smartContractModel!.logo!.contains('http') 
+                                  ? Image.network(
+                                    assetInfoModel!.smartContractModel!.logo!,
+                                    fit: BoxFit.contain,
+                                    width: logoSize,
+                                    height: logoSize,
+                                  )
+                                  : Image.asset(
+                                    assetInfoModel!.smartContractModel!.logo!,
+                                    fit: BoxFit.contain,
+                                    width: logoSize,
+                                    height: logoSize,
+                                  )
+                                ),
+
+                                Positioned(
+                                  right: 0,
+                                  child: Icon(
+                                    Icons.edit, 
+                                    size: 18.sp,
+                                    color: hexaCodeToColor(
+                                      // isDarkTheme
+                                      // ? AppColors.greyCode
+                                      // : 
+                                      AppColors.whiteColorHexa
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 10,
+                          ),
+
                           MyText(
                             text: '${assetInfoModel!.smartContractModel!.balance}${' ${assetInfoModel!.smartContractModel!.symbol}'}',
                             //AppColors.secondarytext,
-                            fontSize: 18,
+                            fontSize: 21,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: isDarkTheme
@@ -153,52 +184,21 @@ class AssetInfoBody extends StatelessWidget {
                           MyText(
                             top: 8.0,
                             text: "≈ \$ ${assetInfoModel!.smartContractModel!.money!.toStringAsFixed(2)}",
-                            // assetInfoModel!.smartContractModel!.balance != AppString.loadingPattern && assetInfoModel!.smartContractModel!.marketPrice != null
-                            //   ? '≈ \$$totalUsd'
-                            //   : '≈ \$0.00',
-
-                            fontSize: 18,
                             color: isDarkTheme
-                              ? AppColors.whiteColorHexa
+                              ? AppColors.greyCode
                               : AppColors.textColor,
                             //fontWeight: FontWeight.bold,
                           ),
 
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                          ),
 
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.only(bottom: 10.0),
                             child: _operationRequest(context, assetInfoModel!.smartContractModel!),
                           ),
                             
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-
-                          //     const SizedBox(width: 6.0),
-                          //     assetInfoModel!.smartContractModel!.change24h != null && assetInfoModel!.smartContractModel!.change24h != ''
-                          //     ? MyText(
-                          //       text: "≈ \$ ${assetInfoModel!.smartContractModel!.money!.toStringAsFixed(2)}",
-                          //       fontSize: 16,
-                          //       fontWeight: FontWeight.bold,
-                          //       color: double.parse(assetInfoModel!.smartContractModel!.change24h!).isNegative
-                          //         ? '#FF0000'
-                          //         : isDarkTheme
-                          //           ? '#00FF00'
-                          //           : '#66CD00',
-                          //     )
-                          //     : Flexible(
-                          //       child: MyText(
-                          //         text: assetInfoModel!.smartContractModel!.change24h!,
-                          //         fontSize: 16,
-                          //         fontWeight: FontWeight.bold,
-                          //         color: isDarkTheme
-                          //           ? '#00FF00'
-                          //           : '#66CD00',
-                          //       )
-                          //     )
-                          //   ],
-                          // ),
-
                         ],
                       ),
                     ),
@@ -295,8 +295,8 @@ class AssetInfoBody extends StatelessWidget {
                         child: Center(
                           child: SvgPicture.asset(
                             AppConfig.iconsPath+'no_data.svg',
-                            width: 150,
-                            height: 150,
+                            width: 15.w,
+                            height: 15.h,
                           )
                         ),
                       )
