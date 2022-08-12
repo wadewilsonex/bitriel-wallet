@@ -62,9 +62,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
     /// Occure when user tap on Asset from Assets Detail Page.
     if (widget.scModel != null){
-
-      print(widget.scModel!.symbol ?? '');
-      print(widget.scModel!.balance ?? '');
+      
       _scanPayM.asset = widget.scModel!.symbol;
       _scanPayM.balance = widget.scModel!.balance;
       _scanPayM.assetValue = _contractProvider!.sortListContract.indexOf(widget.scModel!);

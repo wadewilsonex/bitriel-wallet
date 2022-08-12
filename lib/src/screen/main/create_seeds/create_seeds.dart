@@ -20,13 +20,15 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   
   CreateKeyModel _model = CreateKeyModel();
 
-  void generateKey() async {
-    //"orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";
-    _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
-    print(_model.seed);
-    // Split Seed to list
-    _model.lsSeeds = _model.seed!.split(" ");
-    setState(() { });
+  void _generateKey() async {
+    if (_model.seed!.isEmpty){
+
+      //"orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";
+      _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
+      // Split Seed to list
+      _model.lsSeeds = _model.seed!.split(" ");
+      setState(() { });
+    }
   }
 
   void _showWarning(BuildContext context) {
@@ -126,7 +128,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   void initState() {
     _model.initial = true;
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
-    generateKey();
+    _generateKey();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWarning(context);
     });
@@ -138,7 +140,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
   Widget build(BuildContext context) {
     return CreateSeedsBody(
       createKeyModel: _model,
-      generateKey: generateKey,
+      generateKey: _generateKey,
     );
   }
 }

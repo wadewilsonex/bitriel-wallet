@@ -104,14 +104,16 @@ class SmartContractModel {
     'description': asset.description
   };
 
-  static String encode(List<SmartContractModel> assets) => jsonEncode(
-    assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList(),
-  );
+  static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
 
-  static List<SmartContractModel> decode(String asset) {
-    print("decode decode decode");
-    dynamic data = jsonDecode(asset);//.map((item) => SmartContractModel.fromJson(item)).toList();
-    print('data ${data.runtimeType} $data');
+    return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
+  }
+
+  static Future<List<SmartContractModel>> decode(String asset) async {
+    final decode = await json.decode(asset);
+    List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
+    // print('data ${data.runtimeType} ${data[0]}');
+    // print('decode again ${jsonDecode(data)[0]}');
     return data;
   }
 }

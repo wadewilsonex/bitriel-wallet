@@ -227,7 +227,6 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> searchEtherContract() async {
-    print('searchEtherContract');
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
       if (res != null) {

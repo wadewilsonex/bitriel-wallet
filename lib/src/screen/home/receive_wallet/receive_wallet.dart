@@ -49,7 +49,6 @@ class ReceiveWalletState extends State<ReceiveWallet> {
       // _scanPayM.assetValue = ;
     }
     provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.assetsIndex].address;
-    print(Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.assetsIndex].address);
 
     // print("after ${widget.assetIndex!}");
 

@@ -99,11 +99,13 @@ class ContractProvider with ChangeNotifier {
 
       print("initJson listContract.isEmpty ${listContract.isEmpty}");
       // True In Case First Time Initialize
-      // await setSavedList().then((value) async {
-      //   print("setSavedList $value");
-      //   if (value == false){
+      await setSavedList().then((value) async {
+        print("setSavedList $value");
+        if (value == false){
 
           final json = await rootBundle.loadString(AssetPath.contractJson);
+
+          print("rootBundle.loadString ${json.runtimeType}");
           final decode = jsonDecode(json);
           
           listContract.clear();
@@ -131,7 +133,7 @@ class ContractProvider with ChangeNotifier {
               )
             );
           });
-        // }
+        }
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
 
@@ -139,7 +141,7 @@ class ContractProvider with ChangeNotifier {
           print("value $value");
         });
         notifyListeners();
-      // });
+      });
 
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error initJson $e");

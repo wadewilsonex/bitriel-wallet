@@ -75,8 +75,8 @@ class StorageServices {
       final lsContract = SmartContractModel.encode(contract.listContract);
       final adContract = SmartContractModel.encode(contract.addedContract);
 
-      await _preferences!.setString(DbKey.listContract, lsContract);
-      await _preferences!.setString(DbKey.addedContract, adContract);
+      await _preferences!.setString(DbKey.listContract, jsonEncode(lsContract));
+      await _preferences!.setString(DbKey.addedContract, jsonEncode(adContract));
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error storeAssetData $e");
     }

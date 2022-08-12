@@ -9,15 +9,12 @@ class PostRequest {
   PackageInfo? _info;
 
   Future<_http.Response> requestReward(final String url, final String address) async {
-    print("address $address");
     _info = await PackageInfo.fromPlatform();
     body = json.encode({
       "address": address,
       "bitriel_Id": _info!.packageName
     });
 
-    print("$url/api/claim");
-    print("body $body");
     return await _http.post(
       Uri.parse(url+"/api/claim"),
       headers: _conceteHeader(),
