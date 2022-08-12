@@ -60,8 +60,6 @@ class MarketProvider with ChangeNotifier {
 
         final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id[i]}'));
 
-        print("id[i] id[i] ${id[i]}");
-        print("response response ${response.body}");
         final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
 
         if (response.statusCode == 200 && jsonResponse.isNotEmpty) {

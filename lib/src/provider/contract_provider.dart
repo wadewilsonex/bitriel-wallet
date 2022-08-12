@@ -97,9 +97,11 @@ class ContractProvider with ChangeNotifier {
   Future<void> initJson() async {
     try {
 
-      await setSavedList().then((value) async {
-        print("setSavedList initJson $value");
-        if (value == false){
+      print("initJson listContract.isEmpty ${listContract.isEmpty}");
+      // True In Case First Time Initialize
+      // await setSavedList().then((value) async {
+      //   print("setSavedList $value");
+      //   if (value == false){
 
           final json = await rootBundle.loadString(AssetPath.contractJson);
           final decode = jsonDecode(json);
@@ -129,10 +131,15 @@ class ContractProvider with ChangeNotifier {
               )
             );
           });
-        }
-      });
+        // }
 
-      notifyListeners();
+        await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
+
+        await StorageServices.fetchAsset(DbKey.listContract).then((value) {
+          print("value $value");
+        });
+        notifyListeners();
+      // });
 
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error initJson $e");
@@ -150,9 +157,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> setSavedList() async {
+
+    listContract.clear();
+
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
+        print("DbKey.listContract $value");
         if (value != null) {
           listContract = List<SmartContractModel>.from(value);
         }
@@ -165,7 +176,7 @@ class ContractProvider with ChangeNotifier {
       });
       notifyListeners();
           
-      return true;
+      return listContract.isNotEmpty ? true : false;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error setSavedList $e");
     }
