@@ -12,7 +12,6 @@ import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/body_asset_info.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import '../../../../index.dart';
-import 'asset_detail.dart';
 
 class AssetInfo extends StatefulWidget {
 

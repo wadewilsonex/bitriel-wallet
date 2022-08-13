@@ -1,5 +1,6 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
@@ -126,10 +127,27 @@ class AssetInfoBody extends StatelessWidget {
 
                           // Logo
                           GestureDetector(
-                            onTap: (){
-                              
+                            onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
+                              print("Index ${assetInfoModel!.index}");
+                              final image = ImagePicker();
+                              await image.pickImage(source: ImageSource.gallery).then((value) async {
+                                print(value!.path);
+                                if (value != null){
+                                  
+                                  Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
+                                    if (element.contract == assetInfoModel!.smartContractModel!.contract){
+                                      // element.logo = value.path;
+                                      // If found
+                                      return true;
+                                    }
+                                    // Not found
+                                    return false;
+                                  });
+                                }
+                              });
                             },
                             child: Stack(
+                              alignment: Alignment.topCenter,
                               children: [
 
                                 ClipRRect(
@@ -149,7 +167,7 @@ class AssetInfoBody extends StatelessWidget {
                                   )
                                 ),
 
-                                Positioned(
+                                assetInfoModel!.smartContractModel!.org == "BEP-20" || assetInfoModel!.smartContractModel!.org == "ERC-20" ? Positioned(
                                   right: 0,
                                   child: Icon(
                                     Icons.edit, 
@@ -161,7 +179,7 @@ class AssetInfoBody extends StatelessWidget {
                                       AppColors.whiteColorHexa
                                     ),
                                   ),
-                                )
+                                ) : Container()
                               ],
                             ),
                           ),

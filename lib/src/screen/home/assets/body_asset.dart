@@ -90,6 +90,7 @@ class AssetsPageBody extends StatelessWidget {
                         _selendraNetworkList(context, model!.nativeAssets!, ),
                         _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
                         _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                        
                       ]
                     ),
                   )

@@ -9,7 +9,6 @@ class SmartContractModel {
   String? address;
   String? contract;
   String? contractTest;
-  int? chainDecimal;
   String? symbol;
   String? name;
   String? balance;
@@ -20,6 +19,7 @@ class SmartContractModel {
   Market? marketData;
   String? marketPrice;
   String? change24h;
+  int? chainDecimal;
   bool? isContain;
   bool? show;
   String? maxSupply;

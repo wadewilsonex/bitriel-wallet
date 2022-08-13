@@ -72,6 +72,7 @@ dependencies:
   # Camera
   qr_flutter: 
   qr_code_scanner: ^1.0.0
+  image_picker:
 
   # Chart
   fl_chart: ^0.46.0

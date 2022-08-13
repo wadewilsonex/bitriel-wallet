@@ -426,40 +426,18 @@ class ContractProvider with ChangeNotifier {
 
       // 2. Add Imported Asset
       addedContract.forEach((element) {
-        // print("symbol ${element.symbol}");
-        // print("id ${element.id}");
-        // print("address ${element.address}");
-        // print("symbol ${element.symbol}");
-        // print("balance ${element.balance}");
-        // print("type ${element.type}");
-        // print("logo ${element.logo}");
-        // print("org ${element.org}");
-        // print("orgTest ${element.orgTest}");
-        // print("marketData ${element.marketData}");
-        // print("lineChartList ${element.lineChartList}");
-        // print("change24h ${element.change24h}");
-        // print("marketPrice ${element.marketPrice}");
-        // print("name ${element.name}");
-        // print("chainDecimal ${element.chainDecimal}");
-        // print("contract ${element.contract}");
-        // print("contractTest ${element.contractTest}");
-        // print("lineChartModel ${element.lineChartModel}!");
-        // if (element.show!) 
-        // print("value.balance!.replaceAll(',', '') ${value.replaceAll(",", "")}");
         if (element.marketPrice!.isNotEmpty) element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         else element.money = 0.0;
-        mainBalance = mainBalance + element.money!;// + double.parse(element.balance!.replaceAll(",", ""));
+        mainBalance = mainBalance + element.money!;
         sortListContract.addAll({element});
+        
       });
 
       // Sort Descending
       if (sortListContract.isNotEmpty) {
 
         tmp = new SmartContractModel();
-        for (int i = 0; i < sortListContract.length; i++) {
-          // if (sortListContract[i].balance!.contains(",")) {
-          //   sortListContract[i].balance = sortListContract[i].balance!.replaceAll(",", "");
-          // } 
+        for (int i = 1; i < sortListContract.length; i++) {
 
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];
