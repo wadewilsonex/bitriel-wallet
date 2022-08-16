@@ -41,23 +41,6 @@ class MenuBody extends StatelessWidget {
         // ),
 
         MyListTile(
-          icon: Icon(Iconsax.dollar_circle, color: Colors.white, size: 22.5.sp),
-          index: 2,
-          subIndex: 0,
-          onTap: () async {
-            final _response = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => QrScanner()
-              )
-            );
-            
-            if (_response == "hello") {
-              dialogLoading(context, content: "Claiming SEL from the event to your account \n Thanks for attendance!!!");
-            }
-          },
-        ),
-
-        MyListTile(
           icon: Icon(Iconsax.note_2, color: Colors.white, size: 22.5.sp),
           index: 1,
           subIndex: 0,

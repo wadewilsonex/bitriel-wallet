@@ -57,15 +57,29 @@ class QrScannerState extends State<QrScanner> {
               },
             ),
             Expanded(
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: (QRViewController qrView) async {
-                  await _onQrViewCreated(qrView);
-                },
-                overlay: QrScannerOverlayShape(
-                  borderRadius: 10,
-                  borderWidth: 10,
-                ),
+              child: Stack(
+                children: [
+                  QRView(
+                    key: qrKey,
+                    onQRViewCreated: (QRViewController qrView) async {
+                      await _onQrViewCreated(qrView);
+                    },
+                    overlay: QrScannerOverlayShape(
+                      borderColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                      borderRadius: 10,
+                      borderWidth: 10,
+                    ),
+                  ),
+                  Positioned(
+                    left: 95,
+                    top: 525,
+                    child: MyText(
+                      text: "Scan QR Code to login, send, pay",
+                      // fontSize: 15,
+                      color: AppColors.whiteColorHexa,
+                    ),
+                  )
+                ]
               )
             ),
           ],

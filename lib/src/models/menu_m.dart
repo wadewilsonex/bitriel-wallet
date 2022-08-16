@@ -39,7 +39,6 @@ class MenuModel {
     {
       'title': "SEL Events",
       'sub': [
-        {'icon': AppConfig.iconsPath+"form.svg", 'subTitle': 'Claim SEL'},
         {'icon': AppConfig.iconsPath+"swap.svg", 'subTitle': 'Swap SEL v2'},
         {'icon': AppConfig.iconsPath+"presale.svg", 'subTitle': 'Presale SEL'},
       ]
