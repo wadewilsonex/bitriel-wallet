@@ -7,7 +7,9 @@ class ReceiveWalletProvider with ChangeNotifier {
   GlobalKey keyQrShare = GlobalKey();
 
   GetWalletMethod method = GetWalletMethod();
-  int initialValue = 0;
+
+  /// For DropDown
+  int assetsIndex = 0;
   List<Map<String, dynamic>>? lsContractSymbol;
   AccountM? accountM = AccountM();
 

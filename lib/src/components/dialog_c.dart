@@ -106,7 +106,19 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ required BuildContext? context, String? titles, EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , String? contents, Widget? contents2, LottieBuilder? lottie, Image? image, String? textButton, btn, btn2, bool? isDarkTheme}) async {
+  Future<void> dialogCustom({ 
+    required BuildContext? context, 
+    String? titles, 
+    double? titlesFontSize = 15,
+    EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , 
+    String? contents, 
+    double? contentsFontSize = 15,
+    Widget? contents2, 
+    LottieBuilder? lottie, 
+    Image? image, 
+    String? textButton, btn, btn2, 
+    bool? isDarkTheme
+  }) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
@@ -121,6 +133,7 @@ class DialogComponents {
             title: titles != null ? MyText(
               text: titles,
               fontWeight: FontWeight.bold,
+              fontSize: titlesFontSize,
               color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
             ) : Container(),
             buttonPadding: btn2 != null ? EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
@@ -137,7 +150,7 @@ class DialogComponents {
                 image != null ? SizedBox(height: 3.h) : Container(),
                 MyText(
                   text: contents,
-                  // fontSize: 17,
+                  fontSize: titlesFontSize,
                   color: AppColors.whiteColorHexa, 
                 )
               ],

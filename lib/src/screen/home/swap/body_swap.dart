@@ -515,7 +515,7 @@ class SwapPageBody extends StatelessWidget {
       onTabNum: onTabNum,
       // do something with the input numbers
       onSubmit: () {
-        debugPrint('Your code: ${swapPageModel!.myController!.text}');
+        // debugPrint('Your code: ${swapPageModel!.myController!.text}');
       },
     );
   }

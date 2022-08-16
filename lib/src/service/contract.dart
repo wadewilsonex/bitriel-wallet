@@ -46,7 +46,6 @@ class ContractService implements IContractService {
   Future<BigInt> getTokenBalance(EthereumAddress from) async {
     try {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
-      print(res);
       return res.first as BigInt;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error getTokenBalance $e");

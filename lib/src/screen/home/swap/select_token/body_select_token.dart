@@ -132,7 +132,6 @@ class SelectSwapTokenBody extends StatelessWidget {
                         if (provider.searched.isNotEmpty){
 
                           index = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
-                          print(Provider.of<SwapProvider>(context, listen: false).ls[index].title);
                         }
                         provider.setNewAsset(index);
                         provider.searched = [];

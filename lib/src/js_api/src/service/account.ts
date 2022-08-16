@@ -8,10 +8,7 @@ import { Keyring } from "@polkadot/keyring";
 import { ApiPromise } from "@polkadot/api";
 
 import { subscribeMessage } from "./setting";
-let isMainnet = Boolean(true);
-let testNet = 204;
-let mainnet = 972;
-let keyring = new Keyring({ ss58Format: isMainnet ? mainnet : testNet, type: "sr25519" });
+let keyring = new Keyring({ ss58Format: 204, type: "sr25519" });
 
 var selAddr;
 
@@ -38,7 +35,7 @@ async function genIcons(addresses: string[]) {
  */
 async function genPubKeyIcons(pubKeys: string[]) {
   const icons = await genIcons(
-    pubKeys.map((key) => keyring.encodeAddress(hexToU8a(key), isMainnet ? mainnet : testNet))
+    pubKeys.map((key) => keyring.encodeAddress(hexToU8a(key), 204))
   );
   return icons.map((i, index) => {
     i[0] = pubKeys[index];
@@ -75,7 +72,7 @@ async function encodeAddress(pubKeys: string[], ss58Formats: number[]) {
     pubKeys.forEach((i) => {
       (<any>res)[ss58][i] = keyring.encodeAddress(hexToU8a(i), ss58);
       // For Only Import or Create Account
-      if (ss58 == (isMainnet ? mainnet : testNet)) {
+      if (ss58 == 204) {
         selAddr = keyring.encodeAddress(hexToU8a(i), ss58);
       }
     });
@@ -88,12 +85,6 @@ async function getSELAddr() {
   return selAddr;
 }
 
-function setupss58Format(value: boolean){
-
-  console.log("From Account setupss58Format acc.isMainnet ? acc.mainnet : acc.testNet" + isMainnet ? mainnet : testNet);
-  isMainnet = value;
-}
-
 /**
  * query account address with account index
  */
@@ -102,9 +93,7 @@ async function queryAddressWithAccountIndex(
   accIndex: string,
   ss58: number
 ) {
-  console.log(accIndex, ss58);
   const num = ss58Decode(accIndex, ss58).toJSON();
-  console.log("num num", num);
   const res = await api.query.indices.accounts(num.data);
   return res;
 }
@@ -115,7 +104,7 @@ async function queryAddressWithAccountIndex(
 async function queryAccountsBonded(api: ApiPromise, pubKeys: string[]) {
   return Promise.all(
     pubKeys
-      .map((key) => keyring.encodeAddress(hexToU8a(key), isMainnet ? mainnet : testNet))
+      .map((key) => keyring.encodeAddress(hexToU8a(key), 204))
       .map((i) =>
         Promise.all([api.query.staking.bonded(i), api.query.staking.ledger(i)])
       )
@@ -176,9 +165,5 @@ export default {
   queryAccountsBonded,
   getBalance,
   getAccountIndex,
-  getSELAddr,
-  setupss58Format,
-  isMainnet,
-  testNet,
-  mainnet
+  getSELAddr
 };

@@ -793,8 +793,7 @@ Widget logoSize(
   double width,
   double height,
 ) {
-  return Image.asset(logoName,
-      width: width, height: height, color: Colors.white);
+  return Image.asset(logoName,width: width, height: height, color: Colors.white);
 }
 
 /* -----------------------------------Text Style--------------------------------------------------- */
@@ -821,23 +820,19 @@ Widget textDisplay(String text, TextStyle textStyle) {
 
 /* QR Code Generate Function */
 Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      Container(
-        width: 45.w,
-        child: QrImage(
-          backgroundColor: Colors.white,
+  return Container(
+    width: 45.w,
+    child: QrImage(
+      padding: EdgeInsets.zero,
+      backgroundColor: Colors.white,
 
-          //embeddedImage: AssetImage(logoName),
-          embeddedImageStyle: QrEmbeddedImageStyle(
-            // size: Size(10.w, 10.h),
-          ),
-          // version: QrVersions.auto,
-          data: wallet,
-        ),
+      // embeddedImage: logoName.contains("http") ?  : AssetImage(logoName),
+      embeddedImageStyle: QrEmbeddedImageStyle(
+        // size: Size(10.w, 10.h),
       ),
-    ],
+      // version: QrVersions.auto,
+      data: wallet,
+    ),
   );
 }
 

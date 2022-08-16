@@ -51,7 +51,6 @@ class _SwapPageState extends State<SwapPage> {
     if (_model.myController!.text.isNotEmpty){
 
       if (_model.myController!.text.contains("0.")){
-        print(_model.myController!.text == "0.");
         if (_model.myController!.text == "0."){
           _model.myController!.text = _model.myController!.text.replaceRange(0, _model.myController!.text.length, "");
           _model.cursor = _model.cursor!-1;

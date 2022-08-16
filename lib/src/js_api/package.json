@@ -37,7 +37,8 @@
         "oo7-substrate": "^0.8.0",
         "process": "^0.11.10",
         "secp256k1": "^3.8.0",
-        "typescript": "^4.5.5"
+        "typescript": "^4.5.5",
+        "yarn": "^1.22.19"
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",

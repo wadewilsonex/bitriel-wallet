@@ -9,7 +9,6 @@ class SmartContractModel {
   String? address;
   String? contract;
   String? contractTest;
-  int? chainDecimal;
   String? symbol;
   String? name;
   String? balance;
@@ -20,6 +19,7 @@ class SmartContractModel {
   Market? marketData;
   String? marketPrice;
   String? change24h;
+  int? chainDecimal;
   bool? isContain;
   bool? show;
   String? maxSupply;
@@ -104,9 +104,16 @@ class SmartContractModel {
     'description': asset.description
   };
 
-  static String encode(List<SmartContractModel> assets) => json.encode(
-    assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList(),
-  );
+  static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
 
-  static List<SmartContractModel> decode(String asset) => (json.decode(asset) as List<dynamic>).map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
+    return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
+  }
+
+  static Future<List<SmartContractModel>> decode(String asset) async {
+    final decode = await json.decode(asset);
+    List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
+    // print('data ${data.runtimeType} ${data[0]}');
+    // print('decode again ${jsonDecode(data)[0]}');
+    return data;
+  }
 }

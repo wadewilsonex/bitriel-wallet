@@ -39,7 +39,9 @@ class StorageServices {
 
       _preferences = await SharedPreferences.getInstance();
       _decode = jsonEncode(_data);
-      _preferences!.setString(_path, _decode!);
+      print("_decode $_decode");
+      await _preferences!.setString(_path, _decode!);
+
     } catch (e){
       if (ApiProvider().isDebug == true) print("Error storeData $e");
     }
@@ -59,11 +61,13 @@ class StorageServices {
     }
 
     _decode = jsonEncode(ls);
-    _preferences!.setString(_path, _decode!);
+    await _preferences!.setString(_path, _decode!);
     return _preferences!;
   }
 
   static Future<void> storeAssetData(BuildContext context) async {
+
+    print("storeAssetData storeAssetData");
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -71,8 +75,8 @@ class StorageServices {
       final lsContract = SmartContractModel.encode(contract.listContract);
       final adContract = SmartContractModel.encode(contract.addedContract);
 
-      await _preferences!.setString(DbKey.listContract, lsContract);
-      await _preferences!.setString(DbKey.addedContract, adContract);
+      await _preferences!.setString(DbKey.listContract, jsonEncode(lsContract));
+      await _preferences!.setString(DbKey.addedContract, jsonEncode(adContract));
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error storeAssetData $e");
     }
@@ -216,7 +220,6 @@ class StorageServices {
       if (_decode != null){
 
         final res = SmartContractModel.decode(_decode!);
-
         return res;
       }
 

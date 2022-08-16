@@ -217,7 +217,7 @@ class MyGradientButton extends StatelessWidget {
 
   const MyGradientButton({
     this.child,
-    this.textButton,
+    this.textButton = "",
     this.lsColor = const [ "#F27649", "#F28907" ],
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
@@ -262,7 +262,7 @@ class MyGradientButton extends StatelessWidget {
           text: textButton!,
           color: textColor!,
           fontWeight: fontWeight!,
-          width: 100,
+          // width: 100,
           overflow: TextOverflow.ellipsis,
         ),
         onPressed: action == null ? null : (){
@@ -348,14 +348,15 @@ class MyLogo extends StatelessWidget {
   final double? left;
 
   const MyLogo(
-      {@required this.logoPath,
-      this.color = "#FFFFFF",
-      this.width = 60,
-      this.height = 60,
-      this.top = 0,
-      this.right = 0,
-      this.bottom = 0,
-      this.left = 0});
+    {@required this.logoPath,
+    this.color = "#FFFFFF",
+    this.width = 60,
+    this.height = 60,
+    this.top = 0,
+    this.right = 0,
+    this.bottom = 0,
+    this.left = 0}
+  );
 
   @override
   Widget build(BuildContext context) {

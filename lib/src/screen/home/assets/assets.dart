@@ -29,23 +29,19 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
       await Future.delayed(Duration(seconds: 1), (){});
 
     // await PortfolioServices().setPortfolio(context);
+    if (_model.tabController!.index == 0 || _model.tabController!.index == 1){
 
-    // if (_model.pageController!.page!.toInt() == 0 || _model.pageController!.page!.toInt() == 1){
+      await ContractsBalance().refetchContractBalance(context: context);
+    } else if (_model.tabController!.index == 2){
+      _model.indicator!.currentState!.show();
+      await Future.delayed(Duration(seconds: 1), (){});
+      _model.bep20Assets = AppServices().sortAsset(_model.bep20Assets!);
+    } else if (_model.tabController!.index == 3){
+      _model.indicator!.currentState!.show();
+      await Future.delayed(Duration(seconds: 1), (){});
+      _model.erc20Assets = AppServices().sortAsset(_model.erc20Assets!);
 
-    //   print("_model.categoryIndex 1 or 0");
-    //   await ContractsBalance().refetchContractBalance(context: context);
-    // } else if (_model.pageController!.page!.toInt() == 2){
-    //   _model.indicator!.currentState!.show();
-    //   await Future.delayed(Duration(seconds: 1), (){});
-    //   print("_model.bep20Assets");
-    //   _model.bep20Assets = AppServices().sortAsset(_model.bep20Assets!);
-    // } else if (_model.pageController!.page!.toInt() == 3){
-    //   print("_model.erc20Assets");
-    //   _model.indicator!.currentState!.show();
-    //   await Future.delayed(Duration(seconds: 1), (){});
-    //   _model.erc20Assets = AppServices().sortAsset(_model.erc20Assets!);
-
-    // } 
+    } 
 
     // To Disable Asset Loading
     contract.setReady();

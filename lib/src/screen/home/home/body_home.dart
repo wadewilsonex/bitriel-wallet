@@ -21,6 +21,7 @@ class HomePageBody extends StatelessWidget {
   final bool? pushReplacement;
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
+  final Function? getReward;
 
   const HomePageBody({ 
     Key? key, 
@@ -29,6 +30,7 @@ class HomePageBody extends StatelessWidget {
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
+    this.getReward
     }) : super(key: key);
 
 
@@ -81,11 +83,15 @@ class HomePageBody extends StatelessWidget {
               ),
               onPressed: () async {
                 
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                  pushReplacement!,
-                );
+                final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                if (value != null){
+                  getReward!(value);
+                }
+                // await TrxOptionMethod.scanQR(
+                //   context,
+                //   [],
+                //   pushReplacement!,
+                // );
               },
             ),
           )

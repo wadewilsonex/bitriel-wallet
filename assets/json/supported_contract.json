@@ -103,7 +103,7 @@
         "address": "",
         "logo": "assets/icons/polkadot.png",
         "org": "",
-        "org_test": "BEP-20",
+        "org_test": "",
         "balance": "0.0",
         "show": true,
         "isContain": true,

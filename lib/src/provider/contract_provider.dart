@@ -94,39 +94,54 @@ class ContractProvider with ChangeNotifier {
   /// Fetch Support Contract From Json Inside Asset
   /// 
   /// Run First 
-  void initJson() async {
+  Future<void> initJson() async {
     try {
 
-      final json = await rootBundle.loadString(AssetPath.contractJson);
-      final decode = jsonDecode(json);
-      
-      listContract.clear();
-      
-      decode.forEach((value){
-        listContract.add(
-          SmartContractModel(
-            id: value['id'],
-            name: value["name"],
-            logo: value["logo"],
-            address: value['address'],
-            contract: value['contract'],
-            contractTest: value['contract_test'],
-            symbol: value["symbol"],
-            org: value["org"],
-            orgTest: value["org_test"],
-            isContain: value["isContain"],
-            balance: value["balance"],
-            show: value["show"],
-            maxSupply: value["max_supply"],
-            description: value["description"],
-            listActivity: [],
-            lineChartList: value['lineChartData'],
-            lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-          )
-        );
-      });
+      print("initJson listContract.isEmpty ${listContract.isEmpty}");
+      // True In Case First Time Initialize
+      await setSavedList().then((value) async {
+        print("setSavedList $value");
+        if (value == false){
 
-      notifyListeners();
+          final json = await rootBundle.loadString(AssetPath.contractJson);
+
+          print("rootBundle.loadString ${json.runtimeType}");
+          final decode = jsonDecode(json);
+          
+          listContract.clear();
+          
+          decode.forEach((value){
+            listContract.add(
+              SmartContractModel(
+                id: value['id'],
+                name: value["name"],
+                logo: value["logo"],
+                address: value['address'],
+                contract: value['contract'],
+                contractTest: value['contract_test'],
+                symbol: value["symbol"],
+                org: value["org"],
+                orgTest: value["org_test"],
+                isContain: value["isContain"],
+                balance: value["balance"],
+                show: value["show"],
+                maxSupply: value["max_supply"],
+                description: value["description"],
+                listActivity: [],
+                lineChartList: value['lineChartData'],
+                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+              )
+            );
+          });
+        }
+
+        await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
+
+        await StorageServices.fetchAsset(DbKey.listContract).then((value) {
+          print("value $value");
+        });
+        notifyListeners();
+      });
 
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error initJson $e");
@@ -144,9 +159,13 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> setSavedList() async {
+
+    listContract.clear();
+
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
+        print("DbKey.listContract $value");
         if (value != null) {
           listContract = List<SmartContractModel>.from(value);
         }
@@ -159,7 +178,7 @@ class ContractProvider with ChangeNotifier {
       });
       notifyListeners();
           
-      return true;
+      return listContract.isNotEmpty ? true : false;
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error setSavedList $e");
     }
@@ -407,40 +426,18 @@ class ContractProvider with ChangeNotifier {
 
       // 2. Add Imported Asset
       addedContract.forEach((element) {
-        // print("symbol ${element.symbol}");
-        // print("id ${element.id}");
-        // print("address ${element.address}");
-        // print("symbol ${element.symbol}");
-        // print("balance ${element.balance}");
-        // print("type ${element.type}");
-        // print("logo ${element.logo}");
-        // print("org ${element.org}");
-        // print("orgTest ${element.orgTest}");
-        // print("marketData ${element.marketData}");
-        // print("lineChartList ${element.lineChartList}");
-        // print("change24h ${element.change24h}");
-        // print("marketPrice ${element.marketPrice}");
-        // print("name ${element.name}");
-        // print("chainDecimal ${element.chainDecimal}");
-        // print("contract ${element.contract}");
-        // print("contractTest ${element.contractTest}");
-        // print("lineChartModel ${element.lineChartModel}!");
-        // if (element.show!) 
-        // print("value.balance!.replaceAll(',', '') ${value.replaceAll(",", "")}");
         if (element.marketPrice!.isNotEmpty) element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         else element.money = 0.0;
-        mainBalance = mainBalance + element.money!;// + double.parse(element.balance!.replaceAll(",", ""));
+        mainBalance = mainBalance + element.money!;
         sortListContract.addAll({element});
+        
       });
 
       // Sort Descending
       if (sortListContract.isNotEmpty) {
 
         tmp = new SmartContractModel();
-        for (int i = 0; i < sortListContract.length; i++) {
-          // if (sortListContract[i].balance!.contains(",")) {
-          //   sortListContract[i].balance = sortListContract[i].balance!.replaceAll(",", "");
-          // } 
+        for (int i = 1; i < sortListContract.length; i++) {
 
           for (int j = i + 1; j < sortListContract.length; j++) {
             tmp = sortListContract[i];

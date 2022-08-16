@@ -90,6 +90,7 @@ class AssetsPageBody extends StatelessWidget {
                         _selendraNetworkList(context, model!.nativeAssets!, ),
                         _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
                         _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                        
                       ]
                     ),
                   )
@@ -124,7 +125,7 @@ class AssetsPageBody extends StatelessWidget {
                 addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : EdgeInsets.only(bottom: 20.0, top: 20.0 )),
                 
                 // For Gesture
-                if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3) && model!.assetLength < 5)
+                if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
                 GestureDetector(
                   onHorizontalDragEnd: (details) {
                     onHorizontalChanged!(details);

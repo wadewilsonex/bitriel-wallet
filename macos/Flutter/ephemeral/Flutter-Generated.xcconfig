@@ -1,10 +1,10 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/home/samallen/flutter
-FLUTTER_APPLICATION_PATH=/home/samallen/Desktop/bitriel-wallet
+FLUTTER_ROOT=/home/daveat/Documents/flutter
+FLUTTER_APPLICATION_PATH=/home/daveat/Documents/.bitriel-wallet
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=5.0.10
-FLUTTER_BUILD_NUMBER=93
+FLUTTER_BUILD_NAME=5.1.0
+FLUTTER_BUILD_NUMBER=95
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=false
 TREE_SHAKE_ICONS=false

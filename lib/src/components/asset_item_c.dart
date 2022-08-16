@@ -114,6 +114,7 @@ class AssetsItemComponent extends StatelessWidget {
                 ),
               ),
               
+              // Market Price
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -161,8 +162,6 @@ class AssetsItemComponent extends StatelessWidget {
                   ],
                 ),
               ),
-              
-              // Expanded(child: Container()),
 
               // Total Amount
               Column(
@@ -187,7 +186,6 @@ class AssetsItemComponent extends StatelessWidget {
         
                   scModel!.money != null ? 
                   MyText(
-                    top: 4.0,
                     text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
                     fontSize: 12,
                     color: AppColors.tokenNameColor
