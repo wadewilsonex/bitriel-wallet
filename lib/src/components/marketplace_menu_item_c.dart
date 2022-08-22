@@ -1,11 +1,11 @@
 import 'package:wallet_apps/index.dart';
 
-class MarketPlaceMenuItem extends StatelessWidget {
+class SelEcoSysMenuItem extends StatelessWidget {
   final String? title;
   final Function? action;
   final Widget? image;
   
-  MarketPlaceMenuItem({
+  SelEcoSysMenuItem({
     this.title,
     @required this.action,
     this.image,

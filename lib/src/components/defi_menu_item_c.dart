@@ -29,18 +29,17 @@ class DefiMenuItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: image!,
             ),
     
-            Row(  
-              children: [
-                MyText(
-                  text: title,
-                  color: AppColors.whiteColorHexa,
-                  fontWeight: FontWeight.w700,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: MyText(
+                text: title,
+                color: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),

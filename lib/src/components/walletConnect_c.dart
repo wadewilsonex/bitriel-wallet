@@ -1,7 +1,9 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_connect/wallet_connect.dart';
+import 'package:wallet_connect/wc_session_store.dart';
 import 'package:web3dart/crypto.dart';
 // import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:web3dart/web3dart.dart';
@@ -20,6 +22,7 @@ enum MenuItems {
 
 class WalletConnectComponent with ChangeNotifier {
 
+  List<WCSessionStore> lsWcClients = [];
   late WCClient wcClient;
   late SharedPreferences prefs;
   late TextEditingController textEditingController;
@@ -50,7 +53,22 @@ class WalletConnectComponent with ChangeNotifier {
       onConnect: onConnect,
     );
     // getIP();
-    // initSession();
+    initSession();
+  }
+
+  Future<void> killAllSession() async {
+
+    
+    for(int i = 0; i < lsWcClients.length; i++) {
+      await Future.delayed(Duration(milliseconds: 100), (){ 
+        connectToPreviousSession(lsWcClients[i], autoKill: true);
+      });
+
+      print("kill session");
+    }
+    lsWcClients.clear();
+    await StorageServices.removeKey(DbKey.wcSession);
+    notifyListeners();
   }
 
   void getIP() async {
@@ -73,6 +91,7 @@ class WalletConnectComponent with ChangeNotifier {
   initSession() async {
     final pref = await SharedPreferences.getInstance();
     String? value = pref.getString("session");
+    print("initSession value $value");
     if (value != null){
       sessionStore = WCSessionStore.fromJson(jsonDecode(value));
       notifyListeners();
@@ -86,7 +105,20 @@ class WalletConnectComponent with ChangeNotifier {
     // });
   }
 
+  void fromJsonFilter(List<Map<String, dynamic>> data){
+    lsWcClients = [];
+    data.forEach((element){
+      lsWcClients.add(WCSessionStore.fromJson(element));
+    });
+    notifyListeners();
+  }
+
+  void afterKill(){
+    notifyListeners();
+  }
+
   qrScanHandler(String value) {
+    print("qrScanHandler");
     try {
 
       final session = WCSession.from(value);
@@ -105,23 +137,30 @@ class WalletConnectComponent with ChangeNotifier {
     }
   }
 
-  connectToPreviousSession() async {
-    prefs = await SharedPreferences.getInstance();
-    final _sessionSaved = prefs.getString('session');
+  connectToPreviousSession(WCSessionStore session, {bool? autoKill: false}) async {
+    print("connectToPreviousSession ");
+    // prefs = await SharedPreferences.getInstance();
+    // final _sessionSaved = prefs.getString(DbKey.wcSession);
     // debugPrint("_sessionSaved ${jsonDecode(_sessionSaved!)['remotePeerMeta']}");
     // Navigator.push(context!, MaterialPageRoute(builder: (context) => WalletConnectPage())); // walletConnect: jsonDecode(_sessionSaved)['remotePeerMeta']
-    sessionStore = _sessionSaved != null
-      ? WCSessionStore.fromJson(jsonDecode(_sessionSaved))
-      : null;
+    sessionStore = session;
+    // _sessionSaved != null
+    //   ? WCSessionStore.fromJson(jsonDecode(_sessionSaved))
+    //   : null;
+      
     if (sessionStore != null) {
-      wcClient.connectFromSessionStore(sessionStore!);
+      print("connectToPreviousSession sessionStore != null");
+      await wcClient.connectFromSessionStore(sessionStore!);
+
+      print(wcClient.isConnected);
+      print("wcClient id ${wcClient.peerMeta!.name}");
+      if (autoKill == true) await wcClient.killSession();
+      
     } else {
       ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
         content: Text('No previous session found.'),
       ));
     }
-
-    notifyListeners();
     
   }
 
@@ -133,10 +172,10 @@ class WalletConnectComponent with ChangeNotifier {
 
     isApprove = false;
 
-    Navigator.push(
-      context!, 
-      Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-    );
+    // Navigator.push(
+    //   context!, 
+    //   Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+    // );
     // setState(() {
     //   connected = true;
     // });
@@ -187,12 +226,22 @@ class WalletConnectComponent with ChangeNotifier {
                       wcClient.approveSession(
                         accounts: [Provider.of<ContractProvider>(context!, listen: false).ethAdd],
                         // TODO: Mention Chain ID while connecting
-                        chainId: 1,
+                        chainId: wcClient.chainId,
                       );
 
-                      await StorageServices.storeData(wcClient.sessionStore.toJson(), 'session');
+                      // await StorageServices.storeData(wcClient.sessionStore.toJson(), DbKey.wcSession);
                       sessionStore = wcClient.sessionStore;
+                      
+                      lsWcClients.add(wcClient.sessionStore);
 
+                      List<Map<String, dynamic>> tmpWcSession = [];
+
+                      lsWcClients.forEach((element) {
+                        tmpWcSession.add(element.toJson());
+                      });
+
+                      await StorageServices.storeData(tmpWcSession, DbKey.wcSession);
+                      
                       // Close Approve Dialog
                       // Navigator.pop(context!);
 
@@ -202,6 +251,7 @@ class WalletConnectComponent with ChangeNotifier {
                       //   Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                       // );
                       // Navigator.pop(context!);
+                      notifyListeners();
                     },
                     child: MyText(text: 'APPROVE', color: AppColors.lowWhite,),
                   ),
@@ -263,7 +313,12 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   onSessionClosed(int? code, String? reason) async {
-    await StorageServices.removeKey('session');
+    
+    print("close session code: $code");
+    print("close session reason: $reason");
+    // await StorageServices.removeKey(DbKey.wcSession);
+    await wcClient.approveRequest(id: wcClient.chainId!, result: result);
+
     await showDialog(
       context: context!,
       builder: (_) {

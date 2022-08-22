@@ -9,8 +9,11 @@ import 'package:wallet_apps/src/components/walletConnect_c.dart';
 // import 'package:student_id/services/storage.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/body_walletconnect_page.dart';
+import 'package:wallet_connect/wallet_connect.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 class WalletConnectPage extends StatefulWidget {
+
   const WalletConnectPage({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +21,6 @@ class WalletConnectPage extends StatefulWidget {
 }
 
 class _WalletConnectPageState extends State<WalletConnectPage> {
-
 
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController passwordInputController = TextEditingController();
@@ -94,12 +96,19 @@ class _WalletConnectPageState extends State<WalletConnectPage> {
     // }
   }
 
+  void filterListWcSession() async {
+
+    _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    _wConnectC!.setBuildContext = context;
+    await StorageServices.fetchData("session").then((value) {
+      print("Session $value");
+      _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+    });
+  }
 
   @override
   void initState() {
-    // StorageServices.fetchData("session").then((value) {
-    //   print("Session $value");
-    // });
+    filterListWcSession();
     super.initState();
   }
 
@@ -118,7 +127,7 @@ class _WalletConnectPageState extends State<WalletConnectPage> {
       formKey: formKey,
       validator: validator,
       submitLogin: submitLogin,
-
+      // wcData: widget.wcData,
     );
   }
 }

@@ -6,13 +6,17 @@ import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
+import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:wallet_apps/src/service/marketplace_webview.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -113,7 +117,7 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                _carouselAds(context, homePageModel!.carouActiveIndex),
+                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
                 SizedBox(height: 25), 
                 _menu(context),
@@ -129,9 +133,14 @@ class HomePageBody extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-                  child: _marketPlaceMenu(context),
+                  child: Container(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    child: _marketPlaceMenu(context)
+                  ),
                 ),
           
                 SizedBox(height: 25), 
@@ -174,7 +183,7 @@ class HomePageBody extends StatelessWidget {
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
-            onPageChanged: homePageModel!.onCarouselChanged,
+            onPageChanged: homePageModel!.onAdsCarouselChanged,
           ),
           items: imgList
             .map((item) => GestureDetector(
@@ -333,38 +342,33 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _marketPlaceMenu(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: DefiMenuItem(
-            image: Image.asset(
-              "assets/logo/opensea.png",
-              width: 10.w,
-              height: 10.h,
-            ),
-            title: "OpenSea",
-            action: () {
-              underContstuctionAnimationDailog(context: context);
-            },
-          ),
-        ),
 
-        SizedBox(width: 10,),
-
-        Expanded(
-          child: DefiMenuItem(
-            image: Image.asset(
-              "assets/logo/uniswap-logo.png",
-              width: 10.w,
-              height: 10.h,
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: marketPlaceList.length,
+      itemBuilder: (context, index){
+        return Row(
+          children: [
+            DefiMenuItem(
+              image: Image.asset(
+                marketPlaceList[index]['asset'],
+                width: 10.w,
+                height: 10.h,
+              ),
+              title: marketPlaceList[index]['title'],
+              action: () async {
+                Navigator.push(
+                  context, 
+                  Transition(child: MarketPlaceWebView(url: marketPlaceList[index]['url'], title: marketPlaceList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+              },
             ),
-            title: "Uniswap",
-            action: () {
-              underContstuctionAnimationDailog(context: context);
-            },
-          ),
-        )
-      ],
+
+            SizedBox(width: 2.w),
+          ],
+        );
+      },
     );
   }
 
@@ -374,7 +378,7 @@ class HomePageBody extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/sala-logo.png",
                   width: 10.w,
@@ -392,7 +396,7 @@ class HomePageBody extends StatelessWidget {
             SizedBox(width: 10,),
 
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/koompi-fifi.png",
                   width: 10.w,
@@ -411,7 +415,7 @@ class HomePageBody extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/selendra-logo.png",
                   width: 6.w,
@@ -426,7 +430,7 @@ class HomePageBody extends StatelessWidget {
             SizedBox(width: 10,),
 
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/bitriel-logo-v2.png",
                   width: 10.w,

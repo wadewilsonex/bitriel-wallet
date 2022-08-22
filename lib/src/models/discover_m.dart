@@ -17,7 +17,7 @@ class DiscoverContent {
     
     lsSwapExchange =  [
       SwapExchange(
-        title: "Sushi Swap",
+        title: "Pancake Swap",
         image: Image.asset("assets/logo/pancake.png", width: 10.w, height: 10.h),
         action: () {
           underContstuctionAnimationDailog(context: _context);
@@ -25,7 +25,7 @@ class DiscoverContent {
       ),
 
       SwapExchange(
-        title: "Pancake Swap",
+        title: "Sushi Swap",
         image: Image.asset("assets/logo/sushi.png", width: 10.w, height: 10.h),
         action: () {
           underContstuctionAnimationDailog(context: _context);

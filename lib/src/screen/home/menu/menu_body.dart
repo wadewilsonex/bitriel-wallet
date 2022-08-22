@@ -64,9 +64,13 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 2,
           onTap: () async {
+
+            // await StorageServices.removeKey(DbKey.wcSession);
+            
             WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
             _wConnectC.setBuildContext = context;
-            await StorageServices.fetchData('session').then((value) async {
+            await StorageServices.fetchData(DbKey.wcSession).then((value) async {
+
               if (value == null){
 
                 String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
@@ -76,13 +80,22 @@ class MenuBody extends StatelessWidget {
                   _wConnectC.qrScanHandler(value);
                 }
               } else {
-                _wConnectC.sessionStore = WCSessionStore.fromJson(value);
-                try {
+                Navigator.push(
+                  context, 
+                  Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+                // _wConnectC.sessionStore = WCSessionStore.fromJson(value);
+                // try {
 
-                  _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
-                } catch (e){
-                  if (ApiProvider().isDebug == true) print("error _wConnectC.wcClient $e");
-                }
+                //   _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
+                //   // _wConnectC.connectToPreviousSession();
+                //   Navigator.push(
+                //     context, 
+                //     Transition(child: WalletConnectPage(wcData: value,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                //   );
+                // } catch (e){
+                //   if (ApiProvider().isDebug == true) print("error _wConnectC.wcClient $e");
+                // }
               }
             });
             // underContstuctionAnimationDailog(context: context);

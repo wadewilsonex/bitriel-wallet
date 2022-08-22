@@ -49,13 +49,14 @@ class _HomePageState extends State<HomePage> {
     _model.pageController = PageController(initialPage: widget.activePage);
 
     // For CarouselPage
-    _model.carouActiveIndex = 0;
+    _model.adsCarouselActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
-    _model.onCarouselChanged = (int index, CarouselPageChangedReason reason) {
+    _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
-        this._model.carouActiveIndex = index;
+        this._model.adsCarouselActiveIndex = index;
       });
     };
+    
     AppServices.noInternetConnection(context: context);
     super.initState();
     
