@@ -91,4 +91,6 @@ class AppColors {
 
   /* Token Name Text Color */
   static const String tokenNameColor = "#C2C2C2";
+
+  static const String greyColor = "#C1C1C1";
 }

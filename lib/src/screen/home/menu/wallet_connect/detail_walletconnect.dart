@@ -55,6 +55,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              
               Center(
                 child: Container(
                   width: 100.0,

@@ -216,7 +216,7 @@ class ReusePinNum extends StatelessWidget {
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(bottom: -16.0.sp, left: -5.sp),
+          contentPadding: EdgeInsets.only(bottom: -18.2.sp, left: -6.5.sp),
           border: outlineInputBorder,
           filled: true,
           fillColor: hexaCodeToColor(AppColors.passcodeColor),

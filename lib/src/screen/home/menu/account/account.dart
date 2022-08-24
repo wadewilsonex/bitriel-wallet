@@ -138,6 +138,9 @@ class _AccountState extends State<Account> {
       _accountModel.editNameController.text = '';
       // Close Dialog
       Navigator.pop(context);
+
+      // Close Bottom Sheet
+      Navigator.pop(context);
     }
   }
 

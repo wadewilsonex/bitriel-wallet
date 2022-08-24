@@ -1,12 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
@@ -16,7 +13,6 @@ import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -119,10 +115,31 @@ class HomePageBody extends StatelessWidget {
 
                 _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
-                SizedBox(height: 25), 
+                SizedBox(height: 10), 
                 _menu(context),
+
+                SizedBox(height: 10), 
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "DeFi",
+                    fontSize: 17.5,
+                    color: AppColors.whiteColorHexa,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
+                  child: Container(
+                    height: 20.h,
+                    width: MediaQuery.of(context).size.width,
+                    child: _defiMenu(context)
+                  ),
+                ),
           
-                SizedBox(height: 25), 
+                SizedBox(height: 10), 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
@@ -137,13 +154,13 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
                   child: Container(
-                    height: 80,
+                    height: 20.h,
                     width: MediaQuery.of(context).size.width,
                     child: _marketPlaceMenu(context)
                   ),
                 ),
           
-                SizedBox(height: 25), 
+                SizedBox(height: 10), 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
@@ -343,30 +360,65 @@ class HomePageBody extends StatelessWidget {
 
   Widget _marketPlaceMenu(BuildContext context) {
 
-    return ListView.builder(
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 125 / 356,
+        crossAxisCount: 2,
+      ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: marketPlaceList.length,
       itemBuilder: (context, index){
-        return Row(
-          children: [
-            DefiMenuItem(
-              image: Image.asset(
-                marketPlaceList[index]['asset'],
-                width: 10.w,
-                height: 10.h,
-              ),
-              title: marketPlaceList[index]['title'],
-              action: () async {
-                Navigator.push(
-                  context, 
-                  Transition(child: MarketPlaceWebView(url: marketPlaceList[index]['url'], title: marketPlaceList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
-              },
+        return Padding(
+          padding: const EdgeInsets.only(right: 8.0, top: 8.0),
+          child: DefiMenuItem(
+            image: Image.asset(
+              marketPlaceList[index]['asset'],
+              width: 10.w,
+              height: 10.h,
             ),
+            title: marketPlaceList[index]['title'],
+            subtitle: marketPlaceList[index]['subtitle'],
+            action: () async {
+              Navigator.push(
+                context,
+                Transition(child: MarketPlaceWebView(url: marketPlaceList[index]['url'], title: marketPlaceList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 
-            SizedBox(width: 2.w),
-          ],
+  Widget _defiMenu(BuildContext context) {
+
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 125 / 356,
+        crossAxisCount: 2,
+      ),
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: DefiList.length,
+      itemBuilder: (context, index){
+        return Padding(
+          padding: const EdgeInsets.only(right: 8.0, top: 8.0),
+          child: DefiMenuItem(
+            image: Image.asset(
+              DefiList[index]['asset'],
+              width: 10.w,
+              height: 10.h,
+            ),
+            title: DefiList[index]['title'],
+            subtitle: DefiList[index]['subtitle'],
+            action: () async {
+              Navigator.push(
+                context,
+                Transition(child: MarketPlaceWebView(url: DefiList[index]['url'], title: DefiList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
+            },
+          ),
         );
       },
     );
@@ -446,49 +498,5 @@ class HomePageBody extends StatelessWidget {
       ],
     );
   }
-
-  AnimatedContainer slider(images, pagePosition, active) {
-    double margin = active ? 10 : 20;
-
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOutCubic,
-      margin: EdgeInsets.all(margin),
-      decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage(images[pagePosition]))),
-    );
-}
-
-  imageAnimation(PageController animation, images, pagePosition) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, widget) {
-
-        return SizedBox(
-          width: 200,
-          height: 200,
-          child: widget,
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.all(10),
-        child: Image.network(images[pagePosition]),
-      ),
-    );
-  }
-
-  List<Widget> indicators(imagesLength, currentIndex) {
-    return List<Widget>.generate(imagesLength, (index) {
-      return Container(
-        margin: EdgeInsets.all(3),
-        width: 10,
-        height: 10,
-        decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.black : Colors.black26,
-            shape: BoxShape.circle),
-      );
-    });
-  }
-
 
 }

@@ -2,9 +2,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/trx_history_c.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/asset_detail.dart';
+import 'package:wallet_apps/src/screen/transaction_detail.dart/trx_detail.dart';
 
 class AssetInfoBody extends StatelessWidget {
 
@@ -44,14 +46,14 @@ class AssetInfoBody extends StatelessWidget {
                 automaticallyImplyLeading: false,
                 leading: Container(),
                 backgroundColor: isDarkTheme
-                  ? assetInfoModel!.bg
+                  ? hexaCodeToColor(AppColors.darkBgd)
                   : Colors.white,
                 flexibleSpace: Column(children: [
 
                   // AppBar
                   Expanded(
                       child: Container(
-                        color: hexaCodeToColor(AppColors.bluebgColor),
+                        color: hexaCodeToColor(AppColors.darkBgd),
                         child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                             child: Row(
@@ -116,7 +118,7 @@ class AssetInfoBody extends StatelessWidget {
                   <Widget>[
                     Container(
                       color: isDarkTheme
-                        ? assetInfoModel!.bg
+                        ? hexaCodeToColor(AppColors.darkBgd)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
@@ -234,7 +236,7 @@ class AssetInfoBody extends StatelessWidget {
                               height: 50,
                               decoration: BoxDecoration(
                                 color: isDarkTheme
-                                    ? assetInfoModel!.bg
+                                    ? hexaCodeToColor(AppColors.darkBgd)
                                     : hexaCodeToColor(
                                         AppColors.whiteHexaColor),
                                 border: Border(
@@ -269,7 +271,7 @@ class AssetInfoBody extends StatelessWidget {
                               height: 50,
                               decoration: BoxDecoration(
                                 color: isDarkTheme
-                                  ? assetInfoModel!.bg
+                                  ? hexaCodeToColor(AppColors.darkBgd)
                                   : hexaCodeToColor(AppColors.whiteHexaColor),
                                 border: Border(
                                   bottom: BorderSide(
@@ -305,10 +307,10 @@ class AssetInfoBody extends StatelessWidget {
             },
             children: <Widget>[
               Consumer<ContractProvider>(builder: (context, value, child) {
-                return assetInfoModel!.lsTxInfo == null
+                return assetInfoModel!.lsTxInfo != null
                     ? Container(
                         color: isDarkTheme
-                          ? assetInfoModel!.bg
+                          ? hexaCodeToColor(AppColors.darkBgd)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
                           child: SvgPicture.asset(
@@ -318,17 +320,29 @@ class AssetInfoBody extends StatelessWidget {
                           )
                         ),
                       )
-                    : Container(
-                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
-                      child: ActivityList(
-                        transactionInfo: assetInfoModel!.lsTxInfo,
-                      ),
+                    : TrxHistoryList(
+                      icon: Icon(Iconsax.export_3, color: Colors.red),
+                      action: (){
+                        Navigator.push(
+                          context, 
+                          Transition(child: TransactionDetail(assetInfoModel: assetInfoModel), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                        );
+                      },
+                      // title: "Transfer seDd.....dj3p",
+                      // amount: "-100 SEL",
+                      // dateTime: "22-08-2022 10:36",
                     );
+                    // : Container(
+                    //   color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
+                    //   child: ActivityList(
+                    //     transactionInfo: assetInfoModel!.lsTxInfo,
+                    //   ),
+                    // );
               }),
 
               Container(
                 color: isDarkTheme
-                  ? assetInfoModel!.bg
+                  ? hexaCodeToColor(AppColors.darkBgd)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: AssetDetail(assetInfoModel!.smartContractModel!),
                 // child: AssetDetail(assetInfoModel!.smartContractModel!.marketData!, assetInfoModel!.smartContractModel!),

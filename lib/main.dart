@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletConnect_c.dart';
