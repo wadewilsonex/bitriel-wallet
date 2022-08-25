@@ -6,6 +6,9 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
+import '../../../../provider/receive_wallet_p.dart';
+import '../../receive_wallet/appbar_wallet.dart';
+
 class SubmitTrxBody extends StatelessWidget {
   final bool? enableInput;
   final ModelScanPay? scanPayM;
@@ -154,19 +157,28 @@ class SubmitTrxBody extends StatelessWidget {
                                   : AppColors.textColor,
                               ),
                             ),
-                            ReuseDropDown(
-                              icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.5.sp),
-                              initialValue: scanPayM!.assetValue.toString(),
-                              onChanged: onChangeDropDown,
-                              itemsList: ContractService.getConSymbol(context, contract.sortListContract),
-                              style: TextStyle(
-                                color: isDarkTheme
-                                  ? Colors.white
-                                  : hexaCodeToColor(AppColors.blackColor),
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w600
+                            Flexible(
+                              child:  QrViewTitle(
+                                isValue: true,
+                                // assetInfo: provider.assetInfo,
+                                listContract: ContractService.getConSymbol(context, contract.sortListContract),
+                                initialValue: scanPayM!.assetValue.toString(),
+                                onChanged: onChanged,
                               ),
-                            ),
+                            )
+                            // ReuseDropDown(
+                            //   icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.5.sp),
+                            //   initialValue: scanPayM!.assetValue.toString(),
+                            //   onChanged: onChangeDropDown,
+                            //   itemsList: ContractService.getConSymbol(context, contract.sortListContract),
+                            //   style: TextStyle(
+                            //     color: isDarkTheme
+                            //       ? Colors.white
+                            //       : hexaCodeToColor(AppColors.blackColor),
+                            //     fontSize: 15.sp,
+                            //     fontWeight: FontWeight.w600
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

@@ -6,13 +6,13 @@ import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class QrViewTitle extends StatelessWidget {
-
+  final bool? isValue;
   final String? assetInfo;
   final String? initialValue;
   final Function? onChanged;
   final List<Map<String, dynamic>>? listContract;
 
-  QrViewTitle({this.assetInfo, this.initialValue, this.onChanged, required this.listContract});
+  QrViewTitle({this.isValue, this.assetInfo, this.initialValue, this.onChanged, required this.listContract});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,7 @@ class QrViewTitle extends StatelessWidget {
       builder: (context, value, child) {
         return DropdownButtonHideUnderline(
           child: DropdownButton2(
+            value: isValue == true ? initialValue : null,
             isExpanded: true,
             dropdownElevation: 16,
             dropdownPadding: EdgeInsets.zero,

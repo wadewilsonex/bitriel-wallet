@@ -307,7 +307,7 @@ class AssetInfoBody extends StatelessWidget {
             },
             children: <Widget>[
               Consumer<ContractProvider>(builder: (context, value, child) {
-                return assetInfoModel!.lsTxInfo != null
+                return assetInfoModel!.lsTxInfo == null
                     ? Container(
                         color: isDarkTheme
                           ? hexaCodeToColor(AppColors.darkBgd)
@@ -328,16 +328,7 @@ class AssetInfoBody extends StatelessWidget {
                           Transition(child: TransactionDetail(assetInfoModel: assetInfoModel), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                         );
                       },
-                      // title: "Transfer seDd.....dj3p",
-                      // amount: "-100 SEL",
-                      // dateTime: "22-08-2022 10:36",
                     );
-                    // : Container(
-                    //   color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
-                    //   child: ActivityList(
-                    //     transactionInfo: assetInfoModel!.lsTxInfo,
-                    //   ),
-                    // );
               }),
 
               Container(

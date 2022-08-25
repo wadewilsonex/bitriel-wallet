@@ -43,8 +43,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 
+  google_fonts: ^3.0.1
+
   # Icons
   iconsax: ^0.0.8
+  unicons: ^2.1.0
 
   # silder
   carousel_slider: ^4.1.1 
@@ -64,6 +67,7 @@ dependencies:
   http: 
   connectivity_plus:
   async:
+  get: ^4.6.1
 
   # Image service
   intl:
@@ -79,6 +83,7 @@ dependencies:
   pie_chart:
 
   # Icons
+  crypto_font_icons: ^1.0.1
   line_awesome_flutter:
   pinput:
   date_format:
@@ -128,6 +133,7 @@ dependencies:
   flutter_screen_lock: ^5.0.12
   ai_progress: ^2.0.0
   responsive_sizer: ^3.0.8
+  sizer: ^2.0.15
 
   # Third-party
   walletconnect_dart: ^0.0.11

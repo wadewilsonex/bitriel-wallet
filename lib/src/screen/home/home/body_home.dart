@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
@@ -13,6 +14,8 @@ import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
+
+import '../setting/setting.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -44,7 +47,18 @@ class HomePageBody extends StatelessWidget {
         child: Menu(),
       ),
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      appBar: AppBar(
+      appBar: homePageModel!.activeIndex == 4 ?
+      AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: MyText(
+          text: "Settings",
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      )
+      :
+      AppBar(
         backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(AppColors.bluebgColor) : hexaCodeToColor(AppColors.darkBgd),
         elevation: 0,
         leadingWidth: 15.w,
@@ -83,15 +97,15 @@ class HomePageBody extends StatelessWidget {
               ),
               onPressed: () async {
                 
-                final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                if (value != null){
-                  getReward!(value);
-                }
-                // await TrxOptionMethod.scanQR(
-                //   context,
-                //   [],
-                //   pushReplacement!,
-                // );
+                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                // if (value != null){
+                //   getReward!(value);
+                // }
+                await TrxOptionMethod.scanQR(
+                  context,
+                  [],
+                  pushReplacement!,
+                );
               },
             ),
           )
@@ -113,7 +127,7 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
                 SizedBox(height: 10), 
                 _menu(context),
@@ -181,6 +195,8 @@ class HomePageBody extends StatelessWidget {
           ),
 
           SwapPage(),
+
+          SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -362,12 +378,13 @@ class HomePageBody extends StatelessWidget {
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 125 / 356,
+        childAspectRatio: 125 / 456,
         crossAxisCount: 2,
       ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: marketPlaceList.length,
+      physics: BouncingScrollPhysics(),
       itemBuilder: (context, index){
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),
@@ -395,12 +412,13 @@ class HomePageBody extends StatelessWidget {
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 125 / 356,
+        childAspectRatio: 125 / 456,
         crossAxisCount: 2,
       ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: DefiList.length,
+      physics: BouncingScrollPhysics(),
       itemBuilder: (context, index){
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),

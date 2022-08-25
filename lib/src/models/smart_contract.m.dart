@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:wallet_apps/src/models/asset_m.dart';
 import 'package:wallet_apps/src/models/lineChart_m.dart';
 
@@ -26,6 +27,7 @@ class SmartContractModel {
   String? description;
   List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
+  List<FlSpot>? chart;
   LineChartModel? lineChartModel = LineChartModel();
   double? money;
 
@@ -51,7 +53,8 @@ class SmartContractModel {
     this.lineChartList,
     this.lineChartModel,
     this.contract,
-    this.contractTest
+    this.contractTest,
+    this.chart
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {

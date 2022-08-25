@@ -1,7 +1,13 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wallet_apps/src/components/asset_chart_data_m.dart';
+import 'package:wallet_apps/src/utils/api_calls.dart';
 
 import '../../../../index.dart';
+import '../../../models/chart/chart_m.dart';
+import 'package:get/get.dart';
 
 class AssetDetail extends StatefulWidget {
   // final Market marketData;
@@ -16,14 +22,6 @@ class AssetDetail extends StatefulWidget {
 }
 
 class _AssetDetailState extends State<AssetDetail> {
-  
-  String totalSupply = '';
-
-  String circulatingSupply = '';
-
-  String marketCap = '';
-
-  String marketCapChange24h = '';
 
   String convert(String? supply) {
     var formatter = NumberFormat.decimalPattern();
@@ -38,35 +36,25 @@ class _AssetDetailState extends State<AssetDetail> {
     return formatter.format(int.parse(supply!));
   }
 
+  String periodID = '1DAY';
+  void queryAssetChart() async {
+    await ApiCalls().getChart(widget.scModel.symbol!, 'usd', periodID, DateTime.now().subtract(const Duration(days: 6)), DateTime.now()).then((value) {
+      widget.scModel.chart = value;
+
+      setState(() {
+        
+      });
+    });
+  }
+
   @override
   void initState() {
-    // print("widget.scModel.marketData!.description: ${widget.scModel.marketData!.description}");
-    // print("asset detail market data: ${widget.scModel.marketData!.name}");
-    // print("asset detail json: ${widget.scModel.name}");
-    // if (widget.marketData.totalSupply != null) {
-    //   totalSupply = convert(widget.marketData.totalSupply!);
-    // }
-    // if (widget.marketData.circulatingSupply != null) {
-    //   circulatingSupply = convert(widget.marketData.circulatingSupply!);
-    // }
-
-    // if (widget.marketData.marketCap != null) {
-    //   marketCap = convert(widget.marketData.marketCap!);
-    // }
-
-    // if (widget.marketData.marketCapChange24H != null) {
-    //   marketCapChange24h = convert(widget.marketData.marketCapChange24H!);
-    // }
-    // totalSupply = convert(widget.marketData.totalSupply);
-    // circulatingSupply = convert(widget.marketData.circulatingSupply);
-    // marketCap = convert(widget.marketData.marketCap);
-    // marketCapChange24h = convert(widget.marketData.marketCapChange24H);
+    queryAssetChart();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SingleChildScrollView(
       physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
@@ -74,6 +62,34 @@ class _AssetDetailState extends State<AssetDetail> {
         margin: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+
+            if (widget.scModel.chart == null)
+            CircularProgressIndicator()
+            
+            else if (widget.scModel.chart!.isNotEmpty) 
+            chartAsset(
+              true,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(80),
+                child: widget.scModel.logo!.contains('http') 
+                ? Image.network(
+                  widget.scModel.logo!,
+                  fit: BoxFit.contain,
+                )
+                : Image.asset(
+                  widget.scModel.logo!,
+                  fit: BoxFit.contain,
+                )
+              ),
+              widget.scModel.name!,
+              widget.scModel.symbol!,
+              'USD',
+              widget.scModel.marketPrice!,
+              widget.scModel.chart!,
+            ),
+            // else Container(),
+
+            SizedBox(height: 2.h),
             
             widget.scModel.marketData == null 
             ? assetFromJson()

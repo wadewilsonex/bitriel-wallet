@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:unicons/unicons.dart';
 import 'package:wallet_apps/index.dart';
 
 class AssetsItemComponent extends StatelessWidget {
@@ -140,21 +141,27 @@ class AssetsItemComponent extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          
                           scModel!.change24h != null && scModel!.change24h != ''
                           ? Flexible(
-                            child: MyText(
-                              text: double.parse(scModel!.change24h!).isNegative ? '${scModel!.change24h}%' : '+${scModel!.change24h!}%',
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: double.parse(scModel!.change24h!).isNegative
-                                ? '#FF0000'
-                                : isDarkTheme
-                                  ? '#00FF00'
-                                  : '#66CD00',
+                            child: Row(
+                              children: [
+                                MyText(
+                                  text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: double.parse(scModel!.change24h!).isNegative
+                                    ? '#FF0000'
+                                    : isDarkTheme
+                                      ? '#00FF00'
+                                      : '#66CD00',
+                                ),
+                                double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
+                              ],
                             ),
                           )
                           : Container(),
+                          
+                          // double.parse(scModel!.change24h!).isNegative
                         ],
                       ),
                     )

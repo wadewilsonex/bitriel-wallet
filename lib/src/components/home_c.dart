@@ -427,8 +427,7 @@ class MyBottomAppBar extends StatelessWidget {
                 title: "Setting",
                 txtColor: index == 4 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
-                  underContstuctionAnimationDailog(context: context);
-                  // onIndexChanged!(4);
+                  onIndexChanged!(4);
                 }
               ),
             ),
