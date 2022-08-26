@@ -62,6 +62,7 @@ dependencies:
   # Storage
   get_storage: 
   shared_preferences:
+  flutter_dotenv: ^5.0.2
 
   # Backend
   http: 
@@ -218,6 +219,7 @@ flutter:
     - assets/logo/
     - assets/ads/
     - assets/illustration/
+    - .env
 
     # - ../assets/
     # - ../assets/github/

@@ -29,6 +29,8 @@ class ContractsBalance extends ChangeNotifier {
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
         await apiProvider.getBtcBalance(context: context);
+
+        await apiProvider.connectPolNon(context: context);
         
         /// Fetch and Fill Market Price Into Asset
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);

@@ -104,6 +104,7 @@ class _WalletConnectPageState extends State<WalletConnectPage> {
       print("Session $value");
       _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
     });
+    print("session store: ${_wConnectC!.sessionStore!.session.toString()}");
   }
 
   @override

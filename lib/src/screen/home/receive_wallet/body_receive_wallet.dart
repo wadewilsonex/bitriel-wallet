@@ -31,7 +31,7 @@ class ReceiveWalletBody extends StatelessWidget {
               children: [
 
                 MyText(
-                  text: "Receive wallet",
+                  text: "Receive",
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
                 ),
@@ -43,15 +43,11 @@ class ReceiveWalletBody extends StatelessWidget {
 
                 SizedBox(
                   width: 130,
-                  child: Consumer<ReceiveWalletProvider>(
-                    builder: (context, value, widget){
-                      return QrViewTitle(
-                        // assetInfo: provider.assetInfo,
-                        listContract: value.lsContractSymbol,
-                        initialValue: provider.assetsIndex.toString(),
-                        onChanged: onChanged,
-                      );
-                    },
+                  child: QrViewTitle(
+                    // assetInfo: provider.assetInfo,
+                    listContract: provider.lsContractSymbol,
+                    initialValue: provider.assetsIndex.toString(),
+                    onChanged: onChanged,
                   ),
                 )
               ],

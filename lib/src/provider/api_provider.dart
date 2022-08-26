@@ -518,11 +518,13 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
+    print("getDotChainDecimal");
     try {
       dynamic res;
       final contract = await Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
         res = value;
+        print("value $value");
         contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });

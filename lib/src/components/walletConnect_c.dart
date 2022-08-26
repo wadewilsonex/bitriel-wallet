@@ -60,7 +60,7 @@ class WalletConnectComponent with ChangeNotifier {
 
     
     for(int i = 0; i < lsWcClients.length; i++) {
-      await Future.delayed(Duration(milliseconds: 100), (){ 
+      await Future.delayed(Duration(seconds: 1), (){ 
         connectToPreviousSession(lsWcClients[i], autoKill: true);
       });
 

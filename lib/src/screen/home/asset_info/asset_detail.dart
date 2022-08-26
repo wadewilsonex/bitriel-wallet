@@ -1,13 +1,9 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wallet_apps/src/components/asset_chart_data_m.dart';
-import 'package:wallet_apps/src/utils/api_calls.dart';
+import 'package:wallet_apps/src/api/api_chart.dart';
 
 import '../../../../index.dart';
 import '../../../models/chart/chart_m.dart';
-import 'package:get/get.dart';
 
 class AssetDetail extends StatefulWidget {
   // final Market marketData;
@@ -38,7 +34,13 @@ class _AssetDetailState extends State<AssetDetail> {
 
   String periodID = '1DAY';
   void queryAssetChart() async {
-    await ApiCalls().getChart(widget.scModel.symbol!, 'usd', periodID, DateTime.now().subtract(const Duration(days: 6)), DateTime.now()).then((value) {
+    await ApiCalls().getChart(
+      widget.scModel.symbol!, 
+      'usd', periodID, 
+      DateTime.now().subtract(const Duration(days: 6)), 
+      DateTime.now()
+    ).then((value) {
+
       widget.scModel.chart = value;
 
       setState(() {
