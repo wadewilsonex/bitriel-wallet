@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 
 import '../screen/home/menu/backup/body_backup_key.dart';
@@ -69,14 +70,20 @@ List<SettingsSection> settingsPolicySection({BuildContext? context}) {
       title: 'Terms of Service',
       leadingIcon: Iconsax.archive_book,
       action: () {
-        underContstuctionAnimationDailog(context: context!);
+        Navigator.push(
+          context!, 
+          Transition(child: AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        );
       }
     ),
     SettingsSection(
       title: 'Privacy policy',
       leadingIcon: Iconsax.document,
       action: () {
-        underContstuctionAnimationDailog(context: context!);
+        Navigator.push(
+          context!, 
+          Transition(child: AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        );
       }
     ),
   ];

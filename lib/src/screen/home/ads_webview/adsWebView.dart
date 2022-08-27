@@ -5,9 +5,11 @@ import 'package:wallet_apps/index.dart';
 
 class AdsWebView extends StatefulWidget {
 
-  final Map<String, dynamic> item;
+  final Map<String, dynamic>? item;
+  final String? url;
+  final String? title;
 
-  AdsWebView({Key? key, required this.item}) : super(key: key);
+  AdsWebView({Key? key, this.item, this.url, this.title}) : super(key: key);
 
   @override
   State<AdsWebView> createState() => _AdsWebViewState();
@@ -21,6 +23,9 @@ class _AdsWebViewState extends State<AdsWebView> {
 
   @override
   void initState() {
+    print("item: ${widget.item}");
+    print("url: ${widget.item}");
+    print("item: ${widget.item}");
     super.initState();
   }
 
@@ -35,7 +40,7 @@ class _AdsWebViewState extends State<AdsWebView> {
       appBar: AppBar(
         centerTitle: true,
         title: MyText(
-          text: widget.item['title'],
+          text: widget.item != null ? widget.item!['title'] : widget.title!,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -43,7 +48,7 @@ class _AdsWebViewState extends State<AdsWebView> {
         children: [
           InAppWebView(
             key: webViewKey,
-            initialUrlRequest: URLRequest(url: Uri.parse(widget.item['url'])),
+            initialUrlRequest: URLRequest(url: Uri.parse(widget.item != null ? widget.item!['url'] : widget.url!)),
             onWebViewCreated: (InAppWebViewController controller) {
               webViewController = controller;
             },

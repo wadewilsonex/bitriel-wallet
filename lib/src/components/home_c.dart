@@ -381,7 +381,7 @@ class MyBottomAppBar extends StatelessWidget {
             Expanded(
               child: MyIconButton(
                 child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
-                title: "Discover",
+                title: "Explorer",
                 txtColor: index == 0 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   // Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
@@ -389,6 +389,17 @@ class MyBottomAppBar extends StatelessWidget {
                 }
               ),
             ),
+            // Expanded(
+            //   child: MyIconButton(
+            //     child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
+            //     title: "Discover",
+            //     txtColor: index == 0 ? AppColors.whiteColorHexa : AppColors.iconColor,
+            //     onPressed: () {
+            //       // Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
+            //       onIndexChanged!(0);
+            //     }
+            //   ),
+            // ),
             Expanded(
               child: MyIconButton(
                 child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),

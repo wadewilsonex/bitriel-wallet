@@ -33,6 +33,12 @@ final List<Map<String, dynamic>> DefiList = [
 
 
 final List<Map<String, dynamic>> marketPlaceList = [
+    {
+    "title": "Qalima",
+    "subtitle": "Discover, Collect, and sell extraordinary NFTs.",
+    "asset": "assets/logo/qalima.png",
+    "url": "https://qalima.vercel.app/"
+  },
   {
     "title": "Krama",
     "subtitle": "Krama Marketplace is a niche marketplace for the auction and sale of Non-fungible Tokens (“NFTs”).",
