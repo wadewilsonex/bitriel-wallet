@@ -1,5 +1,5 @@
 import '../../../../index.dart';
-import '../../../models/settings_m.dart';
+import '../../../models/card_section_setting.m.dart';
 
 class BodySettingPage extends StatelessWidget {
   const BodySettingPage({Key? key}) : super(key: key);

@@ -11,7 +11,6 @@ import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
-import 'package:wallet_apps/src/screen/home/explorer/explorer.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
@@ -118,8 +117,8 @@ class HomePageBody extends StatelessWidget {
         onPageChanged: onPageChanged,
         children: [
           
-          Explorer(),
-          // DiscoverPage(homePageModel: homePageModel!),
+          // Explorer(),
+          DiscoverPage(homePageModel: homePageModel!),
 
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/api/api.dart';
+import 'package:wallet_apps/src/backend/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -185,28 +187,31 @@ class AppState extends State<App> {
                   SizeConfig().init(constraints, orientation);
                   return Consumer<ThemeProvider>(
                     builder: (context, value, child) {
-                      return MaterialApp(
-                        navigatorKey: AppUtils.globalKey,
-                        title: AppString.appName,
-                        theme: AppStyle.myTheme(context),
-                        onGenerateRoute: router.generateRoute,
-                        // debugShowCheckedModeBanner: false,
-                        routes: {
-                          HomePage.route: (_) => HomePage(),
-                        },
-                        initialRoute: AppString.splashScreenView,
-                        // builder: (context, widget) => ResponsiveWrapper.builder(
-                        //   BouncingScrollWrapper.builder(context, widget!),
-                        //   maxWidth: 1200,
-                        //   // minWidth: 800,
-                        //   defaultScale: true,
-                        //   breakpoints: [
-                        //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                        //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                        //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                        //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
-                        //   ],
-                        // ),
+                      return GraphQLProvider(
+                        client: GQLClient().client,
+                        child: MaterialApp(
+                          navigatorKey: AppUtils.globalKey,
+                          title: AppString.appName,
+                          theme: AppStyle.myTheme(context),
+                          onGenerateRoute: router.generateRoute,
+                          // debugShowCheckedModeBanner: false,
+                          routes: {
+                            HomePage.route: (_) => HomePage(),
+                          },
+                          initialRoute: AppString.splashScreenView,
+                          // builder: (context, widget) => ResponsiveWrapper.builder(
+                          //   BouncingScrollWrapper.builder(context, widget!),
+                          //   maxWidth: 1200,
+                          //   // minWidth: 800,
+                          //   defaultScale: true,
+                          //   breakpoints: [
+                          //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                          //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                          //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                          //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+                          //   ],
+                          // ),
+                        ),
                       );
                     },
                   );

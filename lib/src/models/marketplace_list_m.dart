@@ -49,7 +49,7 @@ final List<Map<String, dynamic>> marketPlaceList = [
     "title": "Opensea",
     "subtitle": "The world's first and largest digital marketplace for crypto collectibles and non-fungible tokens (NFTs). Buy, sell, and discover exclusive digital items.",
     "asset": "assets/logo/opensea.png",
-    "url": "https://opensea.io/login?referrer=%2Faccount"
+    "url": "https://opensea.io/login"
   },
   {
     "title": "Rarible",

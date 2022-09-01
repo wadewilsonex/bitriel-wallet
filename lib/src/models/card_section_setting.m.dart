@@ -1,23 +1,27 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
+import '../components/walletConnect_c.dart';
 import '../screen/home/menu/backup/body_backup_key.dart';
 
-class SettingsSection {
+class CardSection {
   final String? title;
+  final String? trailingTitle;
   final IconData? leadingIcon;
   final Function? action;
 
-  SettingsSection({this.title, this.leadingIcon, this.action});
+  CardSection({this.title, this.trailingTitle, this.leadingIcon, this.action});
 }
 
 
-List<SettingsSection> settingsAccSection({BuildContext? context}) {
+List<CardSection> settingsAccSection({BuildContext? context}) {
   return [
-    SettingsSection(
+    CardSection(
       title:'Backup Keys',
       leadingIcon: Iconsax.lock_1,
       action: () {
@@ -30,7 +34,7 @@ List<SettingsSection> settingsAccSection({BuildContext? context}) {
         );
       }
     ),
-    SettingsSection(
+    CardSection(
       title: 'Account',
       leadingIcon: Iconsax.personalcard,
       action: () {
@@ -46,9 +50,9 @@ List<SettingsSection> settingsAccSection({BuildContext? context}) {
   ];
 }
 
-List<SettingsSection> settingsWCSection({BuildContext? context}) {
+List<CardSection> settingsWCSection({BuildContext? context}) {
   return [
-    SettingsSection(
+    CardSection(
       title: 'Wallet Connect',
       leadingIcon: Iconsax.bitcoin_convert,
       action: () {
@@ -64,9 +68,9 @@ List<SettingsSection> settingsWCSection({BuildContext? context}) {
   ];
 }
 
-List<SettingsSection> settingsPolicySection({BuildContext? context}) {
+List<CardSection> settingsPolicySection({BuildContext? context}) {
   return [
-    SettingsSection(
+    CardSection(
       title: 'Terms of Service',
       leadingIcon: Iconsax.archive_book,
       action: () {
@@ -76,8 +80,8 @@ List<SettingsSection> settingsPolicySection({BuildContext? context}) {
         );
       }
     ),
-    SettingsSection(
-      title: 'Privacy policy',
+    CardSection(
+      title: 'Privacy Policy',
       leadingIcon: Iconsax.document,
       action: () {
         Navigator.push(
@@ -89,9 +93,9 @@ List<SettingsSection> settingsPolicySection({BuildContext? context}) {
   ];
 }
 
-List<SettingsSection> settingsLogoutSection({BuildContext? context}) {
+List<CardSection> settingsLogoutSection({BuildContext? context}) {
   return [
-    SettingsSection(
+    CardSection(
       title: 'Logout',
       leadingIcon: Iconsax.logout,
       action: () async {
@@ -119,22 +123,26 @@ List<SettingsSection> settingsLogoutSection({BuildContext? context}) {
 
  Future<void> _deleteAccount({BuildContext? context}) async {
 
-    AccountM _accountModel = AccountM();
-
     dialogLoading(context!);
 
     final _api = await Provider.of<ApiProvider>(context, listen: false);
+
+    final wcComponent = await Provider.of<WalletConnectComponent>(context, listen: false);
     
     try {
       await _api.apiKeyring.deleteAccount(
         _api.getKeyring,
-        _accountModel.currentAcc!,
+        _api.getKeyring.keyPairs[0],
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
+
+      final pref = await SharedPreferences.getInstance();
+      String? value = pref.getString("session");
+      print("value ${value ?? 'null'}");
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
@@ -147,6 +155,8 @@ List<SettingsSection> settingsLogoutSection({BuildContext? context}) {
       await Future.delayed(Duration(seconds: 2), () {});
       
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      await wcComponent.killAllSession();
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {

@@ -69,6 +69,7 @@ dependencies:
   connectivity_plus:
   async:
   get: ^4.6.1
+  graphql_flutter: ^5.1.0
 
   # Image service
   intl:

@@ -1,9 +1,7 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_connect/wallet_connect.dart';
-import 'package:wallet_connect/wc_session_store.dart';
 import 'package:web3dart/crypto.dart';
 // import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:web3dart/web3dart.dart';

@@ -336,46 +336,7 @@ class AssetInfoBody extends StatelessWidget {
                   ? hexaCodeToColor(AppColors.darkBgd)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: AssetDetail(assetInfoModel!.smartContractModel!),
-                // child: AssetDetail(assetInfoModel!.smartContractModel!.marketData!, assetInfoModel!.smartContractModel!),
               )
-              // else if (assetInfoModel!.smartContractModel!.description != "")
-              //   Container(
-              //     color: isDarkTheme
-              //       ? assetInfoModel!.bg
-              //       : hexaCodeToColor(AppColors.whiteHexaColor),
-              //     child: Center(
-              //       child: MyText(text: assetInfoModel!.smartContractModel!.description,)
-              //       // SvgPicture.asset(
-              //       //   AppConfig.iconsPath+'no_data.svg',
-              //       //   width: 150,
-              //       //   height: 150,
-              //       // ),
-              //     ),
-              //   )
-              // : 
-              // Container(
-              //   color: isDarkTheme
-              //     ? assetInfoModel!.bg
-              //     : hexaCodeToColor(AppColors.whiteHexaColor),
-              //   child: Center(
-              //     child: SvgPicture.asset(
-              //       AppConfig.iconsPath+'no_data.svg',
-              //       width: 150,
-              //       height: 150,
-              //     ),
-              //   ),
-              // ),
-              // Container(
-              //   color: isDarkTheme
-              //       ? hexaCodeToColor(AppColors.darkCard)
-              //       : hexaCodeToColor(AppColors.whiteHexaColor),
-              //   child: Center(
-              //       child: SvgPicture.asset(
-              //     'assets/icons/no_data.svg',
-              //     width: 150,
-              //     height: 150,
-              //   )),
-              // ),
             ],
           ),
         ),

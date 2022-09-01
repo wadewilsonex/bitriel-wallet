@@ -16,11 +16,12 @@ class ExplorerBody extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize),
+          padding: EdgeInsets.only(left: paddingSize, right: paddingSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MyText(
+                bottom: 2.h,
                 text: "Multi-Chain Explorer",
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -30,7 +31,7 @@ class ExplorerBody extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 3 / 2,
-                  crossAxisSpacing: 10,
+                  crossAxisSpacing: paddingSize,
                 ),
                 shrinkWrap: true,
                 itemCount: explorerList.length,
