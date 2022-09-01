@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import '../../../../models/graphql.m.dart';
@@ -25,11 +26,18 @@ class ExplorerDetailBody extends StatelessWidget {
         ),
         
       ),
-      body: AddressQuery(context),
+      body: Column(
+        children: [
+          controller!.startsWith("0x") == true ? hashQuery(context) : Container(),
+
+          controller!.startsWith("se") == true ? addressQuery(context) : Container(),
+
+        ],
+      ),
     );
   }
 
-  Widget AddressQuery(BuildContext context) {
+  Widget hashQuery(BuildContext context) {
     return Query(
       options: QueryOptions(
         document: gql(explorerQueries!.fetchAddressInfo("$controller")),
@@ -41,6 +49,85 @@ class ExplorerDetailBody extends StatelessWidget {
 
         if(result.isLoading){
           return CircularProgressIndicator();
+        }
+
+        if(result.data?["account_by_pk"] == null){
+          return Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: Column(
+              children: [
+                Lottie.asset(
+                  "assets/animation/no-results.json",
+                  repeat: false,
+                  height: 50.h,
+                ),
+
+                MyText(
+                    text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
+                    textAlign: TextAlign.center,
+                    color: "#C1C1C1"
+                ),
+
+              ],
+            ),
+          );
+        }
+
+        final int TotalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: addressDetailSection(
+                context,
+                controller,
+                Fmt.balance(TotalBalance.toString(), 12),
+                Fmt.balance(result.data?["account_by_pk"]["free_balance"].toString(), 12),
+                Fmt.balance(result.data?["account_by_pk"]["locked_balance"].toString(), 12),
+                Fmt.balance(result.data?["account_by_pk"]["reserved_balance"].toString(), 12),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget addressQuery(BuildContext context) {
+    return Query(
+      options: QueryOptions(
+        document: gql(explorerQueries!.fetchAddressInfo("$controller")),
+      ),
+      builder: (QueryResult result, {fetchMore, refetch}) {
+        if(result.hasException){
+          return Text(result.exception.toString());
+        }
+
+        if(result.isLoading){
+          return CircularProgressIndicator();
+        }
+
+        if(result.data?["account_by_pk"] == null){
+          return Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: Column(
+              children: [
+                Lottie.asset(
+                  "assets/animation/no-results.json",
+                  repeat: false,
+                  height: 50.h,
+                ),
+
+                MyText(
+                    text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
+                    textAlign: TextAlign.center,
+                    color: "#C1C1C1"
+                ),
+
+              ],
+            ),
+          );
         }
 
         final int TotalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
