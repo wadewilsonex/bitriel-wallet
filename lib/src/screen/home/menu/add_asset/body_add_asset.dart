@@ -7,6 +7,8 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 import 'package:wallet_apps/src/screen/home/menu/add_asset/search_asset.dart';
 
+import '../../receive_wallet/appbar_wallet.dart';
+
 class AddAssetBody extends StatelessWidget {
 
   final ModelAsset? assetM;
@@ -98,18 +100,15 @@ class AddAssetBody extends StatelessWidget {
                                 ? AppColors.whiteHexaColor
                                 : AppColors.darkCard,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: ReuseDropDown(
-                                icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.sp),
-                                style: TextStyle(
-                                  fontSize: 15.sp,
-                                  color: hexaCodeToColor(isDarkTheme
-                                    ? AppColors.whiteHexaColor
-                                    : AppColors.darkCard)
-                                ),
+
+                            Expanded(child: Container()),
+
+                            Flexible(
+                              child:  QrViewTitle(
+                                isValue: true,
+                                // assetInfo: provider.assetInfo,
+                                listContract: networkSymbol,
                                 initialValue: initialValue,
-                                itemsList: networkSymbol,
                                 onChanged: (value) {
                                   onChangeDropDown!(value);
                                 },

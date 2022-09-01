@@ -32,7 +32,7 @@ class AddAssetState extends State<AddAsset> {
   int? initialValue;
 
   List<Map<String, dynamic>> networkSymbol = [
-    {"symbol": "Binance Smart Chain", "index": 0},
+    {"symbol": "BSC", "index": 0},
     {"symbol":"Ethereum", "index": 1}
   ];
 

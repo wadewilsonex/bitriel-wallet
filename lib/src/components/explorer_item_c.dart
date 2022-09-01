@@ -15,12 +15,12 @@ class ExplorerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          action!();
-        },
+    return GestureDetector(
+      onTap: () {
+        action!();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Container(
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -46,7 +46,7 @@ class ExplorerItem extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: MyText(
                   text: title,
                   color: AppColors.whiteColorHexa,

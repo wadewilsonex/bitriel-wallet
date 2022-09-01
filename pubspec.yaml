@@ -255,7 +255,19 @@ flutter:
     - family: Avenir
       fonts:
         - asset: assets/fonts/avenir_ff/AvenirLTStd-Roman.otf
-        
+
+    - family: Prompt
+      fonts:
+        - asset: assets/fonts/prompt/Prompt-Black.ttf
+        - asset: assets/fonts/prompt/Prompt-Bold.ttf
+        - asset: assets/fonts/prompt/Prompt-Regular.ttf
+        - asset: assets/fonts/prompt/Prompt-Light.ttf
+        - asset: assets/fonts/prompt/Prompt-Medium.ttf
+        - asset: assets/fonts/prompt/Prompt-SemiBold.ttf
+        - asset: assets/fonts/prompt/Prompt-Thin.ttf
+        - asset: assets/fonts/prompt/Prompt-ExtraBold.ttf
+        - asset: assets/fonts/prompt/Prompt-ExtraLight.ttf
+
   uses-material-design: true
   # fonts:
   #   - family: Schyler
@@ -271,5 +283,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
-  #module: 
+  #module:
    # androidX: true
