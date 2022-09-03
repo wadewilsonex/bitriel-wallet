@@ -1,11 +1,7 @@
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_button.c.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/detail_walletconnect.dart';
 
 class WalletConnectBody extends StatelessWidget {
@@ -15,9 +11,6 @@ class WalletConnectBody extends StatelessWidget {
   final bool? isChecked;
   final Function? handleRememberMe;
   final GlobalKey<FormState> formKey;
-  final Function? validator;
-  final Function? submitLogin;
-  // final dynamic wcData;
 
   const WalletConnectBody({
     Key? key, 
@@ -26,9 +19,6 @@ class WalletConnectBody extends StatelessWidget {
     this.handleRememberMe, 
     this.isChecked = false,
     required this.formKey,
-    this.validator,
-    this.submitLogin,
-    // this.wcData
   }) : super(key: key);
   
   @override
@@ -101,7 +91,7 @@ class WalletConnectBody extends StatelessWidget {
                         Lottie.asset(
                           "assets/animation/no-results.json",
                           repeat: false,
-                          height: 50.h,
+                          height: 30.h,
                         ),
 
                         MyText(
@@ -119,6 +109,7 @@ class WalletConnectBody extends StatelessWidget {
             )
           ),
           floatingActionButton: FloatingActionButton(
+            backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
             onPressed: () async{
               WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 

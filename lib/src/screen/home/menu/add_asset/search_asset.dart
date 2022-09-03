@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/reuse_widget.dart';
-import 'package:wallet_apps/src/models/token.m.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'package:wallet_apps/theme/color.dart';
 
 class SearchAsset extends SearchDelegate {
   

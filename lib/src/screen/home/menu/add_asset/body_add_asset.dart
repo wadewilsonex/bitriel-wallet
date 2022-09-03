@@ -1,11 +1,4 @@
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
-
-import 'package:wallet_apps/src/screen/home/menu/add_asset/search_asset.dart';
 
 import '../../receive_wallet/appbar_wallet.dart';
 

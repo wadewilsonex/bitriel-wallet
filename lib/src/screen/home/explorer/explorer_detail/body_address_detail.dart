@@ -2,7 +2,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
-import '../../../../models/graphql.m.dart';
+import '../../../../graphql/graphql.dart';
+import '../../../../utils/replace_range.dart';
 
 class ExplorerDetailBody extends StatelessWidget {
   final ExplorerQueries? explorerQueries;
@@ -26,13 +27,18 @@ class ExplorerDetailBody extends StatelessWidget {
         ),
         
       ),
-      body: Column(
-        children: [
-          controller!.startsWith("0x") == true ? hashQuery(context) : Container(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            controller!.startsWith("0x") == true ? hashQuery(context) : Container(),
 
-          controller!.startsWith("se") == true ? addressQuery(context) : Container(),
+            controller!.startsWith("se") == true ? addressQuery(context) : Container(),
 
-        ],
+            // controller!.startsWith("0x") || controller!.startsWith("se") == false ? notFoundWidget() : Container(),
+
+          ],
+        ),
       ),
     );
   }
@@ -40,7 +46,7 @@ class ExplorerDetailBody extends StatelessWidget {
   Widget hashQuery(BuildContext context) {
     return Query(
       options: QueryOptions(
-        document: gql(explorerQueries!.fetchAddressInfo("$controller")),
+        document: gql(explorerQueries!.fetchHashInfo("$controller")),
       ),
       builder: (QueryResult result, {fetchMore, refetch}) {
         if(result.hasException){
@@ -51,46 +57,53 @@ class ExplorerDetailBody extends StatelessWidget {
           return CircularProgressIndicator();
         }
 
-        if(result.data?["account_by_pk"] == null){
-          return Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Column(
-              children: [
-                Lottie.asset(
-                  "assets/animation/no-results.json",
-                  repeat: false,
-                  height: 50.h,
-                ),
-
-                MyText(
-                    text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
-                    textAlign: TextAlign.center,
-                    color: "#C1C1C1"
-                ),
-
-              ],
-            ),
-          );
+        if(result.data?["extrinsic"].isEmpty){
+          return notFoundWidget();
         }
-
-        final int TotalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
 
         return Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(paddingSize),
-              child: addressDetailSection(
+              child: hashDetailSection(
                 context,
                 controller,
-                Fmt.balance(TotalBalance.toString(), 12),
-                Fmt.balance(result.data?["account_by_pk"]["free_balance"].toString(), 12),
-                Fmt.balance(result.data?["account_by_pk"]["locked_balance"].toString(), 12),
-                Fmt.balance(result.data?["account_by_pk"]["reserved_balance"].toString(), 12),
+                result.data?["extrinsic"][0]["block_id"].toString(),
+                AppUtils.timeStampToDateTime(result.data?["extrinsic"][0]["transfers"][0]["timestamp"]),
+                result.data?["extrinsic"][0]["transfers"][0]["extrinsic_id"].toString(),
+                replaceRange(result.data?["extrinsic"][0]["hash"].toString()),
+                replaceRange(result.data?["extrinsic"][0]["transfers"][0]["from_address"].toString()),
+                replaceRange(result.data?["extrinsic"][0]["transfers"][0]["to_address"].toString()),
+                Fmt.balance(result.data?["extrinsic"][0]["transfers"][0]["amount"].toString(), 12),
+                Fmt.balance(result.data?["extrinsic"][0]["transfers"][0]["fee_amount"].toString(), 12),
+                result.data?["extrinsic"][0]["transfers"][0]["success"]
               ),
             )
           ],
         );
       },
+    );
+  }
+
+  Widget notFoundWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(paddingSize),
+      child: Column(
+        children: [
+          Lottie.asset(
+            "assets/animation/no-results.json",
+            repeat: false,
+            height: 30.h,
+          ),
+
+          MyText(
+              text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
+              textAlign: TextAlign.center,
+              color: "#C1C1C1"
+          ),
+
+        ],
+      ),
     );
   }
 
@@ -109,25 +122,7 @@ class ExplorerDetailBody extends StatelessWidget {
         }
 
         if(result.data?["account_by_pk"] == null){
-          return Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Column(
-              children: [
-                Lottie.asset(
-                  "assets/animation/no-results.json",
-                  repeat: false,
-                  height: 50.h,
-                ),
-
-                MyText(
-                    text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
-                    textAlign: TextAlign.center,
-                    color: "#C1C1C1"
-                ),
-
-              ],
-            ),
-          );
+          return notFoundWidget();
         }
 
         final int TotalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
@@ -164,36 +159,75 @@ class ExplorerDetailBody extends StatelessWidget {
       CardSection(
         title:"Address",
         trailingTitle: "$controller",
-        action: () {
-        }
       ),
       CardSection(
         title: "Balance",
         trailingTitle: "${totalBalance} SEL",
-        action: () {
-
-        }
       ),
       CardSection(
         title: "Available",
         trailingTitle: "${availableBalance} SEL",
-        action: () {
-
-        }
       ),
       CardSection(
         title: "Locked",
         trailingTitle: "${lockedBalance} SEL",
-        action: () {
-
-        }
       ),
       CardSection(
-          title: "Reserved",
-          trailingTitle: "${reservedBalance} SEL",
-          action: () {
+        title: "Reserved",
+        trailingTitle: "${reservedBalance} SEL",
+      ),
+    ];
+  }
 
-          }
+  List<CardSection> hashDetailList(
+      BuildContext? context,
+      String? controller,
+      String? block,
+      String? time,
+      String? extrinsicID,
+      String? hash,
+      String? from,
+      String? to,
+      String? amount,
+      String? fee,
+      bool? isSuccess
+    ) {
+    return [
+      CardSection(
+        title: "Block",
+        trailingTitle: "${block}",
+      ),
+      CardSection(
+        title: "Time",
+        trailingTitle: "${time}",
+      ),
+      CardSection(
+        title: "Extrinsic ID",
+        trailingTitle: "${extrinsicID}",
+      ),
+      CardSection(
+        title: "Hash",
+        trailingTitle: "${hash}",
+      ),
+      CardSection(
+        title: "From",
+        trailingTitle: "${from}",
+      ),
+      CardSection(
+        title: "To",
+        trailingTitle: "${to}",
+      ),
+      CardSection(
+        title: "Amount",
+        trailingTitle: "${amount} SEL",
+      ),
+      CardSection(
+        title: "Fee",
+        trailingTitle: "${fee} SEL",
+      ),
+      CardSection(
+        title: "Success",
+        trailingTitle: isSuccess == true ? "Success" : "Failed",
       ),
     ];
   }
@@ -204,19 +238,23 @@ class ExplorerDetailBody extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MyText(
-            text: leadingText,
-            fontWeight: FontWeight.bold,
-            color: AppColors.whiteColorHexa
+
+          Expanded(
+            child: MyText(
+              text: leadingText,
+              fontWeight: FontWeight.bold,
+              color: AppColors.whiteColorHexa,
+              textAlign: TextAlign.start,
+            ),
           ),
-          
-          SizedBox(width: 20.w,),
+
+          // SizedBox(width: 20.w,),
           // Expanded(child: Container()),
-          Flexible(
+          Expanded(
             child: MyText(
               text: trailingText,
               textAlign: TextAlign.start,
-              color: "#C1C1C1"
+              color: "#C1C1C1",
             ),
           ),
         ],
@@ -240,36 +278,127 @@ class ExplorerDetailBody extends StatelessWidget {
       ),
       child: ListView.builder(
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 10),
           itemCount: addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance).length,
           itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: (){
-                addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance)[index].action!();
-              },
-              child: Column(
-                children: [
-                  textRow(
-                      context,
-                      addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance)[index].title!,
-                      addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance)[index].trailingTitle!
-                  ),
+            return Column(
+              children: [
+                textRow(
+                    context,
+                    addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance)[index].title!,
+                    addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance)[index].trailingTitle!
+                ),
 
-                  addressDetailList(
+                addressDetailList(
+                    context,
+                    controller,
+                    totalBalance,
+                    availableBalance,
+                    lockedBalance,
+                    reservedBalance
+                ).length - 1 == index ?
+                Container() :
+                Divider(
+                  thickness: 1,
+                  color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.2),
+                ),
+              ],
+            );
+          }
+      ),
+    );
+  }
+
+  Widget hashDetailSection(
+      BuildContext context,
+      String? controller,
+      String? block,
+      String? time,
+      String? extrinsicID,
+      String? hash,
+      String? from,
+      String? to,
+      String? amount,
+      String? fee,
+      bool? isSuccess
+      ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+          color: hexaCodeToColor("#0a1d35"),
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child: ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          itemCount: hashDetailList(
+            context,
+            controller,
+            block,
+            time,
+            extrinsicID,
+            hash,
+            from,
+            to,
+            amount,
+            fee,
+            isSuccess,
+          ).length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                textRow(
+                    context,
+                    hashDetailList(
                       context,
                       controller,
-                      totalBalance,
-                      availableBalance,
-                      lockedBalance,
-                      reservedBalance
-                  ).length - 1 == index ?
-                  Container() :
-                  Divider(
-                    thickness: 1,
-                    color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.2),
-                  ),
-                ],
-              ),
+                      block,
+                      time,
+                      extrinsicID,
+                      hash,
+                      from,
+                      to,
+                      amount,
+                      fee,
+                      isSuccess,
+                    )[index].title!,
+
+                    hashDetailList(
+                      context,
+                      controller,
+                      block,
+                      time,
+                      extrinsicID,
+                      hash,
+                      from,
+                      to,
+                      amount,
+                      fee,
+                      isSuccess,
+                    )[index].trailingTitle!
+                ),
+
+                hashDetailList(
+                  context,
+                  controller,
+                  block,
+                  time,
+                  extrinsicID,
+                  hash,
+                  from,
+                  to,
+                  amount,
+                  fee,
+                  isSuccess,
+                ).length - 1 == index ?
+                Container() :
+                Divider(
+                  thickness: 1,
+                  color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.2),
+                ),
+              ],
             );
           }
       ),

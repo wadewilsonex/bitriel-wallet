@@ -1,12 +1,5 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
-
-import '../../../../provider/receive_wallet_p.dart';
 import '../../receive_wallet/appbar_wallet.dart';
 
 class SubmitTrxBody extends StatelessWidget {

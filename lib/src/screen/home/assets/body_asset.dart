@@ -1,11 +1,7 @@
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
-import 'package:wallet_apps/src/components/menu_item_c.dart';
-import 'dart:math';
-import 'package:wallet_apps/src/components/pie_chart.dart';
 class AssetsPageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
@@ -290,35 +286,6 @@ class AssetsPageBody extends StatelessWidget {
           
       // )
       
-    );
-  }
-
-  Widget _otherNetworkList(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize - 10),
-      child: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                MyText(
-                  text: "Other Network",
-                  color: AppColors.titleAssetColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500
-                ),
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: hexaCodeToColor(AppColors.titleAssetColor),
-                    indent: 20,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 

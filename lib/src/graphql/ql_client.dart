@@ -4,9 +4,9 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class GQLClient{
 
   static HttpLink httpLink = HttpLink(
-    "https://testnet-graphql.selendra.org/v1/graphql",
+    "${dotenv.get("EXPLORERKEY_URL")}",
     defaultHeaders: {
-      "x-hasura-admin-secret": "${dotenv.get("ExplorerKey")}"
+      "x-hasura-admin-secret": "${dotenv.get("EXPLORERKEY")}"
     }
   );
 

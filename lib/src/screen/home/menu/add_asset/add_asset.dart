@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -21,8 +20,6 @@ class AddAsset extends StatefulWidget {
 class AddAssetState extends State<AddAsset> {
 
   final ModelAsset _modelAsset = ModelAsset();
-
-  final FlareControls _flareController = FlareControls();
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
@@ -263,7 +260,8 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void qrRes(String value) {
-    if (value != null) {
+    // if (value != null) {
+    if (value.isNotEmpty) {
       setState(() {
         _modelAsset.controllerAssetCode.text = value;
         _modelAsset.enable = true;

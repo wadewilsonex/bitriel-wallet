@@ -128,7 +128,7 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
                 SizedBox(height: 10), 
                 _menu(context),

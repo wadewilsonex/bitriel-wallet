@@ -29,7 +29,7 @@ class SelendraExplorerBody extends StatelessWidget {
 
               MyText(
                 top: 2.h,
-                text: "Search Addresses, Hash, and Blocks",
+                text: "Search Addresses and Hash",
                 fontWeight: FontWeight.w500,
                 color: AppColors.whiteColorHexa,
               ),
@@ -72,7 +72,7 @@ class SelendraExplorerBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(width: 3, color: hexaCodeToColor("#114463"),),
           ),
-          hintText: "Search Addresses, Hash, ect.",
+          hintText: "Search Addresses, Hash.",
           hintStyle: TextStyle(
             fontSize: 14,
             color: hexaCodeToColor("#AAAAAA"),
