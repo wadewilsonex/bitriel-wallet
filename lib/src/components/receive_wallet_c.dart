@@ -80,11 +80,10 @@ class GetWalletMethod {
   }
 
   /* Trigger Snack Bar Function */
-  void snackBar(String contents, GlobalKey<ScaffoldState> _globalKey) {
+  void snackBar(BuildContext context, String contents, GlobalKey<ScaffoldState> _globalKey) {
     final snackbar = SnackBar(
       content: Text(contents),
     );
-    // ignore: deprecated_member_use
-    _globalKey.currentState!.showSnackBar(snackbar);
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }

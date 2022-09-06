@@ -151,21 +151,19 @@ Widget customFlatButton(
     margin: edgeMargin,
     width: double.infinity,
     height: 50.0,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size5), boxShadow: [boxShadow]),
-    // ignore: deprecated_member_use
-    child: FlatButton(
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(size5), boxShadow: [boxShadow]),
+    child: TextButton(
       onPressed: action == null
       ? null
       : () {
           action(context);
         },
-      color: hexaCodeToColor(buttonColor),
-      disabledTextColor: Colors.black54,
-      disabledColor: Colors.grey[700],
-      focusColor: hexaCodeToColor("#83B6BD"),
-      textColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size5)),
+      style: TextButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(size5)),
+        ),
+        backgroundColor: hexaCodeToColor(buttonColor),
+      ),
       child: Text(
         textButton,
         style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),

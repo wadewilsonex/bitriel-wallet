@@ -104,12 +104,7 @@ class ProfileCard extends StatelessWidget {
                       ClipboardData(text: value.accountM.address),
                     ).then(
                       (value) => {
-                        // ignore: deprecated_member_use
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Copied to Clipboard'),
-                          ),
-                        )
+                        snackBar(context, "Copied to Clipboard")
                       },
                     );
                   },

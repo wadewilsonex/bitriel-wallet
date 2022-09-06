@@ -217,7 +217,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                           ClipboardData(text: provider.accountM!.address),
                                         );
                                         /* Copy Text */
-                                        provider.method.snackBar('Copied', provider.globalKey!);
+                                        provider.method.snackBar(context, 'Copied', provider.globalKey!);
                                       },
                                     ),
                                     MyFlatButton(

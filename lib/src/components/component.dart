@@ -1,7 +1,5 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:ui';
-
-import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
@@ -45,8 +43,7 @@ class Component {
             child: Text(content!, textAlign: TextAlign.center),
           ),
           actions: <Widget>[
-            // ignore: deprecated_member_use
-            FlatButton(
+            TextButton(
               onPressed: method,
               child: const Text('Setting'),
             ),
@@ -172,18 +169,16 @@ class MyFlatButton extends StatelessWidget {
             )
         ]
       ),
-      // ignore: deprecated_member_use
-      child: FlatButton(
-        hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
+        ),
         onPressed: action == null ? null : (){
           action!();
         },
-        color: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
-        disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
-        focusColor: hexaCodeToColor(AppColors.secondary),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Center(
           child: MyText(
             text: textButton!,
@@ -700,7 +695,6 @@ void snackBar(BuildContext context, String contents) {
     duration: const Duration(seconds: 2),
     content: Text(contents),
   );
-  // ignore: deprecated_member_use
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
   // globalKey.currentState.showSnackBar(snackbar);
 }

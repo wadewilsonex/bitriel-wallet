@@ -9,8 +9,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return RouteAnimation(enterPage: FingerPrint());
     case AppString.accountView:
       return RouteAnimation(enterPage: Account());
-    case AppString.contactBookView:
-      return RouteAnimation(enterPage: ContactBook());
+    // case AppString.contactBookView:
+    //   return RouteAnimation(enterPage: ContactBook());
     case AppString.txActivityView:
       return RouteAnimation(enterPage: TrxActivity());
     case AppString.importAccView:
