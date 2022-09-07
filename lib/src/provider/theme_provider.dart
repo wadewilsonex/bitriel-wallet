@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class ThemeProvider with ChangeNotifier {
   bool isDark = false;

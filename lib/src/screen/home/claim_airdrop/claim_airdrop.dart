@@ -1,20 +1,9 @@
-import 'dart:math';
 import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/component.dart';
 import 'package:wallet_apps/src/components/network_sensitive.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/src/screen/home/claim_airdrop/intro_airdrop.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:date_format/date_format.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../../index.dart';
 
@@ -32,12 +21,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   TextEditingController? _referralController;
   FocusNode? _emailFocusNode;
   FocusNode? _phoneFocusNode;
-  FocusNode? _walletFocusNode;
-  FocusNode? _socialFocusNode;
 
   final airdropKey = GlobalKey<FormState>();
-
-  FlareControls flareController = FlareControls();
 
   bool _enableButton = false;
   bool _submitted = false;
@@ -325,7 +310,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   }
 
   Future<void> enableAnimation() async {
-    flareController.play('Checkmark');
+    // flareController.play('Checkmark');
 
     setState(() {
       _submitted = true;
@@ -373,9 +358,6 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
     _emailFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
-    _walletFocusNode = FocusNode();
-    _socialFocusNode = FocusNode();
-
     initAirDrop();
 
     super.initState();
@@ -394,7 +376,6 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
   Widget build(BuildContext context) {
     _walletController!.text = Provider.of<ContractProvider>(context).ethAdd;
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final contractPro = Provider.of<ContractProvider>(context);
     return Scaffold(
       body: NetworkSensitive(
         child: BodyScaffold(
@@ -667,13 +648,13 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Expanded(
-                        child: CustomAnimation.flareAnimation(
-                          flareController,
-                          AppConfig.animationPath+"check.flr",
-                          "Checkmark",
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: CustomAnimation.flareAnimation(
+                      //     flareController,
+                      //     AppConfig.animationPath+"check.flr",
+                      //     "Checkmark",
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

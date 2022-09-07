@@ -11,16 +11,13 @@ export 'package:async/async.dart';
 
 /* Package from Pub.dev */
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flare_flutter/flare_actor.dart';
-export 'package:flare_flutter/flare_controller.dart';
-export 'package:flare_flutter/flare_controls.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/rendering.dart';
 export 'package:flutter/services.dart';
 export 'package:line_awesome_flutter/line_awesome_flutter.dart';
 export 'package:local_auth/local_auth.dart';
-export 'package:package_info/package_info.dart';
+export 'package:package_info_plus/package_info_plus.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance extends ChangeNotifier {

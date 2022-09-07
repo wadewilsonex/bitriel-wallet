@@ -1,7 +1,5 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class QrScanner extends StatefulWidget {
   // final List portList;

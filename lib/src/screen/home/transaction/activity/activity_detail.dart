@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:share/share.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/component.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../../../../index.dart';
 
 class ActivityDetail extends StatelessWidget {

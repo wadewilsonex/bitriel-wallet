@@ -1,16 +1,5 @@
-import 'dart:ui';
-import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-// import 'package:latlong/latlong.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_apps/src/components/component.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
-import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/body_asset_info.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
 import '../../../../index.dart';
 
 class AssetInfo extends StatefulWidget {

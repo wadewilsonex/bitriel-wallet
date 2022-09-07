@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/body_create_key.dart';
 
 class CreateSeeds extends StatefulWidget {

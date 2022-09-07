@@ -1,9 +1,6 @@
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dimissible_background.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
 
 class TrxActivity extends StatefulWidget {
   @override

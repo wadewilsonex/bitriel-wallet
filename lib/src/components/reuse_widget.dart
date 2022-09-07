@@ -1,14 +1,10 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/pie_chart.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-
 import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
@@ -921,7 +917,7 @@ Widget inputField(
     textInputAction: inputAction,
     style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 18.0),
     validator: (String? value){
-      validateField!(value);
+      return validateField!(value);
     },
     decoration: InputDecoration(
         labelText: labelText,

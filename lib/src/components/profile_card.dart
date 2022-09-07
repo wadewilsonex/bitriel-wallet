@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
 
 class ProfileCard extends StatelessWidget {
   @override

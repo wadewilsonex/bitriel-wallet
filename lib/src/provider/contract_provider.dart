@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:wallet_apps/src/constants/asset_path.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -9,10 +8,6 @@ import 'package:wallet_apps/src/service/native.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
-
-
-// import 'package:bip39/bip39.dart' as bip39;
-// import 'package:defichaindart/defichaindart.dart';
 
 class ContractProvider with ChangeNotifier {
 

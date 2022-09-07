@@ -1,7 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 import 'package:unicons/unicons.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -200,19 +198,19 @@ class AssetsItemComponent extends StatelessWidget {
                   : Container()
                 ],
               ),
-        
+
               // Graph Chart
               // Expanded(
               //   child: Container(
               //   padding: EdgeInsets.only(left: 5, right: 10),
               //   height: 50,
               //   width: MediaQuery.of(context).size.width / 3.5,
-              //   child: 
+              //   child:
               //   scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
               //     ? LineChart(sampleLineChart(context))
               //     : LineChart(mainData(context))
               //   // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
-                
+
               // )),
             ],
           ),

@@ -1,11 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/indecator_c.dart';
-import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
-import 'package:wallet_apps/src/components/menu_item_c.dart';
-import 'package:wallet_apps/src/components/selendra_swap_c.dart';
-import 'package:wallet_apps/src/components/swap_exchange_c.dart';
-import 'package:wallet_apps/src/models/discover_m.dart';
 import 'package:wallet_apps/src/screen/home/explorer/multi_explorer/multi_explorer.dart';
 import 'package:wallet_apps/src/screen/home/explorer/selendra_explorer/selendra_explorer.dart';
 

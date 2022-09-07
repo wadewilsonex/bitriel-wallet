@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/chart/line_chart.dart';
-import 'package:wallet_apps/src/models/chart/percentage.dart';
 
 Padding chartAsset(
     bool isHomePage,

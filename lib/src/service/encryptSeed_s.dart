@@ -1,16 +1,8 @@
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:polkawallet_sdk/utils/localStorage.dart';
-
-import 'package:polkawallet_sdk/api/apiTx.dart';
-import 'package:polkawallet_sdk/api/api.dart';
-import 'package:polkawallet_sdk/service/tx.dart';
-import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:polkawallet_sdk/service/keyring.dart';
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
-
 import 'package:get_storage/get_storage.dart';
 import 'package:polkawallet_sdk/storage/localStorage.dart';
 
@@ -54,7 +46,6 @@ class EncryptSeed extends KeyringPrivateStore{
     return _pubKeyAddressMap;
   }
 
-  @override
   List _formatAccount(List ls) {
     ls.forEach((e) {
       final networkSS58 = ss58.toString();
@@ -155,7 +146,6 @@ class EncryptSeed extends KeyringPrivateStore{
     }
   }
 
-  @override
   Future<void> _updateKeyPair(Map acc) async {
     final List pairs = _storage.keyPairs.val.toList();
     pairs.removeWhere((e) => e['pubKey'] == acc['pubKey']);
@@ -163,7 +153,7 @@ class EncryptSeed extends KeyringPrivateStore{
     _storage.keyPairs.val = pairs;
   }
 
-  @override
+
   Future<void> updateContact(Map acc) async {
     final ls = _storage.contacts.val.toList();
     ls.removeWhere((e) => e['pubKey'] == acc['pubKey']);
@@ -183,7 +173,7 @@ class EncryptSeed extends KeyringPrivateStore{
     _storage.encryptedRawSeeds.val = seeds;
   }
 
-  @override
+
   Future<void> _deleteKeyPair(String? pubKey) async {
     final List pairs = _storage.keyPairs.val.toList();
     pairs.removeWhere((e) => e['pubKey'] == pubKey);
@@ -273,7 +263,7 @@ class EncryptSeed extends KeyringPrivateStore{
     }
   }
 
-  @override
+
   Future<void> _migrateSeeds() async {
     final res = await Future.wait([
       _storageOld.getSeeds('mnemonic'),

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:wallet_apps/index.dart';
 import 'package:web3dart/web3dart.dart';
 

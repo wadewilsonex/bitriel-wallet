@@ -1,11 +1,7 @@
 import 'dart:math';
-
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:eth_sig_util/eth_sig_util.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -24,8 +20,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   
   HomePageModel _model = HomePageModel();
-
-  PostRequest _postRequest = PostRequest();
 
   Random _random = Random();
 

@@ -1,10 +1,7 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/trx_history_c.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
-import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/asset_detail.dart';
 import 'package:wallet_apps/src/screen/transaction_detail.dart/trx_detail.dart';
 
@@ -21,7 +18,7 @@ class AssetInfoBody extends StatelessWidget {
     required this.onPageChange
   }) : super(key: key);
 
-  double logoSize = 15.w;
+  final double logoSize = 15.w;
 
   @override
   Widget build(BuildContext context) {
@@ -134,18 +131,15 @@ class AssetInfoBody extends StatelessWidget {
                               final image = ImagePicker();
                               await image.pickImage(source: ImageSource.gallery).then((value) async {
                                 print(value!.path);
-                                if (value != null){
-                                  
-                                  Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
-                                    if (element.contract == assetInfoModel!.smartContractModel!.contract){
-                                      // element.logo = value.path;
-                                      // If found
-                                      return true;
-                                    }
-                                    // Not found
-                                    return false;
-                                  });
-                                }
+                                Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
+                                  if (element.contract == assetInfoModel!.smartContractModel!.contract){
+                                    // element.logo = value.path;
+                                    // If found
+                                    return true;
+                                  }
+                                  // Not found
+                                  return false;
+                                });
                               });
                             },
                             child: Stack(

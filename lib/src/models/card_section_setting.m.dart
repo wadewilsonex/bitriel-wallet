@@ -1,11 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-
 import '../components/walletConnect_c.dart';
 import '../screen/home/menu/backup/body_backup_key.dart';
 

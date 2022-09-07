@@ -1,4 +1,3 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 
 class CryptoPairModel {
@@ -15,19 +14,4 @@ class CryptoPairModel {
   }
   );
 }
-
-// List<CryptoPairModel> cryptocurrencies = [
-//   CryptoPairModel(
-//     'Bitcoin',
-//     'BTC',
-//     'USD',
-//     CryptoFontIcons.BTC,
-//   ),
-//   CryptoPairModel(
-//     'Ethereum',
-//     'ETH',
-//     'USD',
-//     CryptoFontIcons.ETH,
-//   ),
-// ];
 

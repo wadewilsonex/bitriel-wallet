@@ -1,7 +1,5 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -42,18 +40,6 @@ class PasscodeState extends State<Passcode> {
     TextEditingController(),
     TextEditingController(),
   ];
-  
-  // final TextEditingController pinOneController = TextEditingController();
-
-  // final TextEditingController pinTwoController = TextEditingController();
-
-  // final TextEditingController pinThreeController = TextEditingController();
-
-  // final TextEditingController pinFourController = TextEditingController();
-
-  // final TextEditingController pinFiveController = TextEditingController();
-
-  // final TextEditingController pinSixController = TextEditingController();
 
   final localAuth = LocalAuthentication();
 

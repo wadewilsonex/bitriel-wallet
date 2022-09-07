@@ -1,7 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:wallet_apps/src/models/asset_m.dart';
-import 'package:wallet_apps/src/models/lineChart_m.dart';
-
 import '../../index.dart';
 
 class SmartContractModel {

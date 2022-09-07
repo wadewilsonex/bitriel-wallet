@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:wallet_apps/index.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 

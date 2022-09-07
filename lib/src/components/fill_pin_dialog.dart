@@ -1,4 +1,3 @@
-import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 

@@ -1,5 +1,3 @@
-
-import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/index.dart';
 
 class SwapTokenListModel {

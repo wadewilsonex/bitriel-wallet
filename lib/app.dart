@@ -1,18 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/graphql/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
-import 'package:http/http.dart' as _http;
 
 final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:path_provider/path_provider.dart';
 

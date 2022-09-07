@@ -1,24 +1,15 @@
 import 'dart:ui';
-
-import 'package:flare_flutter/flare_controls.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:wallet_apps/src/components/dimissible_background.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
-
 import '../../../../index.dart';
 
 class AssetHistory extends StatelessWidget {
   final List<TxHistory> _txHistoryModel;
   final String logo;
-  final FlareControls _flareController;
   final bool isPay;
   final Function _deleteHistory;
   final Function showDetailDialog;
   // ignore: avoid_positional_boolean_parameters
   const AssetHistory(
     this._txHistoryModel,
-    this._flareController,
     this.isPay,
     this.logo,
     this._deleteHistory,
@@ -131,13 +122,13 @@ class AssetHistory extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(
-                      _flareController,
-                      AppConfig.animationPath+"check.flr",
-                      "Checkmark",
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: CustomAnimation.flareAnimation(
+                  //     _flareController,
+                  //     AppConfig.animationPath+"check.flr",
+                  //     "Checkmark",
+                  //   ),
+                  // ),
                 ],
               ),
             ),

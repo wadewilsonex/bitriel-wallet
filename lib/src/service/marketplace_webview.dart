@@ -1,8 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletConnect_c.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:web3dart/web3dart.dart';
 
 class MarketPlaceWebView extends StatefulWidget {
 

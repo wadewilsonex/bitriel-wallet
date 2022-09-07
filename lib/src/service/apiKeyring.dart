@@ -7,7 +7,6 @@ import 'package:wallet_apps/src/service/encryptSeed_s.dart';
 import 'package:polkawallet_sdk/api/types/addressIconData.dart';
 import 'package:polkawallet_sdk/api/types/verifyResult.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
-import 'package:wallet_apps/src/service/serviceKeyring.dart';
 
 class MyApiKeyring extends ApiKeyring {
 

@@ -2,10 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:convert/convert.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:polkawallet_sdk/api/apiTx.dart';
 import 'package:polkawallet_sdk/service/tx.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';

@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyInputField extends StatelessWidget {
@@ -79,7 +78,7 @@ class MyInputField extends StatelessWidget {
             fontSize: 15.sp
           ),
           validator: (String? value){
-            validateField!(value);
+            return validateField!(value);
           },
           maxLines: maxLine,
           decoration: InputDecoration(
@@ -230,7 +229,7 @@ class MySeedField extends StatelessWidget {
                   : hexaCodeToColor(AppColors.textColor),
               fontSize: 16.0.sp),
           validator: (String? value){
-            validateField!(value);
+            return validateField!(value);
           },
           textAlignVertical: TextAlignVertical.top,
           maxLines: maxLine,

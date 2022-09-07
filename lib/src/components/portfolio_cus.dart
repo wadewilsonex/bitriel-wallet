@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portfolio_c.dart';
 

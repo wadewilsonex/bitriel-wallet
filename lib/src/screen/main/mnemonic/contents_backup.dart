@@ -1,6 +1,4 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 class ContentsBackup extends StatefulWidget {

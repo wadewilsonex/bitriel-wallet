@@ -1,12 +1,7 @@
 /* The components file has custom widgets which are used by multiple different screens */
-
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmer_c.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuHeader extends StatelessWidget {

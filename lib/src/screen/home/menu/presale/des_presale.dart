@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class PresaleDescription extends StatelessWidget {

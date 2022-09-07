@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 

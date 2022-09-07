@@ -1,8 +1,6 @@
-
 import 'package:wallet_apps/src/components/selendra_swap_c.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/swap_exchange_c.dart';
-import 'package:wallet_apps/src/screen/home/menu/presale/presale.dart';
 
 class DiscoverContent {
 

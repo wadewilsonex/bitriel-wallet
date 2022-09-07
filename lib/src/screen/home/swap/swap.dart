@@ -15,7 +15,6 @@ class _SwapPageState extends State<SwapPage> {
   SwapPageModel _model = SwapPageModel();
 
   SwapProvider? _swapProvider;
-  ContractProvider? _contractProvider;
 
   List<double> percentage = [
     0.25,

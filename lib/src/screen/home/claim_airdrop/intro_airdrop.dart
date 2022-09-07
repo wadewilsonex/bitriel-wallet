@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 class AirDropDes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

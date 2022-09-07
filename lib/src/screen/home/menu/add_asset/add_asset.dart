@@ -22,8 +22,6 @@ class AddAssetState extends State<AddAsset> {
   final ModelAsset _modelAsset = ModelAsset();
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
-
-  FlareControls flareController = FlareControls();
   
   String _tokenSymbol = '';
   int? initialValue;
@@ -279,7 +277,6 @@ class AddAssetState extends State<AddAsset> {
     setState(() {
       _modelAsset.added = true;
     });
-    flareController.play('Checkmark');
 
     await Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));

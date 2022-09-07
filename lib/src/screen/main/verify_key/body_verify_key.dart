@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 import 'package:wallet_apps/src/models/createKey_m.dart';
-import 'package:wallet_apps/theme/color.dart';
 
 class VerifyPassphraseBody extends StatelessWidget {
 

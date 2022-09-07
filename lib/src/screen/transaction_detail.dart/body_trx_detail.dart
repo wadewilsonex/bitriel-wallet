@@ -1,7 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/trx_explorer_webview/trx_explorer_webview.dart';
 import '../../models/asset_info.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class BodyTransactionDetail extends StatelessWidget {
   final AssetInfoModel? assetInfoModel;
@@ -11,7 +10,7 @@ class BodyTransactionDetail extends StatelessWidget {
     this.assetInfoModel,
   }) : super(key: key);
 
-  double logoSize = 10.w;
+  final double logoSize = 10.w;
 
   @override
   Widget build(BuildContext context) {

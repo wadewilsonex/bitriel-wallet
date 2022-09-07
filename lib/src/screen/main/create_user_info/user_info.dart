@@ -1,12 +1,8 @@
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-import 'package:defichaindart/defichaindart.dart';
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 

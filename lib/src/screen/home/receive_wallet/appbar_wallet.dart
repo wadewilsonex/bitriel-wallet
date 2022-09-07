@@ -1,9 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-import 'package:wallet_apps/src/service/contract.dart';
 
 class QrViewTitle extends StatelessWidget {
   final bool? isValue;

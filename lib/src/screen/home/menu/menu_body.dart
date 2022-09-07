@@ -1,8 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/walletConnect_c.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
-import 'package:wallet_connect/wc_session_store.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class MenuBody extends StatelessWidget {

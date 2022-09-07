@@ -1,8 +1,5 @@
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 
 class CreateMnemonic extends StatefulWidget {
   final String? passPhrase;

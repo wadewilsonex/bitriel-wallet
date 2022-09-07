@@ -1,6 +1,4 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:transition/transition.dart';
 import 'package:wallet_apps/index.dart';
 
 class WelcomeBody extends StatelessWidget {

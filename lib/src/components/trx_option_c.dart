@@ -1,7 +1,5 @@
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyBottomSheetItem extends StatelessWidget {
