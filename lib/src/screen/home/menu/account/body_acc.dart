@@ -67,17 +67,8 @@ class AccountBody extends StatelessWidget{
                     
                     Container(
                       width: double.infinity,
-                      // padding: const EdgeInsets.only(
-                      //   left: 20,
-                      //   right: 20,
-                      //   top: 25,
-                      //   bottom: 25,
-                      // ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        // color: isDarkTheme
-                        //   ? Colors.white.withOpacity(0.06)
-                        //   : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Consumer<ApiProvider>(
                         builder: (context, provider, widget){
@@ -98,9 +89,6 @@ class AccountBody extends StatelessWidget{
                                       borderRadius:BorderRadius.circular(5),
                                     ),
                                     child: randomAvatar(value.accountM.addressIcon ?? '')
-                                    // SvgPicture.string(
-                                    //   value.accountM.addressIcon ?? '',
-                                    // ),
                                   );
                                 },
                               ),
@@ -121,7 +109,6 @@ class AccountBody extends StatelessWidget{
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
                                   fontSize: 16,
-                                  // width: MediaQuery.of(context).size.width/1.5,
                                 ),
                               )
                             ],
@@ -134,7 +121,6 @@ class AccountBody extends StatelessWidget{
 
                     ListTileComponent(
                       action: (){
-                        // underContstuctionAnimationDailog(context: context);
                         AccountC().showEditName(
                           context,
                           accountModel!.editNameKey,
@@ -149,16 +135,6 @@ class AccountBody extends StatelessWidget{
                     
                     ListTileComponent(
                       action: (){
-                        // underContstuctionAnimationDailog(context: context);
-                        // AccountC().showBackup(
-                        //   context,
-                        //   accountModel!.backupKey,
-                        //   accountModel!.pinController,
-                        //   accountModel!.pinNode,
-                        //   onChangedBackup!,
-                        //   onSubmit!,
-                        //   submitBackUpKey!,
-                        // );
                         Navigator.push(
                           context, 
                           Transition(
@@ -170,25 +146,9 @@ class AccountBody extends StatelessWidget{
                       text: 'Backup Key',
                     ),
                     
-                    // const SizedBox(height: 20),
-                    
                     ListTileComponent(
                       action: ()  async {
-                        // underContstuctionAnimationDailog(context: context);
-                        // Passcode(label: PassCodeLabel.formChangePin);
-                        // AccountC().showChangePin(
-                        //   context,
-                        //   accountModel!.changePinKey,
-                        //   accountModel!.oldPinController,
-                        //   accountModel!.newPinController,
-                        //   accountModel!.oldNode,
-                        //   accountModel!.newNode,
-                        //   onChangedChangePin!,
-                        //   onSubmitChangePin!,
-                        //   submitChangePin!,
-                        // );
-
-                        final res = await Navigator.push(
+                        await Navigator.push(
                           context, 
                           Transition(
                             child: ChangePin(),
@@ -196,22 +156,18 @@ class AccountBody extends StatelessWidget{
                           )
                         );
 
-                        // await Provider.of<ApiProvider>(context, listen: false).
                       },
                       text: 'Change Pin',
                     ),
 
-                    // const SizedBox(height: 20),
                     Padding(
                       padding: EdgeInsets.all(paddingSize),
                       child: GestureDetector(
                         onTap: () async {
-                          // await contract.unsubscribeNetwork();
                           await deleteAccout!();
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          // margin: const EdgeInsets.only(left: 16, right: 16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.red.withOpacity(0.3)

@@ -16,13 +16,13 @@ class FillPinState extends State<FillPin> {
 
   final FocusNode _pinNode = FocusNode();
 
-  BoxDecoration get _pinPutDecoration {
-    return BoxDecoration(
-      // border: Border.all(color: Colors.deepPurpleAccent),
-      borderRadius: BorderRadius.circular(10.0),
-      color: Colors.grey.withOpacity(0.5)
-    );
-  }
+  // BoxDecoration get _pinPutDecoration {
+  //   return BoxDecoration(
+  //     // border: Border.all(color: Colors.deepPurpleAccent),
+  //     borderRadius: BorderRadius.circular(10.0),
+  //     color: Colors.grey.withOpacity(0.5)
+  //   );
+  // }
 
   // BoxConstraints get boxConstraint {
   //   return const BoxConstraints(minWidth: 60, minHeight: 80);

@@ -1,5 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 
 class NetworkSensitive extends StatefulWidget {

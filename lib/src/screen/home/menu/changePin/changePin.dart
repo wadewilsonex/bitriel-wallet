@@ -74,9 +74,9 @@ class ChangePinState extends State<ChangePin> {
     super.dispose();
   }
   
-  void init4Digits() {
+  List<TextEditingController> init4Digits() {
     currentPin = ["", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),
@@ -84,9 +84,9 @@ class ChangePinState extends State<ChangePin> {
     ];
   }
 
-  void init6Digits() {
+  List<TextEditingController> init6Digits() {
     currentPin = ["", "", "", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),

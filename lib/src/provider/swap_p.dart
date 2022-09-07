@@ -99,4 +99,8 @@ class SwapProvider extends ChangeNotifier{
     
     notifyListeners();
   }
+
+  void notifyDataChanged(){
+    notifyListeners();
+  }
 }

@@ -10,7 +10,7 @@ class ReceiveWallet extends StatefulWidget {
   ReceiveWallet({
     Key? key,
     this.assetIndex,
-    @required this.scModel
+    this.scModel
   }) : super(key: key);
 
   @override

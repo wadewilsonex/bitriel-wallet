@@ -74,7 +74,7 @@ class SwapPageBody extends StatelessWidget {
                       swap.balance2 = tmp;
 
                       swap.setList();
-                      swap.notifyListeners();
+                      swap.notifyDataChanged();
                     },
                     child: Container(
                       decoration: BoxDecoration(

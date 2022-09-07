@@ -335,8 +335,8 @@ class WalletApi {
       "page": 0,
       "row": count,
     });
-    final Response res = await post(Uri.parse(url), headers: post_headers, body: body);
-    if (res.body != null) {
+    final Response? res = await post(Uri.parse(url), headers: post_headers, body: body);
+    if (res != null) {
       final obj = await compute(jsonDecode, res.body);
       return obj['data'];
     }

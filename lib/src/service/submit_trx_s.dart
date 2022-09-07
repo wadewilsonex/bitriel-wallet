@@ -3,11 +3,12 @@ import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 
 class SubmitTrxService {
 
+  TxFeeEstimateResult? _fee;
+
   /// Submit Transaction For Sel Native Or Dot
   Future<bool> sendNative(ModelScanPay scanPay, String password, BuildContext context, {@required TransactionInfo? txInfo} ) async {
 
     try {
-      String? mhash;
 
       final _api = Provider.of<ApiProvider>(context, listen: false);
       final _contract = Provider.of<ContractProvider>(context, listen: false);
@@ -20,11 +21,10 @@ class SubmitTrxService {
       final txInfoData = TxInfoData('balances', 'transfer', sender);
 
       final chainDecimal = _contract.sortListContract[scanPay.assetValue].chainDecimal;
-      TxFeeEstimateResult fee;
       if (_contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         
         return await _api.connectSELNode(context: context).then((value) async {
-          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+          _fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,
@@ -43,7 +43,7 @@ class SubmitTrxService {
         
       } else {
         return await _api.connectPolNon(context: context).then((value) async {
-          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+          _fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,

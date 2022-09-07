@@ -148,45 +148,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       }
     }
   }
-
-  void _setAcc(ApiProvider api){
-
-    AccountM accM = AccountM();
-    accM.address = api.getKeyring.allAccounts[0].address;
-    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
-    accM.name = api.getKeyring.allAccounts[0].name;
-    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
-    api.setAccount(accM);
-
-    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
-  }
-
-  // Future<void> encryptSeedAndSave(String? pubKey, seed, KeyType seedType, password) async {
-  //   try {
-
-  //     final String key = Encryptt.passwordToEncryptKey(password);
-  //     String? encrypted = await FlutterAesEcbPkcs5.encryptString(seed, key);
-
-  //     // read old data from storage-old
-  //     final Map stored = await (StorageServices.getSeeds(seedType.name) as Future<Map<dynamic, dynamic>>);
-  //     stored[pubKey] = encrypted;
-  //     // and save to new storage
-  //     if (seedType == KeyType.mnemonic.toString().split('.')[1]) {
-  //       final mnemonics = Map.from(_keyringStorage.encryptedMnemonics.val);
-  //       mnemonics.addAll(stored);
-  //       _keyringStorage.encryptedMnemonics.val = mnemonics;
-  //       return;
-  //     }
-  //     if (seedType == KeyType.rawSeed.toString().split('.')[1]) {
-  //       final seeds = Map.from(_keyringStorage.encryptedRawSeeds.val);
-  //       seeds.addAll(stored);
-  //       _keyringStorage.encryptedRawSeeds.val = seeds;
-  //     }
-  //   } catch (e) {
-  //     print("Error $e");
-  //   }
-  // }
-
+  
   // ignore: avoid_void_async
   void switchBiometric(bool switchValue) async {
     bool available = await AppServices().checkBiometrics(context);

@@ -129,7 +129,7 @@ class _AccountState extends State<Account> {
       }
 
       Navigator.pop(context);
-      if (changePass != null) {
+      if (changePass.name!.isNotEmpty) {
         await customDialog(context, 'Change Name', 'You name has changed!!!');
       } else {
         await customDialog(context, 'Oops', 'Change Failed!!!');

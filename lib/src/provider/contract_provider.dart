@@ -589,15 +589,16 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBtcMaxGas() async {}
 
   Future<EtherAmount?> getEthGasPrice() async {
+    EtherAmount? gasPrice;
     try {
 
       await initEtherClient();
-      final gasPrice = await _etherClient!.getGasPrice();
-      return gasPrice;
+      gasPrice = await _etherClient!.getGasPrice();
     } catch (e){
 
       if (ApiProvider().isDebug == true) print("Error getEthGasPrice $e");
     }
+    return gasPrice;
   }
 
   Future<String> getBnbMaxGas(String reciever, String amount) async {
@@ -672,28 +673,30 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<EtherAmount?> getErc20GasPrice() async {
+    EtherAmount? gasPrice;
     try {
 
       await initEtherClient();
-      final gasPrice = await _etherClient!.getGasPrice();
-      return gasPrice;
+      gasPrice = await _etherClient!.getGasPrice();
     } catch (e){
 
       if (ApiProvider().isDebug == true) print("Error getErc20GasPrice $e");
     }
+
+    return gasPrice;
   }
 
   Future<EtherAmount?> getBscGasPrice() async {
-
+    EtherAmount? gasPrice;
     try {
 
       await initBscClient();
-      final gasPrice = await _bscClient!.getGasPrice();
-      return gasPrice;
+      gasPrice = await _bscClient!.getGasPrice();
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error getBscGasPrice $e");
     }
 
+    return gasPrice;
   }
 
   // Future<String> approveSwap(String privateKey) async {
@@ -807,25 +810,19 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<List?> queryEther(String contractAddress, String functionName, List args) async {
-    try {
+    await initEtherClient();
+    final contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddress);
+    //final contract = await initEtherContract(contractAddress);
 
-      await initEtherClient();
-      final contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddress);
-      //final contract = await initEtherContract(contractAddress);
+    final ethFunction = contract.function(functionName);
 
-      final ethFunction = contract.function(functionName);
+    final res = await _etherClient!.call(
+      contract: contract,
+      function: ethFunction,
+      params: args,
+    );
 
-      final res = await _etherClient!.call(
-        contract: contract,
-        function: ethFunction,
-        params: args,
-      );
-
-      return res;
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error queryEther $e");
-    }
-    return null;
+    return res;
   }
 
   Future<List> query(String contractAddress, String functionName, List args) async {
@@ -1121,6 +1118,7 @@ class ContractProvider with ChangeNotifier {
       //     // });
       //   }
       // } else {
+      print("searchCoinFromMarket $network");
         
         if (network != null) {
           
@@ -1141,7 +1139,7 @@ class ContractProvider with ChangeNotifier {
               (decimal[0] as BigInt ).toInt(),
             ).toString(); 
 
-          } else if (network == 'Binance Smart Chain'){
+          } else if (network == 'BSC'){
             symbol = await query(contractAddr!, 'symbol', []);
             name = await query(contractAddr, 'name', []);
             decimal = await query(contractAddr, 'decimals', []);

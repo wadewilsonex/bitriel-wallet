@@ -227,7 +227,7 @@ class MyApiKeyring extends ApiKeyring {
 
   /// delete account from storage
   @override
-  Future<void> deleteAccount(Keyring keyring, KeyPairData account) async {
+  Future<void> deleteAccount(Keyring keyring, KeyPairData? account) async {
     if (account != null) {
       await EncryptSeed(EncryptSeed(keyring.store.ss58List).ss58List).deleteAccount(account.pubKey);
     }

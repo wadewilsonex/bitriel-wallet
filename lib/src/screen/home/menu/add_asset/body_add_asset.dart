@@ -148,16 +148,17 @@ class AddAssetBody extends StatelessWidget {
                         ),
                       ),
 
-                      if (tokenSymbol == 'SEL')
-                        portFolioItemRow(
-                          context,
-                          isDarkTheme,
-                          ContractProvider().listContract[api.selNativeIndex].logo!,
-                          tokenSymbol!,
-                          Colors.black,
-                          addAsset!,
-                        )
-                      else if (tokenSymbol == 'KGO')
+                      // if (tokenSymbol == 'SEL')
+                      //   portFolioItemRow(
+                      //     context,
+                      //     isDarkTheme,
+                      //     "assets/SelendraCircle-Blue.png",
+                      //     tokenSymbol!,
+                      //     Colors.black,
+                      //     addAsset!,
+                      //   )
+                      // else 
+                      if (tokenSymbol == 'KGO')
                         portFolioItemRow(
                           context,
                           isDarkTheme,
@@ -166,7 +167,7 @@ class AddAssetBody extends StatelessWidget {
                           Colors.black,
                           addAsset!,
                         )
-                      else if (tokenSymbol != 'SEL' && tokenSymbol != '')
+                      else if (tokenSymbol != '')
                         portFolioItemRow(
                           context,
                           isDarkTheme,
@@ -216,8 +217,7 @@ class AddAssetBody extends StatelessWidget {
             width: 9.w,
             padding: const EdgeInsets.all(6),
             margin: const EdgeInsets.only(right: 20),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(40)),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(40)),
             child: Image.asset(logo),
           ),
           Expanded(

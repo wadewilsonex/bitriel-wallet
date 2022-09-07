@@ -189,6 +189,7 @@ class AddAssetState extends State<AddAsset> {
             await searchEtherContract();
           } else {
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
+            print("res $res");
             _tokenSymbol = res[0].toString();
           }
 
@@ -232,13 +233,14 @@ class AddAssetState extends State<AddAsset> {
       }
     } catch (e) {
       if (ApiProvider().isDebug == true) print("Error searchEtherContract $e");
+      throw Exception(e);
     }
   }
 
   void onSubmit() {
-    if (_modelAsset.formStateAsset.currentState!.validate()) {
+    // if (_modelAsset.formStateAsset.currentState!.validate()) {
       submitAsset();
-    }
+    // }
   }
 
   String? onChanged(String textChange) {

@@ -351,7 +351,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       if (resPin != _pin){
         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN,\nPlease try again.");
         
-      } else if (resPin != null) {
+      } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending
         dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 

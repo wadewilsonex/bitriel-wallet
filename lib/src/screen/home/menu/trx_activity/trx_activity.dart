@@ -126,7 +126,7 @@ class TrxActivityState extends State<TrxActivity> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: _txHistoryModel.tx == null
+              child: _txHistoryModel.tx.isEmpty
                   ? Container()
                   : ListView.builder(
                       itemCount: _txHistoryModel.tx.length,
@@ -212,7 +212,7 @@ class TrxActivityState extends State<TrxActivity> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: _txHistoryModel.txKpi == null
+              child: _txHistoryModel.txKpi.isEmpty
                   ? Container()
                   : ListView.builder(
                       itemCount: _txHistoryModel.txKpi.length,
