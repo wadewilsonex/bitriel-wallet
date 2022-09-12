@@ -29,7 +29,6 @@ class ListTileComponent extends StatelessWidget{
                 color: isDarkTheme
                   ? AppColors.whiteColorHexa
                   : AppColors.textColor,
-                fontWeight: FontWeight.bold,
               ),
 
               Expanded(child: Container()),

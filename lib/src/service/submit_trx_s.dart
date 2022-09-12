@@ -3,7 +3,7 @@ import 'package:polkawallet_sdk/api/types/txInfoData.dart';
 
 class SubmitTrxService {
 
-  TxFeeEstimateResult? _fee;
+  TxFeeEstimateResult? fee;
 
   /// Submit Transaction For Sel Native Or Dot
   Future<bool> sendNative(ModelScanPay scanPay, String password, BuildContext context, {@required TransactionInfo? txInfo} ) async {
@@ -24,7 +24,7 @@ class SubmitTrxService {
       if (_contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         
         return await _api.connectSELNode(context: context).then((value) async {
-          _fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,
@@ -43,7 +43,7 @@ class SubmitTrxService {
         
       } else {
         return await _api.connectPolNon(context: context).then((value) async {
-          _fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,
@@ -85,7 +85,7 @@ class SubmitTrxService {
 
   Future<void> sendTx(ApiProvider api, ModelScanPay scanPay, String password, BuildContext context, TxInfoData txInfoData, int chainDecimal ) async {
 
-    Map? hash = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).signAndSend(
+    await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).signAndSend(
       txInfoData,
       [
         scanPay.controlReceiverAddress.text,
@@ -97,5 +97,18 @@ class SubmitTrxService {
       password,
       onStatusChange: (status) async {}
     );
+
+    // Map? hash = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).signAndSend(
+    //   txInfoData,
+    //   [
+    //     scanPay.controlReceiverAddress.text,
+    //     Fmt.tokenInt(
+    //       scanPay.controlAmount.text,
+    //       chainDecimal,
+    //     ).toString(),
+    //   ],
+    //   password,
+    //   onStatusChange: (status) async {}
+    // );
   }
 }

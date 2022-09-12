@@ -17,7 +17,8 @@ class PasscodeBody extends StatelessWidget{
     this.titleStatus,
     this.subStatus,
     this.isNewPass = false,
-    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
+    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit
+  });
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -134,7 +135,7 @@ class PasscodeBody extends StatelessWidget{
 
   
 
-  List<RichText> passCodeContents = [
+  final List<RichText> passCodeContents = [
 
     RichText(
       textAlign: TextAlign.center,

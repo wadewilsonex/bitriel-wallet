@@ -272,7 +272,7 @@ class MyText extends StatelessWidget {
   final String? text;
   final String? color;
   final Color? color2;
-  double? fontSize;
+  final double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
   final double? right;
@@ -306,7 +306,6 @@ class MyText extends StatelessWidget {
     this.textAlign = TextAlign.center,
     this.overflow,
   }){
-    fontSize = fontSize!.sp;
   }
 
   @override
@@ -322,7 +321,7 @@ class MyText extends StatelessWidget {
           style: TextStyle(
             fontWeight: fontWeight,
             color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
-            fontSize: fontSize!
+            fontSize: fontSize!.sp
           ),
           textAlign: textAlign,
           overflow: overflow,

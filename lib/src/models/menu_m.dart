@@ -60,7 +60,6 @@ class MenuModel {
       'title': "About",
       'sub': [
         {'icon': AppConfig.iconsPath+"info.svg", 'subTitle': 'About'},
-        // {'icon': AppConfig.iconsPath+"edit_user.svg", 'subTitle': 'Term of Use'},
       ]
     },
   ];

@@ -556,11 +556,6 @@ class SubmitTrxState extends State<SubmitTrx> {
                       repeat: false,
                       width: 60.w,
                     )
-                  // CustomAnimation.flareAnimation(
-                    //   flareController,
-                    //   AppConfig.animationPath+"check.flr",
-                    //   "Checkmark",
-                    // ),
                   ),
                 ],
               ),

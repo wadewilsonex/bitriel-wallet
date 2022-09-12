@@ -89,17 +89,7 @@ class AssetsItemComponent extends StatelessWidget {
                             : AppColors.textColor,
                           textAlign: TextAlign.start,
                         ),
-              
-                        // MyText(
-                        //   text: ApiProvider().isMainnet ? scModel!.org : scModel!.orgTest,
-                        //   fontSize: 12,
-                        //   fontWeight: FontWeight.bold,
-                        //   color: isDarkTheme
-                        //     ? AppColors.darkSecondaryText
-                        //     : AppColors.darkSecondaryText,
-                        //   textAlign: TextAlign.start,
-                        // )
-                        
+
                       ],
                     ),
               
@@ -124,13 +114,13 @@ class AssetsItemComponent extends StatelessWidget {
                     MyText(
                       text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 15.5,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.whiteColorHexa
                     )
                     : MyText(
                       text: '',
                       fontSize: 15.5,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       color: AppColors.whiteColorHexa
                     ),
         
@@ -143,16 +133,28 @@ class AssetsItemComponent extends StatelessWidget {
                           ? Flexible(
                             child: Row(
                               children: [
+
+                                if (scModel!.change24h != "0")
                                 MyText(
                                   text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
                                   fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   color: double.parse(scModel!.change24h!).isNegative
                                     ? '#FF0000'
-                                    : isDarkTheme
-                                      ? '#00FF00'
-                                      : '#66CD00',
+                                    : isDarkTheme ? '#00FF00' : '#66CD00',
+                                )
+                                
+                                else MyText(
+                                  text: '(${scModel!.change24h}%)',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.greyCode
+                                  // double.parse(scModel!.change24h!).isNegative
+                                  //   ? AppColors.greyCode
+                                  //   : isDarkTheme ? '#00FF00' : '#66CD00',
                                 ),
+
+                                if (scModel!.change24h != "0")
                                 double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
                               ],
                             ),
@@ -180,7 +182,7 @@ class AssetsItemComponent extends StatelessWidget {
                     // width: double.infinity,
                     text: double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5),//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                     textAlign: TextAlign.right,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     color: isDarkTheme
                       ? AppColors.whiteColorHexa
                       : AppColors.textColor,

@@ -55,9 +55,9 @@ class PasscodeState extends State<Passcode> {
 
   List<String> currentPin = ["", "", "", "", "", ""];
   
-  void init4Digits() {
+  List<TextEditingController>  init4Digits() {
     currentPin = ["", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return lsControl = [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),
@@ -65,9 +65,9 @@ class PasscodeState extends State<Passcode> {
     ];
   }
 
-  void init6Digits() {
+  List<TextEditingController>  init6Digits() {
     currentPin = ["", "", "", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return lsControl = [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),
@@ -129,9 +129,7 @@ class PasscodeState extends State<Passcode> {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
-          
           await setVerifyPin(strPin);
-          // await clearVerifyPin(strPin);
         }
       }
     }
@@ -209,15 +207,6 @@ class PasscodeState extends State<Passcode> {
         } else {
           Navigator.pop(context, true);
         }
-        // else if (widget.label == "fromMenu"){
-        //   if(res == null){
-              
-        //   }
-        //   else{ 
-        //     await StorageServices().clearKeySecure(DbKey.passcode);
-        //     Navigator.pop(context, true);
-        //   }
-        // }
 
       } else {
         clearAll();
@@ -330,15 +319,5 @@ class PasscodeState extends State<Passcode> {
       is4digits: is4digits,  
       onPressedDigit: onPressedDigit
     );
-    // Scaffold(
-    //   key: globalkey,
-    //   body: SizedBox(
-    //     height: MediaQuery.of(context).size.height,
-    //     child: Column(
-    //       children: <Widget>[
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

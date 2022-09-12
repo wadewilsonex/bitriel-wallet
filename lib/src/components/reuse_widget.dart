@@ -1125,7 +1125,7 @@ Future<void> portfolioDailog({required BuildContext? context}){
     //   repeat: true,
 
     // ),
-    contents2: PieChartSample2(),
+    contents2: ChartData(),
     // contents2: Column(
     //   children: [
         

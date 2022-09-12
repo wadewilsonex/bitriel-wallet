@@ -75,7 +75,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Future<void> checkBio() async {
     final bio = await StorageServices.readSaveBio();
 
-    final passCode = await StorageServices().readSecure(DbKey.passcode);
+    // final passCode = await StorageServices().readSecure(DbKey.passcode);
 
     if (bio == true) {
       

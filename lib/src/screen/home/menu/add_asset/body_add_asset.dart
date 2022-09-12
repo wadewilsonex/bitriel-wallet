@@ -138,12 +138,7 @@ class AddAssetBody extends StatelessWidget {
                           },
                           child: Container(
                             padding: const EdgeInsets.only(right: 16.0),
-                            child: SvgPicture.asset(
-                              AppConfig.iconsPath+'qr_code.svg',
-                              width: 4.w,
-                              height: 4.h,
-                              color: isDarkTheme ? Colors.white : Colors.black,
-                            ),
+                            child: Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
                           ),
                         ),
                       ),

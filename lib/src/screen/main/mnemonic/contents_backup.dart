@@ -11,12 +11,12 @@ class ContentsBackup extends StatefulWidget {
 class _ContentsBackupState extends State<ContentsBackup> {
   final double bpSize = 16.0;
   String _passPhrase = '';
-  List _passPhraseList = [];
+  List passPhraseList = [];
 
   Future<void> _generateMnemonic() async {
     try {
       _passPhrase = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
-      _passPhraseList = _passPhrase.split(' ');
+      passPhraseList = _passPhrase.split(' ');
 
       // setState(() {});
     } on PlatformException catch (p) {

@@ -327,11 +327,6 @@ class AddAssetState extends State<AddAsset> {
                         alignment: Alignment.center,
                         width: 60.w,
                       )
-                    // CustomAnimation.flareAnimation(
-                      //   flareController,
-                      //   AppConfig.animationPath+"check.flr",
-                      //   "Checkmark",
-                      // ),
                     ),
                   ],
                 ),

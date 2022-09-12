@@ -35,7 +35,10 @@ class SelendraExplorerBody extends StatelessWidget {
               ),
 
               Expanded(child: Container()),
-              _searchToken(context, controller!),
+              Form(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: _searchToken(context, controller!),
+              ),
               Expanded(child: Container()),
 
             ],
@@ -46,12 +49,17 @@ class SelendraExplorerBody extends StatelessWidget {
   }
 
   Widget _searchToken(BuildContext context, TextEditingController controller){
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
         onFieldSubmitted: (val) {
           Navigator.push(context, Transition(child: ExplorerDetail(controller: controller.text.toString(),), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        },
+        validator: (val){
+          if (val.toString().startsWith("0x") || val.toString().startsWith("se")){
+            return null;
+          }
+          return "Please enter valid string";
         },
         controller: controller,
         textInputAction: TextInputAction.search,
@@ -83,7 +91,17 @@ class SelendraExplorerBody extends StatelessWidget {
           fillColor: hexaCodeToColor("#114463"),
           suffixIcon: IconButton(
             onPressed: () {
-              Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              final res = Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+
+              res.then((value) => {
+                print("value $value"),
+                if(value.toString().startsWith("0x") || value.toString().startsWith("se")){
+                  Navigator.push(context, Transition(child: ExplorerDetail(controller: value.toString(),), transitionEffect: TransitionEffect.RIGHT_TO_LEFT))
+                }
+                else{
+                  customDialog(context, "Error", "Please scan with valid hash or address")
+                }
+              });
             },
             icon: Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
           ),

@@ -2,7 +2,6 @@ import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -208,17 +207,6 @@ class MyUserInfoState extends State<MyUserInfo> {
     } catch (e) {
       await customDialog(context, 'Oops', e.toString());
     }
-  }
-
-  void _setAcc(ApiProvider api){
-
-    AccountM accM = AccountM();
-    accM.address = api.getKeyring.allAccounts[0].address;
-    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
-    accM.name = api.getKeyring.allAccounts[0].name;
-    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
-    api.setAccount(accM);
-    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
 
   PopupMenuItem item(Map<String, dynamic> list) {

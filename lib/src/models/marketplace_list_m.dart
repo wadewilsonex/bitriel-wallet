@@ -8,7 +8,7 @@ final List<Map<String, dynamic>> DefiList = [
   {
     "title": "PancakeSwap",
     "subtitle": "PancakeSwap has the most users of any decentralized platform, ever.",
-    "asset": "assets/logo/pancake-swap.png",
+    "asset": "assets/logo/pancake.png",
     "url": "https://pancakeswap.finance/swap"
   },
   {

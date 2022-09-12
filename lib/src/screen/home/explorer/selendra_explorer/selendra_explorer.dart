@@ -14,6 +14,15 @@ class _SelendraExplorerState extends State<SelendraExplorer> {
 
   TextEditingController controller = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

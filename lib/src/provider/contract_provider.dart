@@ -81,6 +81,9 @@ class ContractProvider with ChangeNotifier {
   EthereumAddress getEthAddr(String address) => EthereumAddress.fromHex(address);
 
   ContractProvider(){
+
+    sortListContract.clear();
+    listContract.clear();
     initSwapContract();
     initJson();
   }
@@ -96,42 +99,48 @@ class ContractProvider with ChangeNotifier {
       // True In Case First Time Initialize
       await setSavedList().then((value) async {
         print("setSavedList $value");
-        if (value == false){
+        // if (value == false){
 
           final json = await rootBundle.loadString(AssetPath.contractJson);
 
           print("rootBundle.loadString ${json.runtimeType}");
           final decode = jsonDecode(json);
-          
+
+          sortListContract.clear();
           listContract.clear();
           
+          print("forEach");
           decode.forEach((value){
-            listContract.add(
-              SmartContractModel(
-                id: value['id'],
-                name: value["name"],
-                logo: value["logo"],
-                address: value['address'],
-                contract: value['contract'],
-                contractTest: value['contract_test'],
-                symbol: value["symbol"],
-                org: value["org"],
-                orgTest: value["org_test"],
-                isContain: value["isContain"],
-                balance: value["balance"],
-                show: value["show"],
-                maxSupply: value["max_supply"],
-                description: value["description"],
-                listActivity: [],
-                lineChartList: value['lineChartData'],
-                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-              )
-            );
+            // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
+              print("value['symbol'] ${value['symbol']}");
+              print("value['contract'] ${value['contract']}");
+              listContract.add(
+                SmartContractModel(
+                  id: value['id'],
+                  name: value["name"],
+                  logo: value["logo"],
+                  address: value['address'],
+                  contract: value['contract'],
+                  contractTest: value['contract_test'],
+                  symbol: value["symbol"],
+                  org: value["org"],
+                  orgTest: value["org_test"],
+                  isContain: value["isContain"],
+                  balance: value["balance"],
+                  show: value["show"],
+                  maxSupply: value["max_supply"],
+                  description: value["description"],
+                  listActivity: [],
+                  lineChartList: value['lineChartData'],
+                  lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+                )
+              );
+            // }
           });
-        }
+        // }
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
-
+        print("Finish storeData");
         await StorageServices.fetchAsset(DbKey.listContract).then((value) {
           print("value $value");
         });
@@ -152,6 +161,7 @@ class ContractProvider with ChangeNotifier {
     listContract[apiProvider.dotIndex].address = addr;
     listContract[apiProvider.dotIndex].chainDecimal = chainDecimal;
   }
+
 
   Future<bool> setSavedList() async {
 
@@ -306,20 +316,27 @@ class ContractProvider with ChangeNotifier {
   // }
 
   Future<void> kgoTokenWallet() async {
+    print("kgoTokenWallet");
     if (apiProvider.isMainnet){
       try {
 
         await initBscClient();
-        final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[apiProvider.kgoIndex].contract! : listContract[apiProvider.kgoIndex].contractTest!);
+        print("initBscClient ${listContract[apiProvider.kgoIndex].symbol}");
+        final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[apiProvider.kgoIndex].contract!);
+        print("finish contract");
         //final contract = await initBsc(listContract[2].address);
         _kgo = new ContractService(_bscClient!, contract);
 
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
+
+        print("balance $balance");
         final chainDecimal = await _kgo!.getChainDecimal();
+        print("kgo chainDecimal $chainDecimal");
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
           int.parse(chainDecimal.toString()),
         ).toString();
+
 
         listContract[apiProvider.kgoIndex].chainDecimal = chainDecimal.toInt();
         listContract[apiProvider.kgoIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.kgoIndex]);
@@ -1220,6 +1237,8 @@ class ContractProvider with ChangeNotifier {
           //   //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol[0].toString());
           //   // }
           // }
+
+          print("decimal $decimal");
 
           SmartContractModel newContract = SmartContractModel(
             id: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['id'],

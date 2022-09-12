@@ -360,55 +360,6 @@ class SwapPageBody extends StatelessWidget {
     );
   }
 
-  Widget _buttonGetToken(BuildContext context){
-    
-    return GestureDetector(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 3,
-        // padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(8)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/SelendraCircle-White.png',
-                height: 25,
-                width: 25,
-              ),
-
-              Expanded(child: Container()),
-
-              MyText(
-                top: 5,
-                text: 'SEL',
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-                color: AppColors.whiteColorHexa,
-              ),
-
-              Expanded(child: Container()),
-
-              Icon(
-                Iconsax.arrow_down_1,
-                color: hexaCodeToColor(AppColors.whiteColorHexa),
-              ),
-            ],
-          ),
-        ),
-      ),
-      
-      onTap: (){
-        Navigator.push(context, RouteAnimation(enterPage: SelectSwapToken()));
-      },
-    );
-  }
-
   /// Size of middle space = 15 per spot
   /// 
   /// 1.Find Empty Space = find both padding size and By 4 To Get 4 Pieces Of Box

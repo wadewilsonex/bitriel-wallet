@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wallet_apps/index.dart';
 
 class ExplorerItem extends StatelessWidget {
@@ -37,11 +38,12 @@ class ExplorerItem extends StatelessWidget {
                   height: 50.0,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image: NetworkImage(image!),
-                    )
-                  )
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: image!,
+                    progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
               ),
 

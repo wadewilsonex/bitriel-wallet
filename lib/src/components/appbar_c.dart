@@ -73,7 +73,7 @@ class MyAppBar extends StatelessWidget {
   final Function? onPressed;
   final Color? color;
   final Widget? tile;
-  double? fontSize;
+  final double? fontSize;
 
   MyAppBar({
     this.pLeft = 0,

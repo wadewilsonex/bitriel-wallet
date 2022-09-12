@@ -289,11 +289,6 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         repeat: false,
                         width: 60.w,
                       )
-                    // CustomAnimation.flareAnimation(
-                      //   flareController,
-                      //   AppConfig.animationPath+"check.flr",
-                      //   "Checkmark",
-                      // ),
                     ),
                   ],
                 ),

@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Map<String, String> headers = {
   "X-CoinAPI-Key": "${dotenv.get('X_COINAPI_KEY')}",
-}; //TODO: paste api key from https://www.coinapi.io/pricing?apikey
+};
 
 class ApiCalls extends GetConnect {
   Future<List<FlSpot>> getChart(

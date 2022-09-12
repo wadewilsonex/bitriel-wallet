@@ -1,5 +1,6 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_connect/wallet_connect.dart';
 import 'package:web3dart/crypto.dart';
@@ -87,20 +88,18 @@ class WalletConnectComponent with ChangeNotifier {
   }
   
   initSession() async {
-    final pref = await SharedPreferences.getInstance();
-    String? value = pref.getString("session");
-    print("initSession value $value");
-    if (value != null){
-      sessionStore = WCSessionStore.fromJson(jsonDecode(value));
-      notifyListeners();
+    try {
+      final pref = await SharedPreferences.getInstance();
+      String? value = pref.getString("session");
+      print("initSession value $value");
+      if (value != null){
+        sessionStore = WCSessionStore.fromJson(jsonDecode(value));
+        notifyListeners();
+      }
     }
-    // .then((value) {
-      
-    //   if (value != null){
-    //     // sessionStore = WCSessionStore.fromJson(jsonDecode(value));
-    //     notifyListeners();
-    //   }
-    // });
+    catch(error){
+      if (ApiProvider().isDebug == true) print("Err initSession $error");
+    }
   }
 
   void fromJsonFilter(List<Map<String, dynamic>> data){

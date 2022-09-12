@@ -1,10 +1,6 @@
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/index.dart';
-// import 'package:bip32/bip32.dart' as bip32;
-// import 'package:dart_ecpair/dart_ecpair.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/import_user_info/import_user_info_body.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
