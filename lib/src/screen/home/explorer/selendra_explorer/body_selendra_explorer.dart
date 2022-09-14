@@ -91,10 +91,9 @@ class SelendraExplorerBody extends StatelessWidget {
           fillColor: hexaCodeToColor("#114463"),
           suffixIcon: IconButton(
             onPressed: () {
-              final res = Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              final res = Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
               res.then((value) => {
-                print("value $value"),
                 if(value.toString().startsWith("0x") || value.toString().startsWith("se")){
                   Navigator.push(context, Transition(child: ExplorerDetail(controller: value.toString(),), transitionEffect: TransitionEffect.RIGHT_TO_LEFT))
                 }
@@ -103,7 +102,7 @@ class SelendraExplorerBody extends StatelessWidget {
                 }
               });
             },
-            icon: Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
+            icon: const Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
           ),
         ),
       ),

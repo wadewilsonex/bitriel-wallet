@@ -14,7 +14,9 @@ class ImportUserInfoBody extends StatelessWidget {
   final Function? submitProfile;
   final Function? item;
 
-  const ImportUserInfoBody({this.modelUserInfo,
+  const ImportUserInfoBody({
+    Key? key, 
+    this.modelUserInfo,
     this.onSubmit,
     this.onChanged,
     this.changeGender,
@@ -26,7 +28,7 @@ class ImportUserInfoBody extends StatelessWidget {
     this.switchBio,
     this.menuModel,
     this.item
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

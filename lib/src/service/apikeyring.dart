@@ -3,7 +3,7 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:polkawallet_sdk/service/keyring.dart';
 import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
-import 'package:wallet_apps/src/service/encryptSeed_s.dart';
+import 'package:wallet_apps/src/service/encryptseed_s.dart';
 import 'package:polkawallet_sdk/api/types/addressIconData.dart';
 import 'package:polkawallet_sdk/api/types/verifyResult.dart';
 import 'package:polkawallet_sdk/webviewWithExtension/types/signExtrinsicParam.dart';
@@ -174,15 +174,15 @@ class MyApiKeyring extends ApiKeyring {
       ls.addAll(keyring.contacts.map((e) => e.pubKey).toList());
     }
 
-    if (ls.length == 0) return;
+    if (ls.isEmpty) return;
     // get icons from webView.
     final res = await service.getPubKeyIconsMap(ls);
     // set new icons to Keyring instance.
     if (res != null) {
       final data = {};
-      res.forEach((e) {
+      for (var e in res) {
         data[e[0]] = e[1];
-      });
+      }
       EncryptSeed(keyring.store.ss58List).updateIconsMap(Map<String, String>.from(data));
     }
   }
@@ -198,15 +198,15 @@ class MyApiKeyring extends ApiKeyring {
       ls.addAll(keyring.allWithContacts.map((e) => e.address).toList());
     }
 
-    if (ls.length == 0) return;
+    if (ls.isEmpty) return;
     // get account indices from webView.
     final res = await apiRoot.account.queryIndexInfo(ls);
     // set new indices to Keyring instance.
     if (res != null) {
       final data = {};
-      res.forEach((e) {
+      for (var e in res) {
         data[e['accountId']] = e;
-      });
+      }
       EncryptSeed(keyring.store.ss58List).updateIndicesMap(Map<String, Map>.from(data));
       keyring.allAccounts;
     }

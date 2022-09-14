@@ -2,6 +2,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScanner extends StatefulWidget {
+  const QrScanner({Key? key}) : super(key: key);
+
   // final List portList;
   // final WalletSDK sdk;
   // final Keyring keyring;
@@ -29,7 +31,9 @@ class QrScannerState extends State<QrScanner> {
       });
 
     } catch (e) {
-     
+      if (kDebugMode) {
+        print("qr create $e");
+      }
     }
 
     return controller;
@@ -68,7 +72,7 @@ class QrScannerState extends State<QrScanner> {
                       borderWidth: 10,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     left: 95,
                     top: 525,
                     child: MyText(

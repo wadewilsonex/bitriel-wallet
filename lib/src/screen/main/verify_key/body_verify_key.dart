@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
-import 'package:wallet_apps/src/models/createKey_m.dart';
+import 'package:wallet_apps/src/models/createkey_m.dart';
 
 class VerifyPassphraseBody extends StatelessWidget {
 
@@ -23,7 +23,7 @@ class VerifyPassphraseBody extends StatelessWidget {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
@@ -33,14 +33,14 @@ class VerifyPassphraseBody extends StatelessWidget {
               children: <Widget>[
 
 
-                SeedContents(
+                const SeedContents(
                   title: 'Verify Seed', 
                   subTitle: 'Almost done. Please input the words in the numerical order.'
                 ),
   
                 SizedBox(height: 7.h),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06),
                     borderRadius: BorderRadius.circular(12)
@@ -69,13 +69,13 @@ class VerifyPassphraseBody extends StatelessWidget {
                 ),
   
                 if (createKeyModel!.tmpThreeNum!.isNotEmpty) Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Container(
                     alignment: Alignment.center,
                     height: 50,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: createKeyModel!.tmpThreeNum!.length,
                       itemBuilder: (context, i){
@@ -87,7 +87,7 @@ class VerifyPassphraseBody extends StatelessWidget {
   
                 SizedBox(height: 3.h),
                 // Display Refresh Button When User Fill Out All
-                if (createKeyModel!.tmpThreeNum!.length == 0)
+                if (createKeyModel!.tmpThreeNum!.isEmpty)
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
@@ -99,8 +99,8 @@ class VerifyPassphraseBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
-                          SizedBox(width: 9),
-                          MyText(
+                          const SizedBox(width: 9),
+                          const MyText(
                             text: "Try Again",
                             fontSize: 14,
                             color: AppColors.whiteColorHexa,

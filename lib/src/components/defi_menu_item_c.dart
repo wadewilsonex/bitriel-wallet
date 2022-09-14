@@ -6,12 +6,13 @@ class DefiMenuItem extends StatelessWidget {
   final Function? action;
   final Widget? image;
 
-  DefiMenuItem({
+  const DefiMenuItem({
+    Key? key, 
     this.title,
     this.subtitle,
     @required this.action,
     this.image
-  });
+  }) : super(key: key);
 
 
   @override

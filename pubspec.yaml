@@ -156,7 +156,7 @@ dependencies:
   random_avatar: ^0.0.7
 
   # Download
-  # path_provider:
+  path_provider:
   # downloads_path_provider_28:
 
   external_app_launcher: ^3.1.0

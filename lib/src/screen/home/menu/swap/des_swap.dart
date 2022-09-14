@@ -1,6 +1,8 @@
 import 'package:wallet_apps/index.dart';
 
 class SwapDescription extends StatelessWidget {
+  const SwapDescription({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;

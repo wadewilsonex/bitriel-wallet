@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
-import 'package:wallet_apps/src/models/createKey_m.dart';
+import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/verify_key.dart';
 
 
@@ -25,7 +25,7 @@ class CreateSeedsBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 
-                SeedContents(
+                const SeedContents(
                   title: 'Seed', 
                   subTitle: 'Write down or copy these words in the order and save them somewhere safe.'
                 ),
@@ -67,8 +67,8 @@ class CreateSeedsBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
-                              SizedBox(width: 9),
-                              MyText(
+                              const SizedBox(width: 9),
+                              const MyText(
                                 text: "Generate new seed",
                                 fontSize: 14,
                                 color: AppColors.whiteColorHexa,
@@ -91,8 +91,8 @@ class CreateSeedsBody extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
-                              SizedBox(width: 9),
-                              MyText(
+                              const SizedBox(width: 9),
+                              const MyText(
                                 text: "Copy",
                                 fontSize: 14,
                                 color: AppColors.whiteColorHexa,
@@ -119,7 +119,7 @@ class CreateSeedsBody extends StatelessWidget {
                 ),
 
                 SizedBox(height: 7.h),
-                MyText(
+                const MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
                   color: AppColors.lowWhite,
                 ),
@@ -132,7 +132,7 @@ class CreateSeedsBody extends StatelessWidget {
                   end: Alignment.topRight,
                   action: () async {
                     // Generate Random Three Number Before Navigate
-                    createKeyModel!.threeNum = await AppUtils().randomThreeEachNumber();
+                    createKeyModel!.threeNum = AppUtils().randomThreeEachNumber();
                     Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                   },
                 ),

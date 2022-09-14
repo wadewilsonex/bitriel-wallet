@@ -45,7 +45,7 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
       // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
       final redeemFunction = contract!.function('redeem');
@@ -62,7 +62,11 @@ class PresaleProvider with ChangeNotifier {
       );
 
       hash = redeemHash;
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("error redeem $e");
+      }
+    }
 
     return hash;
   }
@@ -80,7 +84,7 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
       // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
       final orderFunction = contract!.function('order');
@@ -100,7 +104,11 @@ class PresaleProvider with ChangeNotifier {
 
       hash = orderHash;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error orderUsingBnb $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error orderUsingBnb $e");
+        }
+      }
     }
 
     return hash;
@@ -118,7 +126,7 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
 
       final orderToken = contract!.function('orderToken');
 
@@ -140,7 +148,11 @@ class PresaleProvider with ChangeNotifier {
 
       hash = order;
 
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error orderUsingToken $e");
+      }
+    }
 
     return hash;
   }
@@ -152,7 +164,7 @@ class PresaleProvider with ChangeNotifier {
       final contract = await _contractP!.initBsc(tokenAddress);
       final ethFunction = contract!.function('approve');
 
-      final credentials = await EthPrivateKey.fromHex(privateKey);
+      final credentials = EthPrivateKey.fromHex(privateKey);
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
@@ -187,7 +199,11 @@ class PresaleProvider with ChangeNotifier {
 
       return approve;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error approvePresale $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error approvePresale $e");
+        }
+      }
     }
     return '';
   }
@@ -198,9 +214,13 @@ class PresaleProvider with ChangeNotifier {
   ///
   /// Use Inside app.dart
   Future<DeployedContract?> initPresaleContract() async {
-    if (ApiProvider().isDebug == true) print("initPresaleContract");
+    if (ApiProvider().isDebug == true) {
+      if (kDebugMode) {
+        print("initPresaleContract");
+      }
+    }
     try {
-      final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'presale1.json');
+      final String abiCode = await rootBundle.loadString('${AppConfig.abiPath}presale1.json');
       _deployedContract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'Presale'),
         EthereumAddress.fromHex(_presaleContract),
@@ -209,7 +229,11 @@ class PresaleProvider with ChangeNotifier {
       notifyListeners();
       return _deployedContract;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error initPresaleContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error initPresaleContract $e");
+        }
+      }
     }
     return null;
   }
@@ -226,7 +250,11 @@ class PresaleProvider with ChangeNotifier {
 
       return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error checkTokenBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error checkTokenBalance $e");
+        }
+      }
     }
     return 0.0;
   }
@@ -238,15 +266,19 @@ class PresaleProvider with ChangeNotifier {
     try {
       final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
       final preFunction = _deployedContract!.function('investorOrderIds');
-      final List? res = await _contractP!.bscClient.call(
+      final List res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [EthereumAddress.fromHex("$myAddr")]
       );
 
-      if (res != null) idRes = List.from(res.first);
+      if (res.isNotEmpty) idRes = List.from(res.first);
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getInvestorOrderIds $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getInvestorOrderIds $e");
+        }
+      }
     }
 
     return idRes;
@@ -265,7 +297,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getOrder $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getOrder $e");
+        }
+      }
     }
   }
 
@@ -282,7 +318,11 @@ class PresaleProvider with ChangeNotifier {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getPriceToken $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getPriceToken $e");
+        }
+      }
     }
   }
 
@@ -295,7 +335,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err getBNBToken $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err getBNBToken $e");
+        }
+      }
     }
   }
 
@@ -308,7 +352,11 @@ class PresaleProvider with ChangeNotifier {
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error minInvestment $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error minInvestment $e");
+        }
+      }
     }
   }
 
@@ -331,7 +379,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error fetchAndFillPrice $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error fetchAndFillPrice $e");
+        }
+      }
     }
     return supportTokenList;
   }
@@ -357,7 +409,11 @@ class PresaleProvider with ChangeNotifier {
   /* --------------------------Helper Function--------------------- */
 
   Future<void> setListOrder() async {
-    if (ApiProvider().isDebug == true) print("setListOrder");
+    if (ApiProvider().isDebug == true) {
+      if (kDebugMode) {
+        print("setListOrder");
+      }
+    }
     try {
 
       presaleOrderInfo.clear();
@@ -385,7 +441,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error setListOrder $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error setListOrder $e");
+        }
+      }
     }
   }
 
@@ -400,39 +460,39 @@ class PresaleProvider with ChangeNotifier {
     // 20% disc = 0.025 USD per SEL
     // 30% disc = 0.021 USD per
 
-    double _estSel = 0.00;
+    double estSel = 0.00;
 
-    final bool? isValid = _isNumeric(amt);
+    final bool isValid = _isNumeric(amt);
 
-    if (isValid != null && isValid) {
+    if (isValid) {
       switch (discountRate) {
         case 10:
-          _estSel = double.parse(amt) * assetPrice / 0.027;
+          estSel = double.parse(amt) * assetPrice / 0.027;
           break;
         case 20:
-          _estSel = double.parse(amt) * assetPrice / 0.025;
+          estSel = double.parse(amt) * assetPrice / 0.025;
           break;
         case 30:
-          _estSel = double.parse(amt) * assetPrice / 0.021;
+          estSel = double.parse(amt) * assetPrice / 0.021;
           break;
       }
 
-      estSel = _estSel;
+      estSel = estSel;
     }
 
     notifyListeners();
   }
 
   double calAmtPrice(String amt, double assetPrice) {
-    double _estSel = 0.00;
+    double estSel = 0.00;
 
     final isValid = _isNumeric(amt);
 
     if (isValid) {
-      _estSel = double.parse(amt) * assetPrice;
+      estSel = double.parse(amt) * assetPrice;
     }
 
-    return _estSel;
+    return estSel;
   }
 
   bool _isNumeric(String? str) {

@@ -14,6 +14,7 @@ class MyUserInfoBody extends StatelessWidget {
   final Function? item;
 
   const MyUserInfoBody({
+    Key? key, 
     this.modelUserInfo,
     this.onSubmit,
     this.onChanged,
@@ -25,7 +26,7 @@ class MyUserInfoBody extends StatelessWidget {
     this.switchBio,
     this.model,
     this.item,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +125,7 @@ class MyUserInfoBody extends StatelessWidget {
                       inputFormatters: [LengthLimitingTextInputFormatter(4)],
                       /* Limit Length Of Text Input */
                       onChanged: (String? value){
-                        return onChanged!(value);
+                        onChanged!(value);
                       },
                       onFieldSubmitted: (value) {
                         onSubmit!();
@@ -194,7 +195,7 @@ class MyUserInfoBody extends StatelessWidget {
                         inputFormatters: [LengthLimitingTextInputFormatter(4)],
                         /* Limit Length Of Text Input */
                         onChanged: (String? value){
-                          return onChanged!(value);
+                          onChanged!(value);
                         },
                         onFieldSubmitted: (value) {
                           onSubmit!();

@@ -57,7 +57,7 @@ class DialogComponents {
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -79,7 +79,7 @@ class DialogComponents {
                           Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp,),
                           
                           SizedBox(width: 2.w,),
-                          MyText(
+                          const MyText(
                             text: "Copy",
                             top: 5,
                             color: AppColors.lowWhite,
@@ -99,7 +99,7 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: MyText(text: 'Close'),
+              child: const MyText(text: 'Close'),
             )
           ],
         );
@@ -136,16 +136,16 @@ class DialogComponents {
               fontSize: titlesFontSize,
               color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
             ) : Container(),
-            buttonPadding: btn2 != null ? EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
+            buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
         
-                lottie != null ? lottie : Container(),
+                lottie ?? Container(),
                 
                 // lottie != null ? SizedBox(height: 3.h) : Container(),
                 
-                image != null ? image : Container(),
+                image ?? Container(),
                 
                 image != null ? SizedBox(height: 3.h) : Container(),
                 MyText(
@@ -166,7 +166,7 @@ class DialogComponents {
                   // await FlutterScreenshotSwitcher.enableScreenshots();
                   Navigator.pop(context);
                 },
-                child: MyText(
+                child: const MyText(
                   text: "Close",
                   color: AppColors.lowWhite
                 ),

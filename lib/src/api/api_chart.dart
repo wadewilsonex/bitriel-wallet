@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Map<String, String> headers = {
-  "X-CoinAPI-Key": "${dotenv.get('X_COINAPI_KEY')}",
+  "X-CoinAPI-Key": dotenv.get('X_COINAPI_KEY'),
 };
 
 class ApiCalls extends GetConnect {

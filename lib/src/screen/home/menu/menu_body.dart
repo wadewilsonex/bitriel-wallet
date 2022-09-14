@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
@@ -12,12 +12,13 @@ class MenuBody extends StatelessWidget {
   final Function? switchTheme;
 
   const MenuBody({
+    Key? key, 
     this.userInfo,
     this.model,
     this.enablePassword,
     this.switchBio,
     this.switchTheme,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 0,
           onTap: () {
-            Navigator.push(context, Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            Navigator.push(context, Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
 
@@ -53,7 +54,7 @@ class MenuBody extends StatelessWidget {
           subIndex: 1,
           onTap: () {
             // underContstuctionAnimationDailog(context: context);
-            Navigator.push(context, Transition(child: AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            Navigator.push(context, Transition(child: const AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
         
@@ -65,22 +66,22 @@ class MenuBody extends StatelessWidget {
 
             // await StorageServices.removeKey(DbKey.wcSession);
             
-            WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
-            _wConnectC.setBuildContext = context;
+            WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+            wConnectC.setBuildContext = context;
             await StorageServices.fetchData(DbKey.wcSession).then((value) async {
 
               if (value == null){
 
-                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
+                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner()));
                 
                 if (value != null){
                   
-                  _wConnectC.qrScanHandler(value);
+                  wConnectC.qrScanHandler(value);
                 }
               } else {
                 Navigator.push(
                   context, 
-                  Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  Transition(child: const WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                 );
                 // _wConnectC.sessionStore = WCSessionStore.fromJson(value);
                 // try {

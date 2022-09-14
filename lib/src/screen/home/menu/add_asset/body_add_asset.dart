@@ -19,6 +19,7 @@ class AddAssetBody extends StatelessWidget {
   final Function? onChangeDropDown;
 
   const AddAssetBody({
+    Key? key, 
     this.assetM,
     this.tokenSymbol,
     this.initialValue,
@@ -32,7 +33,7 @@ class AddAssetBody extends StatelessWidget {
     this.addAsset,
     this.qrRes,
     this.onChangeDropDown,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,132 +62,129 @@ class AddAssetBody extends StatelessWidget {
                 height: 20.0,
               ),
               SvgPicture.asset(
-                AppConfig.iconsPath+'contract.svg',
+                '${AppConfig.iconsPath}contract.svg',
                 width: 20.w,
                 height: 20.h,
               ),
               
-              Container(
-                // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                child: Form(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+              Form(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        // height: 65,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.06),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-                            MyText(
-                              left: 16.0,
-                              text: 'Select Network',
-                              color: isDarkTheme
-                                ? AppColors.whiteHexaColor
-                                : AppColors.darkCard,
-                            ),
-
-                            Expanded(child: Container()),
-
-                            Flexible(
-                              child:  QrViewTitle(
-                                isValue: true,
-                                // assetInfo: provider.assetInfo,
-                                listContract: networkSymbol,
-                                initialValue: initialValue,
-                                onChanged: (value) {
-                                  onChangeDropDown!(value);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      // height: 65,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.06),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
 
-                      MyInputField(
-                        pBottom: 16.0,
-                        hintText: "Token Contract Address",
-                        textInputFormatter: [
-                          LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                        ],
-                        controller: assetM!.controllerAssetCode,
-                        focusNode: assetM!.nodeAssetCode,
-                        validateField: (value) => value.isEmpty
-                          ? 'Please fill in token contract address'
-                          : null,
-                        onChanged: onChanged,
-                        onSubmit: onSubmit,
-                        suffixIcon: GestureDetector(
-                          onTap: () async {
-                            final _response = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => QrScanner()
-                              )
-                            );
-                            
-                            if (_response != null) {
-                              qrRes!(_response.toString());
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
+                          MyText(
+                            left: 16.0,
+                            text: 'Select Network',
+                            color: isDarkTheme
+                              ? AppColors.whiteHexaColor
+                              : AppColors.darkCard,
                           ),
+
+                          Expanded(child: Container()),
+
+                          Flexible(
+                            child:  QrViewTitle(
+                              isValue: true,
+                              // assetInfo: provider.assetInfo,
+                              listContract: networkSymbol,
+                              initialValue: initialValue,
+                              onChanged: (value) {
+                                onChangeDropDown!(value);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    MyInputField(
+                      pBottom: 16.0,
+                      hintText: "Token Contract Address",
+                      textInputFormatter: [
+                        LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                      ],
+                      controller: assetM!.controllerAssetCode,
+                      focusNode: assetM!.nodeAssetCode,
+                      validateField: (value) => value.isEmpty
+                        ? 'Please fill in token contract address'
+                        : null,
+                      onChanged: onChanged,
+                      onSubmit: onSubmit,
+                      suffixIcon: GestureDetector(
+                        onTap: () async {
+                          final response = await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const QrScanner()
+                            )
+                          );
+                          
+                          if (response != null) {
+                            qrRes!(response.toString());
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: const Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
                         ),
                       ),
+                    ),
 
-                      // if (tokenSymbol == 'SEL')
-                      //   portFolioItemRow(
-                      //     context,
-                      //     isDarkTheme,
-                      //     "assets/SelendraCircle-Blue.png",
-                      //     tokenSymbol!,
-                      //     Colors.black,
-                      //     addAsset!,
-                      //   )
-                      // else 
-                      if (tokenSymbol == 'KGO')
-                        portFolioItemRow(
-                          context,
-                          isDarkTheme,
-                          ContractProvider().listContract[api.kgoIndex].logo!,
-                          tokenSymbol!,
-                          Colors.black,
-                          addAsset!,
-                        )
-                      else if (tokenSymbol != '')
-                        portFolioItemRow(
-                          context,
-                          isDarkTheme,
-                          AppConfig.assetsPath+'circle.png',
-                          tokenSymbol!,
-                          Colors.black,
-                          addAsset!,
-                        )
-                      else
-                        Container(),
-                      if (assetM!.loading)
-                        const CircularProgressIndicator()
-                      else
-                        Container(),
+                    // if (tokenSymbol == 'SEL')
+                    //   portFolioItemRow(
+                    //     context,
+                    //     isDarkTheme,
+                    //     "assets/SelendraCircle-Blue.png",
+                    //     tokenSymbol!,
+                    //     Colors.black,
+                    //     addAsset!,
+                    //   )
+                    // else 
+                    if (tokenSymbol == 'KGO')
+                      portFolioItemRow(
+                        context,
+                        isDarkTheme,
+                        ContractProvider().listContract[api.kgoIndex].logo!,
+                        tokenSymbol!,
+                        Colors.black,
+                        addAsset!,
+                      )
+                    else if (tokenSymbol != '')
+                      portFolioItemRow(
+                        context,
+                        isDarkTheme,
+                        '${AppConfig.assetsPath}circle.png',
+                        tokenSymbol!,
+                        Colors.black,
+                        addAsset!,
+                      )
+                    else
+                      Container(),
+                    if (assetM!.loading)
+                      const CircularProgressIndicator()
+                    else
+                      Container(),
 
-                    ],
-                  ),
+                  ],
                 ),
               ),
 
               const SizedBox(height: 40.0),
 
               MyGradientButton(
-                edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
+                edgeMargin: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
                 textButton: "Search",
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
@@ -241,7 +239,7 @@ class AddAssetBody extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     MyText(
                       width: double.infinity,
                       text: 'Add', //portfolioData[0]["data"]['balance'],

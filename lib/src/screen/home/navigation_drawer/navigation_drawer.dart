@@ -1,9 +1,11 @@
 import '../../../../index.dart';
 
 class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final _usr = Provider.of<ApiProvider>(context);
+    final usr = Provider.of<ApiProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -57,11 +59,11 @@ class NavigationDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MyText(
-                                text: _usr.getKeyring.current.name ?? '',
+                                text: usr.getKeyring.current.name ?? '',
                                 color: "#FFFFFF",
                                 fontSize: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 100,
                                 child: MyText(
                                   text: "Indracore",

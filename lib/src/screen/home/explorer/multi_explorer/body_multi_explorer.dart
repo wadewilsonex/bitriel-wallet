@@ -3,7 +3,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/explorer_item_c.dart';
 import 'package:wallet_apps/src/models/explore.m.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 
 class ExplorerBody extends StatelessWidget {
   const ExplorerBody({
@@ -16,7 +16,7 @@ class ExplorerBody extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(left: paddingSize, right: paddingSize),
+          padding: const EdgeInsets.only(left: paddingSize, right: paddingSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

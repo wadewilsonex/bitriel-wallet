@@ -1,7 +1,7 @@
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/createKey_m.dart';
+import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/body_create_key.dart';
 
 class CreateSeeds extends StatefulWidget {
@@ -9,13 +9,12 @@ class CreateSeeds extends StatefulWidget {
   const CreateSeeds({Key? key}): super(key: key);
 
   @override
-  _CreateWalletPagetScreenState createState() =>
-      _CreateWalletPagetScreenState();
+  CreateWalletPagetScreenState createState() => CreateWalletPagetScreenState();
 }
 
-class _CreateWalletPagetScreenState extends State<CreateSeeds> {
+class CreateWalletPagetScreenState extends State<CreateSeeds> {
   
-  CreateKeyModel _model = CreateKeyModel();
+  final CreateKeyModel _model = CreateKeyModel();
 
   void _generateKey() async {
     if (_model.seed!.isEmpty){
@@ -41,14 +40,14 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: hexaCodeToColor(AppColors.blue),
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: <Widget>[
                 SizedBox(height: 2.5.h),
-                MyText(
+                const MyText(
                   text: "Please, read carefully!",
                   fontSize: 18,
                   color: AppColors.lowWhite,
@@ -74,7 +73,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                       ),
         
                       SizedBox(width: 2.w),
-                      Expanded(
+                      const Expanded(
                         child: MyText(
                           text: "The information below is important to guarantee your account security.",
                           color: AppColors.warningColor,
@@ -86,7 +85,7 @@ class _CreateWalletPagetScreenState extends State<CreateSeeds> {
                 ),
         
                 SizedBox(height: 5.h),
-                MyText(
+                const MyText(
                   text: "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
                   textAlign: TextAlign.start,
                   color: AppColors.lowWhite,

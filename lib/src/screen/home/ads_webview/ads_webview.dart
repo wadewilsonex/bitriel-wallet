@@ -7,7 +7,7 @@ class AdsWebView extends StatefulWidget {
   final String? url;
   final String? title;
 
-  AdsWebView({Key? key, this.item, this.url, this.title}) : super(key: key);
+  const AdsWebView({Key? key, this.item, this.url, this.title}) : super(key: key);
 
   @override
   State<AdsWebView> createState() => _AdsWebViewState();
@@ -21,9 +21,6 @@ class _AdsWebViewState extends State<AdsWebView> {
 
   @override
   void initState() {
-    print("item: ${widget.item}");
-    print("url: ${widget.item}");
-    print("item: ${widget.item}");
     super.initState();
   }
 
@@ -64,7 +61,7 @@ class _AdsWebViewState extends State<AdsWebView> {
               backgroundColor: hexaCodeToColor(AppColors.lowWhite),
               ),
             ) 
-          : SizedBox(),
+          : const SizedBox(),
         ],
       )
     );

@@ -23,12 +23,12 @@ class ExplorerDetailBody extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2),
         ),
         
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             controller!.startsWith("0x") == true ? hashQuery(context) : Container(),
@@ -54,7 +54,7 @@ class ExplorerDetailBody extends StatelessWidget {
         }
 
         if(result.isLoading){
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         if(result.data?["extrinsic"].isEmpty){
@@ -118,14 +118,14 @@ class ExplorerDetailBody extends StatelessWidget {
         }
 
         if(result.isLoading){
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         if(result.data?["account_by_pk"] == null){
           return notFoundWidget();
         }
 
-        final int TotalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
+        final int totalBalance = result.data?["account_by_pk"]["free_balance"] + result.data?["account_by_pk"]["locked_balance"] + result.data?["account_by_pk"]["reserved_balance"];
 
         return Column(
           children: [
@@ -134,7 +134,7 @@ class ExplorerDetailBody extends StatelessWidget {
               child: addressDetailSection(
                 context,
                 controller,
-                Fmt.balance(TotalBalance.toString(), 12),
+                Fmt.balance(totalBalance.toString(), 12),
                 Fmt.balance(result.data?["account_by_pk"]["free_balance"].toString(), 12),
                 Fmt.balance(result.data?["account_by_pk"]["locked_balance"].toString(), 12),
                 Fmt.balance(result.data?["account_by_pk"]["reserved_balance"].toString(), 12),
@@ -162,19 +162,19 @@ class ExplorerDetailBody extends StatelessWidget {
       ),
       CardSection(
         title: "Balance",
-        trailingTitle: "${totalBalance} SEL",
+        trailingTitle: "$totalBalance SEL",
       ),
       CardSection(
         title: "Available",
-        trailingTitle: "${availableBalance} SEL",
+        trailingTitle: "$availableBalance SEL",
       ),
       CardSection(
         title: "Locked",
-        trailingTitle: "${lockedBalance} SEL",
+        trailingTitle: "$lockedBalance SEL",
       ),
       CardSection(
         title: "Reserved",
-        trailingTitle: "${reservedBalance} SEL",
+        trailingTitle: "$reservedBalance SEL",
       ),
     ];
   }
@@ -195,35 +195,35 @@ class ExplorerDetailBody extends StatelessWidget {
     return [
       CardSection(
         title: "Block",
-        trailingTitle: "${block}",
+        trailingTitle: "$block",
       ),
       CardSection(
         title: "Time",
-        trailingTitle: "${time}",
+        trailingTitle: "$time",
       ),
       CardSection(
         title: "Extrinsic ID",
-        trailingTitle: "${extrinsicID}",
+        trailingTitle: "$extrinsicID",
       ),
       CardSection(
         title: "Hash",
-        trailingTitle: "${hash}",
+        trailingTitle: "$hash",
       ),
       CardSection(
         title: "From",
-        trailingTitle: "${from}",
+        trailingTitle: "$from",
       ),
       CardSection(
         title: "To",
-        trailingTitle: "${to}",
+        trailingTitle: "$to",
       ),
       CardSection(
         title: "Amount",
-        trailingTitle: "${amount} SEL",
+        trailingTitle: "$amount SEL",
       ),
       CardSection(
         title: "Fee",
-        trailingTitle: "${fee} SEL",
+        trailingTitle: "$fee SEL",
       ),
       CardSection(
         title: "Success",
@@ -278,7 +278,7 @@ class ExplorerDetailBody extends StatelessWidget {
       ),
       child: ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 10),
           itemCount: addressDetailList(context, controller, totalBalance, availableBalance, lockedBalance, reservedBalance).length,
           itemBuilder: (context, index) {
@@ -331,7 +331,7 @@ class ExplorerDetailBody extends StatelessWidget {
       ),
       child: ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 10),
           itemCount: hashDetailList(
             context,

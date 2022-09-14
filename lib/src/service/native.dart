@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/INative.dart';
+import 'package:wallet_apps/src/models/inative.dart';
 import 'package:web3dart/web3dart.dart';
 
 class NativeService implements INativeService {
@@ -22,7 +22,7 @@ class NativeService implements INativeService {
 
   @override
   Future<EthPrivateKey> getCredentials(String privateKey) async {
-    return await EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey.substring(2));
+    return EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey.substring(2));
   }
 
   @override
@@ -57,7 +57,11 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        if (ApiProvider().isDebug == true) print("Error listenTransfer $e");
+        if (ApiProvider().isDebug == true) {
+          if (kDebugMode) {
+            print("Error listenTransfer $e");
+          }
+        }
       }
     })
     .where((receipt) => receipt != null)
@@ -89,7 +93,11 @@ class NativeService implements INativeService {
       );
 
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Err sendTx $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err sendTx $e");
+        }
+      }
     }
 
     return res!;

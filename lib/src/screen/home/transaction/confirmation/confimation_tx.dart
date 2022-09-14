@@ -31,8 +31,9 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
       // disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 3), (){});
-    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(isTrx: true,)), ModalRoute.withName('/'));
+    await Future.delayed(const Duration(seconds: 3), (){});
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
@@ -99,7 +100,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         ),
           
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
                           child: Column(
                             children: [
                               // Send To
@@ -203,7 +204,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                           height: 1.0,
                         ),
         
-                        MyText(
+                        const MyText(
                           top: 8.0,
                           text: AppString.amtPGasFee,
                           fontSize: 16.0,
@@ -251,7 +252,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                 ),
         
                 Padding(
-                  padding: EdgeInsets.all(paddingSize),
+                  padding: const EdgeInsets.all(paddingSize),
                   child: MyGradientButton(
                     textButton: AppString.confirm,
                     begin: Alignment.bottomLeft,
@@ -259,8 +260,9 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                     action: () async {
                       // Generate Random Three Number Before Navigate
                       await widget.sendTrx!(widget.trxInfo, context: context).then((value){
-                        if (value != null)
-                        enableAnimation(context: context);
+                        if (value != null) {
+                          enableAnimation(context: context);
+                        }
                       });
                     },
                   ),

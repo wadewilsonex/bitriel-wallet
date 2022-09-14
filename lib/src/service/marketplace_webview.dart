@@ -1,6 +1,6 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 
 class MarketPlaceWebView extends StatefulWidget {
 
@@ -8,7 +8,7 @@ class MarketPlaceWebView extends StatefulWidget {
   final String title;
   final String? wc;
 
-  MarketPlaceWebView({Key? key, required this.url, required this.title, this.wc}) : super(key: key);
+  const MarketPlaceWebView({Key? key, required this.url, required this.title, this.wc}) : super(key: key);
 
   @override
   State<MarketPlaceWebView> createState() => _MarketPlaceWebViewState();
@@ -22,9 +22,9 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
 
   void walletConnect() async{
 
-    WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
     
-    _wConnectC.setBuildContext = context;
+    wConnectC.setBuildContext = context;
 
     
 
@@ -119,7 +119,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
               backgroundColor: hexaCodeToColor(AppColors.lowWhite),
               ),
             ) 
-          : SizedBox(),
+          : const SizedBox(),
         ],
       )
     );

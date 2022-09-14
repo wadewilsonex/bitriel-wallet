@@ -7,7 +7,7 @@ class SelectSwapTokenBody extends StatelessWidget {
   final TextEditingController? searchController;
   final Function? query;
 
-  SelectSwapTokenBody({ 
+  const SelectSwapTokenBody({ 
     Key? key,
     this.searchController,
     this.query
@@ -21,7 +21,7 @@ class SelectSwapTokenBody extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Iconsax.close_circle,
               size: 25,
             ),
@@ -109,7 +109,7 @@ class SelectSwapTokenBody extends StatelessWidget {
       builder: (context, provider, widget){
         return ListView.builder(
           shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
           itemBuilder: (context, index){
             return Padding(

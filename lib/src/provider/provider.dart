@@ -48,7 +48,11 @@ class ContractsBalance extends ChangeNotifier {
         
       // });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("error getAllAssetBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error getAllAssetBalance $e");
+        }
+      }
     }
   }
 
@@ -85,9 +89,12 @@ class ContractsBalance extends ChangeNotifier {
             // if (conProvider.listContract[i].symbol == "KGO") {
               
             // }
-            print("conProvider.listContract[i].symbol ${conProvider.listContract[i].symbol}");
-            print("conProvider.listContract[i].org ${conProvider.listContract[i].org}");
-            print("conProvider.listContract[i].chainDecimal ${conProvider.listContract[i].chainDecimal}");
+            if (kDebugMode) {
+              print("conProvider.listContract[i].symbol ${conProvider.listContract[i].symbol}");
+              print("conProvider.listContract[i].org ${conProvider.listContract[i].org}");
+              print("conProvider.listContract[i].chainDecimal ${conProvider.listContract[i].chainDecimal}");
+            }
+            
             if (conProvider.listContract[i].org == "ERC-20"){
               balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
               conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
@@ -98,7 +105,9 @@ class ContractsBalance extends ChangeNotifier {
             } else if (conProvider.listContract[i].org == "BEP-20") {
               // decimal = await conProvider.get
               balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-              print("balance $balance");
+              if (kDebugMode) {
+                print("balance $balance");
+              }
               
               conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
               // Fmt.bigIntToDouble(
@@ -141,7 +150,11 @@ class ContractsBalance extends ChangeNotifier {
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("error refetchContractBalance $e ");
+      if (ApiProvider().isDebug == true){
+        if (kDebugMode) {
+          print("error refetchContractBalance $e ");
+        }
+      }
     }
 
   }

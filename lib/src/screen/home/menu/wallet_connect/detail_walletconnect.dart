@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_connect/wc_session_store.dart';
 
@@ -29,14 +29,18 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
 
   void killSession() async {
     _wConnectC!.wcClient.killSession();
-    print("widget.index! ${widget.index!}");
+    if (kDebugMode) {
+      print("widget.index! ${widget.index!}");
+    }
     _wConnectC!.lsWcClients.removeAt(widget.index!);
-    print("_wConnectC!.lsWcClients ${_wConnectC!.lsWcClients}");
+    if (kDebugMode) {
+      print("_wConnectC!.lsWcClients ${_wConnectC!.lsWcClients}");
+    }
     List<Map<String, dynamic>> tmpWcSession = [];
 
-    _wConnectC!.lsWcClients.forEach((element) {
+    for (var element in _wConnectC!.lsWcClients) {
       tmpWcSession.add(element.toJson());
-    });
+    }
 
     await StorageServices.storeData(tmpWcSession, DbKey.wcSession);
     _wConnectC!.afterKill();
@@ -87,7 +91,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      MyText(
+                      const MyText(
                         text: "Connected to",
                         color: AppColors.lowWhite,
                         fontWeight: FontWeight.w700,
@@ -116,7 +120,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      MyText(
+                      const MyText(
                         text: "Chain ID",
                         color: AppColors.lowWhite,
                         fontWeight: FontWeight.w700,
@@ -147,7 +151,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
-                          MyText(
+                          const MyText(
                             text: "Address",
                             color: AppColors.lowWhite,
                             fontWeight: FontWeight.w700,

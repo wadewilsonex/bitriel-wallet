@@ -5,11 +5,11 @@ class WalletConnectMenuItem extends StatelessWidget {
   final Function? action;
   final String? image;
   
-  WalletConnectMenuItem({
+  const WalletConnectMenuItem({Key? key, 
     this.title,
     @required this.action,
     this.image,
-  });
+  }) : super(key: key);
 
 
   @override

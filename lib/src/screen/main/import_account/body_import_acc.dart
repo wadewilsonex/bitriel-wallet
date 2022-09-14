@@ -10,7 +10,8 @@ class ImportAccBody extends StatelessWidget {
   final Function? clearInput;
   final Function? submit;
 
-  ImportAccBody({
+  const ImportAccBody({
+    Key? key, 
     this.importAccModel,
     this.onChanged,
     this.onSubmit,
@@ -18,9 +19,9 @@ class ImportAccBody extends StatelessWidget {
     this.enable,
     this.reImport,
     this.submit,
-  });
+  }) : super(key: key);
 
-  final EdgeInsetsGeometry padding = EdgeInsets.only(left: paddingSize, right: paddingSize);
+  final EdgeInsetsGeometry padding = const EdgeInsets.only(left: paddingSize, right: paddingSize);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class ImportAccBody extends StatelessWidget {
         child: Column(
           children: [
 
-            SeedContents(
+            const SeedContents(
               title: 'Restore with seed', 
               subTitle: 'Please add your 12 words seed below to restore your wallet.'
             ),

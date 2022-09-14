@@ -6,11 +6,12 @@ class ExplorerItem extends StatelessWidget {
   final Function? action;
   final String? image;
   
-  ExplorerItem({
+  const ExplorerItem({
+    Key? key, 
     this.title,
     @required this.action,
     this.image,
-  });
+  }) : super(key: key);
 
 
   @override
@@ -36,13 +37,13 @@ class ExplorerItem extends StatelessWidget {
                 child: Container(
                   width: 50.0,
                   height: 50.0,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: CachedNetworkImage(
                     imageUrl: image!,
                     progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
               ),

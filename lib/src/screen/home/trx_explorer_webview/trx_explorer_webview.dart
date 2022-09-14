@@ -5,7 +5,7 @@ class TrxExplorerWebView extends StatefulWidget {
 
   final String url;
 
-  TrxExplorerWebView({Key? key, required this.url}) : super(key: key);
+  const TrxExplorerWebView({Key? key, required this.url}) : super(key: key);
 
   @override
   State<TrxExplorerWebView> createState() => _TrxExplorerWebViewState();
@@ -32,7 +32,7 @@ class _TrxExplorerWebViewState extends State<TrxExplorerWebView> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: MyText(
+          title: const MyText(
             text: 'Selendra Explorer',
             fontWeight: FontWeight.bold,
           ),
@@ -59,7 +59,7 @@ class _TrxExplorerWebViewState extends State<TrxExplorerWebView> {
                 backgroundColor: hexaCodeToColor(AppColors.lowWhite),
               ),
             )
-                : SizedBox(),
+                : const SizedBox(),
           ],
         )
     );

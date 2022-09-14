@@ -10,21 +10,21 @@ class SubmitTrxService {
 
     try {
 
-      final _api = Provider.of<ApiProvider>(context, listen: false);
-      final _contract = Provider.of<ContractProvider>(context, listen: false);
+      final api = Provider.of<ApiProvider>(context, listen: false);
+      final contract = Provider.of<ContractProvider>(context, listen: false);
 
       final sender = TxSenderData(
-        _contract.sortListContract[scanPay.assetValue].address,
-        _api.getKeyring.current.pubKey,
+        contract.sortListContract[scanPay.assetValue].address,
+        api.getKeyring.current.pubKey,
       );
 
       final txInfoData = TxInfoData('balances', 'transfer', sender);
 
-      final chainDecimal = _contract.sortListContract[scanPay.assetValue].chainDecimal;
-      if (_contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
+      final chainDecimal = contract.sortListContract[scanPay.assetValue].chainDecimal;
+      if (contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         
-        return await _api.connectSELNode(context: context).then((value) async {
-          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+        return await api.connectSELNode(context: context).then((value) async {
+          fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,
@@ -35,15 +35,15 @@ class SubmitTrxService {
             ],
           );
           // await customDialog(context, "Fee", "Estimated fee price: ${fee.partialFee}");
-
-          await sendTx(_api, scanPay, password, context, txInfoData, chainDecimal);
-          await _api.getSelNativeChainDecimal(context: context);
+          
+          await sendTx(api, scanPay, password, context, txInfoData, chainDecimal);
+          await api.getSelNativeChainDecimal(context: context);
           return true;
         });
         
       } else {
-        return await _api.connectPolNon(context: context).then((value) async {
-          fee = await SendTrx(_api.getSdk.api, _api.getSdk.api.service.tx).estimateFees(
+        return await api.connectPolNon(context: context).then((value) async {
+          fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
             txInfoData,
             [
               scanPay.controlReceiverAddress.text,
@@ -53,9 +53,9 @@ class SubmitTrxService {
               ).toString(),
             ],
           );
-          await sendTx(_api, scanPay, password, context, txInfoData, chainDecimal);
+          await sendTx(api, scanPay, password, context, txInfoData, chainDecimal);
 
-          await _api.subscribeDotBalance(context: context);
+          await api.subscribeDotBalance(context: context);
           return true;
         });
       }
@@ -78,7 +78,11 @@ class SubmitTrxService {
         // }
     } catch (e) {
       await customDialog(context, 'Opps', e.toString());
-      if (ApiProvider().isDebug == true) print("Error sendNative $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error sendNative $e");
+        }
+      }
     }
     return false;
   }

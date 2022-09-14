@@ -80,7 +80,7 @@ class SearchAsset extends SearchDelegate {
                 onTap: () async {
                   Provider.of<ContractProvider>(context, listen: false)
                       .addToken(searchProducts[index].symbol!, context);
-                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
@@ -119,7 +119,7 @@ class SearchAsset extends SearchDelegate {
                   Provider.of<ContractProvider>(context, listen: false)
                       .addToken(searchProducts[index].symbol!, context);
 
-                  Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+                  Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
                 },
                 child: Container(
                   // padding: const EdgeInsets.all(8.0),

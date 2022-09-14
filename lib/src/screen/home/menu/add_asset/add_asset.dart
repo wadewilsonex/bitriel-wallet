@@ -9,7 +9,7 @@ class AddAsset extends StatefulWidget {
 
   final int? network;
 
-  AddAsset({this.network = 0});
+  const AddAsset({Key? key, this.network = 0}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -47,7 +47,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateEtherAddress $e");
+        }
+      }
     }
     return false;
   }
@@ -58,7 +62,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateAddress $e");
+        }
+      }
     }
     return false;
   }
@@ -95,15 +103,16 @@ class AddAssetState extends State<AddAsset> {
 
       dialogLoading(context);
 
-      final lsContract = await Provider.of<ContractProvider>(context, listen: false).sortListContract;
-      lsContract.forEach((element) async {
+      final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+      for (var element in lsContract) {
         if (_modelAsset.controllerAssetCode.text == (ApiProvider().isMainnet ? element.contract : element.contractTest)){
           _modelAsset.added = true;
         }
-      });
+      }
 
       if (_modelAsset.added){
         _modelAsset.added = false;
+        if(!mounted) return;
         Navigator.pop(context);
         
         await showDialog(
@@ -111,11 +120,11 @@ class AddAssetState extends State<AddAsset> {
           builder: (context) {
             return AlertDialog(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
+              title: const Align(
                 child: Text('Oops'),
               ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              content: const Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Text(
                 "This contract address already in your list",
                 textAlign: TextAlign.center
@@ -132,16 +141,19 @@ class AddAssetState extends State<AddAsset> {
         );
       } else {
         
+        if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).addToken(
           _tokenSymbol,
           context,
           network: networkSymbol[initialValue!]['symbol'],
           contractAddr: _modelAsset.controllerAssetCode.text,
         );
-
+        
+        if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+        if(!mounted) return;
         await StorageServices.storeAssetData(context);
         await enableAnimation();
       }
@@ -149,7 +161,11 @@ class AddAssetState extends State<AddAsset> {
 
       // Close Dialog Loading
       Navigator.pop(context);
-      if (ApiProvider().isDebug == true) print("Error addAsset $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error addAsset $e");
+        }
+      }
 
       DialogComponents().dialogCustom(
         context: context,
@@ -170,6 +186,7 @@ class AddAssetState extends State<AddAsset> {
       // Validate For ERC-20 || BEP-20
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
       // Validate For Substrate Address
+      if(!mounted) return;
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
       if (res || resEther) {
 
@@ -188,8 +205,11 @@ class AddAssetState extends State<AddAsset> {
 
             await searchEtherContract();
           } else {
+            if(!mounted) return;
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
-            print("res $res");
+            if (kDebugMode) {
+              print("res $res");
+            }
             _tokenSymbol = res[0].toString();
           }
 
@@ -218,7 +238,11 @@ class AddAssetState extends State<AddAsset> {
         contents: "$e",
       );
 
-      if (ApiProvider().isDebug == true) print("Error submitAsset $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error submitAsset $e");
+        }
+      }
     }
   }
 
@@ -232,7 +256,11 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error searchEtherContract $e");
+        }
+      }
       throw Exception(e);
     }
   }
@@ -282,7 +310,7 @@ class AddAssetState extends State<AddAsset> {
 
     await Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-      Navigator.pushReplacement(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
+      Navigator.pushReplacement(context, Transition(child: const HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
     });
   }
 

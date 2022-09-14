@@ -8,11 +8,13 @@ import 'package:wallet_apps/src/screen/home/claim_airdrop/intro_airdrop.dart';
 import '../../../../index.dart';
 
 class ClaimAirDrop extends StatefulWidget {
+  const ClaimAirDrop({Key? key}) : super(key: key);
+
   @override
-  _ClaimAirDropState createState() => _ClaimAirDropState();
+  ClaimAirDropState createState() => ClaimAirDropState();
 }
 
-class _ClaimAirDropState extends State<ClaimAirDrop> {
+class ClaimAirDropState extends State<ClaimAirDrop> {
 
   TextEditingController? _emailController;
   TextEditingController? _phoneController;
@@ -138,11 +140,11 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
+          title: const Align(
             child: Text('Opps'),
           ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          content: const Padding(
+            padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: MyText(text: "Airdrop has ended the session. \nPlease wait for another airdrop."),
           ),
           actions: <Widget>[
@@ -337,7 +339,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
 
   void initAirDrop() async {
     
-    await Future.delayed(Duration(milliseconds: 100), () async {
+    await Future.delayed(const Duration(milliseconds: 100), () async {
 
       _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
       // await _airDropProvider!.initContract();
@@ -417,8 +419,8 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                             // ),
 
                             Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: SvgPicture.asset(AppConfig.illustrationsPath+"mainnet.svg", width: 270, height: 270,),
+                              padding: const EdgeInsets.only(top: 10),
+                              child: SvgPicture.asset("${AppConfig.illustrationsPath}mainnet.svg", width: 270, height: 270,),
                             ),
                             // Shimmer(child: child, gradient: gradient)
                             MyText(
@@ -485,7 +487,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                               fontSize: 24,
                                               bottom: 4.0,
                                             ) 
-                                            : ThreeDotLoading(width: 50, height: 30);
+                                            : const ThreeDotLoading(width: 50, height: 30);
                                           },
                                         )
 
@@ -501,18 +503,19 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                           padding: MaterialStateProperty.all(EdgeInsets.zero),
                                           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
                                         ),
+                                        onPressed: provider.accountM.address != null ? submitForm : null,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: [
                                             Positioned(
                                               left: 20,
                                               top: 15,
-                                              child: SvgPicture.asset(AppConfig.illustrationsPath+"cloud1.svg", width: 50, height: 30),
+                                              child: SvgPicture.asset("${AppConfig.illustrationsPath}cloud1.svg", width: 50, height: 30),
                                             ),
                                             Positioned(
                                               right: 10,
                                               bottom: 15,
-                                              child: SvgPicture.asset(AppConfig.illustrationsPath+"cloud2.svg", width: 50, height: 30),
+                                              child: SvgPicture.asset("${AppConfig.illustrationsPath}cloud2.svg", width: 50, height: 30),
                                             ),
                                             Container(
                                               decoration: BoxDecoration(
@@ -522,10 +525,9 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                               width: double.infinity,
                                               height: 70,
                                             ),
-                                            MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
+                                            const MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
                                           ],
                                         ),
-                                        onPressed: provider.accountM.address != null ? submitForm : null,
                                       );
                                     }
                                   ),
@@ -539,7 +541,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                                   //   action: submitForm//_enableButton ? submitForm : null,
                                   // ),
 
-                                  AirDropDes(),
+                                  const AirDropDes(),
                                 ]
                               ),
                             ),
@@ -647,7 +649,7 @@ class _ClaimAirDropState extends State<ClaimAirDrop> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                    children: const <Widget>[
                       // Expanded(
                       //   child: CustomAnimation.flareAnimation(
                       //     flareController,

@@ -1,6 +1,6 @@
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_button.c.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/detail_walletconnect.dart';
 
@@ -45,7 +45,7 @@ class WalletConnectBody extends StatelessWidget {
                   //   }
                   // );
                 }, 
-                child: MyText(text: "Disconnect All", color2: Colors.red, fontWeight: FontWeight.bold,)
+                child: const MyText(text: "Disconnect All", color2: Colors.red, fontWeight: FontWeight.bold,)
               )
               : Container(),
             ],
@@ -53,7 +53,7 @@ class WalletConnectBody extends StatelessWidget {
           body: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize),
+              padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize),
               child: Consumer<WalletConnectComponent>(
                 builder: (context, provider, widget) {
                   return wcComponent.lsWcClients.isNotEmpty ? Column(
@@ -94,7 +94,7 @@ class WalletConnectBody extends StatelessWidget {
                           height: 30.h,
                         ),
 
-                        MyText(
+                        const MyText(
                           text: "Active Connections will appear here",
                           color: AppColors.greyColor,
                           fontSize: 16,
@@ -111,16 +111,16 @@ class WalletConnectBody extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
             onPressed: () async{
-              WalletConnectComponent _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+              WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 
-              String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => QrScanner()));
+              String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner()));
                 
               if (value != null){
                 
-                _wConnectC.qrScanHandler(value);
+                wConnectC.qrScanHandler(value);
               }
             },
-            child: Icon(Iconsax.add_circle),
+            child: const Icon(Iconsax.add_circle),
           ),
         );
       },

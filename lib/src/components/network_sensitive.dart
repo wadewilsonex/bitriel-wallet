@@ -2,12 +2,12 @@ import 'package:wallet_apps/index.dart';
 
 class NetworkSensitive extends StatefulWidget {
   final Widget? child;
-  NetworkSensitive({@required this.child});
+  const NetworkSensitive({Key? key, @required this.child}) : super(key: key);
   @override
-  _NetworkSensitiveState createState() => _NetworkSensitiveState();
+  NetworkSensitiveState createState() => NetworkSensitiveState();
 }
 
-class _NetworkSensitiveState extends State<NetworkSensitive> {
+class NetworkSensitiveState extends State<NetworkSensitive> {
   final Connectivity _connectivity = Connectivity();
   ConnectivityResult? _result;
   StreamSubscription<ConnectivityResult>? _connectivitySubscription;
@@ -34,7 +34,11 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
 
       _updateConnectionStatus(_result!);
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == true) print("Error initConnectivity ${e.toString()}");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error initConnectivity ${e.toString()}");
+        }
+      }
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -82,7 +86,7 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
               padding: const EdgeInsets.only(left: 16.0, top: 8.0),
               child: Text(
                 text1,
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22),
+                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 22),
               ),
             ),
           ),
@@ -96,6 +100,7 @@ class _NetworkSensitiveState extends State<NetworkSensitive> {
               onPressed: () async {
                 final result = await _connectivity.checkConnectivity();
                 if (result != ConnectivityResult.none) {
+                  if(!mounted) return;
                   Navigator.pop(context);
                 }
               },

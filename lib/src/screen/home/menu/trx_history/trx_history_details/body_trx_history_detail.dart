@@ -5,7 +5,7 @@ class TrxHistoryDetailsBody extends StatelessWidget {
   final Map<String, dynamic>? trxInfo;
   final void Function()? popScreen;
 
-  const TrxHistoryDetailsBody({this.title, this.trxInfo, this.popScreen});
+  const TrxHistoryDetailsBody({Key? key, this.title, this.trxInfo, this.popScreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

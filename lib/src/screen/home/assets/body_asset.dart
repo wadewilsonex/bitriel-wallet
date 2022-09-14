@@ -46,7 +46,7 @@ class AssetsPageBody extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: "Assets",
                     color: AppColors.titleAssetColor,
                     fontWeight: FontWeight.w500
@@ -73,13 +73,13 @@ class AssetsPageBody extends StatelessWidget {
                     onVerticalUpdate!(detail);
                   },
 
-                  child: Container(
+                  child: SizedBox(
                     // Provide Screen Height Per Assets Length (model!.assetLength)
                     // width: MediaQuery.of(context).size.width,
                     height: 8.h * model!.assetLength,
                     child: TabBarView(
                       controller: model!.tabController,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                     
                         _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
@@ -107,18 +107,18 @@ class AssetsPageBody extends StatelessWidget {
                     child: OverflowBox(
                       minHeight: 60.h,
                       maxHeight: 60.h,
-                      child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w),
+                      child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
                     )
                   ),
                 ),
 
                 // Add Asset For BEP-20
                 if (model!.tabController!.index == 2) 
-                addMoreAsset(context, EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+                addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
 
                 // Add Asset For ERC-20
                 else if (model!.tabController!.index == 3) 
-                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
                 
                 // For Gesture
                 if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
@@ -162,7 +162,7 @@ class AssetsPageBody extends StatelessWidget {
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
               Consumer<ContractProvider>(
@@ -200,7 +200,7 @@ class AssetsPageBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: lsAsset.length,
         shrinkWrap: true,
         itemBuilder: (context, index){
@@ -237,57 +237,57 @@ class AssetsPageBody extends StatelessWidget {
       children: [
         
         MyGradientButton(
+          height: height,
+          width: width,
+          lsColor: const ["#035A8F", "#035A8F"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
                 text: "Send",
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
+          )
+        ),
+
+        const SizedBox(width: 10,),
+        
+        MyGradientButton(
           height: height,
           width: width,
-          lsColor: ["#035A8F", "#035A8F"],
+          lsColor: const ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
-          }
-        ),
-
-        SizedBox(width: 10,),
-        
-        MyGradientButton(
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
                 text: "Receive",
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
-          height: height,
-          width: width,
-          lsColor: ["#035A8F", "#035A8F"],
-          begin: Alignment.bottomRight, 
-          end: Alignment.topLeft, 
-          action: (){
-            Navigator.push(
-              context, 
-              Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            );
-          }
+          )
         )
       ],
     );
@@ -346,7 +346,7 @@ class AssetsPageBody extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => AddAsset(network: model!.tabController!.index == 2 ? 0 : 1,))
                 );
               },
-              child: MyText(
+              child: const MyText(
                 text: "Import asset",
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.bold,

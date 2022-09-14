@@ -8,7 +8,7 @@ class QrViewTitle extends StatelessWidget {
   final Function? onChanged;
   final List<Map<String, dynamic>>? listContract;
 
-  QrViewTitle({this.isValue, this.assetInfo, this.initialValue, this.onChanged, required this.listContract});
+  const QrViewTitle({Key? key, this.isValue, this.assetInfo, this.initialValue, this.onChanged, required this.listContract}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

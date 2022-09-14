@@ -5,7 +5,7 @@ class MyPieChartRow extends StatelessWidget {
   final String? centerText;
   final String? endText;
 
-  const MyPieChartRow({this.color, this.centerText, this.endText});
+  const MyPieChartRow({Key? key, this.color, this.centerText, this.endText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

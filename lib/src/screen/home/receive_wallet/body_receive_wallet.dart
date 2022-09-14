@@ -6,9 +6,9 @@ class ReceiveWalletBody extends StatelessWidget {
   
   final Function? onChanged;
 
-  ReceiveWalletBody({
+  ReceiveWalletBody({Key? key, 
     this.onChanged,
-  });
+  }) : super(key: key);
 
   final double? logoSize = 12.w;
 
@@ -26,7 +26,7 @@ class ReceiveWalletBody extends StatelessWidget {
             title: Row(
               children: [
 
-                MyText(
+                const MyText(
                   text: "Receive",
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
@@ -239,7 +239,7 @@ class ReceiveWalletBody extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               color: AppColors.whiteColorHexa,
                             ),
-                            MyText(
+                            const MyText(
                               text: "Do not transfer from other public chain.",
                               fontWeight: FontWeight.w600,
                               color: AppColors.whiteColorHexa,

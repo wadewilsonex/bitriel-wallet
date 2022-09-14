@@ -75,19 +75,19 @@ final portfolioChart = LineChartData(
   lineBarsData: [
     LineChartBarData(
       spots: [
-        FlSpot(0, 0),
-        FlSpot(0.5, 0.5),
-        FlSpot(1, 1),
-        FlSpot(1.5, 2),
-        FlSpot(2, 2.5),
-        FlSpot(2.5, 3),
-        FlSpot(3, 3),
-        FlSpot(3.5, 3),
-        FlSpot(4, 4),
-        FlSpot(4.5, 3.5),
-        FlSpot(5, 2),
-        FlSpot(5.5, 2),
-        FlSpot(6, 1),
+        const FlSpot(0, 0),
+        const FlSpot(0.5, 0.5),
+        const FlSpot(1, 1),
+        const FlSpot(1.5, 2),
+        const FlSpot(2, 2.5),
+        const FlSpot(2.5, 3),
+        const FlSpot(3, 3),
+        const FlSpot(3.5, 3),
+        const FlSpot(4, 4),
+        const FlSpot(4.5, 3.5),
+        const FlSpot(5, 2),
+        const FlSpot(5.5, 2),
+        const FlSpot(6, 1),
       ],
       isCurved: true,
       colors: _gradientColors,
@@ -115,7 +115,7 @@ Widget homeAppBar(BuildContext context, {Function? query}) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          AppConfig.assetsPath+'bitriel_home.png',
+          '${AppConfig.assetsPath}bitriel_home.png',
           width: 170,
           height: 170,
         ),
@@ -124,7 +124,7 @@ Widget homeAppBar(BuildContext context, {Function? query}) {
           child: IconButton(
             iconSize: 30,
             color: isDarkTheme ? Colors.white : Colors.black,
-            icon: SvgPicture.asset(AppConfig.iconsPath+"list.svg"),
+            icon: SvgPicture.asset("${AppConfig.iconsPath}list.svg"),
             onPressed: () async {
               await MyBottomSheet().listToken(context: context, query: query);
               // Navigator.push(
@@ -210,6 +210,8 @@ Widget cardToken(
 }
 
 class AddAssetRowButton extends StatelessWidget {
+  const AddAssetRowButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -346,6 +348,7 @@ class MyBottomAppBar extends StatelessWidget {
   final double iconSize = 7.w;
 
   MyBottomAppBar({
+    Key? key, 
     required this.index,
     this.apiStatus,
     this.homeM,
@@ -355,7 +358,7 @@ class MyBottomAppBar extends StatelessWidget {
     this.contactPiker,
     this.openDrawer,
     this.onIndexChanged,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -375,13 +378,13 @@ class MyBottomAppBar extends StatelessWidget {
 
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Explorer",
                 txtColor: index == 0 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   // Navigator.push(context, RouteAnimation(enterPage: DiscoverPage()));
                   onIndexChanged!(0);
-                }
+                },
+                child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? Colors.white : hexaCodeToColor(AppColors.iconColor))
               ),
             ),
             // Expanded(
@@ -397,44 +400,44 @@ class MyBottomAppBar extends StatelessWidget {
             // ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Asset",
                 txtColor: index == 1 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   onIndexChanged!(1);
                   // Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
-                }
+                },
+                child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? Colors.white : hexaCodeToColor(AppColors.iconColor))
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Home",
                 txtColor: index == 2 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   // Navigator.push(context, RouteAnimation(enterPage: HomePage()));
                   onIndexChanged!(2);
-                }
+                },
+                child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? Colors.white : hexaCodeToColor(AppColors.iconColor))
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Swap",
                 txtColor: index == 3 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   onIndexChanged!(3);
-                }
+                },
+                child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? Colors.white : hexaCodeToColor(AppColors.iconColor))
               ),
             ),
             Expanded(
               child: MyIconButton(
-                child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? Colors.white : hexaCodeToColor(AppColors.iconColor)),
                 title: "Setting",
                 txtColor: index == 4 ? AppColors.whiteColorHexa : AppColors.iconColor,
                 onPressed: () {
                   onIndexChanged!(4);
-                }
+                },
+                child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? Colors.white : hexaCodeToColor(AppColors.iconColor))
               ),
             ),
 
@@ -482,6 +485,7 @@ class MyHomeAppBar extends StatelessWidget {
   final Function? action;
 
   const MyHomeAppBar({
+    Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -489,7 +493,7 @@ class MyHomeAppBar extends StatelessWidget {
     this.margin = const EdgeInsets.fromLTRB(0, 12, 0, 0),
     @required this.title,
     this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -503,7 +507,7 @@ class MyHomeAppBar extends StatelessWidget {
           MyLogo(
             width: 50,
             height: 50,
-            logoPath: AppConfig.assetsPath+"sld_logo.svg",
+            logoPath: "${AppConfig.assetsPath}sld_logo.svg",
           ),
           MyText(
             color: "#FFFFFF",
@@ -603,19 +607,19 @@ LineChartData mainData() {
     lineBarsData: [
       LineChartBarData(
         spots: [
-          FlSpot(0, 3),
-          FlSpot(0.5, 2.5),
-          FlSpot(1, 1),
-          FlSpot(1.5, 2),
-          FlSpot(2, 2.5),
-          FlSpot(2.5, 3),
-          FlSpot(3, 3),
-          FlSpot(3.5, 3),
-          FlSpot(4, 2),
-          FlSpot(4.5, 3.5),
-          FlSpot(5, 2),
-          FlSpot(5.5, 2),
-          FlSpot(6, 1),
+          const FlSpot(0, 3),
+          const FlSpot(0.5, 2.5),
+          const FlSpot(1, 1),
+          const FlSpot(1.5, 2),
+          const FlSpot(2, 2.5),
+          const FlSpot(2.5, 3),
+          const FlSpot(3, 3),
+          const FlSpot(3.5, 3),
+          const FlSpot(4, 2),
+          const FlSpot(4.5, 3.5),
+          const FlSpot(5, 2),
+          const FlSpot(5.5, 2),
+          const FlSpot(6, 1),
         ],
         isCurved: true,
         colors: _gradientColors,

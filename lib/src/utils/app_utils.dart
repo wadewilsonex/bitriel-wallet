@@ -56,7 +56,7 @@ class AppUtils {
     try {
 
       // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
-      final parse = new DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+      final parse = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
       
       return formatDate(parse, [
         yyyy,
@@ -74,7 +74,11 @@ class AppUtils {
         am
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error timeStampToDate $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error timeStampToDate $e");
+        }
+      }
     }
     return '';
   }
@@ -87,8 +91,8 @@ class AppUtils {
     return colorint;
   }
 
-  static int versionConverter(String _version) {
-    String convert = _version.replaceAll(".", '');
+  static int versionConverter(String version) {
+    String convert = version.replaceAll(".", '');
     convert = convert.replaceAll('+', '');
     final parse = int.parse(convert);
     return parse;

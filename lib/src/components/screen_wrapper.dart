@@ -7,11 +7,11 @@ class ScreenWrapper extends StatefulWidget {
   final Function()? onLeaveScreen;
   final Function()? onGoingBack;
   final String? routeName;
-  ScreenWrapper(
-      {this.child,
+  const ScreenWrapper(
+      {Key? key, this.child,
       this.onLeaveScreen,
       this.onGoingBack,
-      @required this.routeName});
+      @required this.routeName}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -40,13 +40,13 @@ class ScreenWrapperState extends State<ScreenWrapper> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    routeObserver!.subscribe(this, ModalRoute.of(context) as PageRoute);
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
   }
 
   @override
   void dispose() {
     super.dispose();
-    routeObserver!.unsubscribe(this);
+    routeObserver.unsubscribe(this);
   }
 
   @override
@@ -54,6 +54,7 @@ class ScreenWrapperState extends State<ScreenWrapper> with RouteAware {
     // print('*** Entering screen: ${widget.routeName}');
   }
 
+  @override
   void didPushNext() {
 //print('*** Leaving screen: ${widget.routeName}');
     onLeaveScreen();

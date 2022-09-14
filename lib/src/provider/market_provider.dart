@@ -46,7 +46,7 @@ class MarketProvider with ChangeNotifier {
       prices = mData.prices;
     }
 
-    return prices ?? null;
+    return prices;
   }
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
@@ -118,7 +118,11 @@ class MarketProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == true) print("Error fetchTokenMarketPrice $e");
+        if (ApiProvider().isDebug == true) {
+          if (kDebugMode) {
+            print("Error fetchTokenMarketPrice $e");
+          }
+        }
         return;
       }
     }
@@ -151,7 +155,11 @@ class MarketProvider with ChangeNotifier {
       }).toList();
       return lsCoin!;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error searchCoinFromMarket $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error searchCoinFromMarket $e");
+        }
+      }
     }
     return lsCoin!;
   }
@@ -159,9 +167,13 @@ class MarketProvider with ChangeNotifier {
   Future<void> queryCoinFromMarket(String id) async {
     try {
 
-      queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id}'))).body)[0];
+      queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id'))).body)[0];
     } catch (e){
-      if (ApiProvider().isDebug == true) print("error queryCoinFromMarket $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error queryCoinFromMarket $e");
+        }
+      }
       return;
     }
   }

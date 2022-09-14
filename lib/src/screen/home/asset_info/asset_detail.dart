@@ -10,14 +10,14 @@ class AssetDetail extends StatefulWidget {
   final SmartContractModel scModel;
   const AssetDetail(
     // this.marketData, 
-    this.scModel
-  );
+    this.scModel, {Key? key}
+  ) : super(key: key);
 
   @override
-  _AssetDetailState createState() => _AssetDetailState();
+  AssetDetailState createState() => AssetDetailState();
 }
 
-class _AssetDetailState extends State<AssetDetail> {
+class AssetDetailState extends State<AssetDetail> {
 
   String convert(String? supply) {
     var formatter = NumberFormat.decimalPattern();
@@ -58,7 +58,7 @@ class _AssetDetailState extends State<AssetDetail> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -66,7 +66,7 @@ class _AssetDetailState extends State<AssetDetail> {
           children: [
 
             if (widget.scModel.chart == null)
-            CircularProgressIndicator()
+            const CircularProgressIndicator()
             
             else if (widget.scModel.chart!.isNotEmpty) 
             chartAsset(
@@ -154,16 +154,16 @@ class _AssetDetailState extends State<AssetDetail> {
     return widget.scModel.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MyText(
+        const MyText(
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
           color: AppColors.whiteColorHexa
         ),
 
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
 
-        textRow('Token Name', '${widget.scModel.symbol!.toUpperCase()}', ''),
+        textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
 
         textRow('Project Name', '${widget.scModel.name}', ''),
 
@@ -173,7 +173,7 @@ class _AssetDetailState extends State<AssetDetail> {
 
         line(),
 
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
 
         MyText(
           text: 'About ${widget.scModel.name}',
@@ -182,7 +182,7 @@ class _AssetDetailState extends State<AssetDetail> {
           color: AppColors.whiteColorHexa,
         ),
 
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
 
         MyText(
           textAlign: TextAlign.start,
@@ -197,7 +197,7 @@ class _AssetDetailState extends State<AssetDetail> {
       child: OverflowBox(
         minHeight: 60.h,
         maxHeight: 60.h,
-        child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w, repeat: false),
+        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
       )
     );
   }
@@ -207,16 +207,16 @@ class _AssetDetailState extends State<AssetDetail> {
     return widget.scModel.marketData!.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MyText(
+        const MyText(
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
           color: AppColors.whiteColorHexa
         ),
 
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
 
-        textRow('Token Name', '${(widget.scModel.marketData!.symbol)!.toUpperCase()}', ''),
+        textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
 
         textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
 
@@ -224,7 +224,7 @@ class _AssetDetailState extends State<AssetDetail> {
 
         line(),
 
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
 
         MyText(
           text: 'About ${widget.scModel.marketData!.name}',
@@ -233,7 +233,7 @@ class _AssetDetailState extends State<AssetDetail> {
           color: AppColors.whiteColorHexa,
         ),
 
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
 
         widget.scModel.marketData!.description == null ?
         MyText(
@@ -255,7 +255,7 @@ class _AssetDetailState extends State<AssetDetail> {
       child: OverflowBox(
         minHeight: 60.h,
         maxHeight: 60.h,
-        child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w, repeat: false),
+        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
       )
     );
   }

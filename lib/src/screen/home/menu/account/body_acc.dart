@@ -4,7 +4,7 @@ import 'package:wallet_apps/src/components/acc_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/account/c_account.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
-import 'package:wallet_apps/src/screen/home/menu/changePin/changePin.dart';
+import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
 
 class AccountBody extends StatelessWidget{
 
@@ -20,7 +20,8 @@ class AccountBody extends StatelessWidget{
   final Function? changeName;
   final Function? deleteAccout;
 
-  AccountBody({
+  const AccountBody({
+    Key? key, 
     this.accountModel, 
     this.onSubmitName,
     this.onChangeName,
@@ -32,8 +33,9 @@ class AccountBody extends StatelessWidget{
     this.submitBackUpKey, 
     this.changeName, 
     this.deleteAccout
-  });
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
@@ -138,7 +140,7 @@ class AccountBody extends StatelessWidget{
                         Navigator.push(
                           context, 
                           Transition(
-                            child: BackUpKeyBody(),
+                            child: const BackUpKeyBody(),
                             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                           )
                         );
@@ -151,7 +153,7 @@ class AccountBody extends StatelessWidget{
                         await Navigator.push(
                           context, 
                           Transition(
-                            child: ChangePin(),
+                            child: const ChangePin(),
                             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                           )
                         );
@@ -161,7 +163,7 @@ class AccountBody extends StatelessWidget{
                     ),
 
                     Padding(
-                      padding: EdgeInsets.all(paddingSize),
+                      padding: const EdgeInsets.all(paddingSize),
                       child: GestureDetector(
                         onTap: () async {
                           await deleteAccout!();
@@ -173,7 +175,7 @@ class AccountBody extends StatelessWidget{
                             color: Colors.red.withOpacity(0.3)
                           ),
                           height: 7.h,
-                          child: MyText(
+                          child: const MyText(
                             text: 'Delete Account',
                             color: "#FF0000",
                             fontWeight: FontWeight.bold,

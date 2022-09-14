@@ -23,6 +23,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BodySettingPage();
+    return const BodySettingPage();
   }
 }

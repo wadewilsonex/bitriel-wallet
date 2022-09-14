@@ -67,16 +67,11 @@ class ActivityDetail extends StatelessWidget {
                       AppColors.whiteColorHexa,
                     ),
               child: Container(
-                // margin: const EdgeInsets.all(16.0),
                 padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-
-                    //   borderRadius: BorderRadius.circular(8.0),
-                    ),
                 child: Column(
                   children: [
                     _buildRow('Date', trxInfo!.timeStamp!, isDarkTheme),
-                    Divider(),
+                    const Divider(),
                     _buildRow(
                         'Status',
                         trxInfo!.status == null
@@ -85,9 +80,9 @@ class ActivityDetail extends StatelessWidget {
                                 ? 'Completed'
                                 : 'Failed',
                         isDarkTheme),
-                    Divider(),
+                    const Divider(),
                     _buildRow('To', addr, isDarkTheme),
-                    Divider(),
+                    const Divider(),
                     _buildRow('Network Fee', trxInfo!.gasFee!, isDarkTheme),
                   ],
                 ),
@@ -116,7 +111,7 @@ class ActivityDetail extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         left: 10.0,
                       ),
-                      child: MyText(
+                      child: const MyText(
                         text: "SHARE",
                         color: AppColors.secondary,
                       ),
@@ -132,7 +127,7 @@ class ActivityDetail extends StatelessWidget {
   }
 
   _buildRow(String leadingText, String trailingText, bool isDarkTheme) {
-    return Container(
+    return SizedBox(
       height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

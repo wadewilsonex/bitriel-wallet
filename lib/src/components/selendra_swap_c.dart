@@ -6,12 +6,13 @@ class SelendraSwap extends StatelessWidget {
   final Widget? image;
   final Function? action;
 
-  SelendraSwap({
+  const SelendraSwap({
+    Key? key, 
     this.title,
     this.subtitle,
     this.image,
     @required this.action
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,8 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class MySplashScreen extends StatefulWidget {
+  const MySplashScreen({Key? key}) : super(key: key);
+
   //static const route = '/';
   @override
   State<StatefulWidget> createState() {
@@ -29,12 +31,13 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
         await StorageServices().readSecure(DbKey.private)!.then((String value) async {
           if (value.isEmpty) {
-            Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+            Navigator.pushReplacement(context, RouteAnimation(enterPage: const Welcome()));
           } else {
             
             final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
             if (ethAddr == '') {
+              if(!mounted) return;
               await dialogSuccess(
                 context,
                 const Padding(
@@ -56,7 +59,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
                       ),
                     );
                   },
-                  child: MyText(text: 'Continue', color: AppColors.secondarytext),
+                  child: const MyText(text: 'Continue', color: AppColors.secondarytext),
                 ),
               );
             } else {
@@ -67,8 +70,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error Splash screen $e");
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error Splash screen $e");
+        }
+      }
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Welcome() ), (route) => false);
     }
   }
   
@@ -78,12 +85,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     // final passCode = await StorageServices().readSecure(DbKey.passcode);
 
     if (bio == true) {
-      
+      if(!mounted) return;
       Navigator.pushReplacement(
         context,
         Transition(
           transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
-          child: FingerPrint(
+          child: const FingerPrint(
             isEnable: true,
           ),
         ),
@@ -97,11 +104,12 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       // );
     } else {
       if (bio) {
+        if(!mounted) return;
         Navigator.pushReplacement(
           context,
           Transition(
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
-            child: FingerPrint(
+            child: const FingerPrint(
               isEnable: true,
             ),
           ),
@@ -116,10 +124,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   );
       // } 
       else {
-
+        if(!mounted) return;
         Navigator.pushAndRemoveUntil(
           context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
           ModalRoute.withName('/')
         );
       }
@@ -132,13 +140,13 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         Navigator.pushReplacement(
           context,
           RouteAnimation(
-            enterPage: FingerPrint(),
+            enterPage: const FingerPrint(),
           ),
         );
       } else {
         Navigator.pushAndRemoveUntil(
           context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
           ModalRoute.withName('/')
         );
       }
@@ -165,6 +173,8 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     
       // Remove below link when we want light mode
       await StorageServices.storeData('dark', DbKey.themeMode);
+
+      if(!mounted) return;
       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
 
       // final res = await StorageServices.fetchData(DbKey.themeMode);
@@ -183,7 +193,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   // }
       // }
     } catch (e) {
-      if(ApiProvider().isDebug) print("Error readTheme $e");
+      if(ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("Error readTheme $e");
+        }
+      }
     }
   }
 
@@ -193,8 +207,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     if (res == null) {
       if (sysTheme) {
+        if(!mounted) return;
         Provider.of<ThemeProvider>(context, listen: false).changeMode();
       } else {
+        if(!mounted) return;
         Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     }
@@ -215,7 +231,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      body: Center(
+      body: const Center(
         child: CircularProgressIndicator(),
       ),
     );

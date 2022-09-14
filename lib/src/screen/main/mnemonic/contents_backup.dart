@@ -2,13 +2,15 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 class ContentsBackup extends StatefulWidget {
+  const ContentsBackup({Key? key}) : super(key: key);
+
   //static const route = '/contentsBackup';
 
   @override
-  _ContentsBackupState createState() => _ContentsBackupState();
+  ContentsBackupState createState() => ContentsBackupState();
 }
 
-class _ContentsBackupState extends State<ContentsBackup> {
+class ContentsBackupState extends State<ContentsBackup> {
   final double bpSize = 16.0;
   String _passPhrase = '';
   List passPhraseList = [];
@@ -20,10 +22,18 @@ class _ContentsBackupState extends State<ContentsBackup> {
 
       // setState(() {});
     } on PlatformException catch (p) {
-      if (ApiProvider().isDebug == true) print("Platform $p");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Platform $p");
+        }
+      }
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("error $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error $e");
+        }
     }
+      }
   }
 
   @override
@@ -130,11 +140,13 @@ class _ContentsBackupState extends State<ContentsBackup> {
               textButton: AppString.next,
               action: () async {
                 await _generateMnemonic();
+
+                if(!mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => 
-                    CreateSeeds()
+                    const CreateSeeds()
                     // CreateMnemonic(
                     //   _passPhrase,
                     //   _passPhraseList,

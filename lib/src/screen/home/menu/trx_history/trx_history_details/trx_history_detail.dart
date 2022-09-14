@@ -6,7 +6,7 @@ class TrxHistoryDetails extends StatefulWidget {
   final String _title;
   final Map<String, dynamic> _trxInfo;
 
-  const TrxHistoryDetails(this._trxInfo, this._title);
+  const TrxHistoryDetails(this._trxInfo, this._title, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

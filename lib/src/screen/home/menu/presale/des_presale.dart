@@ -1,6 +1,8 @@
 import 'package:wallet_apps/index.dart';
 
 class PresaleDescription extends StatelessWidget {
+  const PresaleDescription({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;

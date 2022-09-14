@@ -20,7 +20,7 @@ class BodyTransactionDetail extends StatelessWidget {
         bottomOpacity: 0,
         leadingWidth: 7.w,
         centerTitle: true,
-        title: MyText(
+        title: const MyText(
           text: "SEL Transfer",
           fontWeight: FontWeight.bold,
           fontSize: 17,
@@ -62,10 +62,10 @@ class BodyTransactionDetail extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
-            child: Icon(Iconsax.export_3),
+            child: const Icon(Iconsax.export_3),
           ),
 
-          MyText(
+          const MyText(
             left: 10,
             text: "Sent",
             color: AppColors.whiteColorHexa,
@@ -103,7 +103,7 @@ class BodyTransactionDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            MyText(
+            const MyText(
               text: "Amount",
               color: AppColors.greyColor,
               fontWeight: FontWeight.w600,
@@ -211,7 +211,7 @@ class BodyTransactionDetail extends StatelessWidget {
             onTap: () {
               Navigator.push(
                   context,
-                  Transition(child: TrxExplorerWebView(url: "https://explorer.selendra.org/"), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  Transition(child: const TrxExplorerWebView(url: "https://explorer.selendra.org/"), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
               );
             },
             child: Row(
@@ -219,7 +219,7 @@ class BodyTransactionDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-                MyText(
+                const MyText(
                   right: 5,
                   text: "View in browser",
                   color: AppColors.greyColor,

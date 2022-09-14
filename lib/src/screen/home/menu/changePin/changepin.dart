@@ -6,6 +6,8 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 
 class ChangePin extends StatefulWidget {
+  const ChangePin({Key? key}) : super(key: key);
+
   //static const route = '/passcode';
 
   @override
@@ -125,9 +127,9 @@ class ChangePinState extends State<ChangePin> {
 
         String str = '';
 
-        lsControl.forEach((element) {
+        for (var element in lsControl) {
           str+= element.text;
-        });
+        }
         
         // if (widget.label == PassCodeLabel.fromSplash) {
         //   dialogLoading(context);
@@ -241,12 +243,13 @@ class ChangePinState extends State<ChangePin> {
     //   _accountModel.loading = true;
     // });
     dialogLoading(context);
-    final res = await Provider.of<ApiProvider>(context, listen: false);
+    final res = Provider.of<ApiProvider>(context, listen: false);
     await res.apiKeyring.changePassword(res.getKeyring, oldPass!, newPass);
 
     await _updatePkWithNewPass();
 
     // Close Loading
+    if(!mounted) return;
     Navigator.pop(context);
     await DialogComponents().dialogCustom(
       context: context,
@@ -270,6 +273,7 @@ class ChangePinState extends State<ChangePin> {
     clearAll();
 
     // Close Dialog
+    if(!mounted) return;
     Navigator.pop(context);
 
     // Close PassCode Screen
@@ -287,19 +291,23 @@ class ChangePinState extends State<ChangePin> {
       final seeds = await KeyringPrivateStore([_apiProvider!.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(_apiProvider!.getKeyring.keyPairs[0].pubKey, oldPass);
 
       // Get Private Key _resPk
-      final _resPk = await _apiProvider!.getPrivateKey(seeds!['seed']);
+      final resPk = await _apiProvider!.getPrivateKey(seeds!['seed']);
 
       // Re-Encrypt Private Key
-      final _res = await _apiProvider!.encryptPrivateKey(_resPk, newPass!);
+      final res = await _apiProvider!.encryptPrivateKey(resPk, newPass!);
       
-      await StorageServices().writeSecure(DbKey.private, _res);
+      await StorageServices().writeSecure(DbKey.private, res);
 
       await StorageServices().writeSecure(DbKey.passcode, newPass!);
       // final _encrypt = await Provider.of<ApiProvider>(context, listen: false).getPrivateKey(seeds['seed']);
 
 
     } catch (e){
-      if (_apiProvider!.isDebug) print("Error _updatePkWithNewPass $e");
+      if (_apiProvider!.isDebug) {
+        if (kDebugMode) {
+          print("Error _updatePkWithNewPass $e");
+        }
+      }
     } 
   }
   

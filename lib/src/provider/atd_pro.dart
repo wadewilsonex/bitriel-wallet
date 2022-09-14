@@ -5,7 +5,7 @@ import 'package:web3dart/web3dart.dart';
 
 class Attendance extends ChangeNotifier {
 
-  String _atdContract = "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26";
+  final String _atdContract = "0xF3a8002d76Acff8162A95892f7d6C8a7963Eed26";
 
   DeployedContract? attDeployContract;
 
@@ -19,7 +19,7 @@ class Attendance extends ChangeNotifier {
     _contractProvider = Provider.of<ContractProvider>(context!, listen: false);
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'atd.json');
+      final String abiCode = await rootBundle.loadString('${AppConfig.abiPath}atd.json');
       final contract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'ATTToken'),
         EthereumAddress.fromHex(_atdContract),
@@ -28,7 +28,11 @@ class Attendance extends ChangeNotifier {
       notifyListeners();
       return contract;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error initAttContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error initAttContract $e");
+        }
+      }
     }
     return null;
   }
@@ -40,7 +44,11 @@ class Attendance extends ChangeNotifier {
       BigInt decimal = await contractService!.getChainDecimal();
       _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal = decimal.toInt();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getChainDecimal $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getChainDecimal $e");
+        }
+      }
     }
   }
 
@@ -66,7 +74,11 @@ class Attendance extends ChangeNotifier {
         return Fmt.bigIntToDouble(balance[0] as BigInt, _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err checkBalanceAdd $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err checkBalanceAdd $e");
+        }
+      }
     }
     return null;
   }

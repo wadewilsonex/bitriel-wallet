@@ -2,7 +2,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
 
-const post_headers = {"Content-type": "application/json", "Accept": "*/*"};
+const postHeaders = {"Content-type": "application/json", "Accept": "*/*"};
 
 class WalletApi {
   static const String _endpoint = 'https://api.polkawallet.io';
@@ -19,12 +19,15 @@ class WalletApi {
 
   static Future<Map> getXcmEnabledConfig() async {
     try {
-      res =
-          await get(Uri.parse('$_configEndpoint/wallet/nativeTokenXCM.json'));
+      res = await get(Uri.parse('$_configEndpoint/wallet/nativeTokenXCM.json'));
       
-        return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
+      return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -36,7 +39,11 @@ class WalletApi {
       
         return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
     
@@ -47,7 +54,11 @@ class WalletApi {
       res = await get(Uri.parse('$_configEndpoint/wallet/versions.json'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
     }
     return jsonDecode(utf8.decode(res!.bodyBytes)) as Map;
   }
@@ -58,7 +69,11 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/jsCodeVersions.json'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       // return null;
     }
 
@@ -71,7 +86,11 @@ class WalletApi {
           await get(Uri.parse('$_configEndpoint/wallet/js/$networkName.js'));
       
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       // return null;
     }
 
@@ -119,7 +138,11 @@ class WalletApi {
       // } else {
       // }
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       // return null;
     }
       return jsonDecode(utf8.decode(res!.bodyBytes));
@@ -133,7 +156,11 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -145,7 +172,11 @@ class WalletApi {
       
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -160,7 +191,11 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -175,7 +210,11 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -192,7 +231,11 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -208,7 +251,11 @@ class WalletApi {
 
       return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return [];
     }
   }
@@ -223,7 +270,11 @@ class WalletApi {
 
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -239,7 +290,11 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -281,7 +336,11 @@ class WalletApi {
       // }
         return jsonDecode(utf8.decode(res!.bodyBytes));
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -296,7 +355,11 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -310,7 +373,11 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -324,7 +391,11 @@ class WalletApi {
       // }
         return jsonDecode(res!.body) as Map;
     } catch (err) {
-      if (ApiProvider().isDebug == true) print(err);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print(err);
+        }
+      }
       return {};
     }
   }
@@ -335,11 +406,8 @@ class WalletApi {
       "page": 0,
       "row": count,
     });
-    final Response? res = await post(Uri.parse(url), headers: post_headers, body: body);
-    if (res != null) {
-      final obj = await compute(jsonDecode, res.body);
-      return obj['data'];
-    }
-    return {};
+    final Response res = await post(Uri.parse(url), headers: postHeaders, body: body);
+    final obj = await compute(jsonDecode, res.body);
+    return obj['data'];
   }
 }

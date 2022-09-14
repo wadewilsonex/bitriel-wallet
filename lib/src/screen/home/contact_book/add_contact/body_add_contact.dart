@@ -9,12 +9,13 @@ class AddContactBody extends StatelessWidget {
   final Function? onSubmit;
 
   const AddContactBody({
+    Key? key, 
     this.model,
     this.validateAddress,
     this.submitContact,
     this.onChanged, 
     this.onSubmit,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,21 +81,21 @@ class AddContactBody extends StatelessWidget {
                     IconButton(
                       padding: const EdgeInsets.only(left: 20, right: 36),
                       icon: SvgPicture.asset(
-                        AppConfig.iconsPath+'qr_code.svg',
+                        '${AppConfig.iconsPath}qr_code.svg',
                         color: Colors.white,
                       ),
                       onPressed: () async {
                         try {
-                          final _response = await Navigator.push(
+                          final response = await Navigator.push(
                             context,
                             transitionRoute(
-                              QrScanner(),
+                              const QrScanner(),
                             ),
                           );
 
-                          if (_response != null) {
-                            model!.address.text = _response.toString();
-                            onChanged!(_response.toString());
+                          if (response != null) {
+                            model!.address.text = response.toString();
+                            onChanged!(response.toString());
                           }
                           // ignore: empty_catches
                         } catch (e) {}

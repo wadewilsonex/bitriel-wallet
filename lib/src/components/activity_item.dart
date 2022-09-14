@@ -2,7 +2,7 @@ import 'package:wallet_apps/index.dart';
 
 class ActivityItem extends StatelessWidget {
   final TransactionInfo? _trxInfo;
-  const ActivityItem(this._trxInfo);
+  const ActivityItem(this._trxInfo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
@@ -21,7 +21,7 @@ class ActivityItem extends StatelessWidget {
                   //size ?? 65,
                   padding: const EdgeInsets.all(6),
                   margin: const EdgeInsets.only(right: 4.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
                   child: MyIconButton(
@@ -30,7 +30,7 @@ class ActivityItem extends StatelessWidget {
                     onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class ActivityItem extends StatelessWidget {
       margin: EdgeInsets.only(top: mTop, bottom: 2),
       padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
       height: 100,
-      color: color != null ? color : hexaCodeToColor(AppColors.whiteHexaColor),
+      color: color ?? hexaCodeToColor(AppColors.whiteHexaColor),
       child: child,
     );
   }

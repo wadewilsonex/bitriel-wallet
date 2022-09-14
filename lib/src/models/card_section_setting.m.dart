@@ -1,10 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
-import '../components/walletConnect_c.dart';
-import '../screen/home/menu/backup/body_backup_key.dart';
+import '../components/walletconnect_c.dart';
+import '../screen/home/menu/backup/backup_key.dart';
 
 class CardSection {
   final String? title;
@@ -25,7 +25,7 @@ List<CardSection> settingsAccSection({BuildContext? context}) {
         Navigator.push(
           context!, 
           Transition(
-            child: BackUpKeyBody(),
+            child: BackUpKey(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -56,7 +56,7 @@ List<CardSection> settingsWCSection({BuildContext? context}) {
         Navigator.push(
           context!,
           Transition(
-            child: WalletConnectPage(),
+            child: const WalletConnectPage(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -109,7 +109,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       'Are you sure to delete your account?',
       btn2: TextButton(
         onPressed: () async => await _deleteAccount(context: context),
-        child: MyText(
+        child: const MyText(
           text: 'Delete',
           color: AppColors.redColor,
           fontWeight: FontWeight.w700
@@ -118,18 +118,18 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     );
   }
 
- Future<void> _deleteAccount({BuildContext? context}) async {
+  Future<void> _deleteAccount({BuildContext? context}) async {
 
     dialogLoading(context!);
 
-    final _api = await Provider.of<ApiProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
 
-    final wcComponent = await Provider.of<WalletConnectComponent>(context, listen: false);
+    final wcComponent = Provider.of<WalletConnectComponent>(context, listen: false);
     
     try {
-      await _api.apiKeyring.deleteAccount(
-        _api.getKeyring,
-        _api.getKeyring.keyPairs[0],
+      await api.apiKeyring.deleteAccount(
+        api.getKeyring,
+        api.getKeyring.keyPairs[0],
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
@@ -139,7 +139,9 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       final pref = await SharedPreferences.getInstance();
       String? value = pref.getString("session");
-      print("value ${value ?? 'null'}");
+      if (kDebugMode) {
+        print("value ${value ?? 'null'}");
+      }
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
@@ -149,7 +151,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
 
-      await Future.delayed(Duration(seconds: 2), () {});
+      await Future.delayed(const Duration(seconds: 2), () {});
       
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
@@ -157,7 +159,11 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("_deleteAccount ${e.toString()}");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("_deleteAccount ${e.toString()}");
+        }
+      }
       // await dialog(context, e.toString(), 'Opps');
     }
   }

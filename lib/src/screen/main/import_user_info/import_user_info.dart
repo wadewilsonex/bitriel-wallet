@@ -11,7 +11,7 @@ class ImportUserInfo extends StatefulWidget {
 
   static const route = '/importUserInfo';
 
-  const ImportUserInfo(this.passPhrase);
+  const ImportUserInfo(this.passPhrase, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +22,7 @@ class ImportUserInfo extends StatefulWidget {
 class ImportUserInfoState extends State<ImportUserInfo> {
   final ModelUserInfo _userInfoM = ModelUserInfo();
 
-  LocalAuthentication _localAuth = LocalAuthentication();
+  final LocalAuthentication _localAuth = LocalAuthentication();
 
   MenuModel? _menuModel;
 
@@ -46,11 +46,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
 
   Future<void> _importFromMnemonic() async {
     
-    final _api = Provider.of<ApiProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
     try {
 
-      dynamic json = await _api.apiKeyring.importAccount(
-        _api.getKeyring,
+      dynamic json = await api.apiKeyring.importAccount(
+        api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
         name: _userInfoM.userNameCon.text,
@@ -65,8 +65,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       //   password: _userInfoM.confirmPasswordCon.text,
       // );
 
-      await _api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
-        _api.getKeyring,
+      await api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
+        api.getKeyring,
         keyType: KeyType.mnemonic,
         acc: json,
         password: _userInfoM.confirmPasswordCon.text,
@@ -77,22 +77,23 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       /// It will be wrong data of that each connection. 
       /// 
       /// This Function Connect Polkadot Network And then Connect Selendra Network
-      await _api.connectSELNode(context: context).then((value) async {
+      await api.connectSELNode(context: context).then((value) async {
 
-        await _api.connectSELNode(context: context);
+        await api.connectSELNode(context: context);
 
-        await _api.getAddressIcon();
+        await api.getAddressIcon();
           // Get From Account js
-        await _api.getCurrentAccount(context: context);
+        await api.getCurrentAccount(context: context);
 
-        final _resPk = await _api.getPrivateKey(widget.passPhrase);
+        final resPk = await api.getPrivateKey(widget.passPhrase);
         
-        await ContractProvider().extractAddress(_resPk);
+        await ContractProvider().extractAddress(resPk);
 
-        final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+        final res = await api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
         
-        await StorageServices().writeSecure(DbKey.private, _res);
+        await StorageServices().writeSecure(DbKey.private, res);
 
+        if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
         // This Query Might Freeze for a second if User await keyword
@@ -115,6 +116,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
       //     Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
       // /////
       });
+      if(!mounted) return;
       await successDialog(context, "imported your account.");
     } catch (e) {
 
@@ -140,6 +142,8 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           balance: balance[0].toString(),
           org: 'BEP-20',
         ));
+        
+        if(!mounted) return;
         Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
@@ -165,9 +169,11 @@ class ImportUserInfoState extends State<ImportUserInfo> {
           setState(() { });
         });
       } else {
+        if(!mounted) return;
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
+      if(!mounted) return;
       await customDialog(context, 'Oops', 'e.toString()');
     }
   }

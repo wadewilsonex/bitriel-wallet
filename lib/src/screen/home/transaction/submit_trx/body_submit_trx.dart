@@ -17,7 +17,7 @@ class SubmitTrxBody extends StatelessWidget {
   final bool? pushRepleacement;
   final Function? scanQR;
 
-  const SubmitTrxBody({
+  const SubmitTrxBody({Key? key, 
     this.pushRepleacement,
     this.pasteText,
     this.enableInput,
@@ -30,7 +30,7 @@ class SubmitTrxBody extends StatelessWidget {
     this.onChangeDropDown,
     this.item,
     this.scanQR
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SubmitTrxBody extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.only(right: 16.0),
             child: SvgPicture.asset(
-              AppConfig.iconsPath+'qr_code.svg',
+              '${AppConfig.iconsPath}qr_code.svg',
               width: 4.w,
               height: 4.h,
               color: Colors.white,
@@ -112,7 +112,7 @@ class SubmitTrxBody extends StatelessWidget {
 
                     SizedBox(height: 1.h,),
 
-                    MyText(
+                    const MyText(
                       text: "Available balance",
                       color: AppColors.lowWhite,
                     ),
@@ -189,7 +189,7 @@ class SubmitTrxBody extends StatelessWidget {
                         children: [
                           Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18.5.sp),
                           SizedBox(width: 1.w,),
-                          MyText(
+                          const MyText(
                             top: 5,
                             text: "Select the right network, or assets may be lost.",
                             color: AppColors.lowWhite,
@@ -202,7 +202,7 @@ class SubmitTrxBody extends StatelessWidget {
                     
                     //listInput[2],
                     MyGradientButton(
-                      edgeMargin: EdgeInsets.all(paddingSize),
+                      edgeMargin: const EdgeInsets.all(paddingSize),
                       textButton: "CONTINUE",
                       begin: Alignment.bottomLeft,
                       end: Alignment.topRight,

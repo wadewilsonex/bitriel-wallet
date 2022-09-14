@@ -15,8 +15,8 @@ class CustomTabIndicator extends Decoration {
   });
 
   @override
-  _CustomPainter createBoxPainter([VoidCallback? onChanged]) {
-    return _CustomPainter(
+  CustomPainter createBoxPainter([VoidCallback? onChanged]) {
+    return CustomPainter(
       this,
       onChanged,
       radius,
@@ -26,13 +26,13 @@ class CustomTabIndicator extends Decoration {
   }
 }
 
-class _CustomPainter extends BoxPainter {
+class CustomPainter extends BoxPainter {
   final CustomTabIndicator decoration;
   final double radius;
   final Color color;
   final double indicatorHeight;
 
-  _CustomPainter(
+  CustomPainter(
     this.decoration,
     VoidCallback? onChanged,
     this.radius,
@@ -55,10 +55,10 @@ class _CustomPainter extends BoxPainter {
         width: configuration.size!.width / 3.5,
         height: indicatorHeight,
       ),
-     topLeft: Radius.circular(radius),
-     topRight: Radius.circular(radius),
-     bottomLeft: Radius.circular(radius),
-     bottomRight: Radius.circular(radius),
+      topLeft: Radius.circular(radius),
+      topRight: Radius.circular(radius),
+      bottomLeft: Radius.circular(radius),
+      bottomRight: Radius.circular(radius),
     );
 
     canvas.drawRRect(fullRect, paint);

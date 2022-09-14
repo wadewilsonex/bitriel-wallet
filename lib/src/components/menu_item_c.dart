@@ -7,13 +7,14 @@ class MyMenuItem extends StatelessWidget {
   final AlignmentGeometry begin;
   final AlignmentGeometry end;
   
-  MyMenuItem({
+  const MyMenuItem({
+    Key? key, 
     this.title,
     this.icon,
     required this.begin,
     required this.end,
     required this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

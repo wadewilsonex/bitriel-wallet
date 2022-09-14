@@ -24,42 +24,42 @@ class MenuModel {
     {
       'title': "History",
       'sub': [
-        {'icon': AppConfig.iconsPath+"history.svg", 'subTitle': 'History'},
-        {'icon': AppConfig.iconsPath+"history.svg", 'subTitle': 'Activity'}
+        {'icon': "${AppConfig.iconsPath}history.svg", 'subTitle': 'History'},
+        {'icon': "${AppConfig.iconsPath}history.svg", 'subTitle': 'Activity'}
       ]
     },
     {
       'title': "Wallet",
       'sub': [
-        {'icon': AppConfig.iconsPath+"wallet.svg", 'subTitle': 'Wallet'},
-        {'icon': AppConfig.iconsPath+"plus.svg", 'subTitle': 'Asset'},
-        {'icon': AppConfig.iconsPath+"wallet-connect.png", 'subTitle': 'Wallet Connect'}
+        {'icon': "${AppConfig.iconsPath}wallet.svg", 'subTitle': 'Wallet'},
+        {'icon': "${AppConfig.iconsPath}plus.svg", 'subTitle': 'Asset'},
+        {'icon': "${AppConfig.iconsPath}wallet-connect.png", 'subTitle': 'Wallet Connect'}
       ]
     },
     {
       'title': "SEL Events",
       'sub': [
-        {'icon': AppConfig.iconsPath+"swap.svg", 'subTitle': 'Swap SEL v2'},
-        {'icon': AppConfig.iconsPath+"presale.svg", 'subTitle': 'Presale SEL'},
+        {'icon': "${AppConfig.iconsPath}swap.svg", 'subTitle': 'Swap SEL v2'},
+        {'icon': "${AppConfig.iconsPath}presale.svg", 'subTitle': 'Presale SEL'},
       ]
     },
     {
       'title': "Security",
       'sub': [
-        {'icon': AppConfig.iconsPath+"password.svg", 'subTitle': 'Passcode'},
-        {'icon': AppConfig.iconsPath+"finger_print.svg", 'subTitle': 'Fingerprint'}
+        {'icon': "${AppConfig.iconsPath}password.svg", 'subTitle': 'Passcode'},
+        {'icon': "${AppConfig.iconsPath}finger_print.svg", 'subTitle': 'Fingerprint'}
       ]
     },
     {
       'title': "Display",
       'sub': [
-        {'icon': AppConfig.iconsPath+"moon.svg", 'subTitle': 'Dark Mode'},
+        {'icon': "${AppConfig.iconsPath}moon.svg", 'subTitle': 'Dark Mode'},
       ]
     },
     {
       'title': "About",
       'sub': [
-        {'icon': AppConfig.iconsPath+"info.svg", 'subTitle': 'About'},
+        {'icon': "${AppConfig.iconsPath}info.svg", 'subTitle': 'About'},
       ]
     },
   ];

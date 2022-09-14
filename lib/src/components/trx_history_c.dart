@@ -52,21 +52,21 @@ class TrxHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> _items = List.generate(
+    final List<Map<String, dynamic>> items = List.generate(
       10,
       (index) => {"title": "Transfer seDd.....dj3p", "subtitle": "22-08-2022 10:36", "trailing": "-100 SEL"}
     );
 
     return ListView.builder(
-      itemCount: _items.length,
+      itemCount: items.length,
       itemBuilder: (context, index) => ListTile(
         leading: CircleAvatar(
           backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
           child: icon,
         ),
-        title: MyText(text: _items[index]["title"], color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.start,),
-        trailing: MyText(text: _items[index]["trailing"], color: AppColors.redColor, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.end),
-        subtitle: MyText(text: _items[index]["subtitle"], color: AppColors.greyColor, textAlign: TextAlign.start),
+        title: MyText(text: items[index]["title"], color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.start,),
+        trailing: MyText(text: items[index]["trailing"], color: AppColors.redColor, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.end),
+        subtitle: MyText(text: items[index]["subtitle"], color: AppColors.greyColor, textAlign: TextAlign.start),
         onTap: () {
           action!();
         },

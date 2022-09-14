@@ -9,20 +9,20 @@ class AssetInfo extends StatefulWidget {
   final List<TransactionInfo>? transactionInfo;
   final bool? showActivity;
 
-  const AssetInfo({
+  const AssetInfo({Key? key, 
     @required this.index,
     @required this.scModel,
     this.transactionInfo,
     this.showActivity
-  });
+  }) : super(key: key);
 
   @override
-  _AssetInfoState createState() => _AssetInfoState();
+  AssetInfoState createState() => AssetInfoState();
 }
 
-class _AssetInfoState extends State<AssetInfo> {
+class AssetInfoState extends State<AssetInfo> {
   
-  AssetInfoModel _model = AssetInfoModel();
+  final AssetInfoModel _model = AssetInfoModel();
 
   String onSubmit(String value) {
     return value;

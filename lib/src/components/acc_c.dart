@@ -5,8 +5,9 @@ class ListTileComponent extends StatelessWidget{
   final String? text;
   final Function? action;
 
-  ListTileComponent({this.text, this.action});
+  const ListTileComponent({Key? key, this.text, this.action}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return GestureDetector(

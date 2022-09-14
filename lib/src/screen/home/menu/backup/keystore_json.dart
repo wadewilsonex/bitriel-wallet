@@ -4,8 +4,9 @@ class KeyStoreJson extends StatelessWidget{
 
   final Map<String, dynamic>? keystore;
 
-  KeyStoreJson({this.keystore});
+  const KeyStoreJson({Key? key, this.keystore}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
@@ -32,9 +33,9 @@ class KeyStoreJson extends StatelessWidget{
         children: [
           Card(
             color: Colors.white.withOpacity(0.06),
-            margin: EdgeInsets.all(paddingSize),
+            margin: const EdgeInsets.all(paddingSize),
             child: Padding(
-              padding: EdgeInsets.all(paddingSize),
+              padding: const EdgeInsets.all(paddingSize),
               child: MyText(
                 text: keystore.toString(),
                 color2: Colors.white

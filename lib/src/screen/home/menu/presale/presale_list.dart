@@ -2,20 +2,22 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 
 class PresaleList extends StatelessWidget {
+  const PresaleList({Key? key}) : super(key: key);
+
 
   Future<String> dialogBox(BuildContext context) async {
     /* Show Pin Code For Fill Out */
-    final String _result = await showDialog(
+    final String result = await showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return Material(
+        return const Material(
           color: Colors.transparent,
           child: FillPin(),
         );
       }
     );
-    return _result;
+    return result;
   }
 
   Future<void> customDialog(BuildContext context, String text1, String text2) async {
@@ -25,7 +27,7 @@ class PresaleList extends StatelessWidget {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
-            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
+            child: Text(text1, style: const TextStyle(fontWeight: FontWeight.w600)),
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -48,7 +50,7 @@ class PresaleList extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          content: Container(
+          content: SizedBox(
             //height: MediaQuery.of(context).size.height / 2.5,
             width: MediaQuery.of(context).size.width * 0.7,
             child: SingleChildScrollView(
@@ -58,7 +60,7 @@ class PresaleList extends StatelessWidget {
                     height: MediaQuery.of(context).size.width * 0.08,
                   ),
                   SvgPicture.asset(
-                    AppConfig.iconsPath+'tick.svg',
+                    '${AppConfig.iconsPath}tick.svg',
                     height: 100,
                     width: 100,
                   ),
@@ -71,7 +73,7 @@ class PresaleList extends StatelessWidget {
                   MyText(
                     top: 8.0,
                     fontSize: 16,
-                    text: 'You have successfully ' + operationText,
+                    text: 'You have successfully $operationText',
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.2,
@@ -95,7 +97,7 @@ class PresaleList extends StatelessWidget {
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)))),
-                          child: Text(
+                          child: const Text(
                             'Close',
                             style: TextStyle(
                               color: Colors.black,
@@ -142,9 +144,9 @@ class PresaleList extends StatelessWidget {
   Future<void> submitRedeem(BuildContext context, int orderId) async {
     final preSale = Provider.of<PresaleProvider>(context, listen: false);
 
-    final String? pin = await dialogBox(context);
+    final String pin = await dialogBox(context);
 
-    if (pin != null) {
+    if (pin.isNotEmpty) {
       dialogLoading(context);
       final privateKey = await AppServices.getPrivateKey(pin, context);
 
@@ -193,15 +195,15 @@ class PresaleList extends StatelessWidget {
           color: isDarkTheme
             ? hexaCodeToColor(AppColors.darkBgd)
             : hexaCodeToColor(AppColors.lowWhite),
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(16.0),
-            topRight: const Radius.circular(16.0),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16.0),
+            topRight: Radius.circular(16.0),
           ),
         ),
         child: Column(
           children: [
 
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Container(
               height: 5,
               width: 100,
@@ -211,7 +213,7 @@ class PresaleList extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
             MyText(
               width: double.infinity,
               fontSize: 22.0,
@@ -222,7 +224,7 @@ class PresaleList extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
 
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
 
             // List Ordered Of Presale
             Expanded(
@@ -238,7 +240,7 @@ class PresaleList extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return value.presaleOrderInfo.isEmpty
                         ? SvgPicture.asset(
-                          AppConfig.iconsPath+'no_data.svg',
+                          '${AppConfig.iconsPath}no_data.svg',
                           width: 180,
                           height: 180,
                         )
@@ -262,7 +264,7 @@ class PresaleList extends StatelessWidget {
                                 ),
                                 _customColumn(
                                   context,
-                                  '${value.presaleOrderInfo[index].redeemDateTime}',
+                                  value.presaleOrderInfo[index].redeemDateTime,
                                   '',
                                   topTextSize: 14.0,
                                   crossAxis: CrossAxisAlignment.end,
@@ -299,7 +301,7 @@ class PresaleList extends StatelessWidget {
                                       context,
                                       value.presaleOrderInfo[index].id
                                     ),
-                                    child: Text('REDEEM'),
+                                    child: const Text('REDEEM'),
                                   ),
                                 ),
                               ],

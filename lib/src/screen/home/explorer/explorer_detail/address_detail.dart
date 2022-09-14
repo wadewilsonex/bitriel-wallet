@@ -12,7 +12,7 @@ class ExplorerDetail extends StatefulWidget {
 
 class _ExplorerDetailState extends State<ExplorerDetail> {
 
-  ExplorerQueries _explorerQueries = ExplorerQueries();
+  final ExplorerQueries _explorerQueries = ExplorerQueries();
 
   @override
   Widget build(BuildContext context) {

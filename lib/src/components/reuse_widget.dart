@@ -49,10 +49,12 @@ Route transitionRoute(
       opaque: false,
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = Offset(double.parse(offsetLeft.toString()),
-            double.parse(offsetRight.toString()));
+        final begin = Offset(
+          double.parse(offsetLeft.toString()),
+          double.parse(offsetRight.toString())
+        );
         const end = Offset.zero;
-        final curve = Curves.fastOutSlowIn;
+        const curve = Curves.fastOutSlowIn;
         final tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
@@ -123,12 +125,12 @@ BoxShadow shadow(BuildContext context,
     Offset? offset}) {
   final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
   return BoxShadow(
-    color: hexaCode != null ? hexaCode : isDarkTheme
+    color: hexaCode ?? (isDarkTheme
         ? hexaCodeToColor(AppColors.darkBgd)
-        : Colors.grey.withOpacity(0.2),
+        : Colors.grey.withOpacity(0.2)),
     blurRadius: blurRadius ?? 6.0,
     spreadRadius: spreadRadius ?? 2.0,
-    offset: offset ?? Offset(0.5, 2.0),
+    offset: offset ?? const Offset(0.5, 2.0),
   );
 }
 
@@ -230,7 +232,7 @@ Future<void> successDialog(
   BuildContext context, String operationText, {
     Widget? route = const HomePage()
 }) async {
-  await Future.delayed(Duration(milliseconds: 30), (){});
+  await Future.delayed(const Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -240,7 +242,7 @@ Future<void> successDialog(
           borderRadius: BorderRadius.circular(10.0),
         ),
         backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-        content: Container(
+        content: SizedBox(
           // height: MediaQuery.of(context).size.height / 2.6,
           width: MediaQuery.of(context).size.width * 0.7,
           child: SingleChildScrollView(
@@ -248,7 +250,7 @@ Future<void> successDialog(
               children: [
 
                 Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
-                MyText(
+                const MyText(
                   text: 'SUCCESS!',
                   fontSize: 20,
                   top: 10,
@@ -258,7 +260,7 @@ Future<void> successDialog(
                 MyText(
                   top: 8.0,
                   color: AppColors.lowWhite,
-                  text: 'You have successfully ' + operationText,
+                  text: 'You have successfully $operationText',
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.1,
@@ -345,7 +347,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 24,
                 ),
-                MyText(
+                const MyText(
                   text: 'Selendra Airdrop',
                   //color: '#000000',
                   fontSize: 28,
@@ -354,7 +356,7 @@ Future dialogEvent(
                 const SizedBox(
                   height: 16,
                 ),
-                MyText(
+                const MyText(
                   text:
                       'Selendra will conduct 3 airdrops. Each drop will have 6 sessions with a total of 31,415,927 SEL tokens. Each session will last as long as 3 months to distribute to as many people as possible. The first airdrop will take place in April 2021, during Khmer New Year. Enjoy the airdrop, everyone.',
                   textAlign: TextAlign.start,
@@ -444,7 +446,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Center(
+        title: const Center(
           child: MyText(
           text: 'Transaction Detail',
           fontWeight: FontWeight.bold,
@@ -457,7 +459,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
             children: [
               Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: 'Date: ',
                     fontSize: 14.0,
                   ),
@@ -472,7 +474,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: 'Destination: ',
                     fontSize: 14.0,
                   ),
@@ -487,7 +489,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: 'Sender: ',
                     fontSize: 14.0,
                   ),
@@ -502,7 +504,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: 'Organization: ',
                     fontSize: 14.0,
                   ),
@@ -517,7 +519,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
               ),
               Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: 'Amount: ',
                     fontSize: 14.0,
                   ),
@@ -658,7 +660,7 @@ dialogLoadingCustom(BuildContext context) {
     barrierDismissible: true,
     context: context,
     builder: (context) {
-      return MyText(
+      return const MyText(
         text: "This processing may take a bit longer\nPlease wait a moment",
         textAlign: TextAlign.center,
       );
@@ -813,8 +815,8 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
-  return Container(
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
+  return SizedBox(
     width: 45.w,
     child: QrImage(
       padding: EdgeInsets.zero,
@@ -845,7 +847,7 @@ Widget textNotification(String text, BuildContext context) {
 
 /*----------------------------------------------- Field Icons trigger Widget ----------------------------------------------------- */
 Widget fieldPicker(BuildContext context, String labelText, String widgetName,
-    IconData icons, dynamic _model, dynamic method) {
+    IconData icons, dynamic model, dynamic method) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -963,7 +965,7 @@ Widget inputField(
 Widget customDropDown(
     String label,
     List<Map<String, dynamic>>? list,
-    dynamic _model,
+    dynamic model,
     Function changeValue,
     PopupMenuItem Function(Map<String, dynamic>) item) {
   /* Custom DropDown */
@@ -1125,7 +1127,7 @@ Future<void> portfolioDailog({required BuildContext? context}){
     //   repeat: true,
 
     // ),
-    contents2: ChartData(),
+    contents2: const ChartData(),
     // contents2: Column(
     //   children: [
         

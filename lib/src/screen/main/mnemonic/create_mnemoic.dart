@@ -4,13 +4,13 @@ import 'package:wallet_apps/index.dart';
 class CreateMnemonic extends StatefulWidget {
   final String? passPhrase;
   final List passPhraseList;
-  const CreateMnemonic(this.passPhrase, this.passPhraseList);
+  const CreateMnemonic(this.passPhrase, this.passPhraseList, {Key? key}) : super(key: key);
 
   @override
-  _CreateMnemonicState createState() => _CreateMnemonicState();
+  CreateMnemonicState createState() => CreateMnemonicState();
 }
 
-class _CreateMnemonicState extends State<CreateMnemonic> {
+class CreateMnemonicState extends State<CreateMnemonic> {
   @override
   void initState() {
     AppServices.noInternetConnection(context: context);
@@ -21,14 +21,23 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   Future<void> disableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.disableScreenshots();
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("disableScreenShot $e");
+      }
+    }
   }
 
   Future<void> enableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("enableScreenShot $e");
+      }
+    }
 
+    if(!mounted) return;
     Navigator.pop(context);
   }
 
@@ -98,7 +107,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                         ? hexaCodeToColor(AppColors.darkCard)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: widget.passPhraseList.length,

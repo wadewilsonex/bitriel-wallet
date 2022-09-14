@@ -13,13 +13,15 @@ class EncryptSeed extends KeyringPrivateStore{
   final List<int> ss58List;
 
   Map<String, Map> _pubKeyAddressMap = {};
-  Map<String, String> _iconsMap = {};
+  final Map<String, String> _iconsMap = {};
   Map<String, Map> _indicesMap = {};
 
   EncryptSeed(this.ss58List) : super(ss58List);
 
   @override
   String? get currentPubKey => _storage.currentPubKey.val;
+
+  @override
   void setCurrentPubKey(String? pubKey) {
     _storage.currentPubKey.val = pubKey;
   }
@@ -47,7 +49,7 @@ class EncryptSeed extends KeyringPrivateStore{
   }
 
   List _formatAccount(List ls) {
-    ls.forEach((e) {
+    for (var e in ls) {
       final networkSS58 = ss58.toString();
       if (_pubKeyAddressMap[networkSS58] != null &&
           _pubKeyAddressMap[networkSS58]![e['pubKey']] != null) {
@@ -55,7 +57,7 @@ class EncryptSeed extends KeyringPrivateStore{
       }
       e['icon'] = _iconsMap[e['pubKey']];
       e['indexInfo'] = _indicesMap[e['address']];
-    });
+    }
     return ls;
   }
 
@@ -69,7 +71,7 @@ class EncryptSeed extends KeyringPrivateStore{
   /// load keyPairs form local storage to memory.
   Future<void> _loadKeyPairsFromStorage() async {
     final ls = await _storageOld.getAccountList();
-    if (ls.length > 0) {
+    if (ls.isNotEmpty) {
       ls.retainWhere((e) {
         // delete all storageOld data
         _storageOld.removeAccount(e['pubKey']);
@@ -138,7 +140,7 @@ class EncryptSeed extends KeyringPrivateStore{
   }
 
   @override
-  Future<void> updateAccount(Map acc, {bool isExternal: false}) async {
+  Future<void> updateAccount(Map acc, {bool isExternal = false}) async {
     if (isExternal) {
       updateContact(acc);
     } else {
@@ -154,6 +156,7 @@ class EncryptSeed extends KeyringPrivateStore{
   }
 
 
+  @override
   Future<void> updateContact(Map acc) async {
     final ls = _storage.contacts.val.toList();
     ls.removeWhere((e) => e['pubKey'] == acc['pubKey']);
@@ -179,9 +182,9 @@ class EncryptSeed extends KeyringPrivateStore{
     pairs.removeWhere((e) => e['pubKey'] == pubKey);
     _storage.keyPairs.val = pairs;
 
-    if (pairs.length > 0) {
+    if (pairs.isNotEmpty) {
       setCurrentPubKey(pairs[0]['pubKey']);
-    } else if (externals.length > 0) {
+    } else if (externals.isNotEmpty) {
       setCurrentPubKey(externals[0]['pubKey']);
     } else {
       setCurrentPubKey('');
@@ -269,13 +272,13 @@ class EncryptSeed extends KeyringPrivateStore{
       _storageOld.getSeeds('mnemonic'),
       _storageOld.getSeeds('rawSeed'),
     ]);
-    if (res[0]!.keys.length > 0) {
+    if (res[0]!.keys.isNotEmpty) {
       final mnemonics = Map.of(_storage.encryptedMnemonics.val);
       mnemonics.addAll(res[0]!);
       _storage.encryptedMnemonics.val = mnemonics;
       _storageOld.setSeeds('mnemonic', {});
     }
-    if (res[1]!.keys.length > 0) {
+    if (res[1]!.keys.isNotEmpty) {
       final seeds = Map.of(_storage.encryptedRawSeeds.val);
       seeds.addAll(res[1]!);
       _storage.encryptedRawSeeds.val = seeds;

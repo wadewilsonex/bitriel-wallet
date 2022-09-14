@@ -6,14 +6,22 @@ class AvatarShimmer extends StatelessWidget{
   final String? txt;
   final Widget? child;
 
-  AvatarShimmer({this.txt, this.child});
+  const AvatarShimmer({Key? key, this.txt, this.child}) : super(key: key);
 
+  @override
   Widget build (BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Align(
       alignment: Alignment.centerLeft,
       child: txt == null 
       ? Shimmer.fromColors(
+        period: const Duration(seconds: 2),
+        baseColor: isDarkTheme
+          ? Colors.white.withOpacity(0.06)
+          : Colors.grey[300]!,
+        highlightColor: isDarkTheme
+          ? Colors.white.withOpacity(0.5)
+          : Colors.grey[100]!,
         child: Container(
           width: 10.w,
           height: 10.w,
@@ -24,14 +32,7 @@ class AvatarShimmer extends StatelessWidget{
               : Colors.grey.shade400,
             shape: BoxShape.circle,
           ),
-        ), 
-        period: const Duration(seconds: 2),
-        baseColor: isDarkTheme
-          ? Colors.white.withOpacity(0.06)
-          : Colors.grey[300]!,
-        highlightColor: isDarkTheme
-          ? Colors.white.withOpacity(0.5)
-          : Colors.grey[100]!,
+        ),
       ) 
       : Container(
         width: 10.w,
@@ -54,20 +55,15 @@ class WidgetShimmer extends StatelessWidget{
   final String? txt;
   final Widget? child;
   
-  WidgetShimmer({this.txt, this.child});
+  const WidgetShimmer({Key? key, this.txt, this.child}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return txt != null 
     ? child!
     : 
     Shimmer.fromColors(
-      child: Container(
-        width: 100,
-        height: 8.0,
-        margin: EdgeInsets.only(bottom: 3),
-        color: Colors.white,
-      ), 
       period: const Duration(seconds: 2),
       baseColor: isDarkTheme
         ? Colors.white.withOpacity(0.06)
@@ -75,6 +71,12 @@ class WidgetShimmer extends StatelessWidget{
       highlightColor: isDarkTheme
         ? Colors.white.withOpacity(0.5)
         : Colors.grey[100]!,
+      child: Container(
+        width: 100,
+        height: 8.0,
+        margin: const EdgeInsets.only(bottom: 3),
+        color: Colors.white,
+      ),
     );
   }
 }
@@ -86,8 +88,9 @@ class TextShimmer extends StatelessWidget{
   final Color? highlightColor;
   final double? opacity;
   
-  TextShimmer({this.txt, this.width = 100, this.opacity = 0.06, this.highlightColor});
+  const TextShimmer({Key? key, this.txt, this.width = 100, this.opacity = 0.06, this.highlightColor}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return txt != null 
@@ -100,15 +103,15 @@ class TextShimmer extends StatelessWidget{
         : AppColors.textColor,
     ) 
     : Shimmer.fromColors(
-      child: Container(
-        width: width,
-        height: 8.0,
-        margin: EdgeInsets.only(bottom: 3),
-        color: Colors.white,
-      ), 
       period: const Duration(seconds: 2),
       baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(opacity!),
       highlightColor: highlightColor ?? Colors.white,
+      child: Container(
+        width: width,
+        height: 8.0,
+        margin: const EdgeInsets.only(bottom: 3),
+        color: Colors.white,
+      ),
     );
   }
 }

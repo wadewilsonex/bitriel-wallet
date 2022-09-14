@@ -12,20 +12,20 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     // case AppString.contactBookView:
     //   return RouteAnimation(enterPage: ContactBook());
     case AppString.txActivityView:
-      return RouteAnimation(enterPage: TrxActivity());
+      return RouteAnimation(enterPage: const TrxActivity());
     case AppString.importAccView:
-      return RouteAnimation(enterPage: ImportAcc());
+      return RouteAnimation(enterPage: const ImportAcc());
     case AppString.contentBackup:
       return RouteAnimation(enterPage: ContentsBackup());
     // case AppString.checkinView:
     //   return RouteAnimation(enterPage: const CheckIn());
     //   break;
     case AppString.recieveWalletView:
-      return RouteAnimation(enterPage: ReceiveWallet());
+      return RouteAnimation(enterPage: const ReceiveWallet());
     case AppString.claimAirdropView:
-      return RouteAnimation(enterPage: ClaimAirDrop());
+      return RouteAnimation(enterPage: const ClaimAirDrop());
     case AppString.navigationDrawerView:
-      return RouteAnimation(enterPage: NavigationDrawer());
+      return RouteAnimation(enterPage: const NavigationDrawer());
     // case AppString.inviteFriendView:
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;

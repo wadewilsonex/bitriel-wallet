@@ -1,23 +1,21 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_apps/src/api/api.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_connect/wallet_connect.dart';
 import 'package:web3dart/crypto.dart';
-// import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
 
 const maticRpcUri = 'https://rpc-mainnet.maticvigil.com/v1/140d92ff81094f0f3d7babde06603390d7e581be';
 
-enum MenuItems {
-  PREVIOUS_SESSION,
-  KILL_SESSION,
-  SCAN_QR,
-  PASTE_CODE,
-  CLEAR_CACHE,
-}
+// enum MenuItems {
+//   PREVIOUS_SESSION,
+//   KILL_SESSION,
+//   SCAN_QR,
+//   PASTE_CODE,
+//   CLEAR_CACHE,
+// }
 
 class WalletConnectComponent with ChangeNotifier {
 
@@ -59,11 +57,13 @@ class WalletConnectComponent with ChangeNotifier {
 
     
     for(int i = 0; i < lsWcClients.length; i++) {
-      await Future.delayed(Duration(seconds: 1), (){ 
+      await Future.delayed(const Duration(seconds: 1), (){ 
         connectToPreviousSession(lsWcClients[i], autoKill: true);
       });
 
-      print("kill session");
+      if (kDebugMode) {
+        print("kill session");
+      }
     }
     lsWcClients.clear();
     await StorageServices.removeKey(DbKey.wcSession);
@@ -91,22 +91,28 @@ class WalletConnectComponent with ChangeNotifier {
     try {
       final pref = await SharedPreferences.getInstance();
       String? value = pref.getString("session");
-      print("initSession value $value");
+      if (kDebugMode) {
+        print("initSession value $value");
+      }
       if (value != null){
         sessionStore = WCSessionStore.fromJson(jsonDecode(value));
         notifyListeners();
       }
     }
     catch(error){
-      if (ApiProvider().isDebug == true) print("Err initSession $error");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err initSession $error");
+        }
+      }
     }
   }
 
   void fromJsonFilter(List<Map<String, dynamic>> data){
     lsWcClients = [];
-    data.forEach((element){
+    for (var element in data) {
       lsWcClients.add(WCSessionStore.fromJson(element));
-    });
+    }
     notifyListeners();
   }
 
@@ -115,7 +121,9 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   qrScanHandler(String value) {
-    print("qrScanHandler");
+    if (kDebugMode) {
+      print("qrScanHandler");
+    }
     try {
 
       final session = WCSession.from(value);
@@ -130,12 +138,18 @@ class WalletConnectComponent with ChangeNotifier {
       // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
       wcClient.connectNewSession(session: session, peerMeta: peerMeta);
     } catch (e){
-      if (ApiProvider().isDebug == true) print("error qrScanHandler $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error qrScanHandler $e");
+        }
+      }
     }
   }
 
-  connectToPreviousSession(WCSessionStore session, {bool? autoKill: false}) async {
-    print("connectToPreviousSession ");
+  connectToPreviousSession(WCSessionStore session, {bool? autoKill = false}) async {
+    if (kDebugMode) {
+      print("connectToPreviousSession ");
+    }
     // prefs = await SharedPreferences.getInstance();
     // final _sessionSaved = prefs.getString(DbKey.wcSession);
     // debugPrint("_sessionSaved ${jsonDecode(_sessionSaved!)['remotePeerMeta']}");
@@ -146,15 +160,21 @@ class WalletConnectComponent with ChangeNotifier {
     //   : null;
       
     if (sessionStore != null) {
-      print("connectToPreviousSession sessionStore != null");
+      if (kDebugMode) {
+        print("connectToPreviousSession sessionStore != null");
+      }
       await wcClient.connectFromSessionStore(sessionStore!);
 
-      print(wcClient.isConnected);
-      print("wcClient id ${wcClient.peerMeta!.name}");
+      if (kDebugMode) {
+        print(wcClient.isConnected);
+      }
+      if (kDebugMode) {
+        print("wcClient id ${wcClient.peerMeta!.name}");
+      }
       if (autoKill == true) await wcClient.killSession();
       
     } else {
-      ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context!).showSnackBar(const SnackBar(
         content: Text('No previous session found.'),
       ));
     }
@@ -215,14 +235,13 @@ class WalletConnectComponent with ChangeNotifier {
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: hexaCodeToColor(AppColors.orangeColor),
                     ),
                     onPressed: () async {
                       isApprove = true;
                       wcClient.approveSession(
                         accounts: [Provider.of<ContractProvider>(context!, listen: false).ethAdd],
-                        // TODO: Mention Chain ID while connecting
                         chainId: wcClient.chainId,
                       );
 
@@ -233,9 +252,9 @@ class WalletConnectComponent with ChangeNotifier {
 
                       List<Map<String, dynamic>> tmpWcSession = [];
 
-                      lsWcClients.forEach((element) {
+                      for (var element in lsWcClients) {
                         tmpWcSession.add(element.toJson());
-                      });
+                      }
 
                       await StorageServices.storeData(tmpWcSession, DbKey.wcSession);
                       
@@ -250,21 +269,21 @@ class WalletConnectComponent with ChangeNotifier {
                       // Navigator.pop(context!);
                       notifyListeners();
                     },
-                    child: MyText(text: 'APPROVE', color: AppColors.lowWhite,),
+                    child: const MyText(text: 'APPROVE', color: AppColors.lowWhite,),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: hexaCodeToColor(AppColors.orangeColor),
                     ),
                     onPressed: () {
                       wcClient.rejectSession();
                       Navigator.pop(context!);
                     },
-                    child: MyText(text: 'REJECT', color: AppColors.lowWhite),
+                    child: const MyText(text: 'REJECT', color: AppColors.lowWhite),
                   ),
                 ),
               ],
@@ -281,7 +300,7 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: MyText(text: "Error", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
+          title: const MyText(text: "Error", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
             Padding(
@@ -298,7 +317,7 @@ class WalletConnectComponent with ChangeNotifier {
                   onPressed: () {
                     Navigator.pop(context!);
                   },
-                  child: Text('CLOSE'),
+                  child: const Text('CLOSE'),
                 ),
               ],
             ),
@@ -311,8 +330,12 @@ class WalletConnectComponent with ChangeNotifier {
 
   onSessionClosed(int? code, String? reason) async {
     
-    print("close session code: $code");
-    print("close session reason: $reason");
+    if (kDebugMode) {
+      print("close session code: $code");
+    }
+    if (kDebugMode) {
+      print("close session reason: $reason");
+    }
     // await StorageServices.removeKey(DbKey.wcSession);
     await wcClient.approveRequest(id: wcClient.chainId!, result: result);
 
@@ -321,7 +344,7 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: MyText(text: "Session Ended", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
+          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
 
@@ -348,7 +371,7 @@ class WalletConnectComponent with ChangeNotifier {
                     // Close Wallet Connect Page
                     Navigator.pop(context!);
                   },
-                  child: Text('CLOSE'),
+                  child: const Text('CLOSE'),
                 ),
               ],
             ),
@@ -466,7 +489,7 @@ class WalletConnectComponent with ChangeNotifier {
                 ),
               Text(
                 wcClient.remotePeerMeta!.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 20.0,
                 ),
@@ -480,7 +503,7 @@ class WalletConnectComponent with ChangeNotifier {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
                 ),
@@ -491,7 +514,7 @@ class WalletConnectComponent with ChangeNotifier {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Receipient',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -500,8 +523,8 @@ class WalletConnectComponent with ChangeNotifier {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    '${ethereumTransaction.to}',
-                    style: TextStyle(fontSize: 16.0),
+                    ethereumTransaction.to,
+                    style: const TextStyle(fontSize: 16.0),
                   ),
                 ],
               ),
@@ -509,7 +532,7 @@ class WalletConnectComponent with ChangeNotifier {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                children: [
+                children: const [
                   Expanded(
                     flex: 2,
                     child: Text(
@@ -532,7 +555,7 @@ class WalletConnectComponent with ChangeNotifier {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                children: [
+                children: const [
                   Expanded(
                     flex: 2,
                     child: Text(
@@ -558,7 +581,7 @@ class WalletConnectComponent with ChangeNotifier {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Function',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -567,8 +590,8 @@ class WalletConnectComponent with ChangeNotifier {
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      '${contractFunction.name}',
-                      style: TextStyle(fontSize: 16.0),
+                      contractFunction.name,
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
                 ),
@@ -580,7 +603,7 @@ class WalletConnectComponent with ChangeNotifier {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
-                  title: Text(
+                  title: const Text(
                     'Data',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -589,8 +612,8 @@ class WalletConnectComponent with ChangeNotifier {
                   ),
                   children: [
                     Text(
-                      '${ethereumTransaction.data}',
-                      style: TextStyle(fontSize: 16.0),
+                      ethereumTransaction.data,
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
                 ),
@@ -601,22 +624,22 @@ class WalletConnectComponent with ChangeNotifier {
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Theme.of(context!).colorScheme.secondary,
                     ),
                     onPressed: onConfirm,
-                    child: Text('CONFIRM'),
+                    child: const Text('CONFIRM'),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Theme.of(context!).colorScheme.secondary,
                     ),
                     onPressed: onReject,
-                    child: Text('REJECT'),
+                    child: const Text('REJECT'),
                   ),
                 ),
               ],
@@ -649,7 +672,7 @@ class WalletConnectComponent with ChangeNotifier {
                 ),
               Text(
                 wcClient.remotePeerMeta!.name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 20.0,
                 ),
@@ -661,7 +684,7 @@ class WalletConnectComponent with ChangeNotifier {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(
+              child: const Text(
                 'Sign Message',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -676,7 +699,7 @@ class WalletConnectComponent with ChangeNotifier {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
-                  title: Text(
+                  title: const Text(
                     'Message',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -686,7 +709,7 @@ class WalletConnectComponent with ChangeNotifier {
                   children: [
                     Text(
                       decoded,
-                      style: TextStyle(fontSize: 16.0),
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
                 ),
@@ -697,7 +720,7 @@ class WalletConnectComponent with ChangeNotifier {
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Theme.of(context!).colorScheme.secondary,
                     ),
                     onPressed: () async {
@@ -723,21 +746,21 @@ class WalletConnectComponent with ChangeNotifier {
                       );
                       Navigator.pop(context!);
                     },
-                    child: Text('SIGN'),
+                    child: const Text('SIGN'),
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                       backgroundColor: Theme.of(context!).colorScheme.secondary,
                     ),
                     onPressed: () {
                       wcClient.rejectRequest(id: id);
                       Navigator.pop(context!);
                     },
-                    child: Text('REJECT'),
+                    child: const Text('REJECT'),
                   ),
                 ),
               ],

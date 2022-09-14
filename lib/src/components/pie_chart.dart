@@ -20,7 +20,7 @@ class Indicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: paddingSize*2),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize*2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -68,7 +68,7 @@ class ChartDataState extends State {
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.bluebgColor),
                 shape: BoxShape.circle,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(color: Colors.white, blurRadius: 20.0),
                 ],
               ),
@@ -108,7 +108,7 @@ class ChartDataState extends State {
                   text: provider.sortListContract[0].symbol!,
                   isSquare: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Indicator(
@@ -116,7 +116,7 @@ class ChartDataState extends State {
                   text: provider.sortListContract[1].symbol!,
                   isSquare: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Indicator(
@@ -124,7 +124,7 @@ class ChartDataState extends State {
                   text: provider.sortListContract[2].symbol!,
                   isSquare: true,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Indicator(

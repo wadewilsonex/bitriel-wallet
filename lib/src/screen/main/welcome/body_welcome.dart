@@ -4,12 +4,14 @@ import 'package:wallet_apps/index.dart';
 class WelcomeBody extends StatelessWidget {
 
   final InputController? inputController = InputController();
+
+  WelcomeBody({Key? key}) : super(key: key);
   // WelcomeBody({this.inputController});
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
@@ -19,11 +21,11 @@ class WelcomeBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  AppConfig.assetsPath+'logo/bitriel-logo-v2.png',
+                  '${AppConfig.assetsPath}logo/bitriel-logo-v2.png',
                   // height: MediaQuery.of(context).size.height * 0.25,
                   width: MediaQuery.of(context).size.width * 0.25,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
           
@@ -35,7 +37,7 @@ class WelcomeBody extends StatelessWidget {
                       ? AppColors.whiteColorHexa
                       : AppColors.textColor,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 Padding(
@@ -61,7 +63,7 @@ class WelcomeBody extends StatelessWidget {
                 action: () {
                   // PassCodeComponent().passCode(context: context, inputController: inputController!);
     
-                  Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                   // Navigator.pushNamed(context, AppString.contentBackup);
                   // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
@@ -75,7 +77,7 @@ class WelcomeBody extends StatelessWidget {
                 textButton: AppString.importAccTitle,
                 action: () {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromImportSeeds)));
-                  Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
               )
             ],

@@ -25,8 +25,6 @@ export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
 export 'package:responsive_sizer/responsive_sizer.dart';
-//Local Auth
-export 'package:local_auth_android/local_auth_android.dart';
 
 //Component
 export 'package:wallet_apps/src/components/animation.dart';
@@ -58,7 +56,7 @@ export 'package:wallet_apps/src/components/appbar_c.dart';
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
 
-export 'package:wallet_apps/src/models/lineChart_m.dart';
+export 'package:wallet_apps/src/models/linechart_m.dart';
 
 export 'package:wallet_apps/src/models/crypto_data.dart';
 
@@ -72,8 +70,6 @@ export 'package:wallet_apps/src/models/token.m.dart';
 export 'package:wallet_apps/src/models/m_import_acc.dart';
 // Dashboard
 
-export 'package:wallet_apps/src/models/atd.dart';
-export 'package:wallet_apps/src/models/kmpi.dart';
 export 'package:wallet_apps/src/models/smart_contract.m.dart';
 
 export 'package:wallet_apps/src/models/checkin.m.dart';

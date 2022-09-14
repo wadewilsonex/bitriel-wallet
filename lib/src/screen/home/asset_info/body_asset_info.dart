@@ -127,10 +127,14 @@ class AssetInfoBody extends StatelessWidget {
                           // Logo
                           GestureDetector(
                             onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                              print("Index ${assetInfoModel!.index}");
+                              if (kDebugMode) {
+                                print("Index ${assetInfoModel!.index}");
+                              }
                               final image = ImagePicker();
                               await image.pickImage(source: ImageSource.gallery).then((value) async {
-                                print(value!.path);
+                                if (kDebugMode) {
+                                  print(value!.path);
+                                }
                                 Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
                                   if (element.contract == assetInfoModel!.smartContractModel!.contract){
                                     // element.logo = value.path;
@@ -180,7 +184,7 @@ class AssetInfoBody extends StatelessWidget {
                             ),
                           ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
 
@@ -308,14 +312,14 @@ class AssetInfoBody extends StatelessWidget {
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
                           child: SvgPicture.asset(
-                            AppConfig.iconsPath+'no_data.svg',
+                            '${AppConfig.iconsPath}no_data.svg',
                             width: 15.w,
                             height: 15.h,
                           )
                         ),
                       )
                     : TrxHistoryList(
-                      icon: Icon(Iconsax.export_3, color: Colors.red),
+                      icon: const Icon(Iconsax.export_3, color: Colors.red),
                       action: (){
                         Navigator.push(
                           context, 
@@ -346,49 +350,37 @@ class AssetInfoBody extends StatelessWidget {
       children: [
         
         MyGradientButton(
+          height: height,
+          width: width,
+          lsColor: const ["#035A8F", "#035A8F"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: SubmitTrx("", true, const [], scModel: scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
                 text: "Send",
                 color: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
-          height: height,
-          width: width,
-          lsColor: ["#035A8F", "#035A8F"],
-          begin: Alignment.bottomRight, 
-          end: Alignment.topLeft, 
-          action: (){
-            Navigator.push(
-              context, 
-              Transition(child: SubmitTrx("", true, [], scModel: scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            );
-          }
+          )
         ),
 
-        SizedBox(width: 10,),
+        const SizedBox(width: 10,),
         
         MyGradientButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-
-            children: [
-              MyText(
-                text: "Receive",
-                color: AppColors.whiteColorHexa,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-          ),
           height: height,
           width: width,
-          lsColor: ["#035A8F", "#035A8F"],
+          lsColor: const ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -396,7 +388,19 @@ class AssetInfoBody extends StatelessWidget {
               context, 
               Transition(child: ReceiveWallet(assetIndex: assetInfoModel!.index, scModel: assetInfoModel!.smartContractModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
-          }
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: const [
+              MyText(
+                text: "Receive",
+                color: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          )
         )
       ],
     );

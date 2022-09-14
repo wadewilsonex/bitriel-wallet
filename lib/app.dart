@@ -7,8 +7,10 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
-final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
   
   @override
   State<StatefulWidget> createState() {
@@ -24,10 +26,17 @@ class AppState extends State<App> {
     // readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+
+      if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+      if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+
+      if(!mounted) return;
       await initApi();
 
+      if(!mounted) return;
       clearOldBtcAddr();
     });
 
@@ -53,7 +62,7 @@ class AppState extends State<App> {
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
+      final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
@@ -90,7 +99,11 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error initApi $e");
+      if (ApiProvider().isDebug == true){
+        if (kDebugMode) {
+          print("Error initApi $e");
+        }
+      }
     }
   }
 
@@ -105,10 +118,15 @@ class AppState extends State<App> {
       final res = await StorageServices.fetchData(DbKey.themeMode);
 
       if (res != null) {
+        if(!mounted) return;
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error readTheme $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error readTheme $e");
+        }
+      }
     }
   }
 
@@ -131,6 +149,7 @@ class AppState extends State<App> {
           org: 'BEP-20',
         ));
 
+        if(!mounted) return;
         Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
@@ -154,6 +173,8 @@ class AppState extends State<App> {
           balance: balance![0].toString(),
           org: 'ERC-20',
         ));
+
+        if(!mounted) return;
         Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
       }
     }
@@ -189,7 +210,7 @@ class AppState extends State<App> {
                           onGenerateRoute: router.generateRoute,
                           // debugShowCheckedModeBanner: false,
                           routes: {
-                            HomePage.route: (_) => HomePage(),
+                            HomePage.route: (_) => const HomePage(),
                           },
                           initialRoute: AppString.splashScreenView,
                           // builder: (context, widget) => ResponsiveWrapper.builder(

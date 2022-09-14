@@ -7,7 +7,7 @@ class ReceiveWallet extends StatefulWidget {
   final int? assetIndex;
   final SmartContractModel? scModel;
 
-  ReceiveWallet({
+  const ReceiveWallet({
     Key? key,
     this.assetIndex,
     this.scModel
@@ -41,8 +41,9 @@ class ReceiveWalletState extends State<ReceiveWallet> {
 
     provider!.getAccount(Provider.of<ApiProvider>(context, listen: false).getAccount);
 
-    if (widget.assetIndex == null) findAsset();
-    else {
+    if (widget.assetIndex == null) {
+      findAsset();
+    } else {
       provider!.assetsIndex = Provider.of<ContractProvider>(context, listen: false).sortListContract.indexOf(widget.scModel!);
       // _scanPayM.assetValue = ;
     }

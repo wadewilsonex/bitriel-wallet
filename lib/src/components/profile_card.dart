@@ -2,6 +2,8 @@ import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 
 class ProfileCard extends StatelessWidget {
+  const ProfileCard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -79,7 +81,7 @@ class ProfileCard extends StatelessWidget {
                     if (!value.isConnected)
                       Container()
                     else
-                      Align(
+                      const Align(
                         alignment: Alignment.bottomRight,
                         child: SizedBox(
                           width: 150,

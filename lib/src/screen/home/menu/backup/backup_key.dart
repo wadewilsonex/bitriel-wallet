@@ -4,6 +4,8 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
 
 class BackUpKey extends StatefulWidget{
+  const BackUpKey({Key? key}) : super(key: key);
+
 
   @override
   State<BackUpKey> createState() => _BackUpKeyState();
@@ -35,7 +37,11 @@ class _BackUpKeyState extends State<BackUpKey> {
       // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
       //   print("Value $value");
       // });
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("disableScreenShot $e");
+      }
+    }
   }
 
   @override
@@ -45,6 +51,7 @@ class _BackUpKeyState extends State<BackUpKey> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context){
     return BackUpKeyBody(
       getKeyStoreJson: getKeyStoreJson,

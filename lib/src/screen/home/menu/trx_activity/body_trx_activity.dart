@@ -6,9 +6,10 @@ class TrxActivityBody extends StatelessWidget{
   final void Function()? popScreen;
 
   const TrxActivityBody({
+    Key? key, 
     this.activityList,
     this.popScreen
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

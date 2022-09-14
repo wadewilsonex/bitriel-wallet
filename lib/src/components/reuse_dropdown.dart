@@ -8,13 +8,13 @@ class ReuseDropDown extends StatelessWidget {
   final TextStyle? style;
   final List<Map<String, dynamic>>? itemsList;
 
-  const ReuseDropDown({
+  const ReuseDropDown({Key? key, 
     this.onChanged,
     this.initialValue,
     this.icon,
     this.style,
     this.itemsList
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

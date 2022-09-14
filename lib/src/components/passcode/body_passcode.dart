@@ -14,11 +14,12 @@ class PasscodeBody extends StatelessWidget{
   final Function? onPressedDigit;
 
   PasscodeBody({
+    Key? key, 
     this.titleStatus,
     this.subStatus,
     this.isNewPass = false,
     this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit
-  });
+  }) : super(key: key);
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -27,6 +28,7 @@ class PasscodeBody extends StatelessWidget{
     ),
   );
 
+  @override
   Widget build(BuildContext context){
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Scaffold(
@@ -204,7 +206,7 @@ class ReusePinNum extends StatelessWidget {
 
   final TextEditingController textEditingController;
 
-  const ReusePinNum(this.outlineInputBorder, this.textEditingController);
+  const ReusePinNum(this.outlineInputBorder, this.textEditingController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +241,7 @@ class ReuseNumPad extends StatelessWidget {
   final Function pinIndexSetup;
   final Function clearPin;
 
-  const ReuseNumPad(this.pinIndexSetup, this.clearPin);
+  const ReuseNumPad(this.pinIndexSetup, this.clearPin, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -259,61 +261,61 @@ class ReuseNumPad extends StatelessWidget {
               ReuseKeyBoardNum(1, () {
                 pinIndexSetup('1');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(2, () {
                 pinIndexSetup('2');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(3, () {
                 pinIndexSetup('3');
               }),
             ],
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               ReuseKeyBoardNum(4, () {
                 pinIndexSetup('4');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(5, () {
                 pinIndexSetup('5');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(6, () {
                 pinIndexSetup('6');
               }),
             ],
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               ReuseKeyBoardNum(7, () {
                 pinIndexSetup('7');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(8, () {
                 pinIndexSetup('8');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(9, () {
                 pinIndexSetup('9');
               }),
             ],
           ),
           
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               Expanded(child: Container()),
               // ReuseKeyBoardNum(null, null, child: Container()),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(0, () {
                 pinIndexSetup('0');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(
                 null, 
                 () {
@@ -337,7 +339,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
   final Widget? child;
   final Function()? onPressed;
 
-  const ReuseKeyBoardNum(this.n, this.onPressed, {this.child});
+  const ReuseKeyBoardNum(this.n, this.onPressed, {Key? key, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(

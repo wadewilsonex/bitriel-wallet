@@ -11,7 +11,7 @@ class AppBarCustom extends StatelessWidget {
   final Widget? tile;
   final GlobalKey<ScaffoldState>? globalKey;
   
-  const AppBarCustom({
+  const AppBarCustom({Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -21,7 +21,7 @@ class AppBarCustom extends StatelessWidget {
     this.onPressed,
     this.tile,
     this.globalKey,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,8 @@ class MyAppBar extends StatelessWidget {
   final Widget? tile;
   final double? fontSize;
 
-  MyAppBar({
+  const MyAppBar({
+    Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -86,8 +87,7 @@ class MyAppBar extends StatelessWidget {
     this.onPressed,
     this.tile,
     this.fontSize = 17,
-  }){
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,6 @@
 import 'package:wallet_apps/index.dart';
 
 class MyInputField extends StatelessWidget {
-  @override
-  // ignore: overridden_fields
-  final Key? key;
   final String? labelText;
   final String? prefixText;
   final String? textColor;
@@ -25,9 +22,8 @@ class MyInputField extends StatelessWidget {
   final Function? onSubmit;
   final String? hintText;
 
-  const MyInputField(
-      {/* User Input Field */
-      this.key,
+  const MyInputField({
+      Key? key,
       this.labelText,
       this.prefixText,
       this.pLeft = paddingSize,
@@ -51,7 +47,7 @@ class MyInputField extends StatelessWidget {
       this.onChanged,
       @required this.onSubmit,
       this.hintText,
-    });
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +120,7 @@ class MyInputField extends StatelessWidget {
             contentPadding: const EdgeInsets.fromLTRB(
                 paddingSize, 0, paddingSize, 0), // Default padding = -10.0 px
             suffixIcon: suffixIcon,
-            suffixIconConstraints: BoxConstraints(
+            suffixIconConstraints: const BoxConstraints(
               minWidth: 0,
               minHeight: 0,
             ),
@@ -154,9 +150,6 @@ OutlineInputBorder myTextInputBorder(Color borderColor) {
 
 
 class MySeedField extends StatelessWidget {
-  @override
-  // ignore: overridden_fields
-  final Key? key;
   final String? hintText;
   final String? prefixText;
   final String? textColor;
@@ -178,8 +171,7 @@ class MySeedField extends StatelessWidget {
   final Function? onSubmit;
 
   const MySeedField(
-      {/* User Input Field */
-      this.key,
+      {Key? key,
       this.hintText,
       this.prefixText,
       this.pLeft = 16.0,
@@ -201,7 +193,7 @@ class MySeedField extends StatelessWidget {
       this.suffix,
       this.validateField,
       this.onChanged,
-      @required this.onSubmit});
+      @required this.onSubmit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -252,13 +244,13 @@ class MySeedField extends StatelessWidget {
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
               ),
             ),
 
-            // enabledBorder: MySeedFieldBorder(controller!.text != ""
+            // enabledBorder: mySeedFieldBorder(controller!.text != ""
             //     ? isDarkTheme
             //         ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
             //         : hexaCodeToColor(AppColors.textColor).withOpacity(0.3)
@@ -266,7 +258,7 @@ class MySeedField extends StatelessWidget {
             /* Enable Border But Not Show Error */
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
               ),
@@ -274,12 +266,12 @@ class MySeedField extends StatelessWidget {
             /* Show Error And Red Border */
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
               ),
             ),
-            // focusedBorder: MySeedFieldBorder(isDarkTheme
+            // focusedBorder: mySeedFieldBorder(isDarkTheme
             //     ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
             //     : hexaCodeToColor(AppColors.secondary)),
             /* Default Focuse Border Color*/
@@ -289,7 +281,7 @@ class MySeedField extends StatelessWidget {
             /* Border Color When Focusing */
             contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 1.h),
             suffixIcon: suffixIcon,
-            suffixIconConstraints: BoxConstraints(
+            suffixIconConstraints: const BoxConstraints(
               minWidth: 0,
               minHeight: 0,
             ),
@@ -308,7 +300,7 @@ class MySeedField extends StatelessWidget {
 }
 
 /* User input Outline Border */
-OutlineInputBorder MySeedFieldBorder(Color borderColor) {
+OutlineInputBorder mySeedFieldBorder(Color borderColor) {
   return OutlineInputBorder(
       borderSide: BorderSide(
         color: borderColor,

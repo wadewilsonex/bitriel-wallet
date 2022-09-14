@@ -47,7 +47,11 @@ class MyBottomSheet {
                             pushReplacement
                           );
                         } catch (e) {
-                          if (ApiProvider().isDebug == true) print("error TrxOptionMethod.scanQR $e");
+                          if (ApiProvider().isDebug == true) {
+                            if (kDebugMode) {
+                              print("error TrxOptionMethod.scanQR $e");
+                            }
+                          }
                         }
                         
                       },
@@ -126,7 +130,7 @@ class MyBottomSheet {
           height: MediaQuery.of(context).size.height - 107,
           child: Column(
             children: [
-              Align(
+              const Align(
                 child: MyText(
                   color: "#FFFFFF",
                   top: 20,
@@ -138,8 +142,8 @@ class MyBottomSheet {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
-                    MyText(text: "There are no notification found")
+                    SvgPicture.asset('${AppConfig.iconsPath}no_data.svg', height: 200),
+                    const MyText(text: "There are no notification found")
                   ],
                 ),
               )
@@ -167,7 +171,7 @@ class MyBottomSheet {
 
                     Container(
                       color: isDarkTheme ? hexaCodeToColor("#2C2C2D") : Colors.white,
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: Column(
                         children: [
                           Stack(
@@ -184,7 +188,7 @@ class MyBottomSheet {
 
                               Align(
                                 alignment: Alignment.topRight,
-                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: MyText(text: "Done", fontWeight: FontWeight.w700, color: AppColors.blueColor)),
+                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: const MyText(text: "Done", fontWeight: FontWeight.w700, color: AppColors.blueColor)),
                               )
                             ],
                           ),

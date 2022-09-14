@@ -5,8 +5,9 @@ class MyShimmer extends StatelessWidget{
 
   final bool? isDarkTheme;
 
-  MyShimmer({this.isDarkTheme});
+  const MyShimmer({Key? key, this.isDarkTheme}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     return Shimmer.fromColors(
       period: const Duration(seconds: 2),

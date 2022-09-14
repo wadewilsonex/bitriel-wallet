@@ -3,15 +3,15 @@ import 'package:wallet_apps/index.dart';
 class ConfirmMnemonic extends StatefulWidget {
   final String passPhrase;
   final List passPhraseList;
-  const ConfirmMnemonic(this.passPhrase, this.passPhraseList);
+  const ConfirmMnemonic(this.passPhrase, this.passPhraseList, {Key? key}) : super(key: key);
 
   static const route = '/confirmMnemonic';
 
   @override
-  _ConfirmMnemonicState createState() => _ConfirmMnemonicState();
+  ConfirmMnemonicState createState() => ConfirmMnemonicState();
 }
 
-class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
+class ConfirmMnemonicState extends State<ConfirmMnemonic> {
   List<String> _wordsSelected = [];
 
   List? _mnemonic;

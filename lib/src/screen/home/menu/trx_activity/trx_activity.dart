@@ -3,6 +3,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class TrxActivity extends StatefulWidget {
+  const TrxActivity({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return TrxActivityState();
@@ -58,7 +60,7 @@ class TrxActivityState extends State<TrxActivity> {
   }
 
   Future<void> _deleteHistory(int index, String symbol) async {
-    final SharedPreferences _preferences = await SharedPreferences.getInstance();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     if (symbol == 'SEL') {
       _txHistoryModel.tx.removeAt(index);
@@ -70,7 +72,7 @@ class TrxActivityState extends State<TrxActivity> {
       ..addAll(_txHistoryModel.txKpi);
 
     await clearOldHistory().then((value) async {
-      await _preferences.setString(DbKey.txtHistory, jsonEncode(newTxList));
+      await preferences.setString(DbKey.txtHistory, jsonEncode(newTxList));
     });
   }
 
@@ -113,7 +115,7 @@ class TrxActivityState extends State<TrxActivity> {
       child: Scaffold(
         key: _globalKey,
         appBar: AppBar(
-          title: MyText(
+          title: const MyText(
             text: 'Transaction History',
             fontSize: 22.0,
             color: "#FFFFFF",
@@ -134,7 +136,7 @@ class TrxActivityState extends State<TrxActivity> {
                         return Dismissible(
                           key: UniqueKey(),
                           direction: DismissDirection.endToStart,
-                          background: DismissibleBackground(),
+                          background: const DismissibleBackground(),
                           onDismissed: (direction) {
                             _deleteHistory(
                                 index, _txHistoryModel.tx[index].symbol!);
@@ -156,7 +158,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           hexaCodeToColor(AppColors.secondary),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child: Image.asset(AppConfig.assetsPath+'SelendraCircle-White.png'),
+                                    child: Image.asset('${AppConfig.assetsPath}SelendraCircle-White.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),
@@ -220,7 +222,7 @@ class TrxActivityState extends State<TrxActivity> {
                         return Dismissible(
                           key: UniqueKey(),
                           direction: DismissDirection.endToStart,
-                          background: DismissibleBackground(),
+                          background: const DismissibleBackground(),
                           onDismissed: (direction) {
                             _deleteHistory(
                                 index, _txHistoryModel.txKpi[index].symbol!);
@@ -243,7 +245,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         borderRadius:
                                             BorderRadius.circular(40)),
                                     child: Image.asset(
-                                        AppConfig.assetsPath+'koompi_white_logo.png'),
+                                        '${AppConfig.assetsPath}koompi_white_logo.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),

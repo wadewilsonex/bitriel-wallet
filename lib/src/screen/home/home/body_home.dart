@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
@@ -43,14 +43,14 @@ class HomePageBody extends StatelessWidget {
       key: homePageModel!.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: Menu(),
+        child: const Menu(),
       ),
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: homePageModel!.activeIndex == 4 ?
       AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: MyText(
+        title: const MyText(
           text: "Settings",
           fontWeight: FontWeight.bold,
           fontSize: 20,
@@ -108,7 +108,7 @@ class HomePageBody extends StatelessWidget {
         ],
       ),
       body: PageView(
-        physics: CustomPageViewScrollPhysics(),
+        physics: const CustomPageViewScrollPhysics(),
         controller: homePageModel!.pageController,
         onPageChanged: onPageChanged,
         children: [
@@ -119,19 +119,19 @@ class HomePageBody extends StatelessWidget {
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
                 // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
-                SizedBox(height: 10), 
+                const SizedBox(height: 10), 
                 _menu(context),
 
-                SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
@@ -143,16 +143,16 @@ class HomePageBody extends StatelessWidget {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-                  child: Container(
+                  child: SizedBox(
                     height: 20.h,
                     width: MediaQuery.of(context).size.width,
                     child: _defiMenu(context)
                   ),
                 ),
           
-                SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
                     fontSize: 17.5,
@@ -164,16 +164,16 @@ class HomePageBody extends StatelessWidget {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-                  child: Container(
+                  child: SizedBox(
                     height: 20.h,
                     width: MediaQuery.of(context).size.width,
                     child: _marketPlaceMenu(context)
                   ),
                 ),
           
-                SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Selendra ECO System",
                     fontSize: 17.5,
@@ -191,9 +191,9 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          SwapPage(),
+          const SwapPage(),
 
-          SettingPage(),
+          const SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -226,7 +226,7 @@ class HomePageBody extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                 child: Card(
-                  margin: EdgeInsets.only(  
+                  margin: const EdgeInsets.only(  
                     top: 10.0,
                     bottom: 10.0,
                   ),
@@ -234,7 +234,7 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
                     child: Image.asset(
@@ -289,7 +289,7 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -324,13 +324,13 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -341,13 +341,13 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -374,14 +374,14 @@ class HomePageBody extends StatelessWidget {
   Widget _marketPlaceMenu(BuildContext context) {
 
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 125 / 456,
         crossAxisCount: 2,
       ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: marketPlaceList.length,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index){
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),
@@ -408,29 +408,29 @@ class HomePageBody extends StatelessWidget {
   Widget _defiMenu(BuildContext context) {
 
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 125 / 456,
         crossAxisCount: 2,
       ),
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
-      itemCount: DefiList.length,
-      physics: BouncingScrollPhysics(),
+      itemCount: defiList.length,
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index){
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),
           child: DefiMenuItem(
             image: Image.asset(
-              DefiList[index]['asset'],
+              defiList[index]['asset'],
               width: 10.w,
               height: 10.h,
             ),
-            title: DefiList[index]['title'],
-            subtitle: DefiList[index]['subtitle'],
+            title: defiList[index]['title'],
+            subtitle: defiList[index]['subtitle'],
             action: () async {
               Navigator.push(
                 context,
-                Transition(child: MarketPlaceWebView(url: DefiList[index]['url'], title: DefiList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                Transition(child: MarketPlaceWebView(url: defiList[index]['url'], title: defiList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
               );
             },
           ),
@@ -460,7 +460,7 @@ class HomePageBody extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
 
             Expanded(
               child: SelEcoSysMenuItem(
@@ -477,7 +477,7 @@ class HomePageBody extends StatelessWidget {
           ],
         ),
 
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
 
         Row(
           children: [
@@ -494,7 +494,7 @@ class HomePageBody extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
 
             Expanded(
               child: SelEcoSysMenuItem(

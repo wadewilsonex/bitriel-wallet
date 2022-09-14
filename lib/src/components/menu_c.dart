@@ -8,7 +8,7 @@ class MenuHeader extends StatelessWidget {
   
   final Map<String, dynamic>? userInfo;
  
-  const MenuHeader({this.userInfo});
+  const MenuHeader({Key? key, this.userInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class MenuHeader extends StatelessWidget {
                             );
                           }, 
                           child: SvgPicture.asset(
-                            AppConfig.iconsPath+'qr_code.svg',
+                            '${AppConfig.iconsPath}qr_code.svg',
                             width: 5.w,
                             height: 5.w,
                             color: hexaCodeToColor(AppColors.secondary),
@@ -106,7 +106,7 @@ class MenuHeader extends StatelessWidget {
 class MenuSubTitle extends StatelessWidget {
   final int? index;
 
-  const MenuSubTitle({this.index});
+  const MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -157,13 +157,14 @@ class MyListTile extends StatelessWidget {
   final bool? enable;
 
   const MyListTile({
+    Key? key, 
     this.icon,
     @required this.index,
     @required this.subIndex,
     this.enable = true,
     this.trailing,
     @required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

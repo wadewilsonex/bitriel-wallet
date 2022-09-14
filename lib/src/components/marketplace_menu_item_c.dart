@@ -5,11 +5,12 @@ class SelEcoSysMenuItem extends StatelessWidget {
   final Function? action;
   final Widget? image;
   
-  SelEcoSysMenuItem({
+  const SelEcoSysMenuItem({
+    Key? key, 
     this.title,
     @required this.action,
     this.image,
-  });
+  }) : super(key: key);
 
 
   @override

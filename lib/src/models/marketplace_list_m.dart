@@ -1,4 +1,4 @@
-final List<Map<String, dynamic>> DefiList = [
+final List<Map<String, dynamic>> defiList = [
   {
     "title": "Uniswap",
     "subtitle": "Uniswap is a cryptocurrency exchange which uses a decentralized network protocol. Uniswap is also the name of the company that initially built the Uniswap protocol. The protocol facilitates automated transactions between cryptocurrency tokens on the Ethereum blockchain through the use of smart contracts.",

@@ -1,4 +1,4 @@
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/body_walletconnect_page.dart';
 
@@ -7,10 +7,10 @@ class WalletConnectPage extends StatefulWidget {
   const WalletConnectPage({Key? key}) : super(key: key);
 
   @override
-  _WalletConnectPageState createState() => _WalletConnectPageState();
+  WalletConnectPageState createState() => WalletConnectPageState();
 }
 
-class _WalletConnectPageState extends State<WalletConnectPage> {
+class WalletConnectPageState extends State<WalletConnectPage> {
 
   final TextEditingController emailInputController = TextEditingController();
   final TextEditingController passwordInputController = TextEditingController();
@@ -38,10 +38,14 @@ class _WalletConnectPageState extends State<WalletConnectPage> {
     _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
     _wConnectC!.setBuildContext = context;
     await StorageServices.fetchData("session").then((value) {
-      print("Session $value");
+      if (kDebugMode) {
+        print("Session $value");
+      }
       _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
     });
-    print("session store: ${_wConnectC!.sessionStore!.session.toString()}");
+    if (kDebugMode) {
+      print("session store: ${_wConnectC!.sessionStore!.session.toString()}");
+    }
   }
 
   @override

@@ -2,7 +2,7 @@ import '../../../../index.dart';
 
 class AssetCheckIn extends StatelessWidget {
   final List<Map> _txCheckIn;
-  const AssetCheckIn(this._txCheckIn);
+  const AssetCheckIn(this._txCheckIn, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -12,7 +12,7 @@ class AssetCheckIn extends StatelessWidget {
           const SizedBox(height: 16),
           if (_txCheckIn.isEmpty)
             SvgPicture.asset(
-              AppConfig.iconsPath+'no_data.svg',
+              '${AppConfig.iconsPath}no_data.svg',
               width: 250,
               height: 250,
             )
@@ -36,7 +36,7 @@ class AssetCheckIn extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                                 child:
-                                    Image.asset(AppConfig.assetsPath+'koompi_white_logo.png'),
+                                    Image.asset('${AppConfig.assetsPath}koompi_white_logo.png'),
                               ),
                               Expanded(
                                 child: Container(
@@ -44,7 +44,7 @@ class AssetCheckIn extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
+                                    children: const [
                                       MyText(
                                         text: '',
                                         color: "#FFFFFF",
@@ -61,7 +61,7 @@ class AssetCheckIn extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
+                                    children: const [
                                       MyText(
                                         width: double.infinity,
                                         text: '',

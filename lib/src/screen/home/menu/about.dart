@@ -1,7 +1,9 @@
 import '../../../../index.dart';
 
 class About extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  About({Key? key}) : super(key: key);
   Future<void> _launchInBrowser(String url) async {
     // try {
     //   if (await canLaunch(url)) {

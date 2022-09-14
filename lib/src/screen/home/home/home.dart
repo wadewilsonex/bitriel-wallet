@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class HomePage extends StatefulWidget {
 
-  static final String route = "/home";
+  static const String route = "/home";
   final int activePage;
   final bool? isTrx;
 
@@ -19,9 +19,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   
-  HomePageModel _model = HomePageModel();
+  final HomePageModel _model = HomePageModel();
 
-  Random _random = Random();
+  final Random _random = Random();
 
   int? randomNum;
 
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     
     _model.pageController!.addListener(() {
-      if(_model.activeIndex != _model.pageController){
+      if(_model.activeIndex != _model.pageController!.initialPage){
         setState(() {
           _model.activeIndex = _model.pageController!.page!.toInt();
         });
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     _model.globalKey = GlobalKey<ScaffoldState>();
     _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
-        this._model.adsCarouselActiveIndex = index;
+        _model.adsCarouselActiveIndex = index;
       });
     };
     
@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
         
         await DialogComponents().dialogCustom(
           context: context,
-          contents: "${e.toString()}",
+          contents: e.toString(),
           titles: "Oops",
           btn2: Container(),
           btn: null
