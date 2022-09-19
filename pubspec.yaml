@@ -1,56 +1,278 @@
-name: polkawallet_sdk
-description: Flutter SDK for building plugin package for polkawallet.
-version: 0.0.9
-homepage: https://polkawallet.io
+name: wallet_apps
+description: A new Flutter project. 
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 6.0.0+96
+
+#6 feature
+#8 debug
+#1 refactor
+#last 8 build
+publish_to: none
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
+# parts:
+#   uet-lms:
+#     source: .
+#     plugin: flutter
+#     flutter-target: lib/main.dart
+#     build-packages:
+#       - libsecret-1-dev
+#       - libjsoncpp-dev
+#     stage-packages:
+#       - libsecret-1-dev
+#       - libjsoncpp-dev
+      
 dependencies:
+  cupertino_icons:
+
   flutter:
     sdk: flutter
-  http:
-  webview_flutter:
-  flutter_webview_plugin:
-  shared_preferences:
-  get_storage:
-  json_annotation:
-  flutter_aes_ecb_pkcs5: 
-  convert: 
-  mobx: 
+  
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+
+  google_fonts: ^3.0.1
+
+  # Icons
+  iconsax: ^0.0.8
+  unicons: ^2.1.0
+
+  # silder
+  carousel_slider: ^4.1.1 
+  smooth_page_indicator: ^1.0.0+2
+  flutter_slidable: ^2.0.0
+
+  geolocator: ^9.0.1
+  geocoding: ^2.0.5
+
+  gsheets: ^0.4.2
+
+  # Storage
+  get_storage: ^2.0.3
+  shared_preferences: ^2.0.15
+  flutter_dotenv: ^5.0.2
+  cached_network_image: ^3.2.2
+
+  # Backend
+  http: ^0.13.5
+  connectivity_plus: ^2.3.6+1
+  get: ^4.6.5
+  graphql_flutter: ^5.1.0
+  async:
+
+  # Image service
+  intl: ^0.17.0
+
+  ######## Permission Package ########
+  # Camera
+  qr_flutter: ^4.0.0
+  qr_code_scanner: ^1.0.1
+  image_picker: ^0.8.5+3
+
+  # Chart
+  fl_chart: ^0.46.0
+  pie_chart: ^5.3.2
+
+  # Icons
+  crypto_font_icons: ^1.0.1
+  line_awesome_flutter: ^2.0.0
+  pinput: ^2.2.12
+  date_format: ^2.0.6
+
+  store_redirect: ^2.0.1
+  share_plus: ^4.1.0
+
+  vibration: ^1.7.6
  
+  # Apps Configuration
+  rename: ^2.0.1
+  package_info_plus: ^1.4.3+1
+  shimmer: ^2.0.0
+
+  # Authentication & Verification
+  permission_handler: 10.0.0
+  local_auth: ^2.1.2
+  web_socket_channel: ^2.2.0
+
+  animations: ^2.0.4
+  provider: ^6.0.3
+  web3dart:
+  bip39: ^1.0.6
+  polkawallet_sdk: 0.4.8
+
+  dart_ecpair: ^1.0.2
+  defichaindart: ^3.8.7+3
+
+  flutter_secure_storage: ^6.0.0
+  flutter_screenshot_switcher: ^2.1.0
+
+  #Contact
+  fluttercontactpicker: ^4.7.0
+  
+  #animation
+  responsive_framework: ^0.2.0
+  flutter_launcher_icons: ^0.10.0
+  url_launcher: ^6.1.5
+  loading_indicator: ^3.1.0
+  fluttertoast: ^8.0.9
+  in_app_update: ^3.0.0
+  tutorial_coach_mark: ^1.2.4
+  transition: ^2.0.2
+  lottie: ^1.4.2
+  motion_toast: ^2.3.2
+  flutter_svg: ^1.1.4
+
+  # flutter lock passcode
+  flutter_screen_lock: ^7.0.4
+  ai_progress: ^2.0.0
+  responsive_sizer: ^3.1.0
+  sizer: ^2.0.15
+
+  # Third-party
+  walletconnect_dart: ^0.0.11
+  wallet_connect: ^1.0.2
+  eth_sig_util: ^0.0.9
+  
+  # webview_flutter
+  flutter_inappwebview: ^5.4.3+7
+
+  # Device Preview
+  device_preview: ^1.1.0
+
+  flutter_native_splash: ^2.2.8
+  mobile_scanner: ^2.0.0
+  random_avatar: ^0.0.7
+
+  # Download
+  path_provider:
+  # downloads_path_provider_28:
+
+  external_app_launcher: ^3.1.0
+
+  dropdown_button2: ^1.7.2
+
+dependency_overrides:
+    # git:
+    #   url: https://github.com/polkawallet-io/ui.git
+    #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
+
+  bip32_defichain: ^3.0.1+1
+  charts_flutter: ^0.12.0
+#  charts_flutter:
+#     git:
+#       url: https://github.com/google/charts
+#       path: charts_flutter
+
+
 
 dev_dependencies:
-  mobx_codegen: ^1.1.0+2
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.11
-  json_serializable: ^3.0.0
+
+# run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
+flutter_native_splash: 
+  color: "#023859"
+  
+  image: assets/logo/bitriel-splash.png
+  android: true
+  android12: false
+  ios: true
+ 
+
+# Run command: flutter pub run flutter_launcher_icons:main 
+flutter_icons:
+  image_path: "assets/logo/bitriel_icon.png"
+  ios: true
+  android: true
+
 
 # For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+# following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
 
-  # To add assets to your package, add an assets section, like this:
-   assets:
-     - js_api/dist/main.js
-     - js_as_extension/dist/main.js
-  #   - images/a_dot_ham.jpeg
-  #
-  # For details regarding assets in packages, see
-  # https://flutter.dev/assets-and-images/#from-packages
-  #
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
 
-  # To add custom fonts to your package, add a fonts section here,
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #  - images/a_dot_burr.jpeg
+  #  - images/a_dot_ham.jpeg
+
+  assets:
+    - assets/
+    - assets/github/
+    - assets/abi/
+    - assets/icons/
+    - assets/token_logo/
+    - assets/json/
+    - assets/logo/
+    - assets/ads/
+    - assets/illustration/
+    - .env
+
+    # - ../assets/
+    # - ../assets/github/
+    # - ../assets/abi/
+    # - ../assets/icons/
+    # - ../assets/token_logo/
+    # - ../assets/json/
+    # - ../assets/logo/
+    # - ../assets/illustration/
+    
+    # Animation Flare
+    - assets/animation/
+    - lib/src/js_api/
+    - lib/src/js_api/dist/main.js
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.io/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.io/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Montserrat
+      fonts: 
+        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Regular.ttf
+    - family: Avenir
+      fonts:
+        - asset: assets/fonts/avenir_ff/AvenirLTStd-Roman.otf
+
+    - family: Prompt
+      fonts:
+        - asset: assets/fonts/prompt/Prompt-Black.ttf
+        - asset: assets/fonts/prompt/Prompt-Bold.ttf
+        - asset: assets/fonts/prompt/Prompt-Regular.ttf
+        - asset: assets/fonts/prompt/Prompt-Light.ttf
+        - asset: assets/fonts/prompt/Prompt-Medium.ttf
+        - asset: assets/fonts/prompt/Prompt-SemiBold.ttf
+        - asset: assets/fonts/prompt/Prompt-Thin.ttf
+        - asset: assets/fonts/prompt/Prompt-ExtraBold.ttf
+        - asset: assets/fonts/prompt/Prompt-ExtraLight.ttf
+
+  uses-material-design: true
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -63,5 +285,7 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts in packages, see
-  # https://flutter.dev/custom-fonts/#from-packages
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.io/custom-fonts/#from-packages
+  #module:
+   # androidX: true

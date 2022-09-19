@@ -1,0 +1,20 @@
+1. User input amount and choose asset token by click on logo.
+
+2. Check amount input is bigger than owner's token hold.
+    false: pop up dialog for less amount and stop.
+    true: goto step 3.
+
+3. Check amount with minimum investment.
+    false: pop up dialog for less than minimum investment and stop.
+    true: goto step 4.
+
+4. process: input_amount * (token_price / 100000000) >= min_investment
+    false: Display Dialog Fail and stop.
+    true: Display Dialog Success and done.
+
+
+Error: 
+    presale_body line 41
+    presale_list line 159-178
+    presale line 101-119, 143-151, 442, 503, 533
+
