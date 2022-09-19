@@ -156,8 +156,7 @@ class ImportUserInfoState extends State<ImportUserInfo> {
     try {
       // Avaible To
       if (available) {
-        await BioAuth().authenticateBiometric(_localAuth).then((values) async {
-           
+        await BioAuth().authenticateBiometric(_localAuth).then((values) async {   
           _menuModel!.authenticated = values;
           if (_menuModel!.authenticated!) {
             _menuModel!.switchBio = switchValue;

@@ -140,8 +140,6 @@ class AddAssetState extends State<AddAsset> {
           },
         );
       } else {
-        
-        if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).addToken(
           _tokenSymbol,
           context,

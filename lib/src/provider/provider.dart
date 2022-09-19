@@ -24,7 +24,7 @@ class ContractsBalance extends ChangeNotifier {
         await contractProvider.kgoTokenWallet();
 
         // Attendance Token
-        // if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
+        if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
@@ -85,7 +85,7 @@ class ContractsBalance extends ChangeNotifier {
 
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
-          if (conProvider.listContract[i].symbol != "ATT" && conProvider.listContract[i].symbol != "SEL (v1)" && conProvider.listContract[i].symbol != "SEL (v2)"){
+          if (conProvider.listContract[i].symbol != "SEL (v1)" && conProvider.listContract[i].symbol != "SEL (v2)"){
             // if (conProvider.listContract[i].symbol == "KGO") {
               
             // }

@@ -88,7 +88,6 @@ class AccountState extends State<Account> {
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
       
-      if(!mounted) return;
       await Future.delayed(const Duration(seconds: 2), () {});
       
       if(!mounted) return;

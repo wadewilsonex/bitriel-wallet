@@ -43,7 +43,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     dynamic addr;
     if (widget.trxInfo!.receiver != null){
-     addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());
+      addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());
     }
     // print("sendTrx ${sendTrx ?? 'sendTrx null'}");
     return Scaffold(

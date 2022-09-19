@@ -32,11 +32,9 @@ class AppState extends State<App> {
 
       if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
-
-      if(!mounted) return;
+      
       await initApi();
-
-      if(!mounted) return;
+      
       clearOldBtcAddr();
     });
 
