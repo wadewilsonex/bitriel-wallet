@@ -25,7 +25,7 @@ List<CardSection> settingsAccSection({BuildContext? context}) {
         Navigator.push(
           context!, 
           Transition(
-            child: BackUpKey(),
+            child: const BackUpKey(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -38,7 +38,7 @@ List<CardSection> settingsAccSection({BuildContext? context}) {
         Navigator.push(
           context!,
           Transition(
-            child: Account(),
+            child: const Account(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -73,7 +73,7 @@ List<CardSection> settingsPolicySection({BuildContext? context}) {
       action: () {
         Navigator.push(
           context!, 
-          Transition(child: AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          Transition(child: const AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         );
       }
     ),
@@ -83,7 +83,7 @@ List<CardSection> settingsPolicySection({BuildContext? context}) {
       action: () {
         Navigator.push(
           context!, 
-          Transition(child: AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          Transition(child: const AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         );
       }
     ),
@@ -157,7 +157,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       await wcComponent.killAllSession();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
       if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
