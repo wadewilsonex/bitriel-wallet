@@ -71,7 +71,6 @@ dependencies:
   ######## Permission Package ########
   # Camera
   qr_flutter: 
-  qr_code_scanner: ^1.0.0
   image_picker:
 
   # Chart
@@ -164,6 +163,7 @@ dependency_overrides:
        path: charts_flutter
 
   permission_handler: ^9.2.0
+  qr_code_scanner: ^1.0.0
 
 dev_dependencies:
   flutter_test:
