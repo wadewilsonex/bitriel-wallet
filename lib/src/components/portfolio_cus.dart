@@ -8,7 +8,7 @@ class PortFolioCus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
       margin: const EdgeInsets.only(bottom: 2.0),
       padding: const EdgeInsets.only(left: 16, right: 20, top: 32, bottom: 32),

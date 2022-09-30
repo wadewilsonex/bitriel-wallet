@@ -187,7 +187,7 @@ class PresaleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return SafeArea(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.7,
@@ -320,7 +320,7 @@ class PresaleList extends StatelessWidget {
   }
 
   _customColumn(context, String topText, String bottomText, {Widget? bottomWidget, double? topTextSize, CrossAxisAlignment? crossAxis}) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: crossAxis ?? CrossAxisAlignment.start,

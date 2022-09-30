@@ -17,7 +17,7 @@ class AssetItem extends StatelessWidget {
     //   scModel.lineChartModel.totalUsd = res.toStringAsFixed(2);
     // }
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return rowDecorationStyle(
         color: isDarkTheme
@@ -273,7 +273,7 @@ class AssetItem extends StatelessWidget {
   }
 
   LineChartData mainData(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(

@@ -151,7 +151,7 @@ class MyFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
       padding: edgePadding,
@@ -233,7 +233,7 @@ class MyGradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
 
     return Container(
       padding: edgePadding,
@@ -442,7 +442,7 @@ class BodyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return SingleChildScrollView(
       physics: physic,
       controller: scrollController,
@@ -483,7 +483,7 @@ class MyIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,

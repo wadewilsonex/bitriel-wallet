@@ -377,7 +377,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
   @override
   Widget build(BuildContext context) {
     _walletController!.text = Provider.of<ContractProvider>(context).ethAdd;
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: NetworkSensitive(
         child: BodyScaffold(

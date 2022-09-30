@@ -9,7 +9,7 @@ class MyPieChartRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -38,7 +38,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                         ? (r + 1) * 3
                         : _wordsLeft.length)
                 .map((i) {
-              final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+               
               return Container(
                 alignment: Alignment.center,
                 color: isDarkTheme
@@ -126,7 +126,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,

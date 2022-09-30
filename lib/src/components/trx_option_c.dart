@@ -11,7 +11,7 @@ class MyBottomSheetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return GestureDetector(
       onTap: action,
       child: Column(

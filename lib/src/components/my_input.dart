@@ -51,7 +51,7 @@ class MyInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
         padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
@@ -197,7 +197,7 @@ class MySeedField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
         padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),

@@ -65,7 +65,7 @@ class AppColors {
   /* Card Color */
   static const String borderColor = "#363c4e";
 
-  //final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+  // 
 
   /* Passcode Color */
   static const String passcodeColor = "#054973";

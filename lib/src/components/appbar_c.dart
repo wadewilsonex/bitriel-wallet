@@ -91,7 +91,7 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    
     return SafeArea(
       child: Container(
         // height: 65.0,

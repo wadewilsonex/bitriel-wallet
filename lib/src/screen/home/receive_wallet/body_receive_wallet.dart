@@ -14,7 +14,7 @@ class ReceiveWalletBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Consumer<ReceiveWalletProvider>(
       builder: (context, provider, widget){
         return Scaffold(

@@ -123,7 +123,7 @@ BoxShadow shadow(BuildContext context,
     double? blurRadius, 
     double? spreadRadius, 
     Offset? offset}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+   
   return BoxShadow(
     color: hexaCode ?? (isDarkTheme
         ? hexaCodeToColor(AppColors.darkBgd)

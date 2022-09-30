@@ -17,7 +17,7 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize),
           height: MediaQuery.of(context).size.height / 1.5,
@@ -88,7 +88,7 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize,),
           height: MediaQuery.of(context).size.height / 2,
@@ -142,7 +142,7 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.all(25.0),
           height: MediaQuery.of(context).size.height / 2,

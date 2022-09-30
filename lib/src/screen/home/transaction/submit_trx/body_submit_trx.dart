@@ -81,7 +81,7 @@ class SubmitTrxBody extends StatelessWidget {
       ),
     ];
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     final contract = Provider.of<ContractProvider>(context);
 

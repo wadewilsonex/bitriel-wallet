@@ -80,7 +80,7 @@
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //     final presale = Provider.of<PresaleProvider>(context, listen: false);
 //     return BodyScaffold(
 //       height: MediaQuery.of(context).size.height,
@@ -525,7 +525,7 @@
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //
 //     return Theme(
 //       data: ThemeData(

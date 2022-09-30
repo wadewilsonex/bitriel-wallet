@@ -172,18 +172,20 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     
       // Remove below link when we want light mode
-      await StorageServices.storeData('dark', DbKey.themeMode);
+      // await StorageServices.storeData('dark', DbKey.themeMode);
 
       if(!mounted) return;
       await Provider.of<ThemeProvider>(context, listen: false).changeMode();
 
-      // final res = await StorageServices.fetchData(DbKey.themeMode);
+      final res = await StorageServices.fetchData(DbKey.themeMode);
 
-      // if (res != null) {
-      //   await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      // } else {
-      //   Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
-      // }
+      if (res != null) {
+        if(!mounted) return;
+        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      } else {
+        if(!mounted) return;
+        Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+      }
       //  else {
       //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
       //   // if (sysTheme) {
@@ -192,6 +194,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
       //   // }
       // }
+
     } catch (e) {
       if(ApiProvider().isDebug) {
         if (kDebugMode) {

@@ -14,7 +14,7 @@
 //   SwapBody({this.swapModel, this.onChanged, this.validateSwap, this.fetchMax});
 
 //   Widget build(BuildContext context){
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //     final contract = Provider.of<ContractProvider>(context, listen: false);
 //     return Scaffold(
 //       body: BodyScaffold(

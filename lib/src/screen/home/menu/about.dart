@@ -25,7 +25,7 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: _scaffoldKey,
       body: BodyScaffold(

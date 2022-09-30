@@ -13,7 +13,7 @@ class BackUpKeyBody extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

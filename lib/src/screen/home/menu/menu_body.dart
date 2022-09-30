@@ -104,28 +104,6 @@ class MenuBody extends StatelessWidget {
         // Account
         const MenuSubTitle(index: 3),
 
-        // MyListTile(
-        //   icon: Icon(Iconsax.lock, color: Colors.white, size: 22.5.sp),
-        //   enable: false,
-        //   index: 3,
-        //   subIndex: 0,
-        //   trailing: Switch(
-        //     value: model!.switchPasscode,
-        //     onChanged: (value) async {
-        //       // Navigator.pushNamed(context, AppText.passcodeView);
-        //       final res = await Navigator.push(
-        //         context,
-        //         Transition(child: Passcode(isAppBar: true, label: PassCodeLabel.fromMenu,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        //       );
-        //       print("res $res");
-        //       if (res != null) {
-        //         enablePassword!(!model!.switchPasscode, data: res);
-        //       }
-        //     },
-        //   ),
-        //   onTap: null,
-        // ),
-
         MyListTile(
           icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 22.5.sp),
           enable: false,
@@ -135,6 +113,21 @@ class MenuBody extends StatelessWidget {
             value: model!.switchBio,
             onChanged: (value) {
               switchBio!(context, value);
+            },
+          ),
+          onTap: null,
+        ),
+
+        const MenuSubTitle(index: 4),
+        MyListTile(
+          icon: Icon(Iconsax.moon, color: Colors.white, size: 22.5.sp),
+          enable: false,
+          index: 4,
+          subIndex: 0,
+          trailing: Switch(
+            value: isDarkTheme,
+            onChanged: (value) {
+              switchTheme!(value);
             },
           ),
           onTap: null,

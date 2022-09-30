@@ -38,7 +38,7 @@ class SearchItem extends StatelessWidget{
   
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
       padding: const EdgeInsets.all(paddingSize),
       color: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.lowWhite),//"#2C2C2D" : AppColors.bgdColor),
@@ -146,7 +146,7 @@ class SearchItemTrx extends StatelessWidget{
   
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
       padding: const EdgeInsets.only(top: paddingSize, bottom: paddingSize),
       color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lowWhite),

@@ -5,7 +5,7 @@ class AirDropDes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Padding(
       padding: EdgeInsets.zero,
       child: Column(

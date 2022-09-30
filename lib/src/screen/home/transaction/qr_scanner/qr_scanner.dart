@@ -41,7 +41,7 @@ class QrScannerState extends State<QrScanner> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         physic: const NeverScrollableScrollPhysics(),

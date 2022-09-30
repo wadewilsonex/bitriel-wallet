@@ -10,7 +10,6 @@ class WelcomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -72,8 +71,7 @@ class WelcomeBody extends StatelessWidget {
               MyFlatButton(
                 isTransparent: true,
                 buttonColor: AppColors.whiteHexaColor,
-                edgeMargin:
-                    const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromImportSeeds)));

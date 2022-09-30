@@ -5,7 +5,7 @@ class ActivityItem extends StatelessWidget {
   const ActivityItem(this._trxInfo, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     final addr = AppUtils.addrFmt('0x899D45A8AE71160b85d414E48544204dec8A99B0');
 
     return rowDecorationStyle(

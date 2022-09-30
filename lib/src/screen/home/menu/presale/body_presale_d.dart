@@ -20,7 +20,7 @@
 //       this.submitPresale});
 //
 //   Widget build(BuildContext context) {
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //     final contract = Provider.of<ContractProvider>(context);
 //
 //     return BodyScaffold(

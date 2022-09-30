@@ -7,7 +7,7 @@ class ActivityDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     final addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
 
     return Scaffold(

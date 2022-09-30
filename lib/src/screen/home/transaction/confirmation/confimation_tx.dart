@@ -40,7 +40,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     dynamic addr;
     if (widget.trxInfo!.receiver != null){
       addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());

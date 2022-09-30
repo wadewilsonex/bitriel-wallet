@@ -30,7 +30,7 @@ class MyUserInfoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       children: <Widget>[
         MyAppBar(

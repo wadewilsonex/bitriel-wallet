@@ -105,7 +105,7 @@ final portfolioChart = LineChartData(
 );
 
 Widget homeAppBar(BuildContext context, {Function? query}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+   
   return Container(
     height: 70,
     color: isDarkTheme
@@ -362,7 +362,7 @@ class MyBottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return BottomAppBar(
       color: hexaCodeToColor(AppColors.darkBgd),
       // isDarkTheme

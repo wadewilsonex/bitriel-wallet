@@ -23,6 +23,7 @@ class AppState extends State<App> {
   @override
   void initState() {
     MarketProvider().fetchTokenMarketPrice(context);
+
     // readTheme();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {

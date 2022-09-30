@@ -7,6 +7,8 @@ class ModelAsset {
   bool match = false;
   bool added = false;
 
+  String? logo;
+
   String assetBalance = '0';
   static const String assetSymbol = 'KMPI';
   static const String assetOrganization = 'KOOMPI';
@@ -170,7 +172,7 @@ class AssetPageModel {
       "BEP-20",
       "ERC-20",
     ];
-    categoryIndex = 0;
+    categoryIndex = 1;
     pageController = PageController();
   }
 

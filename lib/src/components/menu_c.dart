@@ -13,7 +13,7 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
@@ -32,7 +32,7 @@ class MenuHeader extends StatelessWidget {
                   Navigator.push(
                     context,
                     Transition(
-                      child: Account(),
+                      child: const Account(),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
@@ -110,7 +110,7 @@ class MenuSubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
       // color: isDarkTheme
@@ -168,7 +168,7 @@ class MyListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return ListTile(
       enabled: enable!,
       onTap: onTap,

@@ -37,7 +37,7 @@ class AddAssetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     final api = Provider.of<ApiProvider>(context);
     return Column(children: [
 
@@ -58,14 +58,14 @@ class AddAssetBody extends StatelessWidget {
           child: Column(
             children: [
 
-              const SizedBox(
-                height: 20.0,
-              ),
-              SvgPicture.asset(
-                '${AppConfig.iconsPath}contract.svg',
-                width: 20.w,
-                height: 20.h,
-              ),
+              // const SizedBox(
+              //   height: 20.0,
+              // ),
+              // SvgPicture.asset(
+              //   '${AppConfig.iconsPath}contract.svg',
+              //   width: 20.w,
+              //   height: 20.h,
+              // ),
               
               Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -137,7 +137,7 @@ class AddAssetBody extends StatelessWidget {
                         },
                         child: Container(
                           padding: const EdgeInsets.only(right: 16.0),
-                          child: const Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
+                          child: const Icon(Iconsax.scan, color: Colors.white, size: 20),
                         ),
                       ),
                     ),
@@ -165,9 +165,9 @@ class AddAssetBody extends StatelessWidget {
                       portFolioItemRow(
                         context,
                         isDarkTheme,
-                        '${AppConfig.assetsPath}circle.png',
+                        assetM!.logo ?? '${AppConfig.assetsPath}circle.png',
                         tokenSymbol!,
-                        Colors.black,
+                        Colors.white,
                         addAsset!,
                       )
                     else
@@ -211,7 +211,7 @@ class AddAssetBody extends StatelessWidget {
             padding: const EdgeInsets.all(6),
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(40)),
-            child: Image.asset(logo),
+            child: logo.contains('http') ? Image.network(logo) : Image.asset(logo),
           ),
           Expanded(
             child: Container(

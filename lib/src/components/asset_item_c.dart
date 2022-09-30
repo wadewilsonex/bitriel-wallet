@@ -14,7 +14,7 @@ class AssetsItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return rowDecorationStyle(
         color: hexaCodeToColor(AppColors.darkBgd),
@@ -324,7 +324,7 @@ class AssetsItemComponent extends StatelessWidget {
   }
 
   LineChartData mainData(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(

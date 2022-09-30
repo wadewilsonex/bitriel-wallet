@@ -111,7 +111,7 @@ class FingerPrintState extends State<FingerPrint> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: globalkey,
       body: BodyScaffold(

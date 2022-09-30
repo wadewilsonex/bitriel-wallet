@@ -10,7 +10,7 @@ class AvatarShimmer extends StatelessWidget{
 
   @override
   Widget build (BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Align(
       alignment: Alignment.centerLeft,
       child: txt == null 
@@ -59,7 +59,7 @@ class WidgetShimmer extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return txt != null 
     ? child!
     : 
@@ -92,7 +92,7 @@ class TextShimmer extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return txt != null 
     ? MyText(
       bottom: 3,

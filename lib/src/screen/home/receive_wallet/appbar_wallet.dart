@@ -13,7 +13,7 @@ class QrViewTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Consumer<WalletProvider>(
       builder: (context, value, child) {
