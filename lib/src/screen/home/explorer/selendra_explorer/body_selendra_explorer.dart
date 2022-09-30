@@ -70,15 +70,15 @@ class SelendraExplorerBody extends StatelessWidget {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 3, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 3, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           hintText: "Search Addresses, Hash.",
           hintStyle: TextStyle(
@@ -88,7 +88,7 @@ class SelendraExplorerBody extends StatelessWidget {
           prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.whiteHexaColor), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
-          fillColor: hexaCodeToColor("#114463"),
+          fillColor: hexaCodeToColor(AppColors.bluebgColor),
           suffixIcon: IconButton(
             onPressed: () {
               final res = Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));

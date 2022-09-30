@@ -118,7 +118,7 @@ class MenuState extends State<Menu> {
 
   void switchTheme(bool value) {
     setState(() {
-      setThemeValue = value;
+      Provider.of<ThemeProvider>(context, listen: false).setThemeValue(value);
     });
   }
 

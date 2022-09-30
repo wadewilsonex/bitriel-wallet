@@ -1,8 +1,14 @@
 // For Theme Initialize
 
-bool isDarkTheme = true;
+import 'package:wallet_apps/index.dart';
 
-set setThemeValue(bool value) => isDarkTheme = value; 
+// bool isDarkTheme = true;
+
+// void setThemeValue(BuildContext context, bool value) {
+//   Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
+//   isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
+//   print("setTheme $isDarkTheme");
+// } 
 
 
 // Padding Size

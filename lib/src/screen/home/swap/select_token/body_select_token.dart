@@ -76,15 +76,15 @@ class SelectSwapTokenBody extends StatelessWidget {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 3, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 3, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           hintText: "Type token name",
           hintStyle: TextStyle(
@@ -94,7 +94,7 @@ class SelectSwapTokenBody extends StatelessWidget {
           prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.whiteHexaColor), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
-          fillColor: hexaCodeToColor("#114463"),
+          fillColor: hexaCodeToColor(AppColors.bluebgColor),
           suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor("#AAAAAA"), size: 20),
         ),
         onChanged: (String value){
