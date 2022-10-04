@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:defichaindart/defichaindart.dart';
-// import 'package:defichaindart/defichaindart.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
 import 'package:polkawallet_sdk/polkawallet_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -9,22 +8,15 @@ import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/models/lineChart_m.dart';
-import 'package:wallet_apps/src/models/smart_contract.m.dart';
-// import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:http/http.dart' as http;
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:polkawallet_sdk/utils/localStorage.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/service/apiKeyring.dart';
+import 'package:wallet_apps/src/service/apikeyring.dart';
 import 'package:bip39/bip39.dart' as bip39;
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 
 class ApiProvider with ChangeNotifier {
   
-  WalletSDK _sdk = WalletSDK();
-  Keyring _keyring = Keyring();
+  final WalletSDK _sdk = WalletSDK();
+  final Keyring _keyring = Keyring();
   MyApiKeyring? _apiKeyring;
 
   Keyring get getKeyring => _keyring;
@@ -37,7 +29,7 @@ class ApiProvider with ChangeNotifier {
 
   double amount = 0.0008;
 
-  bool _isConnected = false;
+  final bool _isConnected = false;
 
   String btcAdd = '';
 
@@ -90,7 +82,11 @@ class ApiProvider with ChangeNotifier {
       notifyListeners();
 
     } catch (e) {
-      if (ApiProvider().isDebug) print("Error initApi $e");
+      if (ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("Error initApi $e");
+        }
+      }
     }
   }
 
@@ -120,7 +116,11 @@ class ApiProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error connectPolNon $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error connectPolNon $e");
+        }
+      }
     }
 
     return res ?? NetworkParams();
@@ -135,28 +135,28 @@ class ApiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> queryBtcData(BuildContext context, String _seeds, String _passCode) async {
+  Future<void> queryBtcData(BuildContext context, String seeds, String passCode) async {
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
     
     try {
-      final seed = bip39.mnemonicToSeed(_seeds);
+      final seed = bip39.mnemonicToSeed(seeds);
       final hdWallet = HDWallet.fromSeed(seed);
       
       contractPro.listContract[btcIndex].address = hdWallet.address!;
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
-      final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
+      final bech32Address = P2WPKH(data: PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
       await StorageServices.storeData(bech32Address, DbKey.bech32);
       await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
 
-      final res = await encryptPrivateKey(hdWallet.wif!, _passCode);
+      final res = await encryptPrivateKey(hdWallet.wif!, passCode);
 
       await StorageServices().writeSecure(DbKey.btcwif, res);
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
-      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(bech32Address!);
+      setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
 
@@ -194,7 +194,7 @@ class ApiProvider with ChangeNotifier {
     int input = 0;
     final alice = ECPair.fromWIF(wif);
 
-    final p2wpkh = new P2WPKH(data: new PaymentData(pubkey: alice.publicKey)).data;
+    final p2wpkh = P2WPKH(data: PaymentData(pubkey: alice.publicKey)).data;
 
     final txb = TransactionBuilder();
     
@@ -285,32 +285,36 @@ class ApiProvider with ChangeNotifier {
 
       return jsonDecode(res.body);
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Err getAddressUxto $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err getAddressUxto $e");
+        }
+      }
     }
   }
 
   Future<void> totalBalance({@required BuildContext? context}) async {
-    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    final contract = Provider.of<ContractProvider>(context!, listen: false);
     
     double total = 0.0;
 
-    var balance_list = [];
+    var balanceList = [];
     
-    contract.sortListContract.forEach((element) {
+    for (var element in contract.sortListContract) {
       if(element.marketPrice!.isNotEmpty){
         total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
-        balance_list.add(total);
+        balanceList.add(total);
       }
-    });
+    }
 
-    total = balance_list.reduce((a, b) => a + b);;
+    total = balanceList.reduce((a, b) => a + b);
 
     contract.totalAmount = total;
   
   }
 
   Future<void> getBtcBalance({@required BuildContext? context}) async {
-    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    final contract = Provider.of<ContractProvider>(context!, listen: false);
     try {
       int totalSatoshi = 0;
       final res = await getAddressUxto(contract.listContract[btcIndex].address!);
@@ -331,7 +335,11 @@ class ApiProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err getBtcBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err getBtcBalance $e");
+        }
+      }
     }
   }
 
@@ -350,7 +358,7 @@ class ApiProvider with ChangeNotifier {
     // btc.change24h = priceChange24h;
     // btc.lineChartList = lineChartData ?? [];
 
-    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    final contract = Provider.of<ContractProvider>(context!, listen: false);
     contract.listContract[btcIndex].marketData = marketData;
     contract.listContract[btcIndex].marketPrice = currentPrice;
     contract.listContract[btcIndex].change24h = priceChange24h;
@@ -370,7 +378,11 @@ class ApiProvider with ChangeNotifier {
       res = await _sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
     }
     return res;
   }
@@ -381,7 +393,11 @@ class ApiProvider with ChangeNotifier {
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateEther $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateEther $e");
+        }
+      }
     }
     return false;
   }
@@ -392,7 +408,11 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider._sdk.api.getPrivateKey(mnemonic);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getPrivateKey $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getPrivateKey $e");
+        }
+      }
     }
     return '';
   }
@@ -403,7 +423,11 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateAddress $e");
+        }
+      }
     }
     return false;
   }
@@ -429,7 +453,11 @@ class ApiProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error connectSELNode $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error connectSELNode $e");
+        }
+      }
     }
     return null;
   }
@@ -454,7 +482,11 @@ class ApiProvider with ChangeNotifier {
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getChainDecimal $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getChainDecimal $e");
+        }
+      }
     }
   }
 
@@ -496,7 +528,11 @@ class ApiProvider with ChangeNotifier {
       // });
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error subscribeSELBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error subscribeSELBalance $e");
+        }
+      }
     }
   }
 
@@ -508,7 +544,7 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> setDotMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext? context}) async {
 
-    final contract = await Provider.of<ContractProvider>(context!, listen: false);
+    final contract = Provider.of<ContractProvider>(context!, listen: false);
     contract.listContract[dotIndex].marketData = marketData;
     contract.listContract[dotIndex].marketPrice = currentPrice;
     contract.listContract[dotIndex].change24h = priceChange24h;
@@ -518,23 +554,33 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
+    if (kDebugMode) {
+      print("getDotChainDecimal");
+    }
     try {
       dynamic res;
-      final contract = await Provider.of<ContractProvider>(context!, listen: false);
+      final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
         res = value;
+        if (kDebugMode) {
+          print("value $value");
+        }
         contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err getDotChainDecimal $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err getDotChainDecimal $e");
+        }
+      }
     }
   }
 
   Future<void> subscribeDotBalance({@required BuildContext? context}) async {
     try {
 
-      final contract = await Provider.of<ContractProvider>(context!, listen: false);
+      final contract = Provider.of<ContractProvider>(context!, listen: false);
       // final msgChannel = 'NBalance';
       // final code = 'account.getBalance(api, "${_keyring.current.address}", "$msgChannel")';
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[dotIndex].address}', 'Balance')").then((value) {//_sdk.api.account.subscribeBalance(contract.listContract[dotIndex].address, (res) async {
@@ -551,7 +597,11 @@ class ApiProvider with ChangeNotifier {
       // await connectSELNode(context: context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error subscribeDotBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error subscribeDotBalance $e");
+        }
+      }
     }
   }
 
@@ -565,7 +615,11 @@ class ApiProvider with ChangeNotifier {
       accountM.addressIcon = res.toString();
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error get icon from address $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error get icon from address $e");
+        }
+      }
     }
   }
 
@@ -580,7 +634,11 @@ class ApiProvider with ChangeNotifier {
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getCurrentAccount $e");
+        }
+      }
     }
 
     notifyListeners();
@@ -596,7 +654,11 @@ class ApiProvider with ChangeNotifier {
       
       contractProvider!.setSELNativeAddr(accountM.address!);
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getCurrentAccount $e");
+        }
+      }
     }
 
     notifyListeners();
@@ -608,7 +670,11 @@ class ApiProvider with ChangeNotifier {
       await _sdk.webView!.evalJavascript("keyring.changePassword('$pubKey', '$passOld', '$passNew')");
       
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error getCurrentAccount $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getCurrentAccount $e");
+        }
+      }
     }
 
     notifyListeners();
@@ -637,7 +703,11 @@ class ApiProvider with ChangeNotifier {
       final String? encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
       return encryted!;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error encryptPrivateKey $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error encryptPrivateKey $e");
+        }
+      }
     }
     return '';
   }

@@ -11,7 +11,7 @@ class AppBarCustom extends StatelessWidget {
   final Widget? tile;
   final GlobalKey<ScaffoldState>? globalKey;
   
-  const AppBarCustom({
+  const AppBarCustom({Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -21,7 +21,7 @@ class AppBarCustom extends StatelessWidget {
     this.onPressed,
     this.tile,
     this.globalKey,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +73,10 @@ class MyAppBar extends StatelessWidget {
   final Function? onPressed;
   final Color? color;
   final Widget? tile;
-  double? fontSize;
+  final double? fontSize;
 
-  MyAppBar({
+  const MyAppBar({
+    Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -86,12 +87,11 @@ class MyAppBar extends StatelessWidget {
     this.onPressed,
     this.tile,
     this.fontSize = 17,
-  }){
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    
     return SafeArea(
       child: Container(
         // height: 65.0,
@@ -109,7 +109,7 @@ class MyAppBar extends StatelessWidget {
                     Platform.isAndroid
                         ? LineAwesomeIcons.arrow_left
                         : LineAwesomeIcons.angle_left,
-                    color: isDarkTheme ? Colors.white : Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                     size: 22.5.sp,
                   ),
                   onPressed: (){
@@ -117,7 +117,7 @@ class MyAppBar extends StatelessWidget {
                   },
                 ),
                 MyText(
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,

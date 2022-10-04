@@ -1,9 +1,6 @@
 import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class ConfirmationTx extends StatefulWidget {
@@ -34,18 +31,19 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
       // disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 3), (){});
-    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(isTrx: true,)), ModalRoute.withName('/'));
+    await Future.delayed(const Duration(seconds: 3), (){});
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     dynamic addr;
     if (widget.trxInfo!.receiver != null){
-     addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());
+      addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());
     }
     // print("sendTrx ${sendTrx ?? 'sendTrx null'}");
     return Scaffold(
@@ -62,7 +60,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  color: isDarkTheme
+                  color: isDarkMode
                     ? hexaCodeToColor(AppColors.darkCard)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                 ),
@@ -75,7 +73,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                           top: 32.0,
                           text: AppString.amtToSend,
                           fontSize: 20,
-                          color: isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
+                          hexaColor: isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
                         ),
           
                         MyText(
@@ -84,25 +82,25 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           overflow: TextOverflow.ellipsis,
-                          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                         ),
                         
                         MyText(
                           top: 8.0,
                           text: '≈ \$${widget.trxInfo!.estTotalPrice}',//trxInfo!.estAmountPrice != null ? '≈ ${trxInfo!.estAmountPrice}' : '≈ \$0.00', //'≈ \$0.00',
-                          color: AppColors.darkSecondaryText,
+                          hexaColor: AppColors.darkSecondaryText,
                         ),
           
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                         ),
                         Divider(
-                          color: isDarkTheme ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.darkSecondaryText),
+                          color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.darkSecondaryText),
                           height: 1.0,
                         ),
           
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 28.0),
                           child: Column(
                             children: [
                               // Send To
@@ -110,7 +108,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                 MyText(
                                   text: AppString.to,
                                   fontSize: 16.0,
-                                  color: isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
+                                  hexaColor: isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 MyText(
@@ -118,7 +116,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   text: addr ?? '',
                                   // bottom: 8.0,
                                   overflow: TextOverflow.ellipsis,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.darkSecondaryText
                                     : AppColors.textColor,
                                   //fontWeight: FontWeight.bold,
@@ -132,7 +130,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   fontSize: 16.0,
                                   top: 8.0,
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.darkSecondaryText
                                     : AppColors.textColor,
                                 ),
@@ -143,7 +141,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                       fontSize: 20,
                                       top: 8.0,
                                       fontWeight: FontWeight.bold,
-                                      color: isDarkTheme
+                                      hexaColor: isDarkMode
                                         ? AppColors.whiteColorHexa
                                         : AppColors.textColor,
                                       //fontWeight: FontWeight.bold,
@@ -163,7 +161,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   top: 32.0,
                                   fontWeight: FontWeight.bold,
                                   text: '${AppString.gasPrice} ${widget.trxInfo!.gasPriceUnit}:',
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.darkSecondaryText
                                     : AppColors.textColor,
                                   //fontWeight: FontWeight.bold,
@@ -172,7 +170,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   top: 32.0,
                                   text: '  ${widget.trxInfo!.gasPrice}',
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
                                   //fontWeight: FontWeight.bold,
@@ -183,14 +181,14 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   top: 16.0,
                                   text: AppString.gasLimit,
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.darkSecondaryText
                                     : AppColors.textColor,
                                 ),
                                 MyText(
                                   top: 16.0,
                                   text: '  ${widget.trxInfo!.maxGas}',
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
                                 ),
@@ -200,17 +198,17 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         ),
                         
                         Divider(
-                          color: isDarkTheme
+                          color: isDarkMode
                             ? hexaCodeToColor(AppColors.whiteColorHexa)
                             : hexaCodeToColor(AppColors.darkSecondaryText),
                           height: 1.0,
                         ),
         
-                        MyText(
+                        const MyText(
                           top: 8.0,
                           text: AppString.amtPGasFee,
                           fontSize: 16.0,
-                          color: AppColors.darkSecondaryText,
+                          hexaColor: AppColors.darkSecondaryText,
                           //fontWeight: FontWeight.bold,
                         ),
                         
@@ -223,7 +221,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                               MyText(
                                 text: AppString.total,
                                 fontWeight: FontWeight.bold,
-                                color: isDarkTheme
+                                hexaColor: isDarkMode
                                   ? AppColors.darkSecondaryText
                                   : AppColors.textColor,
                                 //fontWeight: FontWeight.bold,
@@ -235,13 +233,13 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                     top: 8.0,
                                     text: double.parse(widget.trxInfo!.totalAmt!).toStringAsFixed(7).toString(),
                                     fontSize: 20,
-                                    color: AppColors.secondary,
+                                    hexaColor: AppColors.secondary,
                                     //fontWeight: FontWeight.bold,
                                   ),
                                   MyText(
                                     top: 8.0,
                                     text: '≈ \$${widget.trxInfo!.estTotalPrice}', //'≈ \$0.00',
-                                    color: AppColors.darkSecondaryText,
+                                    hexaColor: AppColors.darkSecondaryText,
                                     //fontWeight: FontWeight.bold,
                                   ),
                                 ],
@@ -254,7 +252,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                 ),
         
                 Padding(
-                  padding: EdgeInsets.all(paddingSize),
+                  padding: const EdgeInsets.all(paddingSize),
                   child: MyGradientButton(
                     textButton: AppString.confirm,
                     begin: Alignment.bottomLeft,
@@ -262,8 +260,9 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                     action: () async {
                       // Generate Random Three Number Before Navigate
                       await widget.sendTrx!(widget.trxInfo, context: context).then((value){
-                        if (value != null)
-                        enableAnimation(context: context);
+                        if (value != null) {
+                          enableAnimation(context: context);
+                        }
                       });
                     },
                   ),
@@ -292,11 +291,6 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         repeat: false,
                         width: 60.w,
                       )
-                    // CustomAnimation.flareAnimation(
-                      //   flareController,
-                      //   AppConfig.animationPath+"check.flr",
-                      //   "Checkmark",
-                      // ),
                     ),
                   ],
                 ),

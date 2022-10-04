@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 
 class CustomPageViewScrollPhysics extends ScrollPhysics {
   const CustomPageViewScrollPhysics({ScrollPhysics? parent})

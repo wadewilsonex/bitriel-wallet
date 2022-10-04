@@ -14,10 +14,12 @@ class PasscodeBody extends StatelessWidget{
   final Function? onPressedDigit;
 
   PasscodeBody({
+    Key? key, 
     this.titleStatus,
     this.subStatus,
     this.isNewPass = false,
-    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit});
+    this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit
+  }) : super(key: key);
 
   final outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(80),
@@ -26,8 +28,9 @@ class PasscodeBody extends StatelessWidget{
     ),
   );
 
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: Container(
         // color: Colors.red,
@@ -52,14 +55,14 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN!' : 'Verify PIN!',
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
-              color: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -80,7 +83,7 @@ class PasscodeBody extends StatelessWidget{
             // For Change PIN
             else MyText(
               text: subStatus,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               fontWeight: FontWeight.bold,
             ), 
 
@@ -134,7 +137,7 @@ class PasscodeBody extends StatelessWidget{
 
   
 
-  List<RichText> passCodeContents = [
+  final List<RichText> passCodeContents = [
 
     RichText(
       textAlign: TextAlign.center,
@@ -203,7 +206,7 @@ class ReusePinNum extends StatelessWidget {
 
   final TextEditingController textEditingController;
 
-  const ReusePinNum(this.outlineInputBorder, this.textEditingController);
+  const ReusePinNum(this.outlineInputBorder, this.textEditingController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -216,14 +219,14 @@ class ReusePinNum extends StatelessWidget {
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(bottom: -16.0.sp, left: -5.sp),
+          contentPadding: EdgeInsets.only(bottom: -50.sp, left: -7.sp),
           border: outlineInputBorder,
           filled: true,
           fillColor: hexaCodeToColor(AppColors.passcodeColor),
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 29.sp,
+          fontSize: 40.sp,
           color: hexaCodeToColor(
             AppColors.secondary,
           ),
@@ -238,7 +241,7 @@ class ReuseNumPad extends StatelessWidget {
   final Function pinIndexSetup;
   final Function clearPin;
 
-  const ReuseNumPad(this.pinIndexSetup, this.clearPin);
+  const ReuseNumPad(this.pinIndexSetup, this.clearPin, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +251,6 @@ class ReuseNumPad extends StatelessWidget {
   }
 
   Widget _buildNumberPad(context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       alignment: Alignment.center,
       child: Column(
@@ -258,61 +260,61 @@ class ReuseNumPad extends StatelessWidget {
               ReuseKeyBoardNum(1, () {
                 pinIndexSetup('1');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(2, () {
                 pinIndexSetup('2');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(3, () {
                 pinIndexSetup('3');
               }),
             ],
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               ReuseKeyBoardNum(4, () {
                 pinIndexSetup('4');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(5, () {
                 pinIndexSetup('5');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(6, () {
                 pinIndexSetup('6');
               }),
             ],
           ),
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               ReuseKeyBoardNum(7, () {
                 pinIndexSetup('7');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(8, () {
                 pinIndexSetup('8');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(9, () {
                 pinIndexSetup('9');
               }),
             ],
           ),
           
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               Expanded(child: Container()),
               // ReuseKeyBoardNum(null, null, child: Container()),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(0, () {
                 pinIndexSetup('0');
               }),
-              SizedBox(width: 19),
+              const SizedBox(width: 19),
               ReuseKeyBoardNum(
                 null, 
                 () {
@@ -336,7 +338,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
   final Widget? child;
   final Function()? onPressed;
 
-  const ReuseKeyBoardNum(this.n, this.onPressed, {this.child});
+  const ReuseKeyBoardNum(this.n, this.onPressed, {Key? key, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(

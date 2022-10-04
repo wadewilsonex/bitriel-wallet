@@ -2,10 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:convert/convert.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:polkawallet_sdk/api/apiTx.dart';
 import 'package:polkawallet_sdk/service/tx.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
@@ -18,11 +16,11 @@ class AppServices {
 
   static Future noInternetConnection({required BuildContext? context}) async {
     try {
-      final Connectivity _connectivity = Connectivity();
+      final Connectivity connectivity = Connectivity();
 
-      final myResult = await _connectivity.checkConnectivity();
+      final myResult = await connectivity.checkConnectivity();
 
-      _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         if (result == ConnectivityResult.none) {
           // openSnackBar(globalKey, AppString.contentConnection);
           ScaffoldMessenger.of(context!).showSnackBar(
@@ -38,30 +36,37 @@ class AppServices {
       if (myResult == ConnectivityResult.none) {
         snackBarBody(AppString.contentConnection, context!);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("noInternetConnection $e");
+      }
+    }
   }
 
   static Future connectivityStatus(BuildContext context) async {
     try {
-      final Connectivity _connectivity = Connectivity();
+      final Connectivity connectivity = Connectivity();
 
-      final myResult = await _connectivity.checkConnectivity();
+      final myResult = await connectivity.checkConnectivity();
 
-      _connectivity.onConnectivityChanged
+      connectivity.onConnectivityChanged
           .listen((ConnectivityResult result) async {
         if (result == ConnectivityResult.none) {
-          await dialogSuccess(context, Text(''), Text(''));
+          await dialogSuccess(context, const Text(''), const Text(''));
         }
       });
 
       if (myResult == ConnectivityResult.none) {
-        await dialogSuccess(context, Text(''), Text(''));
+        await dialogSuccess(context, const Text(''), const Text(''));
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("connectivityStatus $e");
+      }
+    }
   }
 
   static void openSnackBar(context, String content) {
-    // ignore: deprecated_member_use
     ScaffoldMessenger.of(context!).showSnackBar(
       snackBarBody(content, context),
     );
@@ -124,7 +129,9 @@ class AppServices {
       if (timer.tick <= 10) {
         timeCounter(timer);
         // ignore: invariant_booleans
-      } else if (timer.tick > 10) timer.cancel();
+      } else if (timer.tick > 10) {
+        timer.cancel();
+      }
     });
   }
 
@@ -171,7 +178,11 @@ class AppServices {
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == true) print("Error checkBiometrics $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error checkBiometrics $e");
+        }
+      }
       // canCheckBiometrics = false;
     }
 
@@ -191,14 +202,14 @@ class AppServices {
 
   static List<List<double>> flListToList(List<FlSpot> flList) {
     List<List<double>> tmp = [];
-    flList.forEach((element) {
+    for (var element in flList) {
       tmp.add(
         List.from([
           element.x,
           element.y
         ])
       );
-    });
+    }
 
     return tmp;
   }
@@ -264,7 +275,7 @@ class SendTrx extends ApiTx{
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
   @override
   Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam, String? jsApi}) async {
-    final String param = rawParam != null ? rawParam : jsonEncode(params);
+    final String param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
     final res = await (service.estimateFees(tx, param, jsApi: jsApi));
     return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
@@ -278,7 +289,7 @@ class SendTrx extends ApiTx{
     Function(String)? onStatusChange,
     String? rawParam,
   }) async {
-    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
     dynamic res = await (service.signAndSend(
       tx,

@@ -1,15 +1,14 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 Widget transactionActivityDetailsBody(
-    BuildContext _context, Map<String, dynamic> _trxInfo, Function _popScreen) {
+    BuildContext context, Map<String, dynamic> trxInfo, Function popScreen) {
   return Container(
     padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
     child: SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           MyAppBar(title: "Activity details"),
+        children: const [
+          MyAppBar(title: "Activity details"),
           // Container( /* Activity Information */
           //   margin: EdgeInsets.only(top: 30.0),
           //   child: Column(

@@ -8,13 +8,14 @@ class SwapTokenList extends StatelessWidget {
   final Widget? image;
   final Function? action;
   
-  SwapTokenList({
+  const SwapTokenList({
+    Key? key, 
     this.isActive = false,
     this.title,
     this.subtitle,
     this.image,
     @required this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

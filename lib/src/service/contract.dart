@@ -1,7 +1,6 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/IContract.dart';
+import 'package:wallet_apps/src/models/icontract.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractService implements IContractService {
@@ -26,14 +25,18 @@ class ContractService implements IContractService {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error _queryContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error _queryContract $e");
+        }
+      }
     }
     return [];
   }
 
   @override
   Future<EthPrivateKey> getCredentials(String privateKey) async {
-    return await EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey);
+    return EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey);
   }
 
   @override
@@ -48,7 +51,11 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
       return res.first as BigInt;
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getTokenBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getTokenBalance $e");
+        }
+      }
     }
     return 0 as BigInt;
   }
@@ -85,7 +92,11 @@ class ContractService implements IContractService {
               return std!;
             }
           } catch (e) {
-            if (ApiProvider().isDebug == true) print("Error $e");
+            if (ApiProvider().isDebug == true) {
+              if (kDebugMode) {
+                print("Error $e");
+              }
+            }
           }
         })
         .where((receipt) => receipt != null)
@@ -161,7 +172,11 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Err sendToken $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Err sendToken $e");
+        }
+      }
       throw Exception(e);
     }
 
@@ -180,7 +195,11 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _decimalFunction(), []);
       return res.first;
     } catch (e){
-      if (ApiProvider().isDebug) print("err getChainDecimal $e");
+      if (ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("err getChainDecimal $e");
+        }
+      }
     }
     return 0 as BigInt;
   }

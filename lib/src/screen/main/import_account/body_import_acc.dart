@@ -1,6 +1,4 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 
 class ImportAccBody extends StatelessWidget {
@@ -12,7 +10,8 @@ class ImportAccBody extends StatelessWidget {
   final Function? clearInput;
   final Function? submit;
 
-  ImportAccBody({
+  const ImportAccBody({
+    Key? key, 
     this.importAccModel,
     this.onChanged,
     this.onSubmit,
@@ -20,13 +19,13 @@ class ImportAccBody extends StatelessWidget {
     this.enable,
     this.reImport,
     this.submit,
-  });
+  }) : super(key: key);
 
-  final EdgeInsetsGeometry padding = EdgeInsets.only(left: paddingSize, right: paddingSize);
+  final EdgeInsetsGeometry padding = const EdgeInsets.only(left: paddingSize, right: paddingSize);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return BodyScaffold(
       height: MediaQuery.of(context).size.height,
@@ -36,7 +35,7 @@ class ImportAccBody extends StatelessWidget {
         child: Column(
           children: [
 
-            SeedContents(
+            const SeedContents(
               title: 'Restore with seed', 
               subTitle: 'Please add your 12 words seed below to restore your wallet.'
             ),

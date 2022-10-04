@@ -5,11 +5,11 @@ class SwapExchange extends StatelessWidget {
   final Widget? image;
   final Function? action;
   
-  SwapExchange({
+  const SwapExchange({Key? key, 
     this.title,
     this.image,
     @required this.action
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +43,13 @@ class SwapExchange extends StatelessWidget {
               children: [
                 MyText(
                   text: title,
-                  color: AppColors.whiteColorHexa,
+                  hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,
                 ),
               ],
             ),
-            SizedBox(width: 60),
+            const SizedBox(width: 60),
     
             Expanded(child: Container()),
           ],

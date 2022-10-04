@@ -1,12 +1,10 @@
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/account/c_account.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
-import 'package:wallet_apps/src/screen/home/menu/changePin/changePin.dart';
+import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
 
 class AccountBody extends StatelessWidget{
 
@@ -22,7 +20,8 @@ class AccountBody extends StatelessWidget{
   final Function? changeName;
   final Function? deleteAccout;
 
-  AccountBody({
+  const AccountBody({
+    Key? key, 
     this.accountModel, 
     this.onSubmitName,
     this.onChangeName,
@@ -34,10 +33,11 @@ class AccountBody extends StatelessWidget{
     this.submitBackUpKey, 
     this.changeName, 
     this.deleteAccout
-  });
+  }) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -59,7 +59,7 @@ class AccountBody extends StatelessWidget{
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: isDarkTheme
+                  color: isDarkMode
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                   boxShadow: [shadow(context)]
@@ -69,17 +69,8 @@ class AccountBody extends StatelessWidget{
                     
                     Container(
                       width: double.infinity,
-                      // padding: const EdgeInsets.only(
-                      //   left: 20,
-                      //   right: 20,
-                      //   top: 25,
-                      //   bottom: 25,
-                      // ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        // color: isDarkTheme
-                        //   ? Colors.white.withOpacity(0.06)
-                        //   : hexaCodeToColor(AppColors.whiteHexaColor),
                       ),
                       child: Consumer<ApiProvider>(
                         builder: (context, provider, widget){
@@ -100,16 +91,13 @@ class AccountBody extends StatelessWidget{
                                       borderRadius:BorderRadius.circular(5),
                                     ),
                                     child: randomAvatar(value.accountM.addressIcon ?? '')
-                                    // SvgPicture.string(
-                                    //   value.accountM.addressIcon ?? '',
-                                    // ),
                                   );
                                 },
                               ),
                               
                               MyText(
                                 text: provider.accountM.name ?? '',
-                                color: isDarkTheme
+                                hexaColor: isDarkMode
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                                 fontSize: 20,
@@ -119,11 +107,10 @@ class AccountBody extends StatelessWidget{
                                 padding: const EdgeInsets.all(paddingSize),
                                 child: MyText(
                                   text: provider.accountM.address ?? '',
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
                                   fontSize: 16,
-                                  // width: MediaQuery.of(context).size.width/1.5,
                                 ),
                               )
                             ],
@@ -136,7 +123,6 @@ class AccountBody extends StatelessWidget{
 
                     ListTileComponent(
                       action: (){
-                        // underContstuctionAnimationDailog(context: context);
                         AccountC().showEditName(
                           context,
                           accountModel!.editNameKey,
@@ -151,20 +137,10 @@ class AccountBody extends StatelessWidget{
                     
                     ListTileComponent(
                       action: (){
-                        // underContstuctionAnimationDailog(context: context);
-                        // AccountC().showBackup(
-                        //   context,
-                        //   accountModel!.backupKey,
-                        //   accountModel!.pinController,
-                        //   accountModel!.pinNode,
-                        //   onChangedBackup!,
-                        //   onSubmit!,
-                        //   submitBackUpKey!,
-                        // );
                         Navigator.push(
                           context, 
                           Transition(
-                            child: BackUpKeyBody(),
+                            child: const BackUpKeyBody(),
                             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                           )
                         );
@@ -172,56 +148,36 @@ class AccountBody extends StatelessWidget{
                       text: 'Backup Key',
                     ),
                     
-                    // const SizedBox(height: 20),
-                    
                     ListTileComponent(
                       action: ()  async {
-                        // underContstuctionAnimationDailog(context: context);
-                        // Passcode(label: PassCodeLabel.formChangePin);
-                        // AccountC().showChangePin(
-                        //   context,
-                        //   accountModel!.changePinKey,
-                        //   accountModel!.oldPinController,
-                        //   accountModel!.newPinController,
-                        //   accountModel!.oldNode,
-                        //   accountModel!.newNode,
-                        //   onChangedChangePin!,
-                        //   onSubmitChangePin!,
-                        //   submitChangePin!,
-                        // );
-
-                        final res = await Navigator.push(
+                        await Navigator.push(
                           context, 
                           Transition(
-                            child: ChangePin(),
+                            child: const ChangePin(),
                             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                           )
                         );
 
-                        // await Provider.of<ApiProvider>(context, listen: false).
                       },
                       text: 'Change Pin',
                     ),
 
-                    // const SizedBox(height: 20),
                     Padding(
-                      padding: EdgeInsets.all(paddingSize),
+                      padding: const EdgeInsets.all(paddingSize),
                       child: GestureDetector(
                         onTap: () async {
-                          // await contract.unsubscribeNetwork();
                           await deleteAccout!();
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          // margin: const EdgeInsets.only(left: 16, right: 16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: Colors.red.withOpacity(0.3)
                           ),
                           height: 7.h,
-                          child: MyText(
+                          child: const MyText(
                             text: 'Delete Account',
-                            color: "#FF0000",
+                            hexaColor: "#FF0000",
                             fontWeight: FontWeight.bold,
                           ),
                         ),

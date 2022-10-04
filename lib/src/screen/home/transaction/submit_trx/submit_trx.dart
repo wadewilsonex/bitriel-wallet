@@ -4,8 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/exception_handler.dart';
@@ -21,17 +19,14 @@ class SubmitTrx extends StatefulWidget {
   final SmartContractModel? scModel;
 
   const SubmitTrx(
-    // this.assetIndex,
-    // ignore: avoid_positional_boolean_parameters
     this._walletKey,
-    // ignore: avoid_positional_boolean_parameters
     this.enableInput,
     this._listPortfolio,
-    {
+    {Key? key, 
       this.asset,
       this.scModel
     }
-  );
+  ) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -44,13 +39,13 @@ class SubmitTrxState extends State<SubmitTrx> {
   TrxFunctional? trxFunc;
   int decimal = 0;
 
-  ModelScanPay _scanPayM = ModelScanPay();
+  final ModelScanPay _scanPayM = ModelScanPay();
 
   ContractProvider? _contractProvider;
   ApiProvider? _apiProvider;
 
   bool disable = false;
-  bool _loading = false;
+  final bool _loading = false;
   
   String? _pin;
 
@@ -135,7 +130,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   String? validateField(String value) {
-    if (value == 0){
+    if (value == "0"){
       return 'Amount mustn\'t equal 0';
     } else if (value == '' || double.parse(value.toString()) <= 0 || value == '-0') {
       return 'Please fill in valid amount';
@@ -156,7 +151,11 @@ class SubmitTrxState extends State<SubmitTrx> {
         if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!, context: context);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error onSubmit $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error onSubmit $e");
+        }
+      }
     }
   }
 
@@ -176,8 +175,10 @@ class SubmitTrxState extends State<SubmitTrx> {
       // disable = true;
     });
     // flareController.play('Checkmark');
-    await Future.delayed(Duration(seconds: 1), (){});
-    Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
+    await Future.delayed(const Duration(seconds: 1), (){});
+    
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(activePage: 1, isTrx: true,)), ModalRoute.withName('/'));
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
@@ -209,12 +210,13 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       try {
 
-        var gasPrice;
+        String? gasPrice;
         dialogLoading(context, content: "Estimating Fee...");
         final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
         
         if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
           // Close Dialog
+          if(!mounted) return;
           Navigator.pop(context);
           
           await sendTrx(trxFunc!.txInfo!, context: context).then((value) async {
@@ -224,6 +226,7 @@ class SubmitTrxState extends State<SubmitTrx> {
           });
         } else {
           if (!isValid) {
+            if(!mounted) return;
             Navigator.pop(context);
             await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
           } else {
@@ -236,6 +239,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
             if (!isEnough && isValid) {
               if (isValid) {
+                if(!mounted) return;
                 Navigator.pop(context);
               }
               await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
@@ -258,7 +262,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                 );
 
                 // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
-
+                if(!mounted) return;
                 final maxGas = await trxFunc!.estMaxGas(
                   context,
                   _scanPayM.asset!,
@@ -273,7 +277,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
                 // Check BNB balance for Fee
                 if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
-                  throw new ExceptionHandler("You do not have sufficient fee for transaction.");
+                  throw ExceptionHandler("You do not have sufficient fee for transaction.");
                 }
 
                 final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
@@ -302,6 +306,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
               }
 
+              if(!mounted) return;
               Navigator.pop(context);
               
               await Navigator.push(
@@ -324,7 +329,11 @@ class SubmitTrxState extends State<SubmitTrx> {
 
         // Close Dialog Estimating Fee
         Navigator.pop(context);
-        if (ApiProvider().isDebug == true) print("Err validateSubmit ExceptionHandler $e");
+        if (ApiProvider().isDebug == true) {
+          if (kDebugMode) {
+            print("Err validateSubmit ExceptionHandler $e");
+          }
+        }
         await trxFunc!.customDialog("Oops", e.cause);
       }
       catch (e) {
@@ -349,12 +358,14 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       // Show Dialog Fill PIN
       // await  dialogBox().then((String? resPin) async {
-      String resPin = await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+      if(!mounted) return;
+      String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN,\nPlease try again.");
         
-      } else if (resPin != null) {
+      } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending
+        if(!mounted) return;
         dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 
         trxFunc!.pin = resPin;
@@ -502,7 +513,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   void scanQR() async {
    
-    await await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
+    await Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
       if (value != null){
         setState(() {
           _scanPayM.controlReceiverAddress.text = value;
@@ -520,7 +531,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       key: _scanPayM.globalKey,
       body: Stack(
         children: [
-          if(_loading) Center(
+          if(_loading) const Center(
             child: CircularProgressIndicator(),
           )
           else SubmitTrxBody(
@@ -558,11 +569,6 @@ class SubmitTrxState extends State<SubmitTrx> {
                       repeat: false,
                       width: 60.w,
                     )
-                  // CustomAnimation.flareAnimation(
-                    //   flareController,
-                    //   AppConfig.animationPath+"check.flr",
-                    //   "Checkmark",
-                    // ),
                   ),
                 ],
               ),

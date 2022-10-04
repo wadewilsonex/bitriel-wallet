@@ -19,7 +19,7 @@ class DialogComponents {
             fontSize: 20,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
-            color: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+            hexaColor: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class DialogComponents {
               MyText(
                 textAlign: TextAlign.left,
                 text: AppString.screenshotNote,
-                color: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+                hexaColor: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
                 bottom: paddingSize,
               ),
 
@@ -47,7 +47,7 @@ class DialogComponents {
                   text: contents,
                   textAlign: TextAlign.left,
                   fontSize: 18,
-                  color: AppColors.secondarytext,
+                  hexaColor: AppColors.secondarytext,
                   fontWeight: FontWeight.bold,
                   pLeft: 16,
                   right: 16,
@@ -57,7 +57,7 @@ class DialogComponents {
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -79,10 +79,10 @@ class DialogComponents {
                           Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp,),
                           
                           SizedBox(width: 2.w,),
-                          MyText(
+                          const MyText(
                             text: "Copy",
                             top: 5,
-                            color: AppColors.lowWhite,
+                            hexaColor: AppColors.lowWhite,
                           )
                         ],
                       ),
@@ -99,7 +99,7 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: MyText(text: 'Close'),
+              child: const MyText(text: 'Close'),
             )
           ],
         );
@@ -134,24 +134,24 @@ class DialogComponents {
               text: titles,
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
-              color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+              hexaColor: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
             ) : Container(),
-            buttonPadding: btn2 != null ? EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
+            buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
         
-                lottie != null ? lottie : Container(),
+                lottie ?? Container(),
                 
                 // lottie != null ? SizedBox(height: 3.h) : Container(),
                 
-                image != null ? image : Container(),
+                image ?? Container(),
                 
                 image != null ? SizedBox(height: 3.h) : Container(),
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,
-                  color: AppColors.whiteColorHexa, 
+                  hexaColor: AppColors.whiteColorHexa, 
                 )
               ],
             ) : contents2,
@@ -166,9 +166,9 @@ class DialogComponents {
                   // await FlutterScreenshotSwitcher.enableScreenshots();
                   Navigator.pop(context);
                 },
-                child: MyText(
+                child: const MyText(
                   text: "Close",
-                  color: AppColors.lowWhite
+                  hexaColor: AppColors.lowWhite
                 ),
               )
             ],

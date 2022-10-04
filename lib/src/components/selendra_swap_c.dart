@@ -6,12 +6,13 @@ class SelendraSwap extends StatelessWidget {
   final Widget? image;
   final Function? action;
 
-  SelendraSwap({
+  const SelendraSwap({
+    Key? key, 
     this.title,
     this.subtitle,
     this.image,
     @required this.action
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class SelendraSwap extends StatelessWidget {
               pTop: 2.h,
               pBottom: 2.h,
               text: title,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
               fontWeight: FontWeight.w600,
           
@@ -36,7 +37,7 @@ class SelendraSwap extends StatelessWidget {
             subtitle: MyText(
               pBottom: 2.h,
               text: subtitle,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
               fontSize: 14,
             ),

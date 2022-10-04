@@ -1,7 +1,5 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -21,10 +19,11 @@ class Passcode extends StatefulWidget {
 
   final PassCodeLabel? label;
   final bool? isAppBar;
-  Passcode({
+  const Passcode({
+    Key? key, 
     this.isAppBar = false, 
     this.label
-  });
+  }) : super(key: key);
   //static const route = '/passcode';
 
   @override
@@ -42,18 +41,6 @@ class PasscodeState extends State<Passcode> {
     TextEditingController(),
     TextEditingController(),
   ];
-  
-  // final TextEditingController pinOneController = TextEditingController();
-
-  // final TextEditingController pinTwoController = TextEditingController();
-
-  // final TextEditingController pinThreeController = TextEditingController();
-
-  // final TextEditingController pinFourController = TextEditingController();
-
-  // final TextEditingController pinFiveController = TextEditingController();
-
-  // final TextEditingController pinSixController = TextEditingController();
 
   final localAuth = LocalAuthentication();
 
@@ -69,9 +56,9 @@ class PasscodeState extends State<Passcode> {
 
   List<String> currentPin = ["", "", "", "", "", ""];
   
-  void init4Digits() {
+  List<TextEditingController>  init4Digits() {
     currentPin = ["", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return lsControl = [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),
@@ -79,9 +66,9 @@ class PasscodeState extends State<Passcode> {
     ];
   }
 
-  void init6Digits() {
+  List<TextEditingController>  init6Digits() {
     currentPin = ["", "", "", "", "", ""];
-    List<TextEditingController> lsControl = [
+    return lsControl = [
       TextEditingController(),
       TextEditingController(),
       TextEditingController(),
@@ -143,9 +130,7 @@ class PasscodeState extends State<Passcode> {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
-          
           await setVerifyPin(strPin);
-          // await clearVerifyPin(strPin);
         }
       }
     }
@@ -204,34 +189,28 @@ class PasscodeState extends State<Passcode> {
         clearAll();
         if (widget.label == PassCodeLabel.fromCreateSeeds){
 
+          if(!mounted) return;
           Navigator.push(
             context, 
             Transition(
-              child: CreateSeeds(),
+              child: const CreateSeeds(),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
         } else if (widget.label == PassCodeLabel.fromImportSeeds){
-
+          
+          if(!mounted) return;
           Navigator.push(
             context, 
             Transition(
-              child: ImportAcc(),
+              child: const ImportAcc(),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
         } else {
+          if(!mounted) return;
           Navigator.pop(context, true);
         }
-        // else if (widget.label == "fromMenu"){
-        //   if(res == null){
-              
-        //   }
-        //   else{ 
-        //     await StorageServices().clearKeySecure(DbKey.passcode);
-        //     Navigator.pop(context, true);
-        //   }
-        // }
 
       } else {
         clearAll();
@@ -247,7 +226,7 @@ class PasscodeState extends State<Passcode> {
   }
 
   Future<void> authToHome() async {
-    if (widget.label == "fromSplash") {
+    if (widget.label.toString() == "fromSplash") {
       final bio = await StorageServices.readSaveBio();
       if (bio) {
         await authenticate();
@@ -258,9 +237,10 @@ class PasscodeState extends State<Passcode> {
   Future<void> readBackUpKey(String pin) async {
     final res = await StorageServices().readSecure(DbKey.passcode);
 
-    if(widget.label == "backup"){
+    if(widget.label.toString() == "backup"){
       if (res == pin) {
-      Navigator.of(context).pop();
+        if(!mounted) return;
+        Navigator.of(context).pop();
       } else {
         clearAll();
         Vibration.vibrate(amplitude: 500);
@@ -274,9 +254,10 @@ class PasscodeState extends State<Passcode> {
     final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res == pin) {
+      if(!mounted) return;
       Navigator.pushAndRemoveUntil(
         context, 
-        Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
         ModalRoute.withName('/')
       );
     } else {
@@ -295,6 +276,7 @@ class PasscodeState extends State<Passcode> {
 
       if (authenticate) {
         // Pop With Data For Refresh Menu 
+        if(!mounted) return;
         Navigator.pop(context, true);
       }
     } on SocketException catch (e) {
@@ -306,7 +288,7 @@ class PasscodeState extends State<Passcode> {
         builder: (context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
+            title: const Align(
               child: Text('Opps'),
             ),
             content: Padding(
@@ -344,15 +326,5 @@ class PasscodeState extends State<Passcode> {
       is4digits: is4digits,  
       onPressedDigit: onPressedDigit
     );
-    // Scaffold(
-    //   key: globalkey,
-    //   body: SizedBox(
-    //     height: MediaQuery.of(context).size.height,
-    //     child: Column(
-    //       children: <Widget>[
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

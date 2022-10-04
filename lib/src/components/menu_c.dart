@@ -1,30 +1,31 @@
 /* The components file has custom widgets which are used by multiple different screens */
-
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmer_c.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuHeader extends StatelessWidget {
   
   final Map<String, dynamic>? userInfo;
  
-  const MenuHeader({this.userInfo});
+  const MenuHeader({Key? key, this.userInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       decoration: BoxDecoration(
-        color: hexaCodeToColor("#114463"),
+        gradient: isDarkMode ? null : LinearGradient(
+          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight, 
+          stops: const [0.25, 0.75],
+        ),
+        color: isDarkMode ? hexaCodeToColor(AppColors.bluebgColor ) : null,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Consumer<ApiProvider>(
@@ -37,7 +38,7 @@ class MenuHeader extends StatelessWidget {
                   Navigator.push(
                     context,
                     Transition(
-                      child: Account(),
+                      child: const Account(),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
@@ -68,11 +69,9 @@ class MenuHeader extends StatelessWidget {
                         
                         MyText(
                           right: 5,
-                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "....."),
-                          color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                          fontSize: 16,
+                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
+                          hexaColor: AppColors.lowWhite,
+                          fontSize: 13,
                           textAlign: TextAlign.left
                         ),
                         InkWell(
@@ -87,10 +86,10 @@ class MenuHeader extends StatelessWidget {
                             );
                           }, 
                           child: SvgPicture.asset(
-                            AppConfig.iconsPath+'qr_code.svg',
+                            '${AppConfig.iconsPath}qr_code.svg',
                             width: 5.w,
                             height: 5.w,
-                            color: hexaCodeToColor(AppColors.secondary),
+                            color: hexaCodeToColor(isDarkMode ? AppColors.secondary : AppColors.whiteColorHexa),
                           )
                         )
                       ]
@@ -111,14 +110,14 @@ class MenuHeader extends StatelessWidget {
 class MenuSubTitle extends StatelessWidget {
   final int? index;
 
-  const MenuSubTitle({this.index});
+  const MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    print("isDarkMode $isDarkMode");
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
-      // color: isDarkTheme
+      // color: isDarkMode
       //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
       //   : Colors.grey[200],
       height: 55,
@@ -133,7 +132,7 @@ class MenuSubTitle extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: MyText(
                   text: MenuModel.listTile[index!]['title'].toString(),
-                  color: "#D4D6E3",
+                  hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.bold,
                 ),
@@ -141,7 +140,7 @@ class MenuSubTitle extends StatelessWidget {
               Expanded(
                 child: Divider(
                   thickness: 0.5,
-                  color: hexaCodeToColor("#D4D6E3"),
+                  color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.textColor),
                   indent: 10,
                 ),
               ),
@@ -162,29 +161,30 @@ class MyListTile extends StatelessWidget {
   final bool? enable;
 
   const MyListTile({
+    Key? key, 
     this.icon,
     @required this.index,
     @required this.subIndex,
     this.enable = true,
     this.trailing,
     @required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return ListTile(
       enabled: enable!,
       onTap: onTap,
       leading: icon ?? Image.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
-        color: isDarkTheme ? Colors.white : Colors.black,
+        color: isDarkMode ? Colors.white : Colors.black,
         width: 22.5.sp,
         height: 22.5.sp
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
-        color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+        hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         textAlign: TextAlign.left,
         fontSize: 16,
       ),

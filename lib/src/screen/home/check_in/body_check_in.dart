@@ -1,25 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class CheckInBody extends StatelessWidget {
-  final CheckInModel checkinM;
-  final String Function(String) onChanged;
-  final Function getLocation;
-  final void Function() clickSend;
-  final Function resetAssetsDropDown;
-  final List<Map<String, String>> list;
-  final PopupMenuItem Function(Map<String, dynamic>) item;
+  final CheckInModel? checkinM;
+  final String Function(String)? onChanged;
+  final Function? getLocation;
+  final void Function()? clickSend;
+  final Function? resetAssetsDropDown;
+  final List<Map<String, String>>? list;
+  final PopupMenuItem Function(Map<String, dynamic>)? item;
 
-  const CheckInBody(
+  const CheckInBody({
+    Key? key,
     this.checkinM,
     this.onChanged,
     this.getLocation,
     this.clickSend,
     this.resetAssetsDropDown,
     this.list,
-    this.item,
-  );
+    this.item, 
+    }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class CheckInBody extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Form(
-              key: checkinM.checkInKey,
+              key: checkinM!.checkInKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -54,8 +53,8 @@ class CheckInBody extends StatelessWidget {
                       LengthLimitingTextInputFormatter(TextField.noMaxLength)
                     ],
                     inputAction: TextInputAction.done,
-                    controller: checkinM.hashController,
-                    focusNode: checkinM.hashNode,
+                    controller: checkinM!.hashController,
+                    focusNode: checkinM!.hashNode,
                     validateField: (String? value) => value! == '' ? 'Please fill in hash' : null,
                     onChanged: onChanged,
                     onSubmit: null,
@@ -67,8 +66,8 @@ class CheckInBody extends StatelessWidget {
                     textInputFormatter: [
                       LengthLimitingTextInputFormatter(TextField.noMaxLength)
                     ],
-                    controller: checkinM.locationController,
-                    focusNode: checkinM.locationNode,
+                    controller: checkinM!.locationController,
+                    focusNode: checkinM!.locationNode,
                     maxLine: 2,
                     validateField: (value) =>
                         value == '' ? 'Please fill in your location' : null,
@@ -82,8 +81,8 @@ class CheckInBody extends StatelessWidget {
                       left: 16,
                       right: 16,
                     ),
-                    child: customDropDown(checkinM.status, list,
-                        checkinM, resetAssetsDropDown, item),
+                    child: customDropDown(checkinM!.status, list,
+                        checkinM, resetAssetsDropDown!, item!),
                   ),
                 ],
               ),
@@ -94,7 +93,7 @@ class CheckInBody extends StatelessWidget {
           textButton: "Submit",
           edgeMargin: const EdgeInsets.only(left: 66, right: 66),
           hasShadow: true,
-          action: checkinM.isEnable ? clickSend : null,
+          action: checkinM!.isEnable ? clickSend : null,
         ),
       ],
     );

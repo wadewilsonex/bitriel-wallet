@@ -19,7 +19,7 @@ class SeedsCompoent {
             // Minus 34 Size OF Padding Left & Right
             width: MediaQuery.of(context).size.width / 3 - _seedHeight,
             height: 5.8.h,
-            padding: EdgeInsets.only(top: 8, bottom: 8),
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4),
             color: Colors.transparent,
@@ -32,7 +32,7 @@ class SeedsCompoent {
             // Minus 34 Size OF Padding Left & Right
             width: MediaQuery.of(context).size.width / 3 - _seedHeight,
             height: 5.8.h,
-            padding: EdgeInsets.only(top: 8, bottom: 8),
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
@@ -48,15 +48,15 @@ class SeedsCompoent {
 
                   if ( (i * 3 + pos + 1) < 10)
                   MyText(
-                    text: (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                    color: AppColors.whiteColorHexa,
+                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                    hexaColor: AppColors.whiteColorHexa,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   )
 
                   else MyText(
-                    text: (i * 3 + pos + 1).toString() + '. ' + se[i * 3 + pos],
-                    color: AppColors.whiteColorHexa,
+                    text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
+                    hexaColor: AppColors.whiteColorHexa,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   ),
@@ -101,17 +101,18 @@ class SeedContents extends StatelessWidget{
   final String? title;
   final String? subTitle;
 
-  SeedContents({required this.title, required this.subTitle});
+  const SeedContents({Key? key, required this.title, required this.subTitle}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         MyText(
           text: title,
-          color: AppColors.whiteColorHexa,
+          hexaColor: AppColors.whiteColorHexa,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -119,7 +120,7 @@ class SeedContents extends StatelessWidget{
         SizedBox(height: 5.5.h),
         MyText(
           text: subTitle,
-          color: AppColors.lowWhite,
+          hexaColor: AppColors.lowWhite,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,
         ),

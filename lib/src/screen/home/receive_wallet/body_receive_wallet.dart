@@ -1,8 +1,4 @@
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/shimmer_c.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/receive_wallet/appbar_wallet.dart';
 
@@ -10,15 +6,15 @@ class ReceiveWalletBody extends StatelessWidget {
   
   final Function? onChanged;
 
-  ReceiveWalletBody({
+  ReceiveWalletBody({Key? key, 
     this.onChanged,
-  });
+  }) : super(key: key);
 
   final double? logoSize = 12.w;
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Consumer<ReceiveWalletProvider>(
       builder: (context, provider, widget){
         return Scaffold(
@@ -30,8 +26,8 @@ class ReceiveWalletBody extends StatelessWidget {
             title: Row(
               children: [
 
-                MyText(
-                  text: "Receive wallet",
+                const MyText(
+                  text: "Receive",
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
                 ),
@@ -43,15 +39,11 @@ class ReceiveWalletBody extends StatelessWidget {
 
                 SizedBox(
                   width: 130,
-                  child: Consumer<ReceiveWalletProvider>(
-                    builder: (context, value, widget){
-                      return QrViewTitle(
-                        // assetInfo: provider.assetInfo,
-                        listContract: value.lsContractSymbol,
-                        initialValue: provider.assetsIndex.toString(),
-                        onChanged: onChanged,
-                      );
-                    },
+                  child: QrViewTitle(
+                    // assetInfo: provider.assetInfo,
+                    listContract: provider.lsContractSymbol,
+                    initialValue: provider.assetsIndex.toString(),
+                    onChanged: onChanged,
                   ),
                 )
               ],
@@ -114,7 +106,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             // boxShadow: [shadow(context)],
-                            color: isDarkTheme
+                            color: isDarkMode
                               ? Colors.white
                               : hexaCodeToColor(AppColors.whiteHexaColor),
                           ),
@@ -129,7 +121,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     // boxShadow: [shadow(context)],
-                                    color: isDarkTheme
+                                    color: isDarkMode
                                       ? Colors.white
                                       : hexaCodeToColor(AppColors.whiteHexaColor),
                                   ),
@@ -171,7 +163,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                       MyText(
                                         top: 2.5.h,
                                         text: provider.accountM!.address ?? '',
-                                        color: AppColors.darkBgd,
+                                        hexaColor: AppColors.darkBgd,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -221,7 +213,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                           ClipboardData(text: provider.accountM!.address),
                                         );
                                         /* Copy Text */
-                                        provider.method.snackBar('Copied', provider.globalKey!);
+                                        provider.method.snackBar(context, 'Copied', provider.globalKey!);
                                       },
                                     ),
                                     MyFlatButton(
@@ -245,12 +237,12 @@ class ReceiveWalletBody extends StatelessWidget {
                             MyText(
                               text: "Note: This address only receives ${conProvider.sortListContract[provider.assetsIndex].symbol} ${ApiProvider().isMainnet ? conProvider.sortListContract[provider.assetsIndex].org : conProvider.sortListContract[provider.assetsIndex].orgTest}",
                               fontWeight: FontWeight.w600,
-                              color: AppColors.whiteColorHexa,
+                              hexaColor: AppColors.whiteColorHexa,
                             ),
-                            MyText(
+                            const MyText(
                               text: "Do not transfer from other public chain.",
                               fontWeight: FontWeight.w600,
-                              color: AppColors.whiteColorHexa,
+                              hexaColor: AppColors.whiteColorHexa,
                             )
                           ],
                         ),

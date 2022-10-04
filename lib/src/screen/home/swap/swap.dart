@@ -12,10 +12,9 @@ class SwapPage extends StatefulWidget {
 
 class _SwapPageState extends State<SwapPage> {
 
-  SwapPageModel _model = SwapPageModel();
+  final SwapPageModel _model = SwapPageModel();
 
   SwapProvider? _swapProvider;
-  ContractProvider? _contractProvider;
 
   List<double> percentage = [
     0.25,
@@ -55,8 +54,9 @@ class _SwapPageState extends State<SwapPage> {
           _model.myController!.text = _model.myController!.text.replaceRange(0, _model.myController!.text.length, "");
           _model.cursor = _model.cursor!-1;
         }
-        else  
+        else {
           _model.myController!.text = _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!, "");
+        }
       }
       else if (isCursorMove()){
         _model.myController!.text = _model.myController!.text.replaceRange(_model.cursor!-1, _model.cursor!, "");
@@ -93,7 +93,7 @@ class _SwapPageState extends State<SwapPage> {
           _model.lsTmp = _model.myController!.text.split("");
           _model.lsTmp.insert(_model.cursor!, txt);
 
-          _model.myController!.text = _model.lsTmp.join();;
+          _model.myController!.text = _model.lsTmp.join();
         } 
         else {
           _model.myController!.text += txt;
@@ -108,7 +108,7 @@ class _SwapPageState extends State<SwapPage> {
 
   void setCursor({ int? newPos}){
     _model.myController!.selection = TextSelection.fromPosition(TextPosition(offset: newPos ?? _model.myController!.text.length));
-    _model.cursor = _model.myController!.text.length;;
+    _model.cursor = _model.myController!.text.length;
     setState(() { });
   }
   
@@ -192,6 +192,7 @@ class _SwapPageState extends State<SwapPage> {
   
   @override
   Widget build(BuildContext context) {
+    print("Swap builder");
     return SwapPageBody(
       onChanged: onChanged,
       onDeleteTxt: onDeleteTxt,

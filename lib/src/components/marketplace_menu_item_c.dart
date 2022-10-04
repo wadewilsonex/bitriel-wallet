@@ -1,15 +1,16 @@
 import 'package:wallet_apps/index.dart';
 
-class MarketPlaceMenuItem extends StatelessWidget {
+class SelEcoSysMenuItem extends StatelessWidget {
   final String? title;
   final Function? action;
   final Widget? image;
   
-  MarketPlaceMenuItem({
+  const SelEcoSysMenuItem({
+    Key? key, 
     this.title,
     @required this.action,
     this.image,
-  });
+  }) : super(key: key);
 
 
   @override
@@ -37,7 +38,7 @@ class MarketPlaceMenuItem extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: MyText(
                 text: title,
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ),

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 
 // KeyPad widget
@@ -166,14 +165,14 @@ class NumPad extends StatelessWidget {
               NumberButton(
                 onLongPressed: () async {
                   while(controller.text.isNotEmpty){
-                    await Future.delayed(Duration(milliseconds: 50), (){
+                    await Future.delayed(const Duration(milliseconds: 50), (){
 
                       delete();
                     });
                   }
                 },
                 onPressed: (){
-                   delete();
+                  delete();
                 },
                 icon: Transform.rotate(
                   angle: 70.6858347058,
@@ -232,7 +231,7 @@ class NumberButton extends StatelessWidget {
         child: Center(
           child: icon ?? Text(
             number.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold, 
               color: Colors.white, 
               fontSize: 16

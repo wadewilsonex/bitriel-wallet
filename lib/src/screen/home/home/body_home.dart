@@ -1,18 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
+import 'package:wallet_apps/src/models/marketplace_list_m.dart';
+import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:wallet_apps/src/service/marketplace_webview.dart';
+
+import '../setting/setting.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -36,15 +38,26 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    print("HomePageBody builder");
     return Scaffold(
       key: homePageModel!.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: Menu(),
+        child: const Menu(),
       ),
-      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      appBar: AppBar(
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.whiteColorHexa),
+      appBar: homePageModel!.activeIndex == 4 ?
+      AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: const MyText(
+          text: "Settings",
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      )
+      :
+      AppBar(
         backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(AppColors.bluebgColor) : hexaCodeToColor(AppColors.darkBgd),
         elevation: 0,
         leadingWidth: 15.w,
@@ -64,10 +77,7 @@ class HomePageBody extends StatelessWidget {
               ),
             ),
             onPressed: () async {
-              
               portfolioDailog(context: context);
-              // underContstuctionAnimationDailog(context: context);
-             
             },
           ),
           
@@ -83,64 +93,96 @@ class HomePageBody extends StatelessWidget {
               ),
               onPressed: () async {
                 
-                final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                if (value != null){
-                  getReward!(value);
-                }
-                // await TrxOptionMethod.scanQR(
-                //   context,
-                //   [],
-                //   pushReplacement!,
-                // );
+                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                // if (value != null){
+                //   getReward!(value);
+                // }
+                await TrxOptionMethod.scanQR(
+                  context,
+                  [],
+                  pushReplacement!,
+                );
               },
             ),
           )
         ],
       ),
       body: PageView(
-        physics: CustomPageViewScrollPhysics(),
+        physics: const CustomPageViewScrollPhysics(),
         controller: homePageModel!.pageController,
         onPageChanged: onPageChanged,
         children: [
-
+          
+          // Explorer(),
           DiscoverPage(homePageModel: homePageModel!),
 
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                _carouselAds(context, homePageModel!.carouActiveIndex),
+                ElevatedButton(
+                  onPressed: (){
+                    Provider.of<ThemeProvider>(context, listen: false).setTheme = !isDarkMode;
+                  }, 
+                  child: Text("Press")
+                ),
           
-                SizedBox(height: 25), 
+                const SizedBox(height: 10), 
                 _menu(context),
-          
-                SizedBox(height: 25), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Marketplace",
+                    text: "DeFi",
                     fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
-                  child: _marketPlaceMenu(context),
+                  child: SizedBox(
+                    height: 20.h,
+                    width: MediaQuery.of(context).size.width,
+                    child: _defiMenu(context)
+                  ),
                 ),
           
-                SizedBox(height: 25), 
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "Marketplace",
+                    fontSize: 17.5,
+                    hexaColor: AppColors.whiteColorHexa,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 10),
+                  child: SizedBox(
+                    height: 20.h,
+                    width: MediaQuery.of(context).size.width,
+                    child: _marketPlaceMenu(context)
+                  ),
+                ),
+          
+                const SizedBox(height: 10), 
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Selendra ECO System",
                     fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -154,7 +196,9 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          SwapPage(),
+          const SwapPage(),
+
+          const SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -174,7 +218,7 @@ class HomePageBody extends StatelessWidget {
             autoPlay: true,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
-            onPageChanged: homePageModel!.onCarouselChanged,
+            onPageChanged: homePageModel!.onAdsCarouselChanged,
           ),
           items: imgList
             .map((item) => GestureDetector(
@@ -187,7 +231,7 @@ class HomePageBody extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                 child: Card(
-                  margin: EdgeInsets.only(  
+                  margin: const EdgeInsets.only(  
                     top: 10.0,
                     bottom: 10.0,
                   ),
@@ -195,7 +239,7 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
                     child: Image.asset(
@@ -250,7 +294,7 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -285,13 +329,13 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -302,13 +346,13 @@ class HomePageBody extends StatelessWidget {
                   action: () {
                     Navigator.push(
                       context, 
-                      Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                 ),
               ),
 
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
 
               Expanded(
                 child: MyMenuItem(
@@ -333,38 +377,70 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _marketPlaceMenu(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 125 / 456,
+        crossAxisCount: 2,
+      ),
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: marketPlaceList.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index){
+        return Padding(
+          padding: const EdgeInsets.only(right: 8.0, top: 8.0),
           child: DefiMenuItem(
             image: Image.asset(
-              "assets/logo/opensea.png",
+              marketPlaceList[index]['asset'],
               width: 10.w,
               height: 10.h,
             ),
-            title: "OpenSea",
-            action: () {
-              underContstuctionAnimationDailog(context: context);
+            title: marketPlaceList[index]['title'],
+            subtitle: marketPlaceList[index]['subtitle'],
+            action: () async {
+              Navigator.push(
+                context,
+                Transition(child: MarketPlaceWebView(url: marketPlaceList[index]['url'], title: marketPlaceList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
             },
           ),
-        ),
+        );
+      },
+    );
+  }
 
-        SizedBox(width: 10,),
+  Widget _defiMenu(BuildContext context) {
 
-        Expanded(
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 125 / 456,
+        crossAxisCount: 2,
+      ),
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: defiList.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index){
+        return Padding(
+          padding: const EdgeInsets.only(right: 8.0, top: 8.0),
           child: DefiMenuItem(
             image: Image.asset(
-              "assets/logo/uniswap-logo.png",
+              defiList[index]['asset'],
               width: 10.w,
               height: 10.h,
             ),
-            title: "Uniswap",
-            action: () {
-              underContstuctionAnimationDailog(context: context);
+            title: defiList[index]['title'],
+            subtitle: defiList[index]['subtitle'],
+            action: () async {
+              Navigator.push(
+                context,
+                Transition(child: MarketPlaceWebView(url: defiList[index]['url'], title: defiList[index]['title'],), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
             },
           ),
-        )
-      ],
+        );
+      },
     );
   }
 
@@ -374,7 +450,7 @@ class HomePageBody extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/sala-logo.png",
                   width: 10.w,
@@ -389,10 +465,10 @@ class HomePageBody extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
 
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/koompi-fifi.png",
                   width: 10.w,
@@ -406,12 +482,12 @@ class HomePageBody extends StatelessWidget {
           ],
         ),
 
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
 
         Row(
           children: [
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/selendra-logo.png",
                   width: 6.w,
@@ -423,10 +499,10 @@ class HomePageBody extends StatelessWidget {
               ),
             ),
 
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
 
             Expanded(
-              child: MarketPlaceMenuItem(
+              child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/bitriel-logo-v2.png",
                   width: 10.w,
@@ -442,49 +518,5 @@ class HomePageBody extends StatelessWidget {
       ],
     );
   }
-
-  AnimatedContainer slider(images, pagePosition, active) {
-    double margin = active ? 10 : 20;
-
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOutCubic,
-      margin: EdgeInsets.all(margin),
-      decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage(images[pagePosition]))),
-    );
-}
-
-  imageAnimation(PageController animation, images, pagePosition) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, widget) {
-
-        return SizedBox(
-          width: 200,
-          height: 200,
-          child: widget,
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.all(10),
-        child: Image.network(images[pagePosition]),
-      ),
-    );
-  }
-
-  List<Widget> indicators(imagesLength, currentIndex) {
-    return List<Widget>.generate(imagesLength, (index) {
-      return Container(
-        margin: EdgeInsets.all(3),
-        width: 10,
-        height: 10,
-        decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.black : Colors.black26,
-            shape: BoxShape.circle),
-      );
-    });
-  }
-
 
 }

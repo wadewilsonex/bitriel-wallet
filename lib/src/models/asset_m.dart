@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wallet_apps/index.dart';
 
 class ModelAsset {
@@ -8,6 +6,8 @@ class ModelAsset {
   bool loading = false;
   bool match = false;
   bool added = false;
+
+  String? logo;
 
   String assetBalance = '0';
   static const String assetSymbol = 'KMPI';
@@ -172,7 +172,7 @@ class AssetPageModel {
       "BEP-20",
       "ERC-20",
     ];
-    categoryIndex = 0;
+    categoryIndex = 1;
     pageController = PageController();
   }
 

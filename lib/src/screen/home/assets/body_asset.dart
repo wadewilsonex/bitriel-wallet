@@ -1,11 +1,7 @@
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
-import 'package:wallet_apps/src/components/menu_item_c.dart';
-import 'dart:math';
-import 'package:wallet_apps/src/components/pie_chart.dart';
 class AssetsPageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
@@ -50,9 +46,9 @@ class AssetsPageBody extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Row(
                 children: [
-                  MyText(
+                  const MyText(
                     text: "Assets",
-                    color: AppColors.titleAssetColor,
+                    hexaColor: AppColors.titleAssetColor,
                     fontWeight: FontWeight.w500
                   ),
                   Expanded(
@@ -77,13 +73,13 @@ class AssetsPageBody extends StatelessWidget {
                     onVerticalUpdate!(detail);
                   },
 
-                  child: Container(
+                  child: SizedBox(
                     // Provide Screen Height Per Assets Length (model!.assetLength)
                     // width: MediaQuery.of(context).size.width,
                     height: 8.h * model!.assetLength,
                     child: TabBarView(
                       controller: model!.tabController,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                     
                         _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
@@ -111,18 +107,18 @@ class AssetsPageBody extends StatelessWidget {
                     child: OverflowBox(
                       minHeight: 60.h,
                       maxHeight: 60.h,
-                      child: Lottie.asset(AppConfig.animationPath+"no-data.json", width: 60.w, height: 60.w),
+                      child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
                     )
                   ),
                 ),
 
                 // Add Asset For BEP-20
                 if (model!.tabController!.index == 2) 
-                addMoreAsset(context, EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+                addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
 
                 // Add Asset For ERC-20
                 else if (model!.tabController!.index == 3) 
-                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
                 
                 // For Gesture
                 if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
@@ -166,76 +162,16 @@ class AssetsPageBody extends StatelessWidget {
             ),
           ),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
-              
-              // PieChartSample1(),
-
-              // PieChartSample2(),
-
-              // PieChartSample3(),
-
-              // if(apiProvider.accountM.addressIcon == null)
-              // Shimmer.fromColors(
-              //   child: Container(
-              //     width: 60,
-              //     height: 60,
-              //     margin: EdgeInsets.only(bottom: 3),
-              //     decoration: BoxDecoration(
-              //       color: hexaCodeToColor(AppColors.sliderColor),
-              //       shape: BoxShape.circle,
-              //       // boxShadow: [
-              //       //   BoxShadow(color: Colors.white, blurRadius: 20.0),
-              //       // ],
-              //     ),
-              //   ), 
-              //   period: const Duration(seconds: 2),
-              //   baseColor: hexaCodeToColor(AppColors.sliderColor),
-              //   highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              // ) 
-              // else Container(
-              //   width: 60,
-              //   height: 60,
-              //   margin: const EdgeInsets.only(right: 5),
-              //   decoration: BoxDecoration(
-              //     color: hexaCodeToColor(AppColors.sliderColor),
-              //     shape: BoxShape.circle,
-              //     boxShadow: [
-              //       BoxShadow(color: Colors.white, blurRadius: 10.0),
-              //     ],
-              //   ),
-              //   child: SvgPicture.string(apiProvider.accountM.addressIcon!),
-              // ),
-
-              // SizedBox(height: 2.h),
-              // if(apiProvider.accountM.addressIcon == null)
-              // Shimmer.fromColors(
-              //   child: Container(
-              //     width: 100,
-              //     height: 8.0,
-              //     margin: EdgeInsets.only(bottom: 3),
-              //     color: Colors.white,
-              //   ), 
-              //   period: const Duration(seconds: 2),
-              //   baseColor: hexaCodeToColor(AppColors.sliderColor),
-              //   highlightColor: hexaCodeToColor(AppColors.whiteColorHexa),
-              // )
-              // else MyText(
-              //   bottom: 3,
-              //   text: apiProvider.accountM.name ?? '',
-              //   color: AppColors.whiteColorHexa,
-              //   fontSize: 20.sp,
-              // ),
-
-              SizedBox(height: 2.h),
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
                     text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   );
                 }
               ),
@@ -245,7 +181,7 @@ class AssetsPageBody extends StatelessWidget {
                 builder: (context, provider, widget){
                   return MyText(
                     text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                    color: AppColors.tokenNameColor,
+                    hexaColor: AppColors.tokenNameColor,
                     fontWeight: FontWeight.bold,
                   );
                 }
@@ -264,7 +200,7 @@ class AssetsPageBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: lsAsset.length,
         shrinkWrap: true,
         itemBuilder: (context, index){
@@ -293,35 +229,6 @@ class AssetsPageBody extends StatelessWidget {
     );
   }
 
-  Widget _otherNetworkList(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize - 10),
-      child: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                MyText(
-                  text: "Other Network",
-                  color: AppColors.titleAssetColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500
-                ),
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: hexaCodeToColor(AppColors.titleAssetColor),
-                    indent: 20,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _operationRequest(BuildContext context) {
     double width = 30.w;
     double height = 7.h;
@@ -330,57 +237,57 @@ class AssetsPageBody extends StatelessWidget {
       children: [
         
         MyGradientButton(
+          height: height,
+          width: width,
+          lsColor: const ["#035A8F", "#035A8F"],
+          begin: Alignment.bottomRight, 
+          end: Alignment.topLeft, 
+          action: (){
+            Navigator.push(
+              context, 
+              Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            );
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
                 text: "Send",
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
+          )
+        ),
+
+        const SizedBox(width: 10,),
+        
+        MyGradientButton(
           height: height,
           width: width,
-          lsColor: ["#035A8F", "#035A8F"],
+          lsColor: const ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
-          }
-        ),
-
-        SizedBox(width: 10,),
-        
-        MyGradientButton(
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
                 text: "Receive",
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
-          height: height,
-          width: width,
-          lsColor: ["#035A8F", "#035A8F"],
-          begin: Alignment.bottomRight, 
-          end: Alignment.topLeft, 
-          action: (){
-            Navigator.push(
-              context, 
-              Transition(child: ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            );
-          }
+          )
         )
       ],
     );
@@ -439,9 +346,9 @@ class AssetsPageBody extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => AddAsset(network: model!.tabController!.index == 2 ? 0 : 1,))
                 );
               },
-              child: MyText(
+              child: const MyText(
                 text: "Import asset",
-                color: AppColors.primaryColor,
+                hexaColor: AppColors.primaryColor,
                 fontWeight: FontWeight.bold,
                 // left: 5.sp
               )

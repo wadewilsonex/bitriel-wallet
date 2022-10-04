@@ -1,17 +1,13 @@
 import 'dart:math';
-
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:eth_sig_util/eth_sig_util.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/adsWebView.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class HomePage extends StatefulWidget {
 
-  static final String route = "/home";
+  static const String route = "/home";
   final int activePage;
   final bool? isTrx;
 
@@ -23,11 +19,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   
-  HomePageModel _model = HomePageModel();
+  final HomePageModel _model = HomePageModel();
 
-  PostRequest _postRequest = PostRequest();
-
-  Random _random = Random();
+  final Random _random = Random();
 
   int? randomNum;
 
@@ -37,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     
     _model.pageController!.addListener(() {
-      if(_model.activeIndex != _model.pageController){
+      if(_model.activeIndex != _model.pageController!.initialPage){
         setState(() {
           _model.activeIndex = _model.pageController!.page!.toInt();
         });
@@ -49,13 +43,14 @@ class _HomePageState extends State<HomePage> {
     _model.pageController = PageController(initialPage: widget.activePage);
 
     // For CarouselPage
-    _model.carouActiveIndex = 0;
+    _model.adsCarouselActiveIndex = 0;
     _model.globalKey = GlobalKey<ScaffoldState>();
-    _model.onCarouselChanged = (int index, CarouselPageChangedReason reason) {
+    _model.onAdsCarouselChanged = (int index, CarouselPageChangedReason reason) {
       setState(() {
-        this._model.carouActiveIndex = index;
+        _model.adsCarouselActiveIndex = index;
       });
     };
+    
     AppServices.noInternetConnection(context: context);
     super.initState();
     
@@ -134,7 +129,7 @@ class _HomePageState extends State<HomePage> {
         
         await DialogComponents().dialogCustom(
           context: context,
-          contents: "${e.toString()}",
+          contents: e.toString(),
           titles: "Oops",
           btn2: Container(),
           btn: null

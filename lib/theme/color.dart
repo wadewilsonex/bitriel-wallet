@@ -47,6 +47,7 @@ class AppColors {
 
   /* White Color */
   static const String whiteColorHexa = "#FFFFFF";
+  static const String lightBg = "#F5F5F5";
   static const whiteNormalColor = Colors.white;
   static const String appBarTextColor = "#EFF0F2";
 
@@ -65,7 +66,7 @@ class AppColors {
   /* Card Color */
   static const String borderColor = "#363c4e";
 
-  //final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+  // 
 
   /* Passcode Color */
   static const String passcodeColor = "#054973";
@@ -91,4 +92,6 @@ class AppColors {
 
   /* Token Name Text Color */
   static const String tokenNameColor = "#C2C2C2";
+
+  static const String greyColor = "#C1C1C1";
 }

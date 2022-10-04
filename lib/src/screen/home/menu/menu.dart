@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -7,8 +7,9 @@ class Menu extends StatefulWidget {
   final Map<String, dynamic>? userData;
 
   const Menu({
+    Key? key, 
     this.userData
-});
+}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +23,7 @@ class MenuState extends State<Menu> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   /* Login Inside Dialog */
-  bool isDarkTheme = false;
+  // bool isDarkMode = false;
 
   /* InitState */
   @override
@@ -93,9 +94,11 @@ class MenuState extends State<Menu> {
           setState(() { });
         });
       } else {
+        if(!mounted) return;
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
+      if(!mounted) return;
       await customDialog(context, 'Oops', e.toString());
     }
   }
@@ -113,25 +116,26 @@ class MenuState extends State<Menu> {
     setState(() {});
   }
 
+  void switchTheme(bool value) {
+    setState(() {
+      Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
+    });
+  }
+
   /* ----------------------Side Bar -------------------------*/
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(
-        child: Container(
-          color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.lowWhite),
-          child: SingleChildScrollView(
-            child: MenuBody(
-              userInfo: widget.userData,
-              model: _menuModel,
-              enablePassword: enablePassword,
-              switchBio: switchBiometric
-            ),
+        child: SingleChildScrollView(
+          child: MenuBody(
+            userInfo: widget.userData,
+            model: _menuModel,
+            enablePassword: enablePassword,
+            switchBio: switchBiometric,
+            switchTheme: switchTheme,
           ),
         ),
       ),

@@ -1,7 +1,3 @@
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-// import 'package:bip39/bip39.dart' as bip39;
-import 'package:provider/provider.dart';
-
 import '../../../index.dart';
 
 class AssetList extends StatelessWidget {
@@ -11,6 +7,8 @@ class AssetList extends StatelessWidget {
   final pinController = TextEditingController();
   final focus = FocusNode();
   final pinFocus = FocusNode();
+
+  AssetList({Key? key}) : super(key: key);
 
   Future<bool> validateMnemonic(String mnemonic, {@required BuildContext? context}) async {
     dynamic res = await Provider.of<ApiProvider>(context!, listen: false).validateMnemonic(mnemonic);
@@ -23,7 +21,7 @@ class AssetList extends StatelessWidget {
 
   Future<bool> checkPassword(String pin, {@required BuildContext? context}) async {
 
-    final res = await Provider.of<ApiProvider>(context!, listen: false);
+    final res = Provider.of<ApiProvider>(context!, listen: false);
     bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }

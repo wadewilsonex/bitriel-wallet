@@ -1,17 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/theme/color.dart';
 import '../../../../../index.dart';
 
 class AccountC {
 
   void showChangePin(
     BuildContext context,
-    GlobalKey<FormState> _changePinKey,
-    TextEditingController _oldPinController,
-    TextEditingController _newPinController,
-    FocusNode _oldNode,
-    FocusNode _newNode,
+    GlobalKey<FormState> changePinKey,
+    TextEditingController oldPinController,
+    TextEditingController newPinController,
+    FocusNode oldNode,
+    FocusNode newNode,
     Function onChanged,
     Function onSubmit,
     Function submitChangePin
@@ -20,11 +17,11 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize),
           height: MediaQuery.of(context).size.height / 1.5,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
@@ -34,8 +31,8 @@ class AccountC {
 
                   MyInputField(
                     hintText: 'Old Pin',
-                    controller: _oldPinController,
-                    focusNode: _oldNode,
+                    controller: oldPinController,
+                    focusNode: oldNode,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 6
                       ? 'Please fill in old 6 digits pin'
@@ -46,8 +43,8 @@ class AccountC {
                   const SizedBox(height: 16.0),
                   MyInputField(
                     hintText: 'New Pin',
-                    controller: _newPinController,
-                    focusNode: _newNode,
+                    controller: newPinController,
+                    focusNode: newNode,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 6
                         ? 'Please fill in new 6 digits pin'
@@ -81,9 +78,9 @@ class AccountC {
 
   void showEditName(
     BuildContext context,
-    GlobalKey<FormState> _editNameKey,
-    TextEditingController _editController,
-    FocusNode _newNode,
+    GlobalKey<FormState> editNameKey,
+    TextEditingController editController,
+    FocusNode newNode,
     Function submitChangeName,
     Function? changeName
   ) {
@@ -91,11 +88,11 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize,),
           height: MediaQuery.of(context).size.height / 2,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
@@ -105,11 +102,11 @@ class AccountC {
 
                   MyInputField(
                     hintText: 'Enter Name',
-                    controller: _editController,
+                    controller: editController,
                     onSubmit: () async {
                       await changeName!();
                     }, 
-                    focusNode: _newNode,
+                    focusNode: newNode,
                   ),
 
                   SizedBox(height: 10.h),
@@ -135,9 +132,9 @@ class AccountC {
 
   void showBackup(
       BuildContext context,
-      GlobalKey<FormState> _backupKey,
-      TextEditingController _pinController,
-      FocusNode _pinNode,
+      GlobalKey<FormState> backupKey,
+      TextEditingController pinController,
+      FocusNode pinNode,
       Function onChanged,
       Function onSubmit,
       Function submitBackUpKey) {
@@ -145,22 +142,22 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.all(25.0),
           height: MediaQuery.of(context).size.height / 2,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
-            key: _backupKey,
+            key: backupKey,
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   MyInputField(
                     labelText: 'Pin',
-                    controller: _pinController,
-                    focusNode: _pinNode,
+                    controller: pinController,
+                    focusNode: pinNode,
                     onChanged: onChanged,
                     obcureText: true,
                     validateField: (value) => value.isEmpty || value.length < 4

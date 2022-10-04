@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance extends ChangeNotifier {
@@ -24,11 +23,14 @@ class ContractsBalance extends ChangeNotifier {
         await contractProvider.bnbWallet();
         await contractProvider.kgoTokenWallet();
 
+        // Attendance Token
         if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
         await apiProvider.getBtcBalance(context: context);
+
+        await apiProvider.connectPolNon(context: context);
         
         /// Fetch and Fill Market Price Into Asset
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
@@ -46,7 +48,11 @@ class ContractsBalance extends ChangeNotifier {
         
       // });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("error getAllAssetBalance $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error getAllAssetBalance $e");
+        }
+      }
     }
   }
 
@@ -79,10 +85,16 @@ class ContractsBalance extends ChangeNotifier {
 
       for (int i = 0; i < conProvider.listContract.length; i++){
         if ((api.isMainnet ? conProvider.listContract[i].contract : conProvider.listContract[i].contractTest) != ""){
-          if (conProvider.listContract[i].symbol != "ATT"){
-            if (conProvider.listContract[i].symbol == "KGO") {
+          if (conProvider.listContract[i].symbol != "SEL (v1)" && conProvider.listContract[i].symbol != "SEL (v2)"){
+            // if (conProvider.listContract[i].symbol == "KGO") {
               
+            // }
+            if (kDebugMode) {
+              print("conProvider.listContract[i].symbol ${conProvider.listContract[i].symbol}");
+              print("conProvider.listContract[i].org ${conProvider.listContract[i].org}");
+              print("conProvider.listContract[i].chainDecimal ${conProvider.listContract[i].chainDecimal}");
             }
+            
             if (conProvider.listContract[i].org == "ERC-20"){
               balance = await conProvider.queryEther(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
               conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
@@ -93,7 +105,9 @@ class ContractsBalance extends ChangeNotifier {
             } else if (conProvider.listContract[i].org == "BEP-20") {
               // decimal = await conProvider.get
               balance = await conProvider.query(api.isMainnet ? conProvider.listContract[i].contract! : conProvider.listContract[i].contractTest!, 'balanceOf', [EthereumAddress.fromHex(conProvider.ethAdd)]);
-              
+              if (kDebugMode) {
+                print("balance $balance");
+              }
               
               conProvider.listContract[i].balance = (balance[0] / BigInt.from(pow(10, conProvider.listContract[i].chainDecimal! ))).toString();
               // Fmt.bigIntToDouble(
@@ -136,7 +150,11 @@ class ContractsBalance extends ChangeNotifier {
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("error refetchContractBalance $e ");
+      if (ApiProvider().isDebug == true){
+        if (kDebugMode) {
+          print("error refetchContractBalance $e ");
+        }
+      }
     }
 
   }

@@ -1,7 +1,5 @@
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:ui';
-
-import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
@@ -14,17 +12,17 @@ class Component {
 
   /* Show Pin Code For Fill Out */
   Future<String> dialogBox(BuildContext context) async {
-    final String _result = await showDialog(
+    final String result = await showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return Material(
+        return const Material(
           color: Colors.transparent,
           child: FillPin(),
         );
       }
     );
-    return _result;
+    return result;
   }
 
   static void popScreen(BuildContext context) {
@@ -45,8 +43,7 @@ class Component {
             child: Text(content!, textAlign: TextAlign.center),
           ),
           actions: <Widget>[
-            // ignore: deprecated_member_use
-            FlatButton(
+            TextButton(
               onPressed: method,
               child: const Text('Setting'),
             ),
@@ -58,17 +55,17 @@ class Component {
   
   static Future<String> pinDialogBox(BuildContext context) async {
     /* Show Pin Code For Fill Out */
-    final String _result = await showDialog(
+    final String result = await showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return Material(
+        return const Material(
           color: Colors.transparent,
           child: FillPin(),
         );
       }
     );
-    return _result;
+    return result;
   }
 
   static void dialog(BuildContext context, {String? contents}) async {
@@ -82,7 +79,7 @@ class Component {
             children: <Widget>[
               Card(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
@@ -106,7 +103,7 @@ class Component {
                               bottom: 10,
                               text: contents,
                               fontSize: 16,
-                              color: AppColors.blackColor,
+                              hexaColor: AppColors.blackColor,
                             )
                           : Container()
                     ],
@@ -137,6 +134,7 @@ class MyFlatButton extends StatelessWidget {
   final bool? isTransparent;
 
   const MyFlatButton({
+    Key? key, 
     this.textButton,
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
@@ -149,11 +147,11 @@ class MyFlatButton extends StatelessWidget {
     this.height,
     this.isTransparent = false,
     @required this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
       padding: edgePadding,
@@ -172,22 +170,20 @@ class MyFlatButton extends StatelessWidget {
             )
         ]
       ),
-      // ignore: deprecated_member_use
-      child: FlatButton(
-        hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
+        ),
         onPressed: action == null ? null : (){
           action!();
         },
-        color: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
-        disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
-        focusColor: hexaCodeToColor(AppColors.secondary),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: Center(
           child: MyText(
             text: textButton!,
-            color: textColor!,
+            hexaColor: textColor!,
             fontWeight: fontWeight!,
           ),
         ),
@@ -216,6 +212,7 @@ class MyGradientButton extends StatelessWidget {
   final AlignmentGeometry end;
 
   const MyGradientButton({
+    Key? key, 
     this.child,
     this.textButton = "",
     this.lsColor = const [ "#F27649", "#F28907" ],
@@ -232,11 +229,11 @@ class MyGradientButton extends StatelessWidget {
     required this.begin,
     required this.end,
     @required this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+
 
     return Container(
       padding: edgePadding,
@@ -249,7 +246,7 @@ class MyGradientButton extends StatelessWidget {
           colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],
           begin: begin,
           end: end, 
-          stops: [0.25, 0.75],
+          stops: const [0.25, 0.75],
         ),
         // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
@@ -258,16 +255,16 @@ class MyGradientButton extends StatelessWidget {
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        onPressed: action == null ? null : (){
+          action!();
+        },
         child: child ?? MyText(
           text: textButton!,
-          color: textColor!,
+          hexaColor: textColor!,
           fontWeight: fontWeight!,
           // width: 100,
           overflow: TextOverflow.ellipsis,
         ),
-        onPressed: action == null ? null : (){
-          action!();
-        },
       ),
     );
   }
@@ -275,9 +272,9 @@ class MyGradientButton extends StatelessWidget {
 
 class MyText extends StatelessWidget {
   final String? text;
-  final String? color;
+  final String? hexaColor;
   final Color? color2;
-  double? fontSize;
+  final double? fontSize;
   final FontWeight? fontWeight;
   final double? top;
   final double? right;
@@ -292,9 +289,10 @@ class MyText extends StatelessWidget {
   final TextAlign? textAlign;
   final TextOverflow? overflow;
 
-  MyText({
+  const MyText({
+    Key? key, 
     this.text,
-    this.color,
+    this.hexaColor,
     this.color2,
     this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
@@ -310,30 +308,33 @@ class MyText extends StatelessWidget {
     this.height,
     this.textAlign = TextAlign.center,
     this.overflow,
-  }){
-    fontSize = fontSize!.sp;
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
-      padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: Text(
-          text!,
-          style: TextStyle(
-            fontWeight: fontWeight,
-            color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
-            fontSize: fontSize!
+          margin: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
+          padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
+          child: SizedBox(
+            width: width,
+            height: height,
+            child: Text(
+              text!,
+              style: TextStyle(
+                fontWeight: fontWeight,
+                color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+                fontSize: fontSize!.sp
+              ),
+              textAlign: textAlign,
+              overflow: overflow,
+            ),
           ),
-          textAlign: textAlign,
-          overflow: overflow,
-        ),
-      ),
-    );
+        );
+    // Consumer<ThemeProvider>(
+    //   builder: (context, themePro, widget) {
+    //     return 
+    //   }
+    // );
   }
 }
 
@@ -348,7 +349,8 @@ class MyLogo extends StatelessWidget {
   final double? left;
 
   const MyLogo(
-    {@required this.logoPath,
+    {Key? key, 
+    @required this.logoPath,
     this.color = "#FFFFFF",
     this.width = 60,
     this.height = 60,
@@ -356,7 +358,7 @@ class MyLogo extends StatelessWidget {
     this.right = 0,
     this.bottom = 0,
     this.left = 0}
-  );
+  ) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -386,7 +388,8 @@ class MyCircularImage extends StatelessWidget {
   final Color? colorImage;
 
   const MyCircularImage(
-      {this.boxColor = AppColors.secondary,
+      {Key? key, 
+      this.boxColor = AppColors.secondary,
       this.margin = const EdgeInsets.fromLTRB(0, 16.0, 0, 0),
       this.padding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
       this.imagePath,
@@ -396,7 +399,7 @@ class MyCircularImage extends StatelessWidget {
       this.imageHeight,
       this.enableShadow,
       this.decoration,
-      this.colorImage});
+      this.colorImage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -429,6 +432,7 @@ class BodyScaffold extends StatelessWidget {
   final ScrollController? scrollController;
 
   const BodyScaffold({
+    Key? key, 
     this.left = 0,
     this.top = 0,
     this.right = 0,
@@ -439,19 +443,19 @@ class BodyScaffold extends StatelessWidget {
     this.physic,
     this.isSafeArea = true,
     this.scrollController
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return SingleChildScrollView(
       physics: physic,
       controller: scrollController,
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,
-        color: hexaCodeToColor(AppColors.darkBgd),
-        // isDarkTheme
+        color: AppUtils.backgroundTheme(),
+        // isDarkMode
         //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
         //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
         padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
@@ -472,6 +476,7 @@ class MyIconButton extends StatelessWidget {
   // final EdgeInsetsGeometry padding;
 
   const MyIconButton({
+    Key? key, 
     this.title,
     this.child,
     this.icon,
@@ -479,11 +484,11 @@ class MyIconButton extends StatelessWidget {
     this.txtColor,
     // this.padding = const EdgeInsets.all(0),
     this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
@@ -494,15 +499,15 @@ class MyIconButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           child ?? SvgPicture.asset(
-            AppConfig.iconsPath+'$icon',
+            '${AppConfig.iconsPath}$icon',
             width: iconSize ?? 30,
             height: iconSize ?? 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           MyText(
             text: title,
-            color: txtColor,
+            hexaColor: txtColor,
             
           )
         ],
@@ -518,11 +523,12 @@ class MyCusIconButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const MyCusIconButton({
+    Key? key, 
     this.icon,
     this.iconSize = 30,
     this.padding = const EdgeInsets.all(0),
     this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -582,6 +588,8 @@ class MyCusIconButton extends StatelessWidget {
 // }
 
 class MyRowHeader extends StatelessWidget {
+  const MyRowHeader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -594,9 +602,9 @@ class MyRowHeader extends StatelessWidget {
             child: Container(
                 margin: const EdgeInsets.only(left: 1.5),
                 alignment: Alignment.centerLeft,
-                child: MyText(text: "Your assets")),
+                child: const MyText(text: "Your assets")),
           ),
-          Expanded(
+          const Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: MyText(text: "QTY"),
@@ -612,7 +620,7 @@ class MyTabBar extends StatelessWidget {
   final List<Widget>? listWidget;
   final Function? onTap;
 
-  const MyTabBar({@required this.listWidget, @required this.onTap});
+  const MyTabBar({Key? key, @required this.listWidget, @required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -669,7 +677,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             child: MyText(
               text: title,
               fontWeight: FontWeight.w600,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               fontSize: 18, 
             ),
           ),
@@ -677,7 +685,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             padding: const EdgeInsets.only(top: 15.0,),
             child: MyText(
               text: contents, 
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.center
             ),
           ),
@@ -685,7 +693,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             btn2 ?? Container(),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: MyText(text: 'Close', color: AppColors.whiteColorHexa),
+              child: const MyText(text: 'Close', hexaColor: AppColors.whiteColorHexa),
             ),
           ],
         ),
@@ -700,9 +708,7 @@ void snackBar(BuildContext context, String contents) {
     duration: const Duration(seconds: 2),
     content: Text(contents),
   );
-  // ignore: deprecated_member_use
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  // globalKey.currentState.showSnackBar(snackbar);
 }
 
 class MyPinput extends StatelessWidget {
@@ -715,56 +721,53 @@ class MyPinput extends StatelessWidget {
   final void Function(String)? onCompleted;
 
   const MyPinput({
+    Key? key, 
     this.obscureText = true,
     this.getWalletM,
     this.controller,
     this.focusNode,
     this.onChanged,
     this.onCompleted,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // width: MediaQuery.of(context).size.width - 100,
-      // margin: const EdgeInsets.only(bottom: 30),
-      child: Pinput(
-        obscureText: obscureText!,
-        focusNode: focusNode,
-        controller: controller,
-        length: 4,
-        obscuringCharacter: '⚪',
-        // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
-        //   color: Colors.grey.withOpacity(0.5),
-        //   border: Border.all(
-        //     color: Colors.grey,
-        //   )
-        // ),
-        errorPinTheme: PinTheme(
-          width: Component.width, height: Component.height, 
-          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red), color: Colors.grey[350])
-        ),
-        focusedPinTheme: PinTheme(
-          width: Component.width, height: Component.height, 
-          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.blue), color: Colors.grey[350])
-        ),
-        submittedPinTheme: PinTheme(
-          width: Component.width, height: Component.height, 
-          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.green), color: Colors.grey[350])
-        ),
-        followingPinTheme: PinTheme(
-          width: Component.width, height: Component.height, 
-          decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.grey), color: Colors.grey[350])
-        ),
-        // eachFieldConstraints: getWalletM!.boxConstraint,
-        // textStyle: consSt TextStyle(fontSize: 18, color: Colors.white),
-        onChanged: (String value){
-          // print("On changed $value");
-          // onChanged!(value);
-        },
-        onCompleted: onCompleted,
-        // onSubmitted: onSubmit,
+    return Pinput(
+      obscureText: obscureText!,
+      focusNode: focusNode,
+      controller: controller,
+      length: 4,
+      obscuringCharacter: '⚪',
+      // selectedFieldDecoration: getWalletM!.pinPutDecoration.copyWith(
+      //   color: Colors.grey.withOpacity(0.5),
+      //   border: Border.all(
+      //     color: Colors.grey,
+      //   )
+      // ),
+      errorPinTheme: PinTheme(
+        width: Component.width, height: Component.height, 
+        decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.red), color: Colors.grey[350])
       ),
+      focusedPinTheme: PinTheme(
+        width: Component.width, height: Component.height, 
+        decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.blue), color: Colors.grey[350])
+      ),
+      submittedPinTheme: PinTheme(
+        width: Component.width, height: Component.height, 
+        decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.green), color: Colors.grey[350])
+      ),
+      followingPinTheme: PinTheme(
+        width: Component.width, height: Component.height, 
+        decoration: getWalletM!.pinPutDecoration.copyWith(border: Border.all(color: Colors.grey), color: Colors.grey[350])
+      ),
+      // eachFieldConstraints: getWalletM!.boxConstraint,
+      // textStyle: consSt TextStyle(fontSize: 18, color: Colors.white),
+      onChanged: (String value){
+        // print("On changed $value");
+        // onChanged!(value);
+      },
+      onCompleted: onCompleted,
+      // onSubmitted: onSubmit,
     );
   }
 }
@@ -776,8 +779,9 @@ class ThreeDotLoading extends StatelessWidget{
   final double? width;
   final double? height;
 
-  ThreeDotLoading({this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height});
+  const ThreeDotLoading({Key? key, this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height}) : super(key: key);
 
+  @override
   Widget build(BuildContext context ){
     final isDark = Provider.of<ThemeProvider>(context).isDark;
     return Container(

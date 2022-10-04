@@ -1,28 +1,25 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-import 'package:wallet_apps/src/service/contract.dart';
 
 class QrViewTitle extends StatelessWidget {
-
+  final bool? isValue;
   final String? assetInfo;
   final String? initialValue;
   final Function? onChanged;
   final List<Map<String, dynamic>>? listContract;
 
-  QrViewTitle({this.assetInfo, this.initialValue, this.onChanged, required this.listContract});
+  const QrViewTitle({Key? key, this.isValue, this.assetInfo, this.initialValue, this.onChanged, required this.listContract}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Consumer<WalletProvider>(
       builder: (context, value, child) {
         return DropdownButtonHideUnderline(
           child: DropdownButton2(
+            value: isValue == true ? initialValue : null,
             isExpanded: true,
             dropdownElevation: 16,
             dropdownPadding: EdgeInsets.zero,
@@ -93,7 +90,7 @@ class QrViewTitle extends StatelessWidget {
     //       //   child: MyText(
     //       //     text: 'Wallet',
     //       //     fontSize: 20.0,
-    //       //     color: isDarkTheme
+    //       //     color: isDarkMode
     //       //       ? AppColors.whiteColorHexa
     //       //       : AppColors.textColor,
     //       //   ),

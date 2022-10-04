@@ -1,6 +1,4 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class ImportUserInfoBody extends StatelessWidget {
   final ModelUserInfo? modelUserInfo;
@@ -16,7 +14,9 @@ class ImportUserInfoBody extends StatelessWidget {
   final Function? submitProfile;
   final Function? item;
 
-  const ImportUserInfoBody({this.modelUserInfo,
+  const ImportUserInfoBody({
+    Key? key, 
+    this.modelUserInfo,
     this.onSubmit,
     this.onChanged,
     this.changeGender,
@@ -28,11 +28,11 @@ class ImportUserInfoBody extends StatelessWidget {
     this.switchBio,
     this.menuModel,
     this.item
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Column(
       children: <Widget>[
@@ -106,7 +106,7 @@ class ImportUserInfoBody extends StatelessWidget {
                             ),
                             MyText(
                               text: "Fingerprint",
-                              color: isDarkTheme
+                              hexaColor: isDarkMode
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                             ),

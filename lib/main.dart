@@ -1,7 +1,6 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/walletConnect_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
@@ -9,8 +8,11 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -64,7 +66,7 @@ void main() {
           create: (context) => ContractsBalance(),
         ),
       ],
-      child: App(),
+      child: const App(),
     ),
   );
 }

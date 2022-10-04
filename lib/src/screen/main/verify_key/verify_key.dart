@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/createKey_m.dart';
+import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/verify_key/body_verify_key.dart';
@@ -11,13 +11,13 @@ class VerifyPassphrase extends StatefulWidget {
 
   final CreateKeyModel? createKeyModel;
   
-  VerifyPassphrase({this.createKeyModel});
+  const VerifyPassphrase({Key? key, this.createKeyModel}) : super(key: key);
 
   @override
-  State<VerifyPassphrase> createState() => _VerifyPassphraseState();
+  State<VerifyPassphrase> createState() => VerifyPassphraseState();
 }
 
-class _VerifyPassphraseState extends State<VerifyPassphrase> {
+class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   void remove3Seeds() {
 
@@ -25,14 +25,14 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
     widget.createKeyModel!.tmpThreeNum = [];
 
     // Add Origin Three Number To tmpThreeNum
-    widget.createKeyModel!.threeNum!.forEach((element) {
+    for (var element in widget.createKeyModel!.threeNum!) {
       widget.createKeyModel!.tmpThreeNum!.addAll({element});
-    });
+    }
 
     // Add Origin lsSeeds To tmpThreeNum
-    widget.createKeyModel!.lsSeeds!.forEach((element) {
+    for (var element in widget.createKeyModel!.lsSeeds!) {
       widget.createKeyModel!.missingSeeds.add(element);
-    });
+    }
 
     // Replace match index with Empty
     widget.createKeyModel!.missingSeeds[int.parse(widget.createKeyModel!.tmpThreeNum![0])] = "";
@@ -74,14 +74,16 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
   
   Future<void> verifySeeds() async {
     dynamic res;
-    ApiProvider api = await Provider.of<ApiProvider>(context, listen: false);
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
     try {
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
       if (res == true){ 
 
+        if(!mounted) return;
+
         dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
-        dynamic _json = await api.apiKeyring.importAccount(
+        dynamic json = await api.apiKeyring.importAccount(
           api.getKeyring,
           keyType: KeyType.mnemonic,
           key: widget.createKeyModel!.lsSeeds!.join(" "),
@@ -92,7 +94,7 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         await api.apiKeyring.addAccount(
           api.getKeyring,
           keyType: KeyType.mnemonic,
-          acc: _json,
+          acc: json,
           password: widget.createKeyModel!.passCode,
         );
 
@@ -114,9 +116,10 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
           )
         );
 
+        if(!mounted) return;
         Navigator.pushAndRemoveUntil(
           context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
           ModalRoute.withName('/')
         );
       }
@@ -138,39 +141,45 @@ class _VerifyPassphraseState extends State<VerifyPassphrase> {
         );
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
     }
     return res;
   }
   
-  Future<void> importAccountNAsset(ApiProvider _api) async {
+  Future<void> importAccountNAsset(ApiProvider api) async {
 
-    final _resPk = await _api.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
+    final resPk = await api.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
 
     /// Cannot connect Both Network On the Same time
     /// 
     /// It will be wrong data of that each connection. 
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await _api.connectSELNode(context: context).then((value) async {
+    await api.connectSELNode(context: context).then((value) async {
 
-      await _api.getAddressIcon();
+      await api.getAddressIcon();
       // Get From Account js
-      await _api.getCurrentAccount(context: context);
+      await api.getCurrentAccount(context: context);
 
-      await ContractProvider().extractAddress(_resPk);
+      await ContractProvider().extractAddress(resPk);
 
-      final _res = await _api.encryptPrivateKey(_resPk, widget.createKeyModel!.passCode);
+      final res = await api.encryptPrivateKey(resPk, widget.createKeyModel!.passCode);
       
       // Store Private Key with Encrypt With PassCode Or PIN.
-      await StorageServices().writeSecure(DbKey.private, _res);
+      await StorageServices().writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
       await StorageServices().writeSecure(DbKey.passcode, widget.createKeyModel!.passCode);
 
+      if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
+      if(!mounted) return;
+      await api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 

@@ -1,8 +1,9 @@
-import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class FillPin extends StatefulWidget {
+  const FillPin({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return FillPinState();
@@ -17,13 +18,13 @@ class FillPinState extends State<FillPin> {
 
   final FocusNode _pinNode = FocusNode();
 
-  BoxDecoration get _pinPutDecoration {
-    return BoxDecoration(
-      // border: Border.all(color: Colors.deepPurpleAccent),
-      borderRadius: BorderRadius.circular(10.0),
-      color: Colors.grey.withOpacity(0.5)
-    );
-  }
+  // BoxDecoration get _pinPutDecoration {
+  //   return BoxDecoration(
+  //     // border: Border.all(color: Colors.deepPurpleAccent),
+  //     borderRadius: BorderRadius.circular(10.0),
+  //     color: Colors.grey.withOpacity(0.5)
+  //   );
+  // }
 
   // BoxConstraints get boxConstraint {
   //   return const BoxConstraints(minWidth: 60, minHeight: 80);
@@ -47,11 +48,11 @@ class FillPinState extends State<FillPin> {
     return AlertDialog(
       backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      title: MyText(
+      title: const MyText(
         top: 16,
         bottom: 16,
         text: "Fill your pin",
-        color: AppColors.whiteHexaColor,
+        hexaColor: AppColors.whiteHexaColor,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -106,7 +107,7 @@ class FillPinState extends State<FillPin> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: MyText(text: "Close", color: AppColors.whiteHexaColor),
+              child: const MyText(text: "Close", hexaColor: AppColors.whiteHexaColor),
             ),
           )
         ],

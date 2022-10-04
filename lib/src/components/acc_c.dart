@@ -5,10 +5,11 @@ class ListTileComponent extends StatelessWidget{
   final String? text;
   final Function? action;
 
-  ListTileComponent({this.text, this.action});
+  const ListTileComponent({Key? key, this.text, this.action}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return GestureDetector(
       onTap: () async {
         await action!();
@@ -26,10 +27,9 @@ class ListTileComponent extends StatelessWidget{
             children: [
               MyText(
                 text: text,
-                color: isDarkTheme
+                hexaColor: isDarkMode
                   ? AppColors.whiteColorHexa
                   : AppColors.textColor,
-                fontWeight: FontWeight.bold,
               ),
 
               Expanded(child: Container()),
@@ -37,7 +37,7 @@ class ListTileComponent extends StatelessWidget{
               Icon(
                 Icons.arrow_forward_ios, 
                 size: 18.5.sp,
-                color: hexaCodeToColor(isDarkTheme
+                color: hexaCodeToColor(isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor)
               )

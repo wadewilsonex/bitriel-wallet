@@ -1,6 +1,10 @@
 /* -------------This file is hold all Packages, Path of file -------------*/
 
 /* flutter Package */
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet_apps/src/provider/theme_provider.dart';
+
 export 'dart:async';
 export 'dart:convert';
 export 'dart:io' show Platform;
@@ -11,16 +15,13 @@ export 'package:async/async.dart';
 
 /* Package from Pub.dev */
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flare_flutter/flare_actor.dart';
-export 'package:flare_flutter/flare_controller.dart';
-export 'package:flare_flutter/flare_controls.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/rendering.dart';
 export 'package:flutter/services.dart';
 export 'package:line_awesome_flutter/line_awesome_flutter.dart';
 export 'package:local_auth/local_auth.dart';
-export 'package:package_info/package_info.dart';
+export 'package:package_info_plus/package_info_plus.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
@@ -28,8 +29,6 @@ export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
 export 'package:responsive_sizer/responsive_sizer.dart';
-//Local Auth
-export 'package:local_auth_android/local_auth_android.dart';
 
 //Component
 export 'package:wallet_apps/src/components/animation.dart';
@@ -61,7 +60,7 @@ export 'package:wallet_apps/src/components/appbar_c.dart';
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
 
-export 'package:wallet_apps/src/models/lineChart_m.dart';
+export 'package:wallet_apps/src/models/linechart_m.dart';
 
 export 'package:wallet_apps/src/models/crypto_data.dart';
 
@@ -75,8 +74,6 @@ export 'package:wallet_apps/src/models/token.m.dart';
 export 'package:wallet_apps/src/models/m_import_acc.dart';
 // Dashboard
 
-export 'package:wallet_apps/src/models/atd.dart';
-export 'package:wallet_apps/src/models/kmpi.dart';
 export 'package:wallet_apps/src/models/smart_contract.m.dart';
 
 export 'package:wallet_apps/src/models/checkin.m.dart';
@@ -183,5 +180,5 @@ export 'src/provider/theme_provider.dart';
 export 'src/screen/home/asset_info/asset_checkin.dart';
 export 'src/screen/home/asset_info/asset_history.dart';
 export 'src/screen/home/asset_info/asset_info.dart';
+export 'package:wallet_apps/theme/global.dart';
 
-const double paddingSize = 15.0;

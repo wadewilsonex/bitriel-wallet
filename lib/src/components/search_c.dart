@@ -6,8 +6,9 @@ class SearchComponent extends StatelessWidget{
   final Function? query;
   final Function? setState;
 
-  SearchComponent({@required this.query, this.setState});
+  const SearchComponent({Key? key, @required this.query, this.setState}) : super(key: key);
   
+  @override
   Widget build(BuildContext context){
     final isDark = Provider.of<ThemeProvider>(context).isDark;
     return CupertinoSearchTextField(
@@ -33,13 +34,14 @@ class SearchItem extends StatelessWidget{
 
   final Function? onTap;
 
-  SearchItem({@required this.lsItem, this.mySetState, this.onTap});
+  const SearchItem({Key? key, @required this.lsItem, this.mySetState, this.onTap}) : super(key: key);
   
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
-      padding: EdgeInsets.all(paddingSize),
-      color: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.lowWhite),//"#2C2C2D" : AppColors.bgdColor),
+      padding: const EdgeInsets.all(paddingSize),
+      color: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.lowWhite),//"#2C2C2D" : AppColors.bgdColor),
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
@@ -48,7 +50,7 @@ class SearchItem extends StatelessWidget{
               onTap!();
             },
             child: Padding(
-              padding: EdgeInsets.only(bottom: paddingSize),
+              padding: const EdgeInsets.only(bottom: paddingSize),
               child: Row(
                 children: <Widget>[
 
@@ -78,7 +80,7 @@ class SearchItem extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: hexaCodeToColor(isDarkTheme
+                            color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.blackColor,
                             ),
@@ -89,7 +91,7 @@ class SearchItem extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: hexaCodeToColor(isDarkTheme
+                                color: hexaCodeToColor(isDarkMode
                                   ? AppColors.whiteColorHexa
                                   : AppColors.darkSecondaryText,
                                 ),
@@ -101,7 +103,7 @@ class SearchItem extends StatelessWidget{
 
                       MyText(
                         text: lsItem![index].name!, 
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.darkSecondaryText,
                         fontSize: 14,
@@ -140,13 +142,14 @@ class SearchItemTrx extends StatelessWidget{
 
   final Function? onTap;
 
-  SearchItemTrx({@required this.lsItem, this.mySetState, this.onTap});
+  const SearchItemTrx({Key? key, @required this.lsItem, this.mySetState, this.onTap}) : super(key: key);
   
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
-      padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
-      color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lowWhite),
+      padding: const EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+      color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lowWhite),
       child: ListView.builder(
         itemCount: lsItem!.length,
         itemBuilder: (context, index){
@@ -155,7 +158,7 @@ class SearchItemTrx extends StatelessWidget{
               onTap!();
             },
             child: Padding(
-              padding: EdgeInsets.only(bottom: paddingSize),
+              padding: const EdgeInsets.only(bottom: paddingSize),
               child: Row(
                 children: <Widget>[
 
@@ -185,7 +188,7 @@ class SearchItemTrx extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: hexaCodeToColor(isDarkTheme
+                            color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.blackColor,
                             ),
@@ -196,7 +199,7 @@ class SearchItemTrx extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: hexaCodeToColor(isDarkTheme
+                                color: hexaCodeToColor(isDarkMode
                                   ? AppColors.darkSecondaryText
                                   : AppColors.darkSecondaryText,
                                 ),
@@ -209,7 +212,7 @@ class SearchItemTrx extends StatelessWidget{
                       lsItem![index].org!.isNotEmpty 
                       ? MyText(
                         text: lsItem![index].org!, 
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.blackColor,
                         fontSize: 14,
@@ -226,14 +229,14 @@ class SearchItemTrx extends StatelessWidget{
 
                       MyText(
                         text: '${lsItem![index].balance} ${lsItem![index].symbol}',
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.blackColor,
                       ),
 
                       MyText(
                         text: '\$ ${lsItem![index].marketPrice!.isEmpty ? '0.0' : lsItem![index].marketPrice}',
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                         ? AppColors.darkSecondaryText
                         : AppColors.blackColor,
                         fontSize: 14,

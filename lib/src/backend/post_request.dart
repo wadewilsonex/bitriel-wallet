@@ -1,22 +1,22 @@
-import 'package:http/http.dart' as _http;
+import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {
 
-  _http.Response? res;
+  http.Response? res;
   String? body;
   PackageInfo? _info;
 
-  Future<_http.Response> requestReward(final String url, final String address) async {
+  Future<http.Response> requestReward(final String url, final String address) async {
     _info = await PackageInfo.fromPlatform();
     body = json.encode({
       "address": address,
       "bitriel_Id": _info!.packageName
     });
 
-    return await _http.post(
-      Uri.parse(url+"/api/claim"),
+    return await http.post(
+      Uri.parse("$url/api/claim"),
       headers: _conceteHeader(),
       body: body
     );

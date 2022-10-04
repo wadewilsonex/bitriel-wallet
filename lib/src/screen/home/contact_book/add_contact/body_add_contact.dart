@@ -1,7 +1,4 @@
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
 
 class AddContactBody extends StatelessWidget {
@@ -12,21 +9,22 @@ class AddContactBody extends StatelessWidget {
   final Function? onSubmit;
 
   const AddContactBody({
+    Key? key, 
     this.model,
     this.validateAddress,
     this.submitContact,
     this.onChanged, 
     this.onSubmit,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       children: [
         MyAppBar(
           title: "Add Contact",
-          color: isDarkTheme
+          color: isDarkMode
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {
@@ -83,21 +81,21 @@ class AddContactBody extends StatelessWidget {
                     IconButton(
                       padding: const EdgeInsets.only(left: 20, right: 36),
                       icon: SvgPicture.asset(
-                        AppConfig.iconsPath+'qr_code.svg',
+                        '${AppConfig.iconsPath}qr_code.svg',
                         color: Colors.white,
                       ),
                       onPressed: () async {
                         try {
-                          final _response = await Navigator.push(
+                          final response = await Navigator.push(
                             context,
                             transitionRoute(
-                              QrScanner(),
+                              const QrScanner(),
                             ),
                           );
 
-                          if (_response != null) {
-                            model!.address.text = _response.toString();
-                            onChanged!(_response.toString());
+                          if (response != null) {
+                            model!.address.text = response.toString();
+                            onChanged!(response.toString());
                           }
                           // ignore: empty_catches
                         } catch (e) {}

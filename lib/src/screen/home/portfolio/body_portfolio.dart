@@ -1,13 +1,11 @@
-import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class PortfolioBody extends StatelessWidget {
   final List<dynamic>? listData;
   final PortfolioM? portfolioM;
 
-  const PortfolioBody({@required this.listData, @required this.portfolioM});
+  const PortfolioBody({Key? key, @required this.listData, @required this.portfolioM}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +22,8 @@ class PortfolioBody extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
-              MyText(text: "There are no portfolio found")
+              SvgPicture.asset('${AppConfig.iconsPath}no_data.svg', height: 200),
+              const MyText(text: "There are no portfolio found")
             ],
           ))
         else
@@ -113,8 +111,8 @@ class PortfolioBody extends StatelessWidget {
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                         MyText(bottom: 16, text: "Wallet"),
+                        children: const [
+                          MyText(bottom: 16, text: "Wallet"),
                         //  const MyPercentText(
                         //     value: "+10.5",
                         //   ),
@@ -138,7 +136,7 @@ class PortfolioBody extends StatelessWidget {
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           MyText(bottom: 16, text: "Market"),
                           // const MyPercentText(
                           //   value: "0.0",
@@ -158,7 +156,7 @@ class PortfolioBody extends StatelessWidget {
                   ],
                 ),
               ),
-              MyRowHeader(),
+              const MyRowHeader(),
               Container(
                 constraints: const BoxConstraints(
                   minHeight: 100,

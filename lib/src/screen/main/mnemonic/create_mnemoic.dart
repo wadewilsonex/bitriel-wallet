@@ -1,19 +1,16 @@
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 
 class CreateMnemonic extends StatefulWidget {
   final String? passPhrase;
   final List passPhraseList;
-  const CreateMnemonic(this.passPhrase, this.passPhraseList);
+  const CreateMnemonic(this.passPhrase, this.passPhraseList, {Key? key}) : super(key: key);
 
   @override
-  _CreateMnemonicState createState() => _CreateMnemonicState();
+  CreateMnemonicState createState() => CreateMnemonicState();
 }
 
-class _CreateMnemonicState extends State<CreateMnemonic> {
+class CreateMnemonicState extends State<CreateMnemonic> {
   @override
   void initState() {
     AppServices.noInternetConnection(context: context);
@@ -24,27 +21,36 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   Future<void> disableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.disableScreenshots();
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("disableScreenShot $e");
+      }
+    }
   }
 
   Future<void> enableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("enableScreenShot $e");
+      }
+    }
 
+    if(!mounted) return;
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             MyAppBar(
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
@@ -61,7 +67,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                       text: AppString.backupPassphrase,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: 12,
@@ -73,7 +79,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                       textAlign: TextAlign.left,
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: 12,
@@ -97,11 +103,11 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      color: isDarkTheme
+                      color: isDarkMode
                         ? hexaCodeToColor(AppColors.darkCard)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: widget.passPhraseList.length,
@@ -110,7 +116,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                               text: "${i+1}. ${widget.passPhraseList[i]}",
                               textAlign: TextAlign.left,
                               fontSize: 25,
-                              color: AppColors.secondarytext,
+                              hexaColor: AppColors.secondarytext,
                               fontWeight: FontWeight.bold,
                             );
                           },

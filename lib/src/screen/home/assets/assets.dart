@@ -16,7 +16,7 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
 
   int changeVertical = 0;
 
-  AssetPageModel _model = AssetPageModel();
+  final AssetPageModel _model = AssetPageModel();
 
   Future<void> scrollRefresh() async {
 
@@ -26,7 +26,7 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
 
     setState(() {});
       _model.indicator!.currentState!.show();
-      await Future.delayed(Duration(seconds: 1), (){});
+      await Future.delayed(const Duration(seconds: 1), (){});
 
     // await PortfolioServices().setPortfolio(context);
     if (_model.tabController!.index == 0 || _model.tabController!.index == 1){
@@ -34,11 +34,11 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
       await ContractsBalance().refetchContractBalance(context: context);
     } else if (_model.tabController!.index == 2){
       _model.indicator!.currentState!.show();
-      await Future.delayed(Duration(seconds: 1), (){});
+      await Future.delayed(const Duration(seconds: 1), (){});
       _model.bep20Assets = AppServices().sortAsset(_model.bep20Assets!);
     } else if (_model.tabController!.index == 3){
       _model.indicator!.currentState!.show();
-      await Future.delayed(Duration(seconds: 1), (){});
+      await Future.delayed(const Duration(seconds: 1), (){});
       _model.erc20Assets = AppServices().sortAsset(_model.erc20Assets!);
 
     } 
@@ -50,7 +50,7 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
   @override
   void initState() {
     
-    _model.tabController = TabController(initialIndex: 0, length: 4, vsync: this);
+    _model.tabController = TabController(initialIndex: 1, length: 4, vsync: this);
     _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
     _model.indicator = GlobalKey<RefreshIndicatorState>();
     _model.scrollController = ScrollController();
@@ -78,10 +78,15 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
       // else 
       if (isTap != null) _model.tabController!.animateTo(index);
 
-      if (index == 0) _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
-      else if (index == 1) _model.assetLength = _model.nativeAssets!.length;// > 5 ? _model.nativeAssets!.length : 5;
-      else if (index == 2) _model.assetLength = _model.bep20Assets!.length;// > 5 ? _model.bep20Assets!.length : 5;
-      else if (index == 3) _model.assetLength = _model.erc20Assets!.length;// > 5 ? _model.erc20Assets!.length : 5;
+      if (index == 0) {
+        _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
+      } else if (index == 1) {
+        _model.assetLength = _model.nativeAssets!.length;
+      } else if (index == 2) {
+        _model.assetLength = _model.bep20Assets!.length;
+      } else if (index == 3) {
+        _model.assetLength = _model.erc20Assets!.length;
+      }// > 5 ? _model.erc20Assets!.length : 5;
     });
   }
 

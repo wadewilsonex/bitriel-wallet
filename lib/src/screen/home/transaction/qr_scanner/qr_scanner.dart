@@ -1,9 +1,9 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
 
 class QrScanner extends StatefulWidget {
+  const QrScanner({Key? key}) : super(key: key);
+
   // final List portList;
   // final WalletSDK sdk;
   // final Keyring keyring;
@@ -31,7 +31,9 @@ class QrScannerState extends State<QrScanner> {
       });
 
     } catch (e) {
-     
+      if (kDebugMode) {
+        print("qr create $e");
+      }
     }
 
     return controller;
@@ -39,7 +41,7 @@ class QrScannerState extends State<QrScanner> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         physic: const NeverScrollableScrollPhysics(),
@@ -49,7 +51,7 @@ class QrScannerState extends State<QrScanner> {
           children: [
             MyAppBar(
               title: "Scanning",
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkBgd).withOpacity(0)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
@@ -57,15 +59,29 @@ class QrScannerState extends State<QrScanner> {
               },
             ),
             Expanded(
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: (QRViewController qrView) async {
-                  await _onQrViewCreated(qrView);
-                },
-                overlay: QrScannerOverlayShape(
-                  borderRadius: 10,
-                  borderWidth: 10,
-                ),
+              child: Stack(
+                children: [
+                  QRView(
+                    key: qrKey,
+                    onQRViewCreated: (QRViewController qrView) async {
+                      await _onQrViewCreated(qrView);
+                    },
+                    overlay: QrScannerOverlayShape(
+                      borderColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                      borderRadius: 10,
+                      borderWidth: 10,
+                    ),
+                  ),
+                  const Positioned(
+                    left: 95,
+                    top: 525,
+                    child: MyText(
+                      text: "Scan QR Code to login, send, pay",
+                      // fontSize: 15,
+                      hexaColor: AppColors.whiteColorHexa,
+                    ),
+                  )
+                ]
               )
             ),
           ],

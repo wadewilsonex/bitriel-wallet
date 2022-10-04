@@ -1,5 +1,3 @@
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -9,7 +7,7 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class ImportAcc extends StatefulWidget {
   final String? reimport;
-  const ImportAcc({this.reimport});
+  const ImportAcc({Key? key, this.reimport}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +18,7 @@ class ImportAcc extends StatefulWidget {
 class ImportAccState extends State<ImportAcc> {
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
-  ImportAccModel _importAccModel = ImportAccModel();
+  final ImportAccModel _importAccModel = ImportAccModel();
 
   bool? status;
   int? currentVersion;
@@ -30,6 +28,7 @@ class ImportAccState extends State<ImportAcc> {
 
   @override
   void initState() {
+    print("isDark $isDarkMode");
     _api = Provider.of<ApiProvider>(context, listen: false);
     AppServices.noInternetConnection(context: context);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
@@ -45,12 +44,16 @@ class ImportAccState extends State<ImportAcc> {
     dynamic res;
     try {
       
-      res = await Provider.of<ApiProvider>(context, listen: false).apiKeyring;
+      res = Provider.of<ApiProvider>(context, listen: false).apiKeyring;
       enable = res;
       
       setState((){});
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
     }
     return res;
   }
@@ -236,7 +239,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<bool> checkPassword(String pin) async {
-    final res = await Provider.of<ApiProvider>(context, listen: false);
+    final res = Provider.of<ApiProvider>(context, listen: false);
     bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
@@ -246,7 +249,11 @@ class ImportAccState extends State<ImportAcc> {
       enable = await _api!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
       setState(() { });
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error validateMnemonic $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
     }
   }
 
@@ -261,7 +268,7 @@ class ImportAccState extends State<ImportAcc> {
     
     dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
 
-    dynamic _json = await _api!.apiKeyring.importAccount(
+    dynamic json = await _api!.apiKeyring.importAccount(
       _api!.getKeyring,
       keyType: KeyType.mnemonic,
       key: _importAccModel.mnemonicCon.text,
@@ -272,7 +279,7 @@ class ImportAccState extends State<ImportAcc> {
     await _api!.apiKeyring.addAccount(
       _api!.getKeyring,
       keyType: KeyType.mnemonic,
-      acc: _json,
+      acc: json,
       password: _importAccModel.pwCon.text,
     );
 
@@ -293,41 +300,45 @@ class ImportAccState extends State<ImportAcc> {
         },
       )
     );
+
+    if(!mounted) return;
     Navigator.pushAndRemoveUntil(
       context, 
-      Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+      Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
       ModalRoute.withName('/')
     );
     
   }
   
-  Future<void> importAccountNAsset(ApiProvider _api) async {
+  Future<void> importAccountNAsset(ApiProvider api) async {
 
-    final _resPk = await _api.getPrivateKey(_importAccModel.mnemonicCon.text);
+    final resPk = await api.getPrivateKey(_importAccModel.mnemonicCon.text);
 
     /// Cannot connect Both Network On the Same time
     /// 
     /// It will be wrong data of that each connection. 
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await _api.connectSELNode(context: context, funcName: "account").then((value) async {
+    await api.connectSELNode(context: context, funcName: "account").then((value) async {
 
-      await _api.getAddressIcon();
+      await api.getAddressIcon();
       // Get From Account js
-      await _api.getCurrentAccount(context: context);
+      await api.getCurrentAccount(context: context);
 
-      await ContractProvider().extractAddress(_resPk);
+      await ContractProvider().extractAddress(resPk);
 
-      final _res = await _api.encryptPrivateKey(_resPk, _importAccModel.pwCon.text);
+      final res = await api.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
       
-      await StorageServices().writeSecure(DbKey.private, _res);
+      await StorageServices().writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
       // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
 
+      if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      await _api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
+      if(!mounted) return;
+      await api.queryBtcData(context, _importAccModel.mnemonicCon.text, _importAccModel.pwCon.text);
 
       await ContractsBalance().getAllAssetBalance(context: context);
     }); 
@@ -337,7 +348,7 @@ class ImportAccState extends State<ImportAcc> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: ImportAccBody(
           reImport: widget.reimport,

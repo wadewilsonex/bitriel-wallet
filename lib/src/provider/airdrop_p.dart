@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,7 +54,7 @@ class AirDropProvider with ChangeNotifier {
   Future<DeployedContract> initContract() async {
     try {
 
-      final String abi = await rootBundle.loadString(AppConfig.abiPath+"airdrop.json");
+      final String abi = await rootBundle.loadString("${AppConfig.abiPath}airdrop.json");
       _deployedContract = DeployedContract(
         ContractAbi.fromJson(abi, "AirdropClaim"),
         EthereumAddress.fromHex(contract)
@@ -64,28 +62,33 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error initContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error initContract $e");
+        }
+      }
     }
 
     return _deployedContract!;
   }
 
   /* --------------------Read Contract-------------------- */
-  Future<void> airdropTokenAddress() async {
-    try {
+  // Future<void> airdropTokenAddress() async {
+  //   try {
 
-      await _contractP!.initBscClient();
-      final preFunction = _deployedContract!.function('airdropTokenAddress');
-      final res = await _contractP!.bscClient.call(
-        contract: _deployedContract!, 
-        function: preFunction, 
-        params: []
-      );
+  //     await _contractP!.initBscClient();
+  //     final preFunction = _deployedContract!.function('airdropTokenAddress');
+  //     final res = await _contractP!.bscClient.call(
+  //       contract: _deployedContract!, 
+  //       function: preFunction, 
+  //       params: []
+  //     );
 
-    } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error airdropTokenAddress $e");
-    }
-  }
+
+  //   } catch (e) {
+  //     if (ApiProvider().isDebug == true) print("Error airdropTokenAddress $e");
+  //   }
+  // }
 
   Future<String> getTrxFee() async {
     try {
@@ -98,13 +101,17 @@ class AirDropProvider with ChangeNotifier {
       );
       res = (res / BigInt.from(pow(10, 9)));
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error getTrxFee $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getTrxFee $e");
+        }
+      }
     }
     return '';
   }
 
   Future<dynamic> signMessage(BuildContext context) async {
-    final apiPro = await Provider.of<ApiProvider>(context, listen: false);
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.signMessage('${Provider.of<ContractProvider>(context, listen: false).ethAdd}')").then((value) async {
       return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     });
@@ -120,7 +127,7 @@ class AirDropProvider with ChangeNotifier {
 
       if (_privateKey != ''){
 
-        final credentials = await EthPrivateKey.fromHex(_privateKey);
+        final credentials = EthPrivateKey.fromHex(_privateKey);
 
         final res = await _contractP!.bscClient.sendTransaction(
           credentials,
@@ -172,7 +179,11 @@ class AirDropProvider with ChangeNotifier {
       });
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error signUp $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error signUp $e");
+        }
+      }
     }
   }
 
@@ -206,7 +217,7 @@ class AirDropProvider with ChangeNotifier {
   }
 
   Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
-    final apiPro = await Provider.of<ApiProvider>(context, listen: false);
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
     // .then((value) async {
     //   print("resolve $value");
@@ -278,7 +289,11 @@ class AirDropProvider with ChangeNotifier {
       // });
       // print("Done connect to mongo");
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error signToDb $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error signToDb $e");
+        }
+      }
     }
   }
   

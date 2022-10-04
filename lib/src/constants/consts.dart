@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 const int SECONDS_OF_DAY = 24 * 60 * 60; // seconds of one day
 const int SECONDS_OF_YEAR = 365 * 24 * 60 * 60;
 

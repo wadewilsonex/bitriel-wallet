@@ -1,16 +1,13 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/search_c.dart';
 import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
-import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 
 class SelectSwapTokenBody extends StatelessWidget {
   final TextEditingController? searchController;
   final Function? query;
 
-  SelectSwapTokenBody({ 
+  const SelectSwapTokenBody({ 
     Key? key,
     this.searchController,
     this.query
@@ -24,7 +21,7 @@ class SelectSwapTokenBody extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Iconsax.close_circle,
               size: 25,
             ),
@@ -79,15 +76,15 @@ class SelectSwapTokenBody extends StatelessWidget {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 3, color: hexaCodeToColor("#114463"),),
+            borderSide: BorderSide(width: 3, color: hexaCodeToColor(AppColors.bluebgColor),),
           ),
           hintText: "Type token name",
           hintStyle: TextStyle(
@@ -97,7 +94,7 @@ class SelectSwapTokenBody extends StatelessWidget {
           prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.whiteHexaColor), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
-          fillColor: hexaCodeToColor("#114463"),
+          fillColor: hexaCodeToColor(AppColors.bluebgColor),
           suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor("#AAAAAA"), size: 20),
         ),
         onChanged: (String value){
@@ -112,7 +109,7 @@ class SelectSwapTokenBody extends StatelessWidget {
       builder: (context, provider, widget){
         return ListView.builder(
           shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
           itemBuilder: (context, index){
             return Padding(

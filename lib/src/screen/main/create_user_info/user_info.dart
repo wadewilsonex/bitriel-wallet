@@ -1,18 +1,13 @@
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-import 'package:defichaindart/defichaindart.dart';
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
 class MyUserInfo extends StatefulWidget {
   final String passPhrase;
-  const MyUserInfo(this.passPhrase);
+  const MyUserInfo(this.passPhrase, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,7 +21,7 @@ class MyUserInfoState extends State<MyUserInfo> {
 
   final MenuModel _menuModel = MenuModel();
 
-  LocalAuthentication? _localAuth = LocalAuthentication();
+  final LocalAuthentication _localAuth = LocalAuthentication();
 
   @override
   void initState() {
@@ -41,7 +36,11 @@ class MyUserInfoState extends State<MyUserInfo> {
 
     await FlutterScreenshotSwitcher.enableScreenshots();
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error enableScreenshot $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error enableScreenshot $e");
+        }
+      }
     }
   }
 
@@ -64,7 +63,7 @@ class MyUserInfoState extends State<MyUserInfo> {
       // Avaible To
       // Avaible To
       if (available) {
-        await BioAuth().authenticateBiometric(_localAuth!).then((values) async {
+        await BioAuth().authenticateBiometric(_localAuth).then((values) async {
           
           _menuModel.authenticated = values;
           if (_menuModel.authenticated!) {
@@ -77,9 +76,11 @@ class MyUserInfoState extends State<MyUserInfo> {
           setState(() { });
         });
       } else {
+        if(!mounted) return;
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
+      if(!mounted) return;
       await customDialog(context, 'Oops', e.toString());
     }
   }
@@ -155,11 +156,11 @@ class MyUserInfoState extends State<MyUserInfo> {
   Future<void> submitAcc() async {
     // Show Loading Process
     dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
-    final _api = await Provider.of<ApiProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
 
     try {
-      dynamic _json = await _api.apiKeyring.importAccount(
-        _api.getKeyring,
+      dynamic json = await api.apiKeyring.importAccount(
+        api.getKeyring,
         keyType: KeyType.mnemonic,
         key: widget.passPhrase,
         name: _userInfoM.userNameCon.text,
@@ -174,37 +175,42 @@ class MyUserInfoState extends State<MyUserInfo> {
       //   password: _userInfoM.confirmPasswordCon.text,
       // );
 
-      await _api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
-        _api.getKeyring,
+      await api.apiKeyring.addAccount(// _api.getSdk.api.keyring.addAccount(
+        api.getKeyring,
         keyType: KeyType.mnemonic,
-        acc: _json,
+        acc: json,
         password: _userInfoM.confirmPasswordCon.text,
       ).then((value) async {
 
-        final _resPk = await _api.getPrivateKey(widget.passPhrase);
+        final resPk = await api.getPrivateKey(widget.passPhrase);
 
         /// Cannot connect Both Network On the Same time
         /// 
         /// It will be wrong data of that each connection. 
         /// 
         /// This Function Connect Polkadot Network And then Connect Selendra Network
-        await _api.connectSELNode(context: context).then((value) async {
+        await api.connectSELNode(context: context).then((value) async {
 
-          await _api.getAddressIcon();
+          await api.getAddressIcon();
           // Get From Account js
-          await _api.getCurrentAccount(context: context);
+          await api.getCurrentAccount(context: context);
 
-          await ContractProvider().extractAddress(_resPk);
+          await ContractProvider().extractAddress(resPk);
 
-          final _res = await _api.encryptPrivateKey(_resPk, _userInfoM.confirmPasswordCon.text);
+          final res = await api.encryptPrivateKey(resPk, _userInfoM.confirmPasswordCon.text);
           
-          await StorageServices().writeSecure(DbKey.private, _res);
+          await StorageServices().writeSecure(DbKey.private, res);
+
+          if(!mounted) return;
 
           await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
           
-          await _api.queryBtcData(context, widget.passPhrase, _userInfoM.confirmPasswordCon.text);
+          if(!mounted) return;
+          await api.queryBtcData(context, widget.passPhrase, _userInfoM.confirmPasswordCon.text);
 
           await ContractsBalance().getAllAssetBalance(context: context);
+          
+          if(!mounted) return;
           await successDialog(context, "Account is created.");
         }); 
 
@@ -212,17 +218,6 @@ class MyUserInfoState extends State<MyUserInfo> {
     } catch (e) {
       await customDialog(context, 'Oops', e.toString());
     }
-  }
-
-  void _setAcc(ApiProvider api){
-
-    AccountM accM = AccountM();
-    accM.address = api.getKeyring.allAccounts[0].address;
-    accM.addressIcon = api.getKeyring.allAccounts[0].icon;
-    accM.name = api.getKeyring.allAccounts[0].name;
-    accM.pubKey = api.getKeyring.allAccounts[0].pubKey;
-    api.setAccount(accM);
-    Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(accM.address!);
   }
 
   PopupMenuItem item(Map<String, dynamic> list) {

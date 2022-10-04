@@ -1,10 +1,9 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/trx_history_c.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
-import 'package:wallet_apps/src/screen/home/asset_info/activity_list.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/asset_detail.dart';
+import 'package:wallet_apps/src/screen/transaction_detail.dart/trx_detail.dart';
 
 class AssetInfoBody extends StatelessWidget {
 
@@ -19,11 +18,11 @@ class AssetInfoBody extends StatelessWidget {
     required this.onPageChange
   }) : super(key: key);
 
-  double logoSize = 15.w;
+  final double logoSize = 15.w;
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: assetInfoModel!.globalKey,
       body: BodyScaffold(
@@ -43,15 +42,15 @@ class AssetInfoBody extends StatelessWidget {
                 forceElevated: innerBox,
                 automaticallyImplyLeading: false,
                 leading: Container(),
-                backgroundColor: isDarkTheme
-                  ? assetInfoModel!.bg
+                backgroundColor: isDarkMode
+                  ? hexaCodeToColor(AppColors.darkBgd)
                   : Colors.white,
                 flexibleSpace: Column(children: [
 
                   // AppBar
                   Expanded(
                       child: Container(
-                        color: hexaCodeToColor(AppColors.bluebgColor),
+                        color: hexaCodeToColor(AppColors.darkBgd),
                         child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                             child: Row(
@@ -68,7 +67,7 @@ class AssetInfoBody extends StatelessWidget {
                                       Platform.isAndroid
                                         ? Icons.arrow_back
                                         : Icons.arrow_back_ios,
-                                      color: isDarkTheme
+                                      color: isDarkMode
                                         ? Colors.white
                                         : Colors.black,
                                       size: 22.5.sp
@@ -80,7 +79,7 @@ class AssetInfoBody extends StatelessWidget {
                                   left: 2.w,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteHexaColor
                                     : AppColors.blackColor,
                                   text: assetInfoModel!.smartContractModel!.symbol!
@@ -97,7 +96,7 @@ class AssetInfoBody extends StatelessWidget {
                                   child: MyText(
                                     text: ApiProvider().isMainnet ? assetInfoModel!.smartContractModel!.org : assetInfoModel!.smartContractModel!.orgTest,
                                     fontWeight: FontWeight.w700,
-                                    color: isDarkTheme
+                                    hexaColor: isDarkMode
                                       ? AppColors.whiteHexaColor
                                       : AppColors.darkCard,
                                   )
@@ -115,8 +114,8 @@ class AssetInfoBody extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   <Widget>[
                     Container(
-                      color: isDarkTheme
-                        ? assetInfoModel!.bg
+                      color: isDarkMode
+                        ? hexaCodeToColor(AppColors.darkBgd)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Column(
                         children: [
@@ -128,22 +127,23 @@ class AssetInfoBody extends StatelessWidget {
                           // Logo
                           GestureDetector(
                             onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                              print("Index ${assetInfoModel!.index}");
+                              if (kDebugMode) {
+                                print("Index ${assetInfoModel!.index}");
+                              }
                               final image = ImagePicker();
                               await image.pickImage(source: ImageSource.gallery).then((value) async {
-                                print(value!.path);
-                                if (value != null){
-                                  
-                                  Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
-                                    if (element.contract == assetInfoModel!.smartContractModel!.contract){
-                                      // element.logo = value.path;
-                                      // If found
-                                      return true;
-                                    }
-                                    // Not found
-                                    return false;
-                                  });
+                                if (kDebugMode) {
+                                  print(value!.path);
                                 }
+                                Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
+                                  if (element.contract == assetInfoModel!.smartContractModel!.contract){
+                                    // element.logo = value.path;
+                                    // If found
+                                    return true;
+                                  }
+                                  // Not found
+                                  return false;
+                                });
                               });
                             },
                             child: Stack(
@@ -173,7 +173,7 @@ class AssetInfoBody extends StatelessWidget {
                                     Icons.edit, 
                                     size: 18.sp,
                                     color: hexaCodeToColor(
-                                      // isDarkTheme
+                                      // isDarkMode
                                       // ? AppColors.greyCode
                                       // : 
                                       AppColors.whiteColorHexa
@@ -184,7 +184,7 @@ class AssetInfoBody extends StatelessWidget {
                             ),
                           ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
 
@@ -194,7 +194,7 @@ class AssetInfoBody extends StatelessWidget {
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
-                            color: isDarkTheme
+                            hexaColor: isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
                           ),
@@ -202,7 +202,7 @@ class AssetInfoBody extends StatelessWidget {
                           MyText(
                             top: 8.0,
                             text: "≈ \$ ${assetInfoModel!.smartContractModel!.money!.toStringAsFixed(2)}",
-                            color: isDarkTheme
+                            hexaColor: isDarkMode
                               ? AppColors.greyCode
                               : AppColors.textColor,
                             //fontWeight: FontWeight.bold,
@@ -233,8 +233,8 @@ class AssetInfoBody extends StatelessWidget {
                               alignment: Alignment.center,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: isDarkTheme
-                                    ? assetInfoModel!.bg
+                                color: isDarkMode
+                                    ? hexaCodeToColor(AppColors.darkBgd)
                                     : hexaCodeToColor(
                                         AppColors.whiteHexaColor),
                                 border: Border(
@@ -249,9 +249,9 @@ class AssetInfoBody extends StatelessWidget {
                               child: MyText(
                                 fontWeight: FontWeight.bold,
                                 text: "Activity",
-                                color: assetInfoModel!.tabIndex == 0
+                                hexaColor: assetInfoModel!.tabIndex == 0
                                     ? AppColors.whiteColorHexa
-                                    : isDarkTheme
+                                    : isDarkMode
                                         ? AppColors.iconColor
                                         : AppColors.textColor,
                               ),
@@ -268,8 +268,8 @@ class AssetInfoBody extends StatelessWidget {
                               alignment: Alignment.center,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: isDarkTheme
-                                  ? assetInfoModel!.bg
+                                color: isDarkMode
+                                  ? hexaCodeToColor(AppColors.darkBgd)
                                   : hexaCodeToColor(AppColors.whiteHexaColor),
                                 border: Border(
                                   bottom: BorderSide(
@@ -283,7 +283,7 @@ class AssetInfoBody extends StatelessWidget {
                               child: MyText(
                                 fontWeight: FontWeight.w600,
                                 text: "Details",
-                                color: assetInfoModel!.tabIndex == 1
+                                hexaColor: assetInfoModel!.tabIndex == 1
                                     ? AppColors.whiteColorHexa
                                     : AppColors.iconColor
                               ),
@@ -307,70 +307,34 @@ class AssetInfoBody extends StatelessWidget {
               Consumer<ContractProvider>(builder: (context, value, child) {
                 return assetInfoModel!.lsTxInfo == null
                     ? Container(
-                        color: isDarkTheme
-                          ? assetInfoModel!.bg
+                        color: isDarkMode
+                          ? hexaCodeToColor(AppColors.darkBgd)
                           : hexaCodeToColor(AppColors.whiteHexaColor),
                         child: Center(
                           child: SvgPicture.asset(
-                            AppConfig.iconsPath+'no_data.svg',
+                            '${AppConfig.iconsPath}no_data.svg',
                             width: 15.w,
                             height: 15.h,
                           )
                         ),
                       )
-                    : Container(
-                      color: isDarkTheme ? hexaCodeToColor(AppColors.darkCard) : hexaCodeToColor(AppColors.whiteColorHexa),
-                      child: ActivityList(
-                        transactionInfo: assetInfoModel!.lsTxInfo,
-                      ),
+                    : TrxHistoryList(
+                      icon: const Icon(Iconsax.export_3, color: Colors.red),
+                      action: (){
+                        Navigator.push(
+                          context, 
+                          Transition(child: TransactionDetail(assetInfoModel: assetInfoModel), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                        );
+                      },
                     );
               }),
 
               Container(
-                color: isDarkTheme
-                  ? assetInfoModel!.bg
+                color: isDarkMode
+                  ? hexaCodeToColor(AppColors.darkBgd)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
                   child: AssetDetail(assetInfoModel!.smartContractModel!),
-                // child: AssetDetail(assetInfoModel!.smartContractModel!.marketData!, assetInfoModel!.smartContractModel!),
               )
-              // else if (assetInfoModel!.smartContractModel!.description != "")
-              //   Container(
-              //     color: isDarkTheme
-              //       ? assetInfoModel!.bg
-              //       : hexaCodeToColor(AppColors.whiteHexaColor),
-              //     child: Center(
-              //       child: MyText(text: assetInfoModel!.smartContractModel!.description,)
-              //       // SvgPicture.asset(
-              //       //   AppConfig.iconsPath+'no_data.svg',
-              //       //   width: 150,
-              //       //   height: 150,
-              //       // ),
-              //     ),
-              //   )
-              // : 
-              // Container(
-              //   color: isDarkTheme
-              //     ? assetInfoModel!.bg
-              //     : hexaCodeToColor(AppColors.whiteHexaColor),
-              //   child: Center(
-              //     child: SvgPicture.asset(
-              //       AppConfig.iconsPath+'no_data.svg',
-              //       width: 150,
-              //       height: 150,
-              //     ),
-              //   ),
-              // ),
-              // Container(
-              //   color: isDarkTheme
-              //       ? hexaCodeToColor(AppColors.darkCard)
-              //       : hexaCodeToColor(AppColors.whiteHexaColor),
-              //   child: Center(
-              //       child: SvgPicture.asset(
-              //     'assets/icons/no_data.svg',
-              //     width: 150,
-              //     height: 150,
-              //   )),
-              // ),
             ],
           ),
         ),
@@ -386,49 +350,37 @@ class AssetInfoBody extends StatelessWidget {
       children: [
         
         MyGradientButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-
-            children: [
-              MyText(
-                text: "Send",
-                color: AppColors.whiteColorHexa,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-          ),
           height: height,
           width: width,
-          lsColor: ["#035A8F", "#035A8F"],
+          lsColor: const ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
             Navigator.push(
               context, 
-              Transition(child: SubmitTrx("", true, [], scModel: scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              Transition(child: SubmitTrx("", true, const [], scModel: scModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
-          }
-        ),
-
-        SizedBox(width: 10,),
-        
-        MyGradientButton(
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
+            children: const [
               MyText(
-                text: "Receive",
-                color: AppColors.whiteColorHexa,
+                text: "Send",
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
-          ),
+          )
+        ),
+
+        const SizedBox(width: 10,),
+        
+        MyGradientButton(
           height: height,
           width: width,
-          lsColor: ["#035A8F", "#035A8F"],
+          lsColor: const ["#035A8F", "#035A8F"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -436,7 +388,19 @@ class AssetInfoBody extends StatelessWidget {
               context, 
               Transition(child: ReceiveWallet(assetIndex: assetInfoModel!.index, scModel: assetInfoModel!.smartContractModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
             );
-          }
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: const [
+              MyText(
+                text: "Receive",
+                hexaColor: AppColors.whiteColorHexa,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          )
         )
       ],
     );

@@ -14,7 +14,7 @@ class StorageServices {
   Future<String>? readSecure(String key) async {
 
     String? res = await _storage.read(key: key);
-    return res != null ? res : '';
+    return res ?? '';
   }
 
   Future<void> writeSecure(String key, String value) async {
@@ -34,40 +34,48 @@ class StorageServices {
     await _preferences!.clear();
   }
 
-  static Future<SharedPreferences> storeData(dynamic _data, String _path) async {
+  static Future<SharedPreferences> storeData(dynamic data, String path) async {
     try {
 
       _preferences = await SharedPreferences.getInstance();
-      _decode = jsonEncode(_data);
-      print("_decode $_decode");
-      await _preferences!.setString(_path, _decode!);
+      _decode = jsonEncode(data);
+      if (kDebugMode) {
+        print("_decode $_decode");
+      }
+      await _preferences!.setString(path, _decode!);
 
     } catch (e){
-      if (ApiProvider().isDebug == true) print("Error storeData $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error storeData $e");
+        }
+      }
     }
     return _preferences!;
   }
 
-  static Future<SharedPreferences> addMoreData(Map<String, dynamic> _data, String _path) async {
+  static Future<SharedPreferences> addMoreData(Map<String, dynamic> data, String path) async {
     List<Map<String, dynamic>> ls = [];
     _preferences = await SharedPreferences.getInstance();
-    if (_preferences!.containsKey(_path)) {
-      final _dataString = _preferences!.getString(_path);
+    if (_preferences!.containsKey(path)) {
+      final dataString = _preferences!.getString(path);
 
-      ls = List<Map<String, dynamic>>.from(jsonDecode(_dataString!) as List);
-      ls.add(_data);
+      ls = List<Map<String, dynamic>>.from(jsonDecode(dataString!) as List);
+      ls.add(data);
     } else {
-      ls.add(_data);
+      ls.add(data);
     }
 
     _decode = jsonEncode(ls);
-    await _preferences!.setString(_path, _decode!);
+    await _preferences!.setString(path, _decode!);
     return _preferences!;
   }
 
   static Future<void> storeAssetData(BuildContext context) async {
 
-    print("storeAssetData storeAssetData");
+    if (kDebugMode) {
+      print("storeAssetData storeAssetData");
+    }
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -78,7 +86,11 @@ class StorageServices {
       await _preferences!.setString(DbKey.listContract, jsonEncode(lsContract));
       await _preferences!.setString(DbKey.addedContract, jsonEncode(adContract));
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error storeAssetData $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error storeAssetData $e");
+        }
+      }
     }
   }
 
@@ -203,19 +215,19 @@ class StorageServices {
     return _preferences!.getBool(DbKey.bio) ?? false;
   }
 
-  static Future<SharedPreferences> setUserID(String _data, String _path) async {
+  static Future<SharedPreferences> setUserID(String data, String path) async {
     _preferences = await SharedPreferences.getInstance();
-    _decode = jsonEncode(_data);
-    _preferences!.setString(_path, _decode!);
+    _decode = jsonEncode(data);
+    _preferences!.setString(path, _decode!);
     return _preferences!;
   }
 
-  static Future<dynamic> fetchAsset(String _path) async {
+  static Future<dynamic> fetchAsset(String path) async {
     try {
 
       _preferences = await SharedPreferences.getInstance();
 
-      _decode = _preferences!.getString(_path);
+      _decode = _preferences!.getString(path);
 
       if (_decode != null){
 
@@ -224,20 +236,24 @@ class StorageServices {
       }
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) print("Error fetchAsset $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error fetchAsset $e");
+        }
+      }
     }
     //return _preferences.getString(_path);
   }
 
-  static Future<dynamic> fetchData(String _path) async {
+  static Future<dynamic> fetchData(String path) async {
     _preferences = await SharedPreferences.getInstance();
 
-    final _data = _preferences!.getString(_path);
+    final data = _preferences!.getString(path);
 
-    if (_data == null) {
+    if (data == null) {
       return null;
     } else {
-      return json.decode(_data);
+      return json.decode(data);
     }
   }
 
@@ -248,7 +264,7 @@ class StorageServices {
 
   static Future<Map?> getSeeds(String? seedType) async {
     _preferences = await SharedPreferences.getInstance();
-    String? value = await _preferences!.getString('wallet_seed_$seedType');
+    String? value = _preferences!.getString('wallet_seed_$seedType');
     if (value != null) {
       return jsonDecode(value);
     }

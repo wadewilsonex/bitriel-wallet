@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:share/share.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/component.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../../../../index.dart';
 
 class ActivityDetail extends StatelessWidget {
@@ -11,12 +7,12 @@ class ActivityDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     final addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
 
     return Scaffold(
       body: Container(
-        color: isDarkTheme
+        color: isDarkMode
             ? hexaCodeToColor(AppColors.darkBgd)
             : hexaCodeToColor(AppColors.whiteColorHexa),
         child: Column(
@@ -26,7 +22,7 @@ class ActivityDetail extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
             ),
@@ -41,14 +37,14 @@ class ActivityDetail extends StatelessWidget {
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     overflow: TextOverflow.ellipsis,
-                    color: AppColors.secondary,
+                    hexaColor: AppColors.secondary,
                   ),
                   MyText(
                     top: 8.0,
                     text: trxInfo!.estGasFeePrice != null 
                       ? '≈ \$${trxInfo!.estGasFeePrice}' 
                       : '≈ \$0.00', //'≈ $0.00',
-                    color: AppColors.darkSecondaryText,
+                    hexaColor: AppColors.darkSecondaryText,
                   ),
                 ],
               ),
@@ -65,22 +61,17 @@ class ActivityDetail extends StatelessWidget {
             // ),
             Card(
               margin: const EdgeInsets.all(16.0),
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(
                       AppColors.whiteColorHexa,
                     ),
               child: Container(
-                // margin: const EdgeInsets.all(16.0),
                 padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-
-                    //   borderRadius: BorderRadius.circular(8.0),
-                    ),
                 child: Column(
                   children: [
-                    _buildRow('Date', trxInfo!.timeStamp!, isDarkTheme),
-                    Divider(),
+                    _buildRow('Date', trxInfo!.timeStamp!, isDarkMode),
+                    const Divider(),
                     _buildRow(
                         'Status',
                         trxInfo!.status == null
@@ -88,11 +79,11 @@ class ActivityDetail extends StatelessWidget {
                             : trxInfo!.status!
                                 ? 'Completed'
                                 : 'Failed',
-                        isDarkTheme),
-                    Divider(),
-                    _buildRow('To', addr, isDarkTheme),
-                    Divider(),
-                    _buildRow('Network Fee', trxInfo!.gasFee!, isDarkTheme),
+                        isDarkMode),
+                    const Divider(),
+                    _buildRow('To', addr, isDarkMode),
+                    const Divider(),
+                    _buildRow('Network Fee', trxInfo!.gasFee!, isDarkMode),
                   ],
                 ),
               ),
@@ -100,7 +91,7 @@ class ActivityDetail extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 21),
               // ignore: deprecated_member_use
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {
                   // method.qrShare(keyQrShare, wallet);
 
@@ -120,9 +111,9 @@ class ActivityDetail extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         left: 10.0,
                       ),
-                      child: MyText(
+                      child: const MyText(
                         text: "SHARE",
-                        color: AppColors.secondary,
+                        hexaColor: AppColors.secondary,
                       ),
                     )
                   ],
@@ -136,7 +127,7 @@ class ActivityDetail extends StatelessWidget {
   }
 
   _buildRow(String leadingText, String trailingText, bool isDarkTheme) {
-    return Container(
+    return SizedBox(
       height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,14 +135,14 @@ class ActivityDetail extends StatelessWidget {
           MyText(
             text: leadingText,
             fontWeight: FontWeight.w600,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           ),
           Expanded(
             child: MyText(
               textAlign: TextAlign.end,
               text: trailingText,
               // fontWeight: FontWeight.w700,
-              color:
+              hexaColor:
                   isDarkTheme ? AppColors.whiteColorHexa : AppColors.greyCode,
             ),
           ),

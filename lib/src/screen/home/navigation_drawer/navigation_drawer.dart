@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/component.dart';
 import '../../../../index.dart';
 
 class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final _usr = Provider.of<ApiProvider>(context);
+    final usr = Provider.of<ApiProvider>(context);
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -62,15 +59,15 @@ class NavigationDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               MyText(
-                                text: _usr.getKeyring.current.name ?? '',
-                                color: "#FFFFFF",
+                                text: usr.getKeyring.current.name ?? '',
+                                hexaColor: "#FFFFFF",
                                 fontSize: 20,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 100,
                                 child: MyText(
                                   text: "Indracore",
-                                  color: AppColors.secondarytext,
+                                  hexaColor: AppColors.secondarytext,
                                   textAlign: TextAlign.start,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.ellipsis,

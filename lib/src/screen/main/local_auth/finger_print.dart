@@ -1,7 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'package:local_auth_ios/local_auth_ios.dart';
 
 class FingerPrint extends StatefulWidget {
 
@@ -10,13 +8,13 @@ class FingerPrint extends StatefulWidget {
 
   final Function? importAccount;
 
-  FingerPrint({this.importAccount, this.isEnable = false});
+  const FingerPrint({Key? key, this.importAccount, this.isEnable = false}) : super(key: key);
   
   @override
-  _FingerPrintState createState() => _FingerPrintState();
+  FingerPrintState createState() => FingerPrintState();
 }
 
-class _FingerPrintState extends State<FingerPrint> {
+class FingerPrintState extends State<FingerPrint> {
   
   final localAuth = LocalAuthentication();
 
@@ -30,7 +28,7 @@ class _FingerPrintState extends State<FingerPrint> {
   void initState() {
     AppServices.noInternetConnection(context: context);
     if (widget.isEnable!) {
-      Future.delayed(Duration(milliseconds: 500), () async {
+      Future.delayed(const Duration(milliseconds: 500), () async {
         await authenticate();
       });
     }
@@ -48,18 +46,21 @@ class _FingerPrintState extends State<FingerPrint> {
         options: const AuthenticationOptions(biometricOnly: true)
       );
       if (authenticate) {
-        await Future.delayed(Duration(seconds: 1), (){});
+        await Future.delayed(const Duration(seconds: 1), (){});
 
         // Add Account From Verify Seed Before Navigate To Home Page
         if(widget.importAccount != null) {
           await StorageServices.saveBio(true);
           // Close Dialog
+          if(!mounted) return;
           Navigator.pop(context);
           await widget.importAccount!();
         }
+
+        if(!mounted) return;
         Navigator.pushAndRemoveUntil(
           context, 
-          Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
           ModalRoute.withName('/')
         );
       }
@@ -71,7 +72,11 @@ class _FingerPrintState extends State<FingerPrint> {
       AppServices.openSnackBar(globalkey!, e.message);
     } catch (e) {
 
-      if (ApiProvider().isDebug) print("Error authenticate $e");
+      if (ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("Error authenticate $e");
+        }
+      }
 
       // Close Dialog
       Navigator.pop(context);
@@ -84,11 +89,11 @@ class _FingerPrintState extends State<FingerPrint> {
             title: Align(
               child: Text('Message', style: TextStyle(color: hexaCodeToColor(AppColors.whiteColorHexa)),),
             ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            content: const Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: MyText(
                 text: "Your device doesn't have finger print! Set up to enable this feature",
-                color: AppColors.lowWhite
+                hexaColor: AppColors.lowWhite
               ),
             ),
             actions: <Widget>[
@@ -106,7 +111,7 @@ class _FingerPrintState extends State<FingerPrint> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: globalkey,
       body: BodyScaffold(
@@ -130,7 +135,7 @@ class _FingerPrintState extends State<FingerPrint> {
               text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
               fontSize: 21.sp,
               fontWeight: FontWeight.bold,
-              color: isDarkTheme
+              hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,
             ),
@@ -142,7 +147,7 @@ class _FingerPrintState extends State<FingerPrint> {
               top: 20.0,
               width: 80.w,
               text: widget.isEnable == true ? 'Validating Finger Print' : 'Activate biometrics for your wallet to make it even more secure.',
-              color: isDarkTheme
+              hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,
             ),

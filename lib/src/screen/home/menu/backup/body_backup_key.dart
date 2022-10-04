@@ -1,9 +1,7 @@
-import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/screen/home/menu/backup/keystoreJson.dart';
-import 'package:polkawallet_sdk/storage/keyring.dart';
+import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
 
 class BackUpKeyBody extends StatelessWidget{
 
@@ -11,10 +9,11 @@ class BackUpKeyBody extends StatelessWidget{
   final Function? getMnemonic;
   final Function? disableScreenShot;
 
-  BackUpKeyBody({this.getKeyStoreJson, this.getMnemonic, this.disableScreenShot});
+  const BackUpKeyBody({Key? key, this.getKeyStoreJson, this.getMnemonic, this.disableScreenShot}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -23,7 +22,7 @@ class BackUpKeyBody extends StatelessWidget{
           iconSize: 40.0,
           icon: Icon(
             Platform.isAndroid ? LineAwesomeIcons.arrow_left : LineAwesomeIcons.angle_left,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
             size: 22.5.sp,
           ),
           onPressed: (){
@@ -31,8 +30,8 @@ class BackUpKeyBody extends StatelessWidget{
           },
         ),
         elevation: 0,
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 16, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
+        title: MyText(text: 'Export Account', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -46,16 +45,16 @@ class BackUpKeyBody extends StatelessWidget{
               text: "Keystore (json)",
               action: () async {
                 // await getKeyStoreJson!();
-                ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
+                ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
                 Map<String, dynamic> jsons = {
-                  "address": Provider.of<ContractProvider>(context, listen: false).listContract[_apiProvider.selNativeIndex].address,
-                  "encoded": _apiProvider.getKeyring.current.encoded,
-                  "encoding": _apiProvider.getKeyring.current.encoding,
-                  "pubKey": _apiProvider.getKeyring.current.pubKey,
-                  "meta": _apiProvider.getKeyring.current.meta,
-                  "memo": _apiProvider.getKeyring.current.memo,
-                  "observation": _apiProvider.getKeyring.current.observation,
-                  "indexInfo": _apiProvider.getKeyring.current.indexInfo
+                  "address": Provider.of<ContractProvider>(context, listen: false).listContract[apiProvider.selNativeIndex].address,
+                  "encoded": apiProvider.getKeyring.current.encoded,
+                  "encoding": apiProvider.getKeyring.current.encoding,
+                  "pubKey": apiProvider.getKeyring.current.pubKey,
+                  "meta": apiProvider.getKeyring.current.meta,
+                  "memo": apiProvider.getKeyring.current.memo,
+                  "observation": apiProvider.getKeyring.current.observation,
+                  "indexInfo": apiProvider.getKeyring.current.indexInfo
                 };
 
                 Navigator.push(
@@ -70,14 +69,14 @@ class BackUpKeyBody extends StatelessWidget{
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
-                await Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
+                await Navigator.push(context, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
                   // await disableScreenShot!();
-                  ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-                  await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
+                  ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
+                  await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
                     if (res!.seed != null){
-                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
+                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkMode);
                     } else {
-                      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
+                      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkMode);
                     }
                   });
                 });
@@ -88,9 +87,9 @@ class BackUpKeyBody extends StatelessWidget{
                 //     ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
                 //     await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
                 //       if (res!.seed != null){
-                //         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
+                //         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkMode: isDarkMode);
                 //       } else {
-                //         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
+                //         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkMode: isDarkMode);
                 //       }
                 //     });
                 //   }

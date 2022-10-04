@@ -131,3 +131,6 @@ js_api/node_modules/
 js_as_extension/node_modules/
 
 /vscode/
+
+# env file
+.env
