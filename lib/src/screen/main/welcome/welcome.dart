@@ -35,6 +35,7 @@ class WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
       body: WelcomeBody(),
     );
   }

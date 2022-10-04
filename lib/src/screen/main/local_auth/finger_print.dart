@@ -84,22 +84,22 @@ class FingerPrintState extends State<FingerPrint> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+            backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
-              child: Text('Message', style: TextStyle(color: hexaCodeToColor(AppColors.whiteColorHexa)),),
+              child: Text('Message', style: TextStyle(color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)),),
             ),
-            content: const Padding(
-              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+            content: Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: MyText(
                 text: "Your device doesn't have finger print! Set up to enable this feature",
-                color: AppColors.lowWhite
+                color: isDarkTheme ? AppColors.lowWhite : AppColors.darkGrey
               ),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
+                child: MyText(text: 'Close', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor),
               ),
             ],
           );
@@ -133,7 +133,7 @@ class FingerPrintState extends State<FingerPrint> {
               width: 275,
               top: 19.0,
               text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
-              fontSize: 21.sp,
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold,
               color: isDarkTheme
                 ? AppColors.whiteColorHexa
@@ -171,11 +171,10 @@ class FingerPrintState extends State<FingerPrint> {
                 ? Container() 
                 : MyFlatButton(
                   isTransparent: true,
-                  buttonColor: AppColors.whiteHexaColor,
+                  textColor: isDarkTheme ? AppColors.whiteHexaColor : AppColors.textColor,
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Skip",
                   action: () async {
-
                     await widget.importAccount!();
                   },
                 )

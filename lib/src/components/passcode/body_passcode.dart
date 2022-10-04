@@ -34,8 +34,23 @@ class PasscodeBody extends StatelessWidget{
      
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+        title: MyText(
+          text: "Passcode",
+          fontWeight: FontWeight.bold,
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
+      ),
       body: Container(
-        // color: Colors.red,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -44,19 +59,19 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
-              title: "Passcode",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ) 
-            else Container(),
+            // if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
+            //   title: "Passcode",
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // ) 
+            // else Container(),
 
             if(label != null) Expanded(child: Container(),) 
             else Container(),
 
             if (titleStatus == null ) MyText(
-              text: isFirst! ? 'PIN!' : 'Verify PIN!',
+              text: isFirst! ? 'PIN' : 'Verify PIN',
               color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -212,7 +227,7 @@ class ReusePinNum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 50,
       height: 50,
       child: TextField(
@@ -220,15 +235,15 @@ class ReusePinNum extends StatelessWidget {
         enabled: false,
         obscureText: true,
         textAlign: TextAlign.center,
-        decoration: const InputDecoration(
-          // contentPadding: EdgeInsets.all(16),
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(bottom: -50.sp),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white30
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 50,
+          fontSize: 40.sp,
           color: hexaCodeToColor(AppColors.secondary)
         ),
       ),

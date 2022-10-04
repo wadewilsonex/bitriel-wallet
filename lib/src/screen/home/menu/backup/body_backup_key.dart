@@ -18,7 +18,6 @@ class BackUpKeyBody extends StatelessWidget{
       backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         leading: IconButton(
-          /* Menu Icon */
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkTheme ? Colors.white : Colors.black,
@@ -73,7 +72,7 @@ class BackUpKeyBody extends StatelessWidget{
                   ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
                   await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
                     if (res!.seed != null){
-                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
+                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
                     } else {
                       await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
                     }

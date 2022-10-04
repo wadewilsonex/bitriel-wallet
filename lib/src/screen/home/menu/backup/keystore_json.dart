@@ -28,7 +28,7 @@ class KeyStoreJson extends StatelessWidget{
       body: Column(
         children: [
           Card(
-            color: isDarkTheme ? Colors.white.withOpacity(0.06) : Colors.white,
+            color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             margin: const EdgeInsets.all(paddingSize),
             child: Padding(
               padding: const EdgeInsets.all(paddingSize),

@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class DialogComponents {
   
-  Future<void> seedDialog({BuildContext? context, String? contents, btn, bool? isDarkTheme}) async {
+  Future<void> seedDialog({BuildContext? context, String? contents, btn}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
@@ -14,12 +14,12 @@ class DialogComponents {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15)
           ),
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
           title: MyText(
             fontSize: 20,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
-            color: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class DialogComponents {
               MyText(
                 textAlign: TextAlign.left,
                 text: AppString.screenshotNote,
-                color: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                 bottom: paddingSize,
               ),
 
@@ -40,14 +40,14 @@ class DialogComponents {
                   // ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: isDarkTheme! 
+                color: isDarkTheme
                   ? Colors.white.withOpacity(0.06)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                  : hexaCodeToColor(AppColors.whiteColorHexa),
                 child: MyText(
                   text: contents,
                   textAlign: TextAlign.left,
                   fontSize: 18,
-                  color: AppColors.secondarytext,
+                  color: isDarkTheme ? AppColors.secondary : AppColors.orangeColor,
                   fontWeight: FontWeight.bold,
                   pLeft: 16,
                   right: 16,
@@ -76,13 +76,13 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkTheme ? AppColors.lowWhite : AppColors.blackColor), size: 20.sp,),
                           
                           SizedBox(width: 2.w,),
-                          const MyText(
+                          MyText(
                             text: "Copy",
                             top: 5,
-                            color: AppColors.lowWhite,
+                            color: isDarkTheme ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
                       ),
@@ -99,7 +99,10 @@ class DialogComponents {
                 // await FlutterScreenshotSwitcher.enableScreenshots();
                 Navigator.pop(context);
               },
-              child: const MyText(text: 'Close'),
+              child: MyText(
+                text: 'Close',
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+              ),
             )
           ],
         );
@@ -133,7 +136,7 @@ class DialogComponents {
               text: titles,
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
-              color: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             ) : Container(),
             buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
@@ -165,9 +168,9 @@ class DialogComponents {
                   // await FlutterScreenshotSwitcher.enableScreenshots();
                   Navigator.pop(context);
                 },
-                child: const MyText(
+                child: MyText(
                   text: "Close",
-                  color: AppColors.lowWhite
+                  color: isDarkTheme ? AppColors.lowWhite : AppColors.textColor, 
                 ),
               )
             ],
