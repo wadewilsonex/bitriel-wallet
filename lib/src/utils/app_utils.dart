@@ -127,9 +127,6 @@ class AppUtils {
 
   /// Text Color Selector By Theme Mode
   static Color colorSelector({bool? isDark, String? hexaColor, Color? enumColor}){
-    print("colorSelector isDark $isDark");
-    print("colorSelector hexaColor $isDark");
-    print("colorSelector enumColor $isDark \b\b");
     if (hexaColor != null){
       txtColor = hexaCodeToColor(hexaColor);
     } else if (enumColor != null) {

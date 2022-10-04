@@ -40,14 +40,15 @@ class FingerPrintState extends State<FingerPrint> {
     bool authenticate = false;
     try {
 
-      dialogLoading(context);
       authenticate = await localAuth.authenticate(
         localizedReason: 'Please complete the biometrics to proceed.',
         options: const AuthenticationOptions(biometricOnly: true)
       );
       if (authenticate) {
+        if(!mounted) return;
+        dialogLoading(context);
         await Future.delayed(const Duration(seconds: 1), (){});
-
+        
         // Add Account From Verify Seed Before Navigate To Home Page
         if(widget.importAccount != null) {
           await StorageServices.saveBio(true);
@@ -146,7 +147,7 @@ class FingerPrintState extends State<FingerPrint> {
             MyText(
               top: 20.0,
               width: 80.w,
-              text: widget.isEnable == true ? 'Validating Finger Print' : 'Activate biometrics for your wallet to make it even more secure.',
+              text: widget.isEnable == true ? '' : 'Activate biometrics for your wallet to make it even more secure.',
               hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,

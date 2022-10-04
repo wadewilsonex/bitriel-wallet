@@ -64,7 +64,7 @@ class ChartDataState extends State {
             Container(
               height: 10.h,
               decoration: BoxDecoration(
-                color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
+                color: hexaCodeToColor(AppColors.orangeColor),
                 shape: BoxShape.circle,
                 boxShadow: const [
                   BoxShadow(color: Colors.white, blurRadius: 20.0),

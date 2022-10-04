@@ -26,7 +26,6 @@ class ReceiveWalletBody extends StatelessWidget {
             ),
             elevation: 0,
             bottomOpacity: 0,
-            leadingWidth: 7.w,
             title: Row(
               children: [
                 const MyText(
@@ -82,9 +81,7 @@ class ReceiveWalletBody extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               // boxShadow: [shadow(context)],
-                              color: isDarkMode
-                                ? Colors.white
-                                : hexaCodeToColor(AppColors.whiteHexaColor),
+                              color: Colors.white
                             ),
                             child: Column(
                               children: [
@@ -125,6 +122,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                           top: paddingSize - 5,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
+                                          hexaColor: AppColors.textColor,
                                           text: conProvider.sortListContract[provider.assetsIndex].symbol,
                                           bottom: 2.5.h,
                                         ),
