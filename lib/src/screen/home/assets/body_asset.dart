@@ -21,127 +21,131 @@ class AssetsPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: BodyScaffold(
         scrollController: model!.scrollController,
         width: MediaQuery.of(context).size.width,
         // physic: NeverScrollableScrollPhysics(),
         isSafeArea: false,
         bottom: 0,
-        child: Column(
-          // mainAxisSize: MainAxisSize.min,
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            
-            _userWallet(context),
-        
-            Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: SizedBox(
-                height: 30.sp,
-                child: categoryToken()
-              ),
-            ),
-        
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: Row(
-                children: [
-                  const MyText(
-                    text: "Assets",
-                    hexaColor: AppColors.titleAssetColor,
-                    fontWeight: FontWeight.w500
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 1,
-                      color: hexaCodeToColor(AppColors.titleAssetColor),
-                      indent: 2.w,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        
-            Column(
-              children: [
-                GestureDetector(
-                  onHorizontalDragEnd: (details) {
-                    onHorizontalChanged!(details);
-                  },
-                  onVerticalDragUpdate: (detail){
-                    
-                    onVerticalUpdate!(detail);
-                  },
-
-                  child: SizedBox(
-                    // Provide Screen Height Per Assets Length (model!.assetLength)
-                    // width: MediaQuery.of(context).size.width,
-                    height: 8.h * model!.assetLength,
-                    child: TabBarView(
-                      controller: model!.tabController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                    
-                        _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                        _selendraNetworkList(context, model!.nativeAssets!, ),
-                        _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
-                        _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-                        
-                      ]
-                    ),
-                  )
+        child: Container(
+          color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+          child: Column(
+            // mainAxisSize: MainAxisSize.min,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              _userWallet(context),
+          
+              Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: SizedBox(
+                  height: 30.sp,
+                  child: categoryToken()
                 ),
+              ),
+          
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Row(
+                  children: [
+                    MyText(
+                      text: "Assets",
+                      hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
+                      fontWeight: FontWeight.w500
+                    ),
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
+                        indent: 2.w,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          
+              Column(
+                children: [
+                  GestureDetector(
+                    onHorizontalDragEnd: (details) {
+                      onHorizontalChanged!(details);
+                    },
+                    onVerticalDragUpdate: (detail){
+                      
+                      onVerticalUpdate!(detail);
+                    },
 
-                if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
-                GestureDetector(
-                  onHorizontalDragEnd: (details) {
-                    onHorizontalChanged!(details);
-                  },
-                  onVerticalDragUpdate: (details) {
-
-                    // Prevent Scroll When Empty Asset
-                    if(model!.assetLength > 5) onVerticalUpdate!(details);
-                  },
-                  child: SizedBox(
-                    height: 60.sp,
-                    child: OverflowBox(
-                      minHeight: 60.h,
-                      maxHeight: 60.h,
-                      child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+                    child: SizedBox(
+                      // Provide Screen Height Per Assets Length (model!.assetLength)
+                      // width: MediaQuery.of(context).size.width,
+                      height: 8.h * model!.assetLength,
+                      child: TabBarView(
+                        controller: model!.tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                      
+                          _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                          _selendraNetworkList(context, model!.nativeAssets!, ),
+                          _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
+                          _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                          
+                        ]
+                      ),
                     )
                   ),
-                ),
 
-                // Add Asset For BEP-20
-                if (model!.tabController!.index == 2) 
-                addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+                  if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
+                  GestureDetector(
+                    onHorizontalDragEnd: (details) {
+                      onHorizontalChanged!(details);
+                    },
+                    onVerticalDragUpdate: (details) {
 
-                // Add Asset For ERC-20
-                else if (model!.tabController!.index == 3) 
-                addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
-                
-                // For Gesture
-                if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
-                GestureDetector(
-                  onHorizontalDragEnd: (details) {
-                    onHorizontalChanged!(details);
-                  },
-                  onVerticalDragUpdate: (details) {
-
-                    // Prevent Scroll When Empty Asset
-                    if(model!.assetLength > 5) onVerticalUpdate!(details);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 8.h * 5,
-                    color: Colors.transparent,
+                      // Prevent Scroll When Empty Asset
+                      if(model!.assetLength > 5) onVerticalUpdate!(details);
+                    },
+                    child: SizedBox(
+                      height: 60.sp,
+                      child: OverflowBox(
+                        minHeight: 60.h,
+                        maxHeight: 60.h,
+                        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+                      )
+                    ),
                   ),
-                )
-              ],
-            )
-            
-            // _otherNetworkList(context),
-          ],
+
+                  // Add Asset For BEP-20
+                  if (model!.tabController!.index == 2) 
+                  addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+
+                  // Add Asset For ERC-20
+                  else if (model!.tabController!.index == 3) 
+                  addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                  
+                  // For Gesture
+                  if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
+                  GestureDetector(
+                    onHorizontalDragEnd: (details) {
+                      onHorizontalChanged!(details);
+                    },
+                    onVerticalDragUpdate: (details) {
+
+                      // Prevent Scroll When Empty Asset
+                      if(model!.assetLength > 5) onVerticalUpdate!(details);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 8.h * 5,
+                      color: Colors.transparent,
+                    ),
+                  )
+                ],
+              )
+              
+              // _otherNetworkList(context),
+            ],
+          ),
         ),
       ),
     );
@@ -155,7 +159,7 @@ class AssetsPageBody extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.bluebgColor),
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(25),
               bottomRight: Radius.circular(25),
@@ -239,7 +243,7 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: const ["#035A8F", "#035A8F"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -267,9 +271,9 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: const ["#035A8F", "#035A8F"],
-          begin: Alignment.bottomRight, 
-          end: Alignment.topLeft, 
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
+          begin: Alignment.bottomLeft, 
+          end: Alignment.topRight, 
           action: (){
             Navigator.push(
               context, 

@@ -70,7 +70,7 @@ class MyInputField extends StatelessWidget {
             // ignore: prefer_if_null_operators
             inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
-            color: Colors.white,
+            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
             fontSize: 15.sp
           ),
           validator: (String? value){

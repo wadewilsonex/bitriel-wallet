@@ -26,6 +26,7 @@ class SwapPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -45,7 +46,7 @@ class SwapPageBody extends StatelessWidget {
                   Expanded(
                     child: Divider(
                       thickness: 0.5,
-                      color: hexaCodeToColor(AppColors.titleAssetColor),
+                      color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.orangeColor),
                     ),
                   ),
 
@@ -78,7 +79,7 @@ class SwapPageBody extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: hexaCodeToColor(AppColors.titleAssetColor)),
+                        border: Border.all(color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.orangeColor)),
                         borderRadius: BorderRadius.circular(30)
                       ),
                       padding: const EdgeInsets.all(5),
@@ -89,7 +90,7 @@ class SwapPageBody extends StatelessWidget {
                   Expanded(
                     child: Divider(
                       thickness: 0.5,
-                      color: hexaCodeToColor(AppColors.titleAssetColor),
+                      color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.orangeColor),
                     ),
                   ),
                 ],
@@ -102,10 +103,10 @@ class SwapPageBody extends StatelessWidget {
       
             _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
             
-            const MyText(
+            MyText(
               text: 'Enter how much you want to swap',
               fontWeight: FontWeight.bold,
-              hexaColor: AppColors.whiteColorHexa
+              
             ),
       
             // MyText(
@@ -149,19 +150,17 @@ class SwapPageBody extends StatelessWidget {
             padding: const EdgeInsets.only(right: 5),
             child: Row(
               children: [
-                const MyText(
+                MyText(
                   text: 'You Pay',
                   fontWeight: FontWeight.bold,
-                  hexaColor: AppColors.whiteColorHexa,
                 ),
                 
                 Expanded(child: Container()),
           
-                const MyText(
+                MyText(
                   text: 'Available',
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
-                  hexaColor: AppColors.primaryColor,
                 ),
                 SizedBox(width: 2.w),
 
@@ -173,14 +172,14 @@ class SwapPageBody extends StatelessWidget {
                           text: provider.balance1,
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
-                          hexaColor: AppColors.whiteColorHexa,
+                          
                         ),
                         SizedBox(width: 1.w),
                         MyText(
                           text: provider.name1,
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
-                          hexaColor: AppColors.whiteColorHexa,
+                          
                         ),
                       ],
                     );
@@ -201,7 +200,7 @@ class SwapPageBody extends StatelessWidget {
                   controller: swapPageModel!.myController,
                   textAlign: TextAlign.start,
                   showCursor: true,
-                  style: TextStyle(fontSize: 20.sp, color: Colors.white, fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: 20.sp, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), fontWeight: FontWeight.w800),
                   inputFormatters: [
                     // LengthLimitingTextInputFormatter(4),
                     // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0.4}'))
@@ -211,7 +210,7 @@ class SwapPageBody extends StatelessWidget {
                     hintText: "0",
                     hintStyle: TextStyle(
                       fontSize: 20.sp,
-                      color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(AppColors.iconColor) : Colors.white
+                      color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,) : hexaCodeToColor(isDarkMode ? AppColors.greyColor : AppColors.textColor,)
                     ),
                     border: InputBorder.none,
 
@@ -253,18 +252,18 @@ class SwapPageBody extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               MyText(
                 text: 'You Get',
                 fontWeight: FontWeight.bold,
-                hexaColor: AppColors.whiteColorHexa,
+                
               ),
 
               MyText(
                 text: '≈ 0',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                hexaColor: AppColors.whiteColorHexa,
+                
               ),
             ],
           ),
@@ -304,7 +303,7 @@ class SwapPageBody extends StatelessWidget {
           child: Container(
             width: 35.w,
             decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.defiMenuItem),
+              color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor,),
               borderRadius: BorderRadius.circular(8)
             ),
             child: Padding(
@@ -388,14 +387,14 @@ class SwapPageBody extends StatelessWidget {
               text: provider.balance1,
               fontWeight: FontWeight.w600,
               fontSize: 14,
-              hexaColor: AppColors.whiteColorHexa,
+              
             ),
             SizedBox(width: 1.w),
             MyText(
               text: provider.name1,
               fontWeight: FontWeight.w600,
               fontSize: 14,
-              hexaColor: AppColors.whiteColorHexa,
+              
             ),
           ],
         );
@@ -424,13 +423,13 @@ class SwapPageBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: percentActive == i+1 ? hexaCodeToColor(AppColors.orangeColor) : hexaCodeToColor(AppColors.defiMenuItem)
+                    color: percentActive == i+1 ? hexaCodeToColor(AppColors.orangeColor) : hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor).withOpacity(0.5)
                   ),
                   child: MyText(
                     text: percent[i],
                     fontSize: 14,
                     // color: AppColors.whiteColorHexa,
-                    color2: percentActive == i+1 ? Colors.white : Colors.white.withOpacity(0.5)
+                    color2: percentActive == i+1 ? Colors.white : Colors.white
                   ),
                 ),
 
@@ -459,7 +458,7 @@ class SwapPageBody extends StatelessWidget {
   Widget _buildNumberPad(context, Function? onDeleteTxt, Function? onTabNum) {
     return NumPad(
       buttonSize: 5.h,
-      buttonColor: hexaCodeToColor(AppColors.defiMenuItem),
+      buttonColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor,),
       controller: swapPageModel!.myController!,
       delete: onDeleteTxt!,
       onTabNum: onTabNum,

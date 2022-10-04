@@ -39,20 +39,31 @@ class AccountBody extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        title: const MyText(
+          text: "Account",
+          fontSize: 17,
+          fontWeight: FontWeight.w600
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: accountModel!.loading
         ? const Center( child: CircularProgressIndicator())
         : Column(
           children: [
-
-            MyAppBar(
-              title: "Account",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Container(

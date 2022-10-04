@@ -28,7 +28,7 @@ class MenuBody extends StatelessWidget {
         MenuHeader(userInfo: userInfo),
 
         // Wallet
-        const MenuSubTitle(index: 1),
+        MenuSubTitle(index: 1),
         
         // MyListTile(
         //   icon: Icon(Iconsax.card_coin, color: Colors.white, size: 22.5.sp),
@@ -40,7 +40,7 @@ class MenuBody extends StatelessWidget {
         // ),
 
         MyListTile(
-          icon: Icon(Iconsax.note_2, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           index: 1,
           subIndex: 0,
           onTap: () {
@@ -49,7 +49,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
-          icon: Icon(Iconsax.wallet_check, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           index: 1,
           subIndex: 1,
           onTap: () {
@@ -102,10 +102,10 @@ class MenuBody extends StatelessWidget {
         ),
 
         // Account
-        const MenuSubTitle(index: 3),
+        MenuSubTitle(index: 3),
 
         MyListTile(
-          icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -118,9 +118,9 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
 
-        const MenuSubTitle(index: 4),
+        MenuSubTitle(index: 4),
         MyListTile(
-          icon: Icon(Iconsax.moon, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           enable: false,
           index: 4,
           subIndex: 0,
@@ -133,10 +133,10 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
 
-        const MenuSubTitle(index: 5),
+        MenuSubTitle(index: 5),
 
         MyListTile(
-          icon: Icon(Iconsax.people, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           index: 5,
           subIndex: 0,
           onTap: () async {

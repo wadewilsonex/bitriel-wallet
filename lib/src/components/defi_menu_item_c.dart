@@ -25,7 +25,7 @@ class DefiMenuItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: hexaCodeToColor(AppColors.defiMenuItem)
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.orangeColor),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -52,7 +52,6 @@ class DefiMenuItem extends StatelessWidget {
             
                     MyText(
                       text: subtitle,
-                      hexaColor: AppColors.greyColor,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                     ),

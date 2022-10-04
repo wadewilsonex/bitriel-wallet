@@ -126,7 +126,7 @@ class ActivityDetail extends StatelessWidget {
     );
   }
 
-  _buildRow(String leadingText, String trailingText, bool isDarkTheme) {
+  _buildRow(String leadingText, String trailingText, bool isDarkMode) {
     return SizedBox(
       height: 40,
       child: Row(
@@ -135,7 +135,7 @@ class ActivityDetail extends StatelessWidget {
           MyText(
             text: leadingText,
             fontWeight: FontWeight.w600,
-            hexaColor: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           ),
           Expanded(
             child: MyText(
@@ -143,7 +143,7 @@ class ActivityDetail extends StatelessWidget {
               text: trailingText,
               // fontWeight: FontWeight.w700,
               hexaColor:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.greyCode,
+                  isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode,
             ),
           ),
         ],

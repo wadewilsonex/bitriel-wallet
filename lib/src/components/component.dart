@@ -313,23 +313,23 @@ class MyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          margin: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
-          padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
-          child: SizedBox(
-            width: width,
-            height: height,
-            child: Text(
-              text!,
-              style: TextStyle(
-                fontWeight: fontWeight,
-                color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
-                fontSize: fontSize!.sp
-              ),
-              textAlign: textAlign,
-              overflow: overflow,
-            ),
+      margin: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
+      padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: Text(
+          text!,
+          style: TextStyle(
+            fontWeight: fontWeight,
+            color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
+            fontSize: fontSize!.sp
           ),
-        );
+          textAlign: textAlign,
+          overflow: overflow,
+        ),
+      ),
+    );
     // Consumer<ThemeProvider>(
     //   builder: (context, themePro, widget) {
     //     return 
@@ -671,13 +671,12 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: AlertDialog(
-          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteHexaColor),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
               text: title,
               fontWeight: FontWeight.w600,
-              hexaColor: AppColors.whiteColorHexa,
               fontSize: 18, 
             ),
           ),
@@ -685,7 +684,6 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             padding: const EdgeInsets.only(top: 15.0,),
             child: MyText(
               text: contents, 
-              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.center
             ),
           ),
@@ -693,7 +691,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             btn2 ?? Container(),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const MyText(text: 'Close', hexaColor: AppColors.whiteColorHexa),
+              child: const MyText(text: 'Close'),
             ),
           ],
         ),

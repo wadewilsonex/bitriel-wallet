@@ -108,13 +108,13 @@ class MenuHeader extends StatelessWidget {
 }
 
 class MenuSubTitle extends StatelessWidget {
+  
   final int? index;
 
-  const MenuSubTitle({Key? key, this.index}) : super(key: key);
+  MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print("isDarkMode $isDarkMode");
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
       // color: isDarkMode
@@ -132,7 +132,6 @@ class MenuSubTitle extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: MyText(
                   text: MenuModel.listTile[index!]['title'].toString(),
-                  hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.bold,
                 ),
@@ -140,7 +139,7 @@ class MenuSubTitle extends StatelessWidget {
               Expanded(
                 child: Divider(
                   thickness: 0.5,
-                  color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.textColor),
+                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                   indent: 10,
                 ),
               ),
@@ -184,7 +183,6 @@ class MyListTile extends StatelessWidget {
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
-        hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         textAlign: TextAlign.left,
         fontSize: 16,
       ),

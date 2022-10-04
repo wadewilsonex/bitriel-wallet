@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class DialogComponents {
   
-  Future<void> seedDialog({BuildContext? context, String? contents, btn, bool? isDarkTheme}) async {
+  Future<void> seedDialog({BuildContext? context, String? contents, btn, bool? isDarkMode}) async {
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
@@ -19,7 +19,7 @@ class DialogComponents {
             fontSize: 20,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
-            hexaColor: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+            hexaColor: isDarkMode == false ? AppColors.darkCard : AppColors.whiteHexaColor,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class DialogComponents {
               MyText(
                 textAlign: TextAlign.left,
                 text: AppString.screenshotNote,
-                hexaColor: isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+                hexaColor: isDarkMode == false ? AppColors.darkCard : AppColors.whiteHexaColor,
                 bottom: paddingSize,
               ),
 
@@ -40,7 +40,7 @@ class DialogComponents {
                   // ),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: isDarkTheme! 
+                color: isDarkMode! 
                   ? Colors.white.withOpacity(0.06)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
                 child: MyText(
@@ -116,8 +116,7 @@ class DialogComponents {
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
-    String? textButton, btn, btn2, 
-    bool? isDarkTheme
+    String? textButton, btn, btn2
   }) async {
     return await showDialog(
       context: context!, 
@@ -129,12 +128,12 @@ class DialogComponents {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             title: titles != null ? MyText(
               text: titles,
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
-              hexaColor: AppColors.whiteColorHexa//isDarkTheme == false ? AppColors.darkCard : AppColors.whiteHexaColor,
+              hexaColor: AppColors.whiteColorHexa//isDarkMode == false ? AppColors.darkCard : AppColors.whiteHexaColor,
             ) : Container(),
             buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
@@ -151,7 +150,6 @@ class DialogComponents {
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,
-                  hexaColor: AppColors.whiteColorHexa, 
                 )
               ],
             ) : contents2,

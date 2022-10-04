@@ -7,9 +7,11 @@ class AppStyle {
       scaffoldBackgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightBg),
       appBarTheme: AppBarTheme(
         toolbarTextStyle: TextStyle(color: hexaCodeToColor(AppColors.appBarTextColor)),
-        color: Colors.transparent,
-        iconTheme: IconThemeData(color: hexaCodeToColor(AppColors.appBarTextColor))
+        // color: Colors.transparent,
+        iconTheme: IconThemeData(color: hexaCodeToColor(AppColors.appBarTextColor)),
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg)
       ),
+
       /* Color All Text */
       textTheme: TextTheme(bodyText2: TextStyle(color: hexaCodeToColor(AppColors.textColor))),
       canvasColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg),
@@ -21,8 +23,6 @@ class AppStyle {
       // floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: hexaCodeToColor(AppColors.textColor)),
       fontFamily: "Prompt",
       unselectedWidgetColor: Colors.white,
-      // scaffoldBackgroundColor:
-      //     Color(AppUtils.convertHexaColor(AppColors.bgdColor)),
     );
   }
 }

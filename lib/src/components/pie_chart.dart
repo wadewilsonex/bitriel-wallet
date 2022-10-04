@@ -6,7 +6,6 @@ class Indicator extends StatelessWidget {
   final String text;
   final bool isSquare;
   final double size;
-  final Color textColor;
 
   const Indicator({
     Key? key,
@@ -14,7 +13,6 @@ class Indicator extends StatelessWidget {
     required this.text,
     required this.isSquare,
     this.size = 5,
-    this.textColor = const Color(0xff505050),
   }) : super(key: key);
 
   @override
@@ -37,7 +35,7 @@ class Indicator extends StatelessWidget {
           ),
           MyText(
             text: text,
-            fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa
+            fontWeight: FontWeight.bold, 
           )
         ],
       ),
@@ -66,7 +64,7 @@ class ChartDataState extends State {
             Container(
               height: 10.h,
               decoration: BoxDecoration(
-                color: hexaCodeToColor(AppColors.bluebgColor),
+                color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
                 shape: BoxShape.circle,
                 boxShadow: const [
                   BoxShadow(color: Colors.white, blurRadius: 20.0),

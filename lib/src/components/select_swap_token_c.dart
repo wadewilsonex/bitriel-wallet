@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:wallet_apps/index.dart';
 
 class SwapTokenList extends StatelessWidget {
@@ -25,7 +27,7 @@ class SwapTokenList extends StatelessWidget {
         if (isActive == false) action!();
       },
       child: Container(
-        color: hexaCodeToColor(AppColors.darkBgd),
+        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         child: Row(
           children: [
       
@@ -33,7 +35,12 @@ class SwapTokenList extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: image
+                child: isActive == false 
+                ? image 
+                : ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+                  child: image,
+                ),
               ),
             ),
           
@@ -45,14 +52,14 @@ class SwapTokenList extends StatelessWidget {
                 MyText(
                   text: title,
                   // fontSize: 18,
-                  color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.white.withOpacity(0.5),
+                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,
                 ),
                 MyText(
                   text: subtitle,
                   fontSize: 13,
-                  color2: isActive == false ? hexaCodeToColor(AppColors.whiteColorHexa) : Colors.white.withOpacity(0.5),
+                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,
                 ),

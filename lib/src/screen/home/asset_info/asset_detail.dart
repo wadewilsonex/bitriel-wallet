@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/src/api/api_chart.dart';
 
 import '../../../../index.dart';
-import '../../../models/chart/chart_m.dart';
+import '../../../components/chart/chart_m.dart';
 
 class AssetDetail extends StatefulWidget {
   // final Market marketData;
@@ -120,7 +120,6 @@ class AssetDetailState extends State<AssetDetail> {
         children: [
           MyText(
             text: leadingText,
-            hexaColor: isDarkMode ? "#C1C1C1" : AppColors.textColor,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
@@ -156,7 +155,6 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          hexaColor: AppColors.whiteColorHexa
         ),
 
         const SizedBox(height: 16.0),
@@ -177,7 +175,6 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'About ${widget.scModel.name}',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          hexaColor: AppColors.whiteColorHexa,
         ),
 
         const SizedBox(height: 16.0),
@@ -185,7 +182,6 @@ class AssetDetailState extends State<AssetDetail> {
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
-          hexaColor: AppColors.whiteColorHexa,
         ),
       ],
     )
@@ -209,7 +205,6 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          hexaColor: AppColors.whiteColorHexa
         ),
 
         const SizedBox(height: 16.0),
@@ -228,7 +223,6 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'About ${widget.scModel.marketData!.name}',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          hexaColor: AppColors.whiteColorHexa,
         ),
 
         const SizedBox(height: 16.0),
@@ -237,13 +231,11 @@ class AssetDetailState extends State<AssetDetail> {
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.marketData!.description}',
-          hexaColor: AppColors.whiteColorHexa,
         )
         :
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
-          hexaColor: AppColors.whiteColorHexa,
         ),
       ],
     )

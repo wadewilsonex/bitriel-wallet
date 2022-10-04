@@ -127,7 +127,9 @@ class AppUtils {
 
   /// Text Color Selector By Theme Mode
   static Color colorSelector({bool? isDark, String? hexaColor, Color? enumColor}){
-    print("colorSelector ${isDark.toString()} ${isDark.toString()} ${isDark.toString()}");
+    print("colorSelector isDark $isDark");
+    print("colorSelector hexaColor $isDark");
+    print("colorSelector enumColor $isDark \b\b");
     if (hexaColor != null){
       txtColor = hexaCodeToColor(hexaColor);
     } else if (enumColor != null) {
@@ -135,9 +137,9 @@ class AppUtils {
     } 
     // Default Black White
     else if (isDark!) {
-      txtColor = Colors.white;
+      txtColor = hexaCodeToColor(AppColors.whiteColorHexa);
     } else {
-      txtColor = Colors.black;
+      txtColor = hexaCodeToColor(AppColors.textColor);
     }
     
     return txtColor!;

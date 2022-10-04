@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/chart/line_chart.dart';
+import 'package:wallet_apps/src/components/chart/line_chart.dart';
 
 Padding chartAsset(
     bool isHomePage,
@@ -27,7 +27,7 @@ Padding chartAsset(
     child: Center(
       child: Container(
         decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.bluebgColor),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: Colors.white.withOpacity(0.2),
@@ -53,10 +53,10 @@ Padding chartAsset(
                   SizedBox(
                     width: 50.w,
                     child: Text(
-                      '$crypto ($cryptoCode) - $exchangeCurrency',
+                      ' $crypto ($cryptoCode) - $exchangeCurrency',
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: Colors.white,
+                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -67,19 +67,10 @@ Padding chartAsset(
 
                   MyText(
                     text: "\$$marketPrice",
-                    hexaColor: AppColors.greyColor,
+                    hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
-                  
-                  // Column(
-                  //   children: [
-                  //     // Transform.scale(
-                  //     //   child: profitPercentageWidget(profitPercent),
-                  //     //   scale: 0.9
-                  //     // ),
-                  //   ],
-                  // ),
                 ],
               ),
 

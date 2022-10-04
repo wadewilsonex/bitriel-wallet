@@ -529,6 +529,7 @@ class SubmitTrxState extends State<SubmitTrx> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scanPayM.globalKey,
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: Stack(
         children: [
           if(_loading) const Center(

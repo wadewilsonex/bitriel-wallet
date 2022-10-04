@@ -17,7 +17,7 @@ class AssetsItemComponent extends StatelessWidget {
      
 
     return rowDecorationStyle(
-        color: hexaCodeToColor(AppColors.darkBgd),
+        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         child: Slidable(
           enabled: false,
           endActionPane: ActionPane(
@@ -115,7 +115,6 @@ class AssetsItemComponent extends StatelessWidget {
                       text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 15.5,
                       fontWeight: FontWeight.w500,
-                      hexaColor: AppColors.whiteColorHexa
                     )
                     : const MyText(
                       text: '',
