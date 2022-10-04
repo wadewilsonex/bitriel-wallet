@@ -43,21 +43,35 @@ class QrScannerState extends State<QrScanner> {
   Widget build(BuildContext context) {
      
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        title: MyText(
+          color: isDarkTheme
+            ? AppColors.whiteColorHexa
+            : AppColors.textColor,
+          text: "Scan QR",
+          fontSize: 17,
+          fontWeight: FontWeight.w600
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: BodyScaffold(
         physic: const NeverScrollableScrollPhysics(),
         height: MediaQuery.of(context).size.height,
         bottom: 0,
         child: Column(
           children: [
-            MyAppBar(
-              title: "Scanning",
-              color: isDarkTheme
-                ? hexaCodeToColor(AppColors.darkBgd).withOpacity(0)
-                : hexaCodeToColor(AppColors.whiteHexaColor),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
             Expanded(
               child: Stack(
                 children: [
@@ -73,8 +87,8 @@ class QrScannerState extends State<QrScanner> {
                     ),
                   ),
                   const Positioned(
-                    left: 95,
-                    top: 525,
+                    left: 85,
+                    top: 550,
                     child: MyText(
                       text: "Scan QR Code to login, send, pay",
                       // fontSize: 15,

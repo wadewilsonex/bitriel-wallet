@@ -1118,21 +1118,8 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
 Future<void> portfolioDailog({required BuildContext? context}){
   return DialogComponents().dialogCustom(
     context: context,
-    // contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
-    // lottie: Lottie.asset(
-    //   "assets/animation/under-construction.json",
-    //   width: 75.w, 
-    //   repeat: true,
-
-    // ),
     contents2: const ChartData(),
-    // contents2: Column(
-    //   children: [
-        
-    //   ],
-    // ),
     btn2: MyGradientButton(
       textButton: "OK",
       textColor: AppColors.lowWhite,

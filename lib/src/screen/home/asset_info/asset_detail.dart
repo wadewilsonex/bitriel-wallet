@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/src/api/api_chart.dart';
 
 import '../../../../index.dart';
-import '../../../models/chart/chart_m.dart';
+import '../../../components/chart/chart_m.dart';
 
 class AssetDetail extends StatefulWidget {
   // final Market marketData;
@@ -104,7 +104,6 @@ class AssetDetailState extends State<AssetDetail> {
   }
 
   Widget line() {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       height: 1,
       color: isDarkTheme
@@ -114,7 +113,6 @@ class AssetDetailState extends State<AssetDetail> {
   }
 
   Widget textRow(String leadingText, String trailingText, String endingText) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0,),
       child: Row(
@@ -122,7 +120,7 @@ class AssetDetailState extends State<AssetDetail> {
         children: [
           MyText(
             text: leadingText,
-            color: isDarkTheme ? "#C1C1C1" : AppColors.textColor,
+            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
@@ -154,11 +152,11 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
+        MyText(
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          color: AppColors.whiteColorHexa
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
 
         const SizedBox(height: 16.0),
@@ -179,7 +177,7 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'About ${widget.scModel.name}',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          color: AppColors.whiteColorHexa,
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
 
         const SizedBox(height: 16.0),
@@ -187,7 +185,7 @@ class AssetDetailState extends State<AssetDetail> {
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
-          color: AppColors.whiteColorHexa,
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
       ],
     )
@@ -207,11 +205,11 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.marketData!.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
+        MyText(
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          color: AppColors.whiteColorHexa
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
 
         const SizedBox(height: 16.0),
@@ -230,7 +228,7 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'About ${widget.scModel.marketData!.name}',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          color: AppColors.whiteColorHexa,
+          color:isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
 
         const SizedBox(height: 16.0),
@@ -239,13 +237,13 @@ class AssetDetailState extends State<AssetDetail> {
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.marketData!.description}',
-          color: AppColors.whiteColorHexa,
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         )
         :
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
-          color: AppColors.whiteColorHexa,
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
         ),
       ],
     )

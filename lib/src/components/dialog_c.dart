@@ -116,8 +116,7 @@ class DialogComponents {
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
-    String? textButton, btn, btn2, 
-    bool? isDarkTheme
+    String? textButton, btn, btn2
   }) async {
     return await showDialog(
       context: context!, 
@@ -129,7 +128,7 @@ class DialogComponents {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+            backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             title: titles != null ? MyText(
               text: titles,
               fontWeight: FontWeight.bold,
@@ -151,7 +150,7 @@ class DialogComponents {
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,
-                  color: AppColors.whiteColorHexa, 
+                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor, 
                 )
               ],
             ) : contents2,

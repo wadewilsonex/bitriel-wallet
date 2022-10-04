@@ -17,7 +17,7 @@ class AssetsItemComponent extends StatelessWidget {
      
 
     return rowDecorationStyle(
-        color: hexaCodeToColor(AppColors.darkBgd),
+        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
         child: Slidable(
           enabled: false,
           endActionPane: ActionPane(
@@ -115,7 +115,7 @@ class AssetsItemComponent extends StatelessWidget {
                       text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 15.5,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.whiteColorHexa
+                      color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                     )
                     : const MyText(
                       text: '',
@@ -220,7 +220,6 @@ class AssetsItemComponent extends StatelessWidget {
   }
 
   LineChartData sampleLineChart(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(

@@ -20,6 +20,7 @@ class AppColors {
 
   // Icon Color
   static const String iconColor = "#0D6BA6";
+  static const String iconGreyColor = "#878787";
 
   //dark theme
   static const String darkBgd = "#023859";
@@ -93,4 +94,6 @@ class AppColors {
   static const String tokenNameColor = "#C2C2C2";
 
   static const String greyColor = "#C1C1C1";
+
+  static const String lightColorBg = "#EFEFEF";
 }

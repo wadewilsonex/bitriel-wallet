@@ -14,6 +14,7 @@ class SelendraExplorerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -24,14 +25,14 @@ class SelendraExplorerBody extends StatelessWidget {
                 text: "Selendra Explorer",
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
-                color: AppColors.whiteColorHexa,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               ),
 
               MyText(
                 top: 2.h,
                 text: "Search Addresses and Hash",
                 fontWeight: FontWeight.w500,
-                color: AppColors.whiteColorHexa,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               ),
 
               Expanded(child: Container()),
@@ -65,30 +66,30 @@ class SelendraExplorerBody extends StatelessWidget {
         textInputAction: TextInputAction.search,
         style: TextStyle(
           fontSize: 14,
-          color: hexaCodeToColor(AppColors.whiteColorHexa),
+          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,),
         ),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(AppColors.bluebgColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 3, color: hexaCodeToColor(AppColors.bluebgColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
-          hintText: "Search Addresses, Hash.",
+          hintText: "Type token name",
           hintStyle: TextStyle(
             fontSize: 14,
             color: hexaCodeToColor("#AAAAAA"),
           ),
-          prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.whiteHexaColor), fontSize: 18.0),
+          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkTheme ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
-          fillColor: hexaCodeToColor(AppColors.bluebgColor),
+          fillColor: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.lightColorBg),
           suffixIcon: IconButton(
             onPressed: () {
               final res = Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
@@ -102,7 +103,7 @@ class SelendraExplorerBody extends StatelessWidget {
                 }
               });
             },
-            icon: const Icon(Iconsax.scan_barcode, color: Colors.white, size: 20),
+            icon: Icon(Iconsax.scan_barcode, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
           ),
         ),
       ),

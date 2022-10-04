@@ -10,14 +10,11 @@ class KeyStoreJson extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
+      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         leading: IconButton(
-          /* Menu Icon */
-
-          padding: const EdgeInsets.only(left: 16, right: 8),
-          iconSize: 40.0,
           icon: Icon(
-            Platform.isAndroid ? LineAwesomeIcons.arrow_left : LineAwesomeIcons.angle_left,
+            Iconsax.arrow_left_2,
             color: isDarkTheme ? Colors.white : Colors.black,
             size: 22.5.sp,
           ),
@@ -26,19 +23,18 @@ class KeyStoreJson extends StatelessWidget{
           },
         ),
         elevation: 0,
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
         title: MyText(text: 'Keystore (Json)', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold),
       ),
       body: Column(
         children: [
           Card(
-            color: Colors.white.withOpacity(0.06),
+            color: isDarkTheme ? Colors.white.withOpacity(0.06) : Colors.white,
             margin: const EdgeInsets.all(paddingSize),
             child: Padding(
               padding: const EdgeInsets.all(paddingSize),
               child: MyText(
                 text: keystore.toString(),
-                color2: Colors.white
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor
               )
             ),
           ),

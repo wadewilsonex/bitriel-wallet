@@ -18,7 +18,7 @@ class ListTileComponent extends StatelessWidget{
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: hexaCodeToColor(AppColors.bluebgColor)
+          color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteColorHexa),
         ),
         height: 8.h,
         child: Padding(
@@ -27,9 +27,7 @@ class ListTileComponent extends StatelessWidget{
             children: [
               MyText(
                 text: text,
-                color: isDarkTheme
-                  ? AppColors.whiteColorHexa
-                  : AppColors.textColor,
+                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
               ),
 
               Expanded(child: Container()),
@@ -37,9 +35,7 @@ class ListTileComponent extends StatelessWidget{
               Icon(
                 Icons.arrow_forward_ios, 
                 size: 18.5.sp,
-                color: hexaCodeToColor(isDarkTheme
-                ? AppColors.whiteColorHexa
-                : AppColors.textColor)
+                color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
               )
             ],
           ),

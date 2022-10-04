@@ -331,9 +331,32 @@ class AddAssetState extends State<AddAsset> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
+      appBar: AppBar(
+        backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        elevation: 0,
+        bottomOpacity: 0,
+        leadingWidth: 7.w,
+        title: MyText(
+          text: "Add Asset",
+          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 17,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
-          
           AddAssetBody(
             assetM: _modelAsset,
             initialValue: initialValue.toString(),

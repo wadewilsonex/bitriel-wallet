@@ -19,7 +19,7 @@ LineChartData chart(
   ];
 
   return LineChartData(
-    backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+    backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
     gridData: FlGridData(
       show: !isHomePage,
       drawVerticalLine: !isHomePage,

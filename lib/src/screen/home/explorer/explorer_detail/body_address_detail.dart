@@ -18,14 +18,16 @@ class ExplorerDetailBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hexaCodeToColor("#112641"),
+      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2),
         ),
-        
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -99,7 +101,7 @@ class ExplorerDetailBody extends StatelessWidget {
           MyText(
               text: "Oops! This is an invalid search string. The search string you entered was: \n $controller",
               textAlign: TextAlign.center,
-              color: "#C1C1C1"
+              color: isDarkTheme ? AppColors.greyCode : AppColors.darkGrey,
           ),
 
         ],
@@ -243,7 +245,7 @@ class ExplorerDetailBody extends StatelessWidget {
             child: MyText(
               text: leadingText,
               fontWeight: FontWeight.bold,
-              color: AppColors.whiteColorHexa,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               textAlign: TextAlign.start,
             ),
           ),
@@ -254,7 +256,7 @@ class ExplorerDetailBody extends StatelessWidget {
             child: MyText(
               text: trailingText,
               textAlign: TextAlign.start,
-              color: "#C1C1C1",
+              color: isDarkTheme ? AppColors.greyCode : AppColors.darkGrey,
             ),
           ),
         ],
@@ -273,7 +275,7 @@ class ExplorerDetailBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor("#0a1d35"),
+        color: hexaCodeToColor(isDarkTheme ? "#0a1d35" : AppColors.whiteColorHexa),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -326,8 +328,8 @@ class ExplorerDetailBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor("#0a1d35"),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkTheme ? "#0a1d35" : AppColors.whiteColorHexa),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,

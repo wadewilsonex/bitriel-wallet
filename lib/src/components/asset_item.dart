@@ -169,7 +169,6 @@ class AssetItem extends StatelessWidget {
   }
 
   LineChartData sampleLineChart(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(

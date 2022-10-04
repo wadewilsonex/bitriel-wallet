@@ -40,7 +40,7 @@ class MenuBody extends StatelessWidget {
         // ),
 
         MyListTile(
-          icon: Icon(Iconsax.note_2, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.note_2, color: isDarkTheme ? Colors.white : Colors.black, size: 22.5.sp),
           index: 1,
           subIndex: 0,
           onTap: () {
@@ -49,7 +49,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
-          icon: Icon(Iconsax.wallet_check, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.wallet_check, color: isDarkTheme ? Colors.white : Colors.black, size: 22.5.sp),
           index: 1,
           subIndex: 1,
           onTap: () {
@@ -105,7 +105,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 3),
 
         MyListTile(
-          icon: Icon(Iconsax.finger_scan, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.finger_scan, color: isDarkTheme ? Colors.white : Colors.black, size: 22.5.sp),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -120,7 +120,7 @@ class MenuBody extends StatelessWidget {
 
         const MenuSubTitle(index: 4),
         MyListTile(
-          icon: Icon(Iconsax.moon, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.moon, color: isDarkTheme ? Colors.white : Colors.black, size: 22.5.sp),
           enable: false,
           index: 4,
           subIndex: 0,
@@ -136,7 +136,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 5),
 
         MyListTile(
-          icon: Icon(Iconsax.people, color: Colors.white, size: 22.5.sp),
+          icon: Icon(Iconsax.people, color: isDarkTheme ? Colors.white : Colors.black, size: 22.5.sp),
           index: 5,
           subIndex: 0,
           onTap: () async {

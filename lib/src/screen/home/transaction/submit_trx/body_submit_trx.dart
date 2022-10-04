@@ -46,7 +46,7 @@ class SubmitTrxBody extends StatelessWidget {
               '${AppConfig.iconsPath}qr_code.svg',
               width: 4.w,
               height: 4.h,
-              color: Colors.white,
+              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.orangeColor)
             ),
           ),
         ),
@@ -153,25 +153,11 @@ class SubmitTrxBody extends StatelessWidget {
                             Flexible(
                               child:  QrViewTitle(
                                 isValue: true,
-                                // assetInfo: provider.assetInfo,
                                 listContract: ContractService.getConSymbol(context, contract.sortListContract),
                                 initialValue: scanPayM!.assetValue.toString(),
                                 onChanged: onChanged,
                               ),
                             )
-                            // ReuseDropDown(
-                            //   icon: Icon(Iconsax.arrow_down_1, color: Colors.white, size: 20.5.sp),
-                            //   initialValue: scanPayM!.assetValue.toString(),
-                            //   onChanged: onChangeDropDown,
-                            //   itemsList: ContractService.getConSymbol(context, contract.sortListContract),
-                            //   style: TextStyle(
-                            //     color: isDarkTheme
-                            //       ? Colors.white
-                            //       : hexaCodeToColor(AppColors.blackColor),
-                            //     fontSize: 15.sp,
-                            //     fontWeight: FontWeight.w600
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -189,10 +175,9 @@ class SubmitTrxBody extends StatelessWidget {
                         children: [
                           Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18.5.sp),
                           SizedBox(width: 1.w,),
-                          const MyText(
-                            top: 5,
+                          MyText(
                             text: "Select the right network, or assets may be lost.",
-                            color: AppColors.lowWhite,
+                            color: isDarkTheme ? AppColors.lowWhite : AppColors.textColor,
                           ),
                         ],
                       ),

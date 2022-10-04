@@ -7,6 +7,7 @@ class BodySettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
@@ -34,8 +35,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkTheme ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -84,8 +85,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkTheme ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -132,8 +133,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkTheme ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -181,8 +182,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: isDarkTheme ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.warningColor).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -211,7 +212,7 @@ class BodySettingPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsLogoutSection(context: context)[index].title, color: AppColors.warningColor),
+                            MyText(text: settingsLogoutSection(context: context)[index].title, color: AppColors.redColor),
                           ],
                         ),
                       ),

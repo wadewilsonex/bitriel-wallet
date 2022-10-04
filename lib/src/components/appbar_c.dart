@@ -94,7 +94,7 @@ class MyAppBar extends StatelessWidget {
     
     return SafeArea(
       child: Container(
-        // height: 65.0,
+        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
         width: MediaQuery.of(context).size.width,
         margin: margin,
         child: Row(
@@ -106,9 +106,7 @@ class MyAppBar extends StatelessWidget {
                   /* Menu Icon */
                   iconSize: 40.0,
                   icon: Icon(
-                    Platform.isAndroid
-                        ? LineAwesomeIcons.arrow_left
-                        : LineAwesomeIcons.angle_left,
+                    Iconsax.arrow_left_2,
                     color: isDarkTheme ? Colors.white : Colors.black,
                     size: 22.5.sp,
                   ),

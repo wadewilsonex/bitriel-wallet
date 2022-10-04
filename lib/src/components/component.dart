@@ -449,7 +449,7 @@ class BodyScaffold extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,
-        color: hexaCodeToColor(AppColors.darkBgd),
+        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
         // isDarkTheme
         //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
         //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
@@ -666,13 +666,13 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: AlertDialog(
-          backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
+          backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteHexaColor),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
               text: title,
               fontWeight: FontWeight.w600,
-              color: AppColors.whiteColorHexa,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               fontSize: 18, 
             ),
           ),
@@ -680,7 +680,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             padding: const EdgeInsets.only(top: 15.0,),
             child: MyText(
               text: contents, 
-              color: AppColors.whiteColorHexa,
+              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               textAlign: TextAlign.center
             ),
           ),
@@ -688,7 +688,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             btn2 ?? Container(),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const MyText(text: 'Close', color: AppColors.whiteColorHexa),
+              child: MyText(text: 'Close', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,),
             ),
           ],
         ),
