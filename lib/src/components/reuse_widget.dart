@@ -125,7 +125,7 @@ BoxShadow shadow(BuildContext context,
     Offset? offset}) {
    
   return BoxShadow(
-    color: hexaCode ?? (isDarkTheme
+    color: hexaCode ?? (isDarkMode
         ? hexaCodeToColor(AppColors.darkBgd)
         : Colors.grey.withOpacity(0.2)),
     blurRadius: blurRadius ?? 6.0,
@@ -254,12 +254,12 @@ Future<void> successDialog(
                   text: 'SUCCESS!',
                   fontSize: 20,
                   top: 10,
-                  color: AppColors.lowWhite,
+                  hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.bold,
                 ),
                 MyText(
                   top: 8.0,
-                  color: AppColors.lowWhite,
+                  hexaColor: AppColors.lowWhite,
                   text: 'You have successfully $operationText',
                 ),
                 SizedBox(
@@ -628,7 +628,7 @@ Widget progress({String? content}) {
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
               child: MyText(
                 text: content, 
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
               ),
             ),
           ],

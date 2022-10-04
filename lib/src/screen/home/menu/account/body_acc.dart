@@ -40,14 +40,10 @@ class AccountBody extends StatelessWidget{
      
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
         iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
-        title: MyText(
-          color: isDarkTheme
-            ? AppColors.whiteColorHexa
-            : AppColors.textColor,
+        title: const MyText(
           text: "Account",
           fontSize: 17,
           fontWeight: FontWeight.w600
@@ -58,7 +54,7 @@ class AccountBody extends StatelessWidget{
           },
           icon: Icon(
             Iconsax.arrow_left_2,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -74,7 +70,7 @@ class AccountBody extends StatelessWidget{
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: isDarkTheme
+                  color: isDarkMode
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                   boxShadow: [shadow(context)]
@@ -112,7 +108,7 @@ class AccountBody extends StatelessWidget{
                               
                               MyText(
                                 text: provider.accountM.name ?? '',
-                                color: isDarkTheme
+                                hexaColor: isDarkMode
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                                 fontSize: 20,
@@ -122,7 +118,7 @@ class AccountBody extends StatelessWidget{
                                 padding: const EdgeInsets.all(paddingSize),
                                 child: MyText(
                                   text: provider.accountM.address ?? '',
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteColorHexa
                                     : AppColors.textColor,
                                   fontSize: 16,
@@ -176,28 +172,7 @@ class AccountBody extends StatelessWidget{
                       },
                       text: 'Change Pin',
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.all(paddingSize),
-                    //   child: GestureDetector(
-                    //     onTap: () async {
-                    //       await deleteAccout!();
-                    //     },
-                    //     child: Container(
-                    //       alignment: Alignment.center,
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.circular(8),
-                    //         color: Colors.red.withOpacity(0.3)
-                    //       ),
-                    //       height: 7.h,
-                    //       child: const MyText(
-                    //         text: 'Delete Account',
-                    //         color: "#FF0000",
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    
                   ],
                 ),
               ),

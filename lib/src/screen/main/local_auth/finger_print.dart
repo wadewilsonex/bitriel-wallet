@@ -84,22 +84,22 @@ class FingerPrintState extends State<FingerPrint> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             title: Align(
-              child: Text('Message', style: TextStyle(color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)),),
+              child: Text('Message', style: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)),),
             ),
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: MyText(
                 text: "Your device doesn't have finger print! Set up to enable this feature",
-                color: isDarkTheme ? AppColors.lowWhite : AppColors.darkGrey
+                hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey
               ),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: MyText(text: 'Close', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor),
+                child: MyText(text: 'Close', hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
               ),
             ],
           );
@@ -135,7 +135,7 @@ class FingerPrintState extends State<FingerPrint> {
               text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
-              color: isDarkTheme
+              hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,
             ),
@@ -147,7 +147,7 @@ class FingerPrintState extends State<FingerPrint> {
               top: 20.0,
               width: 80.w,
               text: widget.isEnable == true ? 'Validating Finger Print' : 'Activate biometrics for your wallet to make it even more secure.',
-              color: isDarkTheme
+              hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
                 : AppColors.textColor,
             ),
@@ -171,7 +171,7 @@ class FingerPrintState extends State<FingerPrint> {
                 ? Container() 
                 : MyFlatButton(
                   isTransparent: true,
-                  textColor: isDarkTheme ? AppColors.whiteHexaColor : AppColors.textColor,
+                  textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Skip",
                   action: () async {

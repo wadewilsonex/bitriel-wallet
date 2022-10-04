@@ -35,7 +35,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
         return Container(
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(isDarkTheme ? AppColors.blue : AppColors.lightColorBg),
+            color: hexaCodeToColor(isDarkMode ? AppColors.blue : AppColors.lightColorBg),
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
           child: Padding(
@@ -46,7 +46,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                 MyText(
                   text: "Please, read carefully!",
                   fontSize: 18,
-                  color: isDarkTheme ? AppColors.lowWhite : AppColors.textColor,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                   fontWeight: FontWeight.bold,
                 ),  
         
@@ -71,7 +71,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                       const Expanded(
                         child: MyText(
                           text: "The information below is important to guarantee your account security.",
-                          color: AppColors.warningColor,
+                          hexaColor: AppColors.warningColor,
                           textAlign: TextAlign.start,
                         ),
                       )
@@ -83,7 +83,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                 MyText(
                   text: "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
                   textAlign: TextAlign.start,
-                  color: isDarkTheme ? AppColors.lowWhite : AppColors.textColor,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                 ),
         
                 SizedBox(height: 7.h),

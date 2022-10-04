@@ -13,7 +13,7 @@ class Confirmation extends StatelessWidget {
           children: [
             MyAppBar(
               title: "Account",
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteColorHexa),
               onPressed: () {

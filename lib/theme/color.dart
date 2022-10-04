@@ -48,6 +48,7 @@ class AppColors {
 
   /* White Color */
   static const String whiteColorHexa = "#FFFFFF";
+  static const String lightBg = "#F5F5F5";
   static const whiteNormalColor = Colors.white;
   static const String appBarTextColor = "#EFF0F2";
 

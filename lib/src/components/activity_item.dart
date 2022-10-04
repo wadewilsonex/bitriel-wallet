@@ -9,7 +9,7 @@ class ActivityItem extends StatelessWidget {
     final addr = AppUtils.addrFmt('0x899D45A8AE71160b85d414E48544204dec8A99B0');
 
     return rowDecorationStyle(
-        color: isDarkTheme
+        color: isDarkMode
             ? hexaCodeToColor(AppColors.darkCard)
             : hexaCodeToColor(AppColors.whiteHexaColor),
         child: Row(
@@ -43,7 +43,7 @@ class ActivityItem extends StatelessWidget {
                               : 'Failed',
                       bottom: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                     ),
@@ -51,7 +51,7 @@ class ActivityItem extends StatelessWidget {
                       text: 'To: $addr',
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.darkSecondaryText,
+                      hexaColor: AppColors.darkSecondaryText,
                     ),
                   ],
                 ),
@@ -61,8 +61,8 @@ class ActivityItem extends StatelessWidget {
               text: '${_trxInfo!.amount} ${_trxInfo!.coinSymbol}',
               fontWeight: FontWeight.bold,
               overflow: TextOverflow.ellipsis,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+              hexaColor:
+                  isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
             ),
           ],
         ));

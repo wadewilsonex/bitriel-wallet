@@ -59,7 +59,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
                       ),
                     );
                   },
-                  child: const MyText(text: 'Continue', color: AppColors.secondarytext),
+                  child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
                 ),
               );
             } else {
@@ -232,11 +232,15 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+    return Consumer<ThemeProvider>(
+      builder: (context, provider, widget) {
+        return Scaffold(
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          body: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
     );
   }
 }

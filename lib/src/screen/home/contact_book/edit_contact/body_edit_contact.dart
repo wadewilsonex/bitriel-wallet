@@ -24,7 +24,7 @@ class EditContactBody extends StatelessWidget {
       children: [
         MyAppBar(
           title: "Edit Contact",
-          color: isDarkTheme
+          color: isDarkMode
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {

@@ -15,12 +15,12 @@ class BackUpKeyBody extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Iconsax.arrow_left_2,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
             size: 22.5.sp,
           ),
           onPressed: (){
@@ -28,8 +28,8 @@ class BackUpKeyBody extends StatelessWidget{
           },
         ),
         elevation: 0,
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 16, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
+        title: MyText(text: 'Export Account', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -78,20 +78,7 @@ class BackUpKeyBody extends StatelessWidget{
                     }
                   });
                 });
-                // underContstuctionAnimationDailog(context: context);
-                // await Component().dialogBox(context).then((value) async {
-                //   if (value != ''){
-                //     // await disableScreenShot!();
-                //     ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-                //     await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
-                //       if (res!.seed != null){
-                //         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkTheme: isDarkTheme);
-                //       } else {
-                //         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkTheme: isDarkTheme);
-                //       }
-                //     });
-                //   }
-                // }); 
+                
               },
             )
           ]

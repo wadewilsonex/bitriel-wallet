@@ -27,7 +27,7 @@
 
 //                 MyAppBar(
 //                   title: "Swap SEL v2",
-//                   color: isDarkTheme
+//                   color: isDarkMode
 //                     ? hexaCodeToColor(AppColors.darkCard)
 //                     : hexaCodeToColor(AppColors.whiteHexaColor),
 //                   onPressed: () {
@@ -44,7 +44,7 @@
 //                         ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
 //                         : 'Available Balance:  ${contract.listContract[ApiProvider().selV1Index].balance} SEL v1',
 //                       fontWeight: FontWeight.bold,
-//                       color: isDarkTheme
+//                       color: isDarkMode
 //                         ? AppColors.darkSecondaryText
 //                         : AppColors.textColor,
 //                       textAlign: TextAlign.left,
@@ -60,7 +60,7 @@
 //                       margin: const EdgeInsets.symmetric(horizontal: paddingSize),
 //                       padding: const EdgeInsets.symmetric(vertical: paddingSize),
 //                       decoration: BoxDecoration(
-//                         color: isDarkTheme
+//                         color: isDarkMode
 //                           ? Colors.white.withOpacity(0.06)
 //                           : hexaCodeToColor(AppColors.whiteHexaColor),
 //                         borderRadius: BorderRadius.circular(8),
@@ -74,7 +74,7 @@
 //                             width: double.infinity,
 //                             text: 'Amount',
 //                             fontWeight: FontWeight.bold,
-//                             color: isDarkTheme
+//                             color: isDarkMode
 //                               ? AppColors.darkSecondaryText
 //                               : AppColors.textColor,
 //                             textAlign: TextAlign.left,
@@ -87,7 +87,7 @@
 //                             padding: const EdgeInsets.only(left: 10),
 //                             margin: const EdgeInsets.symmetric(horizontal: paddingSize),
 //                             decoration: BoxDecoration(
-//                               color: isDarkTheme
+//                               color: isDarkMode
 //                                 ? hexaCodeToColor(AppColors.darkBgd)
 //                                 : hexaCodeToColor(AppColors.whiteColorHexa),
 //                               borderRadius: BorderRadius.circular(8),
@@ -108,7 +108,7 @@
 //                                       : TextInputType.text,
 //                                     textInputAction: TextInputAction.done,
 //                                     style: TextStyle(
-//                                       color: isDarkTheme
+//                                       color: isDarkMode
 //                                         ? hexaCodeToColor(AppColors.whiteColorHexa)
 //                                         : hexaCodeToColor(AppColors.textColor),
 //                                       fontSize: 15.sp
@@ -123,7 +123,7 @@
 //                                       hintText: '0.00',
 //                                       hintStyle: TextStyle(
 //                                         fontSize: 15.sp,
-//                                         color: isDarkTheme
+//                                         color: isDarkMode
 //                                           ? hexaCodeToColor(AppColors.darkSecondaryText)
 //                                           : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),
 //                                       ),

@@ -1,9 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
-
-bool isDarkTheme = true;
-
 class ThemeProvider with ChangeNotifier {
 
   bool isDark = true;
@@ -22,16 +19,10 @@ class ThemeProvider with ChangeNotifier {
   }
 
   set setTheme(bool theme){
+    isDarkMode = theme;
     isDark = theme;
     notifyListeners();
   }
-
-
-
-  void setThemeValue(bool value) {
-    isDarkTheme = value;
-    notifyListeners();
-  } 
 
   static final ThemeData lightTheme = ThemeData.light();
   static final ThemeData darkTheme = ThemeData.dark();

@@ -103,7 +103,7 @@ class Component {
                               bottom: 10,
                               text: contents,
                               fontSize: 16,
-                              color: AppColors.blackColor,
+                              hexaColor: AppColors.blackColor,
                             )
                           : Container()
                     ],
@@ -183,7 +183,7 @@ class MyFlatButton extends StatelessWidget {
         child: Center(
           child: MyText(
             text: textButton!,
-            color: textColor!,
+            hexaColor: textColor!,
             fontWeight: fontWeight!,
           ),
         ),
@@ -260,7 +260,7 @@ class MyGradientButton extends StatelessWidget {
         },
         child: child ?? MyText(
           text: textButton!,
-          color: textColor!,
+          hexaColor: textColor!,
           fontWeight: fontWeight!,
           // width: 100,
           overflow: TextOverflow.ellipsis,
@@ -272,7 +272,7 @@ class MyGradientButton extends StatelessWidget {
 
 class MyText extends StatelessWidget {
   final String? text;
-  final String? color;
+  final String? hexaColor;
   final Color? color2;
   final double? fontSize;
   final FontWeight? fontWeight;
@@ -292,7 +292,7 @@ class MyText extends StatelessWidget {
   const MyText({
     Key? key, 
     this.text,
-    this.color,
+    this.hexaColor,
     this.color2,
     this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
@@ -322,7 +322,7 @@ class MyText extends StatelessWidget {
           text!,
           style: TextStyle(
             fontWeight: fontWeight,
-            color: color != null ? Color(AppUtils.convertHexaColor(color!)) : color2,
+            color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
             fontSize: fontSize!.sp
           ),
           textAlign: textAlign,
@@ -330,6 +330,11 @@ class MyText extends StatelessWidget {
         ),
       ),
     );
+    // Consumer<ThemeProvider>(
+    //   builder: (context, themePro, widget) {
+    //     return 
+    //   }
+    // );
   }
 }
 
@@ -449,8 +454,8 @@ class BodyScaffold extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,
-        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
-        // isDarkTheme
+        color: AppUtils.backgroundTheme(),
+        // isDarkMode
         //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
         //   : Color(AppUtils.convertHexaColor("#F5F5F5")),
         padding: EdgeInsets.fromLTRB(left!, top!, right!, bottom!),
@@ -497,12 +502,12 @@ class MyIconButton extends StatelessWidget {
             '${AppConfig.iconsPath}$icon',
             width: iconSize ?? 30,
             height: iconSize ?? 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
           const SizedBox(height: 5),
           MyText(
             text: title,
-            color: txtColor,
+            hexaColor: txtColor,
             
           )
         ],
@@ -666,13 +671,12 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: AlertDialog(
-          backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteHexaColor),
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteHexaColor),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
               text: title,
               fontWeight: FontWeight.w600,
-              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               fontSize: 18, 
             ),
           ),
@@ -680,7 +684,6 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             padding: const EdgeInsets.only(top: 15.0,),
             child: MyText(
               text: contents, 
-              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               textAlign: TextAlign.center
             ),
           ),
@@ -688,7 +691,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             btn2 ?? Container(),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: MyText(text: 'Close', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,),
+              child: const MyText(text: 'Close'),
             ),
           ],
         ),

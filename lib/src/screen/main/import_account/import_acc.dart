@@ -28,7 +28,7 @@ class ImportAccState extends State<ImportAcc> {
 
   @override
   void initState() {
-    print("isDark $isDarkTheme");
+    print("isDark $isDarkMode");
     _api = Provider.of<ApiProvider>(context, listen: false);
     AppServices.noInternetConnection(context: context);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );

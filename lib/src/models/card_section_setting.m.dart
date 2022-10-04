@@ -111,7 +111,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
         onPressed: () async => await _deleteAccount(context: context),
         child: const MyText(
           text: 'Delete',
-          color: AppColors.redColor,
+          hexaColor: AppColors.redColor,
           fontWeight: FontWeight.w700
         ),
       ),

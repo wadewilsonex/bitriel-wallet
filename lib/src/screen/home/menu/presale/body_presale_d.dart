@@ -31,7 +31,7 @@
 //               children: [
 //                 MyAppBar(
 //                   title: "Presale",
-//                   color: isDarkTheme
+//                   color: isDarkMode
 //                       ? hexaCodeToColor(AppColors.darkCard)
 //                       : hexaCodeToColor(AppColors.whiteHexaColor),
 //                   onPressed: () {
@@ -50,7 +50,7 @@
 //                         //     ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
 //                         //     : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
 //                         fontWeight: FontWeight.bold,
-//                         color: isDarkTheme
+//                         color: isDarkMode
 //                             ? AppColors.darkSecondaryText
 //                             : AppColors.textColor,
 //                         textAlign: TextAlign.left,
@@ -68,7 +68,7 @@
 //                         //     ? 'Available Balance:  ${AppString.loadingPattern} SEL v1'
 //                         //     : 'Available Balance:  ${contract.listContract[0].balance} SEL v1',
 //                         fontWeight: FontWeight.bold,
-//                         color: isDarkTheme
+//                         color: isDarkMode
 //                             ? AppColors.darkSecondaryText
 //                             : AppColors.textColor,
 //                         textAlign: TextAlign.left,
@@ -159,7 +159,7 @@
 //                         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
 //                         padding: const EdgeInsets.all(16.0),
 //                         decoration: BoxDecoration(
-//                             color: isDarkTheme
+//                             color: isDarkMode
 //                                 ? hexaCodeToColor(AppColors.darkCard)
 //                                 : hexaCodeToColor(AppColors.whiteHexaColor),
 //                             borderRadius: BorderRadius.circular(8),
@@ -187,7 +187,7 @@
 //                                 width: double.infinity,
 //                                 padding: const EdgeInsets.all(16.0),
 //                                 decoration: BoxDecoration(
-//                                   color: isDarkTheme
+//                                   color: isDarkMode
 //                                       ? hexaCodeToColor(AppColors.darkBgd)
 //                                       : hexaCodeToColor(
 //                                           AppColors.whiteColorHexa),
@@ -210,7 +210,7 @@
 //                                         : TextInputType.text,
 //                                     textInputAction: TextInputAction.done,
 //                                     style: TextStyle(
-//                                         color: isDarkTheme
+//                                         color: isDarkMode
 //                                             ? hexaCodeToColor(
 //                                                 AppColors.whiteColorHexa)
 //                                             : hexaCodeToColor(
@@ -225,7 +225,7 @@
 //                                       hintText: 'Input balance',
 //                                       hintStyle: TextStyle(
 //                                         fontSize: 20.0,
-//                                         color: isDarkTheme
+//                                         color: isDarkMode
 //                                             ? hexaCodeToColor(
 //                                                 AppColors.darkSecondaryText)
 //                                             : hexaCodeToColor(
@@ -263,7 +263,7 @@
 //                                     child: Theme(
 //                                         data: ThemeData(
 //                                             canvasColor: hexaCodeToColor(
-//                                                 isDarkTheme
+//                                                 isDarkMode
 //                                                     ? AppColors.darkCard
 //                                                     : AppColors
 //                                                         .whiteColorHexa)),
@@ -275,7 +275,7 @@
 //                                               style: TextStyle(
 //                                                 fontSize: 18,
 //                                                 fontWeight: FontWeight.bold,
-//                                                 color: isDarkTheme
+//                                                 color: isDarkMode
 //                                                     ? hexaCodeToColor(AppColors
 //                                                         .darkSecondaryText)
 //                                                     : hexaCodeToColor(

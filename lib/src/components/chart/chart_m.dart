@@ -27,7 +27,7 @@ Padding chartAsset(
     child: Center(
       child: Container(
         decoration: BoxDecoration(
-          color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteColorHexa),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: Colors.white.withOpacity(0.2),
@@ -56,7 +56,7 @@ Padding chartAsset(
                       ' $crypto ($cryptoCode) - $exchangeCurrency',
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor),
+                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -67,7 +67,7 @@ Padding chartAsset(
 
                   MyText(
                     text: "\$$marketPrice",
-                    color: isDarkTheme ? AppColors.greyColor : AppColors.textColor,
+                    hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),

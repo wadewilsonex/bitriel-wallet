@@ -214,7 +214,7 @@ class WalletConnectComponent with ChangeNotifier {
               //     padding: const EdgeInsets.only(bottom: 8.0),
               //     child: Image.network(peerMeta.icons.first.replaceAll("localhost", ip!)),
               //   ),
-              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
+              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
             ],
           ),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
@@ -223,12 +223,12 @@ class WalletConnectComponent with ChangeNotifier {
             if (peerMeta.description.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: peerMeta.description, color: AppColors.lowWhite,),
+                child: MyText(text: peerMeta.description, hexaColor: AppColors.lowWhite,),
               ),
             if (peerMeta.url.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: 'Connection to ${peerMeta.url}', color: AppColors.lowWhite),
+                child: MyText(text: 'Connection to ${peerMeta.url}', hexaColor: AppColors.lowWhite),
               ),
             Row(
               children: [
@@ -269,7 +269,7 @@ class WalletConnectComponent with ChangeNotifier {
                       // Navigator.pop(context!);
                       notifyListeners();
                     },
-                    child: const MyText(text: 'APPROVE', color: AppColors.lowWhite,),
+                    child: const MyText(text: 'APPROVE', hexaColor: AppColors.lowWhite,),
                   ),
                 ),
                 const SizedBox(width: 16.0),
@@ -283,7 +283,7 @@ class WalletConnectComponent with ChangeNotifier {
                       wcClient.rejectSession();
                       Navigator.pop(context!);
                     },
-                    child: const MyText(text: 'REJECT', color: AppColors.lowWhite),
+                    child: const MyText(text: 'REJECT', hexaColor: AppColors.lowWhite),
                   ),
                 ),
               ],
@@ -300,12 +300,12 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: const MyText(text: "Error", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
+          title: const MyText(text: "Error", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: MyText(text: "Some Error Occured. $message", color: AppColors.lowWhite,),
+              child: MyText(text: "Some Error Occured. $message", hexaColor: AppColors.lowWhite,),
             ),
             Row(
               children: [
@@ -344,7 +344,7 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, color: AppColors.lowWhite, fontSize: 17,),
+          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
 
@@ -355,7 +355,7 @@ class WalletConnectComponent with ChangeNotifier {
             if (reason != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: "Failure Reason: $reason", color: AppColors.lowWhite,),
+                child: MyText(text: "Failure Reason: $reason", hexaColor: AppColors.lowWhite,),
               ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

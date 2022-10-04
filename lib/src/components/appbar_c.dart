@@ -94,7 +94,7 @@ class MyAppBar extends StatelessWidget {
     
     return SafeArea(
       child: Container(
-        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         width: MediaQuery.of(context).size.width,
         margin: margin,
         child: Row(
@@ -107,7 +107,7 @@ class MyAppBar extends StatelessWidget {
                   iconSize: 40.0,
                   icon: Icon(
                     Iconsax.arrow_left_2,
-                    color: isDarkTheme ? Colors.white : Colors.black,
+                    color: isDarkMode ? Colors.white : Colors.black,
                     size: 22.5.sp,
                   ),
                   onPressed: (){
@@ -115,7 +115,7 @@ class MyAppBar extends StatelessWidget {
                   },
                 ),
                 MyText(
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,

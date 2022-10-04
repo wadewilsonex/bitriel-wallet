@@ -52,7 +52,7 @@ class ContentsBackupState extends State<ContentsBackup> {
           children: [
             MyAppBar(
               title: AppString.createAccTitle,
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
@@ -69,7 +69,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                         text: AppString.backup,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                             ? AppColors.whiteColorHexa
                             : AppColors.textColor,
                         bottom: bpSize,
@@ -78,7 +78,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                     textAlign: TextAlign.left,
                     text: AppString.getMnemonic,
                     fontWeight: FontWeight.w500,
-                    color: isDarkTheme
+                    hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                     bottom: bpSize,
@@ -90,7 +90,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                       textAlign: TextAlign.left,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: bpSize,
@@ -102,7 +102,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                       textAlign: TextAlign.left,
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: bpSize,
@@ -114,7 +114,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                       text: AppString.offlineStorage,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: bpSize,
@@ -124,7 +124,7 @@ class ContentsBackupState extends State<ContentsBackup> {
                     textAlign: TextAlign.left,
                     text: AppString.mnemonicAdvise,
                     fontWeight: FontWeight.w500,
-                    color: isDarkTheme
+                    hexaColor: isDarkMode
                       ? AppColors.whiteColorHexa
                       : AppColors.textColor,
                   ),

@@ -27,7 +27,7 @@ class SwapTokenList extends StatelessWidget {
         if (isActive == false) action!();
       },
       child: Container(
-        color: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         child: Row(
           children: [
       
@@ -52,14 +52,14 @@ class SwapTokenList extends StatelessWidget {
                 MyText(
                   text: title,
                   // fontSize: 18,
-                  color2: isActive == false ? hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
+                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,
                 ),
                 MyText(
                   text: subtitle,
                   fontSize: 13,
-                  color2: isActive == false ? hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
+                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,
                 ),

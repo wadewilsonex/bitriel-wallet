@@ -13,7 +13,7 @@ class ExplorerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -21,12 +21,12 @@ class ExplorerBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               MyText(
                 bottom: 2.h,
                 text: "Multi-Chain Explorer",
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor
               ),
               GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

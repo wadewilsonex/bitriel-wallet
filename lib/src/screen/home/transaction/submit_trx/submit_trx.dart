@@ -529,7 +529,23 @@ class SubmitTrxState extends State<SubmitTrx> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scanPayM.globalKey,
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        title: const MyText(
+          text: "Sent",
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
+      ),
       body: Stack(
         children: [
           if(_loading) const Center(

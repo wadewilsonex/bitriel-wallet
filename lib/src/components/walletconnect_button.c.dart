@@ -49,7 +49,7 @@ class WalletConnectMenuItem extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: MyText(
                   text: title,
-                  color: AppColors.whiteColorHexa,
+                  hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                 ),
               ),

@@ -26,12 +26,12 @@ class WalletConnectBody extends StatelessWidget {
     return Consumer<WalletConnectComponent>(
       builder: (context, wcComponent, widget){
         return Scaffold(
-          backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(
                 Iconsax.arrow_left_2,
-                color: isDarkTheme ? Colors.white : Colors.black,
+                color: isDarkMode ? Colors.white : Colors.black,
                 size: 22.5.sp,
               ),
               onPressed: (){
@@ -48,8 +48,8 @@ class WalletConnectBody extends StatelessWidget {
               : Container(),
             ],
             elevation: 0,
-            backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-            title: MyText(text: 'Wallet Connect', fontSize: 16, color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
+            title: MyText(text: 'Wallet Connect', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -97,7 +97,7 @@ class WalletConnectBody extends StatelessWidget {
 
                         MyText(
                           text: "Active Connections will appear here",
-                          color: isDarkTheme ? AppColors.greyColor : AppColors.lightGreyColor,
+                          hexaColor: isDarkMode ? AppColors.greyColor : AppColors.lightGreyColor,
                           fontSize: 16,
                         )
 
@@ -110,7 +110,7 @@ class WalletConnectBody extends StatelessWidget {
             )
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.defiMenuItem : AppColors.orangeColor),
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
             onPressed: () async{
               WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 

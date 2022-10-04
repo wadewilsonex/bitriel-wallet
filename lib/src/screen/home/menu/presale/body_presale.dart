@@ -104,14 +104,14 @@
 //               child: MyText(
 //                 text: 'Activity',
 //                 right: 20,
-//                 color: isDarkTheme
+//                 color: isDarkMode
 //                   ? AppColors.whiteHexaColor //AppColors.darkCard
 //                   : AppColors.darkCard,
 //                 fontWeight: FontWeight.w600
 //               )
 //             ),
 //             title: "Presale",
-//             color: isDarkTheme
+//             color: isDarkMode
 //               ? hexaCodeToColor(AppColors.darkCard)
 //               : hexaCodeToColor(AppColors.whiteHexaColor),
 //             onPressed: () {
@@ -131,7 +131,7 @@
 //                     width: double.infinity,
 //                     textAlign: TextAlign.left,
 //                     text: "Network: Binance Smart Chain",
-//                     color: isDarkTheme
+//                     color: isDarkMode
 //                       ? AppColors.darkSecondaryText
 //                       : AppColors.textColor,
 //                     fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@
 //                     margin: const EdgeInsets.all(24.0),
 //                     padding: const EdgeInsets.all(24.0),
 //                     decoration: BoxDecoration(
-//                       color: isDarkTheme
+//                       color: isDarkMode
 //                           ? hexaCodeToColor(AppColors.darkCard)
 //                           : hexaCodeToColor(AppColors.whiteHexaColor),
 //                       borderRadius: BorderRadius.circular(8.0),
@@ -153,7 +153,7 @@
 //                           padding: const EdgeInsets.all(8.0),
 //                           decoration: BoxDecoration(
 //                             borderRadius: BorderRadius.circular(8.0),
-//                             color: isDarkTheme
+//                             color: isDarkMode
 //                                 ? hexaCodeToColor(AppColors.darkBgd)
 //                                 : hexaCodeToColor(AppColors.lowWhite),
 //                           ),
@@ -165,7 +165,7 @@
 //                                   MyText(
 //                                     fontSize: 16.0,
 //                                     textAlign: TextAlign.left,
-//                                     color: isDarkTheme
+//                                     color: isDarkMode
 //                                         ? AppColors.whiteColorHexa
 //                                         : AppColors.textColor,
 //                                     fontWeight: FontWeight.w700,
@@ -196,7 +196,7 @@
 //                                           : TextInputType.text,
 //                                       textInputAction: TextInputAction.done,
 //                                       style: TextStyle(
-//                                           color: isDarkTheme
+//                                           color: isDarkMode
 //                                               ? hexaCodeToColor(
 //                                                   AppColors.whiteColorHexa)
 //                                               : hexaCodeToColor(
@@ -207,7 +207,7 @@
 //                                         hintText: 'Input amount',
 //                                         hintStyle: TextStyle(
 //                                           fontSize: 18.0,
-//                                           color: isDarkTheme
+//                                           color: isDarkMode
 //                                               ? hexaCodeToColor(
 //                                                   AppColors.whiteColorHexa)
 //                                               : hexaCodeToColor(
@@ -248,7 +248,7 @@
 //                         ),
 //                         SizedBox(height: 25),
 //                         Icon(Icons.arrow_downward,
-//                             color: isDarkTheme
+//                             color: isDarkMode
 //                                 ? hexaCodeToColor(AppColors.whiteColorHexa)
 //                                 : Colors.black,
 //                             size: 30),
@@ -258,7 +258,7 @@
 //                           padding: const EdgeInsets.all(8.0),
 //                           decoration: BoxDecoration(
 //                             borderRadius: BorderRadius.circular(8.0),
-//                             color: isDarkTheme
+//                             color: isDarkMode
 //                                 ? hexaCodeToColor(AppColors.darkBgd)
 //                                 : hexaCodeToColor(AppColors.lowWhite),
 //                           ),
@@ -270,7 +270,7 @@
 //                                   MyText(
 //                                     textAlign: TextAlign.left,
 //                                     fontSize: 16.0,
-//                                     color: isDarkTheme
+//                                     color: isDarkMode
 //                                         ? AppColors.whiteColorHexa
 //                                         : AppColors.textColor,
 //                                     fontWeight: FontWeight.w700,
@@ -286,7 +286,7 @@
 //                                       builder: (context, value, child) {
 //                                     return MyText(
 //                                         textAlign: TextAlign.left,
-//                                         color: isDarkTheme
+//                                         color: isDarkMode
 //                                             ? AppColors.whiteColorHexa
 //                                             : AppColors.textColor,
 //                                         fontWeight: FontWeight.w700,
@@ -306,7 +306,7 @@
 //                                         SizedBox(width: 6.0),
 //                                         MyText(
 //                                           top: 4.0,
-//                                           color: isDarkTheme
+//                                           color: isDarkMode
 //                                               ? AppColors.whiteColorHexa
 //                                               : AppColors.textColor,
 //                                           fontWeight: FontWeight.w700,
@@ -334,7 +334,7 @@
 //                                   MyText(
 //                                     textAlign: TextAlign.left,
 //                                     fontSize: 16.0,
-//                                     color: isDarkTheme
+//                                     color: isDarkMode
 //                                         ? AppColors.whiteColorHexa
 //                                         : AppColors.textColor,
 //                                     fontWeight: FontWeight.w700,
@@ -342,7 +342,7 @@
 //                                   ),
 //                                   SizedBox(width: 6.0),
 //                                   Icon(Icons.settings,
-//                                       color: isDarkTheme
+//                                       color: isDarkMode
 //                                           ? hexaCodeToColor(
 //                                               AppColors.whiteHexaColor)
 //                                           : Colors.black),
@@ -530,7 +530,7 @@
 //     return Theme(
 //       data: ThemeData(
 //           canvasColor: hexaCodeToColor(
-//               isDarkTheme ? AppColors.darkCard : AppColors.whiteColorHexa)),
+//               isDarkMode ? AppColors.darkCard : AppColors.whiteColorHexa)),
 //       child: DropdownButton(
 //         value: initialValue,
 //         underline: Container(
@@ -555,7 +555,7 @@
 //                 Text(
 //                   "${e['symbol']}",
 //                   style: TextStyle(
-//                     color: isDarkTheme
+//                     color: isDarkMode
 //                         ? hexaCodeToColor(AppColors.darkSecondaryText)
 //                         : hexaCodeToColor(AppColors.textColor),
 //                   ),

@@ -32,7 +32,7 @@ class WelcomeBody extends StatelessWidget {
                   text: "Welcome!",
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                       ? AppColors.whiteColorHexa
                       : AppColors.textColor,
                 ),
@@ -43,7 +43,7 @@ class WelcomeBody extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
                     text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
-                    color: isDarkTheme
+                    hexaColor: isDarkMode
                         ? AppColors.lowWhite
                         : AppColors.textColor,
                   ),
@@ -70,7 +70,7 @@ class WelcomeBody extends StatelessWidget {
               ),
               MyFlatButton(
                 isTransparent: true,
-                textColor: isDarkTheme ? AppColors.whiteHexaColor : AppColors.textColor,
+                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {

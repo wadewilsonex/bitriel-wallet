@@ -52,7 +52,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: MyText(text: widget.wcData!.remotePeerMeta.name, color: AppColors.lowWhite),
+        title: MyText(text: widget.wcData!.remotePeerMeta.name, hexaColor: AppColors.lowWhite),
       ),
       body: Center(
         child: Padding(
@@ -78,7 +78,7 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                 padding: const EdgeInsets.all(8.0),
                 child: MyText(
                   text: widget.wcData!.remotePeerMeta.name,
-                  color: AppColors.lowWhite,
+                  hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
                 ),
@@ -93,14 +93,14 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                     children: [
                       const MyText(
                         text: "Connected to",
-                        color: AppColors.lowWhite,
+                        hexaColor: AppColors.lowWhite,
                         fontWeight: FontWeight.w700,
                         fontSize: 17,
                       ),
 
                       Expanded(
                         child: MyText(
-                          color: AppColors.lowWhite,
+                          hexaColor: AppColors.lowWhite,
                           textAlign: TextAlign.end,
                           text: widget.wcData!.remotePeerMeta.url,
                           color2: Colors.grey,
@@ -122,14 +122,14 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                     children: [
                       const MyText(
                         text: "Chain ID",
-                        color: AppColors.lowWhite,
+                        hexaColor: AppColors.lowWhite,
                         fontWeight: FontWeight.w700,
                         fontSize: 17,
                       ),
 
                       Expanded(
                         child: MyText(
-                          color: AppColors.lowWhite,
+                          hexaColor: AppColors.lowWhite,
                           textAlign: TextAlign.end,
                           text: widget.wcData!.chainId.toString(),
                           color2: Colors.grey,
@@ -153,13 +153,13 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                         children: [
                           const MyText(
                             text: "Address",
-                            color: AppColors.lowWhite,
+                            hexaColor: AppColors.lowWhite,
                             fontWeight: FontWeight.w700,
                             fontSize: 17,
                           ),
                           Expanded(
                             child: MyText(
-                              color: AppColors.lowWhite,
+                              hexaColor: AppColors.lowWhite,
                               textAlign: TextAlign.end,
                               text: provider.ethAdd != '' ? provider.ethAdd.replaceRange( 10, provider.ethAdd.length - 10, ".....") : '...',
                               color2: Colors.grey,

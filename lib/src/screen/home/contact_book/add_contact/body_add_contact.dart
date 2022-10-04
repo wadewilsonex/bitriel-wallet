@@ -24,7 +24,7 @@ class AddContactBody extends StatelessWidget {
       children: [
         MyAppBar(
           title: "Add Contact",
-          color: isDarkTheme
+          color: isDarkMode
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {

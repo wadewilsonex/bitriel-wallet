@@ -181,3 +181,4 @@ export 'src/screen/home/asset_info/asset_checkin.dart';
 export 'src/screen/home/asset_info/asset_history.dart';
 export 'src/screen/home/asset_info/asset_info.dart';
 export 'package:wallet_apps/theme/global.dart';
+

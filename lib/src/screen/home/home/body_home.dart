@@ -38,32 +38,28 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: homePageModel!.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       appBar: homePageModel!.activeIndex == 4 ?
       AppBar(
-        backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: MyText(
+        title: const MyText(
           text: "Settings",
           fontWeight: FontWeight.bold,
-          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           fontSize: 20,
         ),
       )
       :
       AppBar(
         // iconTheme: IconThemeData(
-        //   color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+        //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor) : hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -72,7 +68,7 @@ class HomePageBody extends StatelessWidget {
           },
           icon: Icon(
             Iconsax.profile_circle, 
-            color: isDarkTheme 
+            color: isDarkMode 
               ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
               : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
             size: 6.w,
@@ -84,7 +80,7 @@ class HomePageBody extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Icon(
                 Iconsax.chart_3,
-                color: isDarkTheme 
+                color: isDarkMode 
                   ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
                   : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
                 size: 6.w,
@@ -102,7 +98,7 @@ class HomePageBody extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Icon(
                   Iconsax.scan,
-                  color: isDarkTheme 
+                  color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
                     : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
                   size: 6.w,
@@ -140,8 +136,6 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
           
                 const SizedBox(height: 10), 
                 _menu(context),
@@ -152,7 +146,6 @@ class HomePageBody extends StatelessWidget {
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
-                    color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -173,7 +166,6 @@ class HomePageBody extends StatelessWidget {
                   child: MyText(
                     text: "Marketplace",
                     fontSize: 17.5,
-                    color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -194,7 +186,6 @@ class HomePageBody extends StatelessWidget {
                   child: MyText(
                     text: "Selendra ECO System",
                     fontSize: 17.5,
-                    color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),

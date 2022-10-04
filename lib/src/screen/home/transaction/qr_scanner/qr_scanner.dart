@@ -44,14 +44,11 @@ class QrScannerState extends State<QrScanner> {
      
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
         iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
-        title: MyText(
-          color: isDarkTheme
-            ? AppColors.whiteColorHexa
-            : AppColors.textColor,
+        title: const MyText(
           text: "Scan QR",
           fontSize: 17,
           fontWeight: FontWeight.w600
@@ -62,7 +59,7 @@ class QrScannerState extends State<QrScanner> {
           },
           icon: Icon(
             Iconsax.arrow_left_2,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
       ),
@@ -72,6 +69,7 @@ class QrScannerState extends State<QrScanner> {
         bottom: 0,
         child: Column(
           children: [
+            
             Expanded(
               child: Stack(
                 children: [
@@ -92,7 +90,7 @@ class QrScannerState extends State<QrScanner> {
                     child: MyText(
                       text: "Scan QR Code to login, send, pay",
                       // fontSize: 15,
-                      color: AppColors.whiteColorHexa,
+                      hexaColor: AppColors.whiteColorHexa,
                     ),
                   )
                 ]

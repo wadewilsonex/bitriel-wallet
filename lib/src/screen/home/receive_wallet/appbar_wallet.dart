@@ -14,7 +14,7 @@ class QrViewTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        canvasColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg)
+        canvasColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg)
       ),
       child: Consumer<WalletProvider>(
         builder: (context, value, child) {
@@ -40,7 +40,7 @@ class QrViewTitle extends StatelessWidget {
                       Expanded(
                         child: Container(
                           alignment: Alignment.center,
-                          child: MyText(text: value['symbol'], color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor, overflow: TextOverflow.ellipsis,),
+                          child: MyText(text: value['symbol'], overflow: TextOverflow.ellipsis,),
                         ),
                       ),
                       Divider(

@@ -33,17 +33,17 @@ class PasscodeBody extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
-        backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
           fontWeight: FontWeight.bold,
-          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -72,14 +72,13 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN' : 'Verify PIN',
-              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
-              color: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -100,7 +99,7 @@ class PasscodeBody extends StatelessWidget{
             // For Change PIN
             else MyText(
               text: subStatus,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               fontWeight: FontWeight.bold,
             ), 
 
@@ -164,7 +163,7 @@ class PasscodeBody extends StatelessWidget{
             text: 'Assign a security ', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
@@ -172,14 +171,14 @@ class PasscodeBody extends StatelessWidget{
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.bold,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
         ],
@@ -194,21 +193,21 @@ class PasscodeBody extends StatelessWidget{
             text: 'Enter ', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
               fontSize: 17.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
         ],
@@ -385,7 +384,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
           ),
-          backgroundColor: MaterialStateProperty.all(isDarkTheme ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor))
+          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor))
         ),
         onPressed: onPressed,
         child: child == null ? Text(

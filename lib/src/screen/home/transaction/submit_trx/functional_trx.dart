@@ -32,7 +32,7 @@ class TrxFunctional {
             child: MyText(
               fontSize: 20,
               text: text1,
-              color: AppColors.lowWhite,
+              hexaColor: AppColors.lowWhite,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -40,7 +40,7 @@ class TrxFunctional {
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: MyText(
               text: text2,
-              color: AppColors.lowWhite,
+              hexaColor: AppColors.lowWhite,
               textAlign: TextAlign.center,
             ),
           ),
@@ -48,7 +48,7 @@ class TrxFunctional {
             TextButton(
               child: const MyText(
                 text: 'Close',
-                color: AppColors.lowWhite,
+                hexaColor: AppColors.lowWhite,
                 fontWeight: FontWeight.bold,
               ),
               onPressed: () {

@@ -20,14 +20,14 @@ class MyBottomSheetItem extends StatelessWidget {
             '${AppConfig.assetsPath}$icon',
             width: 30,
             height: 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
           MyText(
             top: 6,
             text: subTitle,
             fontSize: 12,
-            color:
-                isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor:
+                isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           )
         ],
       )

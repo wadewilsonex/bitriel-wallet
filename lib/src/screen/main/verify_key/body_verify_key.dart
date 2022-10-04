@@ -21,7 +21,7 @@ class VerifyPassphraseBody extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -42,7 +42,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isDarkTheme ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa),
+                    color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa),
                     borderRadius: BorderRadius.circular(12)
                   ),
                   child: Column(
@@ -98,12 +98,11 @@ class VerifyPassphraseBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
+                          Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                           const SizedBox(width: 9),
                           MyText(
                             text: "Try Again",
                             fontSize: 14,
-                            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                             fontWeight: FontWeight.bold,  
                           ),
                         ],

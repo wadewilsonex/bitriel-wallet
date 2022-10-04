@@ -11,18 +11,18 @@
 //   ThemeData appBarTheme(BuildContext context) {
 //      
 //     return Theme.of(context).copyWith(
-//       // primaryColor: isDarkTheme
+//       // primaryColor: isDarkMode
 //       //     ? hexaCodeToColor(AppColors.darkBgd)
 //       //     : hexaCodeToColor(AppColors.cardColor),
-//       scaffoldBackgroundColor: isDarkTheme
+//       scaffoldBackgroundColor: isDarkMode
 //         ? hexaCodeToColor(AppColors.darkBgd)
 //         : hexaCodeToColor(AppColors.whiteHexaColor),
 //       inputDecorationTheme: InputDecorationTheme(
-//         hintStyle: TextStyle(color: isDarkTheme ? Colors.white : Colors.black),
+//         hintStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
 //       ),
 //       textTheme: TextTheme(
 //         headline6: TextStyle(
-//           color: isDarkTheme ? Colors.white : Colors.black,
+//           color: isDarkMode ? Colors.white : Colors.black,
 //           fontSize: 18,
 //         ),
 //       ),
@@ -36,7 +36,7 @@
 //       IconButton(
 //         icon: Icon(
 //           Icons.clear,
-//           color: isDarkTheme
+//           color: isDarkMode
 //               ? hexaCodeToColor(AppColors.whiteColorHexa)
 //               : hexaCodeToColor(AppColors.textColor),
 //         ),
@@ -53,7 +53,7 @@
 //     return IconButton(
 //       icon: Icon(
 //         Icons.arrow_back,
-//         color: isDarkTheme
+//         color: isDarkMode
 //             ? hexaCodeToColor(AppColors.whiteColorHexa)
 //             : hexaCodeToColor(AppColors.textColor),
 //       ),

@@ -16,10 +16,10 @@ class AvatarShimmer extends StatelessWidget{
       child: txt == null 
       ? Shimmer.fromColors(
         period: const Duration(seconds: 2),
-        baseColor: isDarkTheme
+        baseColor: isDarkMode
           ? Colors.white.withOpacity(0.06)
           : Colors.grey[300]!,
-        highlightColor: isDarkTheme
+        highlightColor: isDarkMode
           ? Colors.white.withOpacity(0.5)
           : Colors.grey[100]!,
         child: Container(
@@ -27,7 +27,7 @@ class AvatarShimmer extends StatelessWidget{
           height: 10.w,
           margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
-            color: isDarkTheme
+            color: isDarkMode
               ? hexaCodeToColor(AppColors.whiteHexaColor)
               : Colors.grey.shade400,
             shape: BoxShape.circle,
@@ -39,7 +39,7 @@ class AvatarShimmer extends StatelessWidget{
         height: 10.w,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
-          color: isDarkTheme
+          color: isDarkMode
             ? hexaCodeToColor(AppColors.whiteHexaColor)
             : Colors.grey.shade400,
           shape: BoxShape.circle,
@@ -65,10 +65,10 @@ class WidgetShimmer extends StatelessWidget{
     : 
     Shimmer.fromColors(
       period: const Duration(seconds: 2),
-      baseColor: isDarkTheme
+      baseColor: isDarkMode
         ? Colors.white.withOpacity(0.06)
         : Colors.grey[300]!,
-      highlightColor: isDarkTheme
+      highlightColor: isDarkMode
         ? Colors.white.withOpacity(0.5)
         : Colors.grey[100]!,
       child: Container(
@@ -98,7 +98,7 @@ class TextShimmer extends StatelessWidget{
       text: txt ?? '',
       fontSize: 16,
       fontWeight: FontWeight.bold,
-      color: AppColors.whiteColorHexa
+      hexaColor: AppColors.whiteColorHexa
     ) 
     : Shimmer.fromColors(
       period: const Duration(seconds: 2),

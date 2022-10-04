@@ -16,7 +16,7 @@ class SelectSwapTokenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -25,7 +25,7 @@ class SelectSwapTokenBody extends StatelessWidget {
             icon: Icon(
               Iconsax.close_circle,
               size: 25,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor),
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
             ),
             onPressed: () {
               Provider.of<SwapProvider>(context, listen: false).label = "";
@@ -73,31 +73,31 @@ class SelectSwapTokenBody extends StatelessWidget {
         controller: controller,
         style: TextStyle(
           fontSize: 14,
-          color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,),
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
         ),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.orangeColor),),
+            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
           hintText: "Type token name",
           hintStyle: TextStyle(
             fontSize: 14,
             color: hexaCodeToColor("#AAAAAA"),
           ),
-          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkTheme ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
           /* Prefix Text */
           filled: true,
-          fillColor: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.lightColorBg),
-          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
+          fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
         ),
         onChanged: (String value){
           query!(label, value);

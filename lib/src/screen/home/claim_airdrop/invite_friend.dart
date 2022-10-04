@@ -50,7 +50,7 @@
             
 //             MyAppBar(
 //               title: 'Invite Friends',
-//               color: isDarkTheme
+//               color: isDarkMode
 //                   ? hexaCodeToColor(AppColors.darkCard)
 //                   : hexaCodeToColor(AppColors.whiteHexaColor),
 //               onPressed: () {

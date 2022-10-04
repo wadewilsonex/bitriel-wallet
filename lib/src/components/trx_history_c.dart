@@ -64,9 +64,9 @@ class TrxHistoryList extends StatelessWidget {
           backgroundColor: hexaCodeToColor(AppColors.bluebgColor),
           child: icon,
         ),
-        title: MyText(text: items[index]["title"], color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.start,),
-        trailing: MyText(text: items[index]["trailing"], color: AppColors.redColor, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.end),
-        subtitle: MyText(text: items[index]["subtitle"], color: AppColors.greyColor, textAlign: TextAlign.start),
+        title: MyText(text: items[index]["title"], hexaColor: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.start,),
+        trailing: MyText(text: items[index]["trailing"], hexaColor: AppColors.redColor, fontWeight: FontWeight.bold, fontSize: 16, textAlign: TextAlign.end),
+        subtitle: MyText(text: items[index]["subtitle"], hexaColor: AppColors.greyColor, textAlign: TextAlign.start),
         onTap: () {
           action!();
         },

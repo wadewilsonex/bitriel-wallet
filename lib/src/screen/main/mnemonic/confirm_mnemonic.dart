@@ -41,7 +41,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                
               return Container(
                 alignment: Alignment.center,
-                color: isDarkTheme
+                color: isDarkMode
                     ? hexaCodeToColor(AppColors.darkCard)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                 padding: const EdgeInsets.only(
@@ -64,7 +64,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                   },
                   child: MyText(
                     text: i.toString(),
-                    color: AppColors.secondarytext,
+                    hexaColor: AppColors.secondarytext,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -133,7 +133,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
         child: Column(
           children: [
             MyAppBar(
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
@@ -151,7 +151,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                       text: AppString.confirmMnemonic,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                       bottom: 12, 
@@ -176,7 +176,7 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                         text: AppString.reset,
                         bottom: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.secondarytext,
+                        hexaColor: AppColors.secondarytext,
                       ),
                     ),
                   ),
@@ -190,20 +190,20 @@ class ConfirmMnemonicState extends State<ConfirmMnemonic> {
                           width: 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: isDarkTheme
+                    color: isDarkMode
                         ? hexaCodeToColor(AppColors.darkCard)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                     child: Container(
                       height: 80,
                       width: double.infinity,
                       margin: const EdgeInsets.only(bottom: 16),
-                      color: isDarkTheme
+                      color: isDarkMode
                           ? hexaCodeToColor(AppColors.darkCard)
                           : hexaCodeToColor(AppColors.whiteColorHexa),
                       padding: const EdgeInsets.all(16),
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        color: AppColors.secondarytext,
+                        hexaColor: AppColors.secondarytext,
                         textAlign: TextAlign.left,
                         text: _wordsSelected.join(' '),
                         fontWeight: FontWeight.bold,

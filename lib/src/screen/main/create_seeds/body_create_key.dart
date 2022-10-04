@@ -15,7 +15,7 @@ class CreateSeedsBody extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -66,12 +66,11 @@ class CreateSeedsBody extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
+                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
                               MyText(
                                 text: "Generate new seed",
                                 fontSize: 14,
-                                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -90,12 +89,11 @@ class CreateSeedsBody extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.copy, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
+                              Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
                               MyText(
                                 text: "Copy",
                                 fontSize: 14,
-                                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -121,7 +119,7 @@ class CreateSeedsBody extends StatelessWidget {
                 SizedBox(height: 7.h),
                 MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
-                  color: isDarkTheme ? AppColors.lowWhite : AppColors.textColor,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                 ),
 
 

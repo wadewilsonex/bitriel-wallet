@@ -70,7 +70,7 @@ class MyInputField extends StatelessWidget {
             // ignore: prefer_if_null_operators
             inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
-            color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor),
+            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
             fontSize: 15.sp
           ),
           validator: (String? value){
@@ -87,7 +87,7 @@ class MyInputField extends StatelessWidget {
             labelStyle: TextStyle(
               fontSize: 18.0,
               color: focusNode!.hasFocus || controller!.text != ""
-                  ? isDarkTheme
+                  ? isDarkMode
                       ? Colors.white.withOpacity(0.06)
                       : hexaCodeToColor(AppColors.secondary)
                   : hexaCodeToColor(AppColors.darkSecondaryText),
@@ -97,23 +97,23 @@ class MyInputField extends StatelessWidget {
             prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
-            fillColor: isDarkTheme
+            fillColor: isDarkMode
                 ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
 
             enabledBorder: myTextInputBorder(controller!.text != ""
-                ? isDarkTheme
+                ? isDarkMode
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.textColor).withOpacity(0.3)
                 : Colors.white.withOpacity(0.06)),
             /* Enable Border But Not Show Error */
             border: errorOutline(),
             /* Show Error And Red Border */
-            focusedBorder: myTextInputBorder(isDarkTheme
+            focusedBorder: myTextInputBorder(isDarkMode
                 ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.secondary)),
             /* Default Focuse Border Color*/
-            focusColor: isDarkTheme
+            focusColor: isDarkMode
                 ? Colors.white.withOpacity(0.06)
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
@@ -216,7 +216,7 @@ class MySeedField extends StatelessWidget {
               // ignore: prefer_if_null_operators
               inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                   : hexaCodeToColor(AppColors.textColor),
               fontSize: 16.0.sp),
@@ -230,7 +230,7 @@ class MySeedField extends StatelessWidget {
             hintText: hintText,
             hintStyle: TextStyle(
               fontSize: 15.sp,
-              color: hexaCodeToColor(isDarkTheme ? AppColors.shadowBlueColor : AppColors.greyColor),
+              color: hexaCodeToColor(isDarkMode ? AppColors.shadowBlueColor : AppColors.greyColor),
               // fontSize: 16.0,
               fontWeight: FontWeight.w600
             ),
@@ -240,7 +240,7 @@ class MySeedField extends StatelessWidget {
                 color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
-            fillColor: isDarkTheme ? hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
+            fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -251,7 +251,7 @@ class MySeedField extends StatelessWidget {
             ),
 
             // enabledBorder: mySeedFieldBorder(controller!.text != ""
-            //     ? isDarkTheme
+            //     ? isDarkMode
             //         ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
             //         : hexaCodeToColor(AppColors.textColor).withOpacity(0.3)
             //     : hexaCodeToColor(AppColors.darkSecondaryText)),
@@ -271,11 +271,11 @@ class MySeedField extends StatelessWidget {
                 width: 0.0,
               ),
             ),
-            // focusedBorder: mySeedFieldBorder(isDarkTheme
+            // focusedBorder: mySeedFieldBorder(isDarkMode
             //     ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.3)
             //     : hexaCodeToColor(AppColors.secondary)),
             /* Default Focuse Border Color*/
-            focusColor: isDarkTheme
+            focusColor: isDarkMode
                 ? hexaCodeToColor("#ffffff")
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */

@@ -33,7 +33,7 @@
 //       children: [
 //         MyAppBar(
 //           title: AppString.contactAppBarTitle,
-//           color: isDarkTheme
+//           color: isDarkMode
 //             ? hexaCodeToColor(AppColors.darkCard)
 //             : hexaCodeToColor(AppColors.whiteHexaColor),
 //           onPressed: () {
@@ -67,7 +67,7 @@
 //                 },
 //                 child: Icon(
 //                   Icons.add,
-//                   color: isDarkTheme ? Colors.white : Colors.black,
+//                   color: isDarkMode ? Colors.white : Colors.black,
 //                   size: 25,
 //                 ),
 //               ),
@@ -183,7 +183,7 @@
 //                           }
 //                         },
 //                         child: Card(
-//                           color: isDarkTheme
+//                           color: isDarkMode
 //                               ? hexaCodeToColor(AppColors.darkCard)
 //                               : hexaCodeToColor(AppColors.whiteHexaColor),
 //                           margin: const EdgeInsets.only(bottom: 16.0),
@@ -213,7 +213,7 @@
 //                                           .contactBookList![index]
 //                                           .userName
 //                                           .text,
-//                                       color: isDarkTheme
+//                                       color: isDarkMode
 //                                           ? AppColors.whiteColorHexa
 //                                           : AppColors.textColor,
 //                                       fontSize: 20,

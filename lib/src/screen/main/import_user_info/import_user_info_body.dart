@@ -106,7 +106,7 @@ class ImportUserInfoBody extends StatelessWidget {
                             ),
                             MyText(
                               text: "Fingerprint",
-                              color: isDarkTheme
+                              hexaColor: isDarkMode
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                             ),

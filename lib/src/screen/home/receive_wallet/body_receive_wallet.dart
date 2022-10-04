@@ -20,18 +20,17 @@ class ReceiveWalletBody extends StatelessWidget {
         return Scaffold(
           key: provider.globalKey,
           appBar: AppBar(
-            backgroundColor: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+            backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
             iconTheme: IconThemeData(
-              color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor)
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
             ),
             elevation: 0,
             bottomOpacity: 0,
             leadingWidth: 7.w,
             title: Row(
               children: [
-                MyText(
+                const MyText(
                   text: "Receive",
-                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
                 ),
@@ -58,12 +57,12 @@ class ReceiveWalletBody extends StatelessWidget {
               },
               icon: Icon(
                 Iconsax.arrow_left_2,
-                color: isDarkTheme ? Colors.white : Colors.black,
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
           body: Container(
-            color: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+            color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
             child: Column(
               children: <Widget>[  
                 Expanded(
@@ -83,7 +82,7 @@ class ReceiveWalletBody extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               // boxShadow: [shadow(context)],
-                              color: isDarkTheme
+                              color: isDarkMode
                                 ? Colors.white
                                 : hexaCodeToColor(AppColors.whiteHexaColor),
                             ),
@@ -98,7 +97,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8.0),
                                       // boxShadow: [shadow(context)],
-                                      color: isDarkTheme
+                                      color: isDarkMode
                                         ? Colors.white
                                         : hexaCodeToColor(AppColors.whiteHexaColor),
                                     ),
@@ -140,7 +139,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                         MyText(
                                           top: 2.5.h,
                                           text: provider.accountM!.address ?? '',
-                                          color: AppColors.darkBgd,
+                                          hexaColor: AppColors.darkBgd,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -214,18 +213,18 @@ class ReceiveWalletBody extends StatelessWidget {
                               MyText(
                                 text: "Note: This address only receives ${conProvider.sortListContract[provider.assetsIndex].symbol} ${ApiProvider().isMainnet ? conProvider.sortListContract[provider.assetsIndex].org : conProvider.sortListContract[provider.assetsIndex].orgTest}",
                                 fontWeight: FontWeight.w600,
-                                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                               ),
                               MyText(
                                 text: "Do not transfer from other public chain.",
                                 fontWeight: FontWeight.w600,
-                                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                               )
                             ],
                           ),
         
                           Expanded(
-                            child: Image.asset(isDarkTheme ? "assets/logo/bitriel-logo-light.png" : "assets/logo/bitriel-logo-dark.png", width: 100,),
+                            child: Image.asset(isDarkMode ? "assets/logo/bitriel-logo-light.png" : "assets/logo/bitriel-logo-dark.png", width: 100,),
                           )
                         ],
                       );

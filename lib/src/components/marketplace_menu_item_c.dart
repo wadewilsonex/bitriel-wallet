@@ -24,7 +24,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
         height: 15.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isDarkTheme ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.orangeColor),
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.orangeColor),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +38,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: MyText(
                 text: title,
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ),

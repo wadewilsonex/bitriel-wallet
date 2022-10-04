@@ -67,19 +67,16 @@ class AddAssetBody extends StatelessWidget {
                         // height: 65,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: isDarkTheme ? Colors.white.withOpacity(0.06) : Colors.white,
+                          color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
-                            MyText(
+                            const MyText(
                               left: 16.0,
                               text: 'Select Network',
-                              color: isDarkTheme
-                                ? AppColors.whiteHexaColor
-                                : AppColors.darkCard,
                             ),
 
                             Expanded(child: Container()),
@@ -126,25 +123,15 @@ class AddAssetBody extends StatelessWidget {
                           },
                           child: Container(
                             padding: const EdgeInsets.only(right: 16.0),
-                            child: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor), size: 20),
+                            child: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor), size: 20),
                           ),
                         ),
                       ),
 
-                      // if (tokenSymbol == 'SEL')
-                      //   portFolioItemRow(
-                      //     context,
-                      //     isDarkTheme,
-                      //     "assets/SelendraCircle-Blue.png",
-                      //     tokenSymbol!,
-                      //     Colors.black,
-                      //     addAsset!,
-                      //   )
-                      // else 
                       if (tokenSymbol == 'KGO')
                         portFolioItemRow(
                           context,
-                          isDarkTheme,
+                          isDarkMode,
                           ContractProvider().listContract[api.kgoIndex].logo!,
                           tokenSymbol!,
                           Colors.black,
@@ -153,7 +140,7 @@ class AddAssetBody extends StatelessWidget {
                       else if (tokenSymbol != '')
                         portFolioItemRow(
                           context,
-                          isDarkTheme,
+                          isDarkMode,
                           assetM!.logo ?? '${AppConfig.assetsPath}circle.png',
                           tokenSymbol!,
                           Colors.white,
@@ -211,7 +198,6 @@ class AddAssetBody extends StatelessWidget {
                 children: [
                   MyText(
                     text: tokenSymbol,
-                    color: isDark ? AppColors.whiteColorHexa : AppColors.textColor,
                   ),
                   //MyText(text: org, fontSize: 15),
                 ],
@@ -232,7 +218,7 @@ class AddAssetBody extends StatelessWidget {
                     MyText(
                       width: double.infinity,
                       text: 'Add', //portfolioData[0]["data"]['balance'],
-                      color: AppColors.secondary,
+                      hexaColor: AppColors.secondary,
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w700
@@ -253,7 +239,7 @@ class AddAssetBody extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
       decoration: BoxDecoration(
         boxShadow: [shadow(context)],
-        color: isDarkTheme ? Colors.white.withOpacity(0.06) : Colors.white,
+        color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
         // hexaCodeToColor(
         //     isDark ? AppColors.darkCard : AppColors.whiteHexaColor),
         borderRadius: BorderRadius.circular(8),

@@ -10,12 +10,12 @@ class KeyStoreJson extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkTheme ? AppColors.darkBgd : AppColors.lightColorBg),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Iconsax.arrow_left_2,
-            color: isDarkTheme ? Colors.white : Colors.black,
+            color: isDarkMode ? Colors.white : Colors.black,
             size: 22.5.sp,
           ),
           onPressed: (){
@@ -23,18 +23,18 @@ class KeyStoreJson extends StatelessWidget{
           },
         ),
         elevation: 0,
-        title: MyText(text: 'Keystore (Json)', color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold),
+        title: const MyText(text: 'Keystore (Json)', fontWeight: FontWeight.bold),
       ),
       body: Column(
         children: [
           Card(
-            color: hexaCodeToColor(isDarkTheme ? AppColors.bluebgColor : AppColors.whiteColorHexa),
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             margin: const EdgeInsets.all(paddingSize),
             child: Padding(
               padding: const EdgeInsets.all(paddingSize),
               child: MyText(
                 text: keystore.toString(),
-                color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor
+                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor
               )
             ),
           ),
@@ -53,32 +53,6 @@ class KeyStoreJson extends StatelessWidget{
             },
           ),
           
-          // TextButton(
-          //   onPressed: () {
-          //     Clipboard.setData(
-          //       ClipboardData(text: json.encode(keystore)),
-          //     );
-          //     /* Copy Text */
-          //     snackBar(context, 'Copied keystore!');
-          //   },
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Icon(
-          //         Iconsax.copy,
-          //         color: hexaCodeToColor(AppColors.whiteHexaColor),
-          //         size: 22.5.sp,
-          //       ),
-          //       Container(
-          //         padding: const EdgeInsets.only(left: 10.0),
-          //         child: MyText(
-          //           text: "COPY ADDRESS",
-          //           color: AppColors.whiteHexaColor,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

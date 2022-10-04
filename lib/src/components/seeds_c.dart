@@ -37,7 +37,7 @@ class SeedsCompoent {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: isDarkTheme ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
+              color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
               borderRadius: const BorderRadius.all(Radius.circular(50)),
             ),
             // color: grey,
@@ -50,14 +50,14 @@ class SeedsCompoent {
                   if ( (i * 3 + pos + 1) < 10)
                   MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   )
 
                   else MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   ),
@@ -83,7 +83,7 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: isDarkTheme ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
+          color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ), 
         // color: grey,
@@ -113,7 +113,6 @@ class SeedContents extends StatelessWidget{
         const SizedBox(height: 50),
         MyText(
           text: title,
-          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -121,7 +120,7 @@ class SeedContents extends StatelessWidget{
         SizedBox(height: 5.5.h),
         MyText(
           text: subTitle,
-          color: isDarkTheme ? AppColors.lowWhite : AppColors.darkGrey,
+          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,
         ),
