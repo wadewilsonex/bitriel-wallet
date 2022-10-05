@@ -105,16 +105,16 @@ class SubmitTrxBody extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                       ),
-
+            
                       SizedBox(height: 1.h,),
-
-                      const MyText(
+            
+                      MyText(
                         text: "Available balance",
-                        hexaColor: AppColors.lowWhite,
+                        hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                       ),
-
+            
                       SizedBox(height: 10.h,),
-
+            
                       listInput[0],
                       
                       /* Type of payment */
@@ -124,7 +124,7 @@ class SubmitTrxBody extends StatelessWidget {
                           left: paddingSize,
                           right: paddingSize,
                         ),
-
+            
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(
                             paddingSize, 0, paddingSize, 0
@@ -157,7 +157,7 @@ class SubmitTrxBody extends StatelessWidget {
                             ],
                           ),
                         ),
-
+            
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -178,7 +178,7 @@ class SubmitTrxBody extends StatelessWidget {
                           ],
                         ),
                       ),
-
+            
                       listInput[1],
                       
                       //listInput[2],
@@ -189,7 +189,7 @@ class SubmitTrxBody extends StatelessWidget {
                         end: Alignment.topRight,
                         action: scanPayM!.enable ? validateSubmit : null,
                       ),
-
+            
                     ],
                   ),
                 ),

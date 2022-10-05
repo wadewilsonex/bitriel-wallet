@@ -88,7 +88,7 @@ class SelectSwapTokenBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
-          hintText: "Type token name",
+          hintText: "Search token name",
           hintStyle: TextStyle(
             fontSize: 14,
             color: hexaCodeToColor("#AAAAAA"),

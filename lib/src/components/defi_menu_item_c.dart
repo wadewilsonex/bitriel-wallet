@@ -53,6 +53,7 @@ class DefiMenuItem extends StatelessWidget {
                     MyText(
                       text: subtitle,
                       textAlign: TextAlign.start,
+                      hexaColor: isDarkMode ? AppColors.greyColor : AppColors.lowWhite,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

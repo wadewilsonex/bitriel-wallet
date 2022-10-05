@@ -40,9 +40,7 @@ class AccountBody extends StatelessWidget{
      
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        ),
+        elevation: 0,
         title: const MyText(
           text: "Account",
           fontSize: 17,

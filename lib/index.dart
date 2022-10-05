@@ -1,10 +1,5 @@
 /* -------------This file is hold all Packages, Path of file -------------*/
 
-/* flutter Package */
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/provider/theme_provider.dart';
-
 export 'dart:async';
 export 'dart:convert';
 export 'dart:io' show Platform;

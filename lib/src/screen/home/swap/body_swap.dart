@@ -26,7 +26,6 @@ class SwapPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -141,13 +140,13 @@ class SwapPageBody extends StatelessWidget {
 
   Widget _payInput(BuildContext context){
     return Padding(
-      padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
+      padding: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
 
           Padding(
-            padding: const EdgeInsets.only(right: 5),
+            padding: EdgeInsets.only(right: 5),
             child: Row(
               children: [
                 MyText(
@@ -229,7 +228,7 @@ class SwapPageBody extends StatelessWidget {
                   i: 0,
                   onPressed: (){
                     Provider.of<SwapProvider>(context, listen: false).label = "first";
-                    Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                    Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
                     swapPageModel!.myController!.clear();
                     swapPageModel!.percentActive = 0;
                   }

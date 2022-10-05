@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
@@ -46,15 +48,7 @@ class HomePageBody extends StatelessWidget {
         child: const Menu(),
       ),
       appBar: homePageModel!.activeIndex == 4 ?
-      AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const MyText(
-          text: "Settings",
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      )
+      null
       :
       AppBar(
         // iconTheme: IconThemeData(
@@ -199,9 +193,9 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          const SwapPage(),
+          SwapPage(),
 
-          const SettingPage(),
+          SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -455,10 +449,10 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/sala-logo.png",
-                  width: 10.w,
+                  "assets/logo/weteka.png",
+                  width: 25.w,
                 ),
-                title: "SALA Digital",
+                title: "Weteka",
                 action: () async {
                   await LaunchApp.openApp(
                   androidPackageName: 'com.koompi.sala',
@@ -507,7 +501,9 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/bitriel-logo-v2.png",
+                  isDarkMode 
+                  ? "assets/logo/bitriel-logo-v2.png" 
+                  : "assets/logo/bitriel-light.png",
                   width: 10.w,
                 ),
                 title: "Bitriel DEX",

@@ -7,7 +7,15 @@ class BodySettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: MyText(
+          text: "Settings",
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
