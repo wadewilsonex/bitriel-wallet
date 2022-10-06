@@ -26,13 +26,12 @@ class TrxFunctional {
       context: context!,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: MyText(
               fontSize: 20,
               text: text1,
-              hexaColor: AppColors.lowWhite,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -40,7 +39,6 @@ class TrxFunctional {
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: MyText(
               text: text2,
-              hexaColor: AppColors.lowWhite,
               textAlign: TextAlign.center,
             ),
           ),
@@ -48,7 +46,6 @@ class TrxFunctional {
             TextButton(
               child: const MyText(
                 text: 'Close',
-                hexaColor: AppColors.lowWhite,
                 fontWeight: FontWeight.bold,
               ),
               onPressed: () {

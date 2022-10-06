@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
@@ -48,6 +49,8 @@ class SubmitTrxState extends State<SubmitTrx> {
   final bool _loading = false;
   
   String? _pin;
+
+  String? message;
 
   @override
   void initState() {
@@ -118,9 +121,24 @@ class SubmitTrxState extends State<SubmitTrx> {
     return false;
   }
 
-  Future<bool> validateAddress(String address) async {
-    final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
-    return res;
+  String validateAddress(String address) {
+    // value == null ? 'Please fill in receiver address' : null
+    print("validate");
+    if (address == ""){
+      return "Please fill in receiver address";
+    } else if (address != null){
+      Provider.of<ApiProvider>(context, listen: false).validateAddress(address).then((value) {
+
+      if (value == false) {
+        message = "Invalid address";
+      } else {
+        message = null;
+      }
+      });
+    }
+    
+
+    return message!;
   }
 
   String onChanged(String value) {
@@ -192,158 +210,165 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // First Execute
   Future<void> validateSubmit() async {
+    Navigator.push(
+      context,
+      Transition(
+        child: SuccessTransfer(),
+        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+      ),
+    );
 
-    unFocusAllField();
+    // unFocusAllField();
 
-    if (double.parse(_scanPayM.controlAmount.text) == 0){
-      await trxFunc!.customDialog('Message', 'Amount mustn\'t equal 0');
-    }
-    else if (isNotEmpty()){
-      await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
-    }
-    else if ( double.parse(_scanPayM.controlAmount.text) > double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
+    // if (double.parse(_scanPayM.controlAmount.text) == 0){
+    //   await trxFunc!.customDialog('Message', 'Amount mustn\'t equal 0');
+    // }
+    // else if (isNotEmpty()){
+    //   await trxFunc!.customDialog('Message', 'Your fields cannot empty!');
+    // }
+    // else if ( double.parse(_scanPayM.controlAmount.text) > double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
 
-      await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
-    } else {
+    //   await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
+    // } else {
 
-      _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
+    //   _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
 
-      try {
+    //   try {
 
-        String? gasPrice;
-        dialogLoading(context, content: "Estimating Fee...");
-        final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
+    //     String? gasPrice;
+    //     dialogLoading(context, content: "Estimating Fee...");
+    //     final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
         
-        if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
-          // Close Dialog
-          if(!mounted) return;
-          Navigator.pop(context);
+    //     if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
+    //       // Close Dialog
+    //       if(!mounted) return;
+    //       Navigator.pop(context);
           
-          await sendTrx(trxFunc!.txInfo!, context: context).then((value) async {
-            if (value != null){
-              await enableAnimation();
-            }
-          });
-        } else {
-          if (!isValid) {
-            if(!mounted) return;
-            Navigator.pop(context);
-            await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
-          } else {
+    //       await sendTrx(trxFunc!.txInfo!, context: context).then((value) async {
+    //         if (value != null){
+    //           await enableAnimation();
+    //         }
+    //       });
+    //     } else {
+    //       if (!isValid) {
+    //         if(!mounted) return;
+    //         Navigator.pop(context);
+    //         await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
+    //       } else {
 
-            final isEnough = await trxFunc!.checkBalanceofCoin(
-              _scanPayM.asset!,
-              _scanPayM.controlAmount.text,
-              _scanPayM.assetValue
-            );
+    //         final isEnough = await trxFunc!.checkBalanceofCoin(
+    //           _scanPayM.asset!,
+    //           _scanPayM.controlAmount.text,
+    //           _scanPayM.assetValue
+    //         );
 
-            if (!isEnough && isValid) {
-              if (isValid) {
-                if(!mounted) return;
-                Navigator.pop(context);
-              }
-              await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
-            }
+    //         if (!isEnough && isValid) {
+    //           if (isValid) {
+    //             if(!mounted) return;
+    //             Navigator.pop(context);
+    //           }
+    //           await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
+    //         }
 
-            if (isValid) {
-              gasPrice = await trxFunc!.getNetworkGasPrice(
-                _scanPayM.asset!, 
-                network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
-              );
-            }
-            if (isValid && isEnough) {
+    //         if (isValid) {
+    //           gasPrice = await trxFunc!.getNetworkGasPrice(
+    //             _scanPayM.asset!, 
+    //             network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
+    //           );
+    //         }
+    //         if (isValid && isEnough) {
 
-              if (gasPrice != null) {
+    //           if (gasPrice != null) {
                 
-                final estAmtPrice = await trxFunc!.calPrice(
-                  _scanPayM.asset!,
-                  _scanPayM.controlAmount.text,
-                  assetIndex: _scanPayM.assetValue
-                );
+    //             final estAmtPrice = await trxFunc!.calPrice(
+    //               _scanPayM.asset!,
+    //               _scanPayM.controlAmount.text,
+    //               assetIndex: _scanPayM.assetValue
+    //             );
 
-                // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
-                if(!mounted) return;
-                final maxGas = await trxFunc!.estMaxGas(
-                  context,
-                  _scanPayM.asset!,
-                  _scanPayM.controlReceiverAddress.text,
-                  _scanPayM.controlAmount.text,
-                  _scanPayM.assetValue, 
-                  network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
-                );
-                decimal = _contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
-                final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
-                var gasFeeToEther = (gasFee / pow(10, 18)).toString();
+    //             // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
+    //             if(!mounted) return;
+    //             final maxGas = await trxFunc!.estMaxGas(
+    //               context,
+    //               _scanPayM.asset!,
+    //               _scanPayM.controlReceiverAddress.text,
+    //               _scanPayM.controlAmount.text,
+    //               _scanPayM.assetValue, 
+    //               network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
+    //             );
+    //             decimal = _contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
+    //             final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+    //             var gasFeeToEther = (gasFee / pow(10, 18)).toString();
 
-                // Check BNB balance for Fee
-                if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
-                  throw ExceptionHandler("You do not have sufficient fee for transaction.");
-                }
+    //             // Check BNB balance for Fee
+    //             if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
+    //               throw ExceptionHandler("You do not have sufficient fee for transaction.");
+    //             }
 
-                final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
-                final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
-                final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
+    //             final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
+    //             final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 18)).toString());
+    //             final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
 
-                final estTotalPrice = estGasFeePrice! + estToSendPrice;
+    //             final estTotalPrice = estGasFeePrice! + estToSendPrice;
                 
-                trxFunc!.txInfo = TransactionInfo(
-                  chainDecimal: decimal,
-                  coinSymbol: _scanPayM.asset,
-                  receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
-                  amount: _scanPayM.controlAmount.text,
-                  gasPrice: gasPrice,
-                  feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
-                    ? 'BNB'
-                    : 'ETH',
-                  gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-                  maxGas: maxGas,
-                  gasFee: gasFee.toInt().toString(),
-                  totalAmt: totalAmt.toString(),
-                  estAmountPrice: estAmtPrice.first.toString(),
-                  estTotalPrice: estTotalPrice.toStringAsFixed(2),
-                  estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-                );
+    //             trxFunc!.txInfo = TransactionInfo(
+    //               chainDecimal: decimal,
+    //               coinSymbol: _scanPayM.asset,
+    //               receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
+    //               amount: _scanPayM.controlAmount.text,
+    //               gasPrice: gasPrice,
+    //               feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
+    //                 ? 'BNB'
+    //                 : 'ETH',
+    //               gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+    //               maxGas: maxGas,
+    //               gasFee: gasFee.toInt().toString(),
+    //               totalAmt: totalAmt.toString(),
+    //               estAmountPrice: estAmtPrice.first.toString(),
+    //               estTotalPrice: estTotalPrice.toStringAsFixed(2),
+    //               estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+    //             );
 
-              }
+    //           }
 
-              if(!mounted) return;
-              Navigator.pop(context);
+    //           if(!mounted) return;
+    //           Navigator.pop(context);
               
-              await Navigator.push(
-                context,
-                Transition(
-                  child: ConfirmationTx(
-                    trxInfo: trxFunc!.txInfo,
-                    sendTrx: sendTrx,
-                    scanPayM: _scanPayM
-                    // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
-                  ),
-                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                ),
-              );
-            }
+    //           await Navigator.push(
+    //             context,
+    //             Transition(
+    //               child: ConfirmationTx(
+    //                 trxInfo: trxFunc!.txInfo,
+    //                 sendTrx: sendTrx,
+    //                 scanPayM: _scanPayM
+    //                 // gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+    //               ),
+    //               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    //             ),
+    //           );
+    //         }
 
-          }
-        }
-      } on ExceptionHandler catch (e){
+    //       }
+    //     }
+    //   } on ExceptionHandler catch (e){
 
-        // Close Dialog Estimating Fee
-        Navigator.pop(context);
-        if (ApiProvider().isDebug == true) {
-          if (kDebugMode) {
-            print("Err validateSubmit ExceptionHandler $e");
-          }
-        }
-        await trxFunc!.customDialog("Oops", e.cause);
-      }
-      catch (e) {
+    //     // Close Dialog Estimating Fee
+    //     Navigator.pop(context);
+    //     if (ApiProvider().isDebug == true) {
+    //       if (kDebugMode) {
+    //         print("Err validateSubmit ExceptionHandler $e");
+    //       }
+    //     }
+    //     await trxFunc!.customDialog("Oops", e.cause);
+    //   }
+    //   catch (e) {
         
-        // Close Dialog Estimating Fee
-        Navigator.pop(context);
-        if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
-        await trxFunc!.customDialog("Oops", e.toString());
-      }
-    }
+    //     // Close Dialog Estimating Fee
+    //     Navigator.pop(context);
+    //     if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
+    //     // await trxFunc!.customDialog("Oops", e.toString());
+    //   }
+    // }
   }
 
   // Second Execute
@@ -475,10 +500,8 @@ class SubmitTrxState extends State<SubmitTrx> {
           }
         }
       }
-
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
-      Navigator.pop(context!);
       throw Exception(e);
     }
   }
@@ -525,6 +548,16 @@ class SubmitTrxState extends State<SubmitTrx> {
   
   bool pushReplacement = false;
 
+  Future<dynamic> routeSuccess(){
+    return  Navigator.push(
+      context,
+      Transition(
+        child: SuccessTransfer(),
+        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+      ),
+    );
+  } 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -559,6 +592,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             onChanged: onChanged,
             onSubmit: onSubmit,
             validateSubmit: validateSubmit, //sendTrx,
+            validateAddress: validateAddress,
             validateField: (String? value){
               return validateField(value!)!;
             },
@@ -566,7 +600,8 @@ class SubmitTrxState extends State<SubmitTrx> {
             scanQR: scanQR,
           ),
 
-          if (_scanPayM.isPay == true) BackdropFilter(
+          if (_scanPayM.isPay == true) 
+          BackdropFilter(
             // Fill Blur Background
             filter: ImageFilter.blur(
               sigmaX: 5.0,
