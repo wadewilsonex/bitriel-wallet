@@ -87,9 +87,7 @@ class SubmitTrxBody extends StatelessWidget {
         }
       ),
     ];
-
-     
-
+    
     final contract = Provider.of<ContractProvider>(context);
 
     return Column(
@@ -159,7 +157,7 @@ class SubmitTrxBody extends StatelessWidget {
                                   isValue: true,
                                   listContract: ContractService.getConSymbol(context, contract.sortListContract),
                                   initialValue: scanPayM!.assetValue.toString(),
-                                  onChanged: onChanged,
+                                  onChanged: onChangeDropDown,
                                 ),
                               )
                             ],

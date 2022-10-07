@@ -5,7 +5,7 @@ class TicketPainter extends CustomPainter {
   final Color bgColor;
 
   static const _cornerGap = 20.0;
-  static const _cutoutRadius = 20.0;
+  static const _cutoutRadius = 10.0;
   static const _cutoutDiameter = _cutoutRadius * 2;
 
   TicketPainter({required this.bgColor, required this.borderColor});
@@ -15,13 +15,13 @@ class TicketPainter extends CustomPainter {
     final maxWidth = size.width;
     final maxHeight = size.height;
 
-    final cutoutStartPos = maxHeight - maxHeight * 0.2;
+    final cutoutStartPos = maxHeight - maxHeight * 0.788;
     final leftCutoutStartY = cutoutStartPos;
     final rightCutoutStartY = cutoutStartPos - _cutoutDiameter;
     final dottedLineY = cutoutStartPos - _cutoutRadius;
     double dottedLineStartX = _cutoutRadius;
     final double dottedLineEndX = maxWidth - _cutoutRadius;
-    const double dashWidth = 8.5;
+    const double dashWidth = 5.5;
     const double dashSpace = 4;
 
     final paintBg = Paint()

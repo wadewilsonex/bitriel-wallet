@@ -69,9 +69,12 @@ class SubmitTrxState extends State<SubmitTrx> {
 
     /// Occure when user tap on Asset from Assets Page.
     else {
+      print("_contractProvider!.sortListContract[_scanPayM.assetValue].logo ${_contractProvider!.sortListContract[_scanPayM.assetValue].logo}");
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+      _scanPayM.logo = _contractProvider!.sortListContract[_scanPayM.assetValue].logo;
       _scanPayM.assetValue = 0;
+
     }
 
     AppServices.noInternetConnection(context: context);
@@ -201,19 +204,36 @@ class SubmitTrxState extends State<SubmitTrx> {
   }
 
   void onChangeDropDown(String data) {
+    print("onChangeDropDown");
     setState(() {
       _scanPayM.assetValue = int.parse(data);
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+      _scanPayM.logo = _contractProvider!.sortListContract[_scanPayM.assetValue].logo;
     });
+
+    print("_scanPayM.assetValue ${_scanPayM.assetValue}");
+    print("_scanPayM.balance ${_scanPayM.balance}");
+
     enableButton();
   }
 
   // First Execute
   Future<void> validateSubmit() async {
+
     Navigator.push(
       context,
       Transition(
-        child: SuccessTransfer(),
+        child: SuccessTransfer(
+          fromAddress: "seYeRoPMUTEd5vvCiAUjweDrroTdvrfWLsmUQRtbJ4xbKByGM",
+          toAddress: _scanPayM.controlReceiverAddress.text,
+          amount: _scanPayM.balance,
+          fee: "0.0001",
+          hash: "0x56c6e1c6ec896c7cfb6e2f5a4326e4fcc209848bd435acf2dc44398dd45a903a",
+          trxDate: DateTime.now().toLocal().toString(),
+          assetLogo: _scanPayM.logo,
+          assetSymbol: _scanPayM.asset,
+          scanPayM: _scanPayM,
+        ),
         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
       ),
     );
