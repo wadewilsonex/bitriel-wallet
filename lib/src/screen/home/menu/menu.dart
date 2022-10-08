@@ -117,7 +117,9 @@ class MenuState extends State<Menu> {
   }
 
   void switchTheme(bool value) async {
-    
+    // print("switchTheme $value");
+    // isDarkTheme.value = value;
+    // print("isDarkTheme.value ${isDarkTheme.value}");
     Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
     await Provider.of<ThemeProvider>(context, listen: false).changeMode();
     setState(() {
