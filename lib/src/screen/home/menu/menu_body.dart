@@ -148,6 +148,7 @@ class MenuBody extends StatelessWidget {
           index: 4,
           subIndex: 0,
           trailing: Switch(
+            activeColor: hexaCodeToColor(AppColors.defiMenuItem),
             value: isDarkMode,
             onChanged: (value) {
               switchTheme!(value);

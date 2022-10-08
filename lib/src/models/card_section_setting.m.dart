@@ -73,7 +73,7 @@ List<CardSection> settingsPolicySection({BuildContext? context}) {
       action: () {
         Navigator.push(
           context!, 
-          Transition(child: const AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          Transition(child: AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         );
       }
     ),
@@ -83,7 +83,7 @@ List<CardSection> settingsPolicySection({BuildContext? context}) {
       action: () {
         Navigator.push(
           context!, 
-          Transition(child: const AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          Transition(child: AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
         );
       }
     ),

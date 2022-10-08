@@ -8,6 +8,7 @@ class SubmitTrxBody extends StatelessWidget {
   final Function? onSubmit;
   final Function? clickSend;
   final Function? validateSubmit;
+  final Function? validateAddress;
   final Function? onChanged;
   final String Function(String)? validateField;
   final Function(String)? onChangeDropDown;
@@ -24,6 +25,7 @@ class SubmitTrxBody extends StatelessWidget {
     this.scanPayM,
     this.onChanged,
     this.validateField,
+    this.validateAddress,
     this.onSubmit,
     this.clickSend,
     this.validateSubmit,
@@ -35,6 +37,7 @@ class SubmitTrxBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<MyInputField> listInput = [
+      
       MyInputField(
         suffixIcon: GestureDetector(
           onTap: () async {
@@ -57,7 +60,11 @@ class SubmitTrxBody extends StatelessWidget {
         ],
         controller: scanPayM!.controlReceiverAddress,
         focusNode: scanPayM!.nodeReceiverAddress,
-        validateField: (value) => value == null ? 'Please fill in receiver address' : null,
+        validateField: (value) => value == null ? "Plaese fill reciever address" : null,
+        // validateField: (value) {
+        //   print("ValidateField $value");
+        //   return validateAddress!(value);
+        // },
         onChanged: onChanged,
         onSubmit: () {}
       ),
@@ -80,9 +87,7 @@ class SubmitTrxBody extends StatelessWidget {
         }
       ),
     ];
-
-     
-
+    
     final contract = Provider.of<ContractProvider>(context);
 
     return Column(
@@ -93,7 +98,8 @@ class SubmitTrxBody extends StatelessWidget {
               child: Container(
                 color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                 child: Form(
-                  key: scanPayM!.formStateKey,
+                  // key: scanPayM!.formStateKey,
+                  // autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -151,7 +157,7 @@ class SubmitTrxBody extends StatelessWidget {
                                   isValue: true,
                                   listContract: ContractService.getConSymbol(context, contract.sortListContract),
                                   initialValue: scanPayM!.assetValue.toString(),
-                                  onChanged: onChanged,
+                                  onChanged: onChangeDropDown,
                                 ),
                               )
                             ],
