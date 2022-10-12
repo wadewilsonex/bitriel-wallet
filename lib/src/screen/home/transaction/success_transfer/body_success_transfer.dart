@@ -126,12 +126,15 @@ class SuccessTransferBody extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  Spacer(),
 
                   textRowWidget("Hash:", hash!),
                   textRowWidget("Transaction Date:", trxDate!),
                   textRowWidget("From:", Provider.of<ApiProvider>(context).accountM.address!),
                   textRowWidget("To Address:", toAddress!),
                   textRowWidget("Fee:", fee!),
+
+                  Spacer(),
                 ],
               ),
             ),
