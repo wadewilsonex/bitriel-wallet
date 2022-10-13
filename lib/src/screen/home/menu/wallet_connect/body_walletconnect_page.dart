@@ -23,32 +23,33 @@ class WalletConnectBody extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final darkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Consumer<WalletConnectComponent>(
       builder: (context, wcComponent, widget){
-        // print("provider.sessionStore! ${provider.sessionStore!.toJson()}");
         return Scaffold(
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: MyText(text: "WalletConnect", color: darkTheme ? AppColors.lowWhite : AppColors.blackColor,),
+            leading: IconButton(
+              icon: Icon(
+                Iconsax.arrow_left_2,
+                color: isDarkMode ? Colors.white : Colors.black,
+                size: 22.5.sp,
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+            ),
             actions: [
               wcComponent.lsWcClients.isNotEmpty ? TextButton(
                 onPressed: () async {
                   await wcComponent.killAllSession();
-                  // await Future.delayed(
-                  //   const Duration(milliseconds: 1500),
-                  //   (){
-                  //     // Close Dialog Message
-                      // Navigator.pop(context);
-                  //     Navigator.pop(context);
-                  //   }
-                  // );
                 }, 
                 child: const MyText(text: "Disconnect All", color2: Colors.red, fontWeight: FontWeight.bold,)
               )
               : Container(),
             ],
+            elevation: 0,
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
+            title: MyText(text: 'Wallet Connect', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
           ),
           body: SingleChildScrollView(
             child: Container(
@@ -94,9 +95,9 @@ class WalletConnectBody extends StatelessWidget {
                           height: 30.h,
                         ),
 
-                        const MyText(
+                        MyText(
                           text: "Active Connections will appear here",
-                          color: AppColors.greyColor,
+                          hexaColor: isDarkMode ? AppColors.greyColor : AppColors.lightGreyColor,
                           fontSize: 16,
                         )
 
@@ -109,7 +110,7 @@ class WalletConnectBody extends StatelessWidget {
             )
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: hexaCodeToColor(AppColors.defiMenuItem),
+            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
             onPressed: () async{
               WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 

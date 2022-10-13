@@ -29,7 +29,7 @@ class SelendraSwap extends StatelessWidget {
               pTop: 2.h,
               pBottom: 2.h,
               text: title,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
               fontWeight: FontWeight.w600,
           
@@ -37,7 +37,7 @@ class SelendraSwap extends StatelessWidget {
             subtitle: MyText(
               pBottom: 2.h,
               text: subtitle,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
               fontSize: 14,
             ),

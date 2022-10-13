@@ -7,14 +7,13 @@ class MyBottomSheet {
   bool pushReplacement = false;
 
   Future<dynamic> trxOptions({BuildContext? context, List? portfolioList, String? asset}) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
     return showModalBottomSheet(
-      context: context,
+      context: context!,
       isScrollControlled: true,
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: isDarkTheme
+            color: isDarkMode
               ? hexaCodeToColor(AppColors.darkBgd)
               : hexaCodeToColor(AppColors.lowWhite),
           ),
@@ -23,7 +22,7 @@ class MyBottomSheet {
             children: [
               Align(
                 child: MyText(
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   top: 20,
@@ -132,7 +131,7 @@ class MyBottomSheet {
             children: [
               const Align(
                 child: MyText(
-                  color: "#FFFFFF",
+                  hexaColor: "#FFFFFF",
                   top: 20,
                   bottom: 33,
                   text: "Notification",
@@ -155,9 +154,8 @@ class MyBottomSheet {
   }
 
   Future<dynamic> listToken({@required BuildContext? context, @required Function? query }){
-    final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
     return showModalBottomSheet(
-      context: context,
+      context: context!,
       isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
@@ -170,7 +168,7 @@ class MyBottomSheet {
                   children: [
 
                     Container(
-                      color: isDarkTheme ? hexaCodeToColor("#2C2C2D") : Colors.white,
+                      color: isDarkMode ? hexaCodeToColor("#2C2C2D") : Colors.white,
                       padding: const EdgeInsets.all(15),
                       child: Column(
                         children: [
@@ -182,13 +180,13 @@ class MyBottomSheet {
                                   top: 10,
                                   bottom: 33,
                                   text: "Tokens",
-                                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                                  hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
                                 ),
                               ),
 
                               Align(
                                 alignment: Alignment.topRight,
-                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: const MyText(text: "Done", fontWeight: FontWeight.w700, color: AppColors.blueColor)),
+                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: const MyText(text: "Done", fontWeight: FontWeight.w700, hexaColor: AppColors.blueColor)),
                               )
                             ],
                           ),

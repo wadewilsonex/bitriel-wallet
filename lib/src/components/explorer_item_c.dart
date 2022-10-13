@@ -27,7 +27,7 @@ class ExplorerItem extends StatelessWidget {
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: hexaCodeToColor(AppColors.defiMenuItem)
+            color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor)
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +52,7 @@ class ExplorerItem extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: MyText(
                   text: title,
-                  color: AppColors.whiteColorHexa,
+                  hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                 ),
               ),

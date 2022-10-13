@@ -10,7 +10,6 @@ class WelcomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -33,7 +32,7 @@ class WelcomeBody extends StatelessWidget {
                   text: "Welcome!",
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                       ? AppColors.whiteColorHexa
                       : AppColors.textColor,
                 ),
@@ -44,7 +43,7 @@ class WelcomeBody extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
                     text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
-                    color: isDarkTheme
+                    hexaColor: isDarkMode
                         ? AppColors.lowWhite
                         : AppColors.textColor,
                   ),
@@ -71,9 +70,8 @@ class WelcomeBody extends StatelessWidget {
               ),
               MyFlatButton(
                 isTransparent: true,
-                buttonColor: AppColors.whiteHexaColor,
-                edgeMargin:
-                    const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
+                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromImportSeeds)));

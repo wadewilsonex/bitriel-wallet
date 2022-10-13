@@ -5,14 +5,14 @@ class PresaleDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       children: [
         MyText(
           width: double.infinity,
           text: AppString.header,
           fontWeight: FontWeight.bold,
-          color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           bottom: 4.0,
@@ -26,8 +26,8 @@ class PresaleDescription extends StatelessWidget {
           // text:
           //     'This swap is only applied for SEL token holders, whom received SEL v1 during the Selendra\'s airdrop first session.',
           fontWeight: FontWeight.bold,
-          color:
-              isDarkTheme ? AppColors.darkSecondaryText : AppColors.textColor,
+          hexaColor:
+              isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
           fontSize: 14.0,
           textAlign: TextAlign.start,
           bottom: 4.0,

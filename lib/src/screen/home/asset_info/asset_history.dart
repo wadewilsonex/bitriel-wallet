@@ -74,7 +74,7 @@ class AssetHistory extends StatelessWidget {
                                         children: [
                                           MyText(
                                             text: txHistoryModel![index].symbol!,
-                                            color: "#FFFFFF",
+                                            hexaColor: "#FFFFFF",
                                           ),
                                           MyText(
                                               text: txHistoryModel![index].org!,
@@ -95,7 +95,7 @@ class AssetHistory extends StatelessWidget {
                                           MyText(
                                             width: double.infinity,
                                             text: txHistoryModel![index].amount!,
-                                            color: "#FFFFFF",
+                                            hexaColor: "#FFFFFF",
                                             textAlign: TextAlign.right,
                                             overflow: TextOverflow.ellipsis,
                                           ),

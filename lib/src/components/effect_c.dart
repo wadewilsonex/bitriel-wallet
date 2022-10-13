@@ -3,18 +3,18 @@ import 'package:wallet_apps/index.dart';
 
 class MyShimmer extends StatelessWidget{
 
-  final bool? isDarkTheme;
+  final bool? isDarkMode;
 
-  const MyShimmer({Key? key, this.isDarkTheme}) : super(key: key);
+  const MyShimmer({Key? key, this.isDarkMode}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
     return Shimmer.fromColors(
       period: const Duration(seconds: 2),
-      baseColor: isDarkTheme!
+      baseColor: isDarkMode!
           ? hexaCodeToColor(AppColors.darkCard)
           : Colors.grey[300]!,
-      highlightColor: isDarkTheme!
+      highlightColor: isDarkMode!
           ? hexaCodeToColor(AppColors.darkBgd)
           : Colors.grey[100]!,
       child: ListView.builder(

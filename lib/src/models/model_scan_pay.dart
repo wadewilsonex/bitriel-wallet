@@ -12,6 +12,7 @@ class ModelScanPay {
   String? responseWallet, responseAmount, responseMemo;
   String? loadingDot = "";
   String? hash;
+  String? logo;
 
   bool isSuccessPin = false, isPay = false, enable = false;
 

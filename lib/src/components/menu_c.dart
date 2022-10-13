@@ -13,13 +13,19 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       decoration: BoxDecoration(
-        color: hexaCodeToColor("#114463"),
+        gradient: isDarkMode ? null : LinearGradient(
+          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight, 
+          stops: const [0.25, 0.75],
+        ),
+        color: isDarkMode ? hexaCodeToColor(AppColors.bluebgColor ) : null,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Consumer<ApiProvider>(
@@ -32,7 +38,7 @@ class MenuHeader extends StatelessWidget {
                   Navigator.push(
                     context,
                     Transition(
-                      child: Account(),
+                      child: const Account(),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
@@ -63,11 +69,9 @@ class MenuHeader extends StatelessWidget {
                         
                         MyText(
                           right: 5,
-                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "....."),
-                          color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                          fontSize: 16,
+                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
+                          hexaColor: AppColors.lowWhite,
+                          fontSize: 13,
                           textAlign: TextAlign.left
                         ),
                         InkWell(
@@ -85,7 +89,7 @@ class MenuHeader extends StatelessWidget {
                             '${AppConfig.iconsPath}qr_code.svg',
                             width: 5.w,
                             height: 5.w,
-                            color: hexaCodeToColor(AppColors.secondary),
+                            color: hexaCodeToColor(isDarkMode ? AppColors.secondary : AppColors.whiteColorHexa),
                           )
                         )
                       ]
@@ -104,16 +108,16 @@ class MenuHeader extends StatelessWidget {
 }
 
 class MenuSubTitle extends StatelessWidget {
+  
   final int? index;
 
-  const MenuSubTitle({Key? key, this.index}) : super(key: key);
+  MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
-      // color: isDarkTheme
+      // color: isDarkMode
       //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
       //   : Colors.grey[200],
       height: 55,
@@ -128,7 +132,7 @@ class MenuSubTitle extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: MyText(
                   text: MenuModel.listTile[index!]['title'].toString(),
-                  color: "#D4D6E3",
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.bold,
                 ),
@@ -136,7 +140,7 @@ class MenuSubTitle extends StatelessWidget {
               Expanded(
                 child: Divider(
                   thickness: 0.5,
-                  color: hexaCodeToColor("#D4D6E3"),
+                  color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.darkGrey),
                   indent: 10,
                 ),
               ),
@@ -168,19 +172,18 @@ class MyListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return ListTile(
       enabled: enable!,
       onTap: onTap,
       leading: icon ?? Image.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
-        color: isDarkTheme ? Colors.white : Colors.black,
+        color: isDarkMode ? Colors.white : Colors.black,
         width: 22.5.sp,
         height: 22.5.sp
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
-        color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
         textAlign: TextAlign.left,
         fontSize: 16,
       ),

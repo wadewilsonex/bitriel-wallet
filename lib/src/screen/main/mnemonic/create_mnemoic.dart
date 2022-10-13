@@ -43,14 +43,14 @@ class CreateMnemonicState extends State<CreateMnemonic> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             MyAppBar(
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
@@ -67,7 +67,7 @@ class CreateMnemonicState extends State<CreateMnemonic> {
                       text: AppString.backupPassphrase,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: 12,
@@ -79,7 +79,7 @@ class CreateMnemonicState extends State<CreateMnemonic> {
                       textAlign: TextAlign.left,
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                       bottom: 12,
@@ -103,7 +103,7 @@ class CreateMnemonicState extends State<CreateMnemonic> {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      color: isDarkTheme
+                      color: isDarkMode
                         ? hexaCodeToColor(AppColors.darkCard)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                       child: Padding(
@@ -116,7 +116,7 @@ class CreateMnemonicState extends State<CreateMnemonic> {
                               text: "${i+1}. ${widget.passPhraseList[i]}",
                               textAlign: TextAlign.left,
                               fontSize: 25,
-                              color: AppColors.secondarytext,
+                              hexaColor: AppColors.secondarytext,
                               fontWeight: FontWeight.bold,
                             );
                           },

@@ -118,7 +118,7 @@ class TrxActivityState extends State<TrxActivity> {
           title: const MyText(
             text: 'Transaction History',
             fontSize: 22.0,
-            color: "#FFFFFF",
+            hexaColor: "#FFFFFF",
           ),
           bottom: TabBar(
             tabs: myTabs,
@@ -171,7 +171,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         MyText(
                                           text:
                                               _txHistoryModel.tx[index].symbol,
-                                          color: "#FFFFFF",
+                                          hexaColor: "#FFFFFF",
                                         ),
                                         MyText(
                                             text: _txHistoryModel.tx[index].org,
@@ -197,7 +197,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           MyText(
                                             text:
                                                 '-${_txHistoryModel.tx[index].amount}',
-                                            color: AppColors.secondarytext,
+                                            hexaColor: AppColors.secondarytext,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
@@ -258,7 +258,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         MyText(
                                           text: _txHistoryModel
                                               .txKpi[index].symbol,
-                                          color: "#FFFFFF",
+                                          hexaColor: "#FFFFFF",
                                         ),
                                         MyText(
                                             text: _txHistoryModel
@@ -285,7 +285,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           MyText(
                                             text:
                                                 '-${_txHistoryModel.txKpi[index].amount}',
-                                            color: AppColors.secondarytext,
+                                            hexaColor: AppColors.secondarytext,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],

@@ -61,7 +61,7 @@ class ProfileCard extends StatelessWidget {
                       children: [
                         MyText(
                           text: value.accountM.name ?? 'Username',
-                          color: "#FFFFFF",
+                          hexaColor: "#FFFFFF",
                           fontSize: 20,
                         ),
                         SizedBox(
@@ -69,7 +69,7 @@ class ProfileCard extends StatelessWidget {
                           child: MyText(
                             text:
                                 !value.isConnected ? "Connecting" : "Indracore",
-                            color: AppColors.secondarytext,
+                            hexaColor: AppColors.secondarytext,
                             textAlign: TextAlign.start,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
@@ -88,7 +88,7 @@ class ProfileCard extends StatelessWidget {
                           child: MyText(
                             text: '', //sdkModel.nativeBalance,
                             fontSize: 30,
-                            color: AppColors.secondarytext,
+                            hexaColor: AppColors.secondarytext,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                           ),

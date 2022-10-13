@@ -18,6 +18,25 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   AnimationController? controller;
   Animation<double>? animation;
 
+  @override
+  void initState() {
+    readTheme();
+    // checkBio();
+    getCurrentAccount();
+
+    // final window = WidgetsBinding.instance.window;
+    // window.onPlatformBrightnessChanged = () {
+    //   readTheme();
+    // };
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   // First Check
   Future<void> getCurrentAccount() async {
 
@@ -59,7 +78,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
                       ),
                     );
                   },
-                  child: const MyText(text: 'Continue', color: AppColors.secondarytext),
+                  child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
                 ),
               );
             } else {
@@ -96,12 +115,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         ),
       );
 
-      // Navigator.pushReplacement(
-      //   context,
-      //   RouteAnimation(
-      //     enterPage: const Passcode(label: 'fromSplash'),
-      //   ),
-      // );
     } else {
       if (bio) {
         if(!mounted) return;
@@ -115,14 +128,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
           ),
         );
       } 
-      // else if (passCode != null) {
-      //   Navigator.pushReplacement(
-      //     context,
-      //     RouteAnimation(
-      //       enterPage: const Passcode(isHome: 'home'),
-      //     ),
-      //   );
-      // } 
+      
       else {
         if(!mounted) return;
         Navigator.pushAndRemoveUntil(
@@ -153,45 +159,18 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     });
   }
 
-  @override
-  void initState() {
-    readTheme();
-    // checkBio();
-    getCurrentAccount();
-
-    // final window = WidgetsBinding.instance.window;
-    // window.onPlatformBrightnessChanged = () {
-    //   readTheme();
-    // };
-
-    super.initState();
-  }
-
   void readTheme() async {
     try {
+      final res = await StorageServices.fetchData(DbKey.themeMode);
 
-    
-      // Remove below link when we want light mode
-      await StorageServices.storeData('dark', DbKey.themeMode);
+      if (res != null) {
+        if(!mounted) return;
+        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      } else {
+        if(!mounted) return;
+        Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+      }
 
-      if(!mounted) return;
-      await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-
-      // final res = await StorageServices.fetchData(DbKey.themeMode);
-
-      // if (res != null) {
-      //   await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      // } else {
-      //   Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
-      // }
-      //  else {
-      //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      //   // if (sysTheme) {
-      //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      //   // } else {
-      //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-      //   // }
-      // }
     } catch (e) {
       if(ApiProvider().isDebug) {
         if (kDebugMode) {
@@ -223,17 +202,16 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-      body: const Center(
-        child: CircularProgressIndicator(),
-      ),
+    return Consumer<ThemeProvider>(
+      builder: (context, provider, widget) {
+        return Scaffold(
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          body: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
     );
   }
 }

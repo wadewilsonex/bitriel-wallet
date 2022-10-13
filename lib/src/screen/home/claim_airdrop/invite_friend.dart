@@ -40,7 +40,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     final ethAdd = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //     return Scaffold(
 //       key: _globalKey,
 //       body: BodyScaffold(
@@ -50,7 +50,7 @@
             
 //             MyAppBar(
 //               title: 'Invite Friends',
-//               color: isDarkTheme
+//               color: isDarkMode
 //                   ? hexaCodeToColor(AppColors.darkCard)
 //                   : hexaCodeToColor(AppColors.whiteHexaColor),
 //               onPressed: () {

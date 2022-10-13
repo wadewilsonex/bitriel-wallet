@@ -1280,8 +1280,8 @@ class ContractProvider with ChangeNotifier {
             
           }
 
-          await _marketProvider!.searchCoinFromMarket(symbol[0]);
-          if (_marketProvider!.lsCoin!.isNotEmpty) await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
+          // await _marketProvider!.searchCoinFromMarket(symbol[0]);
+          // if (_marketProvider!.lsCoin!.isNotEmpty) await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
           // print("finish queryCoinFromMarket ${)}");
 
           // if (network == 'Ethereum') {

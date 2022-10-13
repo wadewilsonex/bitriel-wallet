@@ -47,7 +47,7 @@ class AssetCheckIn extends StatelessWidget {
                                     children: const [
                                       MyText(
                                         text: '',
-                                        color: "#FFFFFF",
+                                        hexaColor: "#FFFFFF",
                                       ),
                                       MyText(text: '', fontSize: 15),
                                     ],
@@ -65,7 +65,7 @@ class AssetCheckIn extends StatelessWidget {
                                       MyText(
                                         width: double.infinity,
                                         text: '',
-                                        color: "#FFFFFF",
+                                        hexaColor: "#FFFFFF",
                                         textAlign: TextAlign.right,
                                         overflow: TextOverflow.ellipsis,
                                       ),

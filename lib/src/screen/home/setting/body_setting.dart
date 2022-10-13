@@ -7,6 +7,15 @@ class BodySettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: MyText(
+          text: "Settings",
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
@@ -34,8 +43,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -64,7 +73,7 @@ class BodySettingPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsAccSection(context: context)[index].title, color: AppColors.whiteColorHexa),
+                            MyText(text: settingsAccSection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
                           ],
                         ),
                       ),
@@ -84,8 +93,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -114,7 +123,7 @@ class BodySettingPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsWCSection(context: context)[index].title, color: AppColors.whiteColorHexa),
+                            MyText(text: settingsWCSection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
                           ],
                         ),
                       ),
@@ -132,8 +141,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -162,7 +171,7 @@ class BodySettingPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsPolicySection(context: context)[index].title, color: AppColors.whiteColorHexa),
+                            MyText(text: settingsPolicySection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
                           ],
                         ),
                       ),
@@ -181,8 +190,8 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-          color: hexaCodeToColor(AppColors.defiMenuItem),
-          borderRadius: BorderRadius.circular(20)
+        color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.warningColor).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
           shrinkWrap: true,
@@ -211,7 +220,7 @@ class BodySettingPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsLogoutSection(context: context)[index].title, color: AppColors.warningColor),
+                            MyText(text: settingsLogoutSection(context: context)[index].title, hexaColor: AppColors.warningColor),
                           ],
                         ),
                       ),

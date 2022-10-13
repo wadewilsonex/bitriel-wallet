@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
@@ -9,7 +11,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
-import 'package:wallet_apps/src/screen/home/discover/discover.dart';
+import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
+import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
@@ -38,34 +41,33 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: homePageModel!.globalKey,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       appBar: homePageModel!.activeIndex == 4 ?
-      AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: const MyText(
-          text: "Settings",
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      )
+      null
       :
       AppBar(
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(AppColors.bluebgColor) : hexaCodeToColor(AppColors.darkBgd),
+        // iconTheme: IconThemeData(
+        //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        // ),
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
           onPressed: () {
             homePageModel!.globalKey!.currentState!.openDrawer();
           },
-          icon: Icon(Iconsax.profile_circle, size: 6.w),
+          icon: Icon(
+            Iconsax.profile_circle, 
+            color: isDarkMode 
+              ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+            size: 6.w,
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -73,6 +75,9 @@ class HomePageBody extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Icon(
                 Iconsax.chart_3,
+                color: isDarkMode 
+                  ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
                 size: 6.w,
               ),
             ),
@@ -88,6 +93,9 @@ class HomePageBody extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Icon(
                   Iconsax.scan,
+                  color: isDarkMode 
+                    ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
                   size: 6.w,
                 ),
               ),
@@ -123,19 +131,15 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
-          
                 const SizedBox(height: 10), 
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -151,12 +155,11 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Marketplace",
                     fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -172,12 +175,11 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "Selendra ECO System",
                     fontSize: 17.5,
-                    color: AppColors.whiteColorHexa,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
                   ),
@@ -191,9 +193,9 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          const SwapPage(),
+          SwapPage(),
 
-          const SettingPage(),
+          SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -280,7 +282,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color:Colors.white, size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -294,7 +296,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color:Colors.white, size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -316,7 +318,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: Colors.white, size: iconSize),
+                    child: Icon(Iconsax.import, color:Colors.white, size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -335,7 +337,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.import, color:Colors.white, size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -352,7 +354,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.scan, color:Colors.white, size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {
@@ -447,10 +449,10 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/sala-logo.png",
-                  width: 10.w,
+                  "assets/logo/weteka.png",
+                  width: 25.w,
                 ),
-                title: "SALA Digital",
+                title: "Weteka",
                 action: () async {
                   await LaunchApp.openApp(
                   androidPackageName: 'com.koompi.sala',
@@ -499,7 +501,9 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/bitriel-logo-v2.png",
+                  isDarkMode 
+                  ? "assets/logo/bitriel-logo-v2.png" 
+                  : "assets/logo/bitriel-light.png",
                   width: 10.w,
                 ),
                 title: "Bitriel DEX",

@@ -377,7 +377,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
   @override
   Widget build(BuildContext context) {
     _walletController!.text = Provider.of<ContractProvider>(context).ethAdd;
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: NetworkSensitive(
         child: BodyScaffold(
@@ -389,7 +389,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
 
                   MyAppBar(
                     title: 'Claim Airdrop',
-                    color: isDarkTheme
+                    color: isDarkMode
                       ? hexaCodeToColor(AppColors.darkCard)
                       : hexaCodeToColor(AppColors.whiteHexaColor),
                     onPressed: () {
@@ -426,7 +426,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                             MyText(
                               text: "Celebrate Selendra Mainnet Launch\nShare 222 \$SEL in airdrop",
                               fontWeight: FontWeight.bold,
-                              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+                              hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                               fontSize: 22,
                               bottom: 5.0,
                               top: 32.0,
@@ -437,7 +437,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                               margin: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
                               padding: const EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
-                                color: isDarkTheme
+                                color: isDarkMode
                                   ? hexaCodeToColor(AppColors.darkCard)
                                   : hexaCodeToColor(AppColors.whiteHexaColor),
                                 borderRadius: BorderRadius.circular(8),
@@ -452,7 +452,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                     margin: const EdgeInsets.only(bottom: 16.0),
                                     decoration: BoxDecoration(
                                       color: 
-                                      isDarkTheme
+                                      isDarkMode
                                         ? hexaCodeToColor(AppColors.darkBgd)
                                         : Colors.grey[300],//hexaCodeToColor(AppColors.whiteColorHexa),
                                       borderRadius: BorderRadius.circular(8),
@@ -465,7 +465,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                           width: double.infinity,
                                           text: 'Address',
                                           fontWeight: FontWeight.bold,
-                                          color: isDarkTheme
+                                          hexaColor: isDarkMode
                                             ? AppColors.darkSecondaryText
                                             : AppColors.textColor,
                                           textAlign: TextAlign.left,
@@ -479,7 +479,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                               width: double.infinity,
                                               text: provider.accountM.address,
                                               fontWeight: FontWeight.bold,
-                                              color: isDarkTheme
+                                              hexaColor: isDarkMode
                                                 ? AppColors.darkSecondaryText
                                                 : AppColors.textColor,
                                               textAlign: TextAlign.left,
@@ -525,7 +525,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                               width: double.infinity,
                                               height: 70,
                                             ),
-                                            const MyText(text: 'Submit', top: 10, bottom: 10, color: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
+                                            const MyText(text: 'Submit', top: 10, bottom: 10, hexaColor: AppColors.whiteColorHexa, fontWeight: FontWeight.bold, fontSize: 25,)
                                           ],
                                         ),
                                       );
@@ -557,7 +557,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                             //       width: double.infinity,
                             //       text: "Share the airdrop with your friends and family",
                             //       fontWeight: FontWeight.bold,
-                            //       color: isDarkTheme
+                            //       color: isDarkMode.value
                             //         ? AppColors.darkSecondaryText
                             //         : AppColors.textColor,
                             //       textAlign: TextAlign.left,

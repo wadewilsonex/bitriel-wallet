@@ -202,13 +202,28 @@ class AddAssetState extends State<AddAsset> {
           if (initialValue == 1) { // 1 = Ethereum
 
             await searchEtherContract();
-          } else {
+          } 
+          else {
             if(!mounted) return;
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
             if (kDebugMode) {
               print("res $res");
             }
             _tokenSymbol = res[0].toString();
+
+
+
+            await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
+            if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
+                  
+              setState(() {
+                _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
+              });
+              
+              print("Provider.of<MarketProvider>(context, listen: false).lsCoin ${Provider.of<MarketProvider>(context, listen: false).lsCoin}");
+              await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
+          
+            }
           }
 
           setState(() {
@@ -316,9 +331,32 @@ class AddAssetState extends State<AddAsset> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
+      appBar: AppBar(
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        elevation: 0,
+        bottomOpacity: 0,
+        leadingWidth: 7.w,
+        title: MyText(
+          text: "Add Asset",
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 17,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
-          
           AddAssetBody(
             assetM: _modelAsset,
             initialValue: initialValue.toString(),

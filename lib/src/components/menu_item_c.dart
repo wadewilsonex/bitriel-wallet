@@ -28,7 +28,7 @@ class MyMenuItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(
-            colors: [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")],
+            colors: isDarkMode ? [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")] : [hexaCodeToColor("#F29F05"), hexaCodeToColor("#F37846")],
             begin: begin,
             end: end, 
           )
@@ -51,7 +51,7 @@ class MyMenuItem extends StatelessWidget {
                 children: [
                   MyText(
                     text: title,
-                    color: AppColors.whiteColorHexa,
+                    hexaColor: AppColors.whiteColorHexa,
                     fontWeight: FontWeight.w700,
                   ),
                 ],

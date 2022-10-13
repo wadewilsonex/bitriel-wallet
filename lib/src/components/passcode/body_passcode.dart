@@ -1,3 +1,4 @@
+import 'package:defichaindart/defichaindart.dart';
 import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{
@@ -30,10 +31,26 @@ class PasscodeBody extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        title: MyText(
+          text: "Passcode",
+          fontWeight: FontWeight.bold,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
+      ),
       body: Container(
-        // color: Colors.red,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -42,27 +59,26 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             // Show AppBar Only In Landing Pages
-            if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
-              title: "Passcode",
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ) 
-            else Container(),
+            // if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
+            //   title: "Passcode",
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // ) 
+            // else Container(),
 
             if(label != null) Expanded(child: Container(),) 
             else Container(),
 
             if (titleStatus == null ) MyText(
-              text: isFirst! ? 'PIN!' : 'Verify PIN!',
-              color: AppColors.whiteColorHexa,
+              text: isFirst! ? 'PIN' : 'Verify PIN',
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
-              color: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -83,7 +99,7 @@ class PasscodeBody extends StatelessWidget{
             // For Change PIN
             else MyText(
               text: subStatus,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
               fontWeight: FontWeight.bold,
             ), 
 
@@ -147,7 +163,7 @@ class PasscodeBody extends StatelessWidget{
             text: 'Assign a security ', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
@@ -155,14 +171,14 @@ class PasscodeBody extends StatelessWidget{
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.bold,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
         ],
@@ -177,21 +193,21 @@ class PasscodeBody extends StatelessWidget{
             text: 'Enter ', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
               fontSize: 17.sp,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
               fontSize: 17.sp,
-              color: Colors.white
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
         ],
@@ -211,28 +227,51 @@ class ReusePinNum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 20.0,
-      height: 20.0,
+      width: 50,
+      height: 50,
       child: TextField(
         controller: textEditingController,
         enabled: false,
         obscureText: true,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(bottom: -50.sp, left: -7.sp),
-          border: outlineInputBorder,
+          contentPadding: EdgeInsets.only(bottom: 57.sp, left: 7.sp),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8)
+          ),
           filled: true,
-          fillColor: hexaCodeToColor(AppColors.passcodeColor),
+          fillColor: Colors.white30
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 40.sp,
-          color: hexaCodeToColor(
-            AppColors.secondary,
-          ),
+          fontSize: 35.sp,
+          color: hexaCodeToColor(AppColors.secondary)
         ),
       ),
     );
+    // return SizedBox(
+    //   width: 20.0,
+    //   height: 20.0,
+    //   child: TextField(
+    //     controller: textEditingController,
+    //     enabled: false,
+    //     obscureText: true,
+    //     textAlign: TextAlign.center,
+    //     decoration: InputDecoration(
+    //       contentPadding: EdgeInsets.only(bottom: -50.sp, left: -7.sp),
+    //       border: outlineInputBorder,
+    //       filled: true,
+    //       fillColor: hexaCodeToColor(AppColors.passcodeColor),
+    //     ),
+    //     style: TextStyle(
+    //       fontWeight: FontWeight.bold,
+    //       fontSize: 40.sp,
+    //       color: hexaCodeToColor(
+    //         AppColors.secondary,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -251,7 +290,6 @@ class ReuseNumPad extends StatelessWidget {
   }
 
   Widget _buildNumberPad(context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       alignment: Alignment.center,
       child: Column(
@@ -348,7 +386,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
           ),
-          backgroundColor: MaterialStateProperty.all(Colors.white.withOpacity(0.06))
+          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor))
         ),
         onPressed: onPressed,
         child: child == null ? Text(

@@ -23,7 +23,7 @@ class MenuState extends State<Menu> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   /* Login Inside Dialog */
-  bool isDarkTheme = false;
+  // bool isDarkMode = false;
 
   /* InitState */
   @override
@@ -116,25 +116,30 @@ class MenuState extends State<Menu> {
     setState(() {});
   }
 
+  void switchTheme(bool value) async {
+    // print("switchTheme $value");
+    // isDarkTheme.value = value;
+    // print("isDarkTheme.value ${isDarkTheme.value}");
+    Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
+    await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+    setState(() {
+    });
+  }
+
   /* ----------------------Side Bar -------------------------*/
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(
-        child: Container(
-          color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.lowWhite),
-          child: SingleChildScrollView(
-            child: MenuBody(
-              userInfo: widget.userData,
-              model: _menuModel,
-              enablePassword: enablePassword,
-              switchBio: switchBiometric
-            ),
+        child: SingleChildScrollView(
+          child: MenuBody(
+            userInfo: widget.userData,
+            model: _menuModel,
+            enablePassword: enablePassword,
+            switchBio: switchBiometric,
+            switchTheme: switchTheme,
           ),
         ),
       ),

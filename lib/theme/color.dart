@@ -20,6 +20,7 @@ class AppColors {
 
   // Icon Color
   static const String iconColor = "#0D6BA6";
+  static const String iconGreyColor = "#878787";
 
   //dark theme
   static const String darkBgd = "#023859";
@@ -47,6 +48,7 @@ class AppColors {
 
   /* White Color */
   static const String whiteColorHexa = "#FFFFFF";
+  static const String lightBg = "#F5F5F5";
   static const whiteNormalColor = Colors.white;
   static const String appBarTextColor = "#EFF0F2";
 
@@ -65,7 +67,7 @@ class AppColors {
   /* Card Color */
   static const String borderColor = "#363c4e";
 
-  //final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+  // 
 
   /* Passcode Color */
   static const String passcodeColor = "#054973";
@@ -93,4 +95,6 @@ class AppColors {
   static const String tokenNameColor = "#C2C2C2";
 
   static const String greyColor = "#C1C1C1";
+
+  static const String lightColorBg = "#EFEFEF";
 }

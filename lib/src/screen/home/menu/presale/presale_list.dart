@@ -187,12 +187,12 @@ class PresaleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return SafeArea(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.7,
         decoration: BoxDecoration(
-          color: isDarkTheme
+          color: isDarkMode
             ? hexaCodeToColor(AppColors.darkBgd)
             : hexaCodeToColor(AppColors.lowWhite),
           borderRadius: const BorderRadius.only(
@@ -218,7 +218,7 @@ class PresaleList extends StatelessWidget {
               width: double.infinity,
               fontSize: 22.0,
               text: "Presale Activity",
-              color: isDarkTheme
+              hexaColor: isDarkMode
                 ? AppColors.darkSecondaryText
                 : AppColors.textColor,
               fontWeight: FontWeight.bold,
@@ -250,7 +250,7 @@ class PresaleList extends StatelessWidget {
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.0),
-                              color: isDarkTheme
+                              color: isDarkMode
                                 ? hexaCodeToColor(AppColors.darkCard)
                                 : hexaCodeToColor(AppColors.whiteColorHexa),
                             ),
@@ -320,7 +320,7 @@ class PresaleList extends StatelessWidget {
   }
 
   _customColumn(context, String topText, String bottomText, {Widget? bottomWidget, double? topTextSize, CrossAxisAlignment? crossAxis}) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: crossAxis ?? CrossAxisAlignment.start,
@@ -329,7 +329,7 @@ class PresaleList extends StatelessWidget {
           child: MyText(
             textAlign: TextAlign.left,
             fontSize: topTextSize ?? 16.0,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
             //fontWeight: FontWeight.w700,
             text: topText,
           )
@@ -340,8 +340,8 @@ class PresaleList extends StatelessWidget {
             MyText(
               textAlign: TextAlign.left,
               fontSize: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+              hexaColor:
+                  isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
               // fontWeight: FontWeight.w700,
               text: bottomText,
             )
