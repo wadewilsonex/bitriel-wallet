@@ -96,7 +96,7 @@ class OPTVerificationState extends State<OPTVerification> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 250,
+                height: 200,
                 child: Stack(
                   children: [
                     Positioned(
@@ -144,6 +144,7 @@ class OPTVerificationState extends State<OPTVerification> {
                 duration: const Duration(milliseconds: 500),
                 child: VerificationCode(
                   length: 4,
+                  digitsOnly: true,
                   textStyle: TextStyle(fontSize: 20, color: isDarkMode ? Colors.white : Colors.black),
                   underlineColor: hexaCodeToColor(AppColors.orangeColor),
                   keyboardType: TextInputType.number,
