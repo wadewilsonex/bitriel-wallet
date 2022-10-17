@@ -38,7 +38,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
 
   Widget _headerTitle(){
     return const MyText(
-      text: "Set up wallet \nwith phone number",
+      text: "Set up wallet \nWith phone number",
       fontSize: 20,
       fontWeight: FontWeight.bold,
       textAlign: TextAlign.start,
@@ -96,7 +96,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   // cursorColor: isDarkMode ? Colors.white : Colors.black,
                   inputDecoration: InputDecoration(
-                    // contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
+                    contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
                     border: InputBorder.none,
                     hintText: 'Phone Number',
                     hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 16),

@@ -37,7 +37,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
 
   Widget _headerTitle(){
     return const MyText(
-      text: "Login wallet \nwith phone number",
+      text: "Login wallet \nWith phone number",
       fontSize: 20,
       fontWeight: FontWeight.bold,
       textAlign: TextAlign.start,
@@ -95,7 +95,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   // cursorColor: isDarkMode ? Colors.white : Colors.black,
                   inputDecoration: InputDecoration(
-                    // contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
+                    contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
                     border: InputBorder.none,
                     hintText: 'Phone Number',
                     hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 16),
@@ -129,7 +129,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
           textButton: "Login",
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
-          action: () {
+          action: () async{
             login(getPhoneNumber);
             // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
