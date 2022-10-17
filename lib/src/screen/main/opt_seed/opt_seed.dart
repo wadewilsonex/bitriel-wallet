@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/set_password/set_password.dart';
 
 class OPTVerification extends StatefulWidget {
   final String? phoneNumber;
@@ -59,6 +61,91 @@ class OPTVerificationState extends State<OPTVerification> {
         _isVerified = true;
       });
     });
+
+    _optRegister();
+  }
+
+ Future<void> _optLogin() async {
+    try {
+      final response = await PostRequest().loginVerifyOPT(widget.phoneNumber!, _code);
+
+      final responseJson = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+
+        if(!mounted) return;
+          
+      } else if (response.statusCode == 401) {
+
+        if(!mounted) return;
+        customDialog(
+          context, 
+          "Error",
+          responseJson['message']
+        );
+
+        if(!mounted) return;
+        Navigator.of(context).pop();
+
+      } else if (response.statusCode >= 500 && response.statusCode < 600) {
+
+        if(!mounted) return;
+        customDialog(
+          context, 
+          "Error",
+          responseJson['message']
+        );
+
+        if(!mounted) return;
+        Navigator.of(context).pop();
+
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _optRegister() async {
+    try {
+      final response = await PostRequest().registerVerifyOPT(widget.phoneNumber!, _code);
+
+      final responseJson = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+
+        if(!mounted) return;
+        Navigator.push(context, Transition(child: SetPassword(phoneNumber: widget.phoneNumber!,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          
+      } else if (response.statusCode == 401) {
+
+        if(!mounted) return;
+        customDialog(
+          context, 
+          "Error",
+          responseJson['message']
+        );
+
+        if(!mounted) return;
+        Navigator.of(context).pop();
+
+      } else if (response.statusCode >= 500 && response.statusCode < 600) {
+
+        if(!mounted) return;
+        customDialog(
+          context, 
+          "Error",
+          responseJson['message']
+        );
+
+        if(!mounted) return;
+        Navigator.of(context).pop();
+
+      }
+
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -99,30 +186,40 @@ class OPTVerificationState extends State<OPTVerification> {
                 height: 200,
                 child: Stack(
                   children: [
+
                     Positioned(
                       top: 0,
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      child: AnimatedOpacity(
-                        opacity: _currentIndex == 0 ? 1 : 0, 
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.linear,
-                        child: Image.network('https://ouch-cdn2.icons8.com/pi1hTsTcrgVklEBNOJe2TLKO2LhU6OlMoub6FCRCQ5M/rs:fit:784:666/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzAv/MzA3NzBlMGUtZTgx/YS00MTZkLWI0ZTYt/NDU1MWEzNjk4MTlh/LnN2Zw.png',),
-                      ),
+                      child: Image.asset("assets/illustration/otp-verification.png"),
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: AnimatedOpacity(
-                        opacity: _currentIndex == 1 ? 1 : 0, 
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.linear,
-                        child: Image.network('https://ouch-cdn2.icons8.com/ElwUPINwMmnzk4s2_9O31AWJhH-eRHnP9z8rHUSS5JQ/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzkw/Lzg2NDVlNDllLTcx/ZDItNDM1NC04YjM5/LWI0MjZkZWI4M2Zk/MS5zdmc.png',),
-                      ),
-                    )
+
+                    
+                    // Positioned(
+                    //   top: 0,
+                    //   left: 0,
+                    //   right: 0,
+                    //   bottom: 0,
+                    //   child: AnimatedOpacity(
+                    //     opacity: _currentIndex == 0 ? 1 : 0, 
+                    //     duration: const Duration(seconds: 1),
+                    //     curve: Curves.linear,
+                    //     child: Image.network('https://ouch-cdn2.icons8.com/pi1hTsTcrgVklEBNOJe2TLKO2LhU6OlMoub6FCRCQ5M/rs:fit:784:666/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzAv/MzA3NzBlMGUtZTgx/YS00MTZkLWI0ZTYt/NDU1MWEzNjk4MTlh/LnN2Zw.png',),
+                    //   ),
+                    // ),
+                    // Positioned(
+                    //   top: 0,
+                    //   left: 0,
+                    //   right: 0,
+                    //   bottom: 0,
+                    //   child: AnimatedOpacity(
+                    //     opacity: _currentIndex == 1 ? 1 : 0, 
+                    //     duration: const Duration(seconds: 1),
+                    //     curve: Curves.linear,
+                    //     child: Image.network('https://ouch-cdn2.icons8.com/ElwUPINwMmnzk4s2_9O31AWJhH-eRHnP9z8rHUSS5JQ/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNzkw/Lzg2NDVlNDllLTcx/ZDItNDM1NC04YjM5/LWI0MjZkZWI4M2Zk/MS5zdmc.png',),
+                    //   ),
+                    // )
                   ]
                 ),
               ),
@@ -143,7 +240,7 @@ class OPTVerificationState extends State<OPTVerification> {
                 delay: const Duration(milliseconds: 600),
                 duration: const Duration(milliseconds: 500),
                 child: VerificationCode(
-                  length: 4,
+                  length: 6,
                   digitsOnly: true,
                   textStyle: TextStyle(fontSize: 20, color: isDarkMode ? Colors.white : Colors.black),
                   underlineColor: hexaCodeToColor(AppColors.orangeColor),
@@ -188,7 +285,7 @@ class OPTVerificationState extends State<OPTVerification> {
                 child: MaterialButton(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   elevation: 0,
-                  onPressed: _code.length < 4 ? () => {} : () { verify(); },
+                  onPressed: _code.length < 6 ? () => {} : () { verify(); },
                   color: hexaCodeToColor(AppColors.orangeColor),
                   minWidth: MediaQuery.of(context).size.width * 0.8,
                   height: 50,

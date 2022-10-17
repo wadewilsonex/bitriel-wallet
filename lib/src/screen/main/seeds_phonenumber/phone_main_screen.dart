@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/indecator_c.dart';
-import 'package:wallet_apps/src/screen/main/seeds_phonenumber/login/login_seed_phonenumber.dart';
-import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_seed_phonenumber.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/login/login_phonenumber.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
 
 class PhoneMainScreen extends StatefulWidget {
   const PhoneMainScreen({

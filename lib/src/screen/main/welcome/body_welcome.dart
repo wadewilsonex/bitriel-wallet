@@ -2,7 +2,7 @@ import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portrait_card_c.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';
-import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_seed_phonenumber.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
 
 class WelcomeBody extends StatelessWidget {
 
