@@ -4,7 +4,7 @@ class AppStyle {
   static ThemeData myTheme(BuildContext context) {
     // Color color = hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg)
     return ThemeData(
-      scaffoldBackgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightBg),
+      scaffoldBackgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       appBarTheme: AppBarTheme(
         toolbarTextStyle: TextStyle(color: hexaCodeToColor(AppColors.appBarTextColor)),
         // color: Colors.transparent,

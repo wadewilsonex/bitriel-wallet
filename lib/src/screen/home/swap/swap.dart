@@ -197,7 +197,6 @@ class _SwapPageState extends State<SwapPage> {
   
   @override
   Widget build(BuildContext context) {
-    print("Swap builder");
     return SwapPageBody(
       onChanged: onChanged,
       onDeleteTxt: onDeleteTxt,

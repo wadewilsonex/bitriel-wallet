@@ -70,7 +70,7 @@ class WelcomeBody extends StatelessWidget {
               ),
               MyFlatButton(
                 isTransparent: true,
-                buttonColor: AppColors.whiteHexaColor,
+                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {

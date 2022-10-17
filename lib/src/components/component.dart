@@ -454,7 +454,7 @@ class BodyScaffold extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: height,
-        color: AppUtils.backgroundTheme(),
+        // color: AppUtils.backgroundTheme(),
         // isDarkMode
         //   ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
         //   : Color(AppUtils.convertHexaColor("#F5F5F5")),

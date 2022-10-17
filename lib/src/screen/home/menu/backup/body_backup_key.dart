@@ -18,7 +18,6 @@ class BackUpKeyBody extends StatelessWidget{
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
         leading: IconButton(
-          /* Menu Icon */
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -73,26 +72,13 @@ class BackUpKeyBody extends StatelessWidget{
                   ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
                   await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
                     if (res!.seed != null){
-                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkMode: isDarkMode);
+                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
                     } else {
                       await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
                     }
                   });
                 });
-                // underContstuctionAnimationDailog(context: context);
-                // await Component().dialogBox(context).then((value) async {
-                //   if (value != ''){
-                //     // await disableScreenShot!();
-                //     ApiProvider _apiProvider = await Provider.of<ApiProvider>(context, listen: false);
-                //     await _apiProvider.apiKeyring.getDecryptedSeed(_apiProvider.getKeyring, value).then((res) async {
-                //       if (res!.seed != null){
-                //         await DialogComponents().seedDialog(context: context, contents: res.seed.toString(), isDarkMode: isDarkMode);
-                //       } else {
-                //         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN", isDarkMode: isDarkMode);
-                //       }
-                //     });
-                //   }
-                // }); 
+                
               },
             )
           ]

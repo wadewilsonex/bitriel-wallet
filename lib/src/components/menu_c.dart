@@ -132,6 +132,7 @@ class MenuSubTitle extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: MyText(
                   text: MenuModel.listTile[index!]['title'].toString(),
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                   textAlign: TextAlign.start,
                   fontWeight: FontWeight.bold,
                 ),
@@ -139,7 +140,7 @@ class MenuSubTitle extends StatelessWidget {
               Expanded(
                 child: Divider(
                   thickness: 0.5,
-                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
+                  color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.darkGrey),
                   indent: 10,
                 ),
               ),

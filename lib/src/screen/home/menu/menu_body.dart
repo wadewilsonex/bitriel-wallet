@@ -22,6 +22,7 @@ class MenuBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("menu rebuild");
     return Column(
       children: [
 
@@ -118,13 +119,36 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
 
+        // MenuSubTitle(index: 4),
+        // ValueListenableBuilder(
+        //   valueListenable: isDarkTheme,
+        //   builder: (context, value, child) {
+        //     return MyListTile(
+        //       icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+        //       enable: false,
+        //       index: 4,
+        //       subIndex: 0,
+        //       trailing: Switch(
+        //         value: isDarkTheme.value,//isDarkMode,
+        //         onChanged: (value) {
+        //           // switchTheme!(value);
+
+        //           isDarkTheme.value = value;
+        //         }, 
+        //       ),
+        //       onTap: null,
+        //     );
+        //   }
+        // ),
+
         MenuSubTitle(index: 4),
         MyListTile(
-          icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.moon2, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
           enable: false,
           index: 4,
           subIndex: 0,
           trailing: Switch(
+            activeColor: hexaCodeToColor(AppColors.defiMenuItem),
             value: isDarkMode,
             onChanged: (value) {
               switchTheme!(value);

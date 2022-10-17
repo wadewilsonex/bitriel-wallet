@@ -230,7 +230,7 @@ class MySeedField extends StatelessWidget {
             hintText: hintText,
             hintStyle: TextStyle(
               fontSize: 15.sp,
-              color: hexaCodeToColor(AppColors.shadowBlueColor),
+              color: hexaCodeToColor(isDarkMode ? AppColors.shadowBlueColor : AppColors.greyColor),
               // fontSize: 16.0,
               fontWeight: FontWeight.w600
             ),
@@ -240,7 +240,7 @@ class MySeedField extends StatelessWidget {
                 color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
-            fillColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06),
+            fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),

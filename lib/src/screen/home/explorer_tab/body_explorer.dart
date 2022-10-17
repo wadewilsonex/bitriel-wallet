@@ -16,7 +16,6 @@ class DiscoverPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -24,7 +23,7 @@ class DiscoverPageBody extends StatelessWidget {
             TabBar(
               labelColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.textColor),
               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-              tabs: const [
+              tabs: [
                 Tab(
                   child: MyText(
                     text: "Selendra Explorer",
@@ -51,7 +50,7 @@ class DiscoverPageBody extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: const [
+                children: [
                   SelendraExplorer(),
                   MultiExplorer(),
                 ],

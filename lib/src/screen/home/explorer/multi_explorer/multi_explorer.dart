@@ -24,6 +24,6 @@ class _MultiExplorerState extends State<MultiExplorer> {
   
   @override
   Widget build(BuildContext context) {
-    return const ExplorerBody();
+    return ExplorerBody();
   }
 }

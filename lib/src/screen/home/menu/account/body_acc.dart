@@ -40,9 +40,7 @@ class AccountBody extends StatelessWidget{
      
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        ),
+        elevation: 0,
         title: const MyText(
           text: "Account",
           fontSize: 17,
@@ -172,28 +170,7 @@ class AccountBody extends StatelessWidget{
                       },
                       text: 'Change Pin',
                     ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(paddingSize),
-                      child: GestureDetector(
-                        onTap: () async {
-                          await deleteAccout!();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.red.withOpacity(0.3)
-                          ),
-                          height: 7.h,
-                          child: const MyText(
-                            text: 'Delete Account',
-                            hexaColor: "#FF0000",
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                    
                   ],
                 ),
               ),

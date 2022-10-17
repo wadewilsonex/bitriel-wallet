@@ -12,6 +12,7 @@ class SeedsCompoent {
     var colSize = se.length ~/ 3;
 
     for (var i = 0; i < colSize; i++) {
+      
       if (se[i * 3 + pos] == ""){
         list.add(
           // Display Empty Text 
@@ -36,7 +37,7 @@ class SeedsCompoent {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.06),
+              color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
               borderRadius: const BorderRadius.all(Radius.circular(50)),
             ),
             // color: grey,
@@ -82,7 +83,7 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.06),
+          color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ), 
         // color: grey,
@@ -112,7 +113,6 @@ class SeedContents extends StatelessWidget{
         const SizedBox(height: 50),
         MyText(
           text: title,
-          hexaColor: AppColors.whiteColorHexa,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -120,7 +120,7 @@ class SeedContents extends StatelessWidget{
         SizedBox(height: 5.5.h),
         MyText(
           text: subTitle,
-          hexaColor: AppColors.lowWhite,
+          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,
         ),

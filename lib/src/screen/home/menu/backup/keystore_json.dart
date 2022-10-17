@@ -28,7 +28,7 @@ class KeyStoreJson extends StatelessWidget{
       body: Column(
         children: [
           Card(
-            color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             margin: const EdgeInsets.all(paddingSize),
             child: Padding(
               padding: const EdgeInsets.all(paddingSize),
@@ -53,32 +53,6 @@ class KeyStoreJson extends StatelessWidget{
             },
           ),
           
-          // TextButton(
-          //   onPressed: () {
-          //     Clipboard.setData(
-          //       ClipboardData(text: json.encode(keystore)),
-          //     );
-          //     /* Copy Text */
-          //     snackBar(context, 'Copied keystore!');
-          //   },
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Icon(
-          //         Iconsax.copy,
-          //         color: hexaCodeToColor(AppColors.whiteHexaColor),
-          //         size: 22.5.sp,
-          //       ),
-          //       Container(
-          //         padding: const EdgeInsets.only(left: 10.0),
-          //         child: MyText(
-          //           text: "COPY ADDRESS",
-          //           color: AppColors.whiteHexaColor,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

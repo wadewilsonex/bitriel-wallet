@@ -17,14 +17,10 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
   final CreateKeyModel _model = CreateKeyModel();
 
   void _generateKey() async {
-    if (_model.seed!.isEmpty){
-
-      //"orient effort sea envelope voice lucky enforce expire tragic bring skull arrange";
       _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
       // Split Seed to list
       _model.lsSeeds = _model.seed!.split(" ");
       setState(() { });
-    }
   }
 
   void _showWarning(BuildContext context) {
@@ -39,7 +35,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
         return Container(
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.blue),
+            color: hexaCodeToColor(isDarkMode ? AppColors.blue : AppColors.lightColorBg),
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
           child: Padding(
@@ -47,10 +43,10 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 2.5.h),
-                const MyText(
+                MyText(
                   text: "Please, read carefully!",
                   fontSize: 18,
-                  hexaColor: AppColors.lowWhite,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                   fontWeight: FontWeight.bold,
                 ),  
         
@@ -66,7 +62,6 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SizedBox(width: 1.w),
-                      // SvgPicture.asset('assets/icons/warning.svg'),
                       Lottie.asset(
                         "assets/animation/warning-shield.json",
                         repeat: true,
@@ -85,10 +80,10 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                 ),
         
                 SizedBox(height: 5.h),
-                const MyText(
+                MyText(
                   text: "Please write down your wallet's mnemonic seed and keep it in a safe place. The mnemonic can be used to restore your wallet. If you lose it, all your assets that link to it will be lost.",
                   textAlign: TextAlign.start,
-                  hexaColor: AppColors.lowWhite,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                 ),
         
                 SizedBox(height: 7.h),

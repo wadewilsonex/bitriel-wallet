@@ -1154,3 +1154,31 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
     )
   );
 }
+
+Widget textRowWidget(String leadingText, String trailingText) {
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 10.0,),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+
+        Expanded(
+          child: MyText(
+            text: leadingText,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.start,
+          ),
+        ),
+
+        // SizedBox(width: 20.w,),
+        // Expanded(child: Container()),
+        Expanded(
+          child: MyText(
+            text: trailingText,
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    ),
+  );
+}

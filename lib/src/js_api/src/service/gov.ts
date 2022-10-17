@@ -9,16 +9,16 @@ import BN from "bn.js";
 import { approxChanges } from "../utils/referendumApproxChanges";
 
 function _extractMetaData(value: FunctionMetadataLatest) {
-  const params = GenericCall.filterOrigin(value).map(({ name, type }) => ({
-    name: name.toString(),
-    type: getTypeDef(type.toString()),
-  }));
-  const values = value.args.map((value) => ({
-    isValid: true,
-    value,
-  }));
-  const hash = value.hash;
-  return { hash, params, values };
+  // const params = GenericCall.filterOrigin(value).map(({ name, type }) => ({
+  //   name: name.toString(),
+  //   type: getTypeDef(type.toString()),
+  // }));
+  // const values = value.args.map((value) => ({
+  //   isValid: true,
+  //   value,
+  // }));
+  // const hash = value.hash;
+  // return { hash, params, values };
 }
 
 function _transfromProposalMeta(proposal: any): {} {
@@ -109,18 +109,18 @@ const PERIODS = {
  * Query ReferendumVoteConvictions.
  */
 async function getReferendumVoteConvictions(api: ApiPromise) {
-  const enact =
-    (((((<any>PERIODS)[api.genesisHash.toHex()] || api.consts.democracy.enactmentPeriod).toNumber() *
-      api.consts.timestamp.minimumPeriod.toNumber()) /
-      1000) *
-      2) /
-    SEC_DAY;
-  const res = CONVICTIONS.map(([value, lock]) => ({
-    lock,
-    period: (enact * lock).toFixed(2),
-    value,
-  }));
-  return res;
+  // const enact =
+  //   (((((<any>PERIODS)[api.genesisHash.toHex()] || api.consts.democracy.enactmentPeriod).toNumber() *
+  //     api.consts.timestamp.minimumPeriod.toNumber()) /
+  //     1000) *
+  //     2) /
+  //   SEC_DAY;
+  // const res = CONVICTIONS.map(([value, lock]) => ({
+  //   lock,
+  //   period: (enact * lock).toFixed(2),
+  //   value,
+  // }));
+  // return res;
 }
 
 /**

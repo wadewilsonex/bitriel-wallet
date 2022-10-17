@@ -14,7 +14,6 @@ class SelendraExplorerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -79,7 +78,7 @@ class SelendraExplorerBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
           ),
-          hintText: "Type token name",
+          hintText: "Search address and hash",
           hintStyle: TextStyle(
             fontSize: 14,
             color: hexaCodeToColor("#AAAAAA"),
