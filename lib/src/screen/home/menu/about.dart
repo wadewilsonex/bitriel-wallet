@@ -25,7 +25,7 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: _scaffoldKey,
       body: BodyScaffold(
@@ -34,7 +34,7 @@ class About extends StatelessWidget {
           children: [
             MyAppBar(
               title: "About",
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
@@ -58,7 +58,7 @@ class About extends StatelessWidget {
                     MyText(
                       text: 'Privacy Policy',
                       fontSize: 17,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                       textAlign: TextAlign.left,
@@ -67,7 +67,7 @@ class About extends StatelessWidget {
                       top: 4.0,
                       text: 'Read our full Privacy Policy',
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.darkSecondaryText
                           : AppColors.textColor,
                     ),
@@ -90,7 +90,7 @@ class About extends StatelessWidget {
                       text: 'Terms of Use',
                       fontSize: 17,
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                     ),
@@ -98,7 +98,7 @@ class About extends StatelessWidget {
                       top: 4.0,
                       text: 'Read our term of use for Bitriel app',
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.darkSecondaryText
                           : AppColors.textColor,
                     ),
@@ -118,7 +118,7 @@ class About extends StatelessWidget {
                       text: 'Contact',
                       fontSize: 17,
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                     ),
@@ -127,7 +127,7 @@ class About extends StatelessWidget {
                       text:
                           'For questions, concerns, or comments can be address to: ',
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.darkSecondaryText
                           : AppColors.textColor,
                     ),
@@ -137,7 +137,7 @@ class About extends StatelessWidget {
                           top: 4.0,
                           text: 'info@bitriel.com',
                           textAlign: TextAlign.left,
-                          color: isDarkTheme
+                          hexaColor: isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
                         ),
@@ -153,7 +153,7 @@ class About extends StatelessWidget {
                           },
                           icon: Icon(
                             Iconsax.copy,
-                            color: isDarkTheme ? Colors.white : Colors.black,
+                            color: isDarkMode ? Colors.white : Colors.black,
                             size: 18.sp,
                           ),
                         )
@@ -175,7 +175,7 @@ class About extends StatelessWidget {
                       text: 'About',
                       fontSize: 17,
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                     ),
@@ -184,7 +184,7 @@ class About extends StatelessWidget {
                       text:
                           'Bitriel is used to store and transact SEL tokens and multiple other cryptocoins. Wallets can be integrated into any application where a use case exists, connecting the application to the Selendra main chain.',
                       textAlign: TextAlign.left,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.darkSecondaryText
                           : AppColors.textColor,
                     ),

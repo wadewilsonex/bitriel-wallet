@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 import 'package:wallet_apps/src/service/exception_handler.dart';
 import 'package:wallet_apps/src/service/submit_trx_s.dart';
 
@@ -49,6 +50,8 @@ class SubmitTrxState extends State<SubmitTrx> {
   
   String? _pin;
 
+  String? message;
+
   @override
   void initState() {
 
@@ -68,7 +71,9 @@ class SubmitTrxState extends State<SubmitTrx> {
     else {
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+      _scanPayM.logo = _contractProvider!.sortListContract[_scanPayM.assetValue].logo;
       _scanPayM.assetValue = 0;
+
     }
 
     AppServices.noInternetConnection(context: context);
@@ -118,9 +123,24 @@ class SubmitTrxState extends State<SubmitTrx> {
     return false;
   }
 
-  Future<bool> validateAddress(String address) async {
-    final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
-    return res;
+  String validateAddress(String address) {
+    // value == null ? 'Please fill in receiver address' : null
+    print("validate");
+    if (address == ""){
+      return "Please fill in receiver address";
+    } else if (address != null){
+      Provider.of<ApiProvider>(context, listen: false).validateAddress(address).then((value) {
+
+      if (value == false) {
+        message = "Invalid address";
+      } else {
+        message = null;
+      }
+      });
+    }
+    
+
+    return message!;
   }
 
   String onChanged(String value) {
@@ -186,12 +206,32 @@ class SubmitTrxState extends State<SubmitTrx> {
     setState(() {
       _scanPayM.assetValue = int.parse(data);
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
+      _scanPayM.logo = _contractProvider!.sortListContract[_scanPayM.assetValue].logo;
     });
+
     enableButton();
   }
 
   // First Execute
   Future<void> validateSubmit() async {
+
+    // Navigator.push(
+    //   context,
+    //   Transition(
+    //     child: SuccessTransfer(
+    //       fromAddress: "seYeRoPMUTEd5vvCiAUjweDrroTdvrfWLsmUQRtbJ4xbKByGM",
+    //       toAddress: _scanPayM.controlReceiverAddress.text,
+    //       amount: _scanPayM.controlAmount.text,
+    //       fee: "0.0001",
+    //       hash: "0x56c6e1c6ec896c7cfb6e2f5a4326e4fcc209848bd435acf2dc44398dd45a903a",
+    //       trxDate: DateTime.now().toLocal().toString(),
+    //       assetLogo: _scanPayM.logo,
+    //       assetSymbol: _scanPayM.asset,
+    //       scanPayM: _scanPayM,
+    //     ),
+    //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    //   ),
+    // );
 
     unFocusAllField();
 
@@ -341,7 +381,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         // Close Dialog Estimating Fee
         Navigator.pop(context);
         if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
-        await trxFunc!.customDialog("Oops", e.toString());
+        // await trxFunc!.customDialog("Oops", e.toString());
       }
     }
   }
@@ -475,10 +515,8 @@ class SubmitTrxState extends State<SubmitTrx> {
           }
         }
       }
-
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
-      Navigator.pop(context!);
       throw Exception(e);
     }
   }
@@ -525,10 +563,37 @@ class SubmitTrxState extends State<SubmitTrx> {
   
   bool pushReplacement = false;
 
+  Future<dynamic> routeSuccess(){
+    return  Navigator.push(
+      context,
+      Transition(
+        child: SuccessTransfer(),
+        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+      ),
+    );
+  } 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scanPayM.globalKey,
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        title: const MyText(
+          text: "Sent",
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
+      ),
       body: Stack(
         children: [
           if(_loading) const Center(
@@ -542,6 +607,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             onChanged: onChanged,
             onSubmit: onSubmit,
             validateSubmit: validateSubmit, //sendTrx,
+            validateAddress: validateAddress,
             validateField: (String? value){
               return validateField(value!)!;
             },
@@ -549,7 +615,8 @@ class SubmitTrxState extends State<SubmitTrx> {
             scanQR: scanQR,
           ),
 
-          if (_scanPayM.isPay == true) BackdropFilter(
+          if (_scanPayM.isPay == true) 
+          BackdropFilter(
             // Fill Blur Background
             filter: ImageFilter.blur(
               sigmaX: 5.0,

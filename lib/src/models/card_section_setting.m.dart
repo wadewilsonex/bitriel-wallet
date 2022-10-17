@@ -25,7 +25,7 @@ List<CardSection> settingsAccSection({BuildContext? context}) {
         Navigator.push(
           context!, 
           Transition(
-            child: BackUpKey(),
+            child: const BackUpKey(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -38,7 +38,7 @@ List<CardSection> settingsAccSection({BuildContext? context}) {
         Navigator.push(
           context!,
           Transition(
-            child: Account(),
+            child: const Account(),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -111,7 +111,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
         onPressed: () async => await _deleteAccount(context: context),
         child: const MyText(
           text: 'Delete',
-          color: AppColors.redColor,
+          hexaColor: AppColors.redColor,
           fontWeight: FontWeight.w700
         ),
       ),
@@ -157,7 +157,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       await wcComponent.killAllSession();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
       if (ApiProvider().isDebug == true) {
         if (kDebugMode) {

@@ -15,7 +15,7 @@ class CreateSeedsBody extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -66,12 +66,11 @@ class CreateSeedsBody extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.refresh, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
-                              const MyText(
+                              MyText(
                                 text: "Generate new seed",
                                 fontSize: 14,
-                                color: AppColors.whiteColorHexa,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -90,12 +89,11 @@ class CreateSeedsBody extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 3.h),
+                              Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
-                              const MyText(
+                              MyText(
                                 text: "Copy",
                                 fontSize: 14,
-                                color: AppColors.whiteColorHexa,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -119,9 +117,9 @@ class CreateSeedsBody extends StatelessWidget {
                 ),
 
                 SizedBox(height: 7.h),
-                const MyText(
+                MyText(
                   text: "After writing and securing your 12 words, click continue to proceed",
-                  color: AppColors.lowWhite,
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                 ),
 
 

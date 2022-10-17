@@ -30,12 +30,12 @@ class MyUserInfoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       children: <Widget>[
         MyAppBar(
           title: "User Information",
-          color: isDarkTheme
+          color: isDarkMode
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {
@@ -75,7 +75,7 @@ class MyUserInfoBody extends StatelessWidget {
                       controller: modelUserInfo!.passwordCon,
                       textInputAction: TextInputAction.next,
                       style: TextStyle(
-                          color: isDarkTheme
+                          color: isDarkMode
                               ? hexaCodeToColor(AppColors.whiteColorHexa)
                               : hexaCodeToColor(AppColors.textColor),
                           fontSize: 18.0),
@@ -85,7 +85,7 @@ class MyUserInfoBody extends StatelessWidget {
                           fontSize: 18.0,
                           color: modelUserInfo!.passwordNode.hasFocus ||
                                   modelUserInfo!.passwordCon.text != ""
-                              ? isDarkTheme
+                              ? isDarkMode
                                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                                       .withOpacity(0.3)
                                   : hexaCodeToColor(AppColors.secondary)
@@ -96,12 +96,12 @@ class MyUserInfoBody extends StatelessWidget {
                             fontSize: 18.0),
                         /* Prefix Text */
                         filled: true,
-                        fillColor: isDarkTheme
+                        fillColor: isDarkMode
                             ? hexaCodeToColor(AppColors.darkCard)
                             : hexaCodeToColor(AppColors.whiteHexaColor),
                         enabledBorder: myTextInputBorder(
                             modelUserInfo!.passwordCon.text != ""
-                                ? isDarkTheme
+                                ? isDarkMode
                                     ? hexaCodeToColor(AppColors.whiteColorHexa)
                                         .withOpacity(0.3)
                                     : hexaCodeToColor(AppColors.textColor)
@@ -110,12 +110,12 @@ class MyUserInfoBody extends StatelessWidget {
                         /* Enable Border But Not Show Error */
                         border: errorOutline(),
                         /* Show Error And Red Border */
-                        focusedBorder: myTextInputBorder(isDarkTheme
+                        focusedBorder: myTextInputBorder(isDarkMode
                             ? hexaCodeToColor(AppColors.whiteColorHexa)
                                 .withOpacity(0.3)
                             : hexaCodeToColor(AppColors.secondary)),
                         /* Default Focuse Border Color*/
-                        focusColor: isDarkTheme
+                        focusColor: isDarkMode
                             ? hexaCodeToColor("#ffffff")
                             : hexaCodeToColor(AppColors.textColor),
                         /* Border Color When Focusing */
@@ -146,7 +146,7 @@ class MyUserInfoBody extends StatelessWidget {
                         obscureText: true,
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
-                            color: isDarkTheme
+                            color: isDarkMode
                                 ? hexaCodeToColor(AppColors.whiteColorHexa)
                                 : hexaCodeToColor(AppColors.textColor),
                             fontSize: 18.0),
@@ -156,7 +156,7 @@ class MyUserInfoBody extends StatelessWidget {
                             fontSize: 18.0,
                             color: modelUserInfo!.passwordNode.hasFocus ||
                                     modelUserInfo!.passwordCon.text != ""
-                                ? isDarkTheme
+                                ? isDarkMode
                                     ? hexaCodeToColor(AppColors.whiteColorHexa)
                                         .withOpacity(0.3)
                                     : hexaCodeToColor(AppColors.secondary)
@@ -164,12 +164,12 @@ class MyUserInfoBody extends StatelessWidget {
                           ),
                           /* Prefix Text */
                           filled: true,
-                          fillColor: isDarkTheme
+                          fillColor: isDarkMode
                               ? hexaCodeToColor(AppColors.darkCard)
                               : hexaCodeToColor(AppColors.whiteHexaColor),
                           enabledBorder: myTextInputBorder(
                             modelUserInfo!.passwordCon.text != ""
-                                ? isDarkTheme
+                                ? isDarkMode
                                     ? hexaCodeToColor(AppColors.whiteColorHexa)
                                         .withOpacity(0.3)
                                     : hexaCodeToColor(AppColors.textColor)
@@ -180,12 +180,12 @@ class MyUserInfoBody extends StatelessWidget {
                           /* Enable Border But Not Show Error */
                           border: errorOutline(),
                           /* Show Error And Red Border */
-                          focusedBorder: myTextInputBorder(isDarkTheme
+                          focusedBorder: myTextInputBorder(isDarkMode
                               ? hexaCodeToColor(AppColors.whiteColorHexa)
                                   .withOpacity(0.3)
                               : hexaCodeToColor(AppColors.secondary)),
                           /* Default Focuse Border Color*/
-                          focusColor: isDarkTheme
+                          focusColor: isDarkMode
                               ? hexaCodeToColor("#ffffff")
                               : hexaCodeToColor(AppColors.textColor),
                           /* Border Color When Focusing */
@@ -216,7 +216,7 @@ class MyUserInfoBody extends StatelessWidget {
                         ),
                         MyText(
                           text: "Fingerprint",
-                          color: isDarkTheme
+                          hexaColor: isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
                         )

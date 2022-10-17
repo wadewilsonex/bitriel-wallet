@@ -1,6 +1,5 @@
 /* -------------This file is hold all Packages, Path of file -------------*/
 
-/* flutter Package */
 export 'dart:async';
 export 'dart:convert';
 export 'dart:io' show Platform;
@@ -176,5 +175,5 @@ export 'src/provider/theme_provider.dart';
 export 'src/screen/home/asset_info/asset_checkin.dart';
 export 'src/screen/home/asset_info/asset_history.dart';
 export 'src/screen/home/asset_info/asset_info.dart';
+export 'package:wallet_apps/theme/global.dart';
 
-const double paddingSize = 15.0;

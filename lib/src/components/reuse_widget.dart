@@ -123,9 +123,9 @@ BoxShadow shadow(BuildContext context,
     double? blurRadius, 
     double? spreadRadius, 
     Offset? offset}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+   
   return BoxShadow(
-    color: hexaCode ?? (isDarkTheme
+    color: hexaCode ?? (isDarkMode
         ? hexaCodeToColor(AppColors.darkBgd)
         : Colors.grey.withOpacity(0.2)),
     blurRadius: blurRadius ?? 6.0,
@@ -254,12 +254,12 @@ Future<void> successDialog(
                   text: 'SUCCESS!',
                   fontSize: 20,
                   top: 10,
-                  color: AppColors.lowWhite,
+                  hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.bold,
                 ),
                 MyText(
                   top: 8.0,
-                  color: AppColors.lowWhite,
+                  hexaColor: AppColors.lowWhite,
                   text: 'You have successfully $operationText',
                 ),
                 SizedBox(
@@ -628,7 +628,7 @@ Widget progress({String? content}) {
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
               child: MyText(
                 text: content, 
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
               ),
             ),
           ],
@@ -1118,21 +1118,8 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
 Future<void> portfolioDailog({required BuildContext? context}){
   return DialogComponents().dialogCustom(
     context: context,
-    // contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
-    // lottie: Lottie.asset(
-    //   "assets/animation/under-construction.json",
-    //   width: 75.w, 
-    //   repeat: true,
-
-    // ),
     contents2: const ChartData(),
-    // contents2: Column(
-    //   children: [
-        
-    //   ],
-    // ),
     btn2: MyGradientButton(
       textButton: "OK",
       textColor: AppColors.lowWhite,
@@ -1165,5 +1152,72 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
         Navigator.pop(context!);
       },
     )
+  );
+}
+
+Widget textRowWidget(String leadingText, String trailingText) {
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 10.0,),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+
+        Expanded(
+          child: MyText(
+            text: leadingText,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.start,
+          ),
+        ),
+
+        // SizedBox(width: 20.w,),
+        // Expanded(child: Container()),
+        Expanded(
+          child: MyText(
+            text: trailingText,
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget tfPasswordWidget(TextEditingController password, String title) {
+  return TextFormField(
+    obscureText: true,
+    controller: password,
+    style: TextStyle(
+      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
+    ),
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      hintText: title,
+      hintStyle: TextStyle(
+        fontSize: 14,
+        color: hexaCodeToColor("#AAAAAA"),
+      ),
+      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+      /* Prefix Text */
+      filled: true,
+      fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+    ),
+    validator: (val){
+      if(val != password.text) {
+        return 'Password not match';
+      }
+      return null;
+    }
   );
 }

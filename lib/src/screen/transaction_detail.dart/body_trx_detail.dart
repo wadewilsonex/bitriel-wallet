@@ -68,7 +68,7 @@ class BodyTransactionDetail extends StatelessWidget {
           const MyText(
             left: 10,
             text: "Sent",
-            color: AppColors.whiteColorHexa,
+            hexaColor: AppColors.whiteColorHexa,
             fontSize: 18,
             fontWeight: FontWeight.w800,
           ),
@@ -105,7 +105,7 @@ class BodyTransactionDetail extends StatelessWidget {
           children: [
             const MyText(
               text: "Amount",
-              color: AppColors.greyColor,
+              hexaColor: AppColors.greyColor,
               fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
@@ -132,7 +132,7 @@ class BodyTransactionDetail extends StatelessWidget {
                 MyText(
                   left: 2.5.w,
                   text: "-1 SEL",
-                  color: AppColors.whiteColorHexa,
+                  hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
@@ -174,7 +174,7 @@ class BodyTransactionDetail extends StatelessWidget {
           MyText(
             width: 100,
             text: leadingText,
-            color: AppColors.greyColor,
+            hexaColor: AppColors.greyColor,
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.start,
           ),
@@ -183,7 +183,7 @@ class BodyTransactionDetail extends StatelessWidget {
             child: MyText(
               textAlign: TextAlign.start,
               text: trailingText,
-              color: AppColors.whiteColorHexa,
+              hexaColor: AppColors.whiteColorHexa,
             ),
           ),
 
@@ -222,7 +222,7 @@ class BodyTransactionDetail extends StatelessWidget {
                 const MyText(
                   right: 5,
                   text: "View in browser",
-                  color: AppColors.greyColor,
+                  hexaColor: AppColors.greyColor,
                   fontWeight: FontWeight.w800,
                   fontSize: 16,
                 ),

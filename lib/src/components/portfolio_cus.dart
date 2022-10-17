@@ -8,14 +8,14 @@ class PortFolioCus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Container(
       margin: const EdgeInsets.only(bottom: 2.0),
       padding: const EdgeInsets.only(left: 16, right: 20, top: 32, bottom: 32),
       width: double.infinity,
       height: 200,
       decoration: BoxDecoration(
-        color: isDarkTheme
+        color: isDarkMode
           ? hexaCodeToColor(AppColors.darkCard)
           : hexaCodeToColor(AppColors.whiteHexaColor),
       ),
@@ -41,13 +41,13 @@ class PortFolioCus extends StatelessWidget {
                           showLegends: false,
                         ),
                         colorList: [
-                          isDarkTheme ? hexaCodeToColor(AppColors.darkBgd) : Colors.grey.shade400
+                          isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : Colors.grey.shade400
                         ],
                         chartValuesOptions: ChartValuesOptions(
                           showChartValues: false,
                           showChartValueBackground: false,
                           chartValueStyle: TextStyle(
-                            color: hexaCodeToColor(isDarkTheme ? "#FFFFFF" : "#000000"),
+                            color: hexaCodeToColor(isDarkMode ? "#FFFFFF" : "#000000"),
                             fontSize: 16,
                           ),
                         ),
@@ -65,7 +65,7 @@ class PortFolioCus extends StatelessWidget {
                           showChartValues: false,
                           showChartValueBackground: false,
                           chartValueStyle: TextStyle(
-                            color: hexaCodeToColor(isDarkTheme ? "#FFFFFF" : "#000000"),
+                            color: hexaCodeToColor(isDarkMode ? "#FFFFFF" : "#000000"),
                             fontSize: 16,
                           ),
                         ),
@@ -84,7 +84,7 @@ class PortFolioCus extends StatelessWidget {
                   child: MyText(
                     text: "Market Price...",
                     fontWeight: FontWeight.bold,
-                    color: AppColors.darkSecondaryText,
+                    hexaColor: AppColors.darkSecondaryText,
                   ),
                 )
                 : Column(

@@ -60,14 +60,14 @@ class NavigationDrawer extends StatelessWidget {
                             children: [
                               MyText(
                                 text: usr.getKeyring.current.name ?? '',
-                                color: "#FFFFFF",
+                                hexaColor: "#FFFFFF",
                                 fontSize: 20,
                               ),
                               const SizedBox(
                                 width: 100,
                                 child: MyText(
                                   text: "Indracore",
-                                  color: AppColors.secondarytext,
+                                  hexaColor: AppColors.secondarytext,
                                   textAlign: TextAlign.start,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.ellipsis,

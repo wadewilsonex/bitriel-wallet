@@ -7,12 +7,12 @@ class ActivityDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     final addr = AppUtils.addrFmt(trxInfo!.receiver.toString());
 
     return Scaffold(
       body: Container(
-        color: isDarkTheme
+        color: isDarkMode
             ? hexaCodeToColor(AppColors.darkBgd)
             : hexaCodeToColor(AppColors.whiteColorHexa),
         child: Column(
@@ -22,7 +22,7 @@ class ActivityDetail extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
             ),
@@ -37,14 +37,14 @@ class ActivityDetail extends StatelessWidget {
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     overflow: TextOverflow.ellipsis,
-                    color: AppColors.secondary,
+                    hexaColor: AppColors.secondary,
                   ),
                   MyText(
                     top: 8.0,
                     text: trxInfo!.estGasFeePrice != null 
                       ? '≈ \$${trxInfo!.estGasFeePrice}' 
                       : '≈ \$0.00', //'≈ $0.00',
-                    color: AppColors.darkSecondaryText,
+                    hexaColor: AppColors.darkSecondaryText,
                   ),
                 ],
               ),
@@ -61,7 +61,7 @@ class ActivityDetail extends StatelessWidget {
             // ),
             Card(
               margin: const EdgeInsets.all(16.0),
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(
                       AppColors.whiteColorHexa,
@@ -70,7 +70,7 @@ class ActivityDetail extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    _buildRow('Date', trxInfo!.timeStamp!, isDarkTheme),
+                    _buildRow('Date', trxInfo!.timeStamp!, isDarkMode),
                     const Divider(),
                     _buildRow(
                         'Status',
@@ -79,11 +79,11 @@ class ActivityDetail extends StatelessWidget {
                             : trxInfo!.status!
                                 ? 'Completed'
                                 : 'Failed',
-                        isDarkTheme),
+                        isDarkMode),
                     const Divider(),
-                    _buildRow('To', addr, isDarkTheme),
+                    _buildRow('To', addr, isDarkMode),
                     const Divider(),
-                    _buildRow('Network Fee', trxInfo!.gasFee!, isDarkTheme),
+                    _buildRow('Network Fee', trxInfo!.gasFee!, isDarkMode),
                   ],
                 ),
               ),
@@ -113,7 +113,7 @@ class ActivityDetail extends StatelessWidget {
                       ),
                       child: const MyText(
                         text: "SHARE",
-                        color: AppColors.secondary,
+                        hexaColor: AppColors.secondary,
                       ),
                     )
                   ],
@@ -126,7 +126,7 @@ class ActivityDetail extends StatelessWidget {
     );
   }
 
-  _buildRow(String leadingText, String trailingText, bool isDarkTheme) {
+  _buildRow(String leadingText, String trailingText, bool isDarkMode) {
     return SizedBox(
       height: 40,
       child: Row(
@@ -135,15 +135,15 @@ class ActivityDetail extends StatelessWidget {
           MyText(
             text: leadingText,
             fontWeight: FontWeight.w600,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           ),
           Expanded(
             child: MyText(
               textAlign: TextAlign.end,
               text: trailingText,
               // fontWeight: FontWeight.w700,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.greyCode,
+              hexaColor:
+                  isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode,
             ),
           ),
         ],

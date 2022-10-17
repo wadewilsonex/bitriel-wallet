@@ -52,7 +52,7 @@ class FillPinState extends State<FillPin> {
         top: 16,
         bottom: 16,
         text: "Fill your pin",
-        color: AppColors.whiteHexaColor,
+        hexaColor: AppColors.whiteHexaColor,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -107,7 +107,7 @@ class FillPinState extends State<FillPin> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const MyText(text: "Close", color: AppColors.whiteHexaColor),
+              child: const MyText(text: "Close", hexaColor: AppColors.whiteHexaColor),
             ),
           )
         ],

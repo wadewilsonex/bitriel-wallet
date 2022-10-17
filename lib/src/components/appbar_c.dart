@@ -91,10 +91,10 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+    
     return SafeArea(
       child: Container(
-        // height: 65.0,
+        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         width: MediaQuery.of(context).size.width,
         margin: margin,
         child: Row(
@@ -106,10 +106,8 @@ class MyAppBar extends StatelessWidget {
                   /* Menu Icon */
                   iconSize: 40.0,
                   icon: Icon(
-                    Platform.isAndroid
-                        ? LineAwesomeIcons.arrow_left
-                        : LineAwesomeIcons.angle_left,
-                    color: isDarkTheme ? Colors.white : Colors.black,
+                    Iconsax.arrow_left_2,
+                    color: isDarkMode ? Colors.white : Colors.black,
                     size: 22.5.sp,
                   ),
                   onPressed: (){
@@ -117,7 +115,7 @@ class MyAppBar extends StatelessWidget {
                   },
                 ),
                 MyText(
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   text: title,

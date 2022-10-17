@@ -22,7 +22,7 @@ class AssetInfoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       key: assetInfoModel!.globalKey,
       body: BodyScaffold(
@@ -42,7 +42,7 @@ class AssetInfoBody extends StatelessWidget {
                 forceElevated: innerBox,
                 automaticallyImplyLeading: false,
                 leading: Container(),
-                backgroundColor: isDarkTheme
+                backgroundColor: isDarkMode
                   ? hexaCodeToColor(AppColors.darkBgd)
                   : Colors.white,
                 flexibleSpace: Column(children: [
@@ -50,7 +50,7 @@ class AssetInfoBody extends StatelessWidget {
                   // AppBar
                   Expanded(
                       child: Container(
-                        color: hexaCodeToColor(AppColors.darkBgd),
+                        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                         child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                             child: Row(
@@ -62,14 +62,9 @@ class AssetInfoBody extends StatelessWidget {
                                   },
                                   child: Container(
                                     alignment: Alignment.centerLeft,
-                                    padding: const EdgeInsets.only(right: 16),
                                     child: Icon(
-                                      Platform.isAndroid
-                                        ? Icons.arrow_back
-                                        : Icons.arrow_back_ios,
-                                      color: isDarkTheme
-                                        ? Colors.white
-                                        : Colors.black,
+                                      Iconsax.arrow_left_2,
+                                      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,),
                                       size: 22.5.sp
                                     )
                                   )
@@ -79,7 +74,7 @@ class AssetInfoBody extends StatelessWidget {
                                   left: 2.w,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
-                                  color: isDarkTheme
+                                  hexaColor: isDarkMode
                                     ? AppColors.whiteHexaColor
                                     : AppColors.blackColor,
                                   text: assetInfoModel!.smartContractModel!.symbol!
@@ -96,7 +91,7 @@ class AssetInfoBody extends StatelessWidget {
                                   child: MyText(
                                     text: ApiProvider().isMainnet ? assetInfoModel!.smartContractModel!.org : assetInfoModel!.smartContractModel!.orgTest,
                                     fontWeight: FontWeight.w700,
-                                    color: isDarkTheme
+                                    hexaColor: isDarkMode
                                       ? AppColors.whiteHexaColor
                                       : AppColors.darkCard,
                                   )
@@ -114,9 +109,9 @@ class AssetInfoBody extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   <Widget>[
                     Container(
-                      color: isDarkTheme
+                      color: isDarkMode
                         ? hexaCodeToColor(AppColors.darkBgd)
-                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                        : hexaCodeToColor(AppColors.lightColorBg),
                       child: Column(
                         children: [
 
@@ -173,7 +168,7 @@ class AssetInfoBody extends StatelessWidget {
                                     Icons.edit, 
                                     size: 18.sp,
                                     color: hexaCodeToColor(
-                                      // isDarkTheme
+                                      // isDarkMode
                                       // ? AppColors.greyCode
                                       // : 
                                       AppColors.whiteColorHexa
@@ -194,7 +189,7 @@ class AssetInfoBody extends StatelessWidget {
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
-                            color: isDarkTheme
+                            hexaColor: isDarkMode
                               ? AppColors.whiteColorHexa
                               : AppColors.textColor,
                           ),
@@ -202,7 +197,7 @@ class AssetInfoBody extends StatelessWidget {
                           MyText(
                             top: 8.0,
                             text: "≈ \$ ${assetInfoModel!.smartContractModel!.money!.toStringAsFixed(2)}",
-                            color: isDarkTheme
+                            hexaColor: isDarkMode
                               ? AppColors.greyCode
                               : AppColors.textColor,
                             //fontWeight: FontWeight.bold,
@@ -233,15 +228,12 @@ class AssetInfoBody extends StatelessWidget {
                               alignment: Alignment.center,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: isDarkTheme
-                                    ? hexaCodeToColor(AppColors.darkBgd)
-                                    : hexaCodeToColor(
-                                        AppColors.whiteHexaColor),
+                                color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                                 border: Border(
                                   bottom: BorderSide(
                                     color: assetInfoModel!.tabIndex == 0
-                                        ? hexaCodeToColor("#D4D6E3")
-                                        : Colors.transparent,
+                                      ? hexaCodeToColor(isDarkMode ? "#D4D6E3" : AppColors.orangeColor)
+                                      : Colors.transparent,
                                     width: 2,
                                   ),
                                 ),
@@ -249,11 +241,11 @@ class AssetInfoBody extends StatelessWidget {
                               child: MyText(
                                 fontWeight: FontWeight.bold,
                                 text: "Activity",
-                                color: assetInfoModel!.tabIndex == 0
-                                    ? AppColors.whiteColorHexa
-                                    : isDarkTheme
+                                hexaColor: assetInfoModel!.tabIndex == 0
+                                  ? isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor
+                                    : isDarkMode
                                         ? AppColors.iconColor
-                                        : AppColors.textColor,
+                                        : AppColors.greyCode,
                               ),
                             ),
                           ),
@@ -268,13 +260,11 @@ class AssetInfoBody extends StatelessWidget {
                               alignment: Alignment.center,
                               height: 50,
                               decoration: BoxDecoration(
-                                color: isDarkTheme
-                                  ? hexaCodeToColor(AppColors.darkBgd)
-                                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                                color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                                 border: Border(
                                   bottom: BorderSide(
                                     color: assetInfoModel!.tabIndex == 1
-                                      ? hexaCodeToColor("#D4D6E3")
+                                      ? hexaCodeToColor(isDarkMode ? "#D4D6E3" : AppColors.orangeColor)
                                       : Colors.transparent,
                                     width: 2,
                                   ),
@@ -283,9 +273,11 @@ class AssetInfoBody extends StatelessWidget {
                               child: MyText(
                                 fontWeight: FontWeight.w600,
                                 text: "Details",
-                                color: assetInfoModel!.tabIndex == 1
-                                    ? AppColors.whiteColorHexa
-                                    : AppColors.iconColor
+                                hexaColor: assetInfoModel!.tabIndex == 1
+                                  ? isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor
+                                    : isDarkMode
+                                        ? AppColors.iconColor
+                                        : AppColors.greyCode,
                               ),
                             ),
                           ),
@@ -307,9 +299,7 @@ class AssetInfoBody extends StatelessWidget {
               Consumer<ContractProvider>(builder: (context, value, child) {
                 return assetInfoModel!.lsTxInfo == null
                     ? Container(
-                        color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkBgd)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                         child: Center(
                           child: SvgPicture.asset(
                             '${AppConfig.iconsPath}no_data.svg',
@@ -330,9 +320,7 @@ class AssetInfoBody extends StatelessWidget {
               }),
 
               Container(
-                color: isDarkTheme
-                  ? hexaCodeToColor(AppColors.darkBgd)
-                  : hexaCodeToColor(AppColors.whiteHexaColor),
+                color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
                   child: AssetDetail(assetInfoModel!.smartContractModel!),
               )
             ],
@@ -352,7 +340,7 @@ class AssetInfoBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: const ["#035A8F", "#035A8F"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -368,7 +356,7 @@ class AssetInfoBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Send",
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
@@ -380,7 +368,7 @@ class AssetInfoBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: const ["#035A8F", "#035A8F"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -396,7 +384,7 @@ class AssetInfoBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Receive",
-                color: AppColors.whiteColorHexa,
+                hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],

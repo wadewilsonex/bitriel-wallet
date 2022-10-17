@@ -19,12 +19,12 @@ class EditContactBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Column(
       children: [
         MyAppBar(
           title: "Edit Contact",
-          color: isDarkTheme
+          color: isDarkMode
               ? hexaCodeToColor(AppColors.darkCard)
               : hexaCodeToColor(AppColors.whiteHexaColor),
           onPressed: () {

@@ -168,6 +168,7 @@ class MarketProvider with ChangeNotifier {
     try {
 
       queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id'))).body)[0];
+      print("queried id $queried");
     } catch (e){
       if (ApiProvider().isDebug == true) {
         if (kDebugMode) {

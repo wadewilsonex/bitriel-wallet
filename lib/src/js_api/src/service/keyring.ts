@@ -202,7 +202,7 @@ function _extractEvents(api: ApiPromise, result: SubmittableResult) {
         if (dispatchError.isModule) {
           try {
             const mod = dispatchError.asModule;
-            const err = api.registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
+            // const err = api.registry.findMetaError(new Uint8Array([mod.index.toNumber(), mod.error.toNumber()]));
 
             // message = `${err.section}.${err.name}`;
           } catch (error) {

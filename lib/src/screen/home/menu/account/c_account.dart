@@ -17,11 +17,11 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize),
           height: MediaQuery.of(context).size.height / 1.5,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
@@ -88,11 +88,11 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.symmetric(vertical: paddingSize,),
           height: MediaQuery.of(context).size.height / 2,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(
@@ -142,11 +142,11 @@ class AccountC {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+         
         return Container(
           padding: const EdgeInsets.all(25.0),
           height: MediaQuery.of(context).size.height / 2,
-          color: isDarkTheme
+          color: isDarkMode
             ? Color(AppUtils.convertHexaColor(AppColors.darkBgd))
             : Color(AppUtils.convertHexaColor(AppColors.lowWhite)),
           child: Form(

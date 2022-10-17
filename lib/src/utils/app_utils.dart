@@ -8,7 +8,10 @@ import 'package:web3dart/web3dart.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
+
   static final globalKey = GlobalKey<NavigatorState>();
+
+  static Color? txtColor;
 
   static Future<DeployedContract> contractfromAssets(String path, String contractAddr) async {
     final String contractJson = await rootBundle.loadString(path);
@@ -120,6 +123,27 @@ class AppUtils {
     }
 
     return [rd1, rd2, rd3];
+  }
+
+  /// Text Color Selector By Theme Mode
+  static Color colorSelector({bool? isDark, String? hexaColor, Color? enumColor}){
+    if (hexaColor != null){
+      txtColor = hexaCodeToColor(hexaColor);
+    } else if (enumColor != null) {
+      txtColor = enumColor;
+    } 
+    // Default Black White
+    else if (isDark!) {
+      txtColor = hexaCodeToColor(AppColors.whiteColorHexa);
+    } else {
+      txtColor = hexaCodeToColor(AppColors.textColor);
+    }
+    
+    return txtColor!;
+  }
+
+  static Color backgroundTheme(){
+    return hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg);
   }
 }
 
