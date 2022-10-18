@@ -147,18 +147,17 @@ Widget customFlatButton(
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(size5), boxShadow: [boxShadow]),
     // ignore: deprecated_member_use
-    child: FlatButton(
+    child: ElevatedButton(
       onPressed: action == null
       ? null
       : () {
           action(context);
         },
-      color: hexaCodeToColor(buttonColor),
-      disabledTextColor: Colors.black54,
-      disabledColor: Colors.grey[700],
-      focusColor: hexaCodeToColor("#83B6BD"),
-      textColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size5)),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(hexaCodeToColor(buttonColor)),
+        textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(size5)))
+      ),
       child: Text(
         textButton,
         style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),

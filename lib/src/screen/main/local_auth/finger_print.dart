@@ -31,7 +31,7 @@ class _FingerPrintState extends State<FingerPrint> {
 
     try {
 
-      authenticate = await localAuth.authenticate( localizedReason: 'Please complete the biometrics to proceed.', stickyAuth: true);
+      authenticate = await localAuth.authenticate( localizedReason: 'Please complete the biometrics to proceed.');
       dialogLoading(context);
       await Future.delayed(Duration(seconds: 1), (){});
       if (authenticate) {

@@ -166,14 +166,14 @@ class MyFlatButton extends StatelessWidget {
           )
       ]),
       // ignore: deprecated_member_use
-      child: FlatButton(
+      child: ElevatedButton(
         onPressed: action == null ? null : (){
           action!();
         },
-        color: hexaCodeToColor(buttonColor!),
-        disabledColor: isDarkTheme ? Colors.grey.shade700 : Colors.grey.shade400,
-        focusColor: hexaCodeToColor(AppColors.secondary),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(hexaCodeToColor(buttonColor!)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))
+        ),
         child: MyText(
           pTop: 20,
           pBottom: 20,

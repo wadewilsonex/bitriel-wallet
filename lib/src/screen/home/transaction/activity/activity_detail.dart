@@ -99,7 +99,7 @@ class ActivityDetail extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 21),
               // ignore: deprecated_member_use
-              child: FlatButton(
+              child: ElevatedButton(
                 onPressed: () {
                   // method.qrShare(keyQrShare, wallet);
 

@@ -85,6 +85,6 @@ class GetWalletMethod {
       content: Text(contents),
     );
     // ignore: deprecated_member_use
-    _globalKey.currentState!.showSnackBar(snackbar);
+    // _globalKey.currentState!.showSnackBar(snackbar);
   }
 }

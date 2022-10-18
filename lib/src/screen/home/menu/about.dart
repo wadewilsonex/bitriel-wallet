@@ -152,11 +152,11 @@ class About extends StatelessWidget {
                             ).then(
                               (value) => {
                                 // ignore: deprecated_member_use
-                                _scaffoldKey.currentState!.showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Copied to Clipboard'),
-                                  ),
-                                )
+                                // _scaffoldKey.currentState!.showSnackBar(
+                                //   const SnackBar(
+                                //     content: Text('Copied to Clipboard'),
+                                //   ),
+                                // )
                               },
                             );
                           },

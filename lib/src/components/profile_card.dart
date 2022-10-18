@@ -105,11 +105,11 @@ class ProfileCard extends StatelessWidget {
                     ).then(
                       (value) => {
                         // ignore: deprecated_member_use
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Copied to Clipboard'),
-                          ),
-                        )
+                        // Scaffold.of(context).showSnackBar(
+                        //   const SnackBar(
+                        //     content: Text('Copied to Clipboard'),
+                        //   ),
+                        // )
                       },
                     );
                   },

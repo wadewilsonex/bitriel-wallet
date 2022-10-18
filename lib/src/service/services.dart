@@ -26,7 +26,7 @@ class AppServices {
           openSnackBar(globalKey, AppString.contentConnection);
         } else {
           // ignore: deprecated_member_use
-          globalKey.currentState!.removeCurrentSnackBar();
+          // globalKey.currentState!.removeCurrentSnackBar();
         }
       });
 
@@ -57,7 +57,7 @@ class AppServices {
 
   static void openSnackBar(GlobalKey<ScaffoldState> globalKey, String content) {
     // ignore: deprecated_member_use
-    globalKey.currentState!.showSnackBar(snackBarBody(content, globalKey));
+    // globalKey.currentState!.showSnackBar(snackBarBody(content, globalKey));
   }
 
   // ignore: avoid_void_async
@@ -230,8 +230,10 @@ class SendTrx extends ApiTx{
 
   SendTrx(this.apiRoot, this.service) : super(apiRoot, service);
 
+  @override
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
-  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam}) async {
+  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params,
+      {String? rawParam, String? jsApi}) async {
     final String param = rawParam != null ? rawParam : jsonEncode(params);
     final Map tx = txInfo.toJson();
     dynamic res = await (service.estimateFees(tx, param));

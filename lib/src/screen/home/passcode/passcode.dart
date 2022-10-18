@@ -198,7 +198,6 @@ class _PasscodeState extends State<Passcode> {
     try {
       authenticate = await localAuth.authenticate(
         localizedReason: '',
-        stickyAuth: true,
       );
 
       if (authenticate) {

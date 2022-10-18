@@ -28,81 +28,81 @@ final portfolioChart = LineChartData(
       );
     },
   ),
-  titlesData: FlTitlesData(
-    show: true,
-    bottomTitles: SideTitles(
-      reservedSize: 6,
-      getTitles: (value) {
-        switch (value.toInt()) {
-          case 0:
-            return '';
-          case 1:
-            return '2h';
-          case 2:
-            return '4h';
-          case 3:
-            return '6h';
-          case 4:
-            return '8h';
-          case 5:
-            return '10h';
-        }
-        return '12h';
-      },
-      margin: 0,
-    ),
-    leftTitles: SideTitles(
-      getTitles: (value) {
-        switch (value.toInt()) {
-          case 0:
-            return '';
-          case 1:
-            return '50';
-          case 2:
-            return '100';
-          case 3:
-            return '150';
-        }
-        return '200';
-      },
-      reservedSize: 3,
-      margin: 0,
-    ),
-  ),
-  minX: 0,
-  maxX: 6,
-  minY: 0,
-  maxY: 4,
-  lineBarsData: [
-    LineChartBarData(
-      spots: [
-        FlSpot(0, 0),
-        FlSpot(0.5, 0.5),
-        FlSpot(1, 1),
-        FlSpot(1.5, 2),
-        FlSpot(2, 2.5),
-        FlSpot(2.5, 3),
-        FlSpot(3, 3),
-        FlSpot(3.5, 3),
-        FlSpot(4, 4),
-        FlSpot(4.5, 3.5),
-        FlSpot(5, 2),
-        FlSpot(5.5, 2),
-        FlSpot(6, 1),
-      ],
-      isCurved: true,
-      colors: _gradientColors,
-      barWidth: 2.5,
-      // isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(
-        show: false,
-        colors: _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-      ),
-    ),
-  ],
+  // titlesData: FlTitlesData(
+  //   show: true,
+  //   bottomTitles: SideTitles(
+  //     reservedSize: 6,
+  //     getTitles: (value) {
+  //       switch (value.toInt()) {
+  //         case 0:
+  //           return '';
+  //         case 1:
+  //           return '2h';
+  //         case 2:
+  //           return '4h';
+  //         case 3:
+  //           return '6h';
+  //         case 4:
+  //           return '8h';
+  //         case 5:
+  //           return '10h';
+  //       }
+  //       return '12h';
+  //     },
+  //     margin: 0,
+  //   ),
+  //   leftTitles: SideTitles(
+  //     getTitles: (value) {
+  //       switch (value.toInt()) {
+  //         case 0:
+  //           return '';
+  //         case 1:
+  //           return '50';
+  //         case 2:
+  //           return '100';
+  //         case 3:
+  //           return '150';
+  //       }
+  //       return '200';
+  //     },
+  //     reservedSize: 3,
+  //     margin: 0,
+  //   ),
+  // ),
+  // minX: 0,
+  // maxX: 6,
+  // minY: 0,
+  // maxY: 4,
+  // lineBarsData: [
+  //   LineChartBarData(
+  //     spots: [
+  //       FlSpot(0, 0),
+  //       FlSpot(0.5, 0.5),
+  //       FlSpot(1, 1),
+  //       FlSpot(1.5, 2),
+  //       FlSpot(2, 2.5),
+  //       FlSpot(2.5, 3),
+  //       FlSpot(3, 3),
+  //       FlSpot(3.5, 3),
+  //       FlSpot(4, 4),
+  //       FlSpot(4.5, 3.5),
+  //       FlSpot(5, 2),
+  //       FlSpot(5.5, 2),
+  //       FlSpot(6, 1),
+  //     ],
+  //     isCurved: true,
+  //     colors: _gradientColors,
+  //     barWidth: 2.5,
+  //     // isStrokeCapRound: true,
+  //     dotData: FlDotData(
+  //       show: false,
+  //     ),
+  //     belowBarData: BarAreaData(
+  //       show: false,
+  //       colors: _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+  //     ),
+  //   ),
+  // ],
 );
 
 Widget homeAppBar(BuildContext context, {Function? query}) {
@@ -522,50 +522,50 @@ LineChartData mainData() {
         );
       },
     ),
-    titlesData: FlTitlesData(
-      show: true,
-      bottomTitles: SideTitles(
-        showTitles: true,
-        reservedSize: 6,
-        getTextStyles: (context, value) => const TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 0:
-              return '';
-            case 1:
-              return '2h';
-            case 2:
-              return '4h';
-            case 3:
-              return '6h';
-            case 4:
-              return '8h';
-            case 5:
-              return '10h';
-          }
-          return '';
-        },
-        margin: 0,
-      ),
-      leftTitles: SideTitles(
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 0:
-              return '';
-            case 1:
-              return '50';
-            case 2:
-              return '100';
-            case 3:
-              return '150';
-          }
-          return '200';
-        },
-        reservedSize: 3,
-        margin: 0,
-      ),
-    ),
+    // titlesData: FlTitlesData(
+    //   show: true,
+    //   bottomTitles: SideTitles(
+    //     showTitles: true,
+    //     reservedSize: 6,
+    //     getTextStyles: (context, value) => const TextStyle(
+    //         color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+    //     getTitles: (value) {
+    //       switch (value.toInt()) {
+    //         case 0:
+    //           return '';
+    //         case 1:
+    //           return '2h';
+    //         case 2:
+    //           return '4h';
+    //         case 3:
+    //           return '6h';
+    //         case 4:
+    //           return '8h';
+    //         case 5:
+    //           return '10h';
+    //       }
+    //       return '';
+    //     },
+    //     margin: 0,
+    //   ),
+    //   leftTitles: SideTitles(
+    //     getTitles: (value) {
+    //       switch (value.toInt()) {
+    //         case 0:
+    //           return '';
+    //         case 1:
+    //           return '50';
+    //         case 2:
+    //           return '100';
+    //         case 3:
+    //           return '150';
+    //       }
+    //       return '200';
+    //     },
+    //     reservedSize: 3,
+    //     margin: 0,
+    //   ),
+    // ),
     // borderData: FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
     minX: 0,
     maxX: 6,
@@ -589,7 +589,6 @@ LineChartData mainData() {
           FlSpot(6, 1),
         ],
         isCurved: true,
-        colors: _gradientColors,
         barWidth: 3,
         // isStrokeCapRound: true,
         dotData: FlDotData(
@@ -597,8 +596,6 @@ LineChartData mainData() {
         ),
         belowBarData: BarAreaData(
           show: true,
-          colors:
-              _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
         ),
       ),
     ],

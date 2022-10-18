@@ -539,7 +539,7 @@ class _AssetInfoState extends State<AssetInfo> {
                                   height: 50,
                                   width: 150,
                                   // ignore: deprecated_member_use
-                                  child: FlatButton(
+                                  child: ElevatedButton(
                                     onPressed: () async {
                                       if(widget.scModel!.symbol != 'ATT') {
                                         // if (widget.scModel!.symbol == 'BTC') {
@@ -568,12 +568,10 @@ class _AssetInfoState extends State<AssetInfo> {
                                         await successDialog(context, "check out!");
                                       }
                                     },
-                                    color: hexaCodeToColor(
-                                      AppColors.secondary,
-                                    ),
-                                    disabledColor: Colors.grey[700],
-                                    focusColor: hexaCodeToColor(
-                                      AppColors.secondary,
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
+                                      textStyle: MaterialStateProperty.all(TextStyle(color: Colors.white)),
+                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(size5)))
                                     ),
                                     child: MyText(
                                       text: widget.scModel!.symbol == 'ATT' ? 'Check Out' : 'Recieved',

@@ -1,6 +1,6 @@
 import 'dart:math';
 // import 'package:flutter_aes_ecb_pkcs5_fork/flutter_aes_ecb_pkcs5_fork.dart';
-import 'package:aes_ecb_pkcs5_flutter/aes_ecb_pkcs5_flutter.dart';
+import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:defichaindart/defichaindart.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
 // import 'package:polkawallet_sdk/kabob__sdk.dart';
@@ -14,8 +14,6 @@ import 'package:wallet_apps/src/models/lineChart_m.dart';
 import 'package:wallet_apps/src/models/smart_contract.m.dart';
 // import 'package:polkawallet_plugin_kusama/polkawallet_plugin_kusama.dart';
 import 'package:http/http.dart' as http;
-import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:polkawallet_sdk/utils/localStorage.dart';
 import 'package:wallet_apps/src/service/apiKeyring.dart';
 // import 'package:bitcoin_flutter/bitcoin_flutter.dart';
@@ -550,16 +548,16 @@ class ApiProvider with ChangeNotifier {
 
   Future<String> decryptPrivateKey(String privateKey, String password) async {
     final String key = Encrypt.passwordToEncryptKey(password);
-    final String decryted = await FlutterAesEcbPkcs5.decryptString(privateKey, key);
-    return decryted;
+    final String? decryted = await FlutterAesEcbPkcs5.decryptString(privateKey, key);
+    return decryted!;
   }
 
   Future<String> encryptPrivateKey(String privateKey, String password) async {
     try {
 
       final String key = Encrypt.passwordToEncryptKey(password);
-      final String encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
-      return encryted;
+      final String? encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
+      return encryted!;
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Error encryptPrivateKey $e");
     }

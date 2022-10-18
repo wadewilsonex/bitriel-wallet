@@ -121,7 +121,7 @@ class ReceiveWalletBody extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(bottom: 21),
                     // ignore: deprecated_member_use
-                    child: FlatButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         method!.qrShare(keyQrShare!, wallet!);
                       },
@@ -148,7 +148,7 @@ class ReceiveWalletBody extends StatelessWidget {
                   ),
                   
                   // ignore: deprecated_member_use
-                  FlatButton(
+                  ElevatedButton(
                     onPressed: () {
                       Clipboard.setData(
                         ClipboardData(text: wallet),

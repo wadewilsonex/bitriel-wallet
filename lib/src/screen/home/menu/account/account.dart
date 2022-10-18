@@ -158,12 +158,12 @@ class _AccountState extends State<Account> {
     ).then(
       (value) => {
         // ignore: deprecated_member_use
-        Scaffold.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Copied to Clipboard'),
-            duration: Duration(seconds: 3),
-          ),
-        ),
+        // Scaffold.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Copied to Clipboard'),
+        //     duration: Duration(seconds: 3),
+        //   ),
+        // ),
       },
     );
   }

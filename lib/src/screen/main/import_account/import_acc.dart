@@ -211,7 +211,7 @@ class ImportAccState extends State<ImportAcc> {
         const Text("You haved imported successfully"),
         const Text('Congratulation'),
         // ignore: deprecated_member_use
-        action: FlatButton(
+        action: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
             Navigator.pushNamedAndRemoveUntil(
