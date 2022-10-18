@@ -1,9 +1,16 @@
 import 'dart:ui';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class AddAsset extends StatefulWidget {
   static const route = '/addasset';
+
+  final int? network;
+
+  const AddAsset({Key? key, this.network = 0}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return AddAssetState();
@@ -14,17 +21,13 @@ class AddAssetState extends State<AddAsset> {
 
   final ModelAsset _modelAsset = ModelAsset();
 
-  final FlareControls _flareController = FlareControls();
-
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
-
-  FlareControls flareController = FlareControls();
   
   String _tokenSymbol = '';
-  int initialValue = 0;
+  int? initialValue;
 
   List<Map<String, dynamic>> networkSymbol = [
-    {"symbol": "Binance Smart Chain", "index": 0},
+    {"symbol": "BSC", "index": 0},
     {"symbol":"Ethereum", "index": 1}
   ];
 
@@ -32,7 +35,8 @@ class AddAssetState extends State<AddAsset> {
   void initState() {
     _modelAsset.result = {};
     _modelAsset.match = false;
-    AppServices.noInternetConnection(globalKey);
+    initialValue = widget.network;
+    AppServices.noInternetConnection(context: context);
 
     super.initState();
   }
@@ -43,7 +47,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateEtherAddress $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateEtherAddress $e");
+        }
+      }
     }
     return false;
   }
@@ -54,7 +62,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error validateAddress $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateAddress $e");
+        }
+      }
     }
     return false;
   }
@@ -85,21 +97,22 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> addAsset() async {
 
-    bool isMatch = false;
+    FocusScope.of(context).unfocus();
     
     try {
 
       dialogLoading(context);
 
-      final lsContract = await Provider.of<ContractProvider>(context, listen: false).listContract;
-      lsContract.forEach((element) async {
-        if (_modelAsset.controllerAssetCode.text == element.address){
-          isMatch = true;
+      final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
+      for (var element in lsContract) {
+        if (_modelAsset.controllerAssetCode.text == (ApiProvider().isMainnet ? element.contract : element.contractTest)){
+          _modelAsset.added = true;
         }
-      });
+      }
 
-      if (isMatch){
-
+      if (_modelAsset.added){
+        _modelAsset.added = false;
+        if(!mounted) return;
         Navigator.pop(context);
         
         await showDialog(
@@ -107,11 +120,11 @@ class AddAssetState extends State<AddAsset> {
           builder: (context) {
             return AlertDialog(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
+              title: const Align(
                 child: Text('Oops'),
               ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              content: const Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Text(
                 "This contract address already in your list",
                 textAlign: TextAlign.center
@@ -127,22 +140,36 @@ class AddAssetState extends State<AddAsset> {
           },
         );
       } else {
-        
         await Provider.of<ContractProvider>(context, listen: false).addToken(
           _tokenSymbol,
           context,
-          network: networkSymbol[initialValue]['symbol'],
+          network: networkSymbol[initialValue!]['symbol'],
           contractAddr: _modelAsset.controllerAssetCode.text,
         );
-
+        
+        if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
 
         /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
+        if(!mounted) return;
         await StorageServices.storeAssetData(context);
         await enableAnimation();
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error addAsset $e");
+
+      // Close Dialog Loading
+      Navigator.pop(context);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error addAsset $e");
+        }
+      }
+
+      DialogComponents().dialogCustom(
+        context: context,
+        titles: "Opps",
+        contents: e.toString(),
+      );
     }
   }
 
@@ -150,93 +177,85 @@ class AddAssetState extends State<AddAsset> {
     try {
     
       setState(() {
+        _tokenSymbol = "";
         _modelAsset.loading = true;
       });
 
+      // Validate For ERC-20 || BEP-20
       final resEther = await Provider.of<ApiProvider>(context, listen: false).validateEther(_modelAsset.controllerAssetCode.text);//validateEtherAddress(_modelAsset.controllerAssetCode.text);
-
+      // Validate For Substrate Address
+      if(!mounted) return;
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
-
       if (res || resEther) {
-        if (res) {
-          if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
-            setState(() {
-              _modelAsset.match = true;
-              _modelAsset.loading = false;
-            });
-          }
-        } else {
 
-          if (initialValue == 'Ethereum') {
+        // if (res) {
+
+          // if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
+          //   setState(() {
+          //     _modelAsset.match = true;
+          //     _modelAsset.loading = false;
+          //   });
+          // }
+        // } else {
+
+          // Check And Add Address ERC-20 || BEP-20
+          if (initialValue == 1) { // 1 = Ethereum
+
             await searchEtherContract();
-          } else {
+          } 
+          else {
+            if(!mounted) return;
             final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
+            if (kDebugMode) {
+              print("res $res");
+            }
             _tokenSymbol = res[0].toString();
-          }
-          setState(() {
+
+
+
+            await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
+            if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
+                  
+              setState(() {
+                _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
+              });
+              
+              print("Provider.of<MarketProvider>(context, listen: false).lsCoin ${Provider.of<MarketProvider>(context, listen: false).lsCoin}");
+              await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
           
+            }
+          }
+
+          setState(() {
+            
             _modelAsset.loading = false;
           });
-        }
+        // }
       } else {
-        
-        await showDialog(
+        DialogComponents().dialogCustom(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: Text('Opps'),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text('Invalid token contract address!'),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ]
-            );
-          },
+          titles: "Opps",
+          contents: "Invalid token contract address!",
         );
-        //await dialog('Invalid token contract address!', 'Opps');
+        
         setState(() {
           _modelAsset.loading = false;
         });
       }
     } catch (e) {
-      setState(() {
-      
-        _modelAsset.loading = false;
-      });
+      setState(() {_modelAsset.loading = false;});
 
-      await showDialog(
+      DialogComponents().dialogCustom(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
-              child: Text('Oops'),
-            ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-              child: Text(
-              "$e",
-              textAlign: TextAlign.center
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
+        titles: "Opps",
+        contents: "$e",
       );
-      if (ApiProvider().isDebug == false) print("Error submitAsset $e");
+
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error submitAsset $e");
+        }
+      }
     }
   }
 
@@ -250,14 +269,19 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error searchEtherContract $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error searchEtherContract $e");
+        }
+      }
+      throw Exception(e);
     }
   }
 
   void onSubmit() {
-    if (_modelAsset.formStateAsset.currentState!.validate()) {
+    // if (_modelAsset.formStateAsset.currentState!.validate()) {
       submitAsset();
-    }
+    // }
   }
 
   String? onChanged(String textChange) {
@@ -277,7 +301,8 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void qrRes(String value) {
-    if (value != null) {
+    // if (value != null) {
+    if (value.isNotEmpty) {
       setState(() {
         _modelAsset.controllerAssetCode.text = value;
         _modelAsset.enable = true;
@@ -295,10 +320,10 @@ class AddAssetState extends State<AddAsset> {
     setState(() {
       _modelAsset.added = true;
     });
-    flareController.play('Checkmark');
 
-    Timer(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+    await Future.delayed(const Duration(seconds: 1), () {
+      // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+      Navigator.pushReplacement(context, Transition(child: const HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
     });
   }
 
@@ -306,6 +331,30 @@ class AddAssetState extends State<AddAsset> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
+      appBar: AppBar(
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        elevation: 0,
+        bottomOpacity: 0,
+        leadingWidth: 7.w,
+        title: MyText(
+          text: "Add Asset",
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 17,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Iconsax.arrow_left_2,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           AddAssetBody(
@@ -329,13 +378,22 @@ class AddAssetState extends State<AddAsset> {
                 sigmaX: 5.0,
                 sigmaY: 5.0,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(_flareController, AppConfig.animationPath+"check.flr", "Checkmark"),
-                  ),
-                ],
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Lottie.asset(
+                        "assets/animation/check.json",
+                        alignment: Alignment.center,
+                        width: 60.w,
+                      )
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

@@ -1,12 +1,11 @@
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/screen/home/discover/discover.dart';
-import 'package:wallet_apps/src/screen/home/transaction/send.dart';
-import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class MySplashScreen extends StatefulWidget {
+  const MySplashScreen({Key? key}) : super(key: key);
+
   //static const route = '/';
   @override
   State<StatefulWidget> createState() {
@@ -19,37 +18,45 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   AnimationController? controller;
   Animation<double>? animation;
 
+  @override
+  void initState() {
+    readTheme();
+    // checkBio();
+    getCurrentAccount();
+
+    // final window = WidgetsBinding.instance.window;
+    // window.onPlatformBrightnessChanged = () {
+    //   readTheme();
+    // };
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   // First Check
   Future<void> getCurrentAccount() async {
-<<<<<<< HEAD
 
-    // print("getCurrentAccount");
-      // await Future.delayed(const Duration(seconds: 1), () async {
-      //     Navigator.pushReplacement(context, RouteAnimation(enterPage: ClaimAirDrop())); 
-      // });
-=======
->>>>>>> dev
+    // await Future.delayed(const Duration(seconds: 1), () async {
+    //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+
+    // });
     
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', false, Provider.of<ContractProvider>(context, listen: false).sortListContract, asset: "SEL",)));
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
-<<<<<<< HEAD
-        await StorageServices().readSecure('private')!.then((String? value) async {
-          if (value == null || value.isEmpty) {
-=======
 
         await StorageServices().readSecure(DbKey.private)!.then((String value) async {
           if (value.isEmpty) {
->>>>>>> dev
-            Navigator.pushReplacement(context, RouteAnimation(enterPage: Welcome()));
+            Navigator.pushReplacement(context, RouteAnimation(enterPage: const Welcome()));
           } else {
+            
             final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
-<<<<<<< HEAD
-            if (ethAddr == null) {
-=======
             if (ethAddr == '') {
->>>>>>> dev
+              if(!mounted) return;
               await dialogSuccess(
                 context,
                 const Padding(
@@ -71,7 +78,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
                       ),
                     );
                   },
-                  child: const MyText(text: 'Continue', color: AppColors.secondarytext),
+                  child: const MyText(text: 'Continue', hexaColor: AppColors.secondarytext),
                 ),
               );
             } else {
@@ -82,62 +89,53 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error Splash screen $e");
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Welcome() ), (route) => false);
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error Splash screen $e");
+        }
+      }
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Welcome() ), (route) => false);
     }
   }
   
   Future<void> checkBio() async {
-    
     final bio = await StorageServices.readSaveBio();
 
-    final passCode = await StorageServices().readSecure(DbKey.passcode);
+    // final passCode = await StorageServices().readSecure(DbKey.passcode);
 
-<<<<<<< HEAD
-    await StorageServices().readSecure('private')!.then((value) {});
-
-    if (bio && passCode != '') {
-=======
-    if (bio == false && passCode != '') {
->>>>>>> dev
+    if (bio == true) {
+      if(!mounted) return;
       Navigator.pushReplacement(
         context,
-        RouteAnimation(
-          enterPage: const Passcode(isHome: 'home'),
+        Transition(
+          transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+          child: const FingerPrint(
+            isEnable: true,
+          ),
         ),
       );
+
     } else {
       if (bio) {
+        if(!mounted) return;
         Navigator.pushReplacement(
           context,
-          RouteAnimation(
-            enterPage: FingerPrint(),
+          Transition(
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
+            child: const FingerPrint(
+              isEnable: true,
+            ),
           ),
         );
       } 
-      // else if (passCode != null) {
-      //   Navigator.pushReplacement(
-      //     context,
-      //     RouteAnimation(
-      //       enterPage: const Passcode(isHome: 'home'),
-      //     ),
-      //   );
-      // } 
+      
       else {
-<<<<<<< HEAD
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Wallet() ));
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => SubmitTrx('', true, [], asset: "SEL",)
-        // ConfirmationTx(
-        //   trxInfo: TransactionInfo(),
-        //   sendTrx: (){},
-        //   gasFeetoEther: "0.0",
-        // )
-        // ));
-        // Navigator.pushReplacementNamed(context, Home.route);
-=======
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode()));
-        Navigator.pushReplacementNamed(context, Home.route);
->>>>>>> dev
+        if(!mounted) return;
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     }
   }
@@ -148,56 +146,38 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         Navigator.pushReplacement(
           context,
           RouteAnimation(
-            enterPage: FingerPrint(),
+            enterPage: const FingerPrint(),
           ),
         );
       } else {
-        Navigator.pushReplacementNamed(context, Home.route);
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     });
   }
 
-  @override
-  void initState() {
-    readTheme();
-    getCurrentAccount();
-
-    // final window = WidgetsBinding.instance.window;
-    // window.onPlatformBrightnessChanged = () {
-    //   readTheme();
-    // };
-
-    super.initState();
-  }
-
   void readTheme() async {
-    
-    final res = await StorageServices.fetchData(DbKey.themeMode);
-    // final sysTheme = _checkIfDarkModeEnabled();
+    try {
+      final res = await StorageServices.fetchData(DbKey.themeMode);
 
-<<<<<<< HEAD
-    // print("sysTheme $sysTheme");
-    // print("res $res");
+      if (res != null) {
+        if(!mounted) return;
+        await Provider.of<ThemeProvider>(context, listen: false).changeMode();
+      } else {
+        if(!mounted) return;
+        Provider.of<ThemeProvider>(context, listen: false).setTheme = false;
+      }
 
-=======
->>>>>>> dev
-    if (res != null) {
-      await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    } else {
-      Provider.of<ThemeProvider>(context, listen: false).setTheme = true;
+    } catch (e) {
+      if(ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("Error readTheme $e");
+        }
+      }
     }
-
-    // await StorageServices.removeKey(DbKey.themeMode);
-
-
-    //  else {
-    //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // if (sysTheme) {
-    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // } else {
-    //   //   Provider.of<ThemeProvider>(context, listen: false).changeMode();
-    //   // }
-    // }
   }
 
   void systemThemeChange() async {
@@ -206,30 +186,32 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     if (res == null) {
       if (sysTheme) {
+        if(!mounted) return;
         Provider.of<ThemeProvider>(context, listen: false).changeMode();
       } else {
+        if(!mounted) return;
         Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     }
   }
 
   bool _checkIfDarkModeEnabled() {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool darkModeOn = brightness == Brightness.dark;
     return darkModeOn;
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
+    return Consumer<ThemeProvider>(
+      builder: (context, provider, widget) {
+        return Scaffold(
+          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+          body: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
     );
   }
 }

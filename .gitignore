@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
+
 
 **/doc/api/
 **/ios/Flutter/.last_build_id
@@ -20,11 +17,7 @@ android/app/google-services.json
 .pub/
 .pubspec.lock
 /build/
-<<<<<<< HEAD
 .vscode/
-/home/chay/bitriel-wallet/.vscode
-=======
->>>>>>> master
 
 # Android Studio will place build artifacts here
 /android/app/debug
@@ -41,12 +34,7 @@ ios/Runner.xcworkspace/contents.xcworkspacedata
 #android specific
 android/app/google-services.json
 android/key.properties
-<<<<<<< HEAD
 android/.gradle/5.6.2/executionHistory/executionHistory.bin
-=======
-
-/lib/config/app_config.dart
->>>>>>> master
 
 # User-specific
 .idea/**/workspace.xml
@@ -82,8 +70,6 @@ android/.gradle/5.6.2/executionHistory/executionHistory.bin
 
 # IntelliJ
 out/
-<<<<<<< HEAD
-=======
 # Miscellaneous
 *.class
 *.log
@@ -109,8 +95,6 @@ out/
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
-<<<<<<< HEAD
-<<<<<<< HEAD
 android/key.properties
 .dart_tool/
 .flutter-plugins
@@ -119,16 +103,9 @@ android/key.properties
 .flutter-plugins~origin_dev
 .packages~origin_dev
 .flutter_01.sksl.json
-=======
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
->>>>>>> dev
-=======
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
->>>>>>> chay
 .packages
 .pub-cache/
 .pub/
@@ -143,26 +120,17 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
-=======
-=======
->>>>>>> chay
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 js_api/node_modules/
 js_as_extension/node_modules/
-<<<<<<< HEAD
->>>>>>> dev
-=======
->>>>>>> b06209da4d295956fc603e1f051cbdcbaadbeb67
->>>>>>> chay
-=======
 
 /vscode/
->>>>>>> master
+
+# env file
+.env

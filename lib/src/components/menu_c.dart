@@ -1,124 +1,83 @@
 /* The components file has custom widgets which are used by multiple different screens */
-
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
+import 'package:wallet_apps/src/components/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuHeader extends StatelessWidget {
   
   final Map<String, dynamic>? userInfo;
-
-  const MenuHeader({this.userInfo});
+ 
+  const MenuHeader({Key? key, this.userInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final acc = Provider.of<ApiProvider>(context).accountM;
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
 
     return Container(
-      margin: const EdgeInsets.only(left: 16),
-      child: SizedBox(
-        height: 138,
-        child: Consumer<ApiProvider>(
-          builder: (context, value, child) {
-            return Row(
-              children: [
+      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+      margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+      decoration: BoxDecoration(
+        gradient: isDarkMode ? null : LinearGradient(
+          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight, 
+          stops: const [0.25, 0.75],
+        ),
+        color: isDarkMode ? hexaCodeToColor(AppColors.bluebgColor ) : null,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Consumer<ApiProvider>(
+        builder: (context, value, child) {
+          return Row(
+            children: [
+              
+              InkWell(
+                onTap: value.accountM.address == null ? null : () {
+                  Navigator.push(
+                    context,
+                    Transition(
+                      child: const Account(),
+                      transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    )
+                  );
+                },
+                child: AvatarShimmer(
+                  txt: value.accountM.addressIcon,
+                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0.w, height: 5.0.w)
+                  // SvgPicture.string(
+                  //   value.accountM.addressIcon ?? '',
+                  //   width: 5.0.w,
+                  //   // height: 8.0,
+                  // )
+                )
+              ),
                 
-                InkWell(
-                  onTap: acc.address == null ? null : () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Account())
-                    );
-                  },
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: acc.addressIcon == null 
-                    ? Shimmer.fromColors(
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        margin: EdgeInsets.only(bottom: 3),
-                        decoration: BoxDecoration(
-                          color: isDarkTheme
-                            ? hexaCodeToColor(AppColors.whiteHexaColor)
-                            : Colors.grey.shade400,
-                          shape: BoxShape.circle,
-                        ),
-                      ), 
-                      period: const Duration(seconds: 2),
-                      baseColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : Colors.grey[300]!,
-                      highlightColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkBgd)
-                        : Colors.grey[100]!,
-                    ) 
-                    : Container(
-                      width: 60,
-                      height: 60,
-                      margin: const EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.whiteHexaColor)
-                          : Colors.grey.shade400,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.string(acc.addressIcon!),
-                    ),
-                  ),
-                ),
+              const SizedBox(width: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   
-                const SizedBox(width: 5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    acc.name != null 
-                    ? MyText(
-                      bottom: 3,
-                      text: acc.name ?? '',
-                      color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
-                      fontSize: 16,
-                    ) 
-                    : Shimmer.fromColors(
-                      child: Container(
-                        width: 100,
-                        height: 8.0,
-                        margin: EdgeInsets.only(bottom: 3),
-                        color: Colors.white,
-                      ), 
-                      period: const Duration(seconds: 2),
-                      baseColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : Colors.grey[300]!,
-                      highlightColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkBgd)
-                        : Colors.grey[100]!,
-                    ),
-                    
-                    acc.address != null
-                    ? Row(
+                  TextShimmer(txt: value.accountM.name),
+                  
+                  WidgetShimmer(
+                    txt: value.accountM.address, 
+                    child: Row(
                       children: [
+                        
                         MyText(
                           right: 5,
-                          text: acc.address!.replaceRange( 5, acc.address!.length - 5, "....."),
-                          color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                          fontSize: 16,
+                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
+                          hexaColor: AppColors.lowWhite,
+                          fontSize: 13,
                           textAlign: TextAlign.left
                         ),
                         InkWell(
                           onTap: () async {
                             await Clipboard.setData(
-                              ClipboardData(text: acc.address!),
+                              ClipboardData(text: value.accountM.address ??''),
                             );
                             Fluttertoast.showToast(
                               msg: "Copied address",
@@ -127,70 +86,65 @@ class MenuHeader extends StatelessWidget {
                             );
                           }, 
                           child: SvgPicture.asset(
-                            AppConfig.iconsPath+'qr_code.svg',
-                            width: 20,
-                            height: 20,
-                            color: hexaCodeToColor(AppColors.secondary),
+                            '${AppConfig.iconsPath}qr_code.svg',
+                            width: 5.w,
+                            height: 5.w,
+                            color: hexaCodeToColor(isDarkMode ? AppColors.secondary : AppColors.whiteColorHexa),
                           )
                         )
                       ]
                     )
-                    : Shimmer.fromColors(
-                      child: Container(
-                        width: 150,
-                        height: 8.0,
-                        color: Colors.white,
-                      ), 
-                      period: const Duration(seconds: 2),
-                      baseColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkCard)
-                        : Colors.grey[300]!,
-                      highlightColor: isDarkTheme
-                        ? hexaCodeToColor(AppColors.darkBgd)
-                        : Colors.grey[100]!,
-                    )
-                  ],
-                )
-              ],
-            );
-          },
-        ),
+                  )
+
+
+                ],
+              )
+            ],
+          );
+        },
       ),
     );
   }
 }
 
 class MenuSubTitle extends StatelessWidget {
+  
   final int? index;
 
-  const MenuSubTitle({this.index});
+  MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return Container(
       padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
-      color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
-          : Colors.grey[200],
+      // color: isDarkMode
+      //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
+      //   : Colors.grey[200],
       height: 55,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: MyText(
-              fontSize: 16,
-              text: MenuModel.listTile[index!]['title'].toString(),
-              color: AppColors.secondarytext,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 5,
+          Row(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: MyText(
+                  text: MenuModel.listTile[index!]['title'].toString(),
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                  textAlign: TextAlign.start,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Expanded(
+                child: Divider(
+                  thickness: 0.5,
+                  color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.darkGrey),
+                  indent: 10,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -199,6 +153,7 @@ class MenuSubTitle extends StatelessWidget {
 }
 
 class MyListTile extends StatelessWidget {
+  final Widget? icon;
   final void Function()? onTap;
   final int? index;
   final int? subIndex;
@@ -206,29 +161,29 @@ class MyListTile extends StatelessWidget {
   final bool? enable;
 
   const MyListTile({
+    Key? key, 
+    this.icon,
     @required this.index,
     @required this.subIndex,
     this.enable = true,
     this.trailing,
     @required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return ListTile(
-      contentPadding: const EdgeInsets.only(left: 30),
       enabled: enable!,
       onTap: onTap,
-      leading: SvgPicture.asset(
+      leading: icon ?? Image.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
-        color: isDarkTheme ? Colors.white : Colors.black,
-        width: 30,
-        height: 30
+        color: isDarkMode ? Colors.white : Colors.black,
+        width: 22.5.sp,
+        height: 22.5.sp
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
-        color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
         textAlign: TextAlign.left,
         fontSize: 16,
       ),

@@ -1,9 +1,11 @@
 import 'dart:ui' as ui;
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
+import 'package:wallet_apps/src/components/pie_chart.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
 /* Size */
@@ -11,6 +13,7 @@ const double size1 = 1.0;
 const double size2 = 2.0;
 const double size4 = 4.0;
 const double size5 = 5.0;
+const double size8 = 8.0;
 const double size10 = 10.0;
 const double size17 = 17.0;
 const double size34 = 34.0;
@@ -46,10 +49,12 @@ Route transitionRoute(
       opaque: false,
       pageBuilder: (context, animation, secondaryAnimation) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final begin = Offset(double.parse(offsetLeft.toString()),
-            double.parse(offsetRight.toString()));
+        final begin = Offset(
+          double.parse(offsetLeft.toString()),
+          double.parse(offsetRight.toString())
+        );
         const end = Offset.zero;
-        final curve = Curves.fastOutSlowIn;
+        const curve = Curves.fastOutSlowIn;
         final tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         return SlideTransition(
@@ -118,14 +123,14 @@ BoxShadow shadow(BuildContext context,
     double? blurRadius, 
     double? spreadRadius, 
     Offset? offset}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+   
   return BoxShadow(
-    color: hexaCode != null ? hexaCode : isDarkTheme
+    color: hexaCode ?? (isDarkMode
         ? hexaCodeToColor(AppColors.darkBgd)
-        : Colors.grey.withOpacity(0.2),
+        : Colors.grey.withOpacity(0.2)),
     blurRadius: blurRadius ?? 6.0,
     spreadRadius: spreadRadius ?? 2.0,
-    offset: offset ?? Offset(0.5, 2.0),
+    offset: offset ?? const Offset(0.5, 2.0),
   );
 }
 
@@ -144,21 +149,19 @@ Widget customFlatButton(
     margin: edgeMargin,
     width: double.infinity,
     height: 50.0,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size5), boxShadow: [boxShadow]),
-    // ignore: deprecated_member_use
-    child: FlatButton(
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(size5), boxShadow: [boxShadow]),
+    child: TextButton(
       onPressed: action == null
       ? null
       : () {
           action(context);
         },
-      color: hexaCodeToColor(buttonColor),
-      disabledTextColor: Colors.black54,
-      disabledColor: Colors.grey[700],
-      focusColor: hexaCodeToColor("#83B6BD"),
-      textColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(size5)),
+      style: TextButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(size5)),
+        ),
+        backgroundColor: hexaCodeToColor(buttonColor),
+      ),
       child: Text(
         textButton,
         style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
@@ -196,7 +199,7 @@ Widget scaffoldBGDecoration(
     width: double.infinity,
     height: double.infinity,
     padding: EdgeInsets.only(top: top!, right: right!, bottom: bottom!, left: left!),
-    decoration: scaffoldBGColor(AppColors.bgdColor, AppColors.bgdColor),
+    decoration: scaffoldBGColor(AppColors.lowWhite, AppColors.lowWhite),
     child: SafeArea(
       child: child!,
     ),
@@ -225,74 +228,59 @@ BoxDecoration signOutColor() {
 /* Dialog of response from server */
 // ignore: type_annotate_public_apis
 
-Future<void> successDialog(BuildContext context, String operationText) async {
+Future<void> successDialog(
+  BuildContext context, String operationText, {
+    Widget? route = const HomePage()
+}) async {
+  await Future.delayed(const Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          content: Container(
-            // height: MediaQuery.of(context).size.height / 2.6,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 28,
-                  ),
-                  SvgPicture.asset(
-                    AppConfig.iconsPath+'tick.svg',
-                    height: 100,
-                    width: 100,
-                  ),
-                  const MyText(
-                    text: 'SUCCESS!',
-                    fontSize: 22,
-                    top: 45,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  MyText(
-                    top: 8.0,
-                    fontSize: 16,
-                    text: 'You have successfully ' + operationText,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      // ignore: deprecated_member_use
-                      SizedBox(
-                        height: 50,
-                        width: 140,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(hexaCodeToColor(AppColors.secondary)),
-                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                          ),
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              color: hexaCodeToColor('#ffffff'),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        backgroundColor: hexaCodeToColor(AppColors.darkBgd),
+        content: SizedBox(
+          // height: MediaQuery.of(context).size.height / 2.6,
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+
+                Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+                const MyText(
+                  text: 'SUCCESS!',
+                  fontSize: 20,
+                  top: 10,
+                  hexaColor: AppColors.lowWhite,
+                  fontWeight: FontWeight.bold,
+                ),
+                MyText(
+                  top: 8.0,
+                  hexaColor: AppColors.lowWhite,
+                  text: 'You have successfully $operationText',
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.1,
+                ),
+
+                MyGradientButton(
+                  textButton: "Continue",
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: (){
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(context, Transition(child: route!), ModalRoute.withName('/'));
+                  }
+                )
+
+              ],
             ),
-          ));
+          ),
+        )
+      );
     },
   );
 }
@@ -459,7 +447,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
     builder: (context) {
       return AlertDialog(
         title: const Center(
-            child: MyText(
+          child: MyText(
           text: 'Transaction Detail',
           fontWeight: FontWeight.bold,
         )),
@@ -621,18 +609,27 @@ Widget progress({String? content}) {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            CircularProgressIndicator(
-              backgroundColor: Colors.transparent,
-              valueColor: AlwaysStoppedAnimation(
-                hexaCodeToColor(AppColors.secondary)
-              )
+            Lottie.asset(
+              "assets/animation/blockchain-animation.json",
+              repeat: true,
+              reverse: true,
+              width: 75.w,
             ),
+            // CircularProgressIndicator(
+            //   backgroundColor: Colors.transparent,
+            //   valueColor: AlwaysStoppedAnimation(
+            //     hexaCodeToColor(AppColors.secondary)
+            //   )
+            // ),
             if (content == null)
             Container()
             else
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0, top: 16.0),
-              child: textScale(text: content, hexaColor: "#FFFFFF"),
+              child: MyText(
+                text: content, 
+                hexaColor: AppColors.whiteColorHexa,
+              ),
             ),
           ],
         )
@@ -646,7 +643,27 @@ dialogLoading(BuildContext context, {String? content}) {
     barrierDismissible: true,
     context: context,
     builder: (context) {
-      return progress(content: content);
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: progress(content: content)
+      );
+      // WillPopScope(
+      //   onWillPop: () => Future(() => false),
+      //   child: ,
+      // );
+    }
+  );
+}
+
+dialogLoadingCustom(BuildContext context) {
+  return showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      return const MyText(
+        text: "This processing may take a bit longer\nPlease wait a moment",
+        textAlign: TextAlign.center,
+      );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
       //   child: ,
@@ -772,8 +789,7 @@ Widget logoSize(
   double width,
   double height,
 ) {
-  return Image.asset(logoName,
-      width: width, height: height, color: Colors.white);
+  return Image.asset(logoName,width: width, height: height, color: Colors.white);
 }
 
 /* -----------------------------------Text Style--------------------------------------------------- */
@@ -799,33 +815,20 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey _keyQrShare) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: hexaCodeToColor(AppColors.secondarytext),
-          ),
-          borderRadius: BorderRadius.circular(6),
-          color: Colors.white,
-        ),
-        width: 300.0,
-        height: 300.0,
-        child: QrImage(
-          backgroundColor: Colors.white,
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
+  return SizedBox(
+    width: 45.w,
+    child: QrImage(
+      padding: EdgeInsets.zero,
+      backgroundColor: Colors.white,
 
-          //embeddedImage: AssetImage(logoName),
-          embeddedImageStyle: QrEmbeddedImageStyle(
-            size: const Size(70, 70),
-          ),
-          // version: QrVersions.auto,
-          data: wallet,
-        ),
+      // embeddedImage: logoName.contains("http") ?  : AssetImage(logoName),
+      embeddedImageStyle: QrEmbeddedImageStyle(
+        // size: Size(10.w, 10.h),
       ),
-    ],
+      // version: QrVersions.auto,
+      data: wallet,
+    ),
   );
 }
 
@@ -844,7 +847,7 @@ Widget textNotification(String text, BuildContext context) {
 
 /*----------------------------------------------- Field Icons trigger Widget ----------------------------------------------------- */
 Widget fieldPicker(BuildContext context, String labelText, String widgetName,
-    IconData icons, dynamic _model, dynamic method) {
+    IconData icons, dynamic model, dynamic method) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -916,7 +919,7 @@ Widget inputField(
     textInputAction: inputAction,
     style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 18.0),
     validator: (String? value){
-      validateField!(value);
+      return validateField!(value);
     },
     decoration: InputDecoration(
         labelText: labelText,
@@ -962,7 +965,7 @@ Widget inputField(
 Widget customDropDown(
     String label,
     List<Map<String, dynamic>>? list,
-    dynamic _model,
+    dynamic model,
     Function changeValue,
     PopupMenuItem Function(Map<String, dynamic>) item) {
   /* Custom DropDown */
@@ -1085,5 +1088,97 @@ Widget disableNativePopBackButton(Widget child) {
   return WillPopScope(
     onWillPop: () => Future(() => false),
     child: child,
+  );
+}
+
+Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contentPadding: EdgeInsets.zero,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/under-construction.json",
+      repeat: true,
+      reverse: true,
+      height: 25.h,
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> portfolioDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    textButton: "OK",
+    contents2: const ChartData(),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      textColor: AppColors.lowWhite,
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
+  return DialogComponents().dialogCustom(
+    context: context,
+    contents: "Under Construction",
+    textButton: "OK",
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    lottie: Lottie.asset(
+      "assets/animation/under-construction.json",
+      width: 75.w, 
+      repeat: true,
+
+    ),
+    btn2: MyGradientButton(
+      textButton: "OK",
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      action: () async {
+        Navigator.pop(context!);
+      },
+    )
+  );
+}
+
+Widget textRowWidget(String leadingText, String trailingText) {
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 10.0,),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+
+        Expanded(
+          child: MyText(
+            text: leadingText,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.start,
+          ),
+        ),
+
+        // SizedBox(width: 20.w,),
+        // Expanded(child: Container()),
+        Expanded(
+          child: MyText(
+            text: trailingText,
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    ),
   );
 }

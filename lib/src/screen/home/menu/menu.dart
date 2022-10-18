@@ -1,13 +1,15 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
 class Menu extends StatefulWidget {
-  final Map<String, dynamic> _userData;
+  final Map<String, dynamic>? userData;
 
-  const Menu(
-    this._userData
-  );
+  const Menu({
+    Key? key, 
+    this.userData
+}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,12 +23,14 @@ class MenuState extends State<Menu> {
   final LocalAuthentication _localAuth = LocalAuthentication();
 
   /* Login Inside Dialog */
-  bool isDarkTheme = false;
+  // bool isDarkMode = false;
 
   /* InitState */
   @override
   void initState() {
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
+
+    Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
 
     readBio();
     checkAvailableBio();
@@ -40,9 +44,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkPasscode() async {
-
     final res = await StorageServices().readSecure(DbKey.passcode);
-
     if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
@@ -92,16 +94,35 @@ class MenuState extends State<Menu> {
           setState(() { });
         });
       } else {
+        if(!mounted) return;
         snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
       }
     } catch (e) {
+      if(!mounted) return;
       await customDialog(context, 'Oops', e.toString());
     }
   }
 
-  void enablePassword(bool value) {
+  void enablePassword(bool value, {String? data}) async {
+    
+    _menuModel.switchPasscode = !_menuModel.switchPasscode;
+    if (_menuModel.switchPasscode){
+      await StorageServices().writeSecure(DbKey.passcode, data!);
+    } else {
+      await StorageServices().clearKeySecure(DbKey.passcode);
+    }
+    // print("passcode: ${_menuModel.}")
+
+    setState(() {});
+  }
+
+  void switchTheme(bool value) async {
+    // print("switchTheme $value");
+    // isDarkTheme.value = value;
+    // print("isDarkTheme.value ${isDarkTheme.value}");
+    Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
+    await Provider.of<ThemeProvider>(context, listen: false).changeMode();
     setState(() {
-      _menuModel.switchPasscode = value;
     });
   }
 
@@ -109,21 +130,16 @@ class MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Drawer(
       key: _menuModel.globalKey,
       child: SafeArea(
-        child: Container(
-          color: isDarkTheme
-            ? hexaCodeToColor(AppColors.darkBgd)
-            : hexaCodeToColor(AppColors.bgdColor),
-          child: SingleChildScrollView(
-            child: MenuBody(
-              userInfo: widget._userData,
-              model: _menuModel,
-              enablePassword: enablePassword,
-              switchBio: switchBiometric
-            ),
+        child: SingleChildScrollView(
+          child: MenuBody(
+            userInfo: widget.userData,
+            model: _menuModel,
+            enablePassword: enablePassword,
+            switchBio: switchBiometric,
+            switchTheme: switchTheme,
           ),
         ),
       ),

@@ -1,18 +1,17 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class ConfirmMnemonic extends StatefulWidget {
   final String passPhrase;
   final List passPhraseList;
-  const ConfirmMnemonic(this.passPhrase, this.passPhraseList);
+  const ConfirmMnemonic(this.passPhrase, this.passPhraseList, {Key? key}) : super(key: key);
 
   static const route = '/confirmMnemonic';
 
   @override
-  _ConfirmMnemonicState createState() => _ConfirmMnemonicState();
+  ConfirmMnemonicState createState() => ConfirmMnemonicState();
 }
 
-class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
+class ConfirmMnemonicState extends State<ConfirmMnemonic> {
   List<String> _wordsSelected = [];
 
   List? _mnemonic;
@@ -39,10 +38,10 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                         ? (r + 1) * 3
                         : _wordsLeft.length)
                 .map((i) {
-              final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+               
               return Container(
                 alignment: Alignment.center,
-                color: isDarkTheme
+                color: isDarkMode
                     ? hexaCodeToColor(AppColors.darkCard)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
                 padding: const EdgeInsets.only(
@@ -55,8 +54,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                   right: 4,
                   bottom: 4,
                 ),
-                // ignore: deprecated_member_use
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () {
                     setState(() {
                       _wordsLeft.remove(i);
@@ -66,7 +64,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                   },
                   child: MyText(
                     text: i.toString(),
-                    color: AppColors.secondarytext,
+                    hexaColor: AppColors.secondarytext,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -128,14 +126,14 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             MyAppBar(
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
@@ -153,7 +151,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                       text: AppString.confirmMnemonic,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
+                      hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.textColor,
                       bottom: 12, 
@@ -178,7 +176,7 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                         text: AppString.reset,
                         bottom: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.secondarytext,
+                        hexaColor: AppColors.secondarytext,
                       ),
                     ),
                   ),
@@ -192,20 +190,20 @@ class _ConfirmMnemonicState extends State<ConfirmMnemonic> {
                           width: 1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: isDarkTheme
+                    color: isDarkMode
                         ? hexaCodeToColor(AppColors.darkCard)
                         : hexaCodeToColor(AppColors.whiteHexaColor),
                     child: Container(
                       height: 80,
                       width: double.infinity,
                       margin: const EdgeInsets.only(bottom: 16),
-                      color: isDarkTheme
+                      color: isDarkMode
                           ? hexaCodeToColor(AppColors.darkCard)
                           : hexaCodeToColor(AppColors.whiteColorHexa),
                       padding: const EdgeInsets.all(16),
                       alignment: Alignment.centerLeft,
                       child: MyText(
-                        color: AppColors.secondarytext,
+                        hexaColor: AppColors.secondarytext,
                         textAlign: TextAlign.left,
                         text: _wordsSelected.join(' '),
                         fontWeight: FontWeight.bold,

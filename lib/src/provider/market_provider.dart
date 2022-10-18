@@ -1,11 +1,13 @@
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/provider/contract_provider.dart';
-import 'package:wallet_apps/src/provider/transaction_p.dart';
 
 import '../../index.dart';
 
 class MarketProvider with ChangeNotifier {
+  
+  http.Response? _res;
+
+  List<Map<String, dynamic>>? lsCoin = [];
+  Map<String, dynamic>? queried;
 
   List<String> id = [
     'kiwigo',
@@ -13,8 +15,7 @@ class MarketProvider with ChangeNotifier {
     'binancecoin',
     'polkadot',
     'bitcoin',
-    'attendant',
-    'selendra',
+    'selendra'
   ];
 
   List<Map<String, dynamic>> sortDataMarket = [];
@@ -26,6 +27,11 @@ class MarketProvider with ChangeNotifier {
       data = Market.fromJson(i);
     }
     return data;
+  }
+
+  set setLsCoin(List<dynamic> ls){
+    lsCoin = [];
+    lsCoin = List<Map<String, dynamic>>.from(ls);
   }
 
   Future<List<List<double>>?> fetchLineChartData(String id) async {
@@ -40,7 +46,7 @@ class MarketProvider with ChangeNotifier {
       prices = mData.prices;
     }
 
-    return prices ?? null;
+    return prices;
   }
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
@@ -54,14 +60,14 @@ class MarketProvider with ChangeNotifier {
 
         final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id[i]}'));
 
-        dynamic jsonResponse = await List<Map<String, dynamic>>.from(await json.decode(response.body));
-        print("index $i");
-        print("${id[i]} ${response.body.toString()}");
+        final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
+
         if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
-          // sortDataMarket.addAll({jsonResponse[0]});
+
+          sortDataMarket.addAll({jsonResponse[0]});
 
           final lineChartData = await fetchLineChartData(id[i]);
-          
+
           final res = parseMarketData(jsonResponse);
 
           if (i == 0) {
@@ -90,11 +96,14 @@ class MarketProvider with ChangeNotifier {
               jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
             );
           } else if (i == 3) {
-            contract.setDotMarket(
+            await api.setDotMarket(
               res!,
               lineChartData!,
               jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
+              jsonResponse[0]['price_change_percentage_24h']
+                  .toStringAsFixed(2)
+                  .toString(),
+              context: context
             );
           } else if (i == 4) {
             await api.setBtcMarket(
@@ -109,11 +118,14 @@ class MarketProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == false) print("error market $e");
+        if (ApiProvider().isDebug == true) {
+          if (kDebugMode) {
+            print("Error fetchTokenMarketPrice $e");
+          }
+        }
+        return;
       }
     }
-    
-    Provider.of<TrxProvider>(context, listen: false).totalAssetValue(context: context);
 
     // Sort Market Price
     // Map<String, dynamic> tmp = {};
@@ -129,4 +141,42 @@ class MarketProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
+    try {
+
+      _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
+      lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
+      lsCoin = lsCoin!.where((element){
+        if (element['symbol'].toLowerCase() == id.toLowerCase() && element['market_cap_rank'] != null){
+          return true;
+        }
+        return false;
+      }).toList();
+      return lsCoin!;
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error searchCoinFromMarket $e");
+        }
+      }
+    }
+    return lsCoin!;
+  }
+
+  Future<void> queryCoinFromMarket(String id) async {
+    try {
+
+      queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id'))).body)[0];
+      print("queried id $queried");
+    } catch (e){
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error queryCoinFromMarket $e");
+        }
+      }
+      return;
+    }
+  }
+  
 }

@@ -1,14 +1,7 @@
 class DbKey{
-<<<<<<< HEAD
-  static String marketkPrice = "marketkPrice";
-  static String listContract = "listContract";
-  static String addedContract = "addedContract";
-  static String ethContractList = "ethContractList";
-  static String contactList = "contactList";
-  static String defContactList = "defaultContactList";
-  static String signData = "signData";
-=======
   static String marketkPrice = "marketkPrice_key";
+  
+  static String assetCache = "assetCache_key";
   static String listContract = "listContract_key";
   static String addedContract = "addedContract_key";
   static String ethContractList = "ethContractList_key";
@@ -28,10 +21,12 @@ class DbKey{
   static String btcwif = "btcwif_key";
 
   static String txtHistory = "txthistory_key";
->>>>>>> dev
   
   static String themeMode = "themeMode_key";
   static String signData = "signData_key";
   static String token = "token_key";
   static String event = "event_key";
+  static String coinData = "coinData";
+
+  static String wcSession = "session";
 }

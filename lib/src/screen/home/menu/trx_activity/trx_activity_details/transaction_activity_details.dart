@@ -4,7 +4,7 @@ import 'package:wallet_apps/index.dart';
 class TransactionActivityDetails extends StatefulWidget {
   final Map<String, dynamic> _trxInfo;
 
-  const TransactionActivityDetails(this._trxInfo);
+  const TransactionActivityDetails(this._trxInfo, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +23,7 @@ class MyActivityDetailsState extends State<TransactionActivityDetails> {
 
   @override
   void initState() {
-    AppServices.noInternetConnection(_globalKey);
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 

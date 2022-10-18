@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../index.dart';
 
 class WalletProvider with ChangeNotifier {
@@ -48,13 +45,14 @@ class WalletProvider with ChangeNotifier {
       final market = Provider.of<MarketProvider>(context, listen: false);
 
       // Find Total Of All Asset
-      market.sortDataMarket.forEach((element) {
+      for (var element in market.sortDataMarket) {
         if (element['current_price'].runtimeType.toString() == 'int') {
           // To Convert Integer To Double By Plus With .0
           total = total + ((element['current_price']) + .0);
-        } else
+        } else {
           total += element['current_price'];
-      });
+        }
+      }
 
       // Loop Add Eacher Asset From Market
       for (int i = 0; i < market.sortDataMarket.length; i++) {
@@ -78,7 +76,11 @@ class WalletProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error fillWithMarketData $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error fillWithMarketData $e");
+        }
+      }
     }
     return null;
   }

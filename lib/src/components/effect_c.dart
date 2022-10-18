@@ -3,19 +3,20 @@ import 'package:wallet_apps/index.dart';
 
 class MyShimmer extends StatelessWidget{
 
-  final bool? isDarkTheme;
+  final bool? isDarkMode;
 
-  MyShimmer({this.isDarkTheme});
+  const MyShimmer({Key? key, this.isDarkMode}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     return Shimmer.fromColors(
       period: const Duration(seconds: 2),
-      baseColor: isDarkTheme!
-        ? hexaCodeToColor(AppColors.lowGrey)
-        : Colors.grey[300]!,
-      highlightColor: isDarkTheme!
-        ? hexaCodeToColor(AppColors.lowGrey)
-        : Colors.grey[100]!,
+      baseColor: isDarkMode!
+          ? hexaCodeToColor(AppColors.darkCard)
+          : Colors.grey[300]!,
+      highlightColor: isDarkMode!
+          ? hexaCodeToColor(AppColors.darkBgd)
+          : Colors.grey[100]!,
       child: ListView.builder(
         shrinkWrap: true,
         itemBuilder: (_, __) => Padding(
@@ -51,7 +52,8 @@ class MyShimmer extends StatelessWidget{
                         color: Colors.white,
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.0),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 2.0),
                       ),
                       Container(
                         width: double.infinity,

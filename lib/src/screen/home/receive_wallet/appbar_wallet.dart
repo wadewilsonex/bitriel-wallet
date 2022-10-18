@@ -1,62 +1,63 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-import 'package:wallet_apps/core/service/contract.dart';
 
 class QrViewTitle extends StatelessWidget {
-
+  final bool? isValue;
   final String? assetInfo;
   final String? initialValue;
   final Function? onChanged;
+  final List<Map<String, dynamic>>? listContract;
 
-  QrViewTitle({this.assetInfo, this.initialValue, this.onChanged});
+  const QrViewTitle({Key? key, this.isValue, this.assetInfo, this.initialValue, this.onChanged, required this.listContract}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    final contract = Provider.of<ContractProvider>(context);
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: 30),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-
-          // Align(
-          //   child: MyText(
-          //     text: 'Wallet',
-          //     fontSize: 20.0,
-          //     color: isDarkTheme
-          //       ? AppColors.whiteColorHexa
-          //       : AppColors.textColor,
-          //   ),
-          // ),
-          
-          if (assetInfo != null)
-            Container()
-          else
-          Align(
-            alignment: Alignment.topRight,
-            child: Consumer<WalletProvider>(
-              builder: (context, value, child) {
-                return ReuseDropDown(
-                  initialValue: initialValue,
-                  onChanged: (String? value){
-                    onChanged!(value);
-                  },
-                  itemsList: ContractService.getConSymbol(contract.sortListContract),
-                  style: TextStyle(
-                    color: isDarkTheme
-                      ? hexaCodeToColor( AppColors.darkSecondaryText)
-                      : hexaCodeToColor(AppColors.textColor),
-                  ),
+    return Theme(
+      data: ThemeData(
+        canvasColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg)
+      ),
+      child: Consumer<WalletProvider>(
+        builder: (context, value, child) {
+          return DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              value: isValue == true ? initialValue : null,
+              isExpanded: true,
+              dropdownElevation: 16,
+              dropdownPadding: EdgeInsets.zero,
+              dropdownDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: hexaCodeToColor(AppColors.primary), width: 1)
+              ),
+              itemHeight: 50,
+              itemPadding: EdgeInsets.zero,
+              icon: Icon(Icons.arrow_drop_down, color: hexaCodeToColor(AppColors.secondary),),
+              items: listContract!.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+                return DropdownMenuItem<String>(
+                  value: value['index'].toString(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: MyText(text: value['symbol'], overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                      Divider(
+                        color: hexaCodeToColor(AppColors.primary), 
+                        height: 1,
+                      )
+                    ],
+                  )
                 );
+              }).toList(),
+              // value: initialValue,
+              onChanged: (String? value){
+                onChanged!(value);
               },
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ModelScanPay {
   final formStateKey = GlobalKey<FormState>();
@@ -8,11 +7,12 @@ class ModelScanPay {
   /* Scan Pay */
   String? pin;
   String? asset;
-  int? assetValue;
+  String? balance = "0";
+  int assetValue = 0;
   String? responseWallet, responseAmount, responseMemo;
   String? loadingDot = "";
-  double? estPrice = 0.0;
-  int currency = 0;//["USD", "SEL"];
+  String? hash;
+  String? logo;
 
   bool isSuccessPin = false, isPay = false, enable = false;
 

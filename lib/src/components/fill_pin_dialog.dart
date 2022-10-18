@@ -1,8 +1,9 @@
-import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/get_wallet.m.dart';
 
 class FillPin extends StatefulWidget {
+  const FillPin({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return FillPinState();
@@ -17,17 +18,17 @@ class FillPinState extends State<FillPin> {
 
   final FocusNode _pinNode = FocusNode();
 
-  BoxDecoration get _pinPutDecoration {
-    return BoxDecoration(
-      // border: Border.all(color: Colors.deepPurpleAccent),
-      borderRadius: BorderRadius.circular(10.0),
-      color: Colors.grey.withOpacity(0.5)
-    );
-  }
+  // BoxDecoration get _pinPutDecoration {
+  //   return BoxDecoration(
+  //     // border: Border.all(color: Colors.deepPurpleAccent),
+  //     borderRadius: BorderRadius.circular(10.0),
+  //     color: Colors.grey.withOpacity(0.5)
+  //   );
+  // }
 
-  BoxConstraints get boxConstraint {
-    return const BoxConstraints(minWidth: 60, minHeight: 80);
-  }
+  // BoxConstraints get boxConstraint {
+  //   return const BoxConstraints(minWidth: 60, minHeight: 80);
+  // }
 
   @override
   void initState() {
@@ -45,18 +46,21 @@ class FillPinState extends State<FillPin> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: hexaCodeToColor(AppColors.darkBgd),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       title: const MyText(
         top: 16,
         bottom: 16,
         text: "Fill your pin",
+        hexaColor: AppColors.whiteHexaColor,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.only(right: 13, bottom: 20),
+            color: hexaCodeToColor(AppColors.darkBgd),
+            padding: const EdgeInsets.only(bottom: 20),
             child: MyPinput(
               getWalletM: GetWalletModel(),
               controller: _pinPutController,
@@ -103,7 +107,7 @@ class FillPinState extends State<FillPin> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const MyText(text: "Close"),
+              child: const MyText(text: "Close", hexaColor: AppColors.whiteHexaColor),
             ),
           )
         ],

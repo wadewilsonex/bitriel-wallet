@@ -1,19 +1,19 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
-import 'package:wallet_apps/src/screen/home/contact_book/edit_contact/edit_contact_body.dart';
+import 'package:wallet_apps/src/screen/home/contact_book/edit_contact/body_edit_contact.dart';
 
 class EditContact extends StatefulWidget {
   final List<ContactBookModel>? contact;
   final int? index;
 
-  const EditContact({this.contact, this.index});
+  const EditContact({Key? key, this.contact, this.index}) : super(key: key);
 
   @override
-  _EditContactState createState() => _EditContactState();
+  EditContactState createState() => EditContactState();
 }
 
-class _EditContactState extends State<EditContact> {
+class EditContactState extends State<EditContact> {
   ContactBookModel _addContactModel = ContactBookModel();
 
   List<Map<String, dynamic>> contactData = [];
@@ -56,8 +56,8 @@ class _EditContactState extends State<EditContact> {
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            content: const Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: Text("Are you sure to edit this contact?"),
             ),
             actions: <Widget>[
@@ -78,7 +78,8 @@ class _EditContactState extends State<EditContact> {
                     });
                   }
                   await StorageServices.storeData(contactData, DbKey.contactList);
-
+                  
+                  if(!mounted) return;
                   Navigator.pop(context, true);
                 },
                 child: const Text("Yes"),
@@ -110,6 +111,7 @@ class _EditContactState extends State<EditContact> {
       //     ));
 
       // Close Dialog Loading
+      if(!mounted) return;
       Navigator.pop(context);
 
       if (result == true) {
@@ -119,11 +121,11 @@ class _EditContactState extends State<EditContact> {
             return AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
+              title: const Align(
                 child: Text('Congratulation'),
               ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+              content: const Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                 child: Text("Successfully edit contact!\n Please check your contact book"),
               ),
               actions: <Widget>[
@@ -140,6 +142,7 @@ class _EditContactState extends State<EditContact> {
         //   "Congratualtion",
         // );
         // Close Screen
+        if(!mounted) return;
         Navigator.pop(context, true);
       } else {
         Navigator.pop(context);

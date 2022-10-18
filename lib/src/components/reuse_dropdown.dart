@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../index.dart';
 
 class ReuseDropDown extends StatelessWidget {
@@ -11,22 +8,20 @@ class ReuseDropDown extends StatelessWidget {
   final TextStyle? style;
   final List<Map<String, dynamic>>? itemsList;
 
-  const ReuseDropDown({
+  const ReuseDropDown({Key? key, 
     this.onChanged,
     this.initialValue,
     this.icon,
     this.style,
     this.itemsList
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
     return Theme(
       data: ThemeData(
-        canvasColor: hexaCodeToColor(isDarkTheme ? AppColors.darkCard : AppColors.whiteColorHexa)
+        canvasColor: hexaCodeToColor(AppColors.whiteColorHexa)
       ),
       child: DropdownButton<String>(
         value: initialValue,
@@ -41,7 +36,7 @@ class ReuseDropDown extends StatelessWidget {
         items: itemsList!.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
             value: value['index'].toString(),
-            child: Text(value['symbol'], style: TextStyle(fontSize: 15),)
+            child: Text(value['symbol'])
           );
         }).toList(),
       ),

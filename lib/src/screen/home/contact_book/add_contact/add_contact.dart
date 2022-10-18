@@ -2,18 +2,18 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/contact_book_m.dart';
-import 'package:wallet_apps/src/screen/home/contact_book/add_contact/add_contact_body.dart';
+import 'package:wallet_apps/src/screen/home/contact_book/add_contact/body_add_contact.dart';
 
 class AddContact extends StatefulWidget {
   final PhoneContact? contact;
 
-  const AddContact({this.contact});
+  const AddContact({Key? key, this.contact}) : super(key: key);
 
   @override
-  _AddContactState createState() => _AddContactState();
+  AddContactState createState() => AddContactState();
 }
 
-class _AddContactState extends State<AddContact> {
+class AddContactState extends State<AddContact> {
   final ContactBookModel _addContactModel = ContactBookModel();
 
   // Future<void> dialog(String text1, String text2, {Widget action}) async {
@@ -57,6 +57,7 @@ class _AddContactState extends State<AddContact> {
       await StorageServices.addMoreData(contactData, DbKey.contactList);
 
       // Close Dialog Loading
+      if(!mounted) return;
       Navigator.pop(context);
 
       await showDialog(
@@ -65,11 +66,11 @@ class _AddContactState extends State<AddContact> {
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
-            title: Align(
+            title: const Align(
               child: Text("Congratulation"),
             ),
-            content: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            content: const Padding(
+              padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: Text(
                   "Successfully add new contact!\n Please check your contact book"),
             ),
@@ -94,7 +95,11 @@ class _AddContactState extends State<AddContact> {
     } catch (e) {
       // Close Dialog Loading
       Navigator.pop(context);
-      if (ApiProvider().isDebug == false) print("Error submitContact $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error submitContact $e");
+        }
+      }
     }
   }
 

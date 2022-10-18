@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/activity_item.dart';
 import 'package:wallet_apps/src/screen/home/transaction/activity/activity_detail.dart';

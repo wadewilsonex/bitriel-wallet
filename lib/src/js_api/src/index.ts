@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+// import "@babel/polyfill";
 import { WsProvider, ApiPromise } from "@polkadot/api";
 import { subscribeMessage, getNetworkConst, getNetworkProperties } from "./service/setting";
 import keyring from "./service/keyring";
@@ -19,9 +19,9 @@ let url = 'https://bsc-dataseed.binance.org/';
 function send(path: string, data: any) {
   if (window.location.href === "about:blank") {
     // PolkaWallet.postMessage(JSON.stringify({ path, data }));
-    console.log(JSON.stringify({ path, data }));
+    // console.log(JSON.stringify({ path, data }));
   } else {
-    console.log(path, data);
+    // console.log(path, data);
   }
 }
 // send("log", "main js loaded");
@@ -49,8 +49,6 @@ async function connect(nodes: string[]) {
       });
 
       (<any>window).api = res;
-      console.log("(<any>window).api", (<any>window).api);
-      console.log("Url ", nodes, res.isConnected);
       // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
       const url = nodes[(<any>res).isConnected];
       // console.log("hello log", `${url} wss c  onnected success`);
@@ -84,8 +82,10 @@ async function connectNon(nodes: string[]) {
       const res = await ApiPromise.create({
         provider: wsProvider,
       });
+      // (<any>window).apiNon = res;
       (<any>window).apiNon = res;
-      const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
+      // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
+      const url = nodes[(<any>res).isConnected];
       // send("log", `${url} wss connected success`);
       resolve(url);
     } catch (err) {
@@ -128,170 +128,170 @@ async function initAttendant(api: ApiPromise) {
   });
 }
 
-async function getAToken(aContract: ContractPromise, attender: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await aContract.query.getToken(attender, 0, -1, attender);
-      resolve(result.output);
-    } catch (e) {
-      resolve({ err: e.message });
-    }
-  });
-}
+// async function getAToken(aContract: ContractPromise, attender: string) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       const result = await aContract.query.getToken(attender, 0, -1, attender);
+//       resolve(result.output);
+//     } catch (e) {
+//       resolve({ err: e.message });
+//     }
+//   });
+// }
 
-async function getAStatus(aContract: ContractPromise, attender: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await aContract.query.checkedInStatus(attender, 0, -1, attender);
-      resolve(result.output);
-    } catch (e) {
-      resolve({ err: e.message });
-    }
-  });
-}
+// async function getAStatus(aContract: ContractPromise, attender: string) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       const result = await aContract.query.checkedInStatus(attender, 0, -1, attender);
+//       resolve(result.output);
+//     } catch (e) {
+//       resolve({ err: e.message });
+//     }
+//   });
+// }
 
-async function getCheckInList(aContract: ContractPromise, attender: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await aContract.query.checkedInList(attender, 0, -1, attender);
-      resolve(result.output);
-    } catch (e) {
-      resolve({ err: e.message });
-    }
-  });
-}
+// async function getCheckInList(aContract: ContractPromise, attender: string) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       const result = await aContract.query.checkedInList(attender, 0, -1, attender);
+//       resolve(result.output);
+//     } catch (e) {
+//       resolve({ err: e.message });
+//     }
+//   });
+// }
 
-async function getCheckOutList(aContract: ContractPromise, attender: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await aContract.query.checkedOutList(attender, 0, -1, attender);
-      resolve(result.output);
-    } catch (e) {
-      resolve({ err: e.message });
-    }
-  })
-}
+// async function getCheckOutList(aContract: ContractPromise, attender: string) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       const result = await aContract.query.checkedOutList(attender, 0, -1, attender);
+//       resolve(result.output);
+//     } catch (e) {
+//       resolve({ err: e.message });
+//     }
+//   })
+// }
 
-async function contractSymbol(apiContract: ContractPromise, from: string) {
-  return new Promise(async (resolve, reject) => {
-    try {
+// async function contractSymbol(apiContract: ContractPromise, from: string) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
 
-      const result = await apiContract.query.symbol(from, 0, -1);
-      resolve(result.output);
-      return result.output.toString();
-
-
-    } catch (e) {
-      resolve({ err: e.message });
-    }
-  });
-}
-
-async function totalSupply(apiContract: ContractPromise, from: string) {
-  return new Promise(async (resolve, reject) => {
-
-    try {
-      const result = await apiContract.query.totalSupply(from, 0, -1);
-
-      resolve(result);
-      // send('log', result.output.toString);
-
-      return result.output.toString();
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
-// const result = await this.polkadotApiService.apiContract.query.balanceOf(from, 0, -1, who);
-
-async function balanceOf(apiContract: ContractPromise, from: string, who: string) {
-  return new Promise(async (resolve, reject) => {
-
-    try {
-      const result = await apiContract.query.balanceOf(from, 0, -1, who);
-
-      resolve(result);
-      // send('log', result.output.toString);
-
-      return result.output.toString;
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
+//       const result = await apiContract.query.symbol(from, 0, -1);
+//       resolve(result.output);
+//       return result.output.toString();
 
 
-async function balanceOfByPartition(apiContract: ContractPromise, from: string, who: string, hash: string) {
-  return new Promise(async (resolve, reject) => {
+//     } catch (e) {
+//       resolve({ err: e.message });
+//     }
+//   });
+// }
 
-    try {
-      const result = await apiContract.query.balanceOfByPartition(from, 0, -1, who, hash); //.query.balanceOfByPartition(from, 0, -1, who);
+// async function totalSupply(apiContract: ContractPromise, from: string) {
+//   return new Promise(async (resolve, reject) => {
 
-      resolve(result);
-      // send('log', result.output.toString);
+//     try {
+//       const result = await apiContract.query.totalSupply(from, 0, -1);
 
-      return result.output.toString;
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
+//       resolve(result);
+//       // send('log', result.output.toString);
+
+//       return result.output.toString();
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
+// // const result = await this.polkadotApiService.apiContract.query.balanceOf(from, 0, -1, who);
+
+// async function balanceOf(apiContract: ContractPromise, from: string, who: string) {
+//   return new Promise(async (resolve, reject) => {
+
+//     try {
+//       const result = await apiContract.query.balanceOf(from, 0, -1, who);
+
+//       resolve(result);
+//       // send('log', result.output.toString);
+
+//       return result.output.toString;
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
 
 
-async function getPartitionHash(apiContract: ContractPromise, from: string) {
-  return new Promise(async (resolve, reject) => {
+// async function balanceOfByPartition(apiContract: ContractPromise, from: string, who: string, hash: string) {
+//   return new Promise(async (resolve, reject) => {
 
-    try {
-      const result = await apiContract.query.listOfPartition(from, 0, -1);
+//     try {
+//       const result = await apiContract.query.balanceOfByPartition(from, 0, -1, who, hash); //.query.balanceOfByPartition(from, 0, -1, who);
 
-      resolve(result);
-      // send('log', result.output.toString);
+//       resolve(result);
+//       // send('log', result.output.toString);
 
-      return result.output.toString;
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
+//       return result.output.toString;
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
 
-async function getHashBySymbol(apiContract: ContractPromise, from: string, symbol: string) {
-  return new Promise(async (resolve, reject) => {
 
-    try {
-      const result = await apiContract.query.getHashBySymbol(from, 0, -1, symbol);
+// async function getPartitionHash(apiContract: ContractPromise, from: string) {
+//   return new Promise(async (resolve, reject) => {
 
-      resolve(result.output);
-      // send('log', result.output.toString);
+//     try {
+//       const result = await apiContract.query.listOfPartition(from, 0, -1);
 
-      return result.output.toString;
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
+//       resolve(result);
+//       // send('log', result.output.toString);
 
-//const result = await this.polkadotApiService.apiContract.query.allowance(owner, 0, -1, owner, spender);
+//       return result.output.toString;
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
 
-async function allowance(apiContract: ContractPromise, owner: string, spender: string) {
-  return new Promise(async (resolve, reject) => {
+// async function getHashBySymbol(apiContract: ContractPromise, from: string, symbol: string) {
+//   return new Promise(async (resolve, reject) => {
 
-    try {
-      const result = await apiContract.query.allowance(owner, 0, -1, owner, spender);
+//     try {
+//       const result = await apiContract.query.getHashBySymbol(from, 0, -1, symbol);
 
-      resolve(result);
+//       resolve(result.output);
+//       // send('log', result.output.toString);
 
-      return result.output.toString;
-      // resolve(result);
-    } catch (err) {
-      resolve({ err: err.message });
-    }
-  });
-}
+//       return result.output.toString;
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
+
+// //const result = await this.polkadotApiService.apiContract.query.allowance(owner, 0, -1, owner, spender);
+
+// async function allowance(apiContract: ContractPromise, owner: string, spender: string) {
+//   return new Promise(async (resolve, reject) => {
+
+//     try {
+//       const result = await apiContract.query.allowance(owner, 0, -1, owner, spender);
+
+//       resolve(result);
+
+//       return result.output.toString;
+//       // resolve(result);
+//     } catch (err) {
+//       resolve({ err: err.message });
+//     }
+//   });
+// }
 
 
 
@@ -308,16 +308,16 @@ const settings = {
   getChainDecimal,
   callContract,
   initAttendant,
-  getAToken,
-  getAStatus,
-  getCheckInList,
-  getCheckOutList,
-  contractSymbol,
+  // getAToken,
+  // getAStatus,
+  // getCheckInList,
+  // getCheckOutList,
+  // contractSymbol,
   //totalSupply,
   //balanceOf,
-  balanceOfByPartition,
-  getPartitionHash,
-  getHashBySymbol,
+  // balanceOfByPartition,
+  // getPartitionHash,
+  // getHashBySymbol,
   // allowance,
   subscribeMessage,
   getNetworkConst,

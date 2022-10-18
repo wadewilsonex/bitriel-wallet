@@ -1,8 +1,3 @@
-// import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-// import 'package:bip39/bip39.dart' as bip39;
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/src/provider/search_p.dart';
-
 import '../../../index.dart';
 
 class AssetList extends StatelessWidget {
@@ -12,6 +7,8 @@ class AssetList extends StatelessWidget {
   final pinController = TextEditingController();
   final focus = FocusNode();
   final pinFocus = FocusNode();
+
+  AssetList({Key? key}) : super(key: key);
 
   Future<bool> validateMnemonic(String mnemonic, {@required BuildContext? context}) async {
     dynamic res = await Provider.of<ApiProvider>(context!, listen: false).validateMnemonic(mnemonic);
@@ -24,7 +21,7 @@ class AssetList extends StatelessWidget {
 
   Future<bool> checkPassword(String pin, {@required BuildContext? context}) async {
 
-    final res = await Provider.of<ApiProvider>(context!, listen: false);
+    final res = Provider.of<ApiProvider>(context!, listen: false);
     bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
@@ -138,34 +135,28 @@ class AssetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final schPro = Provider.of<SearchProvider>(context);
-    print(schPro.getSchLs.isEmpty);
-    return Consumer<ContractProvider>(
-      builder: (context, value, child) {
-        return Column(
-          children: [
-            for (int index = 0; index < value.sortListContract.length; index++)
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  RouteAnimation(
-                    enterPage: AssetInfo(
-                      index: index,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Consumer<ContractProvider>(
+          builder: (context, value, child) {
+            return Column(
+              children: [
+                for (int index = 0; index < value.sortListContract.length; index++)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        RouteAnimation(
+                          enterPage: AssetInfo(
+                            index: index,
+                            scModel: value.sortListContract[index]
+                          ),
+                        ),
+                      );
+                    },
+                    child: AssetItem(
                       scModel: value.sortListContract[index]
-<<<<<<< HEAD
-                    ),
-                  ),
-                );
-              },
-              child: AssetItem(
-                scModel: value.sortListContract[index]
-              )
-            )
-          ]
-        );
-      },
-=======
                     )
                   )
               ]
@@ -174,7 +165,6 @@ class AssetList extends StatelessWidget {
         ),
 
       ],
->>>>>>> dev
     );
   }
 }

@@ -1,29 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/search_c.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
 
 class MyBottomSheet {
   dynamic response;
+  bool pushReplacement = false;
 
-  Future<dynamic> trxOptions({@required int? assetIndex, BuildContext? context, List? portfolioList, String? asset}) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
+  Future<dynamic> trxOptions({BuildContext? context, List? portfolioList, String? asset}) {
     return showModalBottomSheet(
-      context: context,
+      context: context!,
       isScrollControlled: true,
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: isDarkTheme
+            color: isDarkMode
               ? hexaCodeToColor(AppColors.darkBgd)
-              : hexaCodeToColor(AppColors.bgdColor),
+              : hexaCodeToColor(AppColors.lowWhite),
           ),
           height: 153,
           child: Column(
             children: [
               Align(
                 child: MyText(
-                  color: isDarkTheme
+                  hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.textColor,
                   top: 20,
@@ -42,12 +41,16 @@ class MyBottomSheet {
                         // Navigator.pop(context);
                         try {
                           await TrxOptionMethod.scanQR(
-                            assetIndex!,
                             context,
                             portfolioList!,
+                            pushReplacement
                           );
                         } catch (e) {
-                          if (ApiProvider().isDebug == false) print("error TrxOptionMethod.scanQR $e");
+                          if (ApiProvider().isDebug == true) {
+                            if (kDebugMode) {
+                              print("error TrxOptionMethod.scanQR $e");
+                            }
+                          }
                         }
                         
                       },
@@ -60,7 +63,6 @@ class MyBottomSheet {
                       action: () {
                         Navigator.pop(context);
                         TrxOptionMethod.navigateFillAddress(
-                          assetIndex!,
                           context,
                           portfolioList!,
                         );
@@ -97,7 +99,8 @@ class MyBottomSheet {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Align(
             child: Text(text1),
           ),
@@ -122,13 +125,13 @@ class MyBottomSheet {
       isScrollControlled: true,
       builder: (context) {
         return Container(
-          decoration: BoxDecoration(color: hexaCodeToColor(AppColors.bgdColor)),
+          decoration: BoxDecoration(color: hexaCodeToColor(AppColors.lowWhite)),
           height: MediaQuery.of(context).size.height - 107,
           child: Column(
             children: [
               const Align(
                 child: MyText(
-                  color: "#FFFFFF",
+                  hexaColor: "#FFFFFF",
                   top: 20,
                   bottom: 33,
                   text: "Notification",
@@ -138,7 +141,7 @@ class MyBottomSheet {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(AppConfig.iconsPath+'no_data.svg', height: 200),
+                    SvgPicture.asset('${AppConfig.iconsPath}no_data.svg', height: 200),
                     const MyText(text: "There are no notification found")
                   ],
                 ),
@@ -151,23 +154,22 @@ class MyBottomSheet {
   }
 
   Future<dynamic> listToken({@required BuildContext? context, @required Function? query }){
-    final isDarkTheme = Provider.of<ThemeProvider>(context!, listen: false).isDark;
     return showModalBottomSheet(
-      context: context,
+      context: context!,
       isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState){
             return SafeArea(
               child: Container(
-                decoration: BoxDecoration(color: hexaCodeToColor(AppColors.bgdColor)),
+                decoration: BoxDecoration(color: hexaCodeToColor(AppColors.lowWhite)),
                 height: MediaQuery.of(context).size.height / 1.2,
                 child: Column(
                   children: [
 
                     Container(
-                      color: isDarkTheme ? hexaCodeToColor("#2C2C2D") : Colors.white,
-                      padding: EdgeInsets.all(15),
+                      color: isDarkMode ? hexaCodeToColor("#2C2C2D") : Colors.white,
+                      padding: const EdgeInsets.all(15),
                       child: Column(
                         children: [
                           Stack(
@@ -178,13 +180,13 @@ class MyBottomSheet {
                                   top: 10,
                                   bottom: 33,
                                   text: "Tokens",
-                                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                                  hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
                                 ),
                               ),
 
                               Align(
                                 alignment: Alignment.topRight,
-                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: MyText(text: "Done", fontWeight: FontWeight.w700, color: AppColors.blueColor)),
+                                child: TextButton(onPressed: (){Navigator.pop(context);}, child: const MyText(text: "Done", fontWeight: FontWeight.w700, hexaColor: AppColors.blueColor)),
                               )
                             ],
                           ),

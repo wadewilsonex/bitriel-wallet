@@ -1,8 +1,8 @@
-import 'package:in_app_update/in_app_update.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class Welcome extends StatefulWidget {
+  const Welcome({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return WelcomeState();
@@ -10,8 +10,6 @@ class Welcome extends StatefulWidget {
 }
 
 class WelcomeState extends State<Welcome> {
-  
-  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   bool? status;
   int? currentVersion;
@@ -20,29 +18,25 @@ class WelcomeState extends State<Welcome> {
 
   @override
   void initState() {
-    inAppUpdate();
-    AppServices.noInternetConnection(globalKey);
+    // inAppUpdate();
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
   
-  Future<void> inAppUpdate() async {
-    AppUpdate appUpdate = AppUpdate();
-    final result = await appUpdate.checkUpdate();
-    if (result.availableVersionCode == 1){
-      await appUpdate.performImmediateUpdate();
-      await InAppUpdate.completeFlexibleUpdate();
-    }
-  }
+  // Future<void> inAppUpdate() async {
+  //   AppUpdate appUpdate = AppUpdate();
+  //   final result = await appUpdate.checkUpdate();
+  //   if (result.availableVersionCode == 1){
+  //     await appUpdate.performImmediateUpdate();
+  //     await InAppUpdate.completeFlexibleUpdate();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: globalKey,
-      body: BodyScaffold(
-        isSafeArea: true,
-        bottom: 0,
-        child: WelcomeBody(),
-      ),
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      body: WelcomeBody(),
     );
   }
 }

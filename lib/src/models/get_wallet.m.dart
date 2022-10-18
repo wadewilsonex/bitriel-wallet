@@ -22,7 +22,7 @@ class GetWalletModel {
     );
   }
 
-  BoxConstraints get boxConstraint {
-    return const BoxConstraints(minWidth: 60, minHeight: 80);
-  }
+  // BoxConstraints get boxConstraint {
+  //   return const BoxConstraints(minWidth: 60, minHeight: 80);
+  // }
 }

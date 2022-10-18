@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/api/api.dart';
+import 'package:wallet_apps/src/graphql/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
-import 'package:http/http.dart' as _http;
 
-final RouteObserver<PageRoute>? routeObserver = RouteObserver<PageRoute>();
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
   
   @override
   State<StatefulWidget> createState() {
@@ -24,13 +22,20 @@ class AppState extends State<App> {
 
   @override
   void initState() {
-    // readTheme();
     MarketProvider().fetchTokenMarketPrice(context);
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-      await initApi();
+    // readTheme();
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+
+      if(!mounted) return;
+      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+      if(!mounted) return;
+      await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+      
+      await initApi();
+      
       clearOldBtcAddr();
     });
 
@@ -38,11 +43,26 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
+    
+    // Fetch Name and Symbol Coin
+    // await StorageServices.fetchData(DbKey.coinData).then((value) {
+    //   if (value == null){
+
+    //     _http.get(Uri.parse("https://api.coingecko.com/api/v3/coins/list")).then((value) async {
+    //       dynamic data = await json.decode(value.body);
+    //       await StorageServices.storeData(data, DbKey.coinData);
+    //       Provider.of<MarketProvider>(context, listen: false).setLsCoin = data;
+    //     });
+    //   } else {
+    //     Provider.of<MarketProvider>(context, listen: false).setLsCoin = value;
+    //   }
+    // });
 
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
-      final contractProvider = await Provider.of<ContractProvider>(context, listen: false);
+      final contractProvider = Provider.of<ContractProvider>(context, listen: false);
+
       contractProvider.setSavedList().then((value) async {
         // If Data Already Exist
         // Setup Cache
@@ -56,10 +76,9 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
 
-        await apiProvider.connectPolNon(context: context).then((value) async {
-          await apiProvider.connectSELNode(context: context);
-        });
-
+        // await apiProvider.connectPolNon(context: context).then((value) async {
+        // });
+        await apiProvider.connectSELNode(context: context);
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 
@@ -72,14 +91,18 @@ class AppState extends State<App> {
           // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
           // Get From Keyring js
-          await apiProvider.getCurrentAccount(funcName: 'keyring');
+          await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance(context: context);
           
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initApi $e");
+      if (ApiProvider().isDebug == true){
+        if (kDebugMode) {
+          print("Error initApi $e");
+        }
+      }
     }
   }
 
@@ -94,10 +117,15 @@ class AppState extends State<App> {
       final res = await StorageServices.fetchData(DbKey.themeMode);
 
       if (res != null) {
+        if(!mounted) return;
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error readTheme $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error readTheme $e");
+        }
+      }
     }
   }
 
@@ -120,6 +148,7 @@ class AppState extends State<App> {
           org: 'BEP-20',
         ));
 
+        if(!mounted) return;
         Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
       }
     }
@@ -143,6 +172,8 @@ class AppState extends State<App> {
           balance: balance![0].toString(),
           org: 'ERC-20',
         ));
+
+        if(!mounted) return;
         Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
       }
     }
@@ -158,43 +189,78 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return AnnotatedRegion(
-      value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-      child: LayoutBuilder(
-        builder: (builder, constraints) {
-          return OrientationBuilder(
-            builder: (context, orientation) {
-              SizeConfig().init(constraints, orientation);
-              return Consumer<ThemeProvider>(
-                builder: (context, value, child) {
-                  return MaterialApp(
-                    navigatorKey: AppUtils.globalKey,
-                    title: AppString.appName,
-                    theme: AppStyle.myTheme(context),
-                    onGenerateRoute: router.generateRoute,
-                    // debugShowCheckedModeBanner: false,
-                    routes: {
-                      Home.route: (_) => Home(),
-                    },
-                    initialRoute: AppString.splashScreenView,
-                    builder: (context, widget) => ResponsiveWrapper.builder(
-                      BouncingScrollWrapper.builder(context, widget!),
-                      maxWidth: 1200,
-                      defaultScale: true,
-                      breakpoints: [
-                        const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                        const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                        const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                        const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
-                      ],
+    return ResponsiveSizer( 
+      builder: (context, orientation, screenType) {
+        return AnnotatedRegion(
+          value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+          child: LayoutBuilder(
+            builder: (builder, constraints) {
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  SizeConfig().init(constraints, orientation);
+                  return GraphQLProvider(
+                    client: GQLClient().client,
+                    child: 
+                    // Consumer<ThemeProvider>(
+                    //   builder: (context, provider, widget) {
+                    //     print("App rebuild");
+                    //     return MaterialApp(
+                    //       navigatorKey: AppUtils.globalKey,
+                    //       title: AppString.appName,
+                    //       theme: AppStyle.myTheme(context),
+                    //       onGenerateRoute: router.generateRoute,
+                    //       routes: {
+                    //         HomePage.route: (_) => const HomePage(),
+                    //       },
+                    //       initialRoute: AppString.splashScreenView,
+                    //       // builder: (context, widget) => ResponsiveWrapper.builder(
+                    //       //   BouncingScrollWrapper.builder(context, widget!),
+                    //       //   maxWidth: 1200,
+                    //       //   // minWidth: 800,
+                    //       //   defaultScale: true,
+                    //       //   breakpoints: [
+                    //       //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                    //       //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                    //       //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                    //       //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+                    //       //   ],
+                    //       // ),
+                    //     );
+                    //   }
+                    // ),
+                    Builder(
+                      builder: (context) {
+                        return MaterialApp(
+                          navigatorKey: AppUtils.globalKey,
+                          title: AppString.appName,
+                          theme: AppStyle.myTheme(context),
+                          onGenerateRoute: router.generateRoute,
+                          routes: {
+                            HomePage.route: (_) => HomePage(),
+                          },
+                          initialRoute: AppString.splashScreenView,
+                          // builder: (context, widget) => ResponsiveWrapper.builder(
+                          //   BouncingScrollWrapper.builder(context, widget!),
+                          //   maxWidth: 1200,
+                          //   // minWidth: 800,
+                          //   defaultScale: true,
+                          //   breakpoints: [
+                          //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                          //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                          //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                          //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+                          //   ],
+                          // ),
+                        );
+                      }
                     ),
                   );
                 },
               );
             },
-          );
-        },
-      ),
+          ),
+        );
+      }
     );
   }
 }

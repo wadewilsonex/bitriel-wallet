@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
 
 class ProfileCard extends StatelessWidget {
+  const ProfileCard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -49,7 +47,7 @@ class ProfileCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: hexaCodeToColor(
-                                    AppColors.bgdColor,
+                                    AppColors.lowWhite,
                                   ),
                                 ),
                               ),
@@ -63,7 +61,7 @@ class ProfileCard extends StatelessWidget {
                       children: [
                         MyText(
                           text: value.accountM.name ?? 'Username',
-                          color: "#FFFFFF",
+                          hexaColor: "#FFFFFF",
                           fontSize: 20,
                         ),
                         SizedBox(
@@ -71,7 +69,7 @@ class ProfileCard extends StatelessWidget {
                           child: MyText(
                             text:
                                 !value.isConnected ? "Connecting" : "Indracore",
-                            color: AppColors.secondarytext,
+                            hexaColor: AppColors.secondarytext,
                             textAlign: TextAlign.start,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
@@ -90,7 +88,7 @@ class ProfileCard extends StatelessWidget {
                           child: MyText(
                             text: '', //sdkModel.nativeBalance,
                             fontSize: 30,
-                            color: AppColors.secondarytext,
+                            hexaColor: AppColors.secondarytext,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -104,12 +102,7 @@ class ProfileCard extends StatelessWidget {
                       ClipboardData(text: value.accountM.address),
                     ).then(
                       (value) => {
-                        // ignore: deprecated_member_use
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Copied to Clipboard'),
-                          ),
-                        )
+                        snackBar(context, "Copied to Clipboard")
                       },
                     );
                   },

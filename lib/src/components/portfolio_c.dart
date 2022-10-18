@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
 
 class MyPieChartRow extends StatelessWidget {
@@ -6,11 +5,11 @@ class MyPieChartRow extends StatelessWidget {
   final String? centerText;
   final String? endText;
 
-  const MyPieChartRow({this.color, this.centerText, this.endText});
+  const MyPieChartRow({Key? key, this.color, this.centerText, this.endText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +28,7 @@ class MyPieChartRow extends StatelessWidget {
                 left: 11,
                 text: centerText,
                 fontSize: 14.0,
-                color: isDarkTheme
+                hexaColor: isDarkMode
                   ? AppColors.whiteColorHexa
                   : AppColors.textColor,
               )
@@ -42,7 +41,7 @@ class MyPieChartRow extends StatelessWidget {
           MyText(
             text: "$endText %",
             fontSize: 14.0,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+            hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           )
         ],
       ),

@@ -1,29 +1,39 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/main/create_seeds/create_seeds.dart';
 
 class ContentsBackup extends StatefulWidget {
+  const ContentsBackup({Key? key}) : super(key: key);
+
   //static const route = '/contentsBackup';
 
   @override
-  _ContentsBackupState createState() => _ContentsBackupState();
+  ContentsBackupState createState() => ContentsBackupState();
 }
 
-class _ContentsBackupState extends State<ContentsBackup> {
+class ContentsBackupState extends State<ContentsBackup> {
   final double bpSize = 16.0;
   String _passPhrase = '';
-  List _passPhraseList = [];
+  List passPhraseList = [];
 
   Future<void> _generateMnemonic() async {
     try {
       _passPhrase = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
-      _passPhraseList = _passPhrase.split(' ');
+      passPhraseList = _passPhrase.split(' ');
 
       // setState(() {});
     } on PlatformException catch (p) {
-      if (ApiProvider().isDebug == false) print("Platform $p");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Platform $p");
+        }
+      }
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("error $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("error $e");
+        }
     }
+      }
   }
 
   @override
@@ -34,7 +44,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -42,7 +52,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
           children: [
             MyAppBar(
               title: AppString.createAccTitle,
-              color: isDarkTheme
+              color: isDarkMode
                   ? hexaCodeToColor(AppColors.darkCard)
                   : hexaCodeToColor(AppColors.whiteHexaColor),
               onPressed: () {
@@ -59,7 +69,7 @@ class _ContentsBackupState extends State<ContentsBackup> {
                         text: AppString.backup,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: isDarkTheme
+                        hexaColor: isDarkMode
                             ? AppColors.whiteColorHexa
                             : AppColors.textColor,
                         bottom: bpSize,
@@ -68,53 +78,55 @@ class _ContentsBackupState extends State<ContentsBackup> {
                     textAlign: TextAlign.left,
                     text: AppString.getMnemonic,
                     fontWeight: FontWeight.w500,
-                    color: isDarkTheme
+                    hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
                         : AppColors.textColor,
                     bottom: bpSize,
                   ),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppString.backupPassphrase,
-                        textAlign: TextAlign.left,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppString.backupPassphrase,
+                      textAlign: TextAlign.left,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      hexaColor: isDarkMode
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
                       textAlign: TextAlign.left,
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
-                      color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                      hexaColor: isDarkMode
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: bpSize,
                     ),
                   ),
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: MyText(
-                        text: AppString.offlineStorage,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: isDarkTheme
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                        bottom: bpSize,
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: MyText(
+                      text: AppString.offlineStorage,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      hexaColor: isDarkMode
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
+                      bottom: bpSize,
+                    )
+                  ),
                   MyText(
                     textAlign: TextAlign.left,
                     text: AppString.mnemonicAdvise,
                     fontWeight: FontWeight.w500,
-                    color: isDarkTheme
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                    hexaColor: isDarkMode
+                      ? AppColors.whiteColorHexa
+                      : AppColors.textColor,
                   ),
                 ],
               ),
@@ -123,18 +135,22 @@ class _ContentsBackupState extends State<ContentsBackup> {
               child: Container(),
             ),
             MyFlatButton(
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               hasShadow: true,
               textButton: AppString.next,
               action: () async {
+                await _generateMnemonic();
+
+                if(!mounted) return;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateMnemonic(
-                      _passPhrase,
-                      _passPhraseList,
-                    ),
+                    builder: (context) => 
+                    const CreateSeeds()
+                    // CreateMnemonic(
+                    //   _passPhrase,
+                    //   _passPhraseList,
+                    // ),
                   ),
                 );
               },

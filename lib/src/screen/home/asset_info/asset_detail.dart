@@ -1,25 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
+import 'package:wallet_apps/src/api/api_chart.dart';
 
 import '../../../../index.dart';
+import '../../../components/chart/chart_m.dart';
 
 class AssetDetail extends StatefulWidget {
-  final Market marketData;
-  const AssetDetail(this.marketData);
+  // final Market marketData;
+  final SmartContractModel scModel;
+  const AssetDetail(
+    // this.marketData, 
+    this.scModel, {Key? key}
+  ) : super(key: key);
 
   @override
-  _AssetDetailState createState() => _AssetDetailState();
+  AssetDetailState createState() => AssetDetailState();
 }
 
-class _AssetDetailState extends State<AssetDetail> {
-  String totalSupply = '';
-
-  String circulatingSupply = '';
-
-  String marketCap = '';
-
-  String marketCapChange24h = '';
+class AssetDetailState extends State<AssetDetail> {
 
   String convert(String? supply) {
     var formatter = NumberFormat.decimalPattern();
@@ -34,160 +32,221 @@ class _AssetDetailState extends State<AssetDetail> {
     return formatter.format(int.parse(supply!));
   }
 
+  String periodID = '1DAY';
+  void queryAssetChart() async {
+    // await ApiCalls().getChart(
+    //   widget.scModel.symbol!, 
+    //   'usd', periodID, 
+    //   DateTime.now().subtract(const Duration(days: 6)), 
+    //   DateTime.now()
+    // ).then((value) {
+
+    //   widget.scModel.chart = value;
+
+    //   setState(() {
+        
+    //   });
+    // });
+  }
+
   @override
   void initState() {
-    if (widget.marketData.totalSupply != 'null') {
-      totalSupply = convert(widget.marketData.totalSupply!);
-    }
-    if (widget.marketData.circulatingSupply != 'null') {
-      circulatingSupply = convert(widget.marketData.circulatingSupply!);
-    }
-
-    if (widget.marketData.marketCap != 'null') {
-      marketCap = convert(widget.marketData.marketCap!);
-    }
-
-    if (widget.marketData.marketCapChange24H != 'null') {
-      marketCapChange24h = convert(widget.marketData.marketCapChange24H!);
-    }
-    // totalSupply = convert(widget.marketData.totalSupply);
-    // circulatingSupply = convert(widget.marketData.circulatingSupply);
-    // marketCap = convert(widget.marketData.marketCap);
-    // marketCapChange24h = convert(widget.marketData.marketCapChange24H);
+    queryAssetChart();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
     return SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       child: Container(
         margin: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyText(
-              text: 'Price Today',
-              fontSize: 16.0,
-              textAlign: TextAlign.left,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
+
+            if (widget.scModel.chart == null)
+            const CircularProgressIndicator()
+            
+            else if (widget.scModel.chart!.isNotEmpty) 
+            chartAsset(
+              true,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(80),
+                child: widget.scModel.logo!.contains('http') 
+                ? Image.network(
+                  widget.scModel.logo!,
+                  fit: BoxFit.contain,
+                )
+                : Image.asset(
+                  widget.scModel.logo!,
+                  fit: BoxFit.contain,
+                )
+              ),
+              widget.scModel.name!,
+              widget.scModel.symbol!,
+              'USD',
+              widget.scModel.marketPrice!,
+              widget.scModel.chart!,
             ),
-            line(),
-            textRow('Price', '\$${widget.marketData.currentPrice}', ''),
-            line(),
-            textRow(
-                'Price Change 24h',
-                '\$${widget.marketData.priceChange24H} ',
-                ' ${widget.marketData.priceChangePercentage24H}%'),
-            line(),
-            textRow(
-                '24h Low / 24 High',
-                '\$${widget.marketData.low24H} / \$${widget.marketData.high24H}',
-                ''),
-            line(),
-            textRow('Market Rank', '#${widget.marketData.marketCapRank}', ''),
-            const SizedBox(height: 20),
-            MyText(
-              text: 'Market Cap',
-              fontSize: 16.0,
-              textAlign: TextAlign.left,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow('Market Cap', '\$$marketCap', ''),
-            line(),
-            textRow('Market Cap Change 24h', '\$$marketCapChange24h', ''),
-            const SizedBox(height: 20),
-            MyText(
-              text: 'Price History',
-              fontSize: 16.0,
-              textAlign: TextAlign.left,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow('All Time High', '\$${widget.marketData.ath}', ''),
-            line(),
-            textRow('All Time Low', '\$${widget.marketData.atl}', ''),
-            const SizedBox(height: 20),
-            MyText(
-              text: 'Supply',
-              fontSize: 16.0,
-              textAlign: TextAlign.left,
-              bottom: 16.0,
-              color:
-                  isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            ),
-            line(),
-            textRow(
-                'Circulating Supply',
-                '$circulatingSupply ${widget.marketData.symbol!.toUpperCase()}',
-                ''),
-            line(),
-            textRow('Total Supply',
-                '$totalSupply ${widget.marketData.symbol!.toUpperCase()}', ''),
+            // else Container(),
+
+            SizedBox(height: 2.h),
+            
+            widget.scModel.marketData == null 
+            ? assetFromJson()
+            : assetFromApi(),
+
           ],
-        ),
+        )
       ),
     );
   }
 
   Widget line() {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
       height: 1,
-      color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkBgd)
-          : hexaCodeToColor(AppColors.textColor),
+      color: isDarkMode
+        ? hexaCodeToColor(AppColors.titleAssetColor)
+        : hexaCodeToColor(AppColors.textColor),
     );
   }
 
   Widget textRow(String leadingText, String trailingText, String endingText) {
-    final isDarkTheme =
-        Provider.of<ThemeProvider>(context, listen: false).isDark;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 24.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0,),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           MyText(
             text: leadingText,
-            color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.textColor,
-            fontSize: 16,
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
               MyText(
                 text: trailingText,
-                color: isDarkTheme
-                    ? AppColors.whiteColorHexa
-                    : AppColors.textColor,
-                fontSize: 16,
+                hexaColor: isDarkMode
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
                 overflow: TextOverflow.ellipsis,
               ),
               MyText(
                 text: endingText,
-                color: endingText != '' && endingText.substring(1, 2) == '-'
-                    ? '#FF0000'
-                    : isDarkTheme
-                        ? '#00FF00'
-                        : '#66CD00',
-                fontSize: 16,
+                hexaColor: endingText != '' && endingText.substring(1, 2) == '-'
+                  ? '#FF0000'
+                  : isDarkMode
+                      ? '#00FF00'
+                      : '#66CD00',
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget assetFromJson() {
+    return widget.scModel.description != null ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MyText(
+          text: 'Token Info',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+        ),
+
+        const SizedBox(height: 16.0),
+
+        textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
+
+        textRow('Project Name', '${widget.scModel.name}', ''),
+
+        textRow('Token Standard', '${widget.scModel.org}', ''),
+
+        textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+
+        line(),
+
+        const SizedBox(height: 10.0),
+
+        MyText(
+          text: 'About ${widget.scModel.name}',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+        ),
+
+        const SizedBox(height: 16.0),
+
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.description}',
+        ),
+      ],
+    )
+    :
+    SizedBox(
+      height: 60.sp,
+      child: OverflowBox(
+        minHeight: 60.h,
+        maxHeight: 60.h,
+        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
+      )
+    );
+  }
+
+
+  Widget assetFromApi() {
+    return widget.scModel.marketData!.description != null ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const MyText(
+          text: 'Token Info',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+        ),
+
+        const SizedBox(height: 16.0),
+
+        textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
+
+        textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
+
+        textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
+
+        line(),
+
+        const SizedBox(height: 10.0),
+
+        MyText(
+          text: 'About ${widget.scModel.marketData!.name}',
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.left,
+        ),
+
+        const SizedBox(height: 16.0),
+
+        widget.scModel.marketData!.description == null ?
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.marketData!.description}',
+        )
+        :
+        MyText(
+          textAlign: TextAlign.start,
+          text: '${widget.scModel.description}',
+        ),
+      ],
+    )
+    :
+    SizedBox(
+      height: 60.sp,
+      child: OverflowBox(
+        minHeight: 60.h,
+        maxHeight: 60.h,
+        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
+      )
     );
   }
 }

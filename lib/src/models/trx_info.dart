@@ -18,6 +18,7 @@ class TransactionInfo {
   String? estGasFeePrice;
   String? estTotalPrice;
   String? scanUrl;
+  int? chainDecimal;
   String? feeNetworkSymbol;
 
   TransactionInfo({
@@ -37,6 +38,7 @@ class TransactionInfo {
     this.estGasFeePrice,
     this.estTotalPrice,
     this.scanUrl,
+    required this.chainDecimal,
     this.feeNetworkSymbol,
   });
 }

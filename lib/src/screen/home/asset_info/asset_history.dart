@@ -1,29 +1,21 @@
 import 'dart:ui';
-
-import 'package:flare_flutter/flare_controls.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:wallet_apps/src/components/dimissible_background.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
-
 import '../../../../index.dart';
 
 class AssetHistory extends StatelessWidget {
-  final List<TxHistory> _txHistoryModel;
-  final String logo;
-  final FlareControls _flareController;
-  final bool isPay;
-  final Function _deleteHistory;
-  final Function showDetailDialog;
-  // ignore: avoid_positional_boolean_parameters
-  const AssetHistory(
-    this._txHistoryModel,
-    this._flareController,
+  final List<TxHistory>? txHistoryModel;
+  final String? logo;
+  final bool? isPay;
+  final Function? deleteHistory;
+  final Function? showDetailDialog;
+  const AssetHistory({
+    Key? key,
+    this.txHistoryModel,
     this.isPay,
     this.logo,
-    this._deleteHistory,
-    this.showDetailDialog,
-  );
+    this.deleteHistory,
+    this.showDetailDialog, 
+    }
+  ) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -31,30 +23,30 @@ class AssetHistory extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 16),
-          if (_txHistoryModel.isEmpty)
+          if (txHistoryModel!.isEmpty)
             SvgPicture.asset(
-              AppConfig.iconsPath+'no_data.svg',
+              '${AppConfig.iconsPath}no_data.svg',
               width: 180,
               height: 180,
             )
           else
             Expanded(
-              child: _txHistoryModel.isEmpty
+              child: txHistoryModel!.isEmpty
                   ? Container()
                   : ListView.builder(
-                      itemCount: _txHistoryModel.length,
+                      itemCount: txHistoryModel!.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
                           key: UniqueKey(),
                           direction: DismissDirection.endToStart,
-                          background: DismissibleBackground(),
+                          background: const DismissibleBackground(),
                           onDismissed: (direction) {
-                            _deleteHistory(
-                                index, _txHistoryModel[index].symbol);
+                            deleteHistory!(
+                                index, txHistoryModel![index].symbol);
                           },
                           child: GestureDetector(
                             onTap: () {
-                              showDetailDialog(_txHistoryModel[index]);
+                              showDetailDialog!(txHistoryModel![index]);
                             },
                             child: rowDecorationStyle(
                               child: Row(
@@ -69,7 +61,7 @@ class AssetHistory extends StatelessWidget {
                                           hexaCodeToColor(AppColors.secondary),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child: Image.asset(logo),
+                                    child: Image.asset(logo!),
                                   ),
                                   Expanded(
                                     child: Container(
@@ -81,11 +73,11 @@ class AssetHistory extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           MyText(
-                                            text: _txHistoryModel[index].symbol!,
-                                            color: "#FFFFFF",
+                                            text: txHistoryModel![index].symbol!,
+                                            hexaColor: "#FFFFFF",
                                           ),
                                           MyText(
-                                              text: _txHistoryModel[index].org!,
+                                              text: txHistoryModel![index].org!,
                                               fontSize: 15),
                                         ],
                                       ),
@@ -102,8 +94,8 @@ class AssetHistory extends StatelessWidget {
                                         children: [
                                           MyText(
                                             width: double.infinity,
-                                            text: _txHistoryModel[index].amount!,
-                                            color: "#FFFFFF",
+                                            text: txHistoryModel![index].amount!,
+                                            hexaColor: "#FFFFFF",
                                             textAlign: TextAlign.right,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -130,14 +122,14 @@ class AssetHistory extends StatelessWidget {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: CustomAnimation.flareAnimation(
-                      _flareController,
-                      AppConfig.animationPath+"check.flr",
-                      "Checkmark",
-                    ),
-                  ),
+                children: const <Widget>[
+                  // Expanded(
+                  //   child: CustomAnimation.flareAnimation(
+                  //     _flareController,
+                  //     AppConfig.animationPath+"check.flr",
+                  //     "Checkmark",
+                  //   ),
+                  // ),
                 ],
               ),
             ),

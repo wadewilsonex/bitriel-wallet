@@ -1,11 +1,17 @@
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/core/service/contract.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/api_provider.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class ReceiveWallet extends StatefulWidget {
   //static const route = '/recievewallet';
+  final int? assetIndex;
+  final SmartContractModel? scModel;
+
+  const ReceiveWallet({
+    Key? key,
+    this.assetIndex,
+    this.scModel
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -14,134 +20,82 @@ class ReceiveWallet extends StatefulWidget {
 }
 
 class ReceiveWalletState extends State<ReceiveWallet> {
-  
-  GlobalKey<ScaffoldState>? _globalKey;
-  final GlobalKey _keyQrShare = GlobalKey();
 
-  final GetWalletMethod _method = GetWalletMethod();
-  String? name = 'username';
-  String? wallet = 'wallet address';
-  int initialValue = 0;
-  List<Map<String, dynamic>>? lsContractSymbol;
+  ReceiveWalletProvider? provider;
 
-  List<Map<String, dynamic>>? lsContractSymbol;
+  /// For SEL Navtive
+  String? symbol;
+
+  String? ethAddr;
 
   @override
   void initState() {
-    _globalKey = GlobalKey<ScaffoldState>();
 
-    name = Provider.of<ApiProvider>(context, listen: false).accountM.name ?? '';
-    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address ?? '';
+    provider = Provider.of<ReceiveWalletProvider>(context, listen: false);
+    provider!.globalKey = GlobalKey<ScaffoldState>();
 
-    findSEL();
-    name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
-    wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
+    provider!.lsContractSymbol = ContractService.getConSymbol(context, Provider.of<ContractProvider>(context, listen: false).sortListContract);
 
-    AppServices.noInternetConnection(_globalKey!);
+    ethAddr = Provider.of<ContractProvider>(context, listen: false).getEtherAddress;
+    symbol = ApiProvider().isMainnet ? 'SEL (Selendra Chain)': 'SEL (Testnet)';
+
+    provider!.getAccount(Provider.of<ApiProvider>(context, listen: false).getAccount);
+
+    if (widget.assetIndex == null) {
+      findAsset();
+    } else {
+      provider!.assetsIndex = Provider.of<ContractProvider>(context, listen: false).sortListContract.indexOf(widget.scModel!);
+      // _scanPayM.assetValue = ;
+    }
+    provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).sortListContract[provider!.assetsIndex].address;
+
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    // name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
-    // wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
     super.didChangeDependencies();
   }
 
-  void findSEL(){
-<<<<<<< HEAD
-    print("findSEL");
-    final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    print(listCon);
-    lsContractSymbol = ContractService.getConSymbol(listCon);
-    for(int i = 0; i< lsContractSymbol!.length; i++){
-      print(lsContractSymbol![i]);
-      if (lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
-        print("True");
-=======
-
-    // final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    // for(int i = 0; i< listCon.length; i++){
-    //   if (listCon[i].symbol == 'SEL'){
-    //     initialValue = i;
-    //     setState(() { });
-    //     break;
-    //   }
-    // }
-    final listCon = Provider.of<ContractProvider>(context, listen: false).sortListContract;
-    lsContractSymbol = ContractService.getConSymbol(listCon);
-    for(int i = 0; i< lsContractSymbol!.length; i++){
-      if (lsContractSymbol![i]['symbol'] == 'SEL (Testnet)'){
->>>>>>> dev
-        initialValue = i;
-
-        // name = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
-        // wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-        setState(() { });
+  void findAsset(){
+    for(int i = 0; i< provider!.lsContractSymbol!.length; i++){
+      if (provider!.lsContractSymbol![i]['symbol'] == symbol){
+        provider!.assetsIndex = i;
         break;
       }
     }
+
   }
 
   void onChanged(String value) {
-    print("On changed $value");
     setState(() {
-      initialValue = int.parse(value);
+      provider!.assetsIndex = int.parse(value);
     });
 
     changedEthAdd(value);
   }
 
   void changedEthAdd(String value) {
-<<<<<<< HEAD
-    if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
-      wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
-      wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-    } else {
-      wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
+    if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
+      provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().btcIndex].address;
+    } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == symbol){
+      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).getAccount.address!;
+    } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
+      provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().dotIndex].address;
+    } 
+    else {
+      provider!.accountM!.address = ethAddr;
     }
     setState(() { });
-=======
-    wallet = Provider.of<ContractProvider>(context, listen: false).sortListContract[int.parse(value)].address;
-    // if (lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
-    //   wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    // } else if (lsContractSymbol![int.parse(value)]['symbol'] == 'SEL (Testnet)' || lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
-    //   wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-    // } else if (lsContractSymbol![int.parse(value)]['symbol'] != 'DOT'){
-    //   wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-    // } else {
-    //   wallet = Provider.of<ContractProvider>(context, listen: false).listContract[6].address;
-    // }
-    setState(() { });
-    // if (value != 'SEL' && value != 'DOT' && value != 'KMPI' && value != 'BTC') {
-    //   setState(() {
-    //     wallet = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-    //   });
-    // } else {
-    //   if (value == 'BTC') {
-    //     wallet = Provider.of<ApiProvider>(context, listen: false).btcAdd;
-    //   } else {
-    //     wallet = Provider.of<ApiProvider>(context, listen: false).accountM.address!;
-    //   }
-    // }
->>>>>>> dev
   }
 
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
-      key: _globalKey,
-      body: ReceiveWalletBody(
-        keyQrShare: _keyQrShare,
-        globalKey: _globalKey,
-        method: _method,
-        name: name ?? '',
-        wallet: wallet ?? 'Wallet address',
-        initialValue: initialValue,
-        onChanged: onChanged,
-      ),
+    return ReceiveWalletBody(
+      // assetIndex: widget.assetIndex,
+      onChanged: onChanged,
     );
   }
 }

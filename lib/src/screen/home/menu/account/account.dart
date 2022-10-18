@@ -5,14 +5,16 @@ import 'package:wallet_apps/src/screen/home/menu/account/body_acc.dart';
 import '../../../../../index.dart';
 
 class Account extends StatefulWidget {
+  const Account({Key? key}) : super(key: key);
+
   //static const route = '/account';
   @override
-  _AccountState createState() => _AccountState();
+  AccountState createState() => AccountState();
 }
 
-class _AccountState extends State<Account> {
+class AccountState extends State<Account> {
 
-  AccountM _accountModel = AccountM();
+  final AccountM _accountModel = AccountM();
 
   String onChanged(String value) {
     _accountModel.backupKey.currentState!.validate();
@@ -35,21 +37,13 @@ class _AccountState extends State<Account> {
     }
   }
 
-  void onSubmitChangePin() async{
-    await submitChangePin();
-  }
 
   Future<void> submitBackUpKey() async {
     if (_accountModel.pinController.text.isNotEmpty) {
       await getBackupKey(_accountModel.pinController.text);
     }
   }
-
-  Future<void> submitChangePin() async {
-    if (_accountModel.oldPinController.text.isNotEmpty && _accountModel.newPinController.text.isNotEmpty) {
-      await _changePin(_accountModel.oldPinController.text, _accountModel.newPinController.text);
-    }
-  }
+  
 
   Future<void> deleteAccout() async {
     await customDialog(
@@ -60,7 +54,7 @@ class _AccountState extends State<Account> {
         onPressed: () async => await _deleteAccount(),
         child: const MyText(
           text: 'Delete',
-          color: AppColors.redColor,
+          hexaColor: AppColors.redColor,
           fontWeight: FontWeight.w700
         ),
       ),
@@ -71,34 +65,41 @@ class _AccountState extends State<Account> {
 
     dialogLoading(context);
 
-    final _api = await Provider.of<ApiProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
     
     try {
-      await _api.apiKeyring.deleteAccount(
-        _api.getKeyring,
+      await api.apiKeyring.deleteAccount(
+        api.getKeyring,
         _accountModel.currentAcc!,
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
-      final event = await StorageServices.fetchData(DbKey.event);
+      // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
-      await StorageServices.storeData(event, DbKey.event);
+      // await StorageServices.storeData(event, DbKey.event);
 
       await StorageServices().clearSecure();
+
+      if(!mounted) return;
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
-
-      await Future.delayed(Duration(seconds: 2), () {});
       
+      await Future.delayed(const Duration(seconds: 2), () {});
+      
+      if(!mounted) return;
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("_deleteAccount ${e.toString()}");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("_deleteAccount ${e.toString()}");
+        }
+      }
       // await dialog(context, e.toString(), 'Opps');
     }
   }
@@ -106,48 +107,61 @@ class _AccountState extends State<Account> {
   Future<void> getBackupKey(String pass) async {
     
     Navigator.pop(context);
-    final _api = await Provider.of<ApiProvider>(context, listen: false);
+    final api = Provider.of<ApiProvider>(context, listen: false);
     try {
       // final pairs = await KeyringPrivateStore([0, 42])// (_api.getKeyring.keyPairs[0].pubKey, pass);
-      final pairs = await KeyringPrivateStore([_api.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(_api.getKeyring.keyPairs[0].pubKey, pass);
+      final pairs = await KeyringPrivateStore([api.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(api.getKeyring.keyPairs[0].pubKey, pass);
       if (pairs!['seed'] != null) {
+        if(!mounted) return;
         await customDialog(context, 'Backup Key', pairs['seed'].toString());
       } else {
+        if(!mounted) return;
         await customDialog(context, 'Backup Key', 'Incorrect Pin');
       }
     } catch (e) {
       //await dialog(context, e.toString(), 'Opps');
-      if (ApiProvider().isDebug == false) print("Error getBackupKey $e");
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error getBackupKey $e");
+        }
+      }
     }
     _accountModel.pinController.text = '';
   }
 
-  Future<void> _changePin(String oldPass, String newPass) async {
-
-    // setState(() {
-    //   _accountModel.loading = true;
-    // });
+  Future<void> _changeName() async {
     dialogLoading(context);
-    final res = await Provider.of<ApiProvider>(context, listen: false);
-    final changePass = await res.apiKeyring.changePassword(res.getKeyring, oldPass, newPass);
-    if (changePass != null) {
-      await customDialog(context, 'Change Pin', 'You pin has changed!!!');
-    } else {
-      await customDialog(context, 'Opps', 'Change Failed!!!');
-    
-      // setState(() {
-      //   _accountModel.loading = false;
-      // });
-    }
-    // setState(() {
-    //   _accountModel.loading = false;
-    // });
+    if (_accountModel.editNameController.text.isNotEmpty){
+      dialogLoading(context);
+      final api = Provider.of<ApiProvider>(context, listen: false);
+      final changePass = await api.apiKeyring.changeName(api.getKeyring, _accountModel.editNameController.text);
+      String funcName = "account";
+      await api.getAddressIcon();
+      while(true){
+        await api.getCurrentAccount(context: context, funcName: funcName);
+        if (api.accountM.address != null) {
+          break;
+        } else {
+          funcName = 'keyring';
+        }
+      }
 
-    // Close Dialog
-    Navigator.pop(context);
-    _accountModel.oldPinController.text = '';
-    _accountModel.newPinController.text = '';
-    _accountModel.oldNode.requestFocus();
+      if(!mounted) return;
+      Navigator.pop(context);
+      if (changePass.name!.isNotEmpty) {
+        await customDialog(context, 'Change Name', 'You name has changed!!!');
+      } else {
+        await customDialog(context, 'Oops', 'Change Failed!!!');
+      }
+
+      _accountModel.editNameController.text = '';
+      // Close Dialog
+      if(!mounted) return;
+      Navigator.pop(context);
+
+      // Close Bottom Sheet
+      Navigator.pop(context);
+    }
   }
 
   void copyToClipBoard(String text, BuildContext context) {
@@ -157,21 +171,55 @@ class _AccountState extends State<Account> {
       ),
     ).then(
       (value) => {
-        // ignore: deprecated_member_use
-        Scaffold.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Copied to Clipboard'),
-            duration: Duration(seconds: 3),
-          ),
-        ),
+        snackBar(context, "Copied to Clipboard")
       },
     );
+  }
+
+  void onSubmitName() {
+
+  }
+
+  void onChangeName() {
+    
+  }
+
+  Future<void> submitChangePin() async {
+    // if (_accountModel.oldPassController.text.isNotEmpty && _accountModel.newPassController.text.isNotEmpty) {
+    //   await _changePin(_accountModel.oldPassController.text, _accountModel.newPassController.text);
+    // }
+  }
+
+  Future<void> _changePin() async {
+
+    // setState(() {
+    //   _accountModel.loading = true;
+    // });
+    dialogLoading(context);
+    final res = Provider.of<ApiProvider>(context, listen: false);
+    await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
+    final changePass = await res.apiKeyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
+    if (changePass != null) {
+      if(!mounted) return;
+      await customDialog(context, 'Change Pin', 'You pin has changed!!!');
+    } else {
+      if(!mounted) return;
+      await customDialog(context, 'Opps', 'Change Failed!!!');
+    }
+
+    // Close Dialog
+    if(!mounted) return;
+    Navigator.pop(context);
+    // _accountModel.oldPassController.text = '';
+    // _accountModel.newPassController.text = '';
+    // _accountModel.oldNode.requestFocus();
   }
 
   @override
   void initState() {
 
     _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
+    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
     super.initState();
   }
 
@@ -179,12 +227,15 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return AccountBody(
       accountModel: _accountModel,
+      onSubmitName: onSubmitName,
+      onChangeName: onChangeName,
       onChangedBackup: onChangedBackup,
-      onChangedChangePin: onChangedChangePin,
-      onSubmitChangePin: onSubmitChangePin,
       onSubmit: onSubmit,
-      submitChangePin: submitChangePin,
+      onChangedChangePin: onChangedChangePin,
+      onSubmitChangePin: submitChangePin,
+      submitChangePin: _changePin,
       submitBackUpKey: submitBackUpKey,
+      changeName: _changeName,
       deleteAccout: deleteAccout
     );
   }

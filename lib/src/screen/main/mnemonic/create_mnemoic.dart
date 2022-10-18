@@ -1,20 +1,19 @@
 import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
 
 class CreateMnemonic extends StatefulWidget {
   final String? passPhrase;
   final List passPhraseList;
-  const CreateMnemonic(this.passPhrase, this.passPhraseList);
+  const CreateMnemonic(this.passPhrase, this.passPhraseList, {Key? key}) : super(key: key);
 
   @override
-  _CreateMnemonicState createState() => _CreateMnemonicState();
+  CreateMnemonicState createState() => CreateMnemonicState();
 }
 
-class _CreateMnemonicState extends State<CreateMnemonic> {
+class CreateMnemonicState extends State<CreateMnemonic> {
   @override
   void initState() {
+    AppServices.noInternetConnection(context: context);
     disableScreenShot();
     super.initState();
   }
@@ -22,27 +21,36 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
   Future<void> disableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.disableScreenshots();
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("disableScreenShot $e");
+      }
+    }
   }
 
   Future<void> enableScreenShot() async {
     try {
       await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        print("enableScreenShot $e");
+      }
+    }
 
+    if(!mounted) return;
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return Scaffold(
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             MyAppBar(
-              color: isDarkTheme
+              color: isDarkMode
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
@@ -52,15 +60,16 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+
                   Align(
                     alignment: Alignment.centerLeft,
                     child: MyText(
                       text: AppString.backupPassphrase,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                      hexaColor: isDarkMode
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -70,9 +79,9 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                       textAlign: TextAlign.left,
                       text: AppString.keepMnemonic,
                       fontWeight: FontWeight.w500,
-                      color: isDarkTheme
-                          ? AppColors.whiteColorHexa
-                          : AppColors.textColor,
+                      hexaColor: isDarkMode
+                        ? AppColors.whiteColorHexa
+                        : AppColors.textColor,
                       bottom: 12,
                     ),
                   ),
@@ -89,23 +98,29 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
                     Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                            color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
-                            width: 1),
+                          color: hexaCodeToColor(AppColors.darkSecondaryText).withOpacity(0.3),
+                          width: 1
+                        ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      color: isDarkTheme
-                          ? hexaCodeToColor(AppColors.darkCard)
-                          : hexaCodeToColor(AppColors.whiteHexaColor),
-                      child: MyText(
-                        text: widget.passPhrase,
-                        textAlign: TextAlign.left,
-                        fontSize: 25,
-                        color: AppColors.secondarytext,
-                        fontWeight: FontWeight.bold,
-                        pLeft: 16,
-                        right: 16,
-                        top: 16,
-                        bottom: 16,
+                      color: isDarkMode
+                        ? hexaCodeToColor(AppColors.darkCard)
+                        : hexaCodeToColor(AppColors.whiteHexaColor),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: widget.passPhraseList.length,
+                          itemBuilder: (context, i){
+                            return MyText(
+                              text: "${i+1}. ${widget.passPhraseList[i]}",
+                              textAlign: TextAlign.left,
+                              fontSize: 25,
+                              hexaColor: AppColors.secondarytext,
+                              fontWeight: FontWeight.bold,
+                            );
+                          },
+                        )
                       ),
                     ),
                 ],
@@ -121,8 +136,7 @@ class _CreateMnemonicState extends State<CreateMnemonic> {
               ),
             ),
             MyFlatButton(
-              edgeMargin:
-                  const EdgeInsets.only(left: 66, right: 66, bottom: 16),
+              edgeMargin: const EdgeInsets.only(left: 66, right: 66, bottom: 16),
               textButton: AppString.next,
               hasShadow: true,
               action: () async {

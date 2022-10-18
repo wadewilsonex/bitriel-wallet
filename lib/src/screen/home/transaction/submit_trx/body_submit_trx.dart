@@ -1,77 +1,76 @@
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/appbar_c.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
-<<<<<<< HEAD:lib/src/screen/home/transaction/submit_trx/submit_trx_body.dart
-import 'package:wallet_apps/core/service/contract.dart';
-import 'package:clipboard/clipboard.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-=======
-import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/service/contract.dart';
->>>>>>> dev:lib/src/screen/home/transaction/submit_trx/body_submit_trx.dart
+import '../../receive_wallet/appbar_wallet.dart';
 
 class SubmitTrxBody extends StatelessWidget {
-  final int? assetIndex;
   final bool? enableInput;
-  final bool? isCalculate;
   final ModelScanPay? scanPayM;
   final Function? onSubmit;
   final Function? clickSend;
   final Function? validateSubmit;
+  final Function? validateAddress;
   final Function? onChanged;
-  final Function? onChangedCurrency;
-  final Function? validateField;
-  final Function? onChangeDropDown;
+  final String Function(String)? validateField;
+  final Function(String)? onChangeDropDown;
 
   final PopupMenuItem Function(Map<String, dynamic>)? item;
   final Function? pasteText;
+  final bool? pushRepleacement;
+  final Function? scanQR;
 
-  const SubmitTrxBody({
-    this.assetIndex,
+  const SubmitTrxBody({Key? key, 
+    this.pushRepleacement,
     this.pasteText,
-    this.isCalculate,
     this.enableInput,
     this.scanPayM,
     this.onChanged,
-    this.onChangedCurrency,
     this.validateField,
+    this.validateAddress,
     this.onSubmit,
     this.clickSend,
     this.validateSubmit,
     this.onChangeDropDown,
-    this.item
-  });
+    this.item,
+    this.scanQR
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-
-    final contract = Provider.of<ContractProvider>(context);
-
-    const double textSize = 15;
-
     final List<MyInputField> listInput = [
+      
       MyInputField(
-        isBorder: false,
-        pLeft: 0, pRight: 0,
-        // pBottom: 16,
-        labelText: "Receiver address",
+        suffixIcon: GestureDetector(
+          onTap: () async {
+            scanQR!();
+          },
+          child: Container(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: SvgPicture.asset(
+              '${AppConfig.iconsPath}qr_code.svg',
+              width: 4.w,
+              height: 4.h,
+              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor)
+            ),
+          ),
+        ),
+        pBottom: 16,
+        hintText: "Receiver address",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(TextField.noMaxLength),
         ],
         controller: scanPayM!.controlReceiverAddress,
         focusNode: scanPayM!.nodeReceiverAddress,
-        validateField: (value) => value == null ? 'Please fill in receiver address' : null,
+        validateField: (value) => value == null ? "Plaese fill reciever address" : null,
+        // validateField: (value) {
+        //   print("ValidateField $value");
+        //   return validateAddress!(value);
+        // },
         onChanged: onChanged,
-        onSubmit: () {},
-        // suffix: ,
+        onSubmit: () {}
       ),
       MyInputField(
-        isBorder: false,
-        pLeft: 0, pRight: 0,
-        labelText: "Amount",
+        pBottom: 16,
+        hintText: "Amount",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(
             TextField.noMaxLength,
@@ -88,176 +87,123 @@ class SubmitTrxBody extends StatelessWidget {
         }
       ),
     ];
+    
+    final contract = Provider.of<ContractProvider>(context);
 
-    return BodyScaffold(
-      height: MediaQuery.of(context).size.height,
-      left: paddingSize, right: paddingSize,
-      child: Form(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-
-            SendAppBar(
-              title: "SEND",
-              trailing: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: (){
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.close, size: 30, color: Colors.white)
-              ),
-              margin: EdgeInsets.only(bottom: 30),
-            ),
-
-            SendComponent(
-              margin: EdgeInsets.only(bottom: 30),
-              label: "Receive Address",
-              txtFormField: listInput[0],
-              trailing1: MyText(
-                text: "Paste",
-                fontWeight: FontWeight.w700,
-                color: AppColors.blueColor,
-                fontSize: textSize,
-              ),
-              trailing2: SvgPicture.asset(AppConfig.iconPath+"qr.svg", width: 20, height: 20),
-              onPressedTrailing1: () async {
-                pasteText!();
-              },
-              onPressedTrailing2: () async {
-                onChangedCurrency!();
-                // try {
-                //   await TrxOptionMethod.scanQR(
-                //     context,
-                //     Provider.of<ContractProvider>(context, listen: false).sortListContract,
-                //   );
-                // } catch (e) {
-                //   // print(e);
-                // }
-              },
-            ),
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: BodyScaffold(
+              child: Container(
+                color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+                child: Form(
+                  // key: scanPayM!.formStateKey,
+                  // autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      
+                      MyText(
+                        width: MediaQuery.of(context).size.width/1.5,
+                        text: "${scanPayM!.balance!} ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
+                        hexaColor: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
             
-            /* Type of payment */
-            // Container(
-            //   margin: const EdgeInsets.only(
-            //     bottom: 16.0,
-            //     left: 16,
-            //     right: 16,
-            //   ),
-
-            //   child: Container(
-            //     padding: const EdgeInsets.only(
-            //       top: 11.0,
-            //       bottom: 11.0,
-            //       left: 20.0,
-            //       right: 14.0,
-            //     ),
-            //     decoration: BoxDecoration(
-            //       color: isDarkTheme
-            //         ? hexaCodeToColor(AppColors.lowGrey)
-            //         : hexaCodeToColor(AppColors.whiteHexaColor),
-            //       borderRadius: BorderRadius.circular(size5),
-            //       border: Border.all(
-            //         width: scanPayM!.assetIndex != null ? 1 : 0,
-            //         color: hexaCodeToColor(AppColors.whiteColorHexa)
-            //         // scanPayM!.assetIndex != null
-            //         //   ? hexaCodeToColor(AppColors.secondary)
-            //         //   : Colors.transparent
-            //       ),
-            //     ),
-            //     child: Row(
-            //       children: <Widget>[
-            //         Expanded(
-            //           child: MyText(
-            //             text: 'assetIndex',
-            //             textAlign: TextAlign.left,
-            //             color: isDarkTheme
-            //               ? AppColors.darkSecondaryText
-            //               : AppColors.textColor,
-            //             fontSize: 15,
-            //           ),
-            //         ),
-            //         ReuseDropDown(
-            //           initialValue: scanPayM!.assetIndexValue.toString(),
-            //           onChanged: onChangeDropDown,
-            //           itemsList: ContractService.getConSymbol(contract.sortListContract),
-            //           style: TextStyle(
-            //             color: isDarkTheme
-            //               ? Colors.white
-            //               : hexaCodeToColor(AppColors.blackColor),
-            //             fontSize: 18,
-            //             fontWeight: FontWeight.w600
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-
-            // ),
-
-            SendComponent(
-              margin: EdgeInsets.only(bottom: 20),
-              label: "Amount",
-              txtFormField: listInput[1],
-              trailing1: MyText(
-                text: "USD",
-                fontWeight: FontWeight.w700,
-                color: scanPayM!.currency == 0 ? AppColors.blueColor : AppColors.whiteColorHexa,//isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
-                fontSize: textSize,
-              ),
-              trailing2: MyText(
-                text: "${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}",
-                fontWeight: FontWeight.w700,
-                color: scanPayM!.currency == 1 ? AppColors.blueColor : AppColors.whiteColorHexa,//isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
-                fontSize: textSize,
-              ),
-              onPressedTrailing1: () => onChangedCurrency!(0),
-              onPressedTrailing2: () => onChangedCurrency!(1),
-            ),
+                      SizedBox(height: 1.h,),
             
-            isCalculate == false ? MyText(
-              text: " ≈ ${ scanPayM!.currency == 0 ? scanPayM!.estPrice.toString() + " ${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}" : '\$ ' + scanPayM!.estPrice.toString()}",
-              fontSize: textSize,
-              color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
-            )
-            : Row(
-              children: [
-                MyText(
-                  text: " ≈ ",
-                  fontSize: textSize,
-                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
+                      MyText(
+                        text: "Available balance",
+                        hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                      ),
+            
+                      SizedBox(height: 10.h,),
+            
+                      listInput[0],
+                      
+                      /* Type of payment */
+                      Container(
+                        margin: const EdgeInsets.only(
+                          // bottom: 16,
+                          left: paddingSize,
+                          right: paddingSize,
+                        ),
+            
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(
+                            paddingSize, 0, paddingSize, 0
+                          ), 
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                              ? Colors.white.withOpacity(0.06)
+                              : hexaCodeToColor(AppColors.whiteHexaColor),
+                            borderRadius: BorderRadius.circular(size5),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: MyText(
+                                  text: 'Asset',
+                                  textAlign: TextAlign.left,
+                                  hexaColor: isDarkMode
+                                    ? AppColors.darkSecondaryText
+                                    : AppColors.textColor,
+                                ),
+                              ),
+                              Flexible(
+                                child:  QrViewTitle(
+                                  isValue: true,
+                                  listContract: ContractService.getConSymbol(context, contract.sortListContract),
+                                  initialValue: scanPayM!.assetValue.toString(),
+                                  onChanged: onChangeDropDown,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+            
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 10.sp,
+                          bottom: 15.sp,
+                          left: paddingSize,
+                          right: paddingSize,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18.5.sp),
+                            SizedBox(width: 1.w,),
+                            MyText(
+                              text: "Select the right network, or assets may be lost.",
+                              hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
+                            ),
+                          ],
+                        ),
+                      ),
+            
+                      listInput[1],
+                      
+                      //listInput[2],
+                      MyGradientButton(
+                        edgeMargin: const EdgeInsets.all(paddingSize),
+                        textButton: "CONTINUE",
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        action: scanPayM!.enable ? validateSubmit : null,
+                      ),
+            
+                    ],
+                  ),
                 ),
-                
-                ThreeDotLoading(
-                  padding: EdgeInsets.only(left: 5, right: 5),
-                  height: 20, 
-                  width: 30
-                ),
-
-                MyText(
-                  text: " ${Provider.of<ContractProvider>(context).sortListContract[assetIndex!].symbol}",
-                  fontSize: textSize,
-                  color: isDarkTheme ? AppColors.whiteColorHexa : AppColors.blackColor,
-                )
-              ]
+              ),
             ),
-
-            Expanded(child: Container()),
-            
-            //listInput[2],
-            MyFlatButton(
-              height: 100,
-              textButton: "Next",
-              fontSize: 13,
-              edgePadding: EdgeInsets.only(top: 20, bottom: 20),
-              // edgeMargin: const EdgeInsets.only(
-              //   top: 40,
-              // ),
-              hasShadow: scanPayM!.enable,
-              action: scanPayM!.enable ? validateSubmit : null,
-            ),
-          ],
-        ),
-      ),
+          ),
+        )
+      ],
     );
   }
 }

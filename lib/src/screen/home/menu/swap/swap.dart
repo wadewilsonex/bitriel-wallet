@@ -1,454 +1,404 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/swap_m.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/menu/swap/body_swap.dart';
-import 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
+// import 'dart:ui';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_svg/svg.dart';
+// import 'package:provider/provider.dart';
+// import 'package:wallet_apps/index.dart';
+// import 'package:wallet_apps/src/components/dialog_c.dart';
+// import 'package:wallet_apps/src/models/swap_m.dart';
+// import 'package:wallet_apps/src/provider/provider.dart';
+// import 'package:wallet_apps/src/screen/home/home/home.dart';
+// import 'package:wallet_apps/src/screen/home/menu/swap/body_swap.dart';
+// import 'package:wallet_apps/src/screen/home/menu/swap/des_swap.dart';
 
-class Swap extends StatefulWidget {
-  @override
-  _SwapState createState() => _SwapState();
-}
+// class Swap extends StatefulWidget {
+//   @override
+//   _SwapState createState() => _SwapState();
+// }
 
-class _SwapState extends State<Swap> {
+// class _SwapState extends State<Swap> {
 
-  SwapModel _swapModel = SwapModel();
+//   SwapModel _swapModel = SwapModel();
   
-  Future<String>? approve(String pKey) async {
-    String? _hash;
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+//   // Approve Function
+//   Future<String>? approve(String pKey) async {
+//     String? _hash;
+//     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    try {
-      _hash = await contract.approveSwap(pKey);
-    } catch (e) {
-      Navigator.pop(context);
-      if (e.toString() == 'insufficient funds for gas * price + value') {
-        await customDialog('Opps', 'Insufficient funds for gas');
-      } else {
-        await customDialog('Opps', e.toString());
-      }
-    }
-    return _hash!;
-  }
+//     try {
+//       _hash = await contract.approveSwap(pKey);
+//     } on Exception catch (e) {
+//       Navigator.pop(context);
+//       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
+//         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas'); //DialogComponents().dialogCustom(context: context, titles: , 'Insufficient funds for gas');
+//       } else {
+//         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: e.toString()); //DialogComponents().dialogCustom(context: context, titles: 'Opps', e.toString());
+//       }
+//     }
+//     return _hash!;
+//   }
 
-  Future<String>? swap(String pKey) async {
-    String? _hash;
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+//   // Swap Function 
+//   Future<String>? swap(String pKey) async {
+//     String? _hash;
+//     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    try {
-      _hash = await contract.swap(_swapModel.amountController!.text, pKey);
-    } catch (e) {
-      Navigator.pop(context);
-      // if (ApiProvider().isDebug == false) print(e.message);
+//     try {
+//       _hash = await contract.swap(_swapModel.amountController!.text, pKey);
+//     } catch (e) {
+//       Navigator.pop(context);
+//       // if (ApiProvider().isDebug == true) print(e.message);
 
-      if (e.toString() == 'insufficient funds for gas * price + value') {
-        await customDialog('Opps', 'Insufficient funds for gas');
-      } else {
-        await customDialog('Transaction failed', 'Something went wrong with your transaction.');
-        // await customDialog('Opps', e.message.toString());
-      }
-    }
+//       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
+//         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas');
+//       } else {
+//         await DialogComponents().dialogCustom(context: context, titles:  'Opps', contents: e.toString());
+//         // await DialogComponents().dialogCustom(context: context, titles: 'Opps', e.message.toString());
+//       }
+//     }
 
-    return _hash!;
-  }
+//     return _hash!;
+//   }
 
-  Future<void> approveAndSwap() async {
-    try {
-      final contract = Provider.of<ContractProvider>(context, listen: false);
+//   // Function That Call Approve And Then Call Swap
+//   Future<void> approveAndSwap() async {
+//     if (ApiProvider().isDebug) print("approveAndSwap");
+//     try {
+//       final contract = Provider.of<ContractProvider>(context, listen: false);
 
-      await Component().dialogBox(context).then((value) async {
-        final res = await AppServices.getPrivateKey(value, context);
-        if (res != '') {
-          dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
-          final approveHash = await approve(res!);
+//       await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+//         if (resPin != null) {
+//           final res = await AppServices.getPrivateKey(resPin, context);
+//           if (res != '') {
+//             dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+//             final approveHash = await approve(res!);
 
-          if (approveHash != null) {
-            // await Future.delayed(Duration(seconds: 10));
-            final approveStatus = await contract.getSwap.listenTransfer(approveHash);
+//             if (ApiProvider().isDebug) print("approveHash $approveHash");
 
-            if (approveStatus!) {
-              final resAllow = await ContractProvider().checkAllowance();
+//             if (approveHash != null) {
+//               // await Future.delayed(Duration(seconds: 10));
+//               final approveStatus = await contract.getSwap.listenTransfer(approveHash);
 
-              if (resAllow.toString() != '0') {
-                final swapHash = await swap(res);
+//               if (approveStatus!) {
+//                 final resAllow = await ContractProvider().checkAllowance();
 
-                if (swapHash != null) {
-                  final isSuccess = await contract.getSwap.listenTransfer(swapHash);
+//                 if (resAllow.toString() == '0') {
+//                   final swapHash = await swap(res);
 
-                  if (isSuccess!) {
-                    Navigator.pop(context);
-                    enableAnimation(
-                        'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
-                        'Go to wallet', () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, Home.route, ModalRoute.withName('/'));
-                    });
-                    _swapModel.amountController!.text = '';
-                    setState(() {});
-                  } else {
-                    Navigator.pop(context);
-                    await customDialog('Transaction failed',
-                        'Something went wrong with your transaction.');
-                  }
-                }
-              } else {
-                Navigator.pop(context);
-                await customDialog('Transaction failed',
-                    'Something went wrong with your transaction.');
-              }
-            } else {
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            }
-          }
-        }
-      });
-    } catch (e) {}
-  }
+//                   if (swapHash != null) {
+//                     final isSuccess = await contract.getSwap.listenTransfer(swapHash);
 
-  Future<void> swapWithoutAp() async {
-    final contract = Provider.of<ContractProvider>(context, listen: false);
-    await Component().dialogBox(context).then((value) async {
-      try {
-        final res = await AppServices.getPrivateKey(value, context);
-        if (res != '') {
-          dialogLoading(context);
-          final String? hash = await contract.swap(_swapModel.amountController!.text, res!);
-          if (hash != null) {
-            await Future.delayed(const Duration(seconds: 7));
-            final res = await contract.getSwap.listenTransfer(hash);
+//                     if (isSuccess!) {
+//                       Navigator.pop(context);
+//                       await enableAnimation(
+//                         'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
+//                         'Go to wallet', () {
+//                           Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+//                         }
+//                       );
 
-            if (res != null) {
-              if (res) {
-                setState(() {});
-                Navigator.pop(context);
-                enableAnimation(
-                  'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
-                  'Go to wallet', () {
-                  Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-                });
-                _swapModel.amountController!.text = '';
-              } else {
-                Navigator.pop(context);
-                await customDialog('Transaction failed',
-                    'Something went wrong with your transaction.');
-              }
-            } else {
-              Navigator.pop(context);
-              await customDialog('Transaction failed',
-                  'Something went wrong with your transaction.');
-            }
-          }
-        }
-      } catch (e) {
-        Navigator.pop(context);
-        await customDialog('Opps', e.toString());
-      }
-    });
-  }
+//                     } else {
+//                       Navigator.pop(context);
+//                       await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Something went wrong with your transaction.');
+//                     }
+//                   }
 
-  Future<void> confirmFunction() async {
-    try {
+//                 } else {
+//                   Navigator.pop(context);
+//                   await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: '$resAllow');
+//                 }
+//               } else {
+//                 Navigator.pop(context);
+//                 await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Approval is $approveStatus');
+//               }
+//             }
+//           }
+//         }
+//       });
+//     } catch (e) {}
+//   }
 
-      dialogLoading(context);
-      final res = await Provider.of<ContractProvider>(context, listen: false).checkAllowance();
+//   // Function That Call Swap Without Approve
+//   Future<void> swapWithoutAp() async {
+//     if (ApiProvider().isDebug) print("swapWithoutAp");
 
-      if (res.toString() == '0') {
-        Navigator.pop(context);
-        await approveAndSwap();
-      } else {
-        Navigator.pop(context);
+//     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-        await swapWithoutAp();
-      }
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error confirmFunction $e");
-    }
-  }
+//     await Navigator.push(context, Transition(child: Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((resPin) async {
+//       try {
+//         if (resPin != null) {
+//           final res = await AppServices.getPrivateKey(resPin, context);
+//           dialogLoading(context);
+//           final String? hash = await contract.swap(_swapModel.amountController!.text, res!);
+//           if (hash != null) {
+//             // await Future.delayed(const Duration(seconds: 7));
+//             final res = await contract.getSwap.listenTransfer(hash);
 
-  void validateSwap() async {
-    // Loading
-    dialogLoading(context);
+//             if (ApiProvider().isDebug) print("contract.getSwap.listenTransfer(hash) $res");
 
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+//             if (res != null) {
+//               if (res) {
+//                 Navigator.pop(context);
+//                 enableAnimation(
+//                   'swapped ${_swapModel.amountController!.text} of SEL v1 to SEL v2.',
+//                   'Go to wallet', () {
+//                   Navigator.pushAndRemoveUntil(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), ModalRoute.withName('/'));
+//                 });
+//                 _swapModel.amountController!.text = '';
+//               } else {
+//                 Navigator.pop(context);
+//                 await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Something went wrong with your transaction.');
+//               }
+//             } else {
+//               Navigator.pop(context);
+//               await DialogComponents().dialogCustom(context: context, titles: 'Transaction failed', contents: 'Something went wrong with your transaction.');
+//             }
+//           }
+//         }
+//       } catch (e) {
+//         Navigator.pop(context);
+//         await DialogComponents().dialogCustom(
+//           context: context, 
+//           titles: 'Oops', 
+//           contents: e.toString().contains("You do not have sufficient funds for transaction.") ? 'Ins' : e.toString()
+//         );
+//       }
+//     });
+//   }
 
-    if (double.parse(_swapModel.amountController!.text) > double.parse(contract.listContract[ApiProvider().selV1Index].balance!) ||  double.parse(contract.listContract[ApiProvider().selV1Index].balance!) == 0) {
-      // Close Loading
-      Navigator.pop(context);
-      customDialog('Insufficient Balance', 'Your loaded balance is not enough to swap.');
-    } else {
-      Navigator.pop(context);
-      await confirmDialog(_swapModel.amountController!.text, await swap);
-    }
-  }
+//   // Function Confirm After Check Allowance
+//   Future<void> confirmFunction() async {
 
-  Future enableAnimation(String operationText, String btnText, Function onPressed) async {
-    setState(() {
-      _swapModel.success = true;
-    });
-    _swapModel.flareController!.play('Checkmark');
+//     if (ApiProvider().isDebug) print("confirmFunction");
 
-    Timer(const Duration(milliseconds: 3), () {
-      // Navigator.pop(context);
-      setState(() {
-        _swapModel.success = false;
-      });
+//     try {
 
-      successDialog(operationText, btnText, onPressed);
-    });
-  }
+//       dialogLoading(context);
+//       final res = await Provider.of<ContractProvider>(context, listen: false).checkAllowance();
 
-  Future<void> customDialog(String text1, String text2) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: Text(text1, style: TextStyle(fontWeight: FontWeight.w600)),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: Text(text2, textAlign: TextAlign.center),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+//       if (ApiProvider().isDebug) print("res $res");
 
-  // After Swap
-  Future<void> successDialog(String operationText, String btnText, Function onPressed) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          content: Container(
-            //height: MediaQuery.of(context).size.height / 2.5,
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.08,
-                  ),
-                  SvgPicture.asset(
-                    AppConfig.iconsPath+'tick.svg',
-                    height: 100,
-                    width: 100,
-                  ),
-                  MyText(
-                    text: 'SUCCESS!',
-                    fontSize: 22,
-                    top: MediaQuery.of(context).size.width * 0.1,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  MyText(
-                    top: 8.0,
-                    fontSize: 16,
-                    text: 'You have successfully ' + operationText,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      // ignore: deprecated_member_use
-                      SizedBox(
-                        height: 50,
-                        width: 140,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.grey[300]),
-                              foregroundColor: MaterialStateProperty.all(
-                                  hexaCodeToColor(AppColors.secondary)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)))),
-                          child: Text(
-                            'Close',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+//       if (res.toString() == '0') {
+//         Navigator.pop(context);
+//         await approveAndSwap();
+//       } else {
+//         Navigator.pop(context);
 
-                      // ignore: deprecated_member_use
-                      SizedBox(
-                        height: 50,
-                        width: 140,
-                        child: ElevatedButton(
-                          onPressed: (){
-                            onPressed();
-                          },
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  hexaCodeToColor(AppColors.secondary)),
-                              shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)))),
-                          child: Text(
-                            btnText,
-                            style: TextStyle(
-                              color: hexaCodeToColor('#ffffff'),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+//         await swapWithoutAp();
+//       }
+//     } catch (e) {
+//       if (ApiProvider().isDebug == true) print("Error confirmFunction $e");
+//     }
+//   }
 
-  Future<void> confirmDialog(String amount, Function swap) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          content: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  const MyText(
-                    text: 'Swapping',
-                    //color: '#000000',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  SvgPicture.asset(
-                    AppConfig.iconsPath+'arrow.svg',
-                    height: 100,
-                    width: 100,
-                    color: hexaCodeToColor(AppColors.secondary),
-                  ),
-                  const MyText(
-                    text: 'SEL v1 to SEL v2',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    top: 40,
-                    bottom: 8.0,
-                  ),
-                  MyText(
-                    text: '$amount of SEL v1',
-                    fontSize: 16,
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 60,
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        await confirmFunction();
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              hexaCodeToColor(AppColors.secondary)),
-                          foregroundColor: MaterialStateProperty.all(
-                              hexaCodeToColor(AppColors.secondary)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)))),
-                      child: Text(
-                        'CONFIRM',
-                        style: TextStyle(
-                          color: hexaCodeToColor('#ffffff'),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+//   // Check Validation Before Swap
+//   void validateSwap() async {
+//     // Loading
+//     try {
 
-  void onChanged(String value){
-    if (value.isNotEmpty) {
-      _swapModel.enableBtn = true;
-    } else if (_swapModel.enableBtn == true){
-      _swapModel.enableBtn = false;
-    }
-    setState(() {});
-  }
+//       dialogLoading(context);
 
-  @override
-  void initState() {
-    _swapModel.amountController = TextEditingController();
-    super.initState();
-  }
+//       final contract = Provider.of<ContractProvider>(context, listen: false);
 
-  @override
-  void dispose() {
-    super.dispose();
-    _swapModel.amountController!.dispose();
-  }
+//       if (double.parse(_swapModel.amountController!.text) > double.parse(contract.listContract[ApiProvider().selV1Index].balance!) ||  double.parse(contract.listContract[ApiProvider().selV1Index].balance!) == 0) {
+//         // Close Loading
+//         Navigator.pop(context);
+//         DialogComponents().dialogCustom(context: context, titles: 'Insufficient Balance', contents: 'Your loaded balance is not enough to swap.');
+//       } else {
+//         Navigator.pop(context);
+//         await confirmDialog(_swapModel.amountController!.text, await swap);
+//       }
+//     } catch (e) {
+//       if(ApiProvider().isDebug) print("Error validateSwap $e");
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SwapBody(
-      swapModel: _swapModel,
-      onChanged: onChanged,
-      fetchMax: fetchMax,
-      validateSwap: validateSwap,
-    );
-  }
+//   Future enableAnimation(String operationText, String btnText, Function onPressed) async {
+//     setState(() {
+//       _swapModel.success = true;
+//     });
+//     _swapModel.flareController!.play('Checkmark');
 
-  Future<void> fetchMax(BuildContext context) async {
-    dialogLoading(context, content: 'Fetching Balance');
+//     Timer(const Duration(milliseconds: 3), () {
+//       // Navigator.pop(context);
+//       setState(() {
+//         _swapModel.success = false;
+//       });
 
-    final contract = Provider.of<ContractProvider>(context, listen: false);
+//       successDialog(operationText, btnText, onPressed);
+//     });
+//   }
 
-    await contract.selTokenWallet(context);
+//   // After Swap
+//   Future<void> successDialog(String operationText, String btnText, Function onPressed) async {
+//     await DialogComponents().dialogCustom(context: context, 
+//       contents2: Container(
+//         //height: MediaQuery.of(context).size.height / 2.5,
+//         width: MediaQuery.of(context).size.width * 0.7,
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             // SizedBox(
+//             //   height: MediaQuery.of(context).size.width * 0.08,
+//             // ),
+//             Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+//             MyText(
+//               text: 'SUCCESS!',
+//               fontSize: 20,
+//               top: 10,
+//               color: AppColors.lowWhite,
+//               fontWeight: FontWeight.bold,
+//             ),
+//             MyText(
+//               top: 8.0,
+//               color: AppColors.lowWhite,
+//               text: 'You have successfully ' + operationText,
+//             ),
+//           ],
+//         ),
+//       ),
+//       btn2: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
 
-    setState(() {
-      _swapModel.amountController!.text = contract.listContract[ApiProvider().selV1Index].balance!;
-      _swapModel.enableBtn = true;
-    });
+//           Expanded(
+//             child: MyGradientButton(
+//               textButton: btnText,
+//               lsColor: [ "#808080", "#808080"],
+//               begin: Alignment.bottomLeft,
+//               end: Alignment.topRight,
+//               action: (){
+//                 Navigator.pop(context);
+//               }
+//             )
+//           ),
 
-    // Close Dialog
-    Navigator.pop(context);
-  }
-}
+//           SizedBox(
+//             width: 20,
+//             height: 50,
+//           ),
+
+//           Expanded(
+//             child: MyGradientButton(
+//               textButton: btnText,
+//               begin: Alignment.bottomLeft,
+//               end: Alignment.topRight,
+//               action: (){
+//                 onPressed();
+//               }
+//             )
+//           )
+
+//         ],
+//       )
+//     );
+//   }
+
+//   Future<void> confirmDialog(String amount, Function swap) async {
+//     await DialogComponents().dialogCustom(
+//       context: context, 
+//       contents2: SingleChildScrollView(
+//         physics: NeverScrollableScrollPhysics(),
+//         child: Container(
+//           width: MediaQuery.of(context).size.width,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               MyText(
+//                 text: 'Swapping',
+//                 color: AppColors.lowWhite,
+//                 //color: '#000000',
+//                 fontSize: 18,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//               SizedBox(
+//                 height: 40,
+//               ),
+//               SvgPicture.asset(
+//                 AppConfig.iconsPath+'arrow.svg',
+//                 height: 15.w,
+//                 width: 15.w,
+//                 color: hexaCodeToColor(AppColors.secondary),
+//               ),
+//               MyText(
+//                 text: 'SEL v1 to SEL v2',
+//                 fontWeight: FontWeight.bold,
+//                 color: AppColors.lowWhite,
+//                 top: 40,
+//                 bottom: 8.0,
+//               ),
+//               MyText(
+//                 text: '$amount of SEL v1',
+//                 color2: hexaCodeToColor(AppColors.secondary),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//       btn2: SizedBox(
+//         height: 7.h,
+//         width: MediaQuery.of(context).size.width / 1.5,
+//         child: MyGradientButton(
+//           textButton: "CONFIRM",
+//           begin: Alignment.bottomLeft,
+//           end: Alignment.topRight,
+//           action: () async {
+//             Navigator.pop(context);
+//             await confirmFunction();
+//           }
+//         ),
+//       )
+//     );
+//   }
+
+//   void onChanged(String value){
+//     if (value.isNotEmpty) {
+//       _swapModel.enableBtn = true;
+//     } else if (_swapModel.enableBtn == true){
+//       _swapModel.enableBtn = false;
+//     }
+//     setState(() {});
+//   }
+
+//   @override
+//   void initState() {
+//     _swapModel.amountController = TextEditingController();
+//     AppServices.noInternetConnection(context: context);
+//     // Future.delayed(Duration(seconds: 2), (){
+
+//     //   successDialog("1", "Close", (){});
+//     // });
+//     super.initState();
+//   }
+
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     _swapModel.amountController!.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SwapBody(
+//       swapModel: _swapModel,
+//       onChanged: onChanged,
+//       fetchMax: fetchMax,
+//       validateSwap: validateSwap,
+//     );
+//   }
+
+//   Future<void> fetchMax(BuildContext context) async {
+//   //   dialogLoading(context, content: 'Fetching Balance');
+
+//   //   final contract = Provider.of<ContractProvider>(context, listen: false);
+
+//   //   await contract.selTokenWallet(context);
+
+//   //   setState(() {
+//   //     _swapModel.amountController!.text = contract.listContract[ApiProvider().selV1Index].balance!;
+//   //     _swapModel.enableBtn = true;
+//   //   });
+
+//   //   // Close Dialog
+//   //   Navigator.pop(context);
+//   }
+// }

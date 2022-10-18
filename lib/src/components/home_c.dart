@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -76,19 +75,19 @@ final portfolioChart = LineChartData(
   lineBarsData: [
     LineChartBarData(
       spots: [
-        FlSpot(0, 0),
-        FlSpot(0.5, 0.5),
-        FlSpot(1, 1),
-        FlSpot(1.5, 2),
-        FlSpot(2, 2.5),
-        FlSpot(2.5, 3),
-        FlSpot(3, 3),
-        FlSpot(3.5, 3),
-        FlSpot(4, 4),
-        FlSpot(4.5, 3.5),
-        FlSpot(5, 2),
-        FlSpot(5.5, 2),
-        FlSpot(6, 1),
+        const FlSpot(0, 0),
+        const FlSpot(0.5, 0.5),
+        const FlSpot(1, 1),
+        const FlSpot(1.5, 2),
+        const FlSpot(2, 2.5),
+        const FlSpot(2.5, 3),
+        const FlSpot(3, 3),
+        const FlSpot(3.5, 3),
+        const FlSpot(4, 4),
+        const FlSpot(4.5, 3.5),
+        const FlSpot(5, 2),
+        const FlSpot(5.5, 2),
+        const FlSpot(6, 1),
       ],
       isCurved: true,
       colors: _gradientColors,
@@ -106,17 +105,17 @@ final portfolioChart = LineChartData(
 );
 
 Widget homeAppBar(BuildContext context, {Function? query}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+   
   return Container(
     height: 70,
-    color: isDarkTheme
+    color: isDarkMode
       ? hexaCodeToColor(AppColors.darkCard)
       : hexaCodeToColor(AppColors.whiteHexaColor),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          AppConfig.assetsPath+'bitriel_home.png',
+          '${AppConfig.assetsPath}bitriel_home.png',
           width: 170,
           height: 170,
         ),
@@ -124,8 +123,8 @@ Widget homeAppBar(BuildContext context, {Function? query}) {
           padding: const EdgeInsets.only(right: 16.0),
           child: IconButton(
             iconSize: 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
-            icon: SvgPicture.asset(AppConfig.iconsPath+"list.svg"),
+            color: isDarkMode ? Colors.white : Colors.black,
+            icon: SvgPicture.asset("${AppConfig.iconsPath}list.svg"),
             onPressed: () async {
               await MyBottomSheet().listToken(context: context, query: query);
               // Navigator.push(
@@ -211,6 +210,8 @@ Widget cardToken(
 }
 
 class AddAssetRowButton extends StatelessWidget {
+  const AddAssetRowButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -335,18 +336,20 @@ Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16})
 
 class MyBottomAppBar extends StatelessWidget {
 
-  final int? pageIndex;
+  final int? index;
   final bool? apiStatus;
   final HomeModel? homeM;
   final Function? scanReceipt;
   final Function? toReceiveToken;
   final Function? fillAddress;
   final Function? contactPiker;
-  final Function? openDrawer;
-  final Function? onTapChanged;
+  final void Function()? openDrawer;
+  final void Function(int index)? onIndexChanged;
+  final double iconSize = 7.w;
 
-  const MyBottomAppBar({
-    this.pageIndex,
+  MyBottomAppBar({
+    Key? key, 
+    required this.index,
     this.apiStatus,
     this.homeM,
     this.scanReceipt,
@@ -354,88 +357,86 @@ class MyBottomAppBar extends StatelessWidget {
     this.fillAddress,
     this.contactPiker,
     this.openDrawer,
-    @required this.onTapChanged
-  });
+    this.onIndexChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return BottomAppBar(
-      elevation: 10,
-      color: isDarkTheme
-<<<<<<< HEAD
-        ? hexaCodeToColor(AppColors.lowGrey)
-        : hexaCodeToColor(AppColors.whiteHexaColor),
-=======
-          ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
+      color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+      // isDarkMode
+      //   ? hexaCodeToColor(AppColors.darkBgd)
+      //   : hexaCodeToColor(AppColors.whiteHexaColor),
       // shape: const CircularNotchedRectangle(),
->>>>>>> dev
       notchMargin: 8.0,
       child: SizedBox(
-        height: 80,
+        height: 9.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
 
             Expanded(
               child: MyIconButton(
-                isActive: pageIndex == 0 ? true : false,
-                icon: 'compass.svg',
-                subTitle: "Discover",
-                iconSize: 30,
-                onPressed: !apiStatus!
-                ? null
-                : () async {
-
-                  onTapChanged!(0);
-                  // await MyBottomSheet().trxOptions(
-                  //   context: context,
-                  //   portfolioList: homeM!.portfolioList,
-                  // );
+                title: "Explorer",
+                txtColor: index == 0 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                onPressed: () {
+                  onIndexChanged!(0);
                 },
-              )
+                child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                title: "Asset",
+                txtColor: index == 1 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                onPressed: () {
+                  onIndexChanged!(1);
+                  // Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
+                },
+                child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                title: "Home",
+                txtColor: index == 2 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                onPressed: () {
+                  // Navigator.push(context, RouteAnimation(enterPage: HomePage()));
+                  onIndexChanged!(2);
+                },
+                child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                title: "Swap",
+                txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                onPressed: () {
+                  onIndexChanged!(3);
+                },
+                child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+              ),
+            ),
+            Expanded(
+              child: MyIconButton(
+                title: "Setting",
+                txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                onPressed: () {
+                  onIndexChanged!(4);
+                },
+                child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+              ),
             ),
 
-            Expanded(
-              child: MyIconButton(
-              isActive: pageIndex == 1 ? true : false,
-              icon: 'wallet.svg', //'Wallet'
-              subTitle: "Wallet",
-              iconSize: 30,
-              onPressed: !apiStatus!
-              ? null
-              : () async {
-                onTapChanged!(1);
-                // toReceiveToken!();
-              },
-            )),
-
-            // Expanded(
-            //   // flex: 2,
-            //   child: MyIconButton(
-            //     icon: 'contact_list.svg', //'Send/Receive',
-            //     // iconSize: 26,
-            //     onPressed: !apiStatus!
-            //     ? null
-            //     : () async {
-            //       // onTapChanged!(2);
-            //       Navigator.pushNamed(context, AppString.contactBookView);
-            //     },
-            //   ),
-            // ),
-            Expanded(
-              child: MyIconButton(
-                icon: 'more.svg',
-                subTitle: "More",
-                iconSize: 30,
-                onPressed: !apiStatus! ? null : openDrawer,
-              ),
-            )
           ],
         ),
       ),
     );
+    // Container(
+    //   color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd):  hexaCodeToColor(AppColors.whiteColorHexa),
+    //   child: ,
+    // );
   }
 }
 
@@ -451,7 +452,8 @@ Widget fabsButton(
     duration: duration!,
     opacity: visible! ? 1.0 : 0.0,
     child: Transform.translate(
-      offset: Offset.fromDirection(AppServices.getRadienFromDegree(radien!), double.parse(degOneTranslationAnimation!.value.toString()) * distance!),
+      offset: Offset.fromDirection(AppServices.getRadienFromDegree(radien!),
+          double.parse(degOneTranslationAnimation!.value.toString()) * distance!),
       child: IconButton(
         icon: Icon(icon, color: Colors.white),
         onPressed: onPressed,
@@ -471,6 +473,7 @@ class MyHomeAppBar extends StatelessWidget {
   final Function? action;
 
   const MyHomeAppBar({
+    Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -478,7 +481,7 @@ class MyHomeAppBar extends StatelessWidget {
     this.margin = const EdgeInsets.fromLTRB(0, 12, 0, 0),
     @required this.title,
     this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -492,10 +495,10 @@ class MyHomeAppBar extends StatelessWidget {
           MyLogo(
             width: 50,
             height: 50,
-            logoPath: AppConfig.assetsPath+"sld_logo.svg",
+            logoPath: "${AppConfig.assetsPath}sld_logo.svg",
           ),
           MyText(
-            color: "#FFFFFF",
+            hexaColor: "#FFFFFF",
             text: title,
             left: 15,
           ),
@@ -592,19 +595,19 @@ LineChartData mainData() {
     lineBarsData: [
       LineChartBarData(
         spots: [
-          FlSpot(0, 3),
-          FlSpot(0.5, 2.5),
-          FlSpot(1, 1),
-          FlSpot(1.5, 2),
-          FlSpot(2, 2.5),
-          FlSpot(2.5, 3),
-          FlSpot(3, 3),
-          FlSpot(3.5, 3),
-          FlSpot(4, 2),
-          FlSpot(4.5, 3.5),
-          FlSpot(5, 2),
-          FlSpot(5.5, 2),
-          FlSpot(6, 1),
+          const FlSpot(0, 3),
+          const FlSpot(0.5, 2.5),
+          const FlSpot(1, 1),
+          const FlSpot(1.5, 2),
+          const FlSpot(2, 2.5),
+          const FlSpot(2.5, 3),
+          const FlSpot(3, 3),
+          const FlSpot(3.5, 3),
+          const FlSpot(4, 2),
+          const FlSpot(4.5, 3.5),
+          const FlSpot(5, 2),
+          const FlSpot(5.5, 2),
+          const FlSpot(6, 1),
         ],
         isCurved: true,
         colors: _gradientColors,

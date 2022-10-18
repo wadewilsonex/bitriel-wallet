@@ -1,22 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class ThemeProvider with ChangeNotifier {
-  bool isDark = false;
+
+  bool isDark = true;
 
   Future<void> changeMode() async {
-    
-    isDark = !isDark;
-
-    if (isDark) await StorageServices.storeData('dark', DbKey.themeMode);
-    else if (isDark == false) await StorageServices.removeKey(DbKey.themeMode);
+    if (isDark) {
+      await StorageServices.storeData('dark', DbKey.themeMode);
+    } else if (isDark == false) {
+      await StorageServices.removeKey(DbKey.themeMode);
+    }
 
     notifyListeners();
   }
 
   set setTheme(bool theme){
+    isDarkMode = theme;
     isDark = theme;
+
     notifyListeners();
   }
 

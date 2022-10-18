@@ -1,20 +1,19 @@
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/airdrop_p.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
-<<<<<<< HEAD
-import 'package:wallet_apps/src/provider/search_p.dart';
-import 'package:wallet_apps/src/provider/transaction_p.dart';
-=======
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
->>>>>>> dev
+import 'package:wallet_apps/src/provider/swap_p.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+
   WidgetsFlutterBinding.ensureInitialized();
-
-  // await initHiveForFlutter();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -54,14 +53,20 @@ void main() async {
         ChangeNotifierProvider<SearchProvider>(
           create: (context) => SearchProvider(),
         ),
-<<<<<<< HEAD
-        ChangeNotifierProvider<TrxProvider>(
-          create: (context) => TrxProvider(),
+        ChangeNotifierProvider<SwapProvider>(
+          create: (context) => SwapProvider(),
         ),
-=======
->>>>>>> dev
+        ChangeNotifierProvider<ReceiveWalletProvider>(
+          create: (context) => ReceiveWalletProvider(),
+        ),
+        ChangeNotifierProvider<WalletConnectComponent>(
+          create: (context) => WalletConnectComponent(),
+        ),
+        ChangeNotifierProvider<ContractsBalance>(
+          create: (context) => ContractsBalance(),
+        ),
       ],
-      child: App(),
+      child: const App(),
     ),
   );
 }

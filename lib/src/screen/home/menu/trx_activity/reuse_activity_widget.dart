@@ -1,15 +1,14 @@
-import 'package:flutter_svg/svg.dart';
 import 'package:wallet_apps/index.dart';
 
 Widget buildListBody(
-  List<dynamic>? _activity,
+  List<dynamic>? activity,
 ) {
-  return _activity != null
-      ? _activity.isNotEmpty
+  return activity != null
+      ? activity.isNotEmpty
           ? ListView.builder(
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
-              itemCount: _activity.length,
+              itemCount: activity.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
@@ -50,11 +49,11 @@ Widget buildListBody(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                _activity[index]['location'].toString(),
+                                activity[index]['location'].toString(),
                               ),
                               Text(
                                 AppUtils.timeStampToDateTime(
-                                  _activity[index]['created_at'].toString(),
+                                  activity[index]['created_at'].toString(),
                                 ),
                               )
                             ],
@@ -63,7 +62,7 @@ Widget buildListBody(
                         Expanded(
                           flex: 0,
                           child: Text(
-                            _activity[index]['status'].toString(),
+                            activity[index]['status'].toString(),
                             style: TextStyle(
                               color: hexaCodeToColor(AppColors.greenColor),
                             ),
@@ -78,11 +77,11 @@ Widget buildListBody(
             )
           : loading() /* Show Loading If History Length = 0 */
       : Align(
-          child: SvgPicture.asset(AppConfig.iconsPath+'no_data.svg'),
+          child: SvgPicture.asset('${AppConfig.iconsPath}no_data.svg'),
         ); /* Show Text (No activity) If Respoonse Length = 0 */
 }
 
-Widget rowInformation(String title, dynamic _data) {
+Widget rowInformation(String title, dynamic data) {
   /* Display Information By Row */
   return Column(
     mainAxisSize: MainAxisSize.min,
@@ -101,7 +100,7 @@ Widget rowInformation(String title, dynamic _data) {
             /* Title */
             Expanded(
               child: Text(
-                "$_data",
+                "$data",
                 style: const TextStyle(
                   fontSize: 18.0,
                   color: Colors.white,
