@@ -54,7 +54,7 @@ class AccountState extends State<Account> {
         onPressed: () async => await _deleteAccount(),
         child: const MyText(
           text: 'Delete',
-          hexaColor: AppColors.redColor,
+          // hexaColor: AppColors.redColor,
           fontWeight: FontWeight.w700
         ),
       ),
