@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 
@@ -17,6 +18,72 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("$url/api/claim"),
+      headers: _conceteHeader(),
+      body: body
+    );
+  }
+
+  // Web2 wallet api
+  Future<http.Response> registerPhoneNumber(final String? phoneNumber) async {
+    print("registerPhoneNumber phoneNumber $phoneNumber");
+    body = json.encode({
+      "phoneNumber": phoneNumber,
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get("WEB2_URL_API")}/register"),
+      headers: _conceteHeader(),
+      body: body
+    );
+  }
+
+  Future<http.Response> registerVerifyOPT(final String phoneNumber, final String opt) async {
+    body = json.encode({
+      "phoneNumber": phoneNumber,
+      "opt" : opt
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get("WEB2_URL_API")}/register/verify/otp"),
+      headers: _conceteHeader(),
+      body: body
+    );
+  }
+
+  Future<http.Response> registerSetPassword(final String phoneNumber, final String password, final String confirmPassword) async {
+    body = json.encode({
+      "phoneNumber": phoneNumber,
+      "password" : password,
+      "confirmPassword": confirmPassword
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get("WEB2_URL_API")}/register/submit/password"),
+      headers: _conceteHeader(),
+      body: body
+    );
+  }
+
+  Future<http.Response> loginPhoneNumber(final String phoneNumber) async {
+    body = json.encode({
+      "phoneNumber": phoneNumber,
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get("WEB2_URL_API")}/login"),
+      headers: _conceteHeader(),
+      body: body
+    );
+  }
+
+  Future<http.Response> loginVerifyOPT(final String phoneNumber, final String opt) async {
+    body = json.encode({
+      "phoneNumber": phoneNumber,
+      "opt" : opt
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get("WEB2_URL_API")}/login/verify/otp"),
       headers: _conceteHeader(),
       body: body
     );
