@@ -1,4 +1,4 @@
-import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
+// import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:wallet_apps/index.dart';
 
 class CreateMnemonic extends StatefulWidget {
@@ -14,32 +14,32 @@ class CreateMnemonicState extends State<CreateMnemonic> {
   @override
   void initState() {
     AppServices.noInternetConnection(context: context);
-    disableScreenShot();
+    // disableScreenShot();
     super.initState();
   }
 
-  Future<void> disableScreenShot() async {
-    try {
-      await FlutterScreenshotSwitcher.disableScreenshots();
-    } catch (e) {
-      if (kDebugMode) {
-        print("disableScreenShot $e");
-      }
-    }
-  }
+  // Future<void> disableScreenShot() async {
+  //   try {
+  //     await FlutterScreenshotSwitcher.disableScreenshots();
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print("disableScreenShot $e");
+  //     }
+  //   }
+  // }
 
-  Future<void> enableScreenShot() async {
-    try {
-      await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
-    } catch (e) {
-      if (kDebugMode) {
-        print("enableScreenShot $e");
-      }
-    }
+  // Future<void> enableScreenShot() async {
+  //   try {
+  //     await FlutterScreenshotSwitcher.enableScreenshots().then((value) {});
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print("enableScreenShot $e");
+  //     }
+  //   }
 
-    if(!mounted) return;
-    Navigator.pop(context);
-  }
+  //   if(!mounted) return;
+  //   Navigator.pop(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class CreateMnemonicState extends State<CreateMnemonic> {
                 ? hexaCodeToColor(AppColors.darkCard)
                 : hexaCodeToColor(AppColors.whiteHexaColor),
               title: AppString.createAccTitle,
-              onPressed: enableScreenShot,
+              // onPressed: enableScreenShot,
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),

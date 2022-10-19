@@ -152,8 +152,8 @@ class WelcomeBody extends StatelessWidget {
                 ),
                 title: "Create wallet with phone number",
                 action: () {
-                  underContstuctionAnimationDailog(context: context);
-                  // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  // underContstuctionAnimationDailog(context: context);
+                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
               ),
             ),
