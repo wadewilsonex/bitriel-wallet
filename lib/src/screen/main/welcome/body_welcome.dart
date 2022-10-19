@@ -84,4 +84,87 @@ class WelcomeBody extends StatelessWidget {
       ),
     );
   }
+<<<<<<< HEAD
+=======
+
+  Widget _setupMenu(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: PortraitCardItem(
+                hexColor: "#263238",
+                icon: const Icon(Iconsax.add_circle, color: Colors.white),
+                image: Image.asset(
+                  "assets/icons/setup-1.png",
+                  width: 25.w,
+                ),
+                title: "Create a new crypto wallet",
+                action: () async {
+                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                },
+              ),
+            ),
+
+            const SizedBox(width: 10,),
+
+            Expanded(
+              child: PortraitCardItem(
+                hexColor: "#F27649",
+                icon: const Icon(Iconsax.import, color: Colors.white),
+                image: Image.asset(
+                  "assets/icons/setup-2.png",
+                  width: 35.w,
+                ),
+                title: "Import seed",
+                action: () {
+                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                },
+              ),
+            )
+          ],
+        ),
+
+        const SizedBox(height: 10),
+
+        Row(
+          children: [
+            Expanded(
+              child: PortraitCardItem(
+                hexColor: "#5CA2E1",
+                icon: const Icon(Iconsax.call_add, color: Colors.white),
+                image: Image.asset(
+                  "assets/icons/setup-3.png",
+                  width: 40.w,
+                ),
+                title: "Create wallet with phone number",
+                action: () {
+                  underContstuctionAnimationDailog(context: context);
+                  // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                },
+              ),
+            ),
+
+            const SizedBox(width: 10,),
+
+            Expanded(
+              child: PortraitCardItem(
+                hexColor: "#FFB573",
+                icon: const Icon(Iconsax.import_2, color: Colors.white),
+                image: Image.asset(
+                  "assets/icons/setup-4.png",
+                ),
+                title: "Import Json",
+                action: () {
+                  underContstuctionAnimationDailog(context: context);
+                },
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+>>>>>>> dev-doers
 }

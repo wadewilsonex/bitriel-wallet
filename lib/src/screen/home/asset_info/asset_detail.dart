@@ -34,19 +34,19 @@ class AssetDetailState extends State<AssetDetail> {
 
   String periodID = '1DAY';
   void queryAssetChart() async {
-    // await ApiCalls().getChart(
-    //   widget.scModel.symbol!, 
-    //   'usd', periodID, 
-    //   DateTime.now().subtract(const Duration(days: 6)), 
-    //   DateTime.now()
-    // ).then((value) {
+    await ApiCalls().getChart(
+      widget.scModel.symbol!, 
+      'usd', periodID, 
+      DateTime.now().subtract(const Duration(days: 6)), 
+      DateTime.now()
+    ).then((value) {
 
-    //   widget.scModel.chart = value;
+      widget.scModel.chart = value;
 
-    //   setState(() {
+      setState(() {
         
-    //   });
-    // });
+      });
+    });
   }
 
   @override
