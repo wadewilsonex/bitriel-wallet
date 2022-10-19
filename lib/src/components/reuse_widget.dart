@@ -1182,3 +1182,42 @@ Widget textRowWidget(String leadingText, String trailingText) {
     ),
   );
 }
+
+Widget tfPasswordWidget(TextEditingController password, String title) {
+  return TextFormField(
+    obscureText: true,
+    controller: password,
+    style: TextStyle(
+      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
+    ),
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+      ),
+      hintText: title,
+      hintStyle: TextStyle(
+        fontSize: 14,
+        color: hexaCodeToColor("#AAAAAA"),
+      ),
+      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+      /* Prefix Text */
+      filled: true,
+      fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+    ),
+    validator: (val){
+      if(val != password.text) {
+        return 'Password not match';
+      }
+      return null;
+    }
+  );
+}
