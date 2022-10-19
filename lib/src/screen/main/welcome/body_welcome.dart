@@ -84,8 +84,6 @@ class WelcomeBody extends StatelessWidget {
       ),
     );
   }
-<<<<<<< HEAD
-=======
 
   Widget _setupMenu(BuildContext context) {
     return Column(
@@ -166,5 +164,4 @@ class WelcomeBody extends StatelessWidget {
       ],
     );
   }
->>>>>>> dev-doers
 }
