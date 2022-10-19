@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   flutter_screenshot_switcher: 1ca39888613b875edad8542327a1db4c61069025
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   fluttercontactpicker: d582836dea6b5d489f3d259f35d7817ae82ee5e6
-  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
+  fluttertoast: 74526702fea2c060ea55dde75895b7e1bde1c86b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401

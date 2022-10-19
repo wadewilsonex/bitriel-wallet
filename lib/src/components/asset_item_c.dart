@@ -14,8 +14,6 @@ class AssetsItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-     
-
     return rowDecorationStyle(
         color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         child: Slidable(
