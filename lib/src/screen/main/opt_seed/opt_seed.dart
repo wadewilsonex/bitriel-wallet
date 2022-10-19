@@ -1,6 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
