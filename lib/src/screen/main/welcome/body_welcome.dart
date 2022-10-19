@@ -1,5 +1,7 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/portrait_card_c.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';
 
 class WelcomeBody extends StatelessWidget {
 
@@ -138,8 +140,8 @@ class WelcomeBody extends StatelessWidget {
                 ),
                 title: "Create wallet with phone number",
                 action: () {
-                  underContstuctionAnimationDailog(context: context);
-                  // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  // underContstuctionAnimationDailog(context: context);
+                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
               ),
             ),

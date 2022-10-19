@@ -162,6 +162,8 @@ dependencies:
 
   dropdown_button2: ^1.7.2
   intl_phone_number_input: ^0.7.1
+  animate_do: ^2.1.0
+  flutter_verification_code: ^1.1.6
 
 dependency_overrides:
     # git:
