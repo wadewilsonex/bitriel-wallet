@@ -4,7 +4,7 @@ import 'package:wallet_apps/src/screen/main/seeds_phonenumber/login/login_phonen
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
 
 class PhoneMainScreen extends StatefulWidget {
-  const PhoneMainScreen({ 
+  const PhoneMainScreen({
     Key? key,
   }) : super(key: key);
 
@@ -44,7 +44,6 @@ class _PhoneMainScreenState extends State<PhoneMainScreen> with SingleTickerProv
                 labelColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.textColor),
                 unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
                 tabs: [
-                  
                   Tab(
                     child: MyText(
                       text: "Login",

@@ -36,7 +36,7 @@ class WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      body: WelcomeBody(),
+      body: SafeArea(child: WelcomeBody()),
     );
   }
 }

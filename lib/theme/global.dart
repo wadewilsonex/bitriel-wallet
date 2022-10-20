@@ -6,8 +6,6 @@ import 'package:wallet_apps/index.dart';
 
 bool isDarkMode = true;
 
-ValueNotifier<bool> isDarkTheme = ValueNotifier(false);
-
 // void setThemeValue(BuildContext context, bool value) {
 //   Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
 //   isDarkMode = Provider.of<ThemeProvider>(context, listen: false).isDark;

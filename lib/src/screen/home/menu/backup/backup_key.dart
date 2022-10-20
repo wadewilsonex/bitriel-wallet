@@ -1,4 +1,4 @@
-import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
+// import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
@@ -31,18 +31,18 @@ class _BackUpKeyState extends State<BackUpKey> {
     
   }
 
-  Future<void> disableScreenShot() async {
-    try {
-      await FlutterScreenshotSwitcher.disableScreenshots();
-      // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
-      //   print("Value $value");
-      // });
-    } catch (e) {
-      if (kDebugMode) {
-        print("disableScreenShot $e");
-      }
-    }
-  }
+  // Future<void> disableScreenShot() async {
+  //   try {
+  //     await FlutterScreenshotSwitcher.disableScreenshots();
+  //     // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
+  //     //   print("Value $value");
+  //     // });
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print("disableScreenShot $e");
+  //     }
+  //   }
+  // }
 
   @override
   void initState(){
@@ -56,7 +56,7 @@ class _BackUpKeyState extends State<BackUpKey> {
     return BackUpKeyBody(
       getKeyStoreJson: getKeyStoreJson,
       getMnemonic: getMnemonic,
-      disableScreenShot: disableScreenShot
+      // disableScreenShot: disableScreenShot
     );
   }
 }

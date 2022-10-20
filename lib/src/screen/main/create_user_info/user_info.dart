@@ -1,4 +1,4 @@
-import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
+// import 'package:flutter_screenshot_switcher/flutter_screenshot_switcher.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -31,18 +31,18 @@ class MyUserInfoState extends State<MyUserInfo> {
     super.initState();
   }
 
-  Future<void> enableScreenshot() async {
-    try {
+  // Future<void> enableScreenshot() async {
+  //   try {
 
-    await FlutterScreenshotSwitcher.enableScreenshots();
-    } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error enableScreenshot $e");
-        }
-      }
-    }
-  }
+  //   await FlutterScreenshotSwitcher.enableScreenshots();
+  //   } catch (e){
+  //     if (ApiProvider().isDebug == true) {
+  //       if (kDebugMode) {
+  //         print("Error enableScreenshot $e");
+  //       }
+  //     }
+  //   }
+  // }
 
   @override
   void dispose() {
