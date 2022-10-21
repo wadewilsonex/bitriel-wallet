@@ -222,6 +222,7 @@ flutter:
     - assets/logo/
     - assets/ads/
     - assets/illustration/
+    - assets/payment/
     - .env
 
     # - ../assets/

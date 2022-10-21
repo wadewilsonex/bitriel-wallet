@@ -11,7 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/doers_event_ticket.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
@@ -48,7 +48,7 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: homePageModel!.activeIndex == 4 ?
+      appBar: homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 ?
       null
       :
       AppBar(
@@ -195,7 +195,8 @@ class HomePageBody extends StatelessWidget {
           ),
 
           // SwapPage(),
-          EventTicket(),
+          // EventTicket(),
+          FindEvent(),
 
           SettingPage(),
         ],
