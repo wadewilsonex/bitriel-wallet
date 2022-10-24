@@ -18,7 +18,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("$url/api/claim"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -32,7 +32,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -45,7 +45,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/verify/otp"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -59,7 +59,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/submit/password"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -71,7 +71,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/login"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -84,13 +84,13 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/login/verify/otp"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
 
   /// Http Header
-  Map<String, String> _conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
+  Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
     return key != null 
     ? { /* if Parameter != Null = Concete Header With  */
       "Content-Type": "application/json; charset=utf-8", 

@@ -1,7 +1,7 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/payment_controller.dart';
 
 class PaymentOptions extends StatefulWidget {
   const PaymentOptions({Key? key}) : super(key: key);
@@ -11,6 +11,9 @@ class PaymentOptions extends StatefulWidget {
 }
 
 class _PaymentOptionsState extends State<PaymentOptions> {
+
+  final PaymentController controller = Get.put(PaymentController());
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,41 +99,48 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
           const SizedBox(height: 6),
 
-          Container(
-            padding: const EdgeInsets.all(paddingSize),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              color: hexaCodeToColor(AppColors.defiMenuItem),
-            ),
-            child: Row(
-              children: [
-                Icon(Iconsax.cards, size: 40, color: hexaCodeToColor(AppColors.iconGreyColor)),
-                
-                Padding(
-                  padding: const EdgeInsets.only(left: paddingSize),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa),
-                      
-                      const SizedBox(height: 5),
-
-                      Row(
-                        children: [
-                          Image.asset("assets/payment/visa.png" , width: 40,),
-
-                          const SizedBox(width: 5),
-                          Image.asset("assets/payment/mastercard.png", width: 40,),
-
-                          const SizedBox(width: 5),
-                          Image.asset("assets/payment/paypal.png", width: 40,),
-                        ],
-                      )
-
-                    ],
-                  ),
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              print("tab");
+              // await displayPaymentStripe();
+              controller.makePayment(qty: '1', wallet: '0xa7f5f726b2395af66a2a4f5cb6fd903e596c37c7');
+            },
+            child: Container(
+              padding: const EdgeInsets.all(paddingSize),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                color: hexaCodeToColor(AppColors.defiMenuItem),
+              ),
+              child: Row(
+                children: [
+                  Icon(Iconsax.cards, size: 40, color: hexaCodeToColor(AppColors.iconGreyColor)),
+                  
+                  Padding(
+                    padding: const EdgeInsets.only(left: paddingSize),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa),
+                        
+                        const SizedBox(height: 5),
+          
+                        Row(
+                          children: [
+                            Image.asset("assets/payment/visa.png" , width: 40,),
+          
+                            const SizedBox(width: 5),
+                            Image.asset("assets/payment/mastercard.png", width: 40,),
+          
+                            const SizedBox(width: 5),
+                            Image.asset("assets/payment/paypal.png", width: 40,),
+                          ],
+                        )
+          
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
@@ -138,5 +148,13 @@ class _PaymentOptionsState extends State<PaymentOptions> {
     );
   }
 
+  Future<void> displayPaymentStripe() async {
+    await Stripe.instance.initPaymentSheet(      
+      paymentSheetParameters: const SetupPaymentSheetParameters(
 
+      ),  
+    );
+  }
+
+  
 }

@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/components/event_model.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/payment_ticket.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/checkout_ticket.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class EventDetailPage extends StatefulWidget {

@@ -1,3 +1,5 @@
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
@@ -22,6 +24,8 @@ Future<void> main() async {
     FlutterError.dumpErrorToConsole(details);
     if (kReleaseMode) exit(1);
   };
+  
+  Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
 
   runApp(
     MultiProvider(
@@ -66,7 +70,11 @@ Future<void> main() async {
           create: (context) => ContractsBalance(),
         ),
       ],
-      child: const App(),
+      child: GetMaterialApp(
+        getPages: [
+          GetPage(name: "/", page: () => const App())
+        ],
+      ),
     ),
   );
 }
