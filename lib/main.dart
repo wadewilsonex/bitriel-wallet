@@ -27,6 +27,57 @@ Future<void> main() async {
   
   Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
 
+  // runApp(
+  //   MultiProvider(
+  //     providers: [
+  //       ChangeNotifierProvider<WalletProvider>(
+  //         create: (context) => WalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<MarketProvider>(
+  //         create: (context) => MarketProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ApiProvider>(
+  //         create: (context) => ApiProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ContractProvider>(
+  //         create: (context) => ContractProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ThemeProvider>(
+  //         create: (context) => ThemeProvider(),
+  //       ),
+  //       ChangeNotifierProvider<PresaleProvider>(
+  //         create: (context) => PresaleProvider(),
+  //       ),
+  //       ChangeNotifierProvider<Attendance>(
+  //         create: (context) => Attendance(),
+  //       ),
+  //       ChangeNotifierProvider<AirDropProvider>(
+  //         create: (context) => AirDropProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SearchProvider>(
+  //         create: (context) => SearchProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SwapProvider>(
+  //         create: (context) => SwapProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ReceiveWalletProvider>(
+  //         create: (context) => ReceiveWalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<WalletConnectComponent>(
+  //         create: (context) => WalletConnectComponent(),
+  //       ),
+  //       ChangeNotifierProvider<ContractsBalance>(
+  //         create: (context) => ContractsBalance(),
+  //       ),
+  //     ],
+  //     child: GetMaterialApp(
+  //       getPages: [
+  //         GetPage(name: "/", page: () => const App())
+  //       ],
+  //     ),
+  //   ),
+  // );
+
   runApp(
     MultiProvider(
       providers: [
@@ -70,11 +121,7 @@ Future<void> main() async {
           create: (context) => ContractsBalance(),
         ),
       ],
-      child: GetMaterialApp(
-        getPages: [
-          GetPage(name: "/", page: () => const App())
-        ],
-      ),
+      child: const App()
     ),
   );
 }

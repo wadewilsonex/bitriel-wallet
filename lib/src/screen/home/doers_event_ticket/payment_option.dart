@@ -4,7 +4,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 
 class PaymentOptions extends StatefulWidget {
-  const PaymentOptions({Key? key}) : super(key: key);
+  final String qty;
+  const PaymentOptions({Key? key, required this.qty}) : super(key: key);
 
   @override
   State<PaymentOptions> createState() => _PaymentOptionsState();
@@ -13,6 +14,16 @@ class PaymentOptions extends StatefulWidget {
 class _PaymentOptionsState extends State<PaymentOptions> {
 
   final PaymentController controller = Get.put(PaymentController());
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();  
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -75,7 +86,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         MyText(text: "Bitriel Wallet", fontSize: 15, fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa,),
-                        MyText(text: "Pay Securely Selendra token", hexaColor: AppColors.lowWhite),
+                        MyText(text: "Pay Securely SEL Token", hexaColor: AppColors.lowWhite),
 
                       ],
                     ),
@@ -101,9 +112,8 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
           GestureDetector(
             onTap: () {
-              print("tab");
-              // await displayPaymentStripe();
-              controller.makePayment(qty: '1', wallet: '0xa7f5f726b2395af66a2a4f5cb6fd903e596c37c7');
+              dialogLoading(context);
+              controller.makePayment(context, qty: widget.qty, wallet: Provider.of<ContractProvider>(context, listen: false).ethAdd);
             },
             child: Container(
               padding: const EdgeInsets.all(paddingSize),
@@ -147,14 +157,5 @@ class _PaymentOptionsState extends State<PaymentOptions> {
       ),
     );
   }
-
-  Future<void> displayPaymentStripe() async {
-    await Stripe.instance.initPaymentSheet(      
-      paymentSheetParameters: const SetupPaymentSheetParameters(
-
-      ),  
-    );
-  }
-
-  
+    
 }

@@ -86,7 +86,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     controller.success(); //starts success animation
 
                     if(!mounted) return;
-                    Navigator.push(context, Transition(child: const PaymentOptions(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    Navigator.push(context, Transition(child: PaymentOptions(qty: amount.toString()), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                     
                     // await Future.delayed(const Duration(seconds: 1));
                     controller.reset(); //resets the slider
@@ -249,42 +249,6 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
         },
         child: const MyText(text: 'Slide to confirm & pay', hexaColor: AppColors.textColor,),
       ),
-      // child: Row(
-      //   children: <Widget>[
-      //     Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: <Widget>[
-      //         const Text("Price", style: subtitleStyle),
-      //         UIHelper.verticalSpace(8),
-      //         RichText(
-      //           text: TextSpan(
-      //             children: [
-      //               TextSpan(
-      //                 text: "SEL ${(widget.event.priceToken + 0.01) * amount} ≈ \$${(widget.event.price + 0.11) * amount}" , style: titleStyle.copyWith(fontSize: 16, color: hexaCodeToColor(AppColors.orangeColor))),
-      //                 // const TextSpan(text: "/per person", style: TextStyle(color: Colors.black)),
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //     const Spacer(),
-      //     ElevatedButton(
-      //       style: ElevatedButton.styleFrom(
-      //         backgroundColor: hexaCodeToColor(AppColors.orangeColor),
-      //         shape: const StadiumBorder(),
-      //         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      //       ),
-      //       onPressed: () {
-      //         Navigator.push(context, Transition(child: const PaymentOptions(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-      //       },
-      //       child: Text(
-      //         "CONFIRM & PAY",
-      //         style: titleStyle.copyWith(color: Colors.white, fontWeight: FontWeight.normal),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
   

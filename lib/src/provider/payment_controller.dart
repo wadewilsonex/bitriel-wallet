@@ -2,23 +2,20 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getx;
 import 'package:http/http.dart' as http;
+import 'package:transition/transition.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 
-class PaymentController extends GetxController {
+class PaymentController extends getx.GetxController {
   Map<String, dynamic>? paymentIntentData;
 
-  Future<void> makePayment({required String qty, required String wallet}) async {
+  Future<void> makePayment(BuildContext context, {required String qty, required String wallet}) async {
     try {
-      paymentIntentData = await createPaymentIntent(qty, wallet);
+      paymentIntentData = await createPaymentIntent(context, qty, wallet);
       print("paymentIntentData $paymentIntentData");
-
-
-      // final paymentIntent = await Stripe.instance.confirmPayment(
-      //   paymentIntentClientSecret: "pi_3LwNfZDSrtf20FA52lwqFCsi_secret_9PMGVSdY6TfYkXCVY859hxaoE",
-      // );
 
       if (paymentIntentData != null) {
         await Stripe.instance.initPaymentSheet(
@@ -37,41 +34,46 @@ class PaymentController extends GetxController {
             ),
           ),
         );
-        
-        displayPaymentSheet();
-        
+
+        displayPaymentSheet(context, qty, wallet );
+
       }
     } catch (e, s) {
       print('exception:$e$s');
+      Navigator.of(context).pop();
     }
   }
 
-  displayPaymentSheet() async {
+  displayPaymentSheet(BuildContext context, String qty, String wallet) async {
     try {
       await Stripe.instance.presentPaymentSheet();
-      Get.snackbar('Payment', 'Payment Successful',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          margin: const EdgeInsets.all(10),
-          duration: const Duration(seconds: 2));
-      // Get.to(const HomePage());
+      // getx.Get.snackbar('Payment', 'Payment Successful',
+      //     snackPosition: getx.SnackPosition.BOTTOM,
+      //     backgroundColor: Colors.green,
+      //     colorText: Colors.white,
+      //     margin: const EdgeInsets.all(10),
+      //     duration: const Duration(seconds: 2));
+
+      Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(amount: qty, fromAddress: wallet, isDebitCard: true,)), (route) => false);
     } on Exception catch (e) {
       if (e is StripeException) {
         print("Error from Stripe: ${e.error.localizedMessage}");
+        Navigator.of(context).pop();
       } else {
         print("Unforeseen error: ${e}");
+        Navigator.of(context).pop();
       }
     } catch (e) {
       print("exception:$e");
+      Navigator.of(context).pop();
     }
   }
 
   //  Future<Map<String, dynamic>>
-  createPaymentIntent(String qty, String wallet) async {
+  createPaymentIntent(BuildContext context, String qty, String wallet) async {
     try {
       Map<String, dynamic> body = {
-        'quantity': calculateAmount(qty),
+        'quantity': qty,
         'user_address': wallet,
       };
       var response = await http.post(
@@ -83,11 +85,8 @@ class PaymentController extends GetxController {
       return jsonDecode(response.body);
     } catch (err) {
       print('err charging user: ${err.toString()}');
+      Navigator.of(context).pop();
     }
   }
 
-  calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    return a.toString();
-  }
 }

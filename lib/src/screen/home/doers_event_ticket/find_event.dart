@@ -1,5 +1,6 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/event_model.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
@@ -32,6 +33,28 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             child: EventDetailPage(event),
           );
         },
+      ),
+    );
+  }
+
+  void _showPasses(BuildContext context) {
+    showBarModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      builder: (context) => SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            for (var i = 0; i < 10; i++)
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: Image.asset(
+                "assets/Singapore_Ticket.png",
+              ),
+            )
+          ],  
+        ),
       ),
     );
   }
@@ -97,6 +120,38 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             ],
           ),
         )
+      ),
+      bottomNavigationBar: Material(
+        child: InkWell(
+          onTap: () {
+            _showPasses(context);
+          },
+          child: SizedBox(
+            height: kToolbarHeight,
+            width: double.infinity,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Row(
+                  children: [
+                    MyText(
+                      text: 'Passes',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
+
+                    const Spacer(),
+
+                    Icon(
+                      Iconsax.arrow_up_2, 
+                      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
