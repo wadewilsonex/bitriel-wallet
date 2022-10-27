@@ -111,9 +111,9 @@ class _PaymentOptionsState extends State<PaymentOptions> {
           const SizedBox(height: 6),
 
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               dialogLoading(context);
-              controller.makePayment(context, qty: widget.qty, wallet: Provider.of<ContractProvider>(context, listen: false).ethAdd);
+              await controller.makePayment(context, qty: widget.qty, wallet: Provider.of<ContractProvider>(context, listen: false).ethAdd);
             },
             child: Container(
               padding: const EdgeInsets.all(paddingSize),

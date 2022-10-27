@@ -55,7 +55,7 @@ class HomePageBody extends StatelessWidget {
         // iconTheme: IconThemeData(
         //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : "#CEE5D0") : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -66,7 +66,7 @@ class HomePageBody extends StatelessWidget {
             Iconsax.profile_circle, 
             color: isDarkMode 
               ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
             size: 6.w,
           ),
         ),
@@ -78,7 +78,7 @@ class HomePageBody extends StatelessWidget {
                 Iconsax.chart_3,
                 color: isDarkMode 
                   ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
                 size: 6.w,
               ),
             ),
@@ -96,7 +96,7 @@ class HomePageBody extends StatelessWidget {
                   Iconsax.scan,
                   color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
                   size: 6.w,
                 ),
               ),
@@ -132,6 +132,8 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+
                 const SizedBox(height: 10), 
                 _menu(context),
 
@@ -285,7 +287,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -299,7 +301,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -321,7 +323,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color:Colors.white, size: iconSize),
+                    child: Icon(Iconsax.import, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -340,7 +342,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.import, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -357,7 +359,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.scan, color:isDarkMode ? Colors.white : Colors.black, size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {

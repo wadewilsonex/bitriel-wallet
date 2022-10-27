@@ -48,6 +48,7 @@ dependencies:
   # Icons
   iconsax: ^0.0.8
   unicons: ^2.1.0
+  auth_buttons: ^3.0.0
 
   # silder
   carousel_slider: ^4.1.1 
@@ -72,6 +73,7 @@ dependencies:
   get: ^4.6.5
   graphql_flutter: ^5.1.0
   async:
+  firebase_auth:
 
   # Image service
   intl: ^0.17.0

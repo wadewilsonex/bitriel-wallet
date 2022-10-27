@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/event_model.dart';
+import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';

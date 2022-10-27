@@ -24,14 +24,14 @@ class Event {
 
 final List<Event> upcomingEvents = [
   Event(
-    name: "The Pretty Reckless",
+    name: "Launch Meta doers world",
     eventDate: DateTime.now().add(const Duration(days: 24)),
     eventTime: "10AM - 10PM",
-    image: 'https://source.unsplash.com/800x600/?concert',
-    description: "The pretty reckless is an American rock band from New york city, Formed in 2009. TheThe pretty reckless is an American rock band from New york city, Formed in 2009. TheThe pretty reckless is an American rock band from New york city, Formed in 2009. TheThe pretty reckless is an American rock band from New york city, Formed in 2009. TheThe pretty reckless is an American rock band from New york city, Formed in 2009. TheThe pretty reckless is an American rock band from New york city, Formed in 2009. The",
-    location: "Fairview Gospel Church",
-    organizer: "Westfield Centre",
-    price: 30,
+    image: 'https://mdw.bitriel.com/_next/image?url=https%3A%2F%2Fgateway.kumandra.org%2Ffiles%2FQmYnGREwatJdkkYnBkHEGhRTcnB2RGB3ARsZRFKBahH7hz&w=1080&q=75',
+    description: "With its roots in Traditional Chinese Medicine, Qigong shares many of the health benefits attributed to Tai Chi. Qigong aims at cultivating and balancing the flow of energy in the body using movement, breathwork, and mental focus. Qigong is valued by many as a body-mind practice used to quiet the mind and promote physical wellness.",
+    location: "Online Event",
+    organizer: "Meta doers world",
+    price: 10,
     priceToken: 1000
   ),
   Event(
