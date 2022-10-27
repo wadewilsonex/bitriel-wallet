@@ -224,7 +224,7 @@ packages:
       name: connectivity_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.3"
   connectivity_plus_web:
     dependency: transitive
     description:
@@ -399,7 +399,7 @@ packages:
       name: dropdown_button2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.5"
+    version: "1.8.9"
   eip55:
     dependency: transitive
     description:
@@ -551,7 +551,7 @@ packages:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.0+2"
+    version: "5.7.1"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -577,7 +577,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.11"
+    version: "2.2.12"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -654,7 +654,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.5"
+    version: "1.1.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -874,7 +874,7 @@ packages:
       name: html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0"
+    version: "0.15.1"
   http:
     dependency: "direct main"
     description:
@@ -1049,7 +1049,7 @@ packages:
       name: lints
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   loading_indicator:
     dependency: "direct main"
     description:
@@ -1070,7 +1070,7 @@ packages:
       name: local_auth_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.13"
+    version: "1.0.14"
   local_auth_ios:
     dependency: transitive
     description:
@@ -1357,7 +1357,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.1.0"
   pie_chart:
     dependency: "direct main"
     description:
@@ -1497,7 +1497,7 @@ packages:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.2.0"
   share_plus_web:
     dependency: transitive
     description:
@@ -1747,7 +1747,7 @@ packages:
       name: url_launcher_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.19"
+    version: "6.0.20"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1817,7 +1817,7 @@ packages:
       name: wallet_connect
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.4"
   walletconnect_dart:
     dependency: "direct main"
     description:
