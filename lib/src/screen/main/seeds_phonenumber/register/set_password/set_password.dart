@@ -1,9 +1,12 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/screen/main/json/import_json.dart';
 
 class SetPassword extends StatefulWidget {
+
   final String phoneNumber;
-  const SetPassword({Key? key, required this.phoneNumber}) : super(key: key);
+  final dynamic responseJson;
+  const SetPassword({Key? key, required this.phoneNumber, this.responseJson}) : super(key: key);
 
   @override
   State<SetPassword> createState() => _SetPasswordState();
@@ -14,31 +17,36 @@ class _SetPasswordState extends State<SetPassword> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
-    Future<void> _registerWallet() async {
+  Future<void> _registerWallet() async {
+    
     try {
-      final response = await PostRequest().registerSetPassword(widget.phoneNumber, password.text, confirmPassword.text);
 
-      final responseJson = json.decode(response.body);
+      Navigator.push(context, Transition(child: ImportJson(password: password.text, json: widget.responseJson,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
-      if (response.statusCode == 200) {
+      // final response = await PostRequest().registerSetPassword(widget.phoneNumber, password.text, confirmPassword.text);
 
-        if(!mounted) return;
-        // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+      // final responseJson = json.decode(response.body);
+
+      // if (response.statusCode == 200) {
+
+      //   if(!mounted) return;
+      //   // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           
-      }
-      else {
-        if(!mounted) return;
-        await customDialog(
-          context, 
-          "Error",
-          responseJson['message']
-        );
-      }
+      // }
+      // else {
+      //   if(!mounted) return;
+      //   await customDialog(
+      //     context, 
+      //     "Error",
+      //     responseJson['message']
+      //   );
+      // }
 
     } catch (e) {
       print(e);
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {

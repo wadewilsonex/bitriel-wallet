@@ -114,7 +114,6 @@ dependencies:
   provider: ^6.0.3
   web3dart:
   bip39: ^1.0.6
-  polkawallet_sdk: 0.4.8
 
   dart_ecpair: ^1.0.2
   defichaindart: ^3.8.7+3
@@ -172,6 +171,7 @@ dependency_overrides:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
 
+  polkawallet_sdk: 0.4.8
   permission_handler: ^9.2.0
   qr_code_scanner: ^1.0.0
 

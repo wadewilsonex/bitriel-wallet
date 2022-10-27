@@ -46,7 +46,6 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
   }
 
   Widget _inputField(BuildContext context){
-    String? getPhoneNumber;
     return Column(
       children: [
         Container(
@@ -70,7 +69,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   // initialValue: number,
                   onInputChanged: (PhoneNumber number) {
                     print(number.phoneNumber);
-                    getPhoneNumber = number.phoneNumber;
+                    number.phoneNumber;
                   },
                   onInputValidated: (bool value) {
                     print(value);
@@ -102,7 +101,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   onSaved: (PhoneNumber number) {
                     print('On Saved: $number');
-                    getPhoneNumber = number.toString();
+                    phoneNumber!.text = number.toString();
                   },
                 ),
               ),
@@ -130,7 +129,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
           action: () async{
-            login(getPhoneNumber);
+            login(phoneNumber!.text);
             // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),

@@ -37,12 +37,15 @@ class MyApiKeyring extends ApiKeyring {
       }
     }
 
+    print("Strat EncryptSeed");
     // save keystore to storage
     await EncryptSeed(keyring.store.ss58List).addAccount(acc);
 
+    print("finish await EncryptSeed(keyring.store.ss58List).addAccount(acc)");
+
     await updatePubKeyIconsMap(keyring, [acc['pubKey']]);
-    updatePubKeyAddressMap(keyring);
-    updateIndicesMap(keyring, [acc['address']]);
+    await updatePubKeyAddressMap(keyring);
+    await updateIndicesMap(keyring, [acc['address']]);
 
     return KeyPairData.fromJson(acc as Map<String, dynamic>);
   }

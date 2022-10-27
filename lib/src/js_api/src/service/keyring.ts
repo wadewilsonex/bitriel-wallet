@@ -79,21 +79,30 @@ function recover(keyType: string, cryptoType: KeypairType, key: string, password
     let keyPair: KeyringPair;
     let mnemonic = "";
     let rawSeed = "";
+    console.log("keyType", keyType);
+    console.log("cryptoType", cryptoType);
+    console.log("key", key);
+    console.log("password", password);
     try {
       switch (keyType) {
 
         case "mnemonic":
+          console.log("mnemonic");
           keyPair = keyring.addFromMnemonic(key, {}, cryptoType);
           selAddr = keyPair.address;
           mnemonic = key;
           break;
         case "rawSeed":
+          console.log("rawSeed");
           keyPair = keyring.addFromUri(key, {}, cryptoType);
           rawSeed = key;
           break;
         case "keystore":
+          console.log("keystore");
           const keystore = JSON.parse(key);
+          console.log("keystore", keystore);
           keyPair = keyring.addFromJson(keystore);
+          console.log("keyPair", keyPair);
           try {
             keyPair.decodePkcs8(password);
 

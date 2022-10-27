@@ -14,35 +14,39 @@ class _LoginSeedPhoneNumberState extends State<LoginSeedPhoneNumber> {
 
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  
 
   Future<void> _login(String getPhoneNumber) async {
-    try {
-      final response = await PostRequest().loginPhoneNumber(phoneNumberController.text);
+    getPhoneNumber = "+85511725228";
+    Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    // try {
+    //   final response = await PostRequest().loginPhoneNumber(phoneNumberController.text);
 
-      final responseJson = json.decode(response.body);
+    //   final responseJson = json.decode(response.body);
+    //   print("responseJson $responseJson");
+    //   if (response.statusCode == 200) {
 
-      if (response.statusCode == 200) {
-
-        if(!mounted) return;
-        Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    //     if(!mounted) return;
+    //     Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           
-      } 
-      else {
-        if(!mounted) return;
-        await customDialog(
-          context, 
-          "Error",
-          responseJson['message']
-        );
-      }
+    //   } 
+    //   else {
+    //     if(!mounted) return;
+    //     await customDialog(
+    //       context, 
+    //       "Error",
+    //       responseJson['message']
+    //     );
+    //   }
 
-    } catch (e) {
-      print(e);
-    }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   @override
   void initState() {
+    phoneNumberController.text = "+85511725228";
     super.initState();
   }
 
