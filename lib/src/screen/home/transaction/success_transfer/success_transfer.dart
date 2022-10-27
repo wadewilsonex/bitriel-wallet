@@ -12,6 +12,7 @@ class SuccessTransfer extends StatefulWidget {
   final String? trxDate;
   final String? assetSymbol;
   final ModelScanPay? scanPayM;
+  final bool? isDebitCard;
 
   const SuccessTransfer({
     Key? key,
@@ -24,6 +25,7 @@ class SuccessTransfer extends StatefulWidget {
     this.trxDate,
     this.assetSymbol,
     this.scanPayM,
+    this.isDebitCard,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class _SuccessTransferState extends State<SuccessTransfer> {
       trxDate: widget.trxDate,
       assetSymbol: widget.assetSymbol,
       scanPayM: widget.scanPayM,
+      isDebitCard: widget.isDebitCard,
     );
   }
 }
