@@ -48,6 +48,7 @@ dependencies:
   # Icons
   iconsax: ^0.0.8
   unicons: ^2.1.0
+  auth_buttons: ^3.0.0
 
   # silder
   carousel_slider: ^4.1.1 
@@ -72,6 +73,7 @@ dependencies:
   get: ^4.6.5
   graphql_flutter: ^5.1.0
   async:
+  firebase_auth:
 
   # Image service
   intl: ^0.17.0
@@ -143,11 +145,13 @@ dependencies:
   ai_progress: ^2.0.0
   responsive_sizer: ^3.1.0
   sizer: ^2.0.15
+  action_slider: ^0.6.0
 
   # Third-party
   walletconnect_dart: ^0.0.11
   wallet_connect: ^1.0.2
   eth_sig_util: ^0.0.9
+  flutter_stripe: ^5.1.0
   
   # webview_flutter
   flutter_inappwebview: ^5.4.3+7
@@ -222,6 +226,7 @@ flutter:
     - assets/logo/
     - assets/ads/
     - assets/illustration/
+    - assets/payment/
     - .env
 
     # - ../assets/

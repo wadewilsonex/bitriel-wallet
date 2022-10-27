@@ -43,7 +43,7 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -66,14 +66,14 @@ class BodySettingPage extends StatelessWidget {
                             color: Colors.white.withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsAccSection(context: context)[index].leadingIcon, color: Colors.white, size: 17,),
+                        child: Icon(settingsAccSection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsAccSection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
+                            MyText(text: settingsAccSection(context: context)[index].title),
                           ],
                         ),
                       ),
@@ -93,7 +93,7 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -116,14 +116,14 @@ class BodySettingPage extends StatelessWidget {
                             color: Colors.white.withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsWCSection(context: context)[index].leadingIcon, color: Colors.white, size: 17,),
+                        child: Icon(settingsWCSection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsWCSection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
+                            MyText(text: settingsWCSection(context: context)[index].title,),
                           ],
                         ),
                       ),
@@ -141,7 +141,7 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.orangeColor),
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -164,14 +164,14 @@ class BodySettingPage extends StatelessWidget {
                             color: Colors.white.withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsPolicySection(context: context)[index].leadingIcon, color: Colors.white, size: 17,),
+                        child: Icon(settingsPolicySection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyText(text: settingsPolicySection(context: context)[index].title, hexaColor: AppColors.whiteColorHexa),
+                            MyText(text: settingsPolicySection(context: context)[index].title),
                           ],
                         ),
                       ),

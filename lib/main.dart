@@ -1,3 +1,5 @@
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
@@ -22,6 +24,59 @@ Future<void> main() async {
     FlutterError.dumpErrorToConsole(details);
     if (kReleaseMode) exit(1);
   };
+  
+  Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
+
+  // runApp(
+  //   MultiProvider(
+  //     providers: [
+  //       ChangeNotifierProvider<WalletProvider>(
+  //         create: (context) => WalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<MarketProvider>(
+  //         create: (context) => MarketProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ApiProvider>(
+  //         create: (context) => ApiProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ContractProvider>(
+  //         create: (context) => ContractProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ThemeProvider>(
+  //         create: (context) => ThemeProvider(),
+  //       ),
+  //       ChangeNotifierProvider<PresaleProvider>(
+  //         create: (context) => PresaleProvider(),
+  //       ),
+  //       ChangeNotifierProvider<Attendance>(
+  //         create: (context) => Attendance(),
+  //       ),
+  //       ChangeNotifierProvider<AirDropProvider>(
+  //         create: (context) => AirDropProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SearchProvider>(
+  //         create: (context) => SearchProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SwapProvider>(
+  //         create: (context) => SwapProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ReceiveWalletProvider>(
+  //         create: (context) => ReceiveWalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<WalletConnectComponent>(
+  //         create: (context) => WalletConnectComponent(),
+  //       ),
+  //       ChangeNotifierProvider<ContractsBalance>(
+  //         create: (context) => ContractsBalance(),
+  //       ),
+  //     ],
+  //     child: GetMaterialApp(
+  //       getPages: [
+  //         GetPage(name: "/", page: () => const App())
+  //       ],
+  //     ),
+  //   ),
+  // );
 
   runApp(
     MultiProvider(
@@ -66,7 +121,7 @@ Future<void> main() async {
           create: (context) => ContractsBalance(),
         ),
       ],
-      child: const App(),
+      child: const App()
     ),
   );
 }
