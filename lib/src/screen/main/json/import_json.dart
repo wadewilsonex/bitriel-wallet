@@ -174,6 +174,8 @@ class ImportJsonState extends State<ImportJson> {
         password: widget.password!
       );
 
+      print("jsn $jsn");
+
       await _api!.apiKeyring.addAccount(
         _api!.getKeyring, 
         keyType: KeyType.mnemonic, 
@@ -183,7 +185,7 @@ class ImportJsonState extends State<ImportJson> {
 
       changeStatus("Importing Assets and Tokens");
 
-      await importAccountNAsset(_api!);
+      await importAccountNAsset(_api!, value);
       
       await DialogComponents().dialogCustom(
         context: context,
@@ -267,10 +269,10 @@ class ImportJsonState extends State<ImportJson> {
     
   }
   
-  Future<void> importAccountNAsset(ApiProvider api) async {
+  Future<void> importAccountNAsset(ApiProvider api, String mnemonic) async {
 
-    final resPk = await api.getPrivateKey(_importAccModel.mnemonicCon.text);
-
+    final resPk = await api.getPrivateKey(mnemonic);
+    
     /// Cannot connect Both Network On the Same time
     /// 
     /// It will be wrong data of that each connection. 
