@@ -456,8 +456,8 @@ class WalletConnectComponent with ChangeNotifier {
       final Map<String, dynamic> resMap = jsonDecode(res.body);
       final abi = ContractAbi.fromJson(resMap['result'], '');
       final contract = DeployedContract(
-          abi, EthereumAddress.fromHex(ethereumTransaction.to));
-      final dataBytes = hexToBytes(ethereumTransaction.data);
+          abi, EthereumAddress.fromHex(ethereumTransaction.to!));
+      final dataBytes = hexToBytes(ethereumTransaction.data!);
       final funcBytes = dataBytes.take(4).toList();
       final maibiFunctions = contract.functions
           .where((element) => listEquals<int>(element.selector, funcBytes));
@@ -523,7 +523,7 @@ class WalletConnectComponent with ChangeNotifier {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    ethereumTransaction.to,
+                    ethereumTransaction.to!,
                     style: const TextStyle(fontSize: 16.0),
                   ),
                 ],
@@ -612,7 +612,7 @@ class WalletConnectComponent with ChangeNotifier {
                   ),
                   children: [
                     Text(
-                      ethereumTransaction.data,
+                      ethereumTransaction.data!,
                       style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
@@ -775,7 +775,7 @@ class WalletConnectComponent with ChangeNotifier {
   Transaction _wcEthTxToWeb3Tx(WCEthereumTransaction ethereumTransaction) {
     return Transaction(
       from: EthereumAddress.fromHex(ethereumTransaction.from),
-      to: EthereumAddress.fromHex(ethereumTransaction.to),
+      to: EthereumAddress.fromHex(ethereumTransaction.to!),
       maxGas: ethereumTransaction.gasLimit != null
           ? int.tryParse(ethereumTransaction.gasLimit!)
           : null,
@@ -783,7 +783,7 @@ class WalletConnectComponent with ChangeNotifier {
           ? EtherAmount.inWei(BigInt.parse(ethereumTransaction.gasPrice!))
           : null,
       value: EtherAmount.inWei(BigInt.parse(ethereumTransaction.value ?? '0')),
-      data: hexToBytes(ethereumTransaction.data),
+      data: hexToBytes(ethereumTransaction.data!),
       nonce: ethereumTransaction.nonce != null
           ? int.tryParse(ethereumTransaction.nonce!)
           : null,
