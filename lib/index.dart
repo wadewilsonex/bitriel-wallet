@@ -9,6 +9,7 @@ export 'dart:typed_data';
 export 'package:async/async.dart';
 
 /* Package from Pub.dev */
+export 'package:web3dart/web3dart.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
@@ -170,6 +171,7 @@ export 'src/provider/contract_provider.dart';
 export 'src/provider/wallet_provider.dart';
 export 'src/provider/market_provider.dart';
 export 'src/provider/theme_provider.dart';
+export 'package:wallet_apps/src/provider/mdw_p.dart';
 
 // Asset Info
 export 'src/screen/home/asset_info/asset_checkin.dart';

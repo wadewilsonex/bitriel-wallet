@@ -60,6 +60,9 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
   @override
   void initState() {
+    
+    Provider.of<MDWProvider>(context, listen: false).init();
+    Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
     scrollController = ScrollController();
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
     opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
@@ -103,6 +106,11 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           fit: BoxFit.contain,
           height: 40,
         ),
+        actions: [
+          ElevatedButton(onPressed: () async {
+            Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
+          }, child: MyText(text: "MDW",))
+        ],
       ),
       body: AnimatedBackground(
         behaviour: RacingLinesBehaviour(),

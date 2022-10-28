@@ -14,10 +14,10 @@ class AppUtils {
 
   static Color? txtColor;
 
-  static Future<DeployedContract> contractfromAssets(String path, String contractAddr) async {
+  static Future<DeployedContract> contractfromAssets(String path, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(path);
     return DeployedContract(
-      ContractAbi.fromJson(contractJson, 'contract'),
+      ContractAbi.fromJson(contractJson, contractName ?? 'contract'),
       EthereumAddress.fromHex(contractAddr),
     );
   }

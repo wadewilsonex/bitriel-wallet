@@ -5,7 +5,6 @@ import 'package:wallet_apps/src/constants/asset_path.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 import 'package:wallet_apps/src/service/native.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../index.dart';
 

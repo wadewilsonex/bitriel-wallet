@@ -22,6 +22,8 @@ class AppConfig {
 
   static const atdAbi = 'assets/abi/atd.json';
 
+  static const mdwAbi = 'assets/abi/MDWTicket.json';
+
   /*google spreedsheet credential for claim airdrop */
   static const credentials = r'''
     {
@@ -55,12 +57,14 @@ class AppConfig {
 
   /*All network list that bitriel wallet support*/
   static List<NetworkParams> networkList = [
-    //[0]= selendra, [1]= polkadot, [2] = ethereum, [3] = binance smart chain
+    /// [0]= selendra, [1]= polkadot, [2] = ethereum, [3] = binance smart chain
+    /// [4] HardHat
     
     NetworkParams(
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       httpUrlMN: 'https://app.selendra.org/',
-      wsUrlTN: 'wss://rpc-testnet.selendra.org/',
+      // wsUrlTN: 'wss://rpc-testnet.selendra.org/',
+      wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org',
       // wsUrlMN: 'wss://rpc-mainnet.selendra.org',
       wsUrlMN: 'wss://rpc-mainnet2.selendra.org',
       ss58: 204,
@@ -88,6 +92,16 @@ class AppConfig {
       httpUrlMN: 'https://bsc-dataseed.binance.org/',
       wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
       httpUrlTN: 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+      wsUrlTN: 'wss://bsc-ws-node.nariox.org:443',
+      scanMn: 'https://bscscan.com/tx/',
+      scanTN: 'https://testnet.bscscan.com/tx/',
+    ),
+
+    // Hardhat
+    NetworkParams(
+      httpUrlMN: 'https://bsc-dataseed.binance.org/',
+      wsUrlMN: 'wss://bsc-ws-node.nariox.org:443',
+      httpUrlTN: 'https://hardhat.bitriel.com',
       wsUrlTN: 'wss://bsc-ws-node.nariox.org:443',
       scanMn: 'https://bscscan.com/tx/',
       scanTN: 'https://testnet.bscscan.com/tx/',
