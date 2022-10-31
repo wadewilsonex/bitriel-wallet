@@ -26,8 +26,15 @@ class ExplorerItem extends StatelessWidget {
         child: Container(
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 48.0,
+                offset: const Offset(0.0, 2)
+              )
+            ],
             borderRadius: BorderRadius.circular(8),
-            color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0")
+            color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa)
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

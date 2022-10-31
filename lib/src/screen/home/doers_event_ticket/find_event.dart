@@ -211,13 +211,24 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                               child: Container(
                                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: hexaCodeToColor(AppColors.defiMenuItem),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.04),
+                                      blurRadius: 48.0,
+                                      offset: const Offset(0.0, 2)
+                                    )
+                                  ],
+                                  border: Border.all(
+                                    color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                                    width: 1,
+                                  ),
+                                  color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
                                   borderRadius: BorderRadius.circular(100)
                                 ),
                                 child: MyText(
                                   text: event.name,
                                   textAlign: TextAlign.start,
-                                  hexaColor: AppColors.whiteColorHexa,
+                                  // hexaColor: AppColors.whiteColorHexa,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                 ),

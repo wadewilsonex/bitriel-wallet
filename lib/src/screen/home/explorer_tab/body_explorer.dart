@@ -41,7 +41,7 @@ class DiscoverPageBody extends StatelessWidget {
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorWeight: 0.5,
               indicator: CustomTabIndicator(
-                color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#98A8F8"),
+                color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor),
               )
             ),
 

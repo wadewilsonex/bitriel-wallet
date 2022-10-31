@@ -87,4 +87,24 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:31.0.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    constraints {
+
+        implementation('com.stripe:stripe-android') {
+
+            version {
+                strictly '20.11.0'
+            }
+        }
+    }
+
+    constraints {
+
+        implementation('com.stripe:financial-connections') {
+
+            version {
+                strictly '20.11.0'
+            }
+        }
+    }
 }
