@@ -41,28 +41,44 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       expand: true,
       context: context,
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      builder: (context) => SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            for (var i = 0; i < 10; i++)
-            Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: Image.asset(
-                "assets/Singapore_Ticket.png",
-              ),
-            )
-          ],  
-        ),
+      builder: (context) => Column(
+        children: [
+
+          Expanded(
+            child: Consumer<MDWProvider>(
+              builder: (context, value, widget){
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: value.tickets.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(paddingSize),
+                      child: Image.network("https://mdw.bitriel.com/_next/image?url=https%3A%2F%2Fgateway.kumandra.org%2Ffiles%2FQmYnGREwatJdkkYnBkHEGhRTcnB2RGB3ARsZRFKBahH7hz&w=1080&q=75"),
+                    );
+                  }
+                );
+              }
+            ),
+          )
+        ],  
       ),
     );
+  }
+
+  /// Connect Contract
+  /// 
+  /// And Query Amount's Ticket
+  void ticketInitializer() async {
+    
+    Provider.of<MDWProvider>(context, listen: false).init();
+    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
+    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
   }
 
   @override
   void initState() {
     
-    Provider.of<MDWProvider>(context, listen: false).init();
-    Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
+    // Init Member
     scrollController = ScrollController();
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
     opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
@@ -74,6 +90,8 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       opacityController.value = offsetToOpacity(
           currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
     });
+
+    ticketInitializer();
     super.initState();
   }
 
@@ -106,11 +124,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           fit: BoxFit.contain,
           height: 40,
         ),
-        actions: [
-          ElevatedButton(onPressed: () async {
-            Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
-          }, child: MyText(text: "MDW",))
-        ],
       ),
       body: AnimatedBackground(
         behaviour: RacingLinesBehaviour(),
@@ -128,38 +141,14 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           ),
         )
       ),
-      bottomNavigationBar: Material(
-        child: InkWell(
-          onTap: () {
-            _showPasses(context);
-          },
-          child: SizedBox(
-            height: kToolbarHeight,
-            width: double.infinity,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: Row(
-                  children: [
-                    MyText(
-                      text: 'Passes',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                    ),
-
-                    const Spacer(),
-
-                    Icon(
-                      Iconsax.arrow_up_2, 
-                      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: hexaCodeToColor(AppColors.secondary),
+        onPressed: (){
+          _showPasses(context);
+        },
+        child: const Icon(Icons.airplane_ticket),
       ),
+
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
+/// Meta Doers World
 class MDWProvider extends ChangeNotifier {
 
   String? _nftContractAddr;
@@ -15,13 +16,14 @@ class MDWProvider extends ChangeNotifier {
 
   Web3Client? _mdwClient;
 
+  List<BigInt> tickets = [];
+
   Future<void> init() async {
     print("init");
     _nftContractAddr = dotenv.get('NFT');
   }
 
   /// First Step
-  /// 
   /// 
   Future<void> initNFTContract(BuildContext context) async {
 
@@ -40,9 +42,8 @@ class MDWProvider extends ChangeNotifier {
 
   /// Second Step
   /// 
-  /// 
   Future<void> fetchItemsByAddress() async {
-
+    tickets = [];
     // Initialize Contract Service Object With Contract Object
     print("_provider!.ethAdd ${_provider!.ethAdd}");
     try {
@@ -56,6 +57,9 @@ class MDWProvider extends ChangeNotifier {
         ]
       ).then((value) {
         print("fetchItemsByAddress $value");
+        tickets = List<BigInt>.from(value[0]);
+        
+        notifyListeners();
       });
     } catch (e) {
       print("Err fetchItemsByAddress $e");

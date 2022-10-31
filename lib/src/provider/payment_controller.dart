@@ -35,6 +35,15 @@ class PaymentController extends getx.GetxController {
           ),
         );
 
+        // Stripe.instance.confirmPayment(
+        //   paymentIntentClientSecret: paymentIntentData!['clientSecret'].toString(), 
+        //   data: const PaymentMethodParams.card(
+        //     paymentMethodData: PaymentMethodData(
+        //       billingDetails: BillingDetails( name: 'Jenny Rosen',),
+        //     ),
+        //   ),
+        // );
+
         displayPaymentSheet(context, qty, wallet );
 
       }
