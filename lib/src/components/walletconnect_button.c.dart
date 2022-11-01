@@ -24,8 +24,15 @@ class WalletConnectMenuItem extends StatelessWidget {
         child: Container(
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 48.0,
+                offset: const Offset(0.0, 2)
+              )
+            ],
             borderRadius: BorderRadius.circular(8),
-            color: hexaCodeToColor(AppColors.defiMenuItem)
+            color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteHexaColor)
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +56,6 @@ class WalletConnectMenuItem extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: MyText(
                   text: title,
-                  hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w700,
                 ),
               ),

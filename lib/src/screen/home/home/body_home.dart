@@ -55,7 +55,7 @@ class HomePageBody extends StatelessWidget {
         // iconTheme: IconThemeData(
         //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : "#CEE5D0") : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -161,7 +161,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Marketplace",
+                    text: "NFTs",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -181,7 +181,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Selendra ECO System",
+                    text: "DApps",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -287,7 +287,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -301,7 +301,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -323,7 +323,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
+                    child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -342,7 +342,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: isDarkMode ? Colors.white : Colors.black, size: iconSize),
+                  icon: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -359,7 +359,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color:isDarkMode ? Colors.white : Colors.black, size: iconSize),
+                  icon: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {
@@ -455,7 +455,7 @@ class HomePageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: 25.w,
+                  width: 30.w,
                 ),
                 title: "Weteka",
                 action: () async {
@@ -471,9 +471,10 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: SelEcoSysMenuItem(
-                image: Image.asset(
-                  "assets/logo/koompi-fifi.png",
-                  width: 10.w,
+                image: SvgPicture.asset(
+                  "assets/logo/Koompi_wifi.svg",
+                  width: 14.w,
+                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
                 ),
                 title: "KOOMPI Fi-Fi",
                 action: () {
@@ -491,8 +492,10 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/selendra-logo.png",
-                  width: 6.w,
+                  isDarkMode ?
+                  "assets/logo/selendra-logo.png" :
+                  "assets/logo/selendra.png",
+                  width: 7.w,
                 ),
                 title: "Funan DApp",
                 action: () {
@@ -507,8 +510,8 @@ class HomePageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   isDarkMode 
-                  ? "assets/logo/bitriel-logo-v2.png" 
-                  : "assets/logo/bitriel-light.png",
+                  ? "assets/logo/bitriel-light.png" 
+                  : "assets/logo/bitriel-logo-v2.png",
                   width: 10.w,
                 ),
                 title: "Bitriel DEX",

@@ -25,7 +25,11 @@ class DefiMenuItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor("#FED2AA"),
+          border: Border.all(
+            color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+            width: 0.75,
+          ),
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

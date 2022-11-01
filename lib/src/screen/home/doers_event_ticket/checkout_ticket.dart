@@ -16,7 +16,7 @@ class OrderConfirmScreen extends StatefulWidget {
 
 class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
 
-  int amount = 1;
+  int qty = 1;
 
   @override
   void initState() {
@@ -86,7 +86,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     controller.success(); //starts success animation
 
                     if(!mounted) return;
-                    Navigator.push(context, Transition(child: PaymentOptions(qty: amount.toString()), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    Navigator.push(context, Transition(child: PaymentOptions(qty: qty), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                     
                     // await Future.delayed(const Duration(seconds: 1));
                     controller.reset(); //resets the slider
@@ -153,7 +153,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               MyText(text:'Service fee', fontWeight: FontWeight.bold),
-              MyText(text: "SEL 0.01 ≈ \$0.10",),
+              MyText(text: "SEL 0.0 ≈ \$0.00",),
             ],
           ),
           const SizedBox(height: 15.0),
@@ -163,7 +163,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const MyText(text:'TOTAL', fontWeight: FontWeight.bold),
-              MyText(text:'${(widget.event.priceToken + 0.01) * amount} ≈ \$${(widget.event.price + 0.11) * amount}'),
+              MyText(text:'SEL ${(widget.event.priceToken + 0.00) * qty} ≈ \$${(widget.event.price + 0.00) * qty}'),
             ],
           ),
         ],
@@ -175,11 +175,11 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        MyText(text: 'Ticket X$amount', fontWeight: FontWeight.bold),
+        MyText(text: 'Ticket X$qty', fontWeight: FontWeight.bold),
 
         Row(
           children: [
-            amount != 1 ?
+            qty != 1 ?
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
@@ -196,14 +196,14 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
               ),
               onTap: (){
                 setState(() {
-                  if(amount > 0 ) amount--;
+                  if(qty > 0 ) qty--;
                 });
               },
             ) : Container(),
 
             const SizedBox(width: 15.0),
 
-            MyText(text: "$amount",),
+            MyText(text: "$qty",),
             
             const SizedBox(width: 15.0),
             GestureDetector(
@@ -220,7 +220,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
               ),
               onTap: (){
                 setState(() {
-                  amount++;
+                  qty++;
                 });
               },
             ),

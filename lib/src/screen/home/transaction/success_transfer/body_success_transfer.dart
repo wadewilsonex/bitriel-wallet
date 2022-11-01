@@ -160,88 +160,166 @@ class SuccessTransferBody extends StatelessWidget {
             MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
         ),
-       Padding(
-          padding: const EdgeInsets.all(20),
-          child: CouponCard(
-            height: 370,
-            curvePosition: 100,
-            curveRadius: 25,
-            borderRadius: 25,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.white,
-                  Colors.white54,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
-            firstChild: Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: hexaCodeToColor(AppColors.orangeColor),
-                        width: 2,
-                      ),
-                      // color: hexaCodeToColor(AppColors.orangeColor),
-                      shape: BoxShape.circle
-                    ),
-                    child: Icon(Iconsax.receipt, color: hexaCodeToColor(AppColors.orangeColor), size: 25,),
-                  ),
-                  // CircleAvatar(
-                  //   backgroundColor: Colors.black,
-                  //   child: Image.asset("assets/appbar_event.png"),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MyText(
-                          text: "- \$$amount",
-                          hexaColor: AppColors.redColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-                        MyText(
-                          text: "SELENDRA Co,LTD",
-                          textAlign: TextAlign.start,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            secondChild: Container(
-              width: double.maxFinite,
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey),
+
+        SafeArea(
+          child: Center(
+            child: Container(
+              height: 380,
+              margin: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width,
+              child: CustomPaint(
+                painter: TicketPainter(
+                  borderColor: Colors.black.withOpacity(0.2),
+                  bgColor: const Color(0xFFFFFFFF),
                 ),
-              ),
-              padding: const EdgeInsets.all(paddingSize),
-              child: Column(
-                children: [
-                  textRowWidget("Trx. ID:", "12435351353"),
-                  textRowWidget("Card Holder:", "4242 XXXX XXXX 4242"),
-                  textRowWidget("Transaction Date:", "Oct 01, 2022 5:50PM"),
-                  textRowWidget("From:", fromAddress!),
-                  textRowWidget("Original Amount:", "$amount USD"),
-                ],
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize + 5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: hexaCodeToColor(AppColors.orangeColor),
+                                width: 2,
+                              ),
+                              // color: hexaCodeToColor(AppColors.orangeColor),
+                              shape: BoxShape.circle
+                            ),
+                            child: Icon(Iconsax.receipt, color: hexaCodeToColor(AppColors.orangeColor), size: 25,),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  text: "- \$$amount",
+                                  hexaColor: AppColors.redColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                                MyText(
+                                  text: "SELENDRA Co,LTD",
+                                  hexaColor: AppColors.blackColor,
+                                  textAlign: TextAlign.start,
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 1.h,),
+
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize + 5),
+                      child: Column(
+                        children: [
+                          textRowWidget("Trx. ID:", "12435351353"),
+                          textRowWidget("Card Holder:", "4242 XXXX XXXX 4242"),
+                          textRowWidget("Transaction Date:", "Oct 01, 2022 5:50PM"),
+                          textRowWidget("From:", fromAddress!),
+                          textRowWidget("Original Amount:", "$amount USD"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
+
+        
+        // Padding(
+        //   padding: const EdgeInsets.all(20),
+        //   child: CouponCard(
+        //     height: 380,
+        //     curvePosition: 100,
+        //     curveRadius: 50,
+        //     borderRadius: 25,
+        //     decoration: const BoxDecoration(
+        //       gradient: LinearGradient(
+        //         colors: [
+        //           Colors.white,
+        //           Colors.white54,
+        //         ],
+        //         begin: Alignment.topLeft,
+        //         end: Alignment.bottomRight,
+        //       ),
+        //     ),
+        //     firstChild: Padding(
+        //       padding: const EdgeInsets.all(paddingSize),
+        //       child: Row(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         children: [
+        //           Container(
+        //             height: 50,
+        //             width: 50,
+        //             padding: const EdgeInsets.all(10),
+        //             decoration: BoxDecoration(
+        //               border: Border.all(
+        //                 color: hexaCodeToColor(AppColors.orangeColor),
+        //                 width: 2,
+        //               ),
+        //               // color: hexaCodeToColor(AppColors.orangeColor),
+        //               shape: BoxShape.circle
+        //             ),
+        //             child: Icon(Iconsax.receipt, color: hexaCodeToColor(AppColors.orangeColor), size: 25,),
+        //           ),
+        //           Padding(
+        //             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        //             child: Column(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 MyText(
+        //                   text: "- \$$amount",
+        //                   hexaColor: AppColors.redColor,
+        //                   fontWeight: FontWeight.w600,
+        //                   fontSize: 18,
+        //                 ),
+        //                 MyText(
+        //                   text: "SELENDRA Co,LTD",
+        //                   hexaColor: AppColors.blackColor,
+        //                   textAlign: TextAlign.start,
+        //                 )
+        //               ],
+        //             ),
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //     secondChild: Container(
+        //       width: double.maxFinite,
+        //       decoration: BoxDecoration(
+        //         border: Border(
+        //           top: BorderSide(color: Colors.grey.withOpacity(0.5)),
+        //         ),
+        //       ),
+        //       padding: const EdgeInsets.all(paddingSize),
+        //       child: Column(
+        //         children: [
+        //           textRowWidget("Trx. ID:", "12435351353"),
+        //           textRowWidget("Card Holder:", "4242 XXXX XXXX 4242"),
+        //           textRowWidget("Transaction Date:", "Oct 01, 2022 5:50PM"),
+        //           textRowWidget("From:", fromAddress!),
+        //           textRowWidget("Original Amount:", "$amount USD"),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+
         // Container(
         //   height: 490,
         //   margin: const EdgeInsets.all(16),

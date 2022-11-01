@@ -340,7 +340,7 @@ class AssetInfoBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -356,7 +356,7 @@ class AssetInfoBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Send",
-                hexaColor: AppColors.whiteColorHexa,
+                // hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
@@ -368,7 +368,7 @@ class AssetInfoBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -384,7 +384,7 @@ class AssetInfoBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Receive",
-                hexaColor: AppColors.whiteColorHexa,
+                // hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],

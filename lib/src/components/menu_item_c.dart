@@ -26,9 +26,20 @@ class MyMenuItem extends StatelessWidget {
       child: Container(
         width: 200,
         decoration: BoxDecoration(
+          border: Border.all(
+            color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+            width: 0.75,
+          ),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 48.0,
+              offset: const Offset(0.0, 2)
+            )
+          ],
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(
-            colors: isDarkMode ? [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")] : [hexaCodeToColor("#CEE5D0"), hexaCodeToColor("#CEE5D0")],
+            colors: isDarkMode ? [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")] : [hexaCodeToColor("#FFFFFF"), hexaCodeToColor("#FFFFFF")],
             begin: begin,
             end: end, 
           )

@@ -1,3 +1,5 @@
+import 'package:wallet_apps/src/constants/color.dart';
+
 import '../../../../index.dart';
 import '../../../models/card_section_setting.m.dart';
 
@@ -43,7 +45,14 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 48.0,
+            offset: const Offset(0.0, 2)
+          )
+        ],
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -63,10 +72,10 @@ class BodySettingPage extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsAccSection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
+                        child: Icon(settingsAccSection(context: context)[index].leadingIcon, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
@@ -93,7 +102,14 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 48.0,
+            offset: const Offset(0.0, 2)
+          )
+        ],
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -113,10 +129,10 @@ class BodySettingPage extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsWCSection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
+                        child: Icon(settingsWCSection(context: context)[index].leadingIcon, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
@@ -141,7 +157,14 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : "#CEE5D0"),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 48.0,
+            offset: const Offset(0.0, 2)
+          )
+        ],
+        color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
         borderRadius: BorderRadius.circular(20)
       ),
       child: ListView.builder(
@@ -161,10 +184,10 @@ class BodySettingPage extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
                             shape: BoxShape.circle
                         ),
-                        child: Icon(settingsPolicySection(context: context)[index].leadingIcon, color: isDarkMode ? Colors.white : Colors.black, size: 17,),
+                        child: Icon(settingsPolicySection(context: context)[index].leadingIcon, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: 17,),
                       ),
                       const SizedBox(width: 10,),
                       Expanded(
@@ -190,6 +213,13 @@ class BodySettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 48.0,
+            offset: const Offset(0.0, 2)
+          )
+        ],
         color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.warningColor).withOpacity(0.2),
         borderRadius: BorderRadius.circular(20)
       ),
@@ -210,8 +240,8 @@ class BodySettingPage extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                            color: hexaCodeToColor(AppColors.warningColor),
-                            shape: BoxShape.circle
+                          color: hexaCodeToColor(AppColors.warningColor),
+                          shape: BoxShape.circle
                         ),
                         child: Icon(settingsLogoutSection(context: context)[index].leadingIcon, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 17,),
                       ),

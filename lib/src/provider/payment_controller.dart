@@ -12,7 +12,7 @@ import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success
 class PaymentController extends getx.GetxController {
   Map<String, dynamic>? paymentIntentData;
 
-  Future<void> makePayment(BuildContext context, {required String qty, required String wallet}) async {
+  Future<void> makePayment(BuildContext context, {required num qty, required String wallet}) async {
     try {
       paymentIntentData = await createPaymentIntent(context, qty, wallet);
       print("paymentIntentData $paymentIntentData");
@@ -53,7 +53,7 @@ class PaymentController extends getx.GetxController {
     }
   }
 
-  displayPaymentSheet(BuildContext context, String qty, String wallet) async {
+  displayPaymentSheet(BuildContext context, num qty, String wallet) async {
     try {
       await Stripe.instance.presentPaymentSheet();
       // getx.Get.snackbar('Payment', 'Payment Successful',
@@ -63,7 +63,7 @@ class PaymentController extends getx.GetxController {
       //     margin: const EdgeInsets.all(10),
       //     duration: const Duration(seconds: 2));
 
-      Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(amount: qty, fromAddress: wallet, isDebitCard: true,)), (route) => false);
+      Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(qty: qty, fromAddress: wallet, isDebitCard: true,)), (route) => false);
     } on Exception catch (e) {
       if (e is StripeException) {
         print("Error from Stripe: ${e.error.localizedMessage}");
@@ -79,7 +79,7 @@ class PaymentController extends getx.GetxController {
   }
 
   //  Future<Map<String, dynamic>>
-  createPaymentIntent(BuildContext context, String qty, String wallet) async {
+  createPaymentIntent(BuildContext context, num qty, String wallet) async {
     try {
       Map<String, dynamic> body = {
         'quantity': qty,

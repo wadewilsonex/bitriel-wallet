@@ -96,5 +96,5 @@ class AppColors {
 
   static const String greyColor = "#C1C1C1";
 
-  static const String lightColorBg = "#EFEFEF";
+  static const String lightColorBg = "#FAFAFA";
 }
