@@ -23,6 +23,10 @@ class SelEcoSysMenuItem extends StatelessWidget {
       child: Container(
         height: 15.h,
         decoration: BoxDecoration(
+          border: Border.all(
+            color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+            width: 0.75,
+          ),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.black.withOpacity(0.04),

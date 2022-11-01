@@ -4,7 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 
 class PaymentOptions extends StatefulWidget {
-  final String qty;
+  final int qty;
   const PaymentOptions({Key? key, required this.qty}) : super(key: key);
 
   @override
@@ -118,7 +118,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
           GestureDetector(
             onTap: () async {
-              dialogLoading(context);
+              dialogLoading(context, isTicket: true);
               await controller.makePayment(context, qty: widget.qty, wallet: Provider.of<ContractProvider>(context, listen: false).ethAdd);
             },
             child: Container(

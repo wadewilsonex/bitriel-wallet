@@ -161,7 +161,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Marketplace",
+                    text: "NFTs",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -181,7 +181,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Selendra ECO System",
+                    text: "DApps",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,

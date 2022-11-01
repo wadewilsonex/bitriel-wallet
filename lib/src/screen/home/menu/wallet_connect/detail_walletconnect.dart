@@ -50,9 +50,16 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: MyText(text: widget.wcData!.remotePeerMeta.name, hexaColor: AppColors.lowWhite),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
       ),
       body: Center(
         child: Padding(
@@ -78,95 +85,137 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
                 padding: const EdgeInsets.all(8.0),
                 child: MyText(
                   text: widget.wcData!.remotePeerMeta.name,
-                  hexaColor: AppColors.lowWhite,
+                  // hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
                 ),
               ),
 
-              Card(
-                elevation: 0,
-                color: hexaCodeToColor(AppColors.defiMenuItem),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      const MyText(
-                        text: "Connected to",
-                        hexaColor: AppColors.lowWhite,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 17,
-                      ),
-
-                      Expanded(
-                        child: MyText(
-                          hexaColor: AppColors.lowWhite,
-                          textAlign: TextAlign.end,
-                          text: widget.wcData!.remotePeerMeta.url,
-                          color2: Colors.grey,
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 17,
-                        )
-                      ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 48.0,
+                        offset: const Offset(0.0, 2)
+                      )
                     ],
+                    border: Border.all(
+                      color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                      width: 1,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        const MyText(
+                          text: "Connected to",
+                          // hexaColor: AppColors.lowWhite,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                        ),
+
+                        Expanded(
+                          child: MyText(
+                            // hexaColor: AppColors.lowWhite,
+                            textAlign: TextAlign.end,
+                            text: widget.wcData!.remotePeerMeta.url,
+                            color2: Colors.grey,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 17,
+                          )
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
-              Card(
-                elevation: 0,
-                color: hexaCodeToColor(AppColors.defiMenuItem),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      const MyText(
-                        text: "Chain ID",
-                        hexaColor: AppColors.lowWhite,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 17,
-                      ),
-
-                      Expanded(
-                        child: MyText(
-                          hexaColor: AppColors.lowWhite,
-                          textAlign: TextAlign.end,
-                          text: widget.wcData!.chainId.toString(),
-                          color2: Colors.grey,
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 17,
-                        )
-                      ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 48.0,
+                        offset: const Offset(0.0, 2)
+                      )
                     ],
+                    border: Border.all(
+                      color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                      width: 1,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        const MyText(
+                          text: "Chain ID",
+                          // hexaColor: AppColors.lowWhite,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                        ),
+
+                        Expanded(
+                          child: MyText(
+                            // hexaColor: AppColors.lowWhite,
+                            textAlign: TextAlign.end,
+                            text: widget.wcData!.chainId.toString(),
+                            color2: Colors.grey,
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 17,
+                          )
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
-                  return Card(
-                    elevation: 0,
-                    color: hexaCodeToColor(AppColors.defiMenuItem),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          const MyText(
-                            text: "Address",
-                            hexaColor: AppColors.lowWhite,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17,
-                          ),
-                          Expanded(
-                            child: MyText(
-                              hexaColor: AppColors.lowWhite,
-                              textAlign: TextAlign.end,
-                              text: provider.ethAdd != '' ? provider.ethAdd.replaceRange( 10, provider.ethAdd.length - 10, ".....") : '...',
-                              color2: Colors.grey,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 48.0,
+                            offset: const Offset(0.0, 2)
+                          )
+                        ],
+                        border: Border.all(
+                          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                          width: 1,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            const MyText(
+                              text: "Address",
+                              // hexaColor: AppColors.lowWhite,
+                              fontWeight: FontWeight.w700,
                               fontSize: 17,
-                            )
-                          ),
-                        ]
+                            ),
+                            Expanded(
+                              child: MyText(
+                                // hexaColor: AppColors.lowWhite,
+                                textAlign: TextAlign.end,
+                                text: provider.ethAdd != '' ? provider.ethAdd.replaceRange( 10, provider.ethAdd.length - 10, ".....") : '...',
+                                color2: Colors.grey,
+                                fontSize: 17,
+                              )
+                            ),
+                          ]
+                        ),
                       ),
                     ),
                   );

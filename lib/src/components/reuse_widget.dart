@@ -600,7 +600,7 @@ Widget loading() {
 }
 
 /* Progress */
-Widget progress({String? content}) {
+Widget progress({bool isTicket = false, String? content}) {
   return Material(
     color: Colors.transparent,
     child: Stack(
@@ -610,7 +610,7 @@ Widget progress({String? content}) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Lottie.asset(
-              "assets/animation/blockchain-animation.json",
+              isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
               width: 75.w,
@@ -638,14 +638,14 @@ Widget progress({String? content}) {
   );
 }
 
-dialogLoading(BuildContext context, {String? content}) {
+dialogLoading(BuildContext context, {bool? isTicket, String? content}) {
   return showDialog(
     barrierDismissible: true,
     context: context,
     builder: (context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-        child: progress(content: content)
+        child: progress(isTicket: isTicket!, content: content)
       );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
@@ -1165,6 +1165,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
         Expanded(
           child: MyText(
             text: leadingText,
+            hexaColor: AppColors.blackColor,
             fontWeight: FontWeight.bold,
             textAlign: TextAlign.start,
           ),
@@ -1175,6 +1176,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
         Expanded(
           child: MyText(
             text: trailingText,
+            hexaColor: AppColors.blackColor,
             textAlign: TextAlign.start,
           ),
         ),
