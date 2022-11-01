@@ -160,7 +160,7 @@ class AssetsPageBody extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : "#CEE5D0"),
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(25),
               bottomRight: Radius.circular(25),
@@ -244,7 +244,7 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#CDFCF6", "#CDFCF6"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -272,7 +272,7 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#CDFCF6", "#CDFCF6"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomLeft, 
           end: Alignment.topRight, 
           action: (){

@@ -410,7 +410,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             Expanded(
               child: MyIconButton(
-                title: "Swap",
+                title: "Event",
                 txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                 onPressed: () {
                   onIndexChanged!(3);

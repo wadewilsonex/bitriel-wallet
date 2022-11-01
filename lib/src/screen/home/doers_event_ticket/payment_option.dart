@@ -4,7 +4,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 
 class PaymentOptions extends StatefulWidget {
-  final String qty;
+  final int qty;
   const PaymentOptions({Key? key, required this.qty}) : super(key: key);
 
   @override
@@ -55,16 +55,18 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
   Widget _headerPayment(){
     return Container(
-      color: hexaCodeToColor(AppColors.defiMenuItem),
+      decoration: BoxDecoration(
+        color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(paddingSize),
         child: Column(
           children: [
             Row(
               children: [
-                Image.asset("assets/appbar_event.png", width: 75,),
+                Image.asset(isDarkMode ? "assets/appbar_event.png" : "assets/appbar_event_black.png", width: 75,),
 
-                const MyText(text: "Preferred Payment", fontSize: 16, left: 10, hexaColor: AppColors.whiteColorHexa,),
+                const MyText(text: "Preferred Payment", fontWeight: FontWeight.bold, fontSize: 16, left: 10),
               ],
             ),
 
@@ -73,8 +75,12 @@ class _PaymentOptionsState extends State<PaymentOptions> {
             Container(
               padding: const EdgeInsets.all(paddingSize),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.2)
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                  width: 1,
+                ),
+                color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
               ),
               child: Row(
                 children: [
@@ -85,8 +91,8 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        MyText(text: "Bitriel Wallet", fontSize: 15, fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa,),
-                        MyText(text: "Pay Securely SEL Token", hexaColor: AppColors.lowWhite),
+                        MyText(text: "Bitriel Wallet", fontSize: 15, fontWeight: FontWeight.bold, ),
+                        MyText(text: "Pay Securely SEL Token", ),
 
                       ],
                     ),
@@ -112,14 +118,18 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
           GestureDetector(
             onTap: () async {
-              dialogLoading(context);
+              dialogLoading(context, isTicket: true);
               await controller.makePayment(context, qty: widget.qty, wallet: Provider.of<ContractProvider>(context, listen: false).ethAdd);
             },
             child: Container(
               padding: const EdgeInsets.all(paddingSize),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                color: hexaCodeToColor(AppColors.defiMenuItem),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                  width: 1,
+                ),
+                color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
               ),
               child: Row(
                 children: [
@@ -130,7 +140,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold, hexaColor: AppColors.whiteColorHexa),
+                        const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold),
                         
                         const SizedBox(height: 5),
           

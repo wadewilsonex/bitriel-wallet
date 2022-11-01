@@ -13,6 +13,7 @@ class SuccessTransfer extends StatefulWidget {
   final String? assetSymbol;
   final ModelScanPay? scanPayM;
   final bool? isDebitCard;
+  final num? qty;
 
   const SuccessTransfer({
     Key? key,
@@ -26,6 +27,7 @@ class SuccessTransfer extends StatefulWidget {
     this.assetSymbol,
     this.scanPayM,
     this.isDebitCard,
+    this.qty
   }) : super(key: key);
 
   @override
