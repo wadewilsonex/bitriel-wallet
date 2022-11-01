@@ -1,11 +1,14 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:wallet_apps/auth/google_auth_service.dart';
+import 'package:http/http.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portrait_card_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/json/import_json.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
+import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/set_password/set_password.dart';
 
 class WelcomeBody extends StatelessWidget {
 
@@ -71,8 +74,64 @@ class WelcomeBody extends StatelessWidget {
           // ),
 
           GoogleAuthButton(
-            onPressed: () {
-              GoogleAuthService().signInWithGoogle();
+            onPressed: () async {
+              // await GoogleAuthService().signOut();
+              await GoogleAuthService().signInWithGoogle().then((value) async {
+                if (value != null){
+                  // Navigator.pushAndRemoveUntil(
+                  //   context, 
+                  //   MaterialPageRoute(builder: (context) => HomePage()), 
+                  //   (route) => false
+                  // );
+                  
+                }
+                // print("signInWithGoogle ${value}");
+
+                try {
+
+                  // Verify OTP with HTTPs
+                  
+                  Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
+
+                  final responseJson = json.decode(response.body);
+                  print("responseJson ${responseJson.runtimeType}");
+                  print(responseJson['user'].containsKey("encrypted"));
+
+                  if (response.statusCode == 200) {
+
+                    // if(!mounted) return;
+                    if (responseJson['user'].containsKey("encrypted")){
+
+                      Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    }
+                      
+                  } else if (response.statusCode == 401) {
+
+                    customDialog(
+                      context, 
+                      "Error",
+                      responseJson['message']
+                    );
+
+                    Navigator.of(context).pop();
+
+                  } else if (response.statusCode >= 500 && response.statusCode < 600) {
+
+                    customDialog(
+                      context, 
+                      "Error",
+                      responseJson['message']
+                    );
+
+                    Navigator.of(context).pop();
+
+                  }
+
+                } catch (e) {
+                  print(e);
+                }
+
+              });
             },
             style: const AuthButtonStyle(
               buttonType: AuthButtonType.icon,

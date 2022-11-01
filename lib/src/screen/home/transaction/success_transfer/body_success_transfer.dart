@@ -2,6 +2,7 @@ import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class SuccessTransferBody extends StatelessWidget {
@@ -55,14 +56,14 @@ class SuccessTransferBody extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(isTrx: true,)), ModalRoute.withName('/'));
+              Navigator.pushAndRemoveUntil(context, Transition(child: const FindEvent(isRefetch: true,) ), ModalRoute.withName('/'));
             },
             child: const SizedBox(
               height: kToolbarHeight,
               width: double.infinity,
               child: Center(
                 child: MyText(
-                  text: 'GO TO WALLET',
+                  text: 'View Tickets',
                   fontWeight: FontWeight.w600,
                   fontSize: 17,
                   hexaColor: AppColors.whiteColorHexa,

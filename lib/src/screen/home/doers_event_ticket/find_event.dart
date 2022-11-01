@@ -7,7 +7,10 @@ import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class FindEvent extends StatefulWidget {
-  const FindEvent({Key? key}) : super(key: key);
+
+  final bool? isRefetch;
+
+  const FindEvent({Key? key, this.isRefetch}) : super(key: key);
 
   @override
   State<FindEvent> createState() => _FindEventState();
@@ -44,12 +47,26 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       builder: (context) => Column(
         children: [
 
+          AppBar(
+            leading: null,
+            leadingWidth: 0,
+            elevation: 0,
+            title: Consumer<MDWProvider>(
+              builder: (context, provider, widget){
+              return MyText(
+                text: "My Tickets: ${provider.model.tickets.length}",
+                fontWeight: FontWeight.w600,
+                fontSize: 17,
+              );
+            }),
+          ),
+
           Expanded(
             child: Consumer<MDWProvider>(
               builder: (context, value, widget){
                 return ListView.builder(
                   shrinkWrap: true,
-                  itemCount: value.tickets.length,
+                  itemCount: value.model.tickets.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(paddingSize),
@@ -146,7 +163,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         onPressed: (){
           _showPasses(context);
         },
-        child: const Icon(Icons.airplane_ticket),
+        child: const Icon( Iconsax.ticket ),
       ),
 
     );

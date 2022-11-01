@@ -408,14 +408,24 @@ class MyBottomAppBar extends StatelessWidget {
                 child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
               ),
             ),
+            // Expanded(
+            //   child: MyIconButton(
+            //     title: "Swap",
+            //     txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+            //     onPressed: () {
+            //       onIndexChanged!(3);
+            //     },
+            //     child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+            //   ),
+            // ),
             Expanded(
               child: MyIconButton(
-                title: "Swap",
+                title: "Event",
                 txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                 onPressed: () {
                   onIndexChanged!(3);
                 },
-                child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                child: Icon(Icons.event, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
               ),
             ),
             Expanded(

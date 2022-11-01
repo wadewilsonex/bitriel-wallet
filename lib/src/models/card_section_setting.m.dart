@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import '../components/walletconnect_c.dart';
@@ -157,12 +158,12 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       await wcComponent.killAllSession();
 
+      await Provider.of<GoogleAuthService>(context, listen: false).signOut();
+
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("_deleteAccount ${e.toString()}");
-        }
+      if (kDebugMode) {
+        print("_deleteAccount ${e.toString()}");
       }
       // await dialog(context, e.toString(), 'Opps');
     }

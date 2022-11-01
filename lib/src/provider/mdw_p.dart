@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/mdw_m.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 /// Meta Doers World
@@ -16,7 +17,7 @@ class MDWProvider extends ChangeNotifier {
 
   Web3Client? _mdwClient;
 
-  List<BigInt> tickets = [];
+  MDWModel model = MDWModel();
 
   Future<void> init() async {
     print("init");
@@ -43,7 +44,7 @@ class MDWProvider extends ChangeNotifier {
   /// Second Step
   /// 
   Future<void> fetchItemsByAddress() async {
-    tickets = [];
+    model.tickets = [];
     // Initialize Contract Service Object With Contract Object
     print("_provider!.ethAdd ${_provider!.ethAdd}");
     try {
@@ -56,8 +57,7 @@ class MDWProvider extends ChangeNotifier {
           BigInt.from(1)
         ]
       ).then((value) {
-        print("fetchItemsByAddress $value");
-        tickets = List<BigInt>.from(value[0]);
+        model.tickets = List<BigInt>.from(value[0]);
         
         notifyListeners();
       });

@@ -4,6 +4,7 @@ import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/src/provider/mdw_p.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
@@ -124,6 +125,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<MDWProvider>(
           create: (context) => MDWProvider(),
+        ),
+        ChangeNotifierProvider<GoogleAuthService>(
+          create: (context) => GoogleAuthService(),
         ),
       ],
       child: const App()

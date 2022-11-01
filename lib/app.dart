@@ -1,5 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:wallet_apps/auth/google_auth_service.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/graphql/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
