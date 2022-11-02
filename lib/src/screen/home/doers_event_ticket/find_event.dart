@@ -70,7 +70,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(paddingSize),
-                      child: Image.network("https://mdw.bitriel.com/_next/image?url=https%3A%2F%2Fgateway.kumandra.org%2Ffiles%2FQmYnGREwatJdkkYnBkHEGhRTcnB2RGB3ARsZRFKBahH7hz&w=1080&q=75"),
+                      child: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75"),
                     );
                   }
                 );

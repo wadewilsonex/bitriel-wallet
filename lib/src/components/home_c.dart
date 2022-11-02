@@ -425,7 +425,7 @@ class MyBottomAppBar extends StatelessWidget {
                 onPressed: () {
                   onIndexChanged!(3);
                 },
-                child: Icon(Icons.event, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                child: Icon(Iconsax.calendar_1, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
               ),
             ),
             Expanded(

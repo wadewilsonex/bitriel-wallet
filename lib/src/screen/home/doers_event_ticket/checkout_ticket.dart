@@ -86,7 +86,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     controller.success(); //starts success animation
 
                     if(!mounted) return;
-                    Navigator.push(context, Transition(child: PaymentOptions(qty: qty), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    Navigator.push(context, Transition(child: PaymentOptions(qty: qty, price: widget.event.price,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                     
                     // await Future.delayed(const Duration(seconds: 1));
                     controller.reset(); //resets the slider

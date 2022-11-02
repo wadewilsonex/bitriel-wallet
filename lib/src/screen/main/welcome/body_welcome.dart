@@ -57,7 +57,7 @@ class WelcomeBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
-                    text: "Bitriel offer users to store, make transaction, invest, buy, sell crypto assets, and more!",
+                    text: "Bitriel offers users to store, transact, hold, buy, sell crypto assets, and more!",
                     textAlign: TextAlign.center,
                     hexaColor: isDarkMode
                         ? AppColors.lowWhite
@@ -77,7 +77,7 @@ class WelcomeBody extends StatelessWidget {
             onPressed: () async {
               // await GoogleAuthService().signOut();
               await GoogleAuthService().signInWithGoogle().then((value) async {
-                if (value != null){
+                if (value == null){
                   // Navigator.pushAndRemoveUntil(
                   //   context, 
                   //   MaterialPageRoute(builder: (context) => HomePage()), 
@@ -85,7 +85,7 @@ class WelcomeBody extends StatelessWidget {
                   // );
                   
                 }
-                // print("signInWithGoogle ${value}");
+                print("signInWithGoogle ${value}");
 
                 try {
 
