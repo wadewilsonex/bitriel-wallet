@@ -64,6 +64,7 @@ class PaymentController extends getx.GetxController {
       //     duration: const Duration(seconds: 2));
 
       Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(qty: qty, fromAddress: wallet, isDebitCard: true,)), (route) => false);
+      
     } on Exception catch (e) {
       if (e is StripeException) {
         print("Error from Stripe: ${e.error.localizedMessage}");

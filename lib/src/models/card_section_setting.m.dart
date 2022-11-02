@@ -154,13 +154,13 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
-      // await wcComponent.killAllSession();
+      await wcComponent.killAllSession();
 
       print("google signOut");
 
       await Provider.of<GoogleAuthService>(context, listen: false).signOut();
 
-      // Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
       if (kDebugMode) {
         print("_deleteAccount ${e.toString()}");

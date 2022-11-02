@@ -56,7 +56,7 @@ class SuccessTransferBody extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, Transition(child: const FindEvent(isRefetch: true,) ), ModalRoute.withName('/'));
+              Navigator.pushAndRemoveUntil(context, Transition(child: const HomePage(activePage: 3,) ), ModalRoute.withName('/'));
             },
             child: const SizedBox(
               height: kToolbarHeight,

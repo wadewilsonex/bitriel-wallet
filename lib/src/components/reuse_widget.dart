@@ -638,7 +638,7 @@ Widget progress({bool isTicket = false, String? content}) {
   );
 }
 
-dialogLoading(BuildContext context, {bool? isTicket, String? content}) {
+dialogLoading(BuildContext context, {bool? isTicket = false, String? content}) {
   return showDialog(
     barrierDismissible: true,
     context: context,
