@@ -54,6 +54,7 @@ class MenuModel {
       'title': "Display",
       'sub': [
         {'icon': "${AppConfig.iconsPath}moon.svg", 'subTitle': 'Night Mode'},
+        {'icon': "${AppConfig.iconsPath}moon.svg", 'subTitle': 'Network'},
       ]
     },
     {

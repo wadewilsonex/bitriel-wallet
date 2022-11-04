@@ -107,7 +107,7 @@ class DialogComponents {
     });
   }
 
-  Future<void> dialogCustom({ 
+  Future dialogCustom({ 
     required BuildContext? context, 
     String? titles, 
     double? titlesFontSize = 15,

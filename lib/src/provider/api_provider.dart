@@ -39,7 +39,7 @@ class ApiProvider with ChangeNotifier {
 
   String? _jsCode;
 
-  bool isMainnet = false;
+  bool isMainnet = true;
   bool isDebug = false;
   
   int selNativeIndex = 0;
@@ -52,6 +52,9 @@ class ApiProvider with ChangeNotifier {
 
   String? funcName;
 
+  /// Selendra Endpoint
+  String? network;
+
   bool get isConnected => _isConnected;
 
   void setAccount(AccountM acc){
@@ -63,6 +66,20 @@ class ApiProvider with ChangeNotifier {
   AccountM get getAccount => accountM;
 
   Future<void> initApi({@required BuildContext? context}) async {
+
+    // Asign Network
+    await StorageServices.fetchData(DbKey.sldNetwork).then((network) async {
+      /// Get Endpoint form Local DB
+      /// 
+      if (network != null){
+
+        this.network = network;
+      } else {
+        network = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+
+      }
+      notifyListeners();
+    });
     
     funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
@@ -432,31 +449,36 @@ class ApiProvider with ChangeNotifier {
     return false;
   }
 
-  Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring'}) async {
+  Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring', String? endpoint}) async {
+    
+    print("connectSELNode");
+    
     try {
 
       NetworkParams node = NetworkParams();
       NetworkParams? res = NetworkParams();
 
       node.name = 'Indranet hosted By Selendra';
-      node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+      node.endpoint = endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
         res = value;
         if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
+      }).then((value) async {
+        print("connected sel $endpoint");
+        network = endpoint;
+        /// Save To Local After Connect Network 
+        await StorageServices.storeData(
+          network,
+          DbKey.sldNetwork
+        );
       });
-
-      // final res = await _sdk.webView!.evalJavascript("settings.connect(${jsonEncode([node].map((e) => e.endpoint).toList())})");
-
-      // if (res != null) 
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error connectSELNode $e");
-        }
+      if (kDebugMode) {
+        print("Error connectSELNode $e");
       }
     }
     return null;

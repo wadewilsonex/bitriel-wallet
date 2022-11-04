@@ -22,14 +22,12 @@ class MenuState extends State<Menu> {
 
   final LocalAuthentication _localAuth = LocalAuthentication();
 
-  /* Login Inside Dialog */
-  // bool isDarkMode = false;
-
   /* InitState */
   @override
   void initState() {
-    _menuModel.globalKey = GlobalKey<ScaffoldState>();
 
+    _menuModel.globalKey = GlobalKey<ScaffoldState>();
+    print(Provider.of<ApiProvider>(context, listen: false).network);
     Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
 
     readBio();
@@ -123,8 +121,6 @@ class MenuState extends State<Menu> {
     setState(() {
     });
   }
-
-  /* ----------------------Side Bar -------------------------*/
 
   @override
   Widget build(BuildContext context) {

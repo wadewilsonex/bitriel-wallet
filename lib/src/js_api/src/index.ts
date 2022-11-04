@@ -34,6 +34,7 @@ function send(path: string, data: any) {
  * @param {string} nodeEndpoint
  */
 async function connect(nodes: string[]) {
+  console.log("My nodes ", nodes);
   return new Promise(async (resolve, reject) => {
     const wsProvider = new WsProvider(nodes);
     try {
