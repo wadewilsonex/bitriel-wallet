@@ -2,6 +2,9 @@ import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/color.dart';
+import 'package:wallet_apps/src/constants/textstyle.dart';
+import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
@@ -183,20 +186,20 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    width: 50,
-                    height: 100,
-                    margin: const EdgeInsets.only(right: 20),
-                    child: Column(
-                      children: <Widget>[
-                        MyText(text: DateTimeUtils.getDayOfMonth(event.eventDate), fontWeight: FontWeight.bold, hexaColor: AppColors.orangeColor, fontSize: 22,),
-                        MyText(text: DateTimeUtils.getMonth(event.eventDate), fontWeight: FontWeight.bold, fontSize: 18)
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   width: 50,
+                  //   height: 100,
+                  //   margin: const EdgeInsets.only(right: 20),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       MyText(text: DateTimeUtils.getDayOfMonth(event.eventDate), fontWeight: FontWeight.bold, hexaColor: AppColors.orangeColor, fontSize: 22,),
+                  //       MyText(text: DateTimeUtils.getMonth(event.eventDate), fontWeight: FontWeight.bold, fontSize: 18)
+                  //     ],
+                  //   ),
+                  // ),
                   Expanded(
                     child: CouponCard(
-                      height: 250,
+                      height: 285,
                       curvePosition: 180,
                       curveRadius: 15,
                       borderRadius: 10,
@@ -217,7 +220,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
-                            Image.network(event.image, fit: BoxFit.cover,),
+                            Image.network(event.image, fit: BoxFit.fill,),
                                 
                             Positioned(
                               top: paddingSize,
@@ -253,29 +256,70 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                       ),
                       secondChild: Padding(
                         padding: const EdgeInsets.all(paddingSize),
-                        child: SizedBox(
-                          width: double.maxFinite,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(60),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: primaryLight,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
+                                  Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
+                                ],
+                              ),
+                            ),
+
+                            UIHelper.horizontalSpace(16),
+                            
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                MyText(
+                                  text: event.name,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
+                                ),
+
+        
+                                MyText(
+                                  text: event.organizer,
+                                  fontSize: 14,
+                                ),
+                              ],
+                            ),
+
+                            Spacer(),
+
+                            SizedBox(
+                              // width: double.maxFinite,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(60),
+                                    ),
+                                  ),
+                                  backgroundColor: MaterialStateProperty.all<Color>(
+                                    hexaCodeToColor(AppColors.orangeColor)
+                                  ),
+                                ),
+                                onPressed: () {
+                                  viewEventDetail(event);
+                                },
+                                child: const MyText(
+                                  text: 'JOIN THE\nEVENT',
+                                  fontWeight: FontWeight.bold,
+                                  hexaColor: AppColors.whiteColorHexa,
+                                  fontSize: 13,
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                hexaCodeToColor(AppColors.orangeColor)
-                              ),
                             ),
-                            onPressed: () {
-                              viewEventDetail(event);
-                            },
-                            child: const MyText(
-                              text: 'JOIN THE EVENT',
-                              fontWeight: FontWeight.bold,
-                              hexaColor: AppColors.whiteColorHexa,
-                              fontSize: 14,
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
