@@ -13,8 +13,10 @@ import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/set_passw
 class WelcomeBody extends StatelessWidget {
 
   final InputController? inputController = InputController();
+  final bool? selected;
+  final Function? tabGoogle;
 
-  WelcomeBody({Key? key}) : super(key: key);
+  WelcomeBody({Key? key, this.selected, this.tabGoogle}) : super(key: key);
   // WelcomeBody({this.inputController});
 
   @override
@@ -73,72 +75,91 @@ class WelcomeBody extends StatelessWidget {
           //   child: _setupMenu(context),
           // ),
 
-          GoogleAuthButton(
-            onPressed: () async {
-              // await GoogleAuthService().signOut();
-              await GoogleAuthService().signInWithGoogle().then((value) async {
-                if (value != null){
-                  // Navigator.pushAndRemoveUntil(
-                  //   context, 
-                  //   MaterialPageRoute(builder: (context) => HomePage()), 
-                  //   (route) => false
-                  // );
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  top: 20,
+                  left: selected! ? (MediaQuery.of(context).size.width / 2) + 50 : (MediaQuery.of(context).size.width / 2) - 25,
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: GoogleAuthButton(
+                      onPressed: () async {
+                        tabGoogle!();
+                        // await GoogleAuthService().signOut();
+                        // await GoogleAuthService().signInWithGoogle().then((value) async {
+                        //   if (value != null){
+                        //     // Navigator.pushAndRemoveUntil(
+                        //     //   context, 
+                        //     //   MaterialPageRoute(builder: (context) => HomePage()), 
+                        //     //   (route) => false
+                        //     // );
+                            
+                        //   }
+                        //   // print("signInWithGoogle ${value}");
                   
-                }
-                // print("signInWithGoogle ${value}");
-
-                try {
-
-                  // Verify OTP with HTTPs
+                        //   try {
                   
-                  Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
-
-                  final responseJson = json.decode(response.body);
-                  print("responseJson ${responseJson.runtimeType}");
-                  print(responseJson['user'].containsKey("encrypted"));
-
-                  if (response.statusCode == 200) {
-
-                    // if(!mounted) return;
-                    if (responseJson['user'].containsKey("encrypted")){
-
-                      Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                    }
-                      
-                  } else if (response.statusCode == 401) {
-
-                    customDialog(
-                      context, 
-                      "Error",
-                      responseJson['message']
-                    );
-
-                    Navigator.of(context).pop();
-
-                  } else if (response.statusCode >= 500 && response.statusCode < 600) {
-
-                    customDialog(
-                      context, 
-                      "Error",
-                      responseJson['message']
-                    );
-
-                    Navigator.of(context).pop();
-
-                  }
-
-                } catch (e) {
-                  print(e);
-                }
-
-              });
-            },
-            style: const AuthButtonStyle(
-              buttonType: AuthButtonType.icon,
-              iconType: AuthIconType.outlined,
+                        //     // Verify OTP with HTTPs
+                            
+                        //     Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
+                  
+                        //     final responseJson = json.decode(response.body);
+                        //     print("responseJson ${responseJson.runtimeType}");
+                        //     print(responseJson['user'].containsKey("encrypted"));
+                  
+                        //     if (response.statusCode == 200) {
+                  
+                        //       // if(!mounted) return;
+                        //       if (responseJson['user'].containsKey("encrypted")){
+                  
+                        //         Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        //       }
+                                
+                        //     } else if (response.statusCode == 401) {
+                  
+                        //       customDialog(
+                        //         context, 
+                        //         "Error",
+                        //         responseJson['message']
+                        //       );
+                  
+                        //       Navigator.of(context).pop();
+                  
+                        //     } else if (response.statusCode >= 500 && response.statusCode < 600) {
+                  
+                        //       customDialog(
+                        //         context, 
+                        //         "Error",
+                        //         responseJson['message']
+                        //       );
+                  
+                        //       Navigator.of(context).pop();
+                  
+                        //     }
+                  
+                        //   } catch (e) {
+                        //     print(e);
+                        //   }
+                  
+                        // });
+                      },
+                      style: const AuthButtonStyle(
+                        buttonType: AuthButtonType.icon,
+                        iconType: AuthIconType.outlined,
+                      ),
+                      themeMode: ThemeMode.light,
+                    ),
+                  ), 
+                  duration: Duration(milliseconds: 200)
+                ),
+              ],
             ),
-            themeMode: ThemeMode.light,
-          ),
+          )
+          ,
           
           Padding(
             padding: const EdgeInsets.all(paddingSize + 5),

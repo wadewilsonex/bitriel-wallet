@@ -13,6 +13,7 @@ class WelcomeState extends State<Welcome> {
 
   bool? status;
   int? currentVersion;
+  bool? selected = false;
 
   //var snackBar;
 
@@ -32,11 +33,17 @@ class WelcomeState extends State<Welcome> {
   //   }
   // }
 
+  void tabGoogle(){
+    setState(() {
+      selected = !selected!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      body: SafeArea(child: WelcomeBody()),
+      body: SafeArea(child: WelcomeBody(tabGoogle: tabGoogle, selected: selected,)),
     );
   }
 }
