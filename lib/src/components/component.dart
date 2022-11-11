@@ -161,7 +161,7 @@ class MyFlatButton extends StatelessWidget {
 
       decoration: isTransparent! ? null : BoxDecoration(
         border: Border.all(
-          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(size8), 
@@ -254,7 +254,7 @@ class MyGradientButton extends StatelessWidget {
           )
         ],
         border: Border.all(
-          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.25),
+          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(8),
@@ -308,7 +308,7 @@ class MyText extends StatelessWidget {
   const MyText({
     Key? key, 
     this.text,
-    this.hexaColor,
+    this.hexaColor = "#3E3E3E",
     this.color2,
     this.fontSize = 15,
     this.fontWeight = FontWeight.normal,
@@ -484,6 +484,7 @@ class BodyScaffold extends StatelessWidget {
 class MyIconButton extends StatelessWidget {
 
   final String? title;
+  final bool? isActive;
   final Widget? child;
   final String? icon;
   final double? iconSize;
@@ -494,6 +495,7 @@ class MyIconButton extends StatelessWidget {
   const MyIconButton({
     Key? key, 
     this.title,
+    this.isActive = false,
     this.child,
     this.icon,
     this.iconSize,
@@ -524,7 +526,8 @@ class MyIconButton extends StatelessWidget {
           MyText(
             text: title,
             hexaColor: txtColor,
-            
+            fontSize: 12,
+            fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
           )
         ],
       )

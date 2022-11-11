@@ -6,7 +6,7 @@ class AppColors {
 
   /* Grey color code */
   static const String greyCode = "#818181";
-  static const String darkGrey = "#302f34";
+  static const String darkGrey = "#3E3E3E";
 
   /* Background Color */
   static const String lowWhite = "#F5F5F5"; //"#090D28"; //AppConfig.bgdColor;
@@ -48,6 +48,7 @@ class AppColors {
 
   /* White Color */
   static const String whiteColorHexa = "#FFFFFF";
+  static const String whiteColorBtn = "#F8F8F8";
   static const String lightBg = "#F5F5F5";
   static const whiteNormalColor = Colors.white;
   static const String appBarTextColor = "#EFF0F2";
@@ -96,5 +97,5 @@ class AppColors {
 
   static const String greyColor = "#C1C1C1";
 
-  static const String lightColorBg = "#FAFAFA";
+  static const String lightColorBg = "#FFFFFF";
 }

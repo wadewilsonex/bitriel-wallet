@@ -111,7 +111,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
     });
 
-    ticketInitializer();
+    // ticketInitializer();
     super.initState();
   }
 

@@ -73,99 +73,99 @@ class WelcomeBody extends StatelessWidget {
           //   child: _setupMenu(context),
           // ),
 
-          GoogleAuthButton(
-            onPressed: () async {
-              // await GoogleAuthService().signOut();
-              await GoogleAuthService().signInWithGoogle().then((value) async {
-                if (value == null){
-                  // Navigator.pushAndRemoveUntil(
-                  //   context, 
-                  //   MaterialPageRoute(builder: (context) => HomePage()), 
-                  //   (route) => false
-                  // );
+          // GoogleAuthButton(
+          //   onPressed: () async {
+          //     // await GoogleAuthService().signOut();
+          //     await GoogleAuthService().signInWithGoogle().then((value) async {
+          //       if (value == null){
+          //         // Navigator.pushAndRemoveUntil(
+          //         //   context, 
+          //         //   MaterialPageRoute(builder: (context) => HomePage()), 
+          //         //   (route) => false
+          //         // );
                   
-                }
-                print("signInWithGoogle ${value}");
+          //       }
+          //       print("signInWithGoogle ${value}");
 
-                try {
+          //       try {
 
-                  // Verify OTP with HTTPs
+          //         // Verify OTP with HTTPs
                   
-                  Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
+          //         Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
 
-                  final responseJson = json.decode(response.body);
-                  print("responseJson ${responseJson.runtimeType}");
-                  print(responseJson['user'].containsKey("encrypted"));
+          //         final responseJson = json.decode(response.body);
+          //         print("responseJson ${responseJson.runtimeType}");
+          //         print(responseJson['user'].containsKey("encrypted"));
 
-                  if (response.statusCode == 200) {
+          //         if (response.statusCode == 200) {
 
-                    // if(!mounted) return;
-                    if (responseJson['user'].containsKey("encrypted")){
+          //           // if(!mounted) return;
+          //           if (responseJson['user'].containsKey("encrypted")){
 
-                      Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                    }
+          //             Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          //           }
                       
-                  } else if (response.statusCode == 401) {
+          //         } else if (response.statusCode == 401) {
 
-                    customDialog(
-                      context, 
-                      "Error",
-                      responseJson['message']
-                    );
+          //           customDialog(
+          //             context, 
+          //             "Error",
+          //             responseJson['message']
+          //           );
 
-                    Navigator.of(context).pop();
+          //           Navigator.of(context).pop();
 
-                  } else if (response.statusCode >= 500 && response.statusCode < 600) {
+          //         } else if (response.statusCode >= 500 && response.statusCode < 600) {
 
-                    customDialog(
-                      context, 
-                      "Error",
-                      responseJson['message']
-                    );
+          //           customDialog(
+          //             context, 
+          //             "Error",
+          //             responseJson['message']
+          //           );
 
-                    Navigator.of(context).pop();
+          //           Navigator.of(context).pop();
 
-                  }
+          //         }
 
-                } catch (e) {
-                  print(e);
-                }
+          //       } catch (e) {
+          //         print(e);
+          //       }
 
-              });
-            },
-            style: const AuthButtonStyle(
-              buttonType: AuthButtonType.icon,
-              iconType: AuthIconType.outlined,
-            ),
-            themeMode: ThemeMode.light,
-          ),
+          //     });
+          //   },
+          //   style: const AuthButtonStyle(
+          //     buttonType: AuthButtonType.icon,
+          //     iconType: AuthIconType.outlined,
+          //   ),
+          //   themeMode: ThemeMode.light,
+          // ),
           
-          Padding(
-            padding: const EdgeInsets.all(paddingSize + 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xff818181),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'OR',
-                  style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xff818181),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(paddingSize + 5),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: const <Widget>[
+          //       Expanded(
+          //         child: Divider(
+          //           thickness: 1,
+          //           color: Color(0xff818181),
+          //         ),
+          //       ),
+          //       SizedBox(width: 10),
+          //       Text(
+          //         'OR',
+          //         style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
+          //       ),
+          //       SizedBox(width: 10),
+          //       Expanded(
+          //         child: Divider(
+          //           thickness: 1,
+          //           color: Color(0xff818181),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
           Column(
             children: [
