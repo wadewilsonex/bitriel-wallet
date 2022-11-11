@@ -17,7 +17,7 @@
     "allowSyntheticDefaultImports": true,
   },
   "exclude": [
-    "webpack.config.js",
+    "webpack.config.cjss",
     "dist",
     "test"
   ]

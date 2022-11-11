@@ -41,8 +41,18 @@ class AppConfig {
   ''';
   static const speedsheetId = '1PAmEFBWmjFV1EueEFXn7V60svNTLc6vN0QfROeDqQHA';
 
-
   static const kmpiAddr = '5GZ9uD6RgN84bpBuic1HWq9AP7k2SSFtK9jCVkrncZsuARQU';
+  
+  static List<Map<String, dynamic>> sldNetwork = [
+    {
+      "index": ApiProvider().isMainnet ? "wss://rpc-mainnet.selendra.org" : "wss://rpc-testnet-3.selendra.org", 
+      "symbol": "1"
+    },
+    {
+      "index": ApiProvider().isMainnet ? "wss://rpc-mainnet2.selendra.org" : "wss://rpc-sabay-testnet.selendra.org", 
+      "symbol": "2"
+    }
+  ];
 
   late ApiProvider api;
   late String swapAddr;
@@ -58,15 +68,15 @@ class AppConfig {
   /*All network list that bitriel wallet support*/
   static List<NetworkParams> networkList = [
     /// [0]= selendra, [1]= polkadot, [2] = ethereum, [3] = binance smart chain
-    /// [4] HardHat
+    /// [4] HardHat 
     
     NetworkParams(
       httpUrlTN: 'https://rpc.testnet.selendra.org/',
       httpUrlMN: 'https://app.selendra.org/',
-      // wsUrlTN: 'wss://rpc-testnet.selendra.org/',
-      wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org',
-      // wsUrlMN: 'wss://rpc-mainnet.selendra.org',
-      wsUrlMN: 'wss://rpc-mainnet2.selendra.org',
+      wsUrlTN: 'wss://rpc-testnet-3.selendra.org/', // TheNatte (1)
+      // wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org', // Sabay (2)
+      wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
+      // wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
       ss58: 204,
       ss58MN: 204
     ),

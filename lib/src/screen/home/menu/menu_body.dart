@@ -1,4 +1,6 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -53,18 +55,15 @@ class MenuBody extends StatelessWidget {
           index: 1,
           subIndex: 1,
           onTap: () {
-            // underContstuctionAnimationDailog(context: context);
+            
             Navigator.push(context, Transition(child: const AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
         
         MyListTile(
-          // icon: Icon(Iconsax.wallet, color: Colors.white, size: 22.5.sp),
           index: 1,
           subIndex: 2,
           onTap: () async {
-
-            // await StorageServices.removeKey(DbKey.wcSession);
             
             WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
             wConnectC.setBuildContext = context;
@@ -83,21 +82,10 @@ class MenuBody extends StatelessWidget {
                   context, 
                   Transition(child: const WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                 );
-                // _wConnectC.sessionStore = WCSessionStore.fromJson(value);
-                // try {
 
-                //   _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
-                //   // _wConnectC.connectToPreviousSession();
-                //   Navigator.push(
-                //     context, 
-                //     Transition(child: WalletConnectPage(wcData: value,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                //   );
-                // } catch (e){
-                //   if (ApiProvider().isDebug == true) print("error _wConnectC.wcClient $e");
-                // }
               }
             });
-            // underContstuctionAnimationDailog(context: context);
+            
           },
         ),
 
@@ -133,6 +121,43 @@ class MenuBody extends StatelessWidget {
           ),
           onTap: null,
         ),
+        
+        // Consumer<ApiProvider>(
+        //   builder: (context, provider, widget) {
+        //     return MyListTile(
+        //       icon: Icon(Iconsax.arrow_swap, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+        //       enable: false,
+        //       index: 4,
+        //       subIndex: 1,
+        //       trailing: ReuseDropDown(
+        //         initialValue: provider.network,
+        //         itemsList: AppConfig.sldNetwork,
+        //         onChanged: (String value) async {
+        //           await DialogComponents().dialogCustom(
+        //             context: context,
+        //             contents: "Switch network",
+        //             btn: TextButton(
+        //               onPressed: () async {
+
+        //                 provider.network = value;
+
+        //                 // Notify Value Change Of Selected Network
+        //                 provider.notifyListeners();
+        //                 Navigator.pop(context, "true");
+        //               }, 
+        //               child: MyText(text: "Yes",)
+        //             ),
+        //           ).then((res) async {
+        //             if (res != null) {
+
+        //               await provider.connectSELNode(context: context, endpoint: value);
+        //             }
+        //           });
+        //         },
+        //       ),
+        //     );
+        //   }
+        // ),
 
         MenuSubTitle(index: 5),
 

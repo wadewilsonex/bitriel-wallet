@@ -119,12 +119,6 @@ class ContractProvider with ChangeNotifier {
           }
           decode.forEach((value){
             // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
-              if (kDebugMode) {
-                print("value['symbol'] ${value['symbol']}");
-              }
-              if (kDebugMode) {
-                print("value['contract'] ${value['contract']}");
-              }
               listContract.add(
                 SmartContractModel(
                   id: value['id'],
@@ -151,14 +145,7 @@ class ContractProvider with ChangeNotifier {
         // }
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
-        if (kDebugMode) {
-          print("Finish storeData");
-        }
-        await StorageServices.fetchAsset(DbKey.listContract).then((value) {
-          if (kDebugMode) {
-            print("value $value");
-          }
-        });
+        
         notifyListeners();
       });
 
@@ -189,9 +176,6 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
-        if (kDebugMode) {
-          print("DbKey.listContract $value");
-        }
         if (value != null) {
           listContract = List<SmartContractModel>.from(value);
         }
@@ -357,9 +341,7 @@ class ContractProvider with ChangeNotifier {
   // }
 
   Future<void> kgoTokenWallet() async {
-    if (kDebugMode) {
-      print("kgoTokenWallet");
-    }
+    
     if (apiProvider.isMainnet){
       try {
 

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
@@ -133,6 +134,11 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder : (context) => Container()
+                  ),
+                ),
 
                 const SizedBox(height: 10), 
                 _menu(context),

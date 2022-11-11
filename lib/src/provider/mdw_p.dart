@@ -57,7 +57,6 @@ class MDWProvider extends ChangeNotifier {
           BigInt.from(1)
         ]
       ).then((value) {
-        print("value $value");
         model.tickets = List<BigInt>.from(value[0]);
         
         notifyListeners();

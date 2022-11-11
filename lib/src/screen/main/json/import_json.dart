@@ -164,8 +164,6 @@ class ImportJsonState extends State<ImportJson> {
     await _api!.getSdk.webView!.evalJavascript('decrypt.decrypt(${widget.json!['user']['encrypted']}, "${widget.password}")').then((value) async {
 
       changeStatus("Importing account");
-      print("hello");
-      print("value['data'] $value");
       final jsn = await _api!.apiKeyring.importAccount(
         _api!.getKeyring, 
         keyType: KeyType.mnemonic, 
