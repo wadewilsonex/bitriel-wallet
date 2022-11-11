@@ -23,7 +23,10 @@ class EncryptSeed extends KeyringPrivateStore{
 
   @override
   void setCurrentPubKey(String? pubKey) {
+    print("Start setCurrentPubKey");
+    print("_storage.currentPubKey ${_storage.currentPubKey.key}");
     _storage.currentPubKey.val = pubKey;
+    print("finish _storage.currentPubKey.val");
   }
 
   @override
@@ -119,12 +122,16 @@ class EncryptSeed extends KeyringPrivateStore{
 
   @override
   Future<void> addAccount(Map acc) async {
+    print("acc $acc");
     final pairs = _storage.keyPairs.val.toList();
+    print("pairs $pairs");
     // remove duplicated account and add a new one
     pairs.retainWhere((e) => e['pubKey'] != acc['pubKey']);
+    print("pairs retainWhere");
     pairs.add(acc);
+    print("pairs.add ${pairs.length}");
     _storage.keyPairs.val = pairs;
-
+    print("_storage.keyPairs.val ${acc['pubKey']}");
     setCurrentPubKey(acc['pubKey']);
   }
 

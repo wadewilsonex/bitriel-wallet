@@ -1,7 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
+import 'package:wallet_apps/src/provider/mdw_p.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
@@ -14,6 +18,7 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -22,6 +27,59 @@ Future<void> main() async {
     FlutterError.dumpErrorToConsole(details);
     if (kReleaseMode) exit(1);
   };
+  
+  Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
+
+  // runApp(
+  //   MultiProvider(
+  //     providers: [
+  //       ChangeNotifierProvider<WalletProvider>(
+  //         create: (context) => WalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<MarketProvider>(
+  //         create: (context) => MarketProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ApiProvider>(
+  //         create: (context) => ApiProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ContractProvider>(
+  //         create: (context) => ContractProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ThemeProvider>(
+  //         create: (context) => ThemeProvider(),
+  //       ),
+  //       ChangeNotifierProvider<PresaleProvider>(
+  //         create: (context) => PresaleProvider(),
+  //       ),
+  //       ChangeNotifierProvider<Attendance>(
+  //         create: (context) => Attendance(),
+  //       ),
+  //       ChangeNotifierProvider<AirDropProvider>(
+  //         create: (context) => AirDropProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SearchProvider>(
+  //         create: (context) => SearchProvider(),
+  //       ),
+  //       ChangeNotifierProvider<SwapProvider>(
+  //         create: (context) => SwapProvider(),
+  //       ),
+  //       ChangeNotifierProvider<ReceiveWalletProvider>(
+  //         create: (context) => ReceiveWalletProvider(),
+  //       ),
+  //       ChangeNotifierProvider<WalletConnectComponent>(
+  //         create: (context) => WalletConnectComponent(),
+  //       ),
+  //       ChangeNotifierProvider<ContractsBalance>(
+  //         create: (context) => ContractsBalance(),
+  //       ),
+  //     ],
+  //     child: GetMaterialApp(
+  //       getPages: [
+  //         GetPage(name: "/", page: () => const App())
+  //       ],
+  //     ),
+  //   ),
+  // );
 
   runApp(
     MultiProvider(
@@ -65,8 +123,14 @@ Future<void> main() async {
         ChangeNotifierProvider<ContractsBalance>(
           create: (context) => ContractsBalance(),
         ),
+        ChangeNotifierProvider<MDWProvider>(
+          create: (context) => MDWProvider(),
+        ),
+        ChangeNotifierProvider<GoogleAuthService>(
+          create: (context) => GoogleAuthService(),
+        ),
       ],
-      child: const App(),
+      child: const App()
     ),
   );
 }

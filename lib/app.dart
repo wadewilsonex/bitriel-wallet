@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/graphql/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -236,7 +237,7 @@ class AppState extends State<App> {
                           theme: AppStyle.myTheme(context),
                           onGenerateRoute: router.generateRoute,
                           routes: {
-                            HomePage.route: (_) => HomePage(),
+                            HomePage.route: (_) => GoogleAuthService().handleAuthState() // HomePage(),
                           },
                           initialRoute: AppString.splashScreenView,
                           // builder: (context, widget) => ResponsiveWrapper.builder(

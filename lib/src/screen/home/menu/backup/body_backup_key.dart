@@ -7,9 +7,9 @@ class BackUpKeyBody extends StatelessWidget{
 
   final Function? getKeyStoreJson;
   final Function? getMnemonic;
-  final Function? disableScreenShot;
+  // final Function? disableScreenShot;
 
-  const BackUpKeyBody({Key? key, this.getKeyStoreJson, this.getMnemonic, this.disableScreenShot}) : super(key: key);
+  const BackUpKeyBody({Key? key, this.getKeyStoreJson, this.getMnemonic, /* this.disableScreenShot */ }) : super(key: key);
 
   @override
   Widget build(BuildContext context){

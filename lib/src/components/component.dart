@@ -159,7 +159,12 @@ class MyFlatButton extends StatelessWidget {
       width: width,
       height: height,
 
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(size8), 
+      decoration: isTransparent! ? null : BoxDecoration(
+        border: Border.all(
+          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(size8), 
         boxShadow: [
           if (hasShadow!)
             BoxShadow(
@@ -241,6 +246,17 @@ class MyGradientButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 48.0,
+            offset: const Offset(0.0, 2)
+          )
+        ],
+        border: Border.all(
+          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.25),
+          width: 1,
+        ),
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],

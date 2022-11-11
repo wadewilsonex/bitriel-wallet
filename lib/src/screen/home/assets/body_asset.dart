@@ -160,7 +160,7 @@ class AssetsPageBody extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(25),
               bottomRight: Radius.circular(25),
@@ -174,7 +174,7 @@ class AssetsPageBody extends StatelessWidget {
                 builder: (context, provider, widget){
                   return MyText(
                     text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
-                    hexaColor: AppColors.whiteColorHexa,
+                    // hexaColor: AppColors.whiteColorHexa,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   );
@@ -186,7 +186,7 @@ class AssetsPageBody extends StatelessWidget {
                 builder: (context, provider, widget){
                   return MyText(
                     text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                    hexaColor: AppColors.tokenNameColor,
+                    // hexaColor: AppColors.tokenNameColor,
                     fontWeight: FontWeight.bold,
                   );
                 }
@@ -244,7 +244,7 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomRight, 
           end: Alignment.topLeft, 
           action: (){
@@ -260,7 +260,7 @@ class AssetsPageBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Send",
-                hexaColor: AppColors.whiteColorHexa,
+                // hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],
@@ -272,7 +272,7 @@ class AssetsPageBody extends StatelessWidget {
         MyGradientButton(
           height: height,
           width: width,
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : ["#f2a049", "#f2a049"],
+          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
           begin: Alignment.bottomLeft, 
           end: Alignment.topRight, 
           action: (){
@@ -288,7 +288,7 @@ class AssetsPageBody extends StatelessWidget {
             children: const [
               MyText(
                 text: "Receive",
-                hexaColor: AppColors.whiteColorHexa,
+                // hexaColor: AppColors.whiteColorHexa,
                 fontWeight: FontWeight.w700,
               ),
             ],

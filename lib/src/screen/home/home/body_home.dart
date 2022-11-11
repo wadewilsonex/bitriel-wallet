@@ -11,6 +11,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
@@ -47,14 +48,14 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: homePageModel!.activeIndex == 4 ?
+      appBar: homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 ?
       null
       :
       AppBar(
         // iconTheme: IconThemeData(
         //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -65,7 +66,7 @@ class HomePageBody extends StatelessWidget {
             Iconsax.profile_circle, 
             color: isDarkMode 
               ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
             size: 6.w,
           ),
         ),
@@ -77,7 +78,7 @@ class HomePageBody extends StatelessWidget {
                 Iconsax.chart_3,
                 color: isDarkMode 
                   ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
                 size: 6.w,
               ),
             ),
@@ -95,7 +96,7 @@ class HomePageBody extends StatelessWidget {
                   Iconsax.scan,
                   color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.blackColor),
+                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
                   size: 6.w,
                 ),
               ),
@@ -131,6 +132,8 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+
                 const SizedBox(height: 10), 
                 _menu(context),
 
@@ -158,7 +161,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Marketplace",
+                    text: "NFTs",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -178,7 +181,7 @@ class HomePageBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
-                    text: "Selendra ECO System",
+                    text: "DApps",
                     fontSize: 17.5,
                     textAlign: TextAlign.start,
                     fontWeight: FontWeight.w600,
@@ -193,7 +196,9 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          SwapPage(),
+          // SwapPage(),
+          // EventTicket(),
+          FindEvent(),
 
           SettingPage(),
         ],
@@ -282,7 +287,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -296,7 +301,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -318,7 +323,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color:Colors.white, size: iconSize),
+                    child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -337,7 +342,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -354,7 +359,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color:Colors.white, size: iconSize),
+                  icon: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {
@@ -450,7 +455,7 @@ class HomePageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: 25.w,
+                  width: 30.w,
                 ),
                 title: "Weteka",
                 action: () async {
@@ -466,9 +471,10 @@ class HomePageBody extends StatelessWidget {
 
             Expanded(
               child: SelEcoSysMenuItem(
-                image: Image.asset(
-                  "assets/logo/koompi-fifi.png",
-                  width: 10.w,
+                image: SvgPicture.asset(
+                  "assets/logo/Koompi_wifi.svg",
+                  width: 14.w,
+                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
                 ),
                 title: "KOOMPI Fi-Fi",
                 action: () {
@@ -486,8 +492,10 @@ class HomePageBody extends StatelessWidget {
             Expanded(
               child: SelEcoSysMenuItem(
                 image: Image.asset(
-                  "assets/logo/selendra-logo.png",
-                  width: 6.w,
+                  isDarkMode ?
+                  "assets/logo/selendra-logo.png" :
+                  "assets/logo/selendra.png",
+                  width: 7.w,
                 ),
                 title: "Funan DApp",
                 action: () {
@@ -502,8 +510,8 @@ class HomePageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   isDarkMode 
-                  ? "assets/logo/bitriel-logo-v2.png" 
-                  : "assets/logo/bitriel-light.png",
+                  ? "assets/logo/bitriel-light.png" 
+                  : "assets/logo/bitriel-logo-v2.png",
                   width: 10.w,
                 ),
                 title: "Bitriel DEX",

@@ -12,6 +12,7 @@ import metadata from "./metadata.json";
 import ametadata from "./meta/metadata.json";
 import { ethers, Wallet } from 'ethers';
 import { resolveModuleName } from "typescript";
+import decrypt from "./service/decrypt_evm_wallet";
 
 let url = 'https://bsc-dataseed.binance.org/';
 
@@ -330,6 +331,7 @@ const settings = {
 (<any>window).keyring = keyring;
 (<any>window).account = account;
 (<any>window).wallets = wallets;
+(<any>window).decrypt = decrypt;
 //(<any>window).staking = staking;
 //(<any>window).gov = gov;
 

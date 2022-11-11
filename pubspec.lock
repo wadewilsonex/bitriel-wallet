@@ -7,7 +7,21 @@ packages:
       name: _discoveryapis_commons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.3"
+  _flutterfire_internals:
+    dependency: transitive
+    description:
+      name: _flutterfire_internals
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
+  action_slider:
+    dependency: "direct main"
+    description:
+      name: action_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   ai_progress:
     dependency: "direct main"
     description:
@@ -22,6 +36,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+<<<<<<< HEAD
+=======
+  animated_background:
+    dependency: "direct main"
+    description:
+      name: animated_background
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+>>>>>>> samnang
   animations:
     dependency: "direct main"
     description:
@@ -50,6 +74,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+<<<<<<< HEAD
+=======
+  auth_buttons:
+    dependency: "direct main"
+    description:
+      name: auth_buttons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+>>>>>>> samnang
   auth_header:
     dependency: transitive
     description:
@@ -148,6 +182,23 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+<<<<<<< HEAD
+=======
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.8.3"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.3"
+>>>>>>> samnang
   collection:
     dependency: transitive
     description:
@@ -218,6 +269,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+<<<<<<< HEAD
+=======
+  coupon_uikit:
+    dependency: "direct main"
+    description:
+      name: coupon_uikit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+2"
+>>>>>>> samnang
   cross_file:
     dependency: transitive
     description:
@@ -400,6 +461,51 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.4"
+<<<<<<< HEAD
+=======
+  firebase_auth:
+    dependency: "direct main"
+    description:
+      name: firebase_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
+  firebase_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_auth_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.11.0"
+  firebase_auth_web:
+    dependency: transitive
+    description:
+      name: firebase_auth_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
+  firebase_core:
+    dependency: "direct main"
+    description:
+      name: firebase_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
+  firebase_core_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_core_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.5.2"
+  firebase_core_web:
+    dependency: transitive
+    description:
+      name: firebase_core_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+>>>>>>> samnang
   fixnum:
     dependency: transitive
     description:
@@ -486,7 +592,11 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.2.14"
+=======
+    version: "2.2.12"
+>>>>>>> samnang
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -501,6 +611,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.0.4"
+<<<<<<< HEAD
   flutter_screenshot_switcher:
     dependency: "direct main"
     description:
@@ -508,6 +619,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+=======
+>>>>>>> samnang
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -557,6 +670,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+<<<<<<< HEAD
+=======
+  flutter_stripe:
+    dependency: "direct main"
+    description:
+      name: flutter_stripe
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
+>>>>>>> samnang
   flutter_svg:
     dependency: "direct main"
     description:
@@ -636,7 +759,11 @@ packages:
       name: geolocator_apple
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.2.3"
+=======
+    version: "2.2.2"
+>>>>>>> samnang
   geolocator_platform_interface:
     dependency: transitive
     description:
@@ -679,6 +806,44 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+<<<<<<< HEAD
+=======
+  google_sign_in:
+    dependency: "direct main"
+    description:
+      name: google_sign_in
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.4.2"
+  google_sign_in_android:
+    dependency: transitive
+    description:
+      name: google_sign_in_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.1"
+  google_sign_in_ios:
+    dependency: transitive
+    description:
+      name: google_sign_in_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.5.0"
+  google_sign_in_platform_interface:
+    dependency: transitive
+    description:
+      name: google_sign_in_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
+  google_sign_in_web:
+    dependency: transitive
+    description:
+      name: google_sign_in_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.2"
+>>>>>>> samnang
   googleapis:
     dependency: transitive
     description:
@@ -979,7 +1144,11 @@ packages:
       name: local_auth_android
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.0.15"
+=======
+    version: "1.0.14"
+>>>>>>> samnang
   local_auth_ios:
     dependency: transitive
     description:
@@ -1050,6 +1219,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+<<<<<<< HEAD
   mobile_scanner:
     dependency: "direct main"
     description:
@@ -1057,6 +1227,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+=======
+>>>>>>> samnang
   mobx:
     dependency: transitive
     description:
@@ -1064,13 +1236,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+<<<<<<< HEAD
+=======
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: modal_bottom_sheet
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.2"
+>>>>>>> samnang
   motion_toast:
     dependency: "direct main"
     description:
       name: motion_toast
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.5.3"
+=======
+    version: "2.4.3"
+>>>>>>> samnang
   nested:
     dependency: transitive
     description:
@@ -1175,7 +1361,11 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.21"
+=======
+    version: "2.0.20"
+>>>>>>> samnang
   path_provider_ios:
     dependency: transitive
     description:
@@ -1303,7 +1493,11 @@ packages:
     source: hosted
     version: "3.6.2"
   polkawallet_sdk:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: "direct overridden"
+>>>>>>> samnang
     description:
       name: polkawallet_sdk
       url: "https://pub.dartlang.org"
@@ -1344,6 +1538,16 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+<<<<<<< HEAD
+=======
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
+>>>>>>> samnang
   random_avatar:
     dependency: "direct main"
     description:
@@ -1523,7 +1727,11 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.2.0+3"
+=======
+    version: "2.2.0+2"
+>>>>>>> samnang
   sqflite_common:
     dependency: transitive
     description:
@@ -1558,7 +1766,11 @@ packages:
       name: stream_transform
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.1.0"
+=======
+    version: "2.0.1"
+>>>>>>> samnang
   string_scanner:
     dependency: transitive
     description:
@@ -1566,6 +1778,30 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+<<<<<<< HEAD
+=======
+  stripe_android:
+    dependency: transitive
+    description:
+      name: stripe_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
+  stripe_ios:
+    dependency: transitive
+    description:
+      name: stripe_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
+  stripe_platform_interface:
+    dependency: transitive
+    description:
+      name: stripe_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
+>>>>>>> samnang
   synchronized:
     dependency: transitive
     description:
@@ -1635,7 +1871,11 @@ packages:
       name: url_launcher_android
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "6.0.21"
+=======
+    version: "6.0.20"
+>>>>>>> samnang
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1761,7 +2001,11 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "3.1.1"
+=======
+    version: "3.0.1"
+>>>>>>> samnang
   xdg_directories:
     dependency: transitive
     description:

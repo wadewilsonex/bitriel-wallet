@@ -22,6 +22,7 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -37,10 +38,6 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-    }
-    lintOptions {
-        disable 'InvalidPackage'
-        checkReleaseBuilds false
     }
 
     defaultConfig {
@@ -67,12 +64,17 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             shrinkResources false
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
     }
     buildFeatures {
         viewBinding true
     }
+    lint {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+    }
+    namespace 'com.selendra.secure_wallet'
 
 }
 
@@ -84,4 +86,26 @@ dependencies {
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:31.0.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    constraints {
+
+        implementation('com.stripe:stripe-android') {
+
+            version {
+                strictly '20.11.0'
+            }
+        }
+    }
+
+    constraints {
+
+        implementation('com.stripe:financial-connections') {
+
+            version {
+                strictly '20.11.0'
+            }
+        }
+    }
 }

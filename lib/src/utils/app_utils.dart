@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:web3dart/web3dart.dart';
 
+
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
 
@@ -13,10 +14,10 @@ class AppUtils {
 
   static Color? txtColor;
 
-  static Future<DeployedContract> contractfromAssets(String path, String contractAddr) async {
+  static Future<DeployedContract> contractfromAssets(String path, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(path);
     return DeployedContract(
-      ContractAbi.fromJson(contractJson, 'contract'),
+      ContractAbi.fromJson(contractJson, contractName ?? 'contract'),
       EthereumAddress.fromHex(contractAddr),
     );
   }
@@ -146,5 +147,14 @@ class AppUtils {
     return hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg);
   }
 }
+
+double offsetToOpacity({
+  required double currentOffset,
+  required double maxOffset,
+  double returnMax = 1,
+}) {
+  return (currentOffset * returnMax) / maxOffset;
+}
+
 
 class ContractParser {}

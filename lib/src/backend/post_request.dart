@@ -18,7 +18,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("$url/api/claim"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -32,20 +32,23 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
 
   Future<http.Response> registerVerifyOPT(final String phoneNumber, final String opt) async {
+
     body = json.encode({
       "phoneNumber": phoneNumber,
       "opt" : opt
     });
 
+    print("body $body");
+
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/verify/otp"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -59,7 +62,7 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/submit/password"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
@@ -71,26 +74,34 @@ class PostRequest {
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/login"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
 
   Future<http.Response> loginVerifyOPT(final String phoneNumber, final String opt) async {
+    print("loginVerifyOPT ${phoneNumber.length} ${opt.length}");
+    print("${dotenv.get("WEB2_URL_API")}/login/verify/otp");
     body = json.encode({
-      "phoneNumber": phoneNumber,
-      "opt" : opt
+        "phoneNumber": "+85511725228",
+        "otp": "672789"
     });
+    print("body $body");
+    print("body.runtimeType ${body.runtimeType}");
+    // ({
+    //   "phoneNumber": phoneNumber,
+    //   "opt" : opt
+    // });
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/login/verify/otp"),
-      headers: _conceteHeader(),
+      headers: conceteHeader(),
       body: body
     );
   }
 
   /// Http Header
-  Map<String, String> _conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
+  Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
     return key != null 
     ? { /* if Parameter != Null = Concete Header With  */
       "Content-Type": "application/json; charset=utf-8", 
