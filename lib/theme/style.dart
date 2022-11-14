@@ -21,7 +21,7 @@ class AppStyle {
       // bottomAppBarTheme:
       //     BottomAppBarTheme(color: hexaCodeToColor(AppColors.cardColor)),
       // floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: hexaCodeToColor(AppColors.textColor)),
-      fontFamily: "Prompt",
+      fontFamily: "Barlow",
       unselectedWidgetColor: Colors.white,
     );
   }

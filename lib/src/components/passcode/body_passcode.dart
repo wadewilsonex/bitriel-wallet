@@ -42,7 +42,8 @@ class PasscodeBody extends StatelessWidget{
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
@@ -137,7 +138,7 @@ class PasscodeBody extends StatelessWidget{
               child: MyText(
                 text: is4digits == false ? "Switch to 4 digits passcode" : "Switch to 6 digits passcode",
                 color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
               ),
             ),
 

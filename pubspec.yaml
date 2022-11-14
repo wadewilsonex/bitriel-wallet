@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 7.0.0+98
+version: 7.0.1+100
 
 #6 feature
 #8 debug
@@ -278,6 +278,18 @@ flutter:
         - asset: assets/fonts/prompt/Prompt-Thin.ttf
         - asset: assets/fonts/prompt/Prompt-ExtraBold.ttf
         - asset: assets/fonts/prompt/Prompt-ExtraLight.ttf
+
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow/Barlow-Black.ttf
+        - asset: assets/fonts/Barlow/Barlow-Bold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Regular.ttf
+        - asset: assets/fonts/Barlow/Barlow-Light.ttf
+        - asset: assets/fonts/Barlow/Barlow-Medium.ttf
+        - asset: assets/fonts/Barlow/Barlow-SemiBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Thin.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraLight.ttf
 
   uses-material-design: true
   # fonts:

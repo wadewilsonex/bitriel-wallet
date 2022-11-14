@@ -60,60 +60,62 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    headerImageSize = MediaQuery.of(context).size.height / 2.5;
-    return ScaleTransition(
-      scale: scale,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildHeaderImage(),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          buildEventTitle(),
-                          UIHelper.verticalSpace(16),
-                          buildEventDate(),
-                          UIHelper.verticalSpace(24),
-                          buildAboutEvent(),
-                          UIHelper.verticalSpace(24),
-                          buildOrganizeInfo(),
-                          UIHelper.verticalSpace(75),
-                          // buildEventLocation(),
-                          // UIHelper.verticalSpace(124),
-                          //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
-                        ],
+    headerImageSize = MediaQuery.of(context).size.height / 4.4;
+    return SafeArea(
+      child: ScaleTransition(
+        scale: scale,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+          child: Scaffold(
+            body: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  controller: scrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      buildHeaderImage(),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            buildEventTitle(),
+                            UIHelper.verticalSpace(16),
+                            buildEventDate(),
+                            UIHelper.verticalSpace(24),
+                            buildAboutEvent(),
+                            UIHelper.verticalSpace(24),
+                            buildOrganizeInfo(),
+                            UIHelper.verticalSpace(75),
+                            // buildEventLocation(),
+                            // UIHelper.verticalSpace(124),
+                            //...List.generate(10, (index) => ListTile(title: Text("Dummy content"))).toList(),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: buildPriceInfo(),
-              ),
-              AnimatedBuilder(
-                animation: appBarSlide,
-                builder: (context, snapshot) {
-                  return Transform.translate(
-                    offset: Offset(0.0, -1000 * (1 - appBarSlide.value)),
-                    child: Material(
-                      elevation: 2,
-                      color: Theme.of(context).primaryColor,
-                      child: buildHeaderButton(hasTitle: true),
-                    ),
-                  );
-                },
-              )
-            ],
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: buildPriceInfo(),
+                ),
+                AnimatedBuilder(
+                  animation: appBarSlide,
+                  builder: (context, snapshot) {
+                    return Transform.translate(
+                      offset: Offset(0.0, -1000 * (1 - appBarSlide.value)),
+                      child: Material(
+                        elevation: 2,
+                        color: Theme.of(context).primaryColor,
+                        child: buildHeaderButton(hasTitle: true),
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -145,7 +147,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                 borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
                 child: Image.network(
                   event.image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

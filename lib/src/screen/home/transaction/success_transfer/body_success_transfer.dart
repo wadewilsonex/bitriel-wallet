@@ -17,6 +17,8 @@ class SuccessTransferBody extends StatelessWidget {
   final String? assetSymbol;
   final ModelScanPay? scanPayM;
   final bool? isDebitCard;
+  final num? qty;
+  final num? price;
 
   const SuccessTransferBody({
     Key? key,
@@ -30,6 +32,8 @@ class SuccessTransferBody extends StatelessWidget {
     this.assetSymbol,
     this.scanPayM,
     this.isDebitCard,
+    this.qty,
+    this.price,
   }) : super(key: key);
 
   @override
@@ -164,7 +168,6 @@ class SuccessTransferBody extends StatelessWidget {
         SafeArea(
           child: Center(
             child: Container(
-              height: 380,
               margin: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width,
               child: CustomPaint(
@@ -174,6 +177,7 @@ class SuccessTransferBody extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    
                     Padding(
                       padding: const EdgeInsets.all(paddingSize + 5),
                       child: Row(
@@ -200,13 +204,13 @@ class SuccessTransferBody extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 MyText(
-                                  text: "- \$$amount",
+                                  text: "- \$${price! * qty!}",
                                   hexaColor: AppColors.redColor,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
                                 MyText(
-                                  text: "SELENDRA Co,LTD",
+                                  text: "SELENDRA Pte., Ltd",
                                   hexaColor: AppColors.blackColor,
                                   textAlign: TextAlign.start,
                                 )
@@ -227,7 +231,7 @@ class SuccessTransferBody extends StatelessWidget {
                           textRowWidget("Card Holder:", "4242 XXXX XXXX 4242"),
                           textRowWidget("Transaction Date:", "Oct 01, 2022 5:50PM"),
                           textRowWidget("From:", fromAddress!),
-                          textRowWidget("Original Amount:", "$amount USD"),
+                          textRowWidget("Original Amount:", "${price! * qty!} USD"),
                         ],
                       ),
                     ),

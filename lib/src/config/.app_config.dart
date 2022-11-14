@@ -75,8 +75,8 @@ class AppConfig {
       httpUrlMN: 'https://app.selendra.org/',
       wsUrlTN: 'wss://rpc-testnet-3.selendra.org/', // TheNatte (1)
       // wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org', // Sabay (2)
-      wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
-      // wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
+      // wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
+      wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
       ss58: 204,
       ss58MN: 204
     ),
@@ -119,18 +119,6 @@ class AppConfig {
   ];
 
   static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
-
-  //static const testSEL = '0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C';
-
-  ///static const nodeName = 'Indranet hosted By Selendra';
-
-  //static const nodeEndpoint = 'wss://rpc1-testnet.selendra.org';
-
-  //static const dotTestnet = 'wss://westend-rpc.polkadot.io';
-
-  //static const dotMainnet = 'wss://rpc.polkadot.io';
-
-  // static int ss58 = 42;
 
   // static const nodeListPolkadot = [
   //   {

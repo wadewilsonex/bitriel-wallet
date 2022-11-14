@@ -66,18 +66,19 @@ class ApiProvider with ChangeNotifier {
   AccountM get getAccount => accountM;
 
   Future<void> initApi({@required BuildContext? context}) async {
-
+    print("initApi");
     // Asign Network
-    await StorageServices.fetchData(DbKey.sldNetwork).then((network) async {
+    await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
       /// Get Endpoint form Local DB
       /// 
-      if (network != null){
+      if (nw != null){
 
-        this.network = network;
+        network = nw;
       } else {
         network = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
 
       }
+      print("initApi network $network");
       notifyListeners();
     });
     
@@ -452,14 +453,16 @@ class ApiProvider with ChangeNotifier {
   Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring', String? endpoint}) async {
     
     print("connectSELNode");
-    
+    print("endpoint $endpoint");
+    print("network $network");
+
     try {
 
       NetworkParams node = NetworkParams();
       NetworkParams? res = NetworkParams();
 
       node.name = 'Indranet hosted By Selendra';
-      node.endpoint = endpoint ?? network;
+      node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
@@ -584,9 +587,6 @@ class ApiProvider with ChangeNotifier {
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
         res = value;
-        if (kDebugMode) {
-          print("value $value");
-        }
         contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });

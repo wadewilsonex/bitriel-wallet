@@ -58,7 +58,7 @@ class _SetPasswordState extends State<SetPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const MyText(
-                text: "Set the password \nto encryption your wallet",
+                text: "Set a password \nto encrypt your wallet",
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 textAlign: TextAlign.start,

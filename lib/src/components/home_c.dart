@@ -380,6 +380,7 @@ class MyBottomAppBar extends StatelessWidget {
               child: MyIconButton(
                 title: "Explorer",
                 txtColor: index == 0 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                isActive: index == 0 ? true : false,
                 onPressed: () {
                   onIndexChanged!(0);
                 },
@@ -390,6 +391,7 @@ class MyBottomAppBar extends StatelessWidget {
               child: MyIconButton(
                 title: "Asset",
                 txtColor: index == 1 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                isActive: index == 1 ? true : false,
                 onPressed: () {
                   onIndexChanged!(1);
                   // Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
@@ -401,6 +403,7 @@ class MyBottomAppBar extends StatelessWidget {
               child: MyIconButton(
                 title: "Home",
                 txtColor: index == 2 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                isActive: index == 2 ? true : false,
                 onPressed: () {
                   // Navigator.push(context, RouteAnimation(enterPage: HomePage()));
                   onIndexChanged!(2);
@@ -420,18 +423,30 @@ class MyBottomAppBar extends StatelessWidget {
             // ),
             Expanded(
               child: MyIconButton(
-                title: "Event",
+                title: "Swap",
                 txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                isActive: index == 3 ? true : false,
                 onPressed: () {
                   onIndexChanged!(3);
                 },
-                child: Icon(Icons.event, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                child: Icon(Iconsax.convert_card, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
               ),
             ),
+            // Expanded(
+            //   child: MyIconButton(
+            //     title: "Event",
+            //     txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+            //     onPressed: () {
+            //       onIndexChanged!(3);
+            //     },
+            //     child: Icon(Iconsax.calendar_1, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+            //   ),
+            // ),
             Expanded(
               child: MyIconButton(
                 title: "Setting",
                 txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                isActive: index == 4 ? true : false,
                 onPressed: () {
                   onIndexChanged!(4);
                 },
