@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portrait_card_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/main/email/email.dart';
 import 'package:wallet_apps/src/screen/main/json/import_json.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
@@ -45,12 +46,12 @@ class WelcomeBody extends StatelessWidget {
                   child: MyText(
                     // text: "Set up \nyour wallet",
                     text: "Welcome!",
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.center,
-                    fontSize: 20,
+                    fontSize: 19,
                     hexaColor: isDarkMode
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
+                      ? AppColors.whiteColorHexa
+                      : AppColors.darkGrey,
                   ),
                 ),
                 const SizedBox(
@@ -62,8 +63,8 @@ class WelcomeBody extends StatelessWidget {
                     text: "Bitriel offers users to store, transact, hold, buy, sell crypto assets, and more!",
                     textAlign: TextAlign.center,
                     hexaColor: isDarkMode
-                        ? AppColors.lowWhite
-                        : AppColors.textColor,
+                      ? AppColors.lowWhite
+                      : AppColors.textColor,
                   ),
                 )
               ]
@@ -75,118 +76,69 @@ class WelcomeBody extends StatelessWidget {
           //   child: _setupMenu(context),
           // ),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   height: 80,
-          //   child: Stack(
-          //     children: [
-          //       AnimatedPositioned(
-          //         top: 20,
-          //         left: selected! ? (MediaQuery.of(context).size.width / 2) + 50 : (MediaQuery.of(context).size.width / 2) - 25,
-          //         child: SizedBox(
-          //           width: 50,
-          //           height: 50,
-          //           child: GoogleAuthButton(
-          //             onPressed: () async {
-          //               tabGoogle!();
-          //               // await GoogleAuthService().signOut();
-          //               // await GoogleAuthService().signInWithGoogle().then((value) async {
-          //               //   if (value != null){
-          //               //     // Navigator.pushAndRemoveUntil(
-          //               //     //   context, 
-          //               //     //   MaterialPageRoute(builder: (context) => HomePage()), 
-          //               //     //   (route) => false
-          //               //     // );
-                            
-          //               //   }
-          //               //   // print("signInWithGoogle ${value}");
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              GoogleAuthButton(
+                onPressed: () async {
+                },
+                style: const AuthButtonStyle(
+                  buttonType: AuthButtonType.icon,
+                  iconType: AuthIconType.outlined,
+                ),
+                themeMode: ThemeMode.light,
+              ),
+
+              SizedBox(width: 10.sp,),
+
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                    context, 
+                    Transition(child: Email(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
+                }, 
+                child: Icon(Icons.email)
+              ),
+
+              SizedBox(width: 10.sp,),
+
+              ElevatedButton(
+                onPressed: (){
                   
-          //               //   try {
-                  
-          //               //     // Verify OTP with HTTPs
-                            
-          //               //     Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
-                  
-          //               //     final responseJson = json.decode(response.body);
-          //               //     print("responseJson ${responseJson.runtimeType}");
-          //               //     print(responseJson['user'].containsKey("encrypted"));
-                  
-          //               //     if (response.statusCode == 200) {
-                  
-          //               //       // if(!mounted) return;
-          //               //       if (responseJson['user'].containsKey("encrypted")){
-                  
-          //               //         Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-          //               //       }
-                                
-          //               //     } else if (response.statusCode == 401) {
-                  
-          //               //       customDialog(
-          //               //         context, 
-          //               //         "Error",
-          //               //         responseJson['message']
-          //               //       );
-                  
-          //               //       Navigator.of(context).pop();
-                  
-          //               //     } else if (response.statusCode >= 500 && response.statusCode < 600) {
-                  
-          //               //       customDialog(
-          //               //         context, 
-          //               //         "Error",
-          //               //         responseJson['message']
-          //               //       );
-                  
-          //               //       Navigator.of(context).pop();
-                  
-          //               //     }
-                  
-          //               //   } catch (e) {
-          //               //     print(e);
-          //               //   }
-                  
-          //               // });
-          //             },
-          //             style: const AuthButtonStyle(
-          //               buttonType: AuthButtonType.icon,
-          //               iconType: AuthIconType.outlined,
-          //             ),
-          //             themeMode: ThemeMode.light,
-          //           ),
-          //         ), 
-          //         duration: Duration(milliseconds: 200)
-          //       ),
-          //     ],
-          //   ),
-          // )
-          // ,
+                }, 
+                child: Icon(Icons.phone)
+              )
+            ],
+          ),
           
-          // Padding(
-          //   padding: const EdgeInsets.all(paddingSize + 5),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: const <Widget>[
-          //       Expanded(
-          //         child: Divider(
-          //           thickness: 1,
-          //           color: Color(0xff818181),
-          //         ),
-          //       ),
-          //       SizedBox(width: 10),
-          //       Text(
-          //         'OR',
-          //         style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
-          //       ),
-          //       SizedBox(width: 10),
-          //       Expanded(
-          //         child: Divider(
-          //           thickness: 1,
-          //           color: Color(0xff818181),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(paddingSize + 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                Expanded(
+                  child: Divider(
+                    thickness: 1,
+                    color: Color(0xff818181),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'OR',
+                  style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Divider(
+                    thickness: 1,
+                    color: Color(0xff818181),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
           Column(
             children: [
@@ -206,7 +158,7 @@ class WelcomeBody extends StatelessWidget {
               ),
               MyFlatButton(
                 isTransparent: true,
-                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
+                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.secondary,
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {

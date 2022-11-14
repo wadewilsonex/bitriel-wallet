@@ -279,6 +279,18 @@ flutter:
         - asset: assets/fonts/prompt/Prompt-ExtraBold.ttf
         - asset: assets/fonts/prompt/Prompt-ExtraLight.ttf
 
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow/Barlow-Black.ttf
+        - asset: assets/fonts/Barlow/Barlow-Bold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Regular.ttf
+        - asset: assets/fonts/Barlow/Barlow-Light.ttf
+        - asset: assets/fonts/Barlow/Barlow-Medium.ttf
+        - asset: assets/fonts/Barlow/Barlow-SemiBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Thin.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraLight.ttf
+
   uses-material-design: true
   # fonts:
   #   - family: Schyler

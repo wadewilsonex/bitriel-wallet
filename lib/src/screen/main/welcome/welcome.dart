@@ -34,9 +34,64 @@ class WelcomeState extends State<Welcome> {
   // }
 
   void tabGoogle(){
-    setState(() {
-      selected = !selected!;
-    });
+    
+    // await GoogleAuthService().signOut();
+    // await GoogleAuthService().signInWithGoogle().then((value) async {
+    //   if (value != null){
+    //     // Navigator.pushAndRemoveUntil(
+    //     //   context, 
+    //     //   MaterialPageRoute(builder: (context) => HomePage()), 
+    //     //   (route) => false
+    //     // );
+        
+    //   }
+    //   // print("signInWithGoogle ${value}");
+
+    //   try {
+
+    //     // Verify OTP with HTTPs
+        
+    //     Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
+
+    //     final responseJson = json.decode(response.body);
+    //     print("responseJson ${responseJson.runtimeType}");
+    //     print(responseJson['user'].containsKey("encrypted"));
+
+    //     if (response.statusCode == 200) {
+
+    //       // if(!mounted) return;
+    //       if (responseJson['user'].containsKey("encrypted")){
+
+    //         Navigator.push(context, Transition(child: SetPassword(phoneNumber: "+85511725228", responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    //       }
+            
+    //     } else if (response.statusCode == 401) {
+
+    //       customDialog(
+    //         context, 
+    //         "Error",
+    //         responseJson['message']
+    //       );
+
+    //       Navigator.of(context).pop();
+
+    //     } else if (response.statusCode >= 500 && response.statusCode < 600) {
+
+    //       customDialog(
+    //         context, 
+    //         "Error",
+    //         responseJson['message']
+    //       );
+
+    //       Navigator.of(context).pop();
+
+    //     }
+
+    //   } catch (e) {
+    //     print(e);
+    //   }
+
+    // });
   }
 
   @override

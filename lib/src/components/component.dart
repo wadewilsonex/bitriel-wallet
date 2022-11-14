@@ -308,7 +308,7 @@ class MyText extends StatelessWidget {
   const MyText({
     Key? key, 
     this.text,
-    this.hexaColor = "#3E3E3E",
+    this.hexaColor,
     this.color2,
     this.fontSize = 15,
     this.fontWeight = FontWeight.normal,

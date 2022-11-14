@@ -130,9 +130,10 @@ class AppUtils {
   static Color colorSelector({bool? isDark, String? hexaColor, Color? enumColor}){
     if (hexaColor != null){
       txtColor = hexaCodeToColor(hexaColor);
-    } else if (enumColor != null) {
+    }
+    else if (enumColor != null){
       txtColor = enumColor;
-    } 
+    }
     // Default Black White
     else if (isDark!) {
       txtColor = hexaCodeToColor(AppColors.whiteColorHexa);
