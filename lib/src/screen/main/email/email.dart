@@ -2,6 +2,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/email_m.dart';
 import 'package:wallet_apps/src/screen/main/email/body_email.dart';
 
 class Email extends StatefulWidget {
@@ -12,6 +13,14 @@ class Email extends StatefulWidget {
 }
 
 class _EmailState extends State<Email> {
+  
+  EmailModel _model = EmailModel();
+
+  Future<void> login() async {
+    print("_model.email.text ${_model.email.text}");
+    print("_model.password.text ${_model.password.text}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +28,11 @@ class _EmailState extends State<Email> {
         title: MyText(text: "Email", fontWeight: FontWeight.w600,),
         elevation: 0,
       ),
-      body: EmailBody()
+      body: EmailBody(
+        model: _model,
+        login: login,
+        
+      )
     );
   }
 }
