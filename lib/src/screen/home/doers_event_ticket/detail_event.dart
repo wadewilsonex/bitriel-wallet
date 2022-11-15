@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/constants/color.dart';
@@ -28,12 +30,50 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   double headerImageSize = 0;
   bool isFavorite = false;
 
+  Future<void> qrShare(GlobalKey globalKey, String name) async {
+    try {
+      final RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+      final image = await boundary.toImage(pixelRatio: 5.0);
+      final ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+      final tempDir = await getTemporaryDirectory();
+      final file = await File("${tempDir.path}/$name.png").create();
+      await file.writeAsBytes(pngBytes);
+
+      Share.shareFiles([file.path], text: name);
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error qrShare ${e.toString()}");
+        }
+      }
+    }
+  }
+
   Future _qrNFTDialog() async {
     return await showDialog(
       context: context, 
       barrierDismissible: false,
       builder: (BuildContext context){
         return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 80,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            actions: [
+              Align(
+                widthFactor: 1.75,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Iconsax.close_circle, color: Colors.white, size: 30),
+                ),
+              ),
+            ],
+          ),
           backgroundColor: Colors.transparent,
           body: Consumer<ApiProvider>(
             builder: (context, value, child) {
@@ -41,53 +81,35 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                 filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                 child: Column(
                   children: [
-                    AlertDialog(
-                      contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
-                      content: Container(
-                        width: 250,
-                        child: Consumer<ReceiveWalletProvider>(
-                          builder: (context, provider, widget){
-                            return RepaintBoundary(
-                              key: provider.keyQrShare,
-                              child: Column(
+                    RepaintBoundary(
+                      key: Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare,
+                      child: AlertDialog(
+                        contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                        content: SizedBox(
+                          width: 250,
+                          child: Consumer<ReceiveWalletProvider>(
+                            builder: (context, provider, widget){
+                              return Column(
                                 mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-        
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: MyText(
-                                          text: "NFT TICKET\n${event.name}",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          hexaColor: AppColors.blackColor,
-                                          overflow: TextOverflow.fade,
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ),
-
-                                      GestureDetector(
-                                        onTap: (){
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Icon(Iconsax.close_circle, color: Colors.black, size: 26),
-                                      )
-
-                                      // IconButton(
-                                      //   onPressed: (){
-                                      //     Navigator.pop(context);
-                                      //   },
-                                      //   icon: Icon(Iconsax.close_circle, color: Colors.black, size: 28,),
-                                      // )
-                                    ],
+                            
+                                  Flexible(
+                                    child: MyText(
+                                      text: "NFT TICKET\n${event.name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      hexaColor: AppColors.blackColor,
+                                      overflow: TextOverflow.fade,
+                                      textAlign: TextAlign.start,
+                                    ),
                                   ),
-        
+                            
                                   SizedBox(height: 2.h),
                                   
                                   qrCodeProfile(
@@ -96,35 +118,39 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                     provider.keyQrShare,
                                   ),
                                 ],
-                              ),
-                            ); 
-                          }
-                        ),
-                      )
+                              ); 
+                            }
+                          ),
+                        )
+                      ),
                     ),
 
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
+                          
+                            Flexible(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const MyText(
                                     text: "CONTRACT ADDRES",
                                   ),
                                   MyText(
-                                    text: "${value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........")}",
+                                    text: "${value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "........")}",
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ],
                               ),
                             ),
 
-                            Expanded(
+                            Spacer(),
+
+                            Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
@@ -138,19 +164,21 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                 ],
                               ),
                             ),
+
                           ],
                         ),
                       ),
                     ),
 
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 0.0),
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
+                            Flexible(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   MyText(
@@ -164,7 +192,9 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                               ),
                             ),
 
-                            Expanded(
+                            Spacer(),
+
+                            Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
@@ -181,7 +211,65 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                           ],
                         ),
                       ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Icon(Iconsax.import_1, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                                  ),
+                                ),
+
+                                MyText(
+                                  text: "Download",
+                                )
+                              ],
+                            ),
+
+                            SizedBox(width: 10.w),
+                            
+                            GestureDetector(
+                              onTap: () {
+                                qrShare(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare, "NFT TICKET ${event.name}");
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Icon(Iconsax.share, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                                  ),
+                            
+                                  MyText(
+                                    text: "Share",
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     )
+                    
                   ],
                 ),
               );
