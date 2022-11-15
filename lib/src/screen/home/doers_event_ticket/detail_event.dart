@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/checkout_ticket.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
@@ -25,6 +27,172 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   late Animation<double> appBarSlide;
   double headerImageSize = 0;
   bool isFavorite = false;
+
+  Future _qrNFTDialog() async {
+    return await showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Consumer<ApiProvider>(
+            builder: (context, value, child) {
+              return BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Column(
+                  children: [
+                    AlertDialog(
+                      contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                      content: Container(
+                        width: 250,
+                        child: Consumer<ReceiveWalletProvider>(
+                          builder: (context, provider, widget){
+                            return RepaintBoundary(
+                              key: provider.keyQrShare,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+        
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: MyText(
+                                          text: "NFT TICKET\n${event.name}",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          hexaColor: AppColors.blackColor,
+                                          overflow: TextOverflow.fade,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Icon(Iconsax.close_circle, color: Colors.black, size: 26),
+                                      )
+
+                                      // IconButton(
+                                      //   onPressed: (){
+                                      //     Navigator.pop(context);
+                                      //   },
+                                      //   icon: Icon(Iconsax.close_circle, color: Colors.black, size: 28,),
+                                      // )
+                                    ],
+                                  ),
+        
+                                  SizedBox(height: 2.h),
+                                  
+                                  qrCodeProfile(
+                                    value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
+                                    "assets/logo/bitirel-logo-circle.png",
+                                    provider.keyQrShare,
+                                  ),
+                                ],
+                              ),
+                            ); 
+                          }
+                        ),
+                      )
+                    ),
+
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const MyText(
+                                    text: "CONTRACT ADDRES",
+                                  ),
+                                  MyText(
+                                    text: "${value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........")}",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Pieces",
+                                  ),
+                                  MyText(
+                                    text: "0",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Token Standard",
+                                  ),
+                                  MyText(
+                                    text: "ERC1155",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Blockchain",
+                                  ),
+                                  MyText(
+                                    text: "SELENDRA",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }
+          ),
+        );
+      }
+    );
+  }
+
+  
   @override
   void initState() {
     event = widget.event;
@@ -205,10 +373,21 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   }
 
   Widget buildEventTitle() {
-    return MyText(
-      text: event.name,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
+    return Row(
+      children: [
+        MyText(
+          text: event.name,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+
+        IconButton(
+          onPressed: () async{
+            await _qrNFTDialog();
+          },
+          icon: const Icon(Iconsax.scan_barcode, color: Colors.white,),
+        )
+      ],
     );
   }
 

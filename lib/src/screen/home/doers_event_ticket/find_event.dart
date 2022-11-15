@@ -51,6 +51,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         children: [
 
           AppBar(
+            automaticallyImplyLeading: false,
             leading: null,
             leadingWidth: 0,
             elevation: 0,
@@ -198,26 +199,26 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                   //   ),
                   // ),
                   Expanded(
-                    child: CouponCard(
-                      height: 285,
-                      curvePosition: 180,
-                      curveRadius: 15,
-                      borderRadius: 10,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.white,
-                            Colors.white54,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        viewEventDetail(event);
+                      },
+                      child: CouponCard(
+                        height: 285,
+                        curvePosition: 180,
+                        curveRadius: 15,
+                        borderRadius: 10,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white,
+                              Colors.white54,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
-                      ),
-                      firstChild: GestureDetector(
-                        onTap: () {
-                          viewEventDetail(event);
-                        },
-                        child: Stack(
+                        firstChild: Stack(
                           fit: StackFit.expand,
                           children: [
                             Image.network(event.image, fit: BoxFit.fill,),
@@ -253,73 +254,73 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                             )
                           ],
                         ),
-                      ),
-                      secondChild: Padding(
-                        padding: const EdgeInsets.all(paddingSize),
-                        child: Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: primaryLight,
-                                borderRadius: BorderRadius.circular(8),
+                        secondChild: Padding(
+                          padding: const EdgeInsets.all(paddingSize),
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: primaryLight,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
+                                    Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
+                                  ],
+                                ),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
-                                  Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
+                    
+                              UIHelper.horizontalSpace(16),
+                              
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  MyText(
+                                    text: event.name,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17,
+                                  ),
+                    
+                            
+                                  MyText(
+                                    text: event.organizer,
+                                    fontSize: 14,
+                                  ),
                                 ],
                               ),
-                            ),
-
-                            UIHelper.horizontalSpace(16),
-                            
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                MyText(
-                                  text: event.name,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
-
-        
-                                MyText(
-                                  text: event.organizer,
-                                  fontSize: 14,
-                                ),
-                              ],
-                            ),
-
-                            Spacer(),
-
-                            SizedBox(
-                              // width: double.maxFinite,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(60),
+                    
+                              Spacer(),
+                    
+                              SizedBox(
+                                // width: double.maxFinite,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                      hexaCodeToColor(AppColors.orangeColor)
                                     ),
                                   ),
-                                  backgroundColor: MaterialStateProperty.all<Color>(
-                                    hexaCodeToColor(AppColors.orangeColor)
+                                  onPressed: () {
+                                    viewEventDetail(event);
+                                  },
+                                  child: const MyText(
+                                    text: 'JOIN THE\nEVENT',
+                                    fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteColorHexa,
+                                    fontSize: 13,
                                   ),
                                 ),
-                                onPressed: () {
-                                  viewEventDetail(event);
-                                },
-                                child: const MyText(
-                                  text: 'JOIN THE\nEVENT',
-                                  fontWeight: FontWeight.bold,
-                                  hexaColor: AppColors.whiteColorHexa,
-                                  fontSize: 13,
-                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
- Future _qrProfileDialog() async {
+  Future _qrProfileDialog() async {
     return await showDialog(
       context: context, 
       builder: (BuildContext context){
