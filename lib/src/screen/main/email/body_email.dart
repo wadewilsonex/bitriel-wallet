@@ -1,6 +1,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:form_validation/form_validation.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/email_m.dart';
 
@@ -22,15 +23,28 @@ class EmailBody extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: paddingSize),
       child: Form(
+        key: model!.getFmKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
     
             TextFormField(
               controller: model!.email,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 label: MyText(text: "Email",)
               ),
+              validator: (value) {
+                return Validator(
+                  validators: [
+                    RequiredValidator(),
+                    EmailValidator()
+                  ],
+                ).validate(
+                  context: context,
+                  label: 'Email',
+                  value: value,
+                );
+              }
             ),
 
             SizedBox(height: 10,),
@@ -40,6 +54,18 @@ class EmailBody extends StatelessWidget {
               decoration: InputDecoration(
                 label: MyText(text: "Password",)
               ),
+              validator: (value) {
+                return Validator(
+                  validators: [
+                    RequiredValidator(),
+                    MinLengthValidator(length: 8),
+                  ],
+                ).validate(
+                  context: context,
+                  label: 'Password',
+                  value: value,
+                );
+              },
             ),
 
             SizedBox(height: paddingSize,),
