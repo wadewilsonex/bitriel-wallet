@@ -14,6 +14,7 @@ import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
@@ -29,6 +30,7 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+  final Function? qrProfileDialog;
 
   const HomePageBody({ 
     Key? key, 
@@ -37,7 +39,8 @@ class HomePageBody extends StatelessWidget {
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
-    this.getReward
+    this.getReward,
+    this.qrProfileDialog
     }) : super(key: key);
 
 
@@ -72,29 +75,29 @@ class HomePageBody extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                Iconsax.chart_3,
-                color: isDarkMode 
-                  ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-                size: 6.w,
-              ),
-            ),
-            onPressed: () async {
-              portfolioDailog(context: context);
-            },
-          ),
+          // IconButton(
+          //   icon: Align(
+          //     alignment: Alignment.centerRight,
+          //     child: Icon(
+          //       Iconsax.chart_3,
+          //       color: isDarkMode 
+          //         ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+          //         : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
+          //       size: 6.w,
+          //     ),
+          //   ),
+          //   onPressed: () async {
+          //     portfolioDailog(context: context);
+          //   },
+          // ),
           
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
             child: IconButton(
               icon: Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  Iconsax.scan,
+                  Iconsax.scanning,
                   color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
                     : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
@@ -102,16 +105,17 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                
+                await qrProfileDialog!();
                 // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 // if (value != null){
                 //   getReward!(value);
                 // }
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                  pushReplacement!,
-                );
+                
+                // await TrxOptionMethod.scanQR(
+                //   context,
+                //   [],
+                //   pushReplacement!,
+                // );
               },
             ),
           )
@@ -133,7 +137,8 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+
                 ShowCaseWidget(
                   builder: Builder(
                     builder : (context) => Container()
@@ -202,8 +207,8 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          SwapPage(),
-          // FindEvent(),
+          // SwapPage(),
+          FindEvent(),
 
           SettingPage(),
         ],
@@ -222,7 +227,8 @@ class HomePageBody extends StatelessWidget {
           options: CarouselOptions(
             viewportFraction: 1,  
             aspectRatio: 29 / 10,
-            autoPlay: true,
+            autoPlay: false,
+            enableInfiniteScroll: false,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
             onPageChanged: homePageModel!.onAdsCarouselChanged,
@@ -230,10 +236,11 @@ class HomePageBody extends StatelessWidget {
           items: imgList
             .map((item) => GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context, 
-                  Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
+                // Navigator.push(
+                //   context, 
+                //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                // );
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -249,9 +256,9 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
-                    child: Image.asset(
+                    child: Image.network(
                       item['asset'],
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ),

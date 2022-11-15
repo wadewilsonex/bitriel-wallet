@@ -827,8 +827,23 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
         // size: Size(10.w, 10.h),
       ),
       // version: QrVersions.auto,
+      eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
       data: wallet,
     ),
+  );
+}
+
+Widget qrCodeProfile(String wallet, String logoName, GlobalKey keyQrShare) {
+  return QrImage(
+    padding: EdgeInsets.zero,
+    backgroundColor: Colors.white,
+    embeddedImage: AssetImage(logoName),
+    embeddedImageStyle: QrEmbeddedImageStyle(
+      size: const Size(50, 50),
+    ),
+    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+    // version: QrVersions.auto,
+    data: wallet,
   );
 }
 
