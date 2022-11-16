@@ -80,7 +80,9 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               return BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
                     RepaintBoundary(
                       key: Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare,
                       child: AlertDialog(
@@ -125,22 +127,26 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                       ),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.all(paddingSize),
+                    Container(
+                      width: 250,
+                      // padding: const EdgeInsets.all(paddingSize),
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                           
-                            Flexible(
+                            Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const MyText(
                                     text: "CONTRACT ADDRES",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
                                   ),
                                   MyText(
+                                    hexaColor: AppColors.whiteHexaColor,
                                     text: "${value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "........")}",
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -148,18 +154,22 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                               ),
                             ),
 
-                            Spacer(),
+                            // Spacer(),
 
-                            Flexible(
+                            SizedBox(
+                              width: 18.w,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   MyText(
                                     text: "Pieces",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
                                   ),
                                   MyText(
                                     text: "0",
                                     fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
                                   ),
                                 ],
                               ),
@@ -170,40 +180,49 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                       ),
                     ),
 
-                    Padding(
-                      padding: const EdgeInsets.all(paddingSize),
+                    SizedBox(height: 2.h,),
+
+                    Container(
+                      width: 250,
+                      // padding: const EdgeInsets.all(paddingSize),
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Flexible(
+
+                            Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   MyText(
                                     text: "Token Standard",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
                                   ),
                                   MyText(
                                     text: "ERC1155",
                                     fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
                                   ),
                                 ],
                               ),
                             ),
 
-                            Spacer(),
-
-                            Flexible(
+                            SizedBox(
+                              width: 18.w,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   MyText(
                                     text: "Blockchain",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
                                   ),
                                   MyText(
                                     text: "SELENDRA",
                                     fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
                                   ),
                                 ],
                               ),
@@ -212,6 +231,8 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                         ),
                       ),
                     ),
+
+                    SizedBox(height: 3.h,),
 
                     Padding(
                       padding: const EdgeInsets.all(paddingSize),
@@ -238,6 +259,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
                                 MyText(
                                   text: "Download",
+                                  hexaColor: AppColors.whiteHexaColor,
                                 )
                               ],
                             ),
@@ -261,6 +283,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                             
                                   MyText(
                                     text: "Share",
+                                    hexaColor: AppColors.whiteHexaColor,
                                   )
                                 ],
                               ),
@@ -473,7 +496,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
           onPressed: () async{
             await _qrNFTDialog();
           },
-          icon: const Icon(Iconsax.scan_barcode, color: Colors.white,),
+          icon: Icon(Iconsax.scan_barcode, color: isDarkMode == true ? Colors.white : hexaCodeToColor(AppColors.darkGrey),),
         )
       ],
     );
