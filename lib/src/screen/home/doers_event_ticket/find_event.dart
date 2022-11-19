@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -58,7 +60,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             title: Consumer<MDWProvider>(
               builder: (context, provider, widget){
               return MyText(
-                text: "My Tickets: ${provider.model.tickets.length}",
+                text: "My NFTs Ticket: ${provider.model.tickets.length}",
                 fontWeight: FontWeight.w600,
                 fontSize: 17,
               );
@@ -145,6 +147,17 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           fit: BoxFit.contain,
           height: 40,
         ),
+        actions: [
+          Align(
+            widthFactor: 1.75,
+            child: IconButton(
+              onPressed: () {
+                qrProfileDialog(context);
+              },
+              icon: Icon(Iconsax.scanning, color: Colors.white, size: 7.w),
+            ),
+          ),
+        ],
       ),
       body: AnimatedBackground(
         behaviour: RacingLinesBehaviour(),
@@ -152,14 +165,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         child: SingleChildScrollView(
           controller: scrollController,
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // const SizedBox(height: 30,),
-              eventNow(context),
-              // const SizedBox(height: 20,),
-            ],
-          ),
+          child: eventNow(context),
         )
       ),
       floatingActionButton: FloatingActionButton(
@@ -183,143 +189,102 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           itemBuilder: (context, index) {
             final event = upcomingEvents[index];
             return Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(paddingSize),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Container(
-                  //   width: 50,
-                  //   height: 100,
-                  //   margin: const EdgeInsets.only(right: 20),
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       MyText(text: DateTimeUtils.getDayOfMonth(event.eventDate), fontWeight: FontWeight.bold, hexaColor: AppColors.orangeColor, fontSize: 22,),
-                  //       MyText(text: DateTimeUtils.getMonth(event.eventDate), fontWeight: FontWeight.bold, fontSize: 18)
-                  //     ],
-                  //   ),
-                  // ),
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
                         viewEventDetail(event);
                       },
-                      child: CouponCard(
-                        height: 285,
-                        curvePosition: 180,
-                        curveRadius: 15,
-                        borderRadius: 10,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.white,
-                              Colors.white54,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        firstChild: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.network(event.image, fit: BoxFit.fill,),
-                                
-                            Positioned(
-                              top: paddingSize,
-                              left: paddingSize / 1.5,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.04),
-                                      blurRadius: 48.0,
-                                      offset: const Offset(0.0, 2)
-                                    )
-                                  ],
-                                  border: Border.all(
-                                    color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
-                                    width: 1,
-                                  ),
-                                  color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
-                                  borderRadius: BorderRadius.circular(100)
-                                ),
-                                child: MyText(
-                                  text: event.name,
-                                  textAlign: TextAlign.start,
-                                  // hexaColor: AppColors.whiteColorHexa,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                      child: ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: CouponCard(
+                            height: 200,
+                            curvePosition: 100,
+                            curveRadius: 20,
+                            borderRadius: 10,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withOpacity(0.25),
+                                  Colors.white.withOpacity(0.25),
+                                ],
+                                begin: AlignmentDirectional.topStart,
+                                end: AlignmentDirectional.bottomEnd,
                               ),
-                            )
-                          ],
-                        ),
-                        secondChild: Padding(
-                          padding: const EdgeInsets.all(paddingSize),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: primaryLight,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
-                                    Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
-                                  ],
-                                ),
-                              ),
-                    
-                              UIHelper.horizontalSpace(16),
-                              
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                            firstChild: event.image.contains("https") ? Image.network(event.image, fit: BoxFit.fill,) : Image.asset(event.image, fit: BoxFit.fill,),
+                            secondChild: Padding(
+                              padding: const EdgeInsets.all(paddingSize),
+                              child: Row(
                                 children: [
-                                  MyText(
-                                    text: event.name,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 17,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: primaryLight,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
+                                        Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
+                                      ],
+                                    ),
                                   ),
-                    
-                            
-                                  MyText(
-                                    text: event.organizer,
-                                    fontSize: 14,
+                                            
+                                  UIHelper.horizontalSpace(16),
+                                  
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      MyText(
+                                        text: event.name,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17,
+                                      ),
+                                            
+                                
+                                      MyText(
+                                        text: event.organizer,
+                                        fontSize: 14,
+                                      ),
+                                    ],
+                                  ),
+                                            
+                                  Spacer(),
+                                            
+                                  SizedBox(
+                                    // width: double.maxFinite,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(60),
+                                          ),
+                                        ),
+                                        backgroundColor: MaterialStateProperty.all<Color>(
+                                          hexaCodeToColor(AppColors.orangeColor)
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        viewEventDetail(event);
+                                      },
+                                      child: const MyText(
+                                        text: 'JOIN THE\nEVENT',
+                                        fontWeight: FontWeight.bold,
+                                        hexaColor: AppColors.whiteColorHexa,
+                                        fontSize: 13,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                    
-                              Spacer(),
-                    
-                              SizedBox(
-                                // width: double.maxFinite,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(60),
-                                      ),
-                                    ),
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                      hexaCodeToColor(AppColors.orangeColor)
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    viewEventDetail(event);
-                                  },
-                                  child: const MyText(
-                                    text: 'JOIN THE\nEVENT',
-                                    fontWeight: FontWeight.bold,
-                                    hexaColor: AppColors.whiteColorHexa,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),

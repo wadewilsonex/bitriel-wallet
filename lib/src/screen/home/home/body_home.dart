@@ -30,7 +30,6 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
-  final Function? qrProfileDialog;
 
   const HomePageBody({ 
     Key? key, 
@@ -40,7 +39,6 @@ class HomePageBody extends StatelessWidget {
     this.pushReplacement,
     this.onTapWeb,
     this.getReward,
-    this.qrProfileDialog
     }) : super(key: key);
 
 
@@ -97,7 +95,7 @@ class HomePageBody extends StatelessWidget {
               icon: Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
-                  Iconsax.scanning,
+                  Iconsax.scan,
                   color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
                     : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
@@ -105,17 +103,16 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                await qrProfileDialog!();
                 // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 // if (value != null){
                 //   getReward!(value);
                 // }
                 
-                // await TrxOptionMethod.scanQR(
-                //   context,
-                //   [],
-                //   pushReplacement!,
-                // );
+                await TrxOptionMethod.scanQR(
+                  context,
+                  [],
+                  pushReplacement!,
+                );
               },
             ),
           )

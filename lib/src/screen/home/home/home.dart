@@ -145,81 +145,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  Future _qrProfileDialog() async {
-    return await showDialog(
-      context: context, 
-      builder: (BuildContext context){
-        return Consumer<ApiProvider>(
-          builder: (context, value, child) {
-            return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-              child: Stack(
-                children: [
 
-                  AlertDialog(
-                    contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
-                    content: Container(
-                      width: 250,
-                      child: Consumer<ReceiveWalletProvider>(
-                        builder: (context, provider, widget){
-                          return RepaintBoundary(
-                            key: provider.keyQrShare,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-
-                                MyText(
-                                  top: 50,
-                                  text: value.accountM.name,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  hexaColor: AppColors.blackColor,
-                                ),
-
-                                SizedBox(height: 2.h),
-                                
-                                qrCodeProfile(
-                                  value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
-                                  "assets/logo/bitirel-logo-circle.png",
-                                  provider.keyQrShare,
-                                ),
-                              ],
-                            ),
-                          ); 
-                        }
-                      ),
-                    )
-                  ),
-          
-                  Positioned(
-                    left: Constants.padding,
-                    right: Constants.padding,
-                    bottom: (MediaQuery.of(context).size.height / 2) + 120,
-                    // top: -50,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: Constants.avatarRadius,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                          child: randomAvatar(value.accountM.addressIcon ?? '')
-                      ),
-                    ),
-                  ),
-                ],
-          
-              ),
-            );
-          }
-        );
-      }
-    );
-  }
   // Future<String> _signId(String id) async {
 
   //   return await Provider.of<ApiProvider>(context, listen: false).getPrivateKey("august midnight obvious fragile pretty begin useless collect elder ability enhance series");
@@ -234,7 +160,6 @@ class _HomePageState extends State<HomePage> {
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
       getReward: _scanLogin,
-      qrProfileDialog: _qrProfileDialog
     );
   }
 }

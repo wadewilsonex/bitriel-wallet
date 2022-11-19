@@ -27,7 +27,7 @@ final List<Event> upcomingEvents = [
     name: "MetaDoersWorld",
     eventDate: DateTime.now().add(const Duration(days: 7)),
     eventTime: "10AM - 10PM",
-    image: 'https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75',
+    image: 'assets/Singapore_Ticket.png',
     description: "With its roots in Traditional Chinese Medicine, Qigong shares many of the health benefits attributed to Tai Chi. Qigong aims at cultivating and balancing the flow of energy in the body using movement, breathwork, and mental focus. Qigong is valued by many as a body-mind practice used to quiet the mind and promote physical wellness.",
     location: "Online Event",
     organizer: "Meta doers world",

@@ -1,7 +1,4 @@
 // For Theme Initialize
-
-import 'package:wallet_apps/index.dart';
-
 // bool isDarkMode = true;
 
 bool isDarkMode = true;

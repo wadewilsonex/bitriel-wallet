@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:share_plus/share_plus.dart';
@@ -12,6 +13,7 @@ import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/checkout_ticket.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
+import 'dart:ui' as ui;
 
 class EventDetailPage extends StatefulWidget {
   final Event event;
@@ -30,6 +32,34 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   double headerImageSize = 0;
   bool isFavorite = false;
 
+  Future<Uint8List> _capturePng(GlobalKey globalKey) async {
+    print('inside');
+    RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    var pngBytes = byteData!.buffer.asUint8List();
+    var bs64 = base64Encode(pngBytes);
+    print(pngBytes);
+    print(bs64);
+    setState(() {});
+    return pngBytes;
+    // try {
+    //   print('inside');
+    //   RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    //   ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    //   ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    //   var pngBytes = byteData!.buffer.asUint8List();
+    //   var bs64 = base64Encode(pngBytes);
+    //   print(pngBytes);
+    //   print(bs64);
+    //   setState(() {});
+    //   return pngBytes;
+    // } catch (e) {
+    //   print(e);
+    // }
+    // return null;
+  }
+
   Future<void> qrShare(GlobalKey globalKey, String name) async {
     try {
       final RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
@@ -41,7 +71,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
       final file = await File("${tempDir.path}/$name.png").create();
       await file.writeAsBytes(pngBytes);
 
-      Share.shareFiles([file.path], text: name);
+      Share.shareXFiles([XFile(file.path)], text: name);
     } catch (e) {
       if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
@@ -243,9 +273,9 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                           children: [
                             Column(
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   onTap: (){
-                                    
+                                    _capturePng(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
@@ -266,7 +296,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
                             SizedBox(width: 10.w),
                             
-                            GestureDetector(
+                            InkWell(
                               onTap: () {
                                 qrShare(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare, "NFT TICKET ${event.name}");
                               },
@@ -278,7 +308,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
                                         shape: BoxShape.circle
                                     ),
-                                    child: Icon(Iconsax.share, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                                    child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
                                   ),
                             
                                   MyText(
@@ -419,15 +449,12 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
         children: <Widget>[
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: headerImageSize,
+            // height: headerImageSize,
             child: Hero(
               tag: event.image,
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
-                child: Image.network(
-                  event.image,
-                  fit: BoxFit.fill,
-                ),
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+                child: event.image.contains("https") ? Image.network(event.image, fit: BoxFit.fill,) : Image.asset(event.image, fit: BoxFit.fill,),
               ),
             ),
           ),
