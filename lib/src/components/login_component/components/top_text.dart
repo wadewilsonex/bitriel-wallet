@@ -33,7 +33,7 @@ class _TopTextState extends State<TopText> {
       child: MyText(
         text: widget.animationS.currentScreen == Screens.welcomeBack
             ? 'Create\nAccount'
-            : 'Welcome\nBack',
+            : 'Hello There,\nWelcome to bitriel',
         fontSize: 22,
         fontWeight: FontWeight.w600,
         textAlign: TextAlign.start,

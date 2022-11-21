@@ -1,14 +1,20 @@
+import 'dart:ui' as ui;
 import 'dart:ui';
-
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/ticket_options.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class FindEvent extends StatefulWidget {
@@ -29,19 +35,20 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   late Animation<double> opacity;
 
   void viewEventDetail(Event event) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        barrierDismissible: true,
-        transitionDuration: const Duration(milliseconds: 300),
-        pageBuilder: (BuildContext context, animation, __) {
-          return FadeTransition(
-            opacity: animation,
-            child: EventDetailPage(event),
-          );
-        },
-      ),
-    );
+    Navigator.push(context, Transition(child: TicketOptions(title: event.name,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    // Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     opaque: false,
+    //     barrierDismissible: true,
+    //     transitionDuration: const Duration(milliseconds: 300),
+    //     pageBuilder: (BuildContext context, animation, __) {
+    //       return FadeTransition(
+    //         opacity: animation,
+    //         child: TicketOptions(title: event.name),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 
   void _showPasses(BuildContext context) {
@@ -67,26 +74,528 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             }),
           ),
 
-          Expanded(
-            child: Consumer<MDWProvider>(
-              builder: (context, value, widget){
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: value.model.tickets.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(paddingSize),
-                      child: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75"),
-                    );
-                  }
-                );
-              }
-            ),
+          Consumer<MDWProvider>(
+            builder: (context, value, widget){
+              return GestureDetector(
+                onTap: (() {
+                  _passesDetails(context);
+                }),
+                child: Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: CouponCard(
+                    height: 150,
+                    // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
+                    clockwise: true,
+                    curvePosition: 125,
+                    curveRadius: 30,
+                    curveAxis: Axis.vertical,
+                    borderRadius: 10,
+                    firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+                    secondChild: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                        child: Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: isDarkMode ? [
+                                Colors.white.withOpacity(0.25),
+                                Colors.white.withOpacity(0.25),
+                              ]
+                              : 
+                              [
+                                Colors.black.withOpacity(0.25),
+                                Colors.black.withOpacity(0.25),
+                              ],
+                              begin: AlignmentDirectional.topStart,
+                              end: AlignmentDirectional.bottomEnd,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(18),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  
+                                  const MyText(
+                                    text: "ENTRY",
+                                    // hexaColor: AppColors.whiteColorHexa,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                    
+                                  Container(
+                                    height: 25,
+                                    width: 50,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.all(Radius.circular(25))
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: const [
+                                        Icon(Iconsax.user, color: Colors.white, size: 14,),
+                                    
+                                        MyText(
+                                          text: "10",
+                                          hexaColor: AppColors.whiteColorHexa,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              const MyText(
+                                text: "MetaDoersWorld",
+                                // hexaColor: AppColors.whiteColorHexa,
+                                fontSize: 20,
+                                textAlign: TextAlign.start,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              const Spacer(),
+                              const MyText(
+                                text: "Meta doers world",
+                                // hexaColor: AppColors.whiteColorHexa,
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+              // return ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: value.model.tickets.length,
+              //   itemBuilder: (context, index) {
+              //     return Padding(
+              //       padding: const EdgeInsets.all(paddingSize),
+              //       child: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75"),
+              //     );
+              //   }
+              // );
+            }
           )
         ],  
       ),
     );
   }
+
+  void _passesDetails(BuildContext context) {
+    showBarModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      builder: (context) => Column(
+        children: [
+          Consumer<MDWProvider>(
+            builder: (context, value, widget){
+              return Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Column(
+                  children: [
+                    CouponCard(
+                      height: 150,
+                      // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
+                      clockwise: true,
+                      curvePosition: 125,
+                      curveRadius: 30,
+                      curveAxis: Axis.vertical,
+                      borderRadius: 10,
+                      firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+                      secondChild: ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: Container(
+                            width: double.maxFinite,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: isDarkMode ? [
+                                  Colors.white.withOpacity(0.25),
+                                  Colors.white.withOpacity(0.25),
+                                ]
+                                : 
+                                [
+                                  Colors.black.withOpacity(0.25),
+                                  Colors.black.withOpacity(0.25),
+                                ],
+                                begin: AlignmentDirectional.topStart,
+                                end: AlignmentDirectional.bottomEnd,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(18),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                const Spacer(),
+                                const MyText(
+                                  text: "TICKET DETAILS",
+                                  hexaColor: AppColors.orangeColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                const SizedBox(height: 4),
+                                const MyText(
+                                  text: "MetaDoersWorld",
+                                  // hexaColor: AppColors.whiteColorHexa,
+                                  fontSize: 20,
+                                  textAlign: TextAlign.start,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                const Spacer(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 5.h,),
+
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: randomAvatar('Sam Allen')
+                            ),
+
+                            SizedBox(width: 2.w,),
+
+                            MyText(
+                              text: "Sam Allen",
+                              fontWeight: FontWeight.bold,
+                            )
+                          ],
+                        ),
+
+                        Spacer(),
+
+                        IconButton(
+                          onPressed: () async{
+                            await _qrNFTDialog();
+                          },
+                          icon: Icon(Iconsax.scan_barcode, color: isDarkMode == true ? Colors.white : hexaCodeToColor(AppColors.darkGrey),),
+                        )
+
+                      ],
+                    )
+                  ],
+                ),
+              );
+              // return ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: value.model.tickets.length,
+              //   itemBuilder: (context, index) {
+              //     return Padding(
+              //       padding: const EdgeInsets.all(paddingSize),
+              //       child: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75"),
+              //     );
+              //   }
+              // );
+            }
+          )
+        ],  
+      ),
+    );
+  }
+
+  Future<Uint8List> _capturePng(GlobalKey globalKey) async {
+    print('inside');
+    RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    var pngBytes = byteData!.buffer.asUint8List();
+    var bs64 = base64Encode(pngBytes);
+    print(pngBytes);
+    print(bs64);
+    setState(() {});
+    return pngBytes;
+  }
+
+  Future<void> qrShare(GlobalKey globalKey, String name) async {
+    try {
+      final RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+      final image = await boundary.toImage(pixelRatio: 5.0);
+      final ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+      final tempDir = await getTemporaryDirectory();
+      final file = await File("${tempDir.path}/$name.png").create();
+      await file.writeAsBytes(pngBytes);
+
+      Share.shareXFiles([XFile(file.path)], text: name);
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error qrShare ${e.toString()}");
+        }
+      }
+    }
+  }
+
+  Future _qrNFTDialog() async {
+    return await showDialog(
+      context: context, 
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 80,
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            actions: [
+              Align(
+                widthFactor: 1.75,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Iconsax.close_circle, color: Colors.white, size: 30),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.transparent,
+          body: Consumer<ApiProvider>(
+            builder: (context, value, child) {
+              return BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    RepaintBoundary(
+                      key: Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare,
+                      child: AlertDialog(
+                        contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                        content: SizedBox(
+                          width: 250,
+                          child: Consumer<ReceiveWalletProvider>(
+                            builder: (context, provider, widget){
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                            
+                                  Flexible(
+                                    child: MyText(
+                                      text: "NFT TICKET\nMetaDoersWorld",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      hexaColor: AppColors.blackColor,
+                                      overflow: TextOverflow.fade,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                            
+                                  SizedBox(height: 2.h),
+                                  
+                                  qrCodeProfile(
+                                    value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
+                                    "assets/logo/bitirel-logo-circle.png",
+                                    provider.keyQrShare,
+                                  ),
+                                ],
+                              ); 
+                            }
+                          ),
+                        )
+                      ),
+                    ),
+
+                    Container(
+                      width: 250,
+                      // padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const MyText(
+                                    text: "CONTRACT ADDRES",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
+                                  ),
+                                  MyText(
+                                    hexaColor: AppColors.whiteHexaColor,
+                                    text: "${value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "........")}",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Spacer(),
+
+                            SizedBox(
+                              width: 18.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Pieces",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
+                                  ),
+                                  MyText(
+                                    text: "0",
+                                    fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 2.h,),
+
+                    Container(
+                      width: 250,
+                      // padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Token Standard",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
+                                  ),
+                                  MyText(
+                                    text: "ERC1155",
+                                    fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(
+                              width: 18.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  MyText(
+                                    text: "Blockchain",
+                                    hexaColor: AppColors.greyColor,
+                                    fontSize: 13,
+                                  ),
+                                  MyText(
+                                    text: "SELENDRA",
+                                    fontWeight: FontWeight.bold,
+                                    hexaColor: AppColors.whiteHexaColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 3.h,),
+
+                    Padding(
+                      padding: const EdgeInsets.all(paddingSize),
+                      child: Center(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    _capturePng(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Icon(Iconsax.import_1, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                                  ),
+                                ),
+
+                                MyText(
+                                  text: "Download",
+                                  hexaColor: AppColors.whiteHexaColor,
+                                )
+                              ],
+                            ),
+
+                            SizedBox(width: 10.w),
+                            
+                            InkWell(
+                              onTap: () {
+                                qrShare(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare, "NFT TICKET MetaDoersWorld");
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                                  ),
+                            
+                                  MyText(
+                                    text: "Share",
+                                    hexaColor: AppColors.whiteHexaColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    
+                  ],
+                ),
+              );
+            }
+          ),
+        );
+      }
+    );
+  }
+
 
   /// Connect Contract
   /// 
@@ -256,7 +765,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                                     ],
                                   ),
                                             
-                                  Spacer(),
+                                  const Spacer(),
                                             
                                   SizedBox(
                                     // width: double.maxFinite,

@@ -240,7 +240,7 @@ class MySeedField extends StatelessWidget {
                 color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
-            fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
+            fillColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06),
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),

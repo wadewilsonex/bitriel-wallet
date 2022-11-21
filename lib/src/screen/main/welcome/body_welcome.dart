@@ -97,17 +97,17 @@ class WelcomeBody extends StatelessWidget {
 
               EmailAuthButton(
                 onPressed: () async {
-                  // Navigator.push(
-                  //   context, 
-                  //   Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  // );
+                  Navigator.push(
+                    context, 
+                    Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
 
                   // try {
 
                   // } catch (e){
                   //   print("Error $e");
                   // }
-                  Navigator.push(context, MaterialPageRoute(builder: (builder) => const LoginContent()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (builder) => const LoginContent()));
                 },
                 style: const AuthButtonStyle(
                   buttonType: AuthButtonType.icon,

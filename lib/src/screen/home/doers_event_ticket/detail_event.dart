@@ -393,9 +393,9 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                             UIHelper.verticalSpace(16),
                             buildEventDate(),
                             UIHelper.verticalSpace(24),
-                            buildAboutEvent(),
-                            UIHelper.verticalSpace(24),
                             buildOrganizeInfo(),
+                            UIHelper.verticalSpace(24),
+                            buildAboutEvent(),
                             UIHelper.verticalSpace(75),
                             // buildEventLocation(),
                             // UIHelper.verticalSpace(124),
@@ -580,7 +580,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const MyText(text: "About", fontWeight: FontWeight.bold, fontSize: 18),
+        const MyText(text: "Details", fontWeight: FontWeight.bold, fontSize: 18),
         UIHelper.verticalSpace(),
         Text(event.description, style: subtitleStyle),
         // UIHelper.verticalSpace(8),
