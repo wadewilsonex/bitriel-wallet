@@ -76,99 +76,107 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
           Consumer<MDWProvider>(
             builder: (context, value, widget){
-              return GestureDetector(
-                onTap: (() {
-                  _passesDetails(context);
-                }),
-                child: Padding(
-                  padding: const EdgeInsets.all(paddingSize),
-                  child: CouponCard(
-                    height: 150,
-                    // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
-                    clockwise: true,
-                    curvePosition: 125,
-                    curveRadius: 30,
-                    curveAxis: Axis.vertical,
-                    borderRadius: 10,
-                    firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
-                    secondChild: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                        child: Container(
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: isDarkMode ? [
-                                Colors.white.withOpacity(0.25),
-                                Colors.white.withOpacity(0.25),
-                              ]
-                              : 
-                              [
-                                Colors.black.withOpacity(0.25),
-                                Colors.black.withOpacity(0.25),
-                              ],
-                              begin: AlignmentDirectional.topStart,
-                              end: AlignmentDirectional.bottomEnd,
-                            ),
-                          ),
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  
-                                  const MyText(
-                                    text: "ENTRY",
-                                    // hexaColor: AppColors.whiteColorHexa,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+              return Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: (() {
+                        _passesDetails(context);
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.all(paddingSize),
+                        child: CouponCard(
+                          height: 150,
+                          // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
+                          clockwise: true,
+                          curvePosition: 125,
+                          curveRadius: 30,
+                          curveAxis: Axis.vertical,
+                          borderRadius: 10,
+                          firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+                          secondChild: ClipRRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                              child: Container(
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: isDarkMode ? [
+                                      Colors.white.withOpacity(0.25),
+                                      Colors.white.withOpacity(0.25),
+                                    ]
+                                    : 
+                                    [
+                                      Colors.black.withOpacity(0.25),
+                                      Colors.black.withOpacity(0.25),
+                                    ],
+                                    begin: AlignmentDirectional.topStart,
+                                    end: AlignmentDirectional.bottomEnd,
                                   ),
-                                    
-                                  Container(
-                                    height: 25,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.all(Radius.circular(25))
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: const [
-                                        Icon(Iconsax.user, color: Colors.white, size: 14,),
-                                    
-                                        MyText(
-                                          text: "10",
-                                          hexaColor: AppColors.whiteColorHexa,
-                                          fontWeight: FontWeight.bold,
+                                ),
+                                padding: const EdgeInsets.all(18),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        
+                                        const MyText(
+                                          text: "ENTRY",
+                                          // hexaColor: AppColors.whiteColorHexa,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
                                         ),
+                                          
+                                        Container(
+                                          height: 25,
+                                          width: 50,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.green,
+                                            borderRadius: BorderRadius.all(Radius.circular(25))
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: const [
+                                              Icon(Iconsax.user, color: Colors.white, size: 14,),
+                                          
+                                              MyText(
+                                                text: "10",
+                                                hexaColor: AppColors.whiteColorHexa,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
+                                    const SizedBox(height: 4),
+                                    const MyText(
+                                      text: "MetaDoersWorld",
+                                      // hexaColor: AppColors.whiteColorHexa,
+                                      fontSize: 20,
+                                      textAlign: TextAlign.start,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    const Spacer(),
+                                    const MyText(
+                                      text: "Meta doers world",
+                                      // hexaColor: AppColors.whiteColorHexa,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 4),
-                              const MyText(
-                                text: "MetaDoersWorld",
-                                // hexaColor: AppColors.whiteColorHexa,
-                                fontSize: 20,
-                                textAlign: TextAlign.start,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              const Spacer(),
-                              const MyText(
-                                text: "Meta doers world",
-                                // hexaColor: AppColors.whiteColorHexa,
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               );
               // return ListView.builder(
@@ -195,102 +203,116 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       builder: (context) => Column(
         children: [
-          Consumer<MDWProvider>(
-            builder: (context, value, widget){
-              return Padding(
-                padding: const EdgeInsets.all(paddingSize),
-                child: Column(
-                  children: [
-                    CouponCard(
-                      height: 150,
-                      // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
-                      clockwise: true,
-                      curvePosition: 125,
-                      curveRadius: 30,
-                      curveAxis: Axis.vertical,
-                      borderRadius: 10,
-                      firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
-                      secondChild: ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                          child: Container(
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: isDarkMode ? [
-                                  Colors.white.withOpacity(0.25),
-                                  Colors.white.withOpacity(0.25),
-                                ]
-                                : 
-                                [
-                                  Colors.black.withOpacity(0.25),
-                                  Colors.black.withOpacity(0.25),
-                                ],
-                                begin: AlignmentDirectional.topStart,
-                                end: AlignmentDirectional.bottomEnd,
-                              ),
-                            ),
-                            padding: const EdgeInsets.all(18),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Spacer(),
-                                const MyText(
-                                  text: "TICKET DETAILS",
-                                  hexaColor: AppColors.orangeColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                const SizedBox(height: 4),
-                                const MyText(
-                                  text: "MetaDoersWorld",
-                                  // hexaColor: AppColors.whiteColorHexa,
-                                  fontSize: 20,
-                                  textAlign: TextAlign.start,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                const Spacer(),
-                              ],
-                            ),
-                          ),
-                        ),
+
+          AppBar(
+            automaticallyImplyLeading: false,
+            leading: null,
+            toolbarHeight: 200,
+            leadingWidth: 0,
+            elevation: 0,
+            title: CouponCard(
+              height: 150,
+              // backgroundColor: hexaCodeToColor(AppColors.primaryColor),
+              clockwise: true,
+              curvePosition: 125,
+              curveRadius: 30,
+              curveAxis: Axis.vertical,
+              borderRadius: 10,
+              firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+              secondChild: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                  child: Container(
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: isDarkMode ? [
+                          Colors.white.withOpacity(0.25),
+                          Colors.white.withOpacity(0.25),
+                        ]
+                        : 
+                        [
+                          Colors.black.withOpacity(0.25),
+                          Colors.black.withOpacity(0.25),
+                        ],
+                        begin: AlignmentDirectional.topStart,
+                        end: AlignmentDirectional.bottomEnd,
                       ),
                     ),
-
-                    SizedBox(height: 5.h,),
-
-                    Row(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: randomAvatar('Sam Allen')
-                            ),
-
-                            SizedBox(width: 2.w,),
-
-                            MyText(
-                              text: "Sam Allen",
-                              fontWeight: FontWeight.bold,
-                            )
-                          ],
+                        const Spacer(),
+                        const MyText(
+                          text: "TICKET DETAILS",
+                          hexaColor: AppColors.orangeColor,
+                          fontWeight: FontWeight.w600,
                         ),
-
-                        Spacer(),
-
-                        IconButton(
-                          onPressed: () async{
-                            await _qrNFTDialog();
-                          },
-                          icon: Icon(Iconsax.scan_barcode, color: isDarkMode == true ? Colors.white : hexaCodeToColor(AppColors.darkGrey),),
-                        )
-
+                        const SizedBox(height: 4),
+                        const MyText(
+                          text: "MetaDoersWorld",
+                          // hexaColor: AppColors.whiteColorHexa,
+                          fontSize: 20,
+                          textAlign: TextAlign.start,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        const Spacer(),
                       ],
-                    )
-                  ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Consumer<MDWProvider>(
+            builder: (context, value, widget){
+              return Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 25,
+                  itemBuilder: ((context, index) {
+                    return Container(
+                      margin: const EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: randomAvatar('Sam Allen')
+                                  ),
+                    
+                                  SizedBox(width: 2.w,),
+                    
+                                  const MyText(
+                                    text: "Sam Allen",
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                    
+                              const Spacer(),
+                    
+                              IconButton(
+                                onPressed: () async{
+                                  await _qrNFTDialog();
+                                },
+                                icon: Icon(Iconsax.scan_barcode, color: isDarkMode == true ? Colors.white : hexaCodeToColor(AppColors.darkGrey),),
+                              )
+                    
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
               );
               // return ListView.builder(
@@ -362,7 +384,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Iconsax.close_circle, color: Colors.white, size: 30),
+                  icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 30),
                 ),
               ),
             ],
@@ -394,7 +416,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                             
-                                  Flexible(
+                                  const Flexible(
                                     child: MyText(
                                       text: "NFT TICKET\nMetaDoersWorld",
                                       fontSize: 20,
@@ -534,13 +556,13 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: (){
-                                    _capturePng(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare);
-                                  },
-                                  child: Container(
+                            InkWell(
+                              onTap: () {
+                                _capturePng(Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare);
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor).withOpacity(0.2),
@@ -548,13 +570,13 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                                     ),
                                     child: Icon(Iconsax.import_1, color: hexaCodeToColor(AppColors.whiteColorHexa)),
                                   ),
-                                ),
-
-                                MyText(
-                                  text: "Download",
-                                  hexaColor: AppColors.whiteHexaColor,
-                                )
-                              ],
+                            
+                                  const MyText(
+                                    text: "Download",
+                                    hexaColor: AppColors.whiteHexaColor,
+                                  )
+                                ],
+                              ),
                             ),
 
                             SizedBox(width: 10.w),
@@ -574,7 +596,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                                     child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
                                   ),
                             
-                                  MyText(
+                                  const MyText(
                                     text: "Share",
                                     hexaColor: AppColors.whiteHexaColor,
                                   )
