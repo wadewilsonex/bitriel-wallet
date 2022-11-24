@@ -76,7 +76,7 @@ class AppConfig {
       wsUrlTN: 'wss://rpc-testnet-3.selendra.org/', // TheNatte (1)
       // wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org', // Sabay (2)
       // wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
-      wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
+      wsUrlMN: 'wss://rpc0.selendra.org', // Sabay (1)
       ss58: 204,
       ss58MN: 204
     ),

@@ -4,12 +4,15 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ImportJson extends StatefulWidget {
 
   final String? password;
   final Map<String, dynamic>? json;
-  const ImportJson({Key? key, this.json, this.password}) : super(key: key);
+  final InAppWebViewController? webViewController;
+
+  const ImportJson({Key? key, this.json, this.password, this.webViewController}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,10 +32,12 @@ class ImportJsonState extends State<ImportJson> {
   String? tempMnemonic;
   ApiProvider? _api;
 
+  Timer? _timer;
+
   @override
   void initState() {
     print("password ${widget.password}");
-    print("password ${widget.json}");
+    print("json ${widget.json}");
     loadingMgs = "Importing wallet";
     _api = Provider.of<ApiProvider>(context, listen: false);
     importAccFromJson();
@@ -155,59 +160,61 @@ class ImportJsonState extends State<ImportJson> {
     //   fontSize: 14.sp,
     //   color: AppColors.whiteColorHexa,
     // );
-
-    print("widget.json!['encrypted'] ${widget.json!['user']['encrypted']}");
-
-    setState(() {
-      loadingMgs = "Decrypting Account";
+    
+    // Execute JS
+    // , '${widget.password}'
+    await widget.webViewController!.evaluateJavascript(source: "decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) {
+      print("decrypt.myMyDecrypt $value");
     });
-    await _api!.getSdk.webView!.evalJavascript('decrypt.decrypt(${widget.json!['user']['encrypted']}, "${widget.password}")').then((value) async {
 
-      changeStatus("Importing account");
-      final jsn = await _api!.apiKeyring.importAccount(
-        _api!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        key: value, 
-        name: 'User', 
-        password: widget.password!
-      );
-
-      print("jsn $jsn");
-
-      await _api!.apiKeyring.addAccount(
-        _api!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        acc: jsn!,
-        password: widget.password!
-      );
-
-      changeStatus("Importing Assets and Tokens");
-
-      await importAccountNAsset(_api!, value);
+    // await _api!.getSdk.webView!.evalJavascript('decrypt.decrypt(${widget.json!['user']['encrypted']}, "${widget.password}")').then((value) async {
       
-      await DialogComponents().dialogCustom(
-        context: context,
-        contents: "You have successfully create your account.",
-        textButton: "Complete",
-        image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
-        btn2: MyGradientButton(
-          edgeMargin: const EdgeInsets.only(left: 20, right: 20),
-          textButton: "Complete",
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-          action: () async {
-            Navigator.pop(context);
-          },
-        )
-      );
+    //   if (value.containsKey('message')) _timer!.cancel();
+    //   changeStatus("Importing account");
+    //   final jsn = await _api!.apiKeyring.importAccount(
+    //     _api!.getKeyring, 
+    //     keyType: KeyType.mnemonic, 
+    //     key: value, 
+    //     name: 'User', 
+    //     password: widget.password!
+    //   );
 
-      if(!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context, 
-        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-        ModalRoute.withName('/')
-      );
-    });
+    //   print("jsn $jsn");
+
+    //   await _api!.apiKeyring.addAccount(
+    //     _api!.getKeyring, 
+    //     keyType: KeyType.mnemonic, 
+    //     acc: jsn!,
+    //     password: widget.password!
+    //   );
+
+    //   changeStatus("Importing Assets and Tokens");
+
+    //   await importAccountNAsset(_api!, value);
+      
+    //   await DialogComponents().dialogCustom(
+    //     context: context,
+    //     contents: "You have successfully create your account.",
+    //     textButton: "Complete",
+    //     image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    //     btn2: MyGradientButton(
+    //       edgeMargin: const EdgeInsets.only(left: 20, right: 20),
+    //       textButton: "Complete",
+    //       begin: Alignment.bottomLeft,
+    //       end: Alignment.topRight,
+    //       action: () async {
+    //         Navigator.pop(context);
+    //       },
+    //     )
+    //   );
+
+    //   if(!mounted) return;
+    //   Navigator.pushAndRemoveUntil(
+    //     context, 
+    //     Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+    //     ModalRoute.withName('/')
+    //   );
+    // });
 
     // final map = await json.decode(jsn);
 

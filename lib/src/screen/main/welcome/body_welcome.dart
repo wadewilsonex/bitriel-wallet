@@ -107,6 +107,7 @@ class WelcomeBody extends StatelessWidget {
               ElevatedButton(
                 onPressed: (){
                   
+                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 }, 
                 child: Icon(Icons.phone)
               )

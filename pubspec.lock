@@ -546,7 +546,7 @@ packages:
     source: hosted
     version: "0.18.5+1"
   flutter_inappwebview:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
