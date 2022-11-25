@@ -163,8 +163,18 @@ class ImportJsonState extends State<ImportJson> {
     
     // Execute JS
     // , '${widget.password}'
-    await widget.webViewController!.evaluateJavascript(source: "decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) {
-      print("decrypt.myMyDecrypt $value");
+    await widget.webViewController!.callAsyncJavaScript(functionBody: "return await decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) async {
+      
+      if (value!.value != null){
+        changeStatus("Importing account");
+        await importAccountNAsset(_api!, value.value);
+        if(!mounted) return;
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
+      }
     });
 
     // await _api!.getSdk.webView!.evalJavascript('decrypt.decrypt(${widget.json!['user']['encrypted']}, "${widget.password}")').then((value) async {

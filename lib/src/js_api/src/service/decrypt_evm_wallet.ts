@@ -1,4 +1,5 @@
 import {ethers} from "ethers";
+import { resolve } from "../../webpack.config";
 import phone from "./phone.json";
 
 async function decrypt(json: any, password: string) {
@@ -6,7 +7,7 @@ async function decrypt(json: any, password: string) {
     console.log("decrypt");
     console.log("json", typeof json);
     
-    return new Promise( async (resolve, reject) => {
+    const data =  new Promise( async (resolve, reject) => {
         console.log("JSON.stringify(phone)", JSON.stringify(json));
         console.log("typeof JSON.stringify(phone)", typeof JSON.stringify(json));
         console.log("password", password);
@@ -17,13 +18,17 @@ async function decrypt(json: any, password: string) {
     
     });
 
+    console.log("returing data ", data);
+
+    return data;
+
 }
 
 async function decryptZin(password: string) {
 
     console.log("decryptZin");
 
-    return new Promise( async (resolve, reject) => {
+    return new Promise( async function (resolve, reject) {
         
         console.log("JSON.stringify(phone)", JSON.stringify(phone));
         console.log("typeof JSON.stringify(phone)", typeof JSON.stringify(phone));
