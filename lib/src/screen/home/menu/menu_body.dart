@@ -122,42 +122,42 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
         
-        Consumer<ApiProvider>(
-          builder: (context, provider, widget) {
-            return MyListTile(
-              icon: Icon(Iconsax.arrow_swap, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
-              enable: false,
-              index: 4,
-              subIndex: 1,
-              trailing: ReuseDropDown(
-                initialValue: provider.network,
-                itemsList: AppConfig.sldNetwork,
-                onChanged: (String value) async {
-                  await DialogComponents().dialogCustom(
-                    context: context,
-                    contents: "Switch network",
-                    btn: TextButton(
-                      onPressed: () async {
+        // Consumer<ApiProvider>(
+        //   builder: (context, provider, widget) {
+        //     return MyListTile(
+        //       icon: Icon(Iconsax.arrow_swap, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+        //       enable: false,
+        //       index: 4,
+        //       subIndex: 1,
+        //       trailing: ReuseDropDown(
+        //         initialValue: provider.network,
+        //         itemsList: AppConfig.sldNetwork,
+        //         onChanged: (String value) async {
+        //           await DialogComponents().dialogCustom(
+        //             context: context,
+        //             contents: "Switch network",
+        //             btn: TextButton(
+        //               onPressed: () async {
 
-                        provider.network = value;
+        //                 provider.network = value;
 
-                        // Notify Value Change Of Selected Network
-                        provider.notifyListeners();
-                        Navigator.pop(context, "true");
-                      }, 
-                      child: MyText(text: "Yes",)
-                    ),
-                  ).then((res) async {
-                    if (res != null) {
+        //                 // Notify Value Change Of Selected Network
+        //                 provider.notifyListeners();
+        //                 Navigator.pop(context, "true");
+        //               }, 
+        //               child: MyText(text: "Yes",)
+        //             ),
+        //           ).then((res) async {
+        //             if (res != null) {
 
-                      await provider.connectSELNode(context: context, endpoint: value);
-                    }
-                  });
-                },
-              ),
-            );
-          }
-        ),
+        //               await provider.connectSELNode(context: context, endpoint: value);
+        //             }
+        //           });
+        //         },
+        //       ),
+        //     );
+        //   }
+        // ),
 
         MenuSubTitle(index: 5),
 

@@ -95,7 +95,8 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                           curveRadius: 30,
                           curveAxis: Axis.vertical,
                           borderRadius: 10,
-                          firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+                          firstChild: Image.asset("assets/ads/banner.jpg", fit: BoxFit.fill),
+                          // firstChild: Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
                           secondChild: ClipRRect(
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
@@ -109,8 +110,8 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                                     ]
                                     : 
                                     [
-                                      Colors.black.withOpacity(0.25),
-                                      Colors.black.withOpacity(0.25),
+                                      Colors.orange.withOpacity(0.25),
+                                      Colors.orange.withOpacity(0.25),
                                     ],
                                     begin: AlignmentDirectional.topStart,
                                     end: AlignmentDirectional.bottomEnd,

@@ -141,7 +141,8 @@ class _TicketOptionsState extends State<TicketOptions> with TickerProviderStateM
                 firstChild: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
+                    Image.asset("assets/ads/banner.jpg", fit: BoxFit.fill),
+                    // Image.network("https://mdw.bitriel.com/_next/image?url=%2Fimages%2Fticket.png&w=1200&q=75", fit: BoxFit.fill,),
                         
                     Positioned(
                       bottom: paddingSize - 5,

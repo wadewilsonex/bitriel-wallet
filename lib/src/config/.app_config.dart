@@ -46,11 +46,11 @@ class AppConfig {
   static List<Map<String, dynamic>> sldNetwork = [
     {
       "index": ApiProvider().isMainnet ? "wss://rpc0.selendra.org" : "wss://rpc-testnet-3.selendra.org", 
-      "symbol": "1"
+      "symbol": "SELENDRA RPC 0"
     },
     {
       "index": ApiProvider().isMainnet ? "wss://rpc1.selendra.org" : "wss://rpc-sabay-testnet.selendra.org", 
-      "symbol": "2"
+      "symbol": "SELENDRA RPC 1"
     }
   ];
 

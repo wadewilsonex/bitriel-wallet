@@ -1,12 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/provider/mdw_p.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -32,9 +28,11 @@ class _HomePageState extends State<HomePage> {
 
   final bool? pushReplacement = true;
 
+  final String _initSLDNetwork = "wss://rpc0.selendra.org";
+
   @override
   void initState() {
-    
+
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
         setState(() {
@@ -57,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     };
     
     AppServices.noInternetConnection(context: context);
+    
     super.initState();
     
   }
@@ -160,6 +159,7 @@ class _HomePageState extends State<HomePage> {
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
       getReward: _scanLogin,
+      initSLDNetwork: _initSLDNetwork
     );
   }
 }

@@ -45,6 +45,8 @@ dependencies:
 
   google_fonts: ^3.0.1
 
+  awesome_select: ^6.0.0
+
   # Icons
   iconsax: ^0.0.8
   unicons: ^2.1.0

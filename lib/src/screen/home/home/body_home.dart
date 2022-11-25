@@ -1,12 +1,17 @@
 import 'dart:ffi';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
+import 'package:wallet_apps/src/components/shimmer_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
@@ -19,8 +24,10 @@ import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
-
+import 'package:awesome_select/awesome_select.dart';
 import '../setting/setting.dart';
+
+import 'package:wallet_apps/src/components/network_choice.dart' as choices;
 
 class HomePageBody extends StatelessWidget {
 
@@ -30,8 +37,9 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+  String? initSLDNetwork;
 
-  const HomePageBody({ 
+  HomePageBody({ 
     Key? key, 
     this.isTrx,
     this.homePageModel,
@@ -39,6 +47,7 @@ class HomePageBody extends StatelessWidget {
     this.pushReplacement,
     this.onTapWeb,
     this.getReward,
+    this.initSLDNetwork
     }) : super(key: key);
 
 
@@ -71,6 +80,166 @@ class HomePageBody extends StatelessWidget {
               : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
             size: 6.w,
           ),
+        ),
+        
+        centerTitle: true,
+        
+        title: Consumer<ApiProvider>(
+          builder: (context, provider, child) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+                InkWell(
+                  onTap: () async {
+                    await Clipboard.setData(
+                      ClipboardData(text: provider.accountM.address ??''),
+                    );
+                    Fluttertoast.showToast(
+                      msg: "Copied address",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                    );
+                  },
+                  child: AvatarShimmer(
+                    txt: provider.accountM.addressIcon,
+                    child: randomAvatar(provider.accountM.addressIcon ?? '', width: 5.0.w, height: 5.0.w)
+                    // SvgPicture.string(
+                    //   value.accountM.addressIcon ?? '',
+                    //   width: 5.0.w,
+                    //   // height: 8.0,
+                    // )
+                  )
+                ),
+                  
+                const SizedBox(width: 5),
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+
+                    return GestureDetector(
+                      onTap: () {
+                        showBarModalBottomSheet(
+                          context: context,
+                          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+                          builder: (context) => Column(
+                            children: [
+
+                              AppBar(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                centerTitle: true,
+                                leading: IconButton(
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                  }, 
+                                  icon: Icon(Iconsax.close_circle, color: isDarkMode ? Colors.white : Colors.black,),
+                                ), 
+                      
+                                title: const MyText(text: "Change Network", fontWeight: FontWeight.bold, fontSize: 18,)
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(paddingSize),
+                                child: Theme(
+                                  data: ThemeData(
+                                    textTheme: TextTheme(
+                                      titleMedium: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)),
+                                      bodySmall: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.textColor))
+                                    )
+                                  ),
+                                  child: SmartSelect<String>.single(
+                                    title: 'SELENDRA',
+                                    selectedValue: provider.network!,
+                                    onChange: (selected) async{
+                                      setState(() => initSLDNetwork = selected.value);
+                                      provider.network = selected.value;
+                                      await provider.connectSELNode(context: context, endpoint: selected.value);
+                                    //   await DialogComponents().dialogCustom(
+                                    //   context: context,
+                                    //   contents: "Switch network",
+                                    //   btn: TextButton(
+                                    //     onPressed: () async {
+                                
+                                    //       provider.network = selected.value;
+                                
+                                    //       // Notify Value Change Of Selected Network
+                                    //       provider.notifyListeners();
+                                    //       Navigator.pop(context, "true");
+                                    //     }, 
+                                    //     child: MyText(text: "Yes",)
+                                    //   ),
+                                    // ).then((res) async {
+                                    //   if (res != null) {
+                                
+                                    //     await provider.connectSELNode(context: context, endpoint: selected.value);
+                                    //   }
+                                    // });
+                                    },
+                                    choiceType: S2ChoiceType.radios,
+                                    choiceItems: sldNetworkList,
+                                    modalType: S2ModalType.popupDialog,
+                                    modalHeader: false,
+                                    modalConfig: const S2ModalConfig(
+                                      style: S2ModalStyle(
+                                        backgroundColor: Colors.white70,
+                                        elevation: 1,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                        ),
+                                      ),
+                                    ),
+                                    tileBuilder: (context, state) {
+                                      return S2Tile.fromState(
+                                        state,
+                                        isTwoLine: true,
+                                        leading: CircleAvatar(
+                                          child: Image.asset(
+                                            'assets/SelendraCircle-White.png',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],  
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          
+                          WidgetShimmer(
+                            txt: provider.accountM.address, 
+                            child: MyText(
+                              text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(5, provider.accountM.address!.length - 5, "..."),
+                              textAlign: TextAlign.left
+                            ),
+                          ),
+                    
+                          Row(
+                            children: [
+                              MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+                    
+                               Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Icon(Iconsax.arrow_down_1, size: 18, color: isDarkMode ? Colors.white : Colors.black,),
+                              )
+                            ],
+                          ),
+                            
+                            
+                        ],
+                      ),
+                    );
+                  }
+                ),
+              ],
+            );
+          },
         ),
         actions: <Widget>[
           // IconButton(
@@ -146,8 +315,8 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
@@ -166,8 +335,8 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
                     fontSize: 17.5,
@@ -186,8 +355,8 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",
                     fontSize: 17.5,
@@ -205,9 +374,9 @@ class HomePageBody extends StatelessWidget {
           ),
 
           // SwapPage(),
-          FindEvent(),
+          const FindEvent(),
 
-          SettingPage(),
+          const SettingPage(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -253,8 +422,13 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
-                    child: Image.network(
+                    child: item['asset'].contains("https") ? Image.network(
                       item['asset'],
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                    )
+                    : Image.asset(
+                      item['asset'], 
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                     ),
