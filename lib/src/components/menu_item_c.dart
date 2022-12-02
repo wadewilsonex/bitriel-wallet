@@ -52,7 +52,7 @@ class MyMenuItem extends StatelessWidget {
                   MyText(
                     text: title,
                     hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                   ),
                 ],
               ),

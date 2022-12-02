@@ -16,6 +16,6 @@ bool isDarkMode = true;
 const double paddingSize = 15.0;
 
 List<S2Choice<String>> sldNetworkList = [
-  S2Choice<String>(value: 'wss://rpc0.selendra.org', title: 'SELENDRA RPC0'),
-  S2Choice<String>(value: 'wss://rpc1.selendra.org', title: 'SELENDRA RPC1'),
+  S2Choice<String>(value: 'wss://rpc0.selendra.org', title: 'Selendra rpc0'),
+  S2Choice<String>(value: 'wss://rpc1.selendra.org', title: 'Selendra rpc1'),
 ];

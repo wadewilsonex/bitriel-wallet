@@ -61,6 +61,8 @@ class MenuModel {
       'title': "About",
       'sub': [
         {'icon': "${AppConfig.iconsPath}info.svg", 'subTitle': 'About'},
+        {'icon': "${AppConfig.iconsPath}info.svg", 'subTitle': 'Terms of Service'},
+        {'icon': "${AppConfig.iconsPath}info.svg", 'subTitle': 'Privacy Policy'},
       ]
     },
   ];
