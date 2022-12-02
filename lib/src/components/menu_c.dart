@@ -1,8 +1,12 @@
 /* The components file has custom widgets which are used by multiple different screens */
+import 'dart:ui';
+
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wallet_apps/src/constants/ui_helper.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class MenuHeader extends StatelessWidget {
   
@@ -93,8 +97,8 @@ class MenuHeader extends StatelessWidget {
                       ]
                     )
                   )
-
-
+    
+    
                 ],
               )
             ],
@@ -189,7 +193,7 @@ class MyListTile extends StatelessWidget {
     );
   }
 }
-
+  
 // Widget customListTile(
 //     BuildContext context, IconData icon, String title, dynamic method,
 //     {bool maintenance = false}) {

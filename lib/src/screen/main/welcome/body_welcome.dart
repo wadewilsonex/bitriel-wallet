@@ -1,6 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:http/http.dart';
+import 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portrait_card_c.dart';
@@ -10,6 +11,8 @@ import 'package:wallet_apps/src/screen/main/json/import_json.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/create_phonenumber.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/register/set_password/set_password.dart';
+
+import '../email/login_content.dart';
 
 class WelcomeBody extends StatelessWidget {
 
@@ -85,32 +88,52 @@ class WelcomeBody extends StatelessWidget {
                 },
                 style: const AuthButtonStyle(
                   buttonType: AuthButtonType.icon,
-                  iconType: AuthIconType.outlined,
+                  iconType: AuthIconType.secondary,
                 ),
                 themeMode: ThemeMode.light,
               ),
 
-              SizedBox(width: 10.sp,),
+              SizedBox(width: 20.sp,),
 
-              ElevatedButton(
-                onPressed: (){
+              EmailAuthButton(
+                onPressed: () async {
                   Navigator.push(
                     context, 
-                    Transition(child: Email(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                   );
-                }, 
-                child: Icon(Icons.email)
+
+                  // try {
+
+                  // } catch (e){
+                  //   print("Error $e");
+                  // }
+                  // Navigator.push(context, MaterialPageRoute(builder: (builder) => const LoginContent()));
+                },
+                style: const AuthButtonStyle(
+                  buttonType: AuthButtonType.icon,
+                  iconType: AuthIconType.secondary,
+                ),
+                themeMode: ThemeMode.light,
               ),
 
-              SizedBox(width: 10.sp,),
+              SizedBox(width: 20.sp,),
 
-              ElevatedButton(
-                onPressed: (){
-                  
-                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                }, 
-                child: Icon(Icons.phone)
-              )
+              CustomAuthButton(
+                onPressed: () async {
+                  underContstuctionAnimationDailog(context: context);
+                },
+                authIcon: AuthIcon(
+                  iconPath: "assets/icons/phone-call.png",
+                  iconSize: 30,
+                ),
+                style: const AuthButtonStyle(
+                  buttonType: AuthButtonType.icon,
+                  iconType: AuthIconType.outlined,
+                  buttonColor: Colors.white,
+                  height: 50
+                ),
+                themeMode: ThemeMode.light,
+              ),
             ],
           ),
           

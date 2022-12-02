@@ -6,5 +6,6 @@ class EmailModel {
   GlobalKey<FormState> get getFmKey => _formKey;
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
   
 }

@@ -105,13 +105,10 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
   Widget buildHeaderImage() {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 200,
+      height: 150,
       child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-        child: Image.network(
-          widget.event.image,
-          fit: BoxFit.cover,
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+        child: widget.event.image.contains("https") ? Image.network(widget.event.image, fit: BoxFit.fill,) : Image.asset(widget.event.image, fit: BoxFit.fill,),
       ),
     );
   }
@@ -121,7 +118,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
       padding: const EdgeInsets.symmetric(vertical: paddingSize * 2, horizontal: paddingSize),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(32)),
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
         color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.lightBg),
       ),
       child: Column(

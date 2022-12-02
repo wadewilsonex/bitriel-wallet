@@ -36,7 +36,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
-          text: "Payment Options",
+          text: "Payment Methods",
           fontWeight: FontWeight.bold,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
@@ -134,7 +134,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
               ),
               child: Row(
                 children: [
-                  Icon(Iconsax.cards, size: 40, color: hexaCodeToColor(AppColors.iconGreyColor)),
+                  Icon(Iconsax.cards, size: 40, color: hexaCodeToColor(AppColors.primaryColor)),
                   
                   Padding(
                     padding: const EdgeInsets.only(left: paddingSize),

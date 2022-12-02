@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +18,7 @@ class GetWalletMethod {
       final file = await File("${tempDir.path}/selendra.png").create();
       await file.writeAsBytes(pngBytes);
 
-      Share.shareFiles([file.path], text: wallet);
+      Share.shareXFiles([XFile(file.path)], text: wallet);
     } catch (e) {
       if (ApiProvider().isDebug == true) {
         if (kDebugMode) {

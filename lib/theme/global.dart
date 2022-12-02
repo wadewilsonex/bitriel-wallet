@@ -1,8 +1,7 @@
 // For Theme Initialize
-
-import 'package:wallet_apps/index.dart';
-
 // bool isDarkMode = true;
+
+import 'package:awesome_select/awesome_select.dart';
 
 bool isDarkMode = true;
 
@@ -15,3 +14,9 @@ bool isDarkMode = true;
 
 // Padding Size
 const double paddingSize = 15.0;
+
+List<S2Choice<String>> sldNetworkList = [];
+// [
+//   S2Choice<String>(value: 'wss://rpc0.selendra.org', title: 'SELENDRA RPC0'),
+//   S2Choice<String>(value: 'wss://rpc1.selendra.org', title: 'SELENDRA RPC1'),
+// ];

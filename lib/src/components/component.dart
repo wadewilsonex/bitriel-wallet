@@ -120,9 +120,11 @@ class Component {
 }
 
 class MyFlatButton extends StatelessWidget {
+
   final String? textButton;
   final String? buttonColor;
   final String? textColor;
+  final Widget? subChild;
   final FontWeight? fontWeight;
   final double? fontSize;
   final EdgeInsetsGeometry? edgeMargin;
@@ -132,10 +134,13 @@ class MyFlatButton extends StatelessWidget {
   final double? width;
   final double? height;
   final bool? isTransparent;
+  final bool? isBorder;
+  final double? opacity;
 
   const MyFlatButton({
     Key? key, 
     this.textButton,
+    this.subChild,
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
     this.fontWeight = FontWeight.bold,
@@ -146,6 +151,8 @@ class MyFlatButton extends StatelessWidget {
     this.width = double.infinity,
     this.height,
     this.isTransparent = false,
+    this.isBorder,
+    this.opacity = 1,
     @required this.action,
   }) : super(key: key);
 
@@ -160,10 +167,10 @@ class MyFlatButton extends StatelessWidget {
       height: height,
 
       decoration: isTransparent! ? null : BoxDecoration(
-        border: Border.all(
+        border: isBorder! ? Border.all(
           color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
           width: 1,
-        ),
+        ) : null,
         borderRadius: BorderRadius.circular(size8), 
         boxShadow: [
           if (hasShadow!)
@@ -180,17 +187,24 @@ class MyFlatButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
-          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
+          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!).withOpacity(opacity!),
         ),
         onPressed: action == null ? null : (){
           action!();
         },
-        child: Center(
-          child: MyText(
-            text: textButton!,
-            hexaColor: textColor!,
-            fontWeight: fontWeight!,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MyText(
+              text: textButton!,
+              hexaColor: textColor!,
+              fontWeight: fontWeight!,
+            ),
+            
+            subChild ?? Container()
+          ],
         ),
       ),
     );
@@ -239,7 +253,6 @@ class MyGradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return Container(
       padding: edgePadding,
       margin: edgeMargin,
@@ -253,10 +266,10 @@ class MyGradientButton extends StatelessWidget {
             offset: const Offset(0.0, 2)
           )
         ],
-        border: Border.all(
-          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
-          width: 1,
-        ),
+        // border: Border.all(
+        //   color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
+        //   width: 1,
+        // ),
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],

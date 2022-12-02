@@ -1,12 +1,17 @@
 import 'dart:ffi';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
+import 'package:wallet_apps/src/components/shimmer_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
@@ -14,12 +19,17 @@ import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/home/home_func.dart';
+import 'package:wallet_apps/src/screen/home/nft/doers_nft/doers_nft.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
-
+import 'package:awesome_select/awesome_select.dart';
 import '../setting/setting.dart';
+
+import 'package:wallet_apps/src/components/network_choice.dart' as choices;
 
 class HomePageBody extends StatelessWidget {
 
@@ -29,15 +39,17 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+  String? initSLDNetwork;
 
-  const HomePageBody({ 
+  HomePageBody({ 
     Key? key, 
     this.isTrx,
     this.homePageModel,
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
-    this.getReward
+    this.getReward,
+    this.initSLDNetwork
     }) : super(key: key);
 
 
@@ -71,25 +83,75 @@ class HomePageBody extends StatelessWidget {
             size: 6.w,
           ),
         ),
+        
+        centerTitle: true,
+        
+        title: Consumer<ApiProvider>(
+          builder: (context, provider, child) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+
+                    return GestureDetector(
+                      onTap: () async {
+                        await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          
+                          WidgetShimmer(
+                            txt: provider.accountM.address, 
+                            child: MyText(
+                              text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(5, provider.accountM.address!.length - 5, "..."),
+                              textAlign: TextAlign.left
+                            ),
+                          ),
+                    
+                          Row(
+                            children: [
+                              MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+                    
+                               Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Icon(Iconsax.arrow_down_1, size: 18, color: isDarkMode ? Colors.white : Colors.black,),
+                              )
+                            ],
+                          ),
+                            
+                        ],
+                      ),
+                    );
+                  }
+                ),
+              ],
+            );
+          },
+        ),
         actions: <Widget>[
-          IconButton(
-            icon: Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                Iconsax.chart_3,
-                color: isDarkMode 
-                  ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-                size: 6.w,
-              ),
-            ),
-            onPressed: () async {
-              portfolioDailog(context: context);
-            },
-          ),
+          // IconButton(
+          //   icon: Align(
+          //     alignment: Alignment.centerRight,
+          //     child: Icon(
+          //       Iconsax.chart_3,
+          //       color: isDarkMode 
+          //         ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+          //         : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
+          //       size: 6.w,
+          //     ),
+          //   ),
+          //   onPressed: () async {
+          //     portfolioDailog(context: context);
+          //   },
+          // ),
           
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
             child: IconButton(
               icon: Align(
                 alignment: Alignment.centerRight,
@@ -102,11 +164,11 @@ class HomePageBody extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                
                 // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 // if (value != null){
                 //   getReward!(value);
                 // }
+                
                 await TrxOptionMethod.scanQR(
                   context,
                   [],
@@ -133,7 +195,8 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+
                 ShowCaseWidget(
                   builder: Builder(
                     builder : (context) => Container()
@@ -144,8 +207,8 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
@@ -164,8 +227,8 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
                     fontSize: 17.5,
@@ -184,8 +247,8 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",
                     fontSize: 17.5,
@@ -202,10 +265,11 @@ class HomePageBody extends StatelessWidget {
             ),
           ),
 
-          SwapPage(),
-          // FindEvent(),
+          // SwapPage(),
+          const FindEvent(),
 
-          SettingPage(),
+          // const SettingPage(), Fifth tab
+          const DoersNFT(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -222,7 +286,8 @@ class HomePageBody extends StatelessWidget {
           options: CarouselOptions(
             viewportFraction: 1,  
             aspectRatio: 29 / 10,
-            autoPlay: true,
+            autoPlay: false,
+            enableInfiniteScroll: false,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
             onPageChanged: homePageModel!.onAdsCarouselChanged,
@@ -230,10 +295,11 @@ class HomePageBody extends StatelessWidget {
           items: imgList
             .map((item) => GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context, 
-                  Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
+                // Navigator.push(
+                //   context, 
+                //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                // );
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -249,9 +315,14 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
-                    child: Image.asset(
+                    child: item['asset'].contains("https") ? Image.network(
                       item['asset'],
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                    )
+                    : Image.asset(
+                      item['asset'], 
+                      fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ),

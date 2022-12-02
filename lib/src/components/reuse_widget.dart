@@ -2,8 +2,11 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/pie_chart.dart';
+import 'package:wallet_apps/src/constants/ui_helper.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'dialog_c.dart';
 
@@ -827,8 +830,23 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
         // size: Size(10.w, 10.h),
       ),
       // version: QrVersions.auto,
+      eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
       data: wallet,
     ),
+  );
+}
+
+Widget qrCodeProfile(String wallet, String logoName, GlobalKey keyQrShare) {
+  return QrImage(
+    padding: EdgeInsets.zero,
+    backgroundColor: Colors.white,
+    embeddedImage: AssetImage(logoName),
+    embeddedImageStyle: QrEmbeddedImageStyle(
+      size: const Size(50, 50),
+    ),
+    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+    // version: QrVersions.auto,
+    data: wallet,
   );
 }
 
@@ -1223,3 +1241,79 @@ Widget tfPasswordWidget(TextEditingController password, String title) {
     }
   );
 }
+
+  Future qrProfileDialog(BuildContext context) async {
+    return await showDialog(
+      context: context, 
+      builder: (BuildContext context){
+        return Consumer<ApiProvider>(
+          builder: (context, value, child) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              child: Stack(
+                children: [
+
+                  AlertDialog(
+                    contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+                    content: Container(
+                      width: 250,
+                      child: Consumer<ReceiveWalletProvider>(
+                        builder: (context, provider, widget){
+                          return RepaintBoundary(
+                            key: provider.keyQrShare,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+
+                                MyText(
+                                  top: 50,
+                                  text: value.accountM.name,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  hexaColor: AppColors.blackColor,
+                                ),
+
+                                SizedBox(height: 2.h),
+                                
+                                qrCodeProfile(
+                                  value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
+                                  "assets/logo/bitirel-logo-circle.png",
+                                  provider.keyQrShare,
+                                ),
+                              ],
+                            ),
+                          ); 
+                        }
+                      ),
+                    )
+                  ),
+          
+                  Positioned(
+                    left: Constants.padding,
+                    right: Constants.padding,
+                    bottom: (MediaQuery.of(context).size.height / 2) + 120,
+                    // top: -50,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: Constants.avatarRadius,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                          child: randomAvatar(value.accountM.addressIcon ?? '')
+                      ),
+                    ),
+                  ),
+                ],
+          
+              ),
+            );
+          }
+        );
+      }
+    );
+  }

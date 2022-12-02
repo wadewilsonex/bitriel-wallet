@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/graphql/ql_client.dart';
@@ -30,10 +31,17 @@ class AppState extends State<App> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 
       if(!mounted) return;
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+      Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
       if(!mounted) return;
-      await Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+      Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+
+      // Query Selendra Endpoint
+      await getSelendraEndpoint().then((value) async {
+        print("AppState Value $value ");
+        // Assign Data and Store Endpoint Into Local DB
+        await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
+      });
       
       await initApi();
       
@@ -44,21 +52,7 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
-    
-    // Fetch Name and Symbol Coin
-    // await StorageServices.fetchData(DbKey.coinData).then((value) {
-    //   if (value == null){
-
-    //     _http.get(Uri.parse("https://api.coingecko.com/api/v3/coins/list")).then((value) async {
-    //       dynamic data = await json.decode(value.body);
-    //       await StorageServices.storeData(data, DbKey.coinData);
-    //       Provider.of<MarketProvider>(context, listen: false).setLsCoin = data;
-    //     });
-    //   } else {
-    //     Provider.of<MarketProvider>(context, listen: false).setLsCoin = value;
-    //   }
-    // });
-
+    print("Tos initApi");
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);

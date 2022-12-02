@@ -42,17 +42,6 @@ class AppConfig {
   static const speedsheetId = '1PAmEFBWmjFV1EueEFXn7V60svNTLc6vN0QfROeDqQHA';
 
   static const kmpiAddr = '5GZ9uD6RgN84bpBuic1HWq9AP7k2SSFtK9jCVkrncZsuARQU';
-  
-  static List<Map<String, dynamic>> sldNetwork = [
-    {
-      "index": ApiProvider().isMainnet ? "wss://rpc-mainnet.selendra.org" : "wss://rpc-testnet-3.selendra.org", 
-      "symbol": "1"
-    },
-    {
-      "index": ApiProvider().isMainnet ? "wss://rpc-mainnet2.selendra.org" : "wss://rpc-sabay-testnet.selendra.org", 
-      "symbol": "2"
-    }
-  ];
 
   late ApiProvider api;
   late String swapAddr;
@@ -76,7 +65,8 @@ class AppConfig {
       wsUrlTN: 'wss://rpc-testnet-3.selendra.org/', // TheNatte (1)
       // wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org', // Sabay (2)
       // wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
-      wsUrlMN: 'wss://rpc0.selendra.org', // Sabay (1)
+      // wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
+      wsUrlMN: 'wss://rpc0.selendra.org', // ReleayChain (1)
       ss58: 204,
       ss58MN: 204
     ),
@@ -120,60 +110,12 @@ class AppConfig {
 
   static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
 
-  // static const nodeListPolkadot = [
-  //   {
-  //     'name': 'Polkadot (Live, hosted by PatractLabs)',
-  //     'ss58': 0,
-  //     'endpoint': 'wss://polkadot.elara.patract.io',
-  //   },
-  //   {
-  //     'name': 'Polkadot (Live, hosted by Polkawallet CN)',
-  //     'ss58': 0,
-  //     'endpoint': 'wss://polkadot-1.polkawallet.io:9944',
-  //   },
-  //   {
-  //     'name': 'Polkadot (Live, hosted by Polkawallet EU)',
-  //     'ss58': 0,
-  //     'endpoint': 'wss://polkadot-2.polkawallet.io',
-  //   },
-  //   {
-  //     'name': 'Polkadot (Live, hosted by Parity)',
-  //     'ss58': 0,
-  //     'endpoint': 'wss://rpc.polkadot.io',
-  //   },
-  //   {
-  //     'name': 'Polkadot (Live, hosted by onfinality)',
-  //     'ss58': 0,
-  //     'endpoint': 'wss://polkadot.api.onfinality.io/public-ws',
-  //   },
-  // ];
-
-  // static const testInviteLink =
-  //     'https://selendra-airdrop.netlify.app/invitation?ref=';
-
-  // static const testInviteLink1 =
-  //     'https://selendra-airdrop.netlify.app/claim-\$sel?ref=';
-
-  // static const baseInviteLink = 'https://airdrop.selendra.org/claim-\$sel?ref=';
-
-  //
-  // sld_market net API
-  // https://sld_marketnet-api.selendra.com/pub/v1
-  //
-  // sld_market net API
-  // https://sld_marketnet-api.selendra.com/pub/v1
-
   static String abiPath = "assets/abi/";
   static String iconsPath = "assets/icons/";
   static String illustrationsPath = "assets/illustration/";
   static String assetsPath = "assets/";
   static String animationPath = "assets/animation/";
 
-}
-
-class DBkey {
-  static String supportedToken = "supportedToken";
-  static String listSel = "listSel";
 }
 
 class PresaleConfig {
