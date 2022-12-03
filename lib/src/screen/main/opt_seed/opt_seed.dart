@@ -172,7 +172,7 @@ class OPTVerificationState extends State<OPTVerification> {
 
         // if(!mounted) return;
         if (responseJson['user'].containsKey("encrypted")){
-
+          
           Navigator.push(context, Transition(child: SetPassword(phoneNumber: widget.phoneNumber!, responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         }
           

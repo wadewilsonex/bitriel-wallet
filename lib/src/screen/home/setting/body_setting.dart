@@ -1,7 +1,7 @@
 import 'package:wallet_apps/src/constants/color.dart';
+import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 
-import '../../../../index.dart';
-import '../../../models/card_section_setting.m.dart';
+import '../../../../../index.dart';
 
 class BodySettingPage extends StatelessWidget {
   const BodySettingPage({Key? key}) : super(key: key);

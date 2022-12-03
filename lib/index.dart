@@ -88,8 +88,6 @@ export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
 // Add Phone
 
 export 'package:wallet_apps/src/route/router.dart';
-//Check In
-export 'package:wallet_apps/src/screen/home/check_in/check_in.dart';
 /* Home Screen */
 export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
@@ -147,8 +145,6 @@ export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.da
 // Main Screeen
 export 'package:wallet_apps/src/screen/main/welcome/welcome.dart';
 export 'package:wallet_apps/src/screen/main/welcome/body_welcome.dart';
-
-export 'package:wallet_apps/src/screen/home/asset_list.dart';
 
 export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
 

@@ -5,7 +5,7 @@ import 'package:wallet_apps/src/components/login_component/animations/change_scr
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/portrait_card_c.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/bottom/home/home.dart';
 import 'package:wallet_apps/src/screen/main/email/email.dart';
 import 'package:wallet_apps/src/screen/main/json/import_json.dart';
 import 'package:wallet_apps/src/screen/main/seeds_phonenumber/phone_main_screen.dart';

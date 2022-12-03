@@ -1,6 +1,6 @@
-import 'package:wallet_apps/src/screen/home/setting/body_setting.dart';
+import 'package:wallet_apps/src/screen/home/bottom/setting/body_setting.dart';
 
-import '../../../../index.dart';
+import '../../../../../index.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);

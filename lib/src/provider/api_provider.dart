@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:defichaindart/defichaindart.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
@@ -65,8 +66,29 @@ class ApiProvider with ChangeNotifier {
   
   AccountM get getAccount => accountM;
 
+  Future<void> initSelendraEndpoint(Map<String, dynamic> json) async {
+
+    try {
+
+      print("initSelendraEndpoint");
+      sldNetworkList = [
+        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0'),
+        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1')
+      ];
+      AppConfig.networkList[0].wsUrlMN = json['mainnet'][0];
+
+      await StorageServices.storeData(json, DbKey.lsSldEndpoint);
+      
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error initSelendraEndpoint $e");
+      }
+    }
+    
+  }
+
   Future<void> initApi({@required BuildContext? context}) async {
-    print("initApi");
+
     // Asign Network
     await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
       /// Get Endpoint form Local DB

@@ -376,10 +376,10 @@ class MyBottomAppBar extends StatelessWidget {
           // notchMargin: 8.0,
           child: Container(
             decoration: BoxDecoration(
-                border: Border.all(color: hexaCodeToColor("#E6E6E6")),
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
-              ),
+              border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
+            ),
             child: SizedBox(
               height: 7.h,
               child: Row(
@@ -452,21 +452,34 @@ class MyBottomAppBar extends StatelessWidget {
                       child: Icon(Iconsax.calendar_1, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
                     ),
                   ),
+                  // Expanded(
+                  //   child: MyIconButton(
+                  //     title: "Setting",
+                  //     txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                  //     isActive: index == 4 ? true : false,
+                  //     onPressed: () {
+                  //       onIndexChanged!(4);
+                  //     },
+                  //     child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                  //   ),
+                  // ),
+
                   Expanded(
                     child: MyIconButton(
-                      title: "Setting",
+                      title: "NFT",
                       txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                       isActive: index == 4 ? true : false,
                       onPressed: () {
                         onIndexChanged!(4);
                       },
-                      child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                      child: SvgPicture.asset(AppConfig.iconsPath+"nft_icon.svg", width: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))//Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
                     ),
                   ),
       
                 ],
               ),
             ),
+
           ),
         ),
       ),

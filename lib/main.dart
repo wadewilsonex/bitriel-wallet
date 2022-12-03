@@ -129,6 +129,9 @@ Future<void> main() async {
         ChangeNotifierProvider<GoogleAuthService>(
           create: (context) => GoogleAuthService(),
         ),
+        // ChangeNotifierProvider<DOER>(
+        //   create: (context) => GoogleAuthService(),
+        // ),
       ],
       child: const App()
     ),

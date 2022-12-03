@@ -4,6 +4,7 @@ import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 class AssetsPageBody extends StatelessWidget {
+  
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final Function? onTapCategories;
@@ -81,7 +82,7 @@ class AssetsPageBody extends StatelessWidget {
                         children: [
                       
                           _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                          _selendraNetworkList(context, model!.nativeAssets!, ),
+                          _selendraNetworkList(context, model!.nativeAssets! ),
                           _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
                           _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
                           
@@ -145,7 +146,6 @@ class AssetsPageBody extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _userWallet(BuildContext context) {
 
@@ -295,9 +295,11 @@ class AssetsPageBody extends StatelessWidget {
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: model!.categories!.length,
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return Row(
           children: [
+            
             CategoryCard(
               index: index,
               title: model!.categories![index],

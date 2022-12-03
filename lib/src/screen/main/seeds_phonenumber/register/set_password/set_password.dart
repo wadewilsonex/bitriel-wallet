@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/main/json/import_json.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class SetPassword extends StatefulWidget {
 
@@ -17,11 +18,31 @@ class _SetPasswordState extends State<SetPassword> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
+  InAppWebViewController? webViewController;
+  InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        useShouldOverrideUrlLoading: true,
+        mediaPlaybackRequiresUserGesture: false,
+      ),
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+      ),
+      ios: IOSInAppWebViewOptions(
+        allowsInlineMediaPlayback: true,
+      ));
+
+  late PullToRefreshController pullToRefreshController;
+  String url = "";
+  double progress = 0;
+  final urlController = TextEditingController();
+
+  HeadlessInAppWebView? _headlessInAppWebView;
+
   Future<void> _registerWallet() async {
     
     try {
 
-      Navigator.push(context, Transition(child: ImportJson(password: password.text, json: widget.responseJson,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+      Navigator.push(context, Transition(child: ImportJson(password: password.text, json: widget.responseJson, webViewController: webViewController), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
       // final response = await PostRequest().registerSetPassword(widget.phoneNumber, password.text, confirmPassword.text);
 
@@ -46,47 +67,92 @@ class _SetPasswordState extends State<SetPassword> {
       print(e);
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BodyScaffold(
-        child: Container(
-          padding: const EdgeInsets.all(paddingSize),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const MyText(
-                text: "Set a password \nto encrypt your wallet",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                textAlign: TextAlign.start,
-                top: 25,
-              ),
+      body: Stack(
+        children: [
 
-              SizedBox(height: 10.h),
-
-              tfPasswordWidget(password, "Password"),
+          InAppWebView(
+            initialData: InAppWebViewInitialData(
+              data: """
               
-              SizedBox(height: 1.h),
-
-              tfPasswordWidget(confirmPassword, "Confirm Password"),
-
-              SizedBox(height: 10.h),
-
-              MyGradientButton(
-                textButton: "Finish",
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () {
-                  _registerWallet();
-                  // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                },
-              ),
-            ],
+                <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+                    </head>
+                    <body>
+                    </body>
+                </html>
+              
+              """
+            ),
+            initialOptions: options,
+            onWebViewCreated: (controller) async {
+              await controller.clearCache();
+            },
+            onLoadStop: (controller, uri) async {
+              
+              webViewController = controller;
+              
+              // final bundle = await rootBundle.loadString("typescript/decrypt_evm_wallet.js");
+              // print("bundle ${bundle}");
+              // String js = """
+              //   function myFunction(){
+              //     alert("Fuck hello");
+              //   }
+              // """;
+              
+              await webViewController!.injectJavascriptFileFromAsset(assetFilePath: "lib/src/js_api/dist/main.js");
+            },
+            
+            onConsoleMessage: (controller, consoleMessage) {
+              print(consoleMessage);
+              // it will print: {message: {"bar":"bar_value","baz":"baz_value"}, messageLevel: 1}
+            },
           ),
-        ),
+
+          BodyScaffold(
+            child: Container(
+              padding: const EdgeInsets.all(paddingSize),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const MyText(
+                    text: "Set a password \nto encrypt your wallet",
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.start,
+                    top: 25,
+                  ),
+
+                  SizedBox(height: 10.h),
+
+                  tfPasswordWidget(password, "Password"),
+                  
+                  SizedBox(height: 1.h),
+
+                  tfPasswordWidget(confirmPassword, "Confirm Password"),
+
+                  SizedBox(height: 10.h),
+
+                  MyGradientButton(
+                    textButton: "Finish",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () {
+                      _registerWallet();
+                      // Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

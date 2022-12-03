@@ -129,10 +129,14 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     
     try {
       
-      await api.apiKeyring.deleteAccount(
-        api.getKeyring,
-        api.getKeyring.keyPairs[0],
-      );
+      try {
+        await api.apiKeyring.deleteAccount(
+          api.getKeyring,
+          api.getKeyring.keyPairs[0],
+        );
+      } catch(e){
+        print("Error deleteAccount $e");
+      }
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       // final event = await StorageServices.fetchData(DbKey.event);
@@ -162,6 +166,9 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
     } catch (e) {
+
+      // Close Dialog Loading
+      Navigator.pop(context);
       if (kDebugMode) {
         print("_deleteAccount ${e.toString()}");
       }
