@@ -4,6 +4,7 @@ import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 class AssetsPageBody extends StatelessWidget {
+  
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final Function? onTapCategories;
