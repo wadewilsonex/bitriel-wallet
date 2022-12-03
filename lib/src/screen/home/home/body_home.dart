@@ -57,6 +57,7 @@ class HomePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: homePageModel!.globalKey,
+      // extendBody: true,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
@@ -68,7 +69,19 @@ class HomePageBody extends StatelessWidget {
         // iconTheme: IconThemeData(
         //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        flexibleSpace: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         elevation: 0,
         leadingWidth: 15.w,
         leading: IconButton(
@@ -79,58 +92,55 @@ class HomePageBody extends StatelessWidget {
             Iconsax.profile_circle, 
             color: isDarkMode 
               ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
+              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
             size: 6.w,
           ),
         ),
         
         centerTitle: true,
         
-        title: Consumer<ApiProvider>(
-          builder: (context, provider, child) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  
-                StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
+        title: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
 
-                    return GestureDetector(
-                      onTap: () async {
-                        await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
-                      },
-                      child: Column(
+            return Consumer<ApiProvider>(
+            
+              builder: (context, provider, child) {
+                return GestureDetector(
+                  onTap: () async {
+                    await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      
+                      WidgetShimmer(
+                        txt: provider.accountM.address, 
+                        child: MyText(
+                          text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                          textAlign: TextAlign.center
+                        ),
+                      ),
+                
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          
-                          WidgetShimmer(
-                            txt: provider.accountM.address, 
-                            child: MyText(
-                              text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(5, provider.accountM.address!.length - 5, "..."),
-                              textAlign: TextAlign.left
-                            ),
-                          ),
-                    
-                          Row(
-                            children: [
-                              MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
-                    
-                               Padding(
-                                padding: const EdgeInsets.only(left: 4),
-                                child: Icon(Iconsax.arrow_down_1, size: 18, color: isDarkMode ? Colors.white : Colors.black,),
-                              )
-                            ],
-                          ),
-                            
+                          MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
+                
+                            Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                          )
                         ],
                       ),
-                    );
-                  }
-                ),
-              ],
+                        
+                    ],
+                  )
+                );
+              }
             );
+
           },
         ),
         actions: <Widget>[
@@ -159,7 +169,7 @@ class HomePageBody extends StatelessWidget {
                   Iconsax.scan,
                   color: isDarkMode 
                     ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
+                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
                   size: 6.w,
                 ),
               ),
@@ -261,6 +271,7 @@ class HomePageBody extends StatelessWidget {
                   child: _selEcoSysMenu(context),
                 ),
                 
+                // SizedBox(height: 10.h), 
               ],
             ),
           ),
@@ -341,8 +352,8 @@ class HomePageBody extends StatelessWidget {
             dotWidth: 25.0.sp,
             dotHeight: 5.0.sp,
             paintStyle: PaintingStyle.fill,
-            dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
-            activeDotColor: hexaCodeToColor(AppColors.sliderColor),
+            dotColor: hexaCodeToColor(AppColors.secondary).withOpacity(0.36),
+            activeDotColor: hexaCodeToColor(AppColors.secondary),
           ), 
           
         ),
@@ -363,7 +374,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.5), size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -377,7 +388,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.5), size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -399,7 +410,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.5), size: iconSize),
+                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -418,7 +429,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.5), size: iconSize),
+                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -435,7 +446,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.5), size: iconSize),
+                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {

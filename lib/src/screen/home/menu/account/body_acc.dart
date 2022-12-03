@@ -175,6 +175,30 @@ class AccountBody extends StatelessWidget{
                 ),
               ),
             ),
+
+
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: MyGradientButton(
+                lsColor: [AppColors.warningColor, AppColors.warningColor],
+                begin: Alignment.bottomRight, 
+                end: Alignment.topLeft, 
+                action: (){
+                  deleteAccout;
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+
+                  children: const [
+                    MyText(
+                      text: "Logout",
+                      hexaColor: AppColors.whiteColorHexa,
+                    ),
+                  ],
+                )
+              ),
+            ),
           ],
         ),
       ),

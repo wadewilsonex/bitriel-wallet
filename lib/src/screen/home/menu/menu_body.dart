@@ -2,6 +2,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
@@ -161,6 +162,27 @@ class MenuBody extends StatelessWidget {
 
         MenuSubTitle(index: 5),
 
+
+        MyListTile(
+          icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          index: 5,
+          subIndex: 1,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
+        MyListTile(
+          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          index: 5,
+          subIndex: 2,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
         MyListTile(
           icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 5,
@@ -170,6 +192,7 @@ class MenuBody extends StatelessWidget {
             //_launchInBrowser('https://selendra.com/privacy');
           },
         ),
+
       ],
     );
   }

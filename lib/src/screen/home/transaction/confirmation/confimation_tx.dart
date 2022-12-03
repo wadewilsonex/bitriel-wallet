@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/bottom/home/home.dart';
 
 class ConfirmationTx extends StatefulWidget {
 

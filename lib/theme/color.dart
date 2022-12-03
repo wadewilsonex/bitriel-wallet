@@ -49,7 +49,7 @@ class AppColors {
   /* White Color */
   static const String whiteColorHexa = "#FFFFFF";
   static const String whiteColorBtn = "#F8F8F8";
-  static const String lightBg = "#F5F5F5";
+  static const String lightBg = "#F2F2F2";
   static const whiteNormalColor = Colors.white;
   static const String appBarTextColor = "#EFF0F2";
 
@@ -97,5 +97,5 @@ class AppColors {
 
   static const String greyColor = "#C1C1C1";
 
-  static const String lightColorBg = "#FFFFFF";
+  static const String lightColorBg = "#F2F2F2";
 }

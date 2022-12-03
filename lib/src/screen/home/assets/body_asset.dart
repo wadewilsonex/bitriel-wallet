@@ -31,7 +31,8 @@ class AssetsPageBody extends StatelessWidget {
         isSafeArea: false,
         bottom: 0,
         child: Container(
-          color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.whiteColorBtn),
+          padding: const EdgeInsets.all(20),
+          color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           child: Column(
             // mainAxisSize: MainAxisSize.min,
             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,32 +40,25 @@ class AssetsPageBody extends StatelessWidget {
               
               _userWallet(context),
           
-              Padding(
-                padding: const EdgeInsets.all(paddingSize),
-                child: SizedBox(
-                  height: 35.sp,
-                  child: categoryToken()
-                ),
+              SizedBox(
+                height: 30.sp,
+                child: categoryToken()
               ),
           
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: Row(
-                  children: [
-                    MyText(
-                      text: "Assets",
-                      hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
-                      fontWeight: FontWeight.w500
+              Row(
+                children: [
+                  MyText(
+                    text: "Assets",
+                    hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
+                    fontWeight: FontWeight.w500
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 1,
+                      color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
                     ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
-                        indent: 2.w,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
           
               Column(
@@ -161,10 +155,7 @@ class AssetsPageBody extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(25),
-              bottomRight: Radius.circular(25),
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -181,13 +172,12 @@ class AssetsPageBody extends StatelessWidget {
                 }
               ),
               
-              SizedBox(height: 2.h),
+              SizedBox(height: 1.h),
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
                     text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                     // hexaColor: AppColors.tokenNameColor,
-                    fontWeight: FontWeight.bold,
                   );
                 }
               ),
@@ -202,87 +192,100 @@ class AssetsPageBody extends StatelessWidget {
   }
 
   Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, {int? networkIndex}){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: lsAsset.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index){
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                Transition(
-                  child: AssetInfo(
-                    index: index,
-                    scModel: lsAsset[index]
-                  ),
-                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: lsAsset.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              Transition(
+                child: AssetInfo(
+                  index: index,
+                  scModel: lsAsset[index]
                 ),
-              );
-            },
-            child: AssetsItemComponent(
-              scModel: lsAsset[index]
-            )
-          );
-        }
-      )
-          
-      // )
-      
+                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+              ),
+            );
+          },
+          child: AssetsItemComponent(
+            scModel: lsAsset[index]
+          )
+        );
+      }
     );
   }
 
   Widget _operationRequest(BuildContext context) {
-    double width = 30.w;
-    double height = 7.h;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        
-        MyGradientButton(
-          height: height,
-          width: width,
-          // lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
-          lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorBtn, AppColors.whiteColorBtn],
-          begin: Alignment.bottomRight, 
-          end: Alignment.topLeft, 
-          action: (){
-            Navigator.push(
-              context, 
-              Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            );
-          },
-          child: MyText(
-            text: "Send",
-            hexaColor: AppColors.greyColor,
-            fontWeight: FontWeight.w700,
-          )
-        ),
-
-        const SizedBox(width: 10,),
-        
-        MyGradientButton(
-          height: height,
-          width: width,
-          // lsColor: isDarkMode ? ["#035A8F", "#035A8F"] : [AppColors.whiteColorHexa, AppColors.whiteColorHexa],
-          begin: Alignment.bottomLeft, 
-          end: Alignment.topRight, 
-          action: (){
-            Navigator.push(
-              context, 
-              Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            );
-          },
-          child: MyText(
-            text: "Receive",
-            hexaColor: AppColors.whiteColorHexa,
-            fontWeight: FontWeight.w700,
-
-          )
-        )
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            flex: 3,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+            
+                children: [
+                  
+                  Transform.rotate(
+                    angle: 141.371669412,
+                    child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary)),
+                  ),
+          
+                  MyText(
+                    text: "Send",
+                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          
+          VerticalDivider(
+            color: hexaCodeToColor("#D9D9D9"),
+            thickness: 1,
+          ),
+          
+          Expanded(
+            flex: 3,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+            
+                children: [
+                  
+                  Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary)),
+          
+                  MyText(
+                    text: "Receive",
+                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -304,12 +307,7 @@ class AssetsPageBody extends StatelessWidget {
               onTap: onTapCategories!,
             ),
 
-            // index != model!.categories!.length-1 
-            // ? Container(
-            //   alignment: Alignment.center, height: 3.h, decoration: BoxDecoration(border: Border(right: BorderSide(color: hexaCodeToColor(AppColors.greyColor)))),
-            // )
-            // : Container(),
-            
+            // SizedBox(width: 2.5.w),
           ],
         );
       }
