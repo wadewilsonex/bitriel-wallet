@@ -364,7 +364,7 @@ class MyBottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
      
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         child: BottomAppBar(
@@ -380,6 +380,7 @@ class MyBottomAppBar extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
             ),
+            padding: EdgeInsets.symmetric(vertical: 5),
             child: SizedBox(
               height: 7.h,
               child: Row(

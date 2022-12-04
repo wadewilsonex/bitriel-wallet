@@ -1,4 +1,120 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home_func.dart';
+
+PreferredSizeWidget defaultAppBar({
+  required BuildContext? context,
+  required HomePageModel? homePageModel,
+  required bool? pushReplacement,
+  required String? initSLDNetwork,
+}) {
+  return AppBar(
+    backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+    elevation: 0,
+    toolbarHeight: 10.h,
+    leadingWidth: 15.w,
+    centerTitle: true,
+    flexibleSpace: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
+          ),
+        ),
+      ),
+    ),
+    leading: IconButton(
+      onPressed: () {
+        homePageModel!.globalKey!.currentState!.openDrawer();
+      },
+      icon: Icon(
+        Iconsax.profile_circle, 
+        color: isDarkMode 
+          ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+          : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+        size: 6.w,
+      ),
+    ),
+    
+    title: StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+
+        return Consumer<ApiProvider>(
+        
+          builder: (context, provider, child) {
+            return GestureDetector(
+              onTap: () async {
+                await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  WidgetShimmer(
+                    txt: provider.accountM.address, 
+                    child: MyText(
+                      text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                      textAlign: TextAlign.center
+                    ),
+                  ),
+            
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
+            
+                        Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                      )
+                    ],
+                  ),
+                    
+                ],
+              )
+            );
+          }
+        );
+
+      },
+    ),
+    actions: <Widget>[
+      
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
+        child: IconButton(
+          icon: Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Iconsax.scan,
+              color: isDarkMode 
+                ? hexaCodeToColor(homePageModel.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+                : hexaCodeToColor(homePageModel.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+              size: 6.w,
+            ),
+          ),
+          onPressed: () async {
+            // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            // if (value != null){
+            //   getReward!(value);
+            // }
+            
+            await TrxOptionMethod.scanQR(
+              context!,
+              [],
+              pushReplacement!,
+            );
+          },
+        ),
+      )
+    ],
+  );
+}
 
 class AppBarCustom extends StatelessWidget {
   final double? pLeft;

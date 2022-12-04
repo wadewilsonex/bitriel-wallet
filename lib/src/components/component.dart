@@ -531,8 +531,8 @@ class MyIconButton extends StatelessWidget {
         children: [
           child ?? SvgPicture.asset(
             '${AppConfig.iconsPath}$icon',
-            width: iconSize ?? 30,
-            height: iconSize ?? 30,
+            width: iconSize ?? 24,
+            height: iconSize ?? 24,
             color: isDarkMode ? Colors.white : Colors.black,
           ),
           const SizedBox(height: 5),

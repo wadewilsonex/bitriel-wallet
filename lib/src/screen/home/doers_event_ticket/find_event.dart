@@ -619,7 +619,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
     );
   }
 
-
   /// Connect Contract
   /// 
   /// And Query Amount's Ticket
@@ -661,171 +660,148 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xff7c94b6),
-            image: DecorationImage(
-              colorFilter: ColorFilter.mode(Colors.purple.withOpacity(1.0), BlendMode.softLight),
-              image: const AssetImage("assets/appbar_bg.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        title: Image.asset(
-          "assets/appbar_event.png",
-          fit: BoxFit.contain,
-          height: 40,
-        ),
-        actions: [
-          Align(
-            widthFactor: 1.75,
-            child: IconButton(
-              onPressed: () {
-                qrProfileDialog(context);
-              },
-              icon: Icon(Iconsax.scanning, color: Colors.white, size: 7.w),
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return eventNow(context, title: "Meta Doers World", eventDate: "10 - 21 august, 2022", eventName: "NIGHT MUSIC FESTIVAL");
+        }
       ),
-      body: AnimatedBackground(
-        behaviour: RacingLinesBehaviour(),
-        vsync: this,
-        child: SingleChildScrollView(
-          controller: scrollController,
-          physics: const BouncingScrollPhysics(),
-          child: eventNow(context),
-        )
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: hexaCodeToColor(AppColors.secondary),
-        onPressed: (){
-          _showPasses(context);
-        },
-        child: const Icon( Iconsax.ticket ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: hexaCodeToColor(AppColors.secondary),
+      //   onPressed: (){
+      //     _showPasses(context);
+      //   },
+      //   child: const Icon( Iconsax.ticket ),
+      // ),
 
     );
   }
 
-  Widget eventNow(BuildContext context) {
+  Widget eventNow(BuildContext context, {String? title, String? eventName, String? eventDate}) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: upcomingEvents.length,
-          itemBuilder: (context, index) {
-            final event = upcomingEvents[index];
-            return Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        viewEventDetail(event);
-                      },
-                      child: ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                          child: CouponCard(
-                            height: 200,
-                            curvePosition: 100,
-                            curveRadius: 20,
-                            borderRadius: 10,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withOpacity(0.25),
-                                  Colors.white.withOpacity(0.25),
-                                ],
-                                begin: AlignmentDirectional.topStart,
-                                end: AlignmentDirectional.bottomEnd,
+
+        MyText(
+          top: 30,
+          left: 30,
+          bottom: 10,
+          text: title,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 200,
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              20,
+              (i) => Padding(
+                padding: EdgeInsets.only(
+                  left: i == 0 ? 20 : 0,
+                  right: i != 19 ? 20 : 0,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Stack(
+                    children: [
+                
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: Image.asset("${AppConfig.assetsPath}event_thumbnail.png", fit: BoxFit.cover,)
+                      ),
+                
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10, bottom: 10),
+                          // alignment: Alignment.bottomLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          // width: MediaQuery.of(context).size.width - 60,
+                          height: 8.h,
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              MyText(
+                                text: eventDate,//"10 - 21 august, 2022",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                bottom: 5,
+                                hexaColor: "#878787",
                               ),
-                            ),
-                            firstChild: event.image.contains("https") ? Image.network(event.image, fit: BoxFit.fill,) : Image.asset(event.image, fit: BoxFit.fill,),
-                            secondChild: Padding(
-                              padding: const EdgeInsets.all(paddingSize),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: primaryLight,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
-                                        Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
-                                      ],
-                                    ),
-                                  ),
-                                            
-                                  UIHelper.horizontalSpace(16),
-                                  
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      MyText(
-                                        text: event.name,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 17,
-                                      ),
-                                            
-                                
-                                      MyText(
-                                        text: event.organizer,
-                                        fontSize: 14,
-                                      ),
-                                    ],
-                                  ),
-                                            
-                                  const Spacer(),
-                                            
-                                  SizedBox(
-                                    // width: double.maxFinite,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(60),
-                                          ),
-                                        ),
-                                        backgroundColor: MaterialStateProperty.all<Color>(
-                                          hexaCodeToColor(AppColors.orangeColor)
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        viewEventDetail(event);
-                                      },
-                                      child: const MyText(
-                                        text: 'JOIN THE\nEVENT',
-                                        fontWeight: FontWeight.bold,
-                                        hexaColor: AppColors.whiteColorHexa,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
+                              MyText(
+                                text: eventName, //"NIGHT MUSIC FESTIVAL",
+                                fontSize: 16,
+                                color2: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              )
+                            ],
                           ),
                         ),
                       ),
-                    ),
+
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10, bottom: 10),
+                          // alignment: Alignment.bottomLeft,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(30)
+                          ),
+                          // width: MediaQuery.of(context).size.width - 60,
+                          height: 2.h,
+                          width: 2.h,
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Iconsax.heart),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            );
-          },
+            ),
+          )
+
+          // Row(
+          //   children: [
+
+          //     ListView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       physics: const BouncingScrollPhysics(),
+          //       shrinkWrap: true,
+          //       itemCount: upcomingEvents.length,
+          //       itemBuilder: (context, index) {
+          
+          //         final event = upcomingEvents[index];
+                  
+          //         return Container(
+          //           decoration: BoxDecoration(
+
+          //             color: Colors.red,
+          //           ),
+          //           margin: const EdgeInsets.all(paddingSize),
+          //           width: MediaQuery.of(context).size.width - 20,
+          //           height: 200,
+          //           child: Text("hello"),
+          //         );
+          //       },
+          //     ),
+          //   ],
+          // ),
         ),
       ],
     );

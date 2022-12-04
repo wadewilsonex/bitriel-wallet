@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
-import 'package:wallet_apps/src/screen/home/bottom/home/home.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class SuccessTransferBody extends StatelessWidget {
 
