@@ -29,28 +29,42 @@ class CreateSeedsBody extends StatelessWidget {
                   title: 'Seed', 
                   subTitle: 'Write down or copy these words in the order and save them somewhere safe.'
                 ),
+
+                SizedBox(height: 2.5.h),
+                MyText(
+                  text: "After writing and securing your 12 words, click continue to proceed",
+                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
+                  textAlign: TextAlign.start,
+                ),
                 
                 SizedBox(height: 7.h),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 0),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 1),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 2),
-                        ),
-                      ],
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: isDarkMode ? Colors.black.withOpacity(0.06) : hexaCodeToColor("#E8E8E8"),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 0),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 1),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 2),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 3.h),
@@ -115,13 +129,6 @@ class CreateSeedsBody extends StatelessWidget {
                     ),
                   ],
                 ),
-
-                SizedBox(height: 7.h),
-                MyText(
-                  text: "After writing and securing your 12 words, click continue to proceed",
-                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
-                ),
-
 
                 Expanded(child: Container()),
                 MyGradientButton(

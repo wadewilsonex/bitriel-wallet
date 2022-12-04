@@ -33,7 +33,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height / 2,
           decoration: BoxDecoration(
             color: hexaCodeToColor(isDarkMode ? AppColors.blue : AppColors.lightColorBg),
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),

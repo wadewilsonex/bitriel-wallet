@@ -42,7 +42,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa),
+                    color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor("#E8E8E8"),
                     borderRadius: BorderRadius.circular(12)
                   ),
                   child: Column(

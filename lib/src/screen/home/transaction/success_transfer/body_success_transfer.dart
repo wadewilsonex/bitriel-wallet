@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
-import 'package:wallet_apps/src/screen/home/bottom/home/home.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class SuccessTransferBody extends StatelessWidget {
 
@@ -99,7 +99,8 @@ class SuccessTransferBody extends StatelessWidget {
           child: CustomPaint(
             painter: TicketPainter(
               borderColor: Colors.transparent,
-              bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa)
+              bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
+              dsahHeight: 0.7
             ),
             child: Container(
               padding: const EdgeInsets.all(16),
@@ -174,6 +175,7 @@ class SuccessTransferBody extends StatelessWidget {
                 painter: TicketPainter(
                   borderColor: Colors.black.withOpacity(0.2),
                   bgColor: const Color(0xFFFFFFFF),
+                  dsahHeight: 0.7
                 ),
                 child: Column(
                   children: [

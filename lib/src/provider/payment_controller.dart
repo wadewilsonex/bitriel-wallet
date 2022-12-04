@@ -6,7 +6,7 @@ import 'package:get/get.dart' as getx;
 import 'package:http/http.dart' as http;
 import 'package:transition/transition.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/home/bottom/home/home.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 
 class PaymentController extends getx.GetxController {

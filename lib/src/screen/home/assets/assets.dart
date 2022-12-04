@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/bottom/assets/body_asset.dart';
+import 'package:wallet_apps/src/screen/home/assets/body_asset.dart';
 
 class AssetsPage extends StatefulWidget {
 

@@ -217,7 +217,7 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
@@ -237,7 +237,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
@@ -257,7 +257,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",
