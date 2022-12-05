@@ -14,7 +14,7 @@ import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/details_event_ticket/details_event_ticket.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_nft/details_nft.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/ticket_options.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
@@ -36,7 +36,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   late Animation<double> opacity;
 
   void viewEventDetail(Event event) {
-    Navigator.push(context, Transition(child: DetailEventTicket(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    Navigator.push(context, Transition(child: DetailsNFT(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
     // Navigator.push(context, Transition(child: TicketOptions(title: event.name,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
     // Navigator.of(context).push(
     //   PageRouteBuilder(
