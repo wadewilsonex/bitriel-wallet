@@ -5,6 +5,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart' as http;
 import 'package:transition/transition.dart';
+import 'package:wallet_apps/src/backend/backend.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
@@ -89,7 +90,7 @@ class PaymentController extends getx.GetxController {
       var response = await http.post(
         Uri.parse("${dotenv.get("URL_PAYMENT")}/create-payment-intent"),
         body: json.encode(body),
-        headers: PostRequest().conceteHeader()
+        headers: conceteHeader()
       );
       print("${jsonDecode(response.body)}");
       return jsonDecode(response.body);

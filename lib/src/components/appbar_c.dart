@@ -15,14 +15,13 @@ PreferredSizeWidget defaultAppBar({
     leadingWidth: 15.w,
     centerTitle: true,
     flexibleSpace: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: hexaCodeToColor("#E6E6E6")),
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
-          ),
+      child: Container(
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        // padding: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
         ),
       ),
     ),

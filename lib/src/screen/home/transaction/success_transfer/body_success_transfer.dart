@@ -99,7 +99,8 @@ class SuccessTransferBody extends StatelessWidget {
           child: CustomPaint(
             painter: TicketPainter(
               borderColor: Colors.transparent,
-              bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa)
+              bgColor: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
+              dsahHeight: 0.7
             ),
             child: Container(
               padding: const EdgeInsets.all(16),
@@ -174,6 +175,7 @@ class SuccessTransferBody extends StatelessWidget {
                 painter: TicketPainter(
                   borderColor: Colors.black.withOpacity(0.2),
                   bgColor: const Color(0xFFFFFFFF),
+                  dsahHeight: 0.7
                 ),
                 child: Column(
                   children: [

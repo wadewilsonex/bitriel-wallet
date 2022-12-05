@@ -21,7 +21,7 @@ import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
-import 'package:wallet_apps/src/screen/home/nft/doers_nft/doers_nft.dart';
+import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
@@ -88,6 +88,7 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
 
                 ShowCaseWidget(
@@ -100,7 +101,7 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
@@ -120,7 +121,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
@@ -140,7 +141,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",
@@ -163,7 +164,7 @@ class HomePageBody extends StatelessWidget {
           const FindEvent(),
 
           // const SettingPage(), Fifth tab
-          const DoersNFT(),
+          const NFT(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(

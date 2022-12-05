@@ -2,18 +2,24 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/components/cards/event_card_c.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/details_event_ticket/body_details_event_ticket.dart';
+import 'package:wallet_apps/src/screen/home/doers_event_ticket/details_event_ticket/details_event_ticket.dart';
 import 'package:wallet_apps/src/screen/home/doers_event_ticket/ticket_options.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
@@ -34,8 +40,103 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   late AnimationController opacityController;
   late Animation<double> opacity;
 
+  List<Map<String, dynamic>>? events = [];
+  List<String>? images = [];
+
+  String? _ipfsAPI;
+
+  /// Connect Contract
+  /// 
+  /// And Query Amount's Ticket
+  void ticketInitializer() async {
+    
+    Provider.of<MDWProvider>(context, listen: false).init();
+    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
+    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
+  }
+
+  void fetchEvent() async {
+
+    await getAllEvent().then((value) async {
+      events = List<Map<String, dynamic>>.from((await json.decode(value.body))['events']);
+      print("Event ${events}");
+
+    });
+
+    setState((){
+      _ipfsAPI = dotenv.get('IPFS_API');
+    });
+    
+  }
+
+  @override
+  void initState() {
+    // Init Member
+    scrollController = ScrollController();
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
+    opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
+    opacity = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+      curve: Curves.linear,
+      parent: opacityController,
+    ));
+    scrollController.addListener(() {
+      opacityController.value = offsetToOpacity(
+          currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
+    });
+
+    fetchEvent();
+
+    // ticketInitializer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    scrollController.dispose();
+    opacityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return EventCardComponents(
+            ipfsAPI: _ipfsAPI,
+            title: "Meta Doers World", 
+            eventDate: "10 - 21 august, 2022", 
+            eventName: "NIGHT MUSIC FESTIVAL",
+            listEvent: events,
+            onPressed: (){
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => const DetailEventTicket())
+              );
+            }
+          );
+        }
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: hexaCodeToColor(AppColors.secondary),
+      //   onPressed: (){
+      //     _showPasses(context);
+      //   },
+      //   child: const Icon( Iconsax.ticket ),
+      // ),
+
+    );
+  }
+
+  
+
   void viewEventDetail(Event event) {
-    Navigator.push(context, Transition(child: TicketOptions(title: event.name,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    Navigator.push(context, Transition(child: DetailEventTicket(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    // Navigator.push(context, Transition(child: TicketOptions(title: event.name,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
     // Navigator.of(context).push(
     //   PageRouteBuilder(
     //     opaque: false,
@@ -616,194 +717,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           ),
         );
       }
-    );
-  }
-
-  /// Connect Contract
-  /// 
-  /// And Query Amount's Ticket
-  void ticketInitializer() async {
-    
-    Provider.of<MDWProvider>(context, listen: false).init();
-    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
-    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
-  }
-
-  @override
-  void initState() {
-    
-    // Init Member
-    scrollController = ScrollController();
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
-    opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
-    opacity = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-      curve: Curves.linear,
-      parent: opacityController,
-    ));
-    scrollController.addListener(() {
-      opacityController.value = offsetToOpacity(
-          currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
-    });
-
-    // ticketInitializer();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    scrollController.dispose();
-    opacityController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return eventNow(context, title: "Meta Doers World", eventDate: "10 - 21 august, 2022", eventName: "NIGHT MUSIC FESTIVAL");
-        }
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: hexaCodeToColor(AppColors.secondary),
-      //   onPressed: (){
-      //     _showPasses(context);
-      //   },
-      //   child: const Icon( Iconsax.ticket ),
-      // ),
-
-    );
-  }
-
-  Widget eventNow(BuildContext context, {String? title, String? eventName, String? eventDate}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-
-        MyText(
-          top: 30,
-          left: 30,
-          bottom: 10,
-          text: title,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-        ),
-        
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 200,
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            children: List.generate(
-              20,
-              (i) => Padding(
-                padding: EdgeInsets.only(
-                  left: i == 0 ? 20 : 0,
-                  right: i != 19 ? 20 : 0,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Stack(
-                    children: [
-                
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 60,
-                        child: Image.asset("${AppConfig.assetsPath}event_thumbnail.png", fit: BoxFit.cover,)
-                      ),
-                
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 10, bottom: 10),
-                          // alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          // width: MediaQuery.of(context).size.width - 60,
-                          height: 8.h,
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-
-                              MyText(
-                                text: eventDate,//"10 - 21 august, 2022",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                bottom: 5,
-                                hexaColor: "#878787",
-                              ),
-
-                              MyText(
-                                text: eventName, //"NIGHT MUSIC FESTIVAL",
-                                fontSize: 16,
-                                color2: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 10, bottom: 10),
-                          // alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(30)
-                          ),
-                          // width: MediaQuery.of(context).size.width - 60,
-                          height: 2.h,
-                          width: 2.h,
-                          padding: EdgeInsets.all(10),
-                          child: Icon(Iconsax.heart),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          )
-
-          // Row(
-          //   children: [
-
-          //     ListView.builder(
-          //       scrollDirection: Axis.horizontal,
-          //       physics: const BouncingScrollPhysics(),
-          //       shrinkWrap: true,
-          //       itemCount: upcomingEvents.length,
-          //       itemBuilder: (context, index) {
-          
-          //         final event = upcomingEvents[index];
-                  
-          //         return Container(
-          //           decoration: BoxDecoration(
-
-          //             color: Colors.red,
-          //           ),
-          //           margin: const EdgeInsets.all(paddingSize),
-          //           width: MediaQuery.of(context).size.width - 20,
-          //           height: 200,
-          //           child: Text("hello"),
-          //         );
-          //       },
-          //     ),
-          //   ],
-          // ),
-        ),
-      ],
     );
   }
 }

@@ -367,7 +367,7 @@ class ReuseNumPad extends StatelessWidget {
                 },
                 child: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 20.sp),
                 ),
               )
             ],
@@ -392,14 +392,14 @@ class ReuseKeyBoardNum extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
           ),
-          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor))
+          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
         ),
         onPressed: onPressed,
         child: child == null ? Text(
           '$n',
           style: TextStyle(
             fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
-            color: Colors.white,
+            color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ) : child!,
