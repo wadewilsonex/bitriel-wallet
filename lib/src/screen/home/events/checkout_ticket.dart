@@ -3,7 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/payment_option.dart';
+import 'package:wallet_apps/src/screen/home/events/payment_option.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class OrderConfirmScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_nft/fullscreen_image.dart';
+import 'package:wallet_apps/src/components/fullscreen_img_c.dart';
 
 class DetailsNFTBody extends StatelessWidget {
   const DetailsNFTBody({Key? key}) : super(key: key);

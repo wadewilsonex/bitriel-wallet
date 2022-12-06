@@ -11,7 +11,7 @@ import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/checkout_ticket.dart';
+import 'package:wallet_apps/src/screen/home/events/checkout_ticket.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 import 'dart:ui' as ui;
 

@@ -8,7 +8,7 @@ import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/detail_event.dart';
+import 'package:wallet_apps/src/screen/home/events/detail_event.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class TicketOptions extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 
 class FullScreenImageViewer extends StatelessWidget {
+  
   const FullScreenImageViewer(this.url,{Key? key}) : super(key: key);
   final String url;
   @override
