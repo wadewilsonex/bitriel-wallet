@@ -72,13 +72,14 @@ class EventCardComponents extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                                 child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+                                  filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
                                   child: Container(
                                   // margin: const EdgeInsets.only(left: 10, bottom: 10),
                                   // alignment: Alignment.bottomLeft,
                                   decoration: BoxDecoration(
                                     // color: hexaCodeToColor("#413B3B").withOpacity(0.7),
-                                    borderRadius: BorderRadius.circular(10)
+                                    borderRadius: BorderRadius.circular(10),
+                                    // border: Border.all(color: hexaCodeToColor("#383838"))
                                   ),
                                   // width: MediaQuery.of(context).size.width - 60,
                                   height: 8.h,
@@ -134,32 +135,6 @@ class EventCardComponents extends StatelessWidget {
               ),
             )
     
-            // Row(
-            //   children: [
-    
-            //     ListView.builder(
-            //       scrollDirection: Axis.horizontal,
-            //       physics: const BouncingScrollPhysics(),
-            //       shrinkWrap: true,
-            //       itemCount: upcomingEvents.length,
-            //       itemBuilder: (context, index) {
-            
-            //         final event = upcomingEvents[index];
-                    
-            //         return Container(
-            //           decoration: BoxDecoration(
-    
-            //             color: Colors.red,
-            //           ),
-            //           margin: const EdgeInsets.all(paddingSize),
-            //           width: MediaQuery.of(context).size.width - 20,
-            //           height: 200,
-            //           child: Text("hello"),
-            //         );
-            //       },
-            //     ),
-            //   ],
-            // ),
           ),
         ],
       ),
