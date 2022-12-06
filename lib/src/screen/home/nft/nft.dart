@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/components/tab_c.dart';
 import 'package:wallet_apps/src/screen/home/nft/doers/all_tab.dart';
 import 'package:wallet_apps/src/screen/home/nft/doers/gift_tab.dart';
@@ -26,74 +27,64 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
     return DefaultTabController(
       length: 3,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
 
-          // Align(
-          //   alignment: Alignment.centerLeft,
-          //   child: Container(
-          //     color: Colors.black.withOpacity(0.2),
-          //     // height: 30,
-          //     // width: 230,
-          //     margin: const EdgeInsets.only(left: 20),
-          //     child: TabBar(
-          //       labelColor: Colors.green,
-          //       unselectedLabelColor: Colors.amber,
-          //       indicatorColor: Colors.green,
-          //       indicator: BoxDecoration(
-          //         borderRadius: BorderRadius.only(
-          //           topRight: Radius.zero
-          //         )
-          //       ),
-          //       tabs: [
-          
-                  
-
-          //         // Tab(
-          //         //   text: "ALL",
-          //         //   icon: Icon(Icons.abc),
-          //         // ),
-          
-          //         // Tab(
-          //         //   text: "NFT",
-          //         // ),
-          
-          //         // Tab(
-          //         //   text: "TICKET",
-          //         // )
-          //       ],
-          //     ),
-          //   ),
-          // ),
-
-          Container(
-            margin: EdgeInsets.only(top: 30, left: 30),
-            child: Row(
-              children: [
-
-                TabItemComponent(
-                  label: "ALL", 
-                  active: active, 
-                  index: 0, 
-                  onTap: (){}
+          SizedBox(
+            width: 60.w,
+            child: TabBar(
+              labelColor: hexaCodeToColor(AppColors.primaryColor),
+              unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+              indicator: CircleTabIndicator(color: hexaCodeToColor(AppColors.primaryColor), radius: 3),
+              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Barlow'),
+              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Barlow'),
+              tabs: const [
+                Tab(
+                  text: "ALL",
                 ),
-
-                TabItemComponent(
-                  label: "NFT", 
-                  active: active, 
-                  index: 1, 
-                  onTap: (){}
+            
+                Tab(
+                  text: "NFT",
                 ),
-
-                TabItemComponent(
-                  label: "GIFT", 
-                  active: active, 
-                  index: 2, 
-                  onTap: (){}
+            
+                Tab(
+                  text: "TICKET",
                 )
-                
               ],
             ),
           ),
+
+          // Container(
+          //   margin: EdgeInsets.only(top: 30, left: 30),
+          //   child: Row(
+          //     children: [
+
+          //       TabItemComponent(
+          //         label: "ALL", 
+          //         active: active, 
+          //         index: 0, 
+          //         onTap: (){}
+          //       ),
+
+          //       TabItemComponent(
+          //         label: "NFT", 
+          //         active: active, 
+          //         index: 1, 
+          //         onTap: (){}
+          //       ),
+
+          //       TabItemComponent(
+          //         label: "GIFT", 
+          //         active: active, 
+          //         index: 2, 
+          //         onTap: (){}
+          //       )
+                
+          //     ],
+          //   ),
+          // ),
 
           const Expanded(
             child: TabBarView(

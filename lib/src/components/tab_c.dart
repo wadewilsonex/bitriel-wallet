@@ -28,12 +28,10 @@ class TabItemComponent extends StatelessWidget{
             ),
     
             active != index ? Container() : Container(
-              height: 5, width: 5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: hexaCodeToColor(AppColors.primaryColor)
-              ),
-            )
+              decoration: BoxDecoration(shape: BoxShape.circle, color: hexaCodeToColor(AppColors.primaryColor)),
+              width: 5,
+              height: 5,
+            ) 
           ],
         ),
       ),
