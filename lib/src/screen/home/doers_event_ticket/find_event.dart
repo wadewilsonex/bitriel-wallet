@@ -2,12 +2,16 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/components/cards/event_card_c.dart';
 import 'package:wallet_apps/src/constants/color.dart';
 import 'package:wallet_apps/src/constants/textstyle.dart';
 import 'package:wallet_apps/src/constants/ui_helper.dart';
@@ -34,6 +38,100 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   late AnimationController controller;
   late AnimationController opacityController;
   late Animation<double> opacity;
+
+  List<Map<String, dynamic>>? events = [];
+  List<String>? images = [];
+
+  String? _ipfsAPI;
+
+  /// Connect Contract
+  /// 
+  /// And Query Amount's Ticket
+  void ticketInitializer() async {
+    
+    Provider.of<MDWProvider>(context, listen: false).init();
+    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
+    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
+  }
+
+  void fetchEvent() async {
+
+    await getAllEvent().then((value) async {
+      events = List<Map<String, dynamic>>.from((await json.decode(value.body))['events']);
+      print("Event ${events}");
+
+    });
+
+    setState((){
+      _ipfsAPI = dotenv.get('IPFS_API');
+    });
+    
+  }
+
+  @override
+  void initState() {
+    // Init Member
+    scrollController = ScrollController();
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
+    opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
+    opacity = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+      curve: Curves.linear,
+      parent: opacityController,
+    ));
+    scrollController.addListener(() {
+      opacityController.value = offsetToOpacity(
+          currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
+    });
+
+    fetchEvent();
+
+    // ticketInitializer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    scrollController.dispose();
+    opacityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return EventCardComponents(
+            ipfsAPI: _ipfsAPI,
+            title: "Meta Doers World", 
+            eventDate: "10 - 21 august, 2022", 
+            eventName: "NIGHT MUSIC FESTIVAL",
+            listEvent: events,
+            onPressed: (){
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => const DetailsNFT())
+              );
+            }
+          );
+        }
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: hexaCodeToColor(AppColors.secondary),
+      //   onPressed: (){
+      //     _showPasses(context);
+      //   },
+      //   child: const Icon( Iconsax.ticket ),
+      // ),
+
+    );
+  }
+
+  
 
   void viewEventDetail(Event event) {
     Navigator.push(context, Transition(child: DetailsNFT(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
@@ -618,218 +716,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           ),
         );
       }
-    );
-  }
-
-
-  /// Connect Contract
-  /// 
-  /// And Query Amount's Ticket
-  void ticketInitializer() async {
-    
-    Provider.of<MDWProvider>(context, listen: false).init();
-    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
-    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
-  }
-
-  @override
-  void initState() {
-    
-    // Init Member
-    scrollController = ScrollController();
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..forward();
-    opacityController = AnimationController(vsync: this, duration: const Duration(microseconds: 1));
-    opacity = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
-      curve: Curves.linear,
-      parent: opacityController,
-    ));
-    scrollController.addListener(() {
-      opacityController.value = offsetToOpacity(
-          currentOffset: scrollController.offset, maxOffset: scrollController.position.maxScrollExtent / 2);
-    });
-
-    // ticketInitializer();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    scrollController.dispose();
-    opacityController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xff7c94b6),
-            image: DecorationImage(
-              colorFilter: ColorFilter.mode(Colors.purple.withOpacity(1.0), BlendMode.softLight),
-              image: const AssetImage("assets/appbar_bg.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        title: Image.asset(
-          "assets/appbar_event.png",
-          fit: BoxFit.contain,
-          height: 40,
-        ),
-        actions: [
-          Align(
-            widthFactor: 1.75,
-            child: IconButton(
-              onPressed: () {
-                qrProfileDialog(context);
-              },
-              icon: Icon(Iconsax.scanning, color: Colors.white, size: 7.w),
-            ),
-          ),
-        ],
-      ),
-      body: AnimatedBackground(
-        behaviour: RacingLinesBehaviour(),
-        vsync: this,
-        child: SingleChildScrollView(
-          controller: scrollController,
-          physics: const BouncingScrollPhysics(),
-          child: eventNow(context),
-        )
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: hexaCodeToColor(AppColors.secondary),
-        onPressed: (){
-          _showPasses(context);
-        },
-        child: const Icon( Iconsax.ticket ),
-      ),
-
-    );
-  }
-
-  Widget eventNow(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: upcomingEvents.length,
-          itemBuilder: (context, index) {
-            final event = upcomingEvents[index];
-            return Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        viewEventDetail(event);
-                      },
-                      child: ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                          child: CouponCard(
-                            height: 200,
-                            curvePosition: 100,
-                            curveRadius: 20,
-                            borderRadius: 10,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withOpacity(0.25),
-                                  Colors.white.withOpacity(0.25),
-                                ],
-                                begin: AlignmentDirectional.topStart,
-                                end: AlignmentDirectional.bottomEnd,
-                              ),
-                            ),
-                            firstChild: event.image.contains("https") ? Image.network(event.image, fit: BoxFit.fill,) : Image.asset(event.image, fit: BoxFit.fill,),
-                            secondChild: Padding(
-                              padding: const EdgeInsets.all(paddingSize),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: primaryLight,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(DateTimeUtils.getMonth(event.eventDate), style: monthStyle),
-                                        Text(DateTimeUtils.getDayOfMonth(event.eventDate), style: titleStyle),
-                                      ],
-                                    ),
-                                  ),
-                                            
-                                  UIHelper.horizontalSpace(16),
-                                  
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      MyText(
-                                        text: event.name,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 17,
-                                      ),
-                                            
-                                
-                                      MyText(
-                                        text: event.organizer,
-                                        fontSize: 14,
-                                      ),
-                                    ],
-                                  ),
-                                            
-                                  const Spacer(),
-                                            
-                                  SizedBox(
-                                    // width: double.maxFinite,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(60),
-                                          ),
-                                        ),
-                                        backgroundColor: MaterialStateProperty.all<Color>(
-                                          hexaCodeToColor(AppColors.orangeColor)
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        viewEventDetail(event);
-                                      },
-                                      child: const MyText(
-                                        text: 'JOIN THE\nEVENT',
-                                        fontWeight: FontWeight.bold,
-                                        hexaColor: AppColors.whiteColorHexa,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }

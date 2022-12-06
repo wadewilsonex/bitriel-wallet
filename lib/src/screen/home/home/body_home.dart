@@ -21,7 +21,7 @@ import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
 import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
-import 'package:wallet_apps/src/screen/home/nft/doers_nft/doers_nft.dart';
+import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
@@ -62,132 +62,15 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 ?
-      null
-      :
-      AppBar(
-        // iconTheme: IconThemeData(
-        //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        // ),
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: hexaCodeToColor("#E6E6E6")),
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
-              ),
-            ),
-          ),
-        ),
-        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-        elevation: 0,
-        leadingWidth: 15.w,
-        leading: IconButton(
-          onPressed: () {
-            homePageModel!.globalKey!.currentState!.openDrawer();
-          },
-          icon: Icon(
-            Iconsax.profile_circle, 
-            color: isDarkMode 
-              ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-            size: 6.w,
-          ),
-        ),
-        
-        centerTitle: true,
-        
-        title: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-
-            return Consumer<ApiProvider>(
-            
-              builder: (context, provider, child) {
-                return GestureDetector(
-                  onTap: () async {
-                    await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      
-                      WidgetShimmer(
-                        txt: provider.accountM.address, 
-                        child: MyText(
-                          text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
-                          textAlign: TextAlign.center
-                        ),
-                      ),
-                
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
-                
-                            Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
-                          )
-                        ],
-                      ),
-                        
-                    ],
-                  )
-                );
-              }
-            );
-
-          },
-        ),
-        actions: <Widget>[
-          // IconButton(
-          //   icon: Align(
-          //     alignment: Alignment.centerRight,
-          //     child: Icon(
-          //       Iconsax.chart_3,
-          //       color: isDarkMode 
-          //         ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-          //         : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-          //       size: 6.w,
-          //     ),
-          //   ),
-          //   onPressed: () async {
-          //     portfolioDailog(context: context);
-          //   },
-          // ),
-          
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
-            child: IconButton(
-              icon: Align(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Iconsax.scan,
-                  color: isDarkMode 
-                    ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-                  size: 6.w,
-                ),
-              ),
-              onPressed: () async {
-                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                // if (value != null){
-                //   getReward!(value);
-                // }
-                
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                  pushReplacement!,
-                );
-              },
-            ),
-          )
-        ],
+      appBar: 
+      // homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 
+      // ? null
+      // : 
+      defaultAppBar(
+        context: context,
+        homePageModel: homePageModel,
+        pushReplacement: pushReplacement,
+        initSLDNetwork: initSLDNetwork
       ),
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
@@ -205,6 +88,7 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
 
                 ShowCaseWidget(
@@ -280,7 +164,7 @@ class HomePageBody extends StatelessWidget {
           const FindEvent(),
 
           // const SettingPage(), Fifth tab
-          const DoersNFT(),
+          const NFT(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(

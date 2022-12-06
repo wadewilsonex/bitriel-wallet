@@ -10,6 +10,7 @@ class DetailsNFTBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -20,10 +21,12 @@ class DetailsNFTBody extends StatelessWidget {
             fit: StackFit.expand,
             clipBehavior: Clip.none,
             children: [
+
               Align(
                 alignment: Alignment.topCenter,
                 child: Stack(
                   children: [
+
                     Image.network("https://source.unsplash.com/800x600/?music"),
 
                     // Stack Button Back

@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/backend.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {
@@ -100,17 +101,18 @@ class PostRequest {
     );
   }
 
-  /// Http Header
-  Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
-    return key != null 
-    ? { /* if Parameter != Null = Concete Header With  */
-      "Content-Type": "application/json; charset=utf-8", 
-      'accept': 'application/json',
-      key: value!
-    }
-    : { /* if Parameter Null = Don't integrate */
-      "Content-Type": "application/json; charset=utf-8",
-      'accept': 'application/json'
-    };
+  /* MetaDoers World */
+
+  Future<http.Response> getTicketsByEventId(String id) async {
+    print("getAllEvent ${dotenv.get('DOERS_API')}");
+    body = json.encode({
+      "eventId": id
+    });
+
+    return await http.post(
+      Uri.parse("${dotenv.get('DOERS_API')}ticket-types"),
+      body: body,
+      headers: conceteHeader()
+    );
   }
 }
