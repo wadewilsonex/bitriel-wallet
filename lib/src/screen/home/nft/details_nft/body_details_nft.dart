@@ -22,101 +22,94 @@ class DetailsNFTBody extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
 
-              Align(
-                alignment: Alignment.topCenter,
-                child: Stack(
-                  children: [
+              Stack(
+                children: [
 
-                    Image.network("https://source.unsplash.com/800x600/?music"),
+                  Image.network("https://source.unsplash.com/800x600/?music"),
 
-                    // Stack Button Back
-                    Positioned(
-                      left: 25,
-                      top: 25,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.4),
-                              shape: BoxShape.circle
-                          ),
-                          child: Icon(Iconsax.arrow_left_2, color: hexaCodeToColor(AppColors.whiteColorHexa)),
-                        ),
-                      ),
-                    ),
-                
-                    // Stack Button Share
-                    Positioned(
-                      right: 25,
-                      top: 25,
-                      child: InkWell(
-                        onTap: () {
-                
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.4),
-                              shape: BoxShape.circle
-                          ),
-                          child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
-                        ),
-                      ),
-                    ),
-                    
-                    // Stack Text Button Full Screen Image
-                    Positioned(
+                  // Stack Button Back
+                  Positioned(
+                    left: 25,
+                    top: 25,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: Container(
-                        height:250,
-                        alignment: Alignment.center,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const FullScreenImageViewer('assets/ticket.png')),
-                            );
-                          },
-                          child: ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: paddingSize / 2, horizontal: paddingSize * 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(30)
-                                ),
-                                child: const MyText(
-                                  text: "Full Screen",
-                                  fontWeight: FontWeight.w600,
-                                  textAlign: TextAlign.center,
-                                  hexaColor: "#CFCFCF",
-                                  fontSize: 17,
-                                )
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            shape: BoxShape.circle
+                        ),
+                        child: Icon(Iconsax.arrow_left_2, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                      ),
+                    ),
+                  ),
+              
+                  // Stack Button Share
+                  Positioned(
+                    right: 25,
+                    top: 25,
+                    child: InkWell(
+                      onTap: () {
+              
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            shape: BoxShape.circle
+                        ),
+                        child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
+                      ),
+                    ),
+                  ),
+                  
+                  // Stack Text Button Full Screen Image
+                  Positioned(
+                    child: Container(
+                      height:250,
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const FullScreenImageViewer('assets/ticket.png')),
+                          );
+                        },
+                        child: ClipRRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: paddingSize / 2, horizontal: paddingSize * 2),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(30)
                               ),
+                              child: const MyText(
+                                text: "Full Screen",
+                                fontWeight: FontWeight.w600,
+                                textAlign: TextAlign.center,
+                                hexaColor: "#CFCFCF",
+                                fontSize: 17,
+                              )
                             ),
                           ),
-                        )
-                      ),
+                        ),
+                      )
                     ),
+                  ),
 
-                  ],
-                )
+                ],
               ),
 
 
               // Stack Ticketing Details 
-              _detailDebitTrxWidget(context),
-              // Positioned(
-              //   top: 180,
-              //   child: SizedBox(
-              //     height: 600,
-              //     width: double.infinity,
-              //     child: _detailDebitTrxWidget(context),
-              //   ),
-              // ),
+              // Flexible(flex: 5, child: _detailDebitTrxWidget(context)),
+              Align(
+                alignment: AlignmentDirectional.bottomCenter,
+                child: _detailDebitTrxWidget(context),
+              ),
             ],
           ),
         ),
@@ -138,6 +131,7 @@ class DetailsNFTBody extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
@@ -325,7 +319,7 @@ class DetailsNFTBody extends StatelessWidget {
               ),
 
 
-              Spacer(),
+              // Spacer(),
             ],
           ),
         ),
