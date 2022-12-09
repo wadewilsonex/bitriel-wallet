@@ -16,7 +16,7 @@ PreferredSizeWidget defaultAppBar({
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        margin: const EdgeInsets.all(10),
         // padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),

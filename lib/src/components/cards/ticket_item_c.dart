@@ -7,7 +7,7 @@ class TicketItemComponent extends StatelessWidget{
   final Widget? child;
   final String? valueColor;
   final double? valueFontSize;
-  final Function()? onTap;
+  final Function? onTap;
 
   TicketItemComponent({ 
     required this.label, 
@@ -21,7 +21,9 @@ class TicketItemComponent extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return InkWell(
-      onTap: onTap,
+      onTap: (){
+        onTap!();
+      },
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(

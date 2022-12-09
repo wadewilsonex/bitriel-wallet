@@ -27,7 +27,7 @@ export 'package:responsive_sizer/responsive_sizer.dart';
 
 //Component
 export 'package:wallet_apps/src/components/animation.dart';
-export 'package:wallet_apps/src/components/bottom_sheet.dart';
+export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';

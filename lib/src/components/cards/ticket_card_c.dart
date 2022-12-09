@@ -3,27 +3,56 @@ import 'dart:ui';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/components/dialog/datetime_picker_c.dart';
+import 'package:wallet_apps/src/components/radio/radio_session_c.dart';
+import 'package:wallet_apps/src/models/ticket_m.dart';
+
+import '../bottom_sheet/datetime_ticket_c.dart';
 
 class TicketCardComponent extends StatelessWidget{
 
+  final DataSubmittion? dataSubmittion;
+  final int? ticketTypeIndex;
+  final TicketModel? ticketModel;
   final Map<String, dynamic>? ticketObj;
   final String? imageUrl;
   final double? mgLeft;
   final double? mgRight;
-  // final Function? 
+  /// Length Of List TicketTypes
+  final int? lstLenght;
+  final Function(bool, int)? onTabShow;
+  final Function(String type, dynamic value)? onValueChange;
+  final Function? onChangeSession;
+  final Function? onChangeQty;
 
-  TicketCardComponent({required this.ticketObj, this.imageUrl, this.mgLeft = 0, this.mgRight = 0, });
+  TicketCardComponent({
+    required this.dataSubmittion,
+    required this.ticketTypeIndex,
+    required this.ticketObj, 
+    required this.ticketModel, 
+    this.imageUrl, 
+    this.mgLeft = 0, 
+    this.mgRight = 0, 
+    this.lstLenght, 
+    required this.onTabShow,
+    required this.onValueChange, 
+    required this.onChangeSession,
+    required this.onChangeQty
+  });
 
   @override
   Widget build(BuildContext context){
-
+    print("dataSubmittion!.from!.isNotEmpty && dataSubmittion!.to!.isNotEmpty ${dataSubmittion!.from!.isNotEmpty && dataSubmittion!.to!.isNotEmpty}");
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           
           Container(
-            padding: EdgeInsets.only(bottom: 20),
-            width: MediaQuery.of(context).size.width - 60,
+            padding: const EdgeInsets.only(bottom: 20),
+            /// If listLength > 1 Card Size Should Minus More 20 To Show A Little Side Of Other
+            /// 
+            /// Else If TicketType Have Only One Card Size Should Full Width Of The Screen
+            width: MediaQuery.of(context).size.width - (lstLenght! > 1 ? 60 : 40),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16)
@@ -80,50 +109,110 @@ class TicketCardComponent extends StatelessWidget{
                 Row(
                   children: [
                     Expanded(
-                      child: TicketItemComponent(label: "Start Date", value: ticketObj!['startDate'].toString()),
+                      child: TicketItemComponent(label: "Start Date", value: AppUtils.timeZoneToDateTime(ticketObj!['startDate'])),
                     ),
                     Expanded(
-                      child: TicketItemComponent(label: "End Date", value: ticketObj!['endDate'].toString()),
+                      child: TicketItemComponent(label: "End Date", value: AppUtils.timeZoneToDateTime(ticketObj!['endDate'])),
                     ),
                   ],
                 ),
                 TicketItemComponent(label: "Status", value: ticketObj!['status'].toString()),
-            
+
+                /// 1
                 TicketItemComponent(
                   label: "Select Joining Date",
                   onTap: () async {
                     print("dateTimePicker");
-                    await dateTimePicker(
-                      context: context
-                    ).then((value) {
-                      print("Result ${value}");
-                      if (value != null){
+                    await dateTimeTicket(context: context, data: ticketModel!.lstMontYear!, tkTypeIndex: ticketTypeIndex ).then((value) {
+                      // if (value != null){
+                      //   print("Value $value");
+                      // }
 
+                      if (value != null){
+                        /// Return Data: {'date': data[index]['value'][i], 'index': i}
+                        onValueChange!('join_date', value);
                       }
                     });
+                    // await dateTimePicker(
+                    //   context: context,
+                    //   ticketObj: ticketModel!.lstSession![ticketTypeIndex!]
+                    // ).then((value) {
+                    //   print("Result ${value}");
+                    // });
                   },
                   child: Row(
                     children: [
             
-                      Icon(Icons.date_range),
+                      Icon(Icons.date_range), 
+                      ticketModel!.lsTicketTypes![ticketTypeIndex!].isDate! ? MyText(
+                        left: 10,
+                        text: AppUtils.stringDateToDateTime(ticketModel!.lsTicketTypes![ticketTypeIndex!].selectDate!),
+                        fontWeight: FontWeight.w600,
+                      ) : Container(),
                       Expanded(child: Container()),
                       Icon(Icons.arrow_forward_ios_outlined)
                     ],
                   )
                 ),
     
-                TicketItemComponent(
-                  label: "Session", 
+                /// 2
+                ticketModel!.lsTicketTypes![ticketTypeIndex!].isDate! ? TicketItemComponent(
+                  label: "Session",
+                  onTap: (){
+                    onTabShow!(!(ticketModel!.lstMontYear![ticketTypeIndex!].isShow!), ticketTypeIndex!);
+                  },
                   child: Row(
                     children: [
             
                       Icon(Iconsax.clock),
                       Expanded(child: Container()),
-                      Icon(Icons.arrow_forward_ios_outlined)
+                      Icon(!(ticketModel!.lstMontYear![ticketTypeIndex!].isShow!) ? Icons.arrow_forward_ios_outlined : Icons.keyboard_arrow_down_sharp)
+                      
                     ],
                   )
-                ),
+                ) : Container(),
+
+                /// 2.1 Sessioin Drop Down
+                /// 
+                /// List Sessions
+                if (ticketModel!.lstMontYear![ticketTypeIndex!].isShow!)
+                  Container(
+                    margin: EdgeInsets.only(left: 45, right: 45),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions!.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            
+                            RadioComponent(
+                              data: {
+                                "from": ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions![index].from,
+                                "to": ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions![index].to,
+                              },
+                              groupValue: ticketModel!.lstMontYear![ticketTypeIndex!].initSession,
+                              value: index+1,
+                              label: 'session', 
+                              /// 1. [ticketTypeIndex] : [ {key: December-2022, value: [{date: 2022-12-13.... ]
+                              /// 2. [value] 
+                              title: """${ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions![index].from} - ${ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions![index].to}""", 
+                              onChangeSession: onChangeSession,
+                              index: ticketTypeIndex,
+                            ),
+
+                            if(index != ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions!.length-1) Divider(
+                              height: 1,
+                              thickness: 1,
+                            ),
+                            
+                          ],
+                        );
+                      }
+                    ),
+                  ),
                 
+                if ( dataSubmittion!.from!.isNotEmpty && dataSubmittion!.to!.isNotEmpty )
                 TicketItemComponent(
                   label: "Ticket Amount", 
                   child: Row(
@@ -131,10 +220,35 @@ class TicketCardComponent extends StatelessWidget{
             
                       Icon(Icons.airplane_ticket),
                       Expanded(child: Container()),
-                      Icon(Icons.arrow_forward_ios_outlined)
+
+                      Row(
+                        children: [
+
+                          IconButton(
+                            onPressed: (){
+                              onChangeQty!(-1);
+                            }, 
+                            icon: Icon(Icons.add)
+                          ),
+
+                          MyText(
+                            text: dataSubmittion!.item!.qty.toString(),
+                            fontSize: 18,
+                          ),
+
+                          IconButton(
+                            onPressed: (){
+
+                              onChangeQty!(1);
+                            }, 
+                            icon: Icon(Icons.add)
+                          )
+                        ],
+                      )
                     ],
                   )
-                ),
+                ) 
+                else Container(),
 
                 Container(
                   margin: EdgeInsets.only(left: 20, right: 20, top: 30),
@@ -144,10 +258,12 @@ class TicketCardComponent extends StatelessWidget{
                         borderRadius: BorderRadius.circular(10.0),
                       )),
                       padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
-                      backgroundColor: MaterialStatePropertyAll(hexaCodeToColor(AppColors.primaryColor))
+                      backgroundColor: MaterialStatePropertyAll(hexaCodeToColor( dataSubmittion!.item!.qty != 0 ? AppColors.primaryColor : AppColors.greyCode))
                     ),
-                    onPressed: (){
-                
+                    onPressed: dataSubmittion!.item!.qty == 0 ? null : (){
+                      // Navigator.push(
+                      //   context, route
+                      //   )
                     }, 
                     child: MyText(
                       width: MediaQuery.of(context).size.width,

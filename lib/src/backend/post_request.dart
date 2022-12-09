@@ -89,6 +89,7 @@ class PostRequest {
     });
     print("body $body");
     print("body.runtimeType ${body.runtimeType}");
+    
     // ({
     //   "phoneNumber": phoneNumber,
     //   "opt" : opt
@@ -104,7 +105,6 @@ class PostRequest {
   /* MetaDoers World */
 
   Future<http.Response> getTicketsByEventId(String id) async {
-    print("getAllEvent ${dotenv.get('DOERS_API')}");
     body = json.encode({
       "eventId": id
     });
@@ -115,4 +115,34 @@ class PostRequest {
       headers: conceteHeader()
     );
   }
+
+  Future<http.Response> getTicketTypeGroupedByDate(String tkTypeId, String evntId) async {
+    print("tkTypeId $tkTypeId");
+    print("evntId $evntId");
+    body = json.encode({
+      "ticketTypeId": tkTypeId,
+      "eventId": evntId
+    });
+
+    return await http.post(
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type-grouped-by-date"),
+      body: body,
+      headers: conceteHeader()
+    );
+  }
+
+  // Future<http.Response> getSessionsByDate(String date, ) async {
+  //   print("getSessionsByEventId ${dotenv.get('DOERS_API')}");
+  //   body = json.encode({
+  //     "eventId": "637ff66d4903dd71e36fd4cd",
+  //     "date": date
+  //   });
+
+  //   return await http.post(
+  //     Uri.parse("${dotenv.get('DOERS_API')}sessions/by-date"),
+  //     body: body,
+  //     headers: conceteHeader()
+  //   );
+  // }
 }

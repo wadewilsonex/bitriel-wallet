@@ -35,7 +35,7 @@ class AssetsPageBody extends StatelessWidget {
           color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           child: Column(
             // mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
               _userWallet(context),
@@ -307,7 +307,6 @@ class AssetsPageBody extends StatelessWidget {
               onTap: onTapCategories!,
             ),
 
-            // SizedBox(width: 2.5.w),
           ],
         );
       }
