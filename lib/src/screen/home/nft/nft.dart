@@ -1,9 +1,9 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/components/tab_c.dart';
-import 'package:wallet_apps/src/screen/home/nft/doers/all_tab.dart';
-import 'package:wallet_apps/src/screen/home/nft/doers/gift_tab.dart';
-import 'package:wallet_apps/src/screen/home/nft/doers/nft_tab.dart';
+import 'package:wallet_apps/src/screen/home/nft/tab/all_tab.dart';
+import 'package:wallet_apps/src/screen/home/nft/tab/gift_tab.dart';
+import 'package:wallet_apps/src/screen/home/nft/tab/nft_tab.dart';
 
 class NFT extends StatefulWidget {
   const NFT({Key? key}) : super(key: key);
