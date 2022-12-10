@@ -1,13 +1,10 @@
 
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/ticket_m.dart';
+import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/src/provider/ticket_p.dart';
 
-Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data, required int? tkTypeIndex}){
-  print("data.length, ${data!.length}");
-  print("data ${data[tkTypeIndex!].lstSessionsByMonth!}}");
-  data[tkTypeIndex].lstSessionsByMonth!.forEach(((element) {
-    print(element.mmYY);
-  }));
+Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data}){
+  
   return showModalBottomSheet(
     context: context!,
     isScrollControlled: true,
@@ -23,14 +20,14 @@ Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data, require
                 : hexaCodeToColor(AppColors.lowWhite),
             ),
             child: ListView.builder(
-              itemCount: data[tkTypeIndex].lstSessionsByMonth!.length,
+              itemCount: data!.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
                 return ExpansionTile(
                   /// Month - Year
                   title: MyText(
-                    text: data[tkTypeIndex].lstSessionsByMonth![index].mmYY,
+                    text: data[index].session!.mmYY,
                   ),
                   iconColor: Colors.black,
                   collapsedIconColor: Colors.black,
@@ -58,26 +55,24 @@ Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data, require
                       height: 150,
                       child: SingleChildScrollView(
                       child: Column(
-                          children: [
+                        children: [
                             
-                            for(int i = 0; i < data[tkTypeIndex].lstSessionsByMonth![index].lstDateAndSessions!.length; i++)
+                          for(int i = 0; i < data[index].session!.lstDateAndSessions!.length; i++)
                             ListTile(
                               onTap: (){
+
+                                /// Assign Index To Month - Year
+                                /// 
+                                // Provider.of<TicketProvider>(context, listen: false).indexMonthYear = i;
+
+                                /// Return Index Of Month - Year In List
                                 Navigator.pop(
                                   context, 
-                                  {
-                                    'date': data[tkTypeIndex].lstSessionsByMonth![index].lstDateAndSessions![i].date, 
-                                    /// Index of TicketType
-                                    '1_tkType_index': tkTypeIndex,
-                                    /// Index Of Date - Year 
-                                    '2_ddyy_index': index,
-                                    /// Session Index
-                                    '3_date_index': i,
-                                  }
+                                  i
                                 );
                               },
                               title: MyText(
-                                text: AppUtils.stringDateToDateTime(data[tkTypeIndex].lstSessionsByMonth![index].lstDateAndSessions![i].date!),
+                                text: AppUtils.stringDateToDateTime(data[index].session!.lstDateAndSessions![i].date!),
                               ),
                             )
                           ],

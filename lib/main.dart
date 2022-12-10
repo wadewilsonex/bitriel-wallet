@@ -13,6 +13,7 @@ import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wallet_apps/src/provider/ticket_p.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -128,6 +129,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<GoogleAuthService>(
           create: (context) => GoogleAuthService(),
+        ),
+        ChangeNotifierProvider<TicketProvider>(
+          create: (context) => TicketProvider(),
         ),
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),

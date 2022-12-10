@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticking.dart';
+import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
 
 class EventCardComponents extends StatelessWidget {
 
@@ -53,10 +54,12 @@ class EventCardComponents extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: (){
+
+                    Provider.of<TicketProvider>(context, listen: false).eventName = listEvent![i]['name']!;
                     
                     Navigator.push(
                       context, 
-                      Transition(child: ListTicket(eventName: listEvent![i]['name']!, eventId: listEvent![i]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: ListTicketType(eventName: listEvent![i]['name']!, eventId: listEvent![i]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
                   child: ClipRRect(

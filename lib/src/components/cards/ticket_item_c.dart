@@ -4,6 +4,7 @@ class TicketItemComponent extends StatelessWidget{
 
   final String? label;
   final String? value;
+  final Widget? icon;
   final Widget? child;
   final String? valueColor;
   final double? valueFontSize;
@@ -12,6 +13,7 @@ class TicketItemComponent extends StatelessWidget{
   TicketItemComponent({ 
     required this.label, 
     this.value,
+    this.icon,
     this.child,
     this.valueColor = "#49595F",
     this.valueFontSize = 16,
@@ -22,7 +24,8 @@ class TicketItemComponent extends StatelessWidget{
   Widget build(BuildContext context){
     return InkWell(
       onTap: (){
-        onTap!();
+        
+        if (onTap != null) onTap!();
       },
       child: Align(
         alignment: Alignment.centerLeft,
@@ -41,12 +44,20 @@ class TicketItemComponent extends StatelessWidget{
                 hexaColor: "#BCBCBC",
               ),
             
-              child ?? MyText(
-                textAlign: TextAlign.start,
-                text: value ?? '',
-                hexaColor: valueColor,
-                fontSize: valueFontSize,
-                fontWeight: FontWeight.w600,
+              child ?? Row(
+                children: [
+                  
+                  icon != null ? Container(child: icon!, margin: EdgeInsets.only(right: 10),) : Container(), 
+                  Flexible(
+                    child: MyText(
+                      textAlign: TextAlign.start,
+                      text: value ?? '',
+                      hexaColor: valueColor,
+                      fontSize: valueFontSize,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                ],
               ),
             ],
           ),

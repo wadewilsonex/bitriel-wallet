@@ -438,7 +438,7 @@ Future dialogSuccess(BuildContext context, Widget text, Widget title,
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: text,
           ),
-          actions: <Widget>[action!],
+          actions: <Widget>[action ?? Container()],
         );
       });
   return result;
@@ -831,6 +831,7 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
       ),
       // version: QrVersions.auto,
       eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+      dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
       data: wallet,
     ),
   );
@@ -845,6 +846,7 @@ Widget qrCodeProfile(String wallet, String logoName, GlobalKey keyQrShare) {
       size: const Size(50, 50),
     ),
     eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+    dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
     // version: QrVersions.auto,
     data: wallet,
   );

@@ -11,7 +11,6 @@ class RadioComponent extends StatelessWidget {
   final dynamic title;
   final int? value;
   final Function? onChangeSession;
-  final int? index;
 
   RadioComponent({
     Key? key, 
@@ -21,8 +20,6 @@ class RadioComponent extends StatelessWidget {
     required this.title, 
     required this.value,
     required this.onChangeSession,
-    /// TicketType Index
-    required this.index
   }) : super(key: key);
 
   @override
@@ -36,8 +33,10 @@ class RadioComponent extends StatelessWidget {
           value: value!, 
           groupValue: groupValue, 
           onChanged: (value){
-            /// onValueChange!('session', value);
-            onChangeSession!(index, value, data);
+            /// Value Is Start From 0
+            /// 
+            /// Data = {'from': '', 'to': ''}
+            onChangeSession!(value, data);
           }
         ),
         

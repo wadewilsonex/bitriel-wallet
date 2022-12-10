@@ -20,7 +20,7 @@ import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/events/detail_event.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_nft/body_details_nft.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_nft/details_nft.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticking.dart';
+import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_nft/details_nft.dart';
 import 'package:wallet_apps/src/screen/home/events/ticket_options.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
@@ -107,12 +107,19 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         shrinkWrap: true,
         itemCount: 1,
         itemBuilder: (context, index) {
+          
           return EventCardComponents(
             ipfsAPI: _ipfsAPI,
             title: "Meta Doers World", 
             eventDate: "10 - 21 august, 2022", 
             eventName: "NIGHT MUSIC FESTIVAL",
             listEvent: events,
+            // onPressed: (){
+            //   Navigator.push(
+            //     context, 
+            //     Transition(child: ListTicket(eventName: events![index]['name']!, eventId: events![index]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            //   );
+            // }
           );
         }
       ),
