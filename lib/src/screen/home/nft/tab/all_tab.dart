@@ -17,8 +17,8 @@ class AllTab extends StatelessWidget {
         return Column(
           children: [
 
-            GiftCardComponent(giftName: 'Claim Free SEL Tokens', index: index, length: 20,),
-            NFTCardComponent(eventName: 'Night Music Festival', index: index, length: 20,),
+            TicketCardComponent(giftName: 'Claim Free SEL Tokens', index: index, length: 20,),
+            // NFTCardComponent(eventName: 'Night Music Festival', index: index, length: 20,),
           ],
         );
       }

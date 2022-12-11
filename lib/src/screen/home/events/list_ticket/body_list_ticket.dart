@@ -121,7 +121,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 Reservation(
                   dataSubmittion: DataSubmittion.assignAboveData(
                     ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name!,
-                    "${imgUrl}${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
+                    "$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
                     index!,
                     ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price!,
                   ),

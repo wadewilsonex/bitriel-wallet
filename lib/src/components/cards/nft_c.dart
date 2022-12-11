@@ -1,12 +1,15 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
 
 class NFTCardComponent extends StatelessWidget{
 
   final int? index;
   final int? length;
   final String? eventName;
+  final TicketNFTModel? ticketNFTModel;
 
-  NFTCardComponent({required this.eventName, required this.index, required this.length});
+  NFTCardComponent({required this.eventName, required this.index, required this.length, required this.ticketNFTModel});
 
   @override
   Widget build(BuildContext context){
@@ -24,7 +27,7 @@ class NFTCardComponent extends StatelessWidget{
         
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset("${AppConfig.assetsPath}event_thumbnail.png", fit: BoxFit.cover,)
+                child: Image.network("${dotenv.get('IPFS_API')}${ticketNFTModel!.ticketType!.image}", fit: BoxFit.cover,)
               ),
         
               Align(
@@ -89,13 +92,13 @@ class NFTCardComponent extends StatelessWidget{
   }
 }
 
-class GiftCardComponent extends StatelessWidget{
+class TicketCardComponent extends StatelessWidget{
 
   final int? index;
   final int? length;
   final String? giftName;
 
-  GiftCardComponent({ required this.giftName, required this.index, required this.length});
+  TicketCardComponent({ required this.giftName, required this.index, required this.length});
 
   Widget build(BuildContext context){
     return InkWell(

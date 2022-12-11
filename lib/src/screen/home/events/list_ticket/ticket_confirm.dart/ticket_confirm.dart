@@ -3,12 +3,16 @@ import 'dart:ui';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/appbar/event_c.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
+import 'package:wallet_apps/src/provider/payment_controller.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/screen/home/events/payment_option.dart';
 
 class TicketConfirmation extends StatelessWidget {
 
@@ -162,14 +166,26 @@ class TicketConfirmation extends StatelessWidget {
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: ElevatedButton(
               onPressed: () async {
+
+                // Navigator.push(
+                //   context, 
+                //   MaterialPageRoute(builder: (context) => PaymentOptions(qty: 1, price: 10,))
+                // );
                 
                 try {
+
+                  final PaymentController controller = Get.put(PaymentController());
+                  
                   await PostRequest().bookTicket(json.encode(DataSubmittion().toJson(dataSubmittion!))).then((value) async {
                     print(value.body);
 
                     Map<String, dynamic> jsn = Map<String, dynamic>.from((await json.decode(value.body)));
                     
-                    await dialogSuccess(context, MyText(text: jsn['token'],), MyText(text: "Booking Successfully",));
+                    // await dialogSuccess(context, MyText(text: jsn['token'],), MyText(text: "Booking Successfully",));
+                    
+                    await StorageServices.storeData(jsn['token'], DbKey.token);
+
+                    await controller.makePayment(context, jsn);
                   });
                 } catch (e){
                   print("Error e");
@@ -192,7 +208,7 @@ class TicketConfirmation extends StatelessWidget {
               ),
             )
             
-          ) 
+          ),
         ],
       ),
     );

@@ -142,6 +142,15 @@ class PostRequest {
     );
   }
 
+  Future<http.Response> getTickets(String tk) async {
+
+    return await http.get(
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}tickets"),
+      headers: conceteHeader(key: "Authorization", value: tk)
+    );
+  }
+
   // Future<http.Response> getSessionsByDate(String date, ) async {
   //   print("getSessionsByEventId ${dotenv.get('DOERS_API')}");
   //   body = json.encode({
