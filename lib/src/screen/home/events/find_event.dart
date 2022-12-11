@@ -18,10 +18,10 @@ import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/events/detail_event.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_nft/body_details_nft.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_nft/details_nft.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_nft/details_nft.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/events/ticket_options.dart';
 import 'package:wallet_apps/src/utils/date_utils.dart';
 
@@ -102,7 +102,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: events!.isNotEmpty ? ListView.builder(
         physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: 1,
@@ -122,7 +122,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             // }
           );
         }
-      ),
+      ) : loading(),
       // floatingActionButton: FloatingActionButton(
       //   backgroundColor: hexaCodeToColor(AppColors.secondary),
       //   onPressed: (){

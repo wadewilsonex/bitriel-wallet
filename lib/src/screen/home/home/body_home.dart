@@ -11,7 +11,7 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
-import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';

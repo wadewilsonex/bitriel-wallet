@@ -12,7 +12,11 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
 import 'package:wallet_apps/src/screen/home/events/payment_option.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+
+import 'package:transition/transition.dart';
 
 class TicketConfirmation extends StatelessWidget {
 
@@ -167,6 +171,13 @@ class TicketConfirmation extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () async {
 
+                showDialog(
+                  context: context, 
+                  builder: (context){
+                    return loading();
+                  }
+                );
+
                 // Navigator.push(
                 //   context, 
                 //   MaterialPageRoute(builder: (context) => PaymentOptions(qty: 1, price: 10,))
@@ -181,15 +192,20 @@ class TicketConfirmation extends StatelessWidget {
 
                     Map<String, dynamic> jsn = Map<String, dynamic>.from((await json.decode(value.body)));
                     
-                    // await dialogSuccess(context, MyText(text: jsn['token'],), MyText(text: "Booking Successfully",));
-                    
                     await StorageServices.storeData(jsn['token'], DbKey.token);
+                    print("Start payment");
+                    await controller.makePayment(context, {'clientSecret': 'pi_3MDhjfJSyRUhBrUu0q0StOWF_secret_wKWu1Vtd6yPS9aFFdL9defKas'});
 
-                    await controller.makePayment(context, jsn);
+
+                    Navigator.pushAndRemoveUntil(
+                      context, 
+                      MaterialPageRoute(builder: (context) => HomePage(activePage: 4,))
+                      ,(route) => false
+                    );
+                    print("finish payment");
                   });
                 } catch (e){
                   print("Error e");
-                  await dialogSuccess(context, MyText(text: "Fuckk !!! Error $e",), MyText(text: "Oops",));
                 }
               }, 
               child: MyText(

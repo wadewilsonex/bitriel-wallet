@@ -173,6 +173,7 @@ dependencies:
   showcaseview: ^2.0.0+1
   form_validation: ^2.1.0+22
   syncfusion_flutter_datepicker: ^20.3.60
+  flutter_multi_formatter: ^2.9.11
 
 dependency_overrides:
     # git:

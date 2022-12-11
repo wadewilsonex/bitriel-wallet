@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({

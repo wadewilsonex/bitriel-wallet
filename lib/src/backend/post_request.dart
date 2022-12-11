@@ -105,9 +105,16 @@ class PostRequest {
   /* MetaDoers World */
 
   Future<http.Response> getTicketsByEventId(String id) async {
+
     body = json.encode({
       "eventId": id
     });
+
+
+    // String js = await rootBundle.loadString('assets/json/list_year.json');
+    // print("js $js");
+    // // print((await json.decode(js)));
+    // return http.Response(js, 200);
 
     return await http.post(
       Uri.parse("${dotenv.get('DOERS_API')}ticket-types"),
@@ -124,6 +131,9 @@ class PostRequest {
       "eventId": evntId
     });
 
+    // String js = await rootBundle.loadString('assets/json/by-ticket-type-grouped-by-date.json');
+    // print(js);
+    // return http.Response(js, 200);
     return await http.post(
       // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
       Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type-grouped-by-date"),
@@ -139,15 +149,6 @@ class PostRequest {
       Uri.parse("${dotenv.get('DOERS_API')}payments/stripe/pay"),
       body: body,
       headers: conceteHeader()
-    );
-  }
-
-  Future<http.Response> getTickets(String tk) async {
-
-    return await http.get(
-      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
-      Uri.parse("${dotenv.get('DOERS_API')}tickets"),
-      headers: conceteHeader(key: "Authorization", value: tk)
     );
   }
 

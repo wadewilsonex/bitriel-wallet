@@ -2,6 +2,8 @@ import 'package:wallet_apps/index.dart';
 
 class DataSubmittion {
 
+  ScrollController scrollCon = ScrollController();
+
   String? ticketTypeImage;
   String? ticketTypeName;
   String? eventName;

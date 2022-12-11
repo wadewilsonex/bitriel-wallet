@@ -25,6 +25,8 @@ class _ListTicketTypeState extends State<ListTicketType> {
   String? imgUrl;
   
   TicketModel _tkModel = TicketModel();
+  
+  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -38,13 +40,14 @@ class _ListTicketTypeState extends State<ListTicketType> {
   }
 
   void queryTicket() async {
-
+    print("queryTicket");
     await PostRequest().getTicketsByEventId(widget.eventId!).then((value) async{
       
+      print("value ${value.body}");
       _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
 
       _tkModel.ticketTypesFromApi!.forEach( (element){
-
+        print(element);
         _tkModel.lsTicketTypes!.add(
           TicketTypes.fromApi(element)
         );
@@ -60,41 +63,30 @@ class _ListTicketTypeState extends State<ListTicketType> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: eventAppBar(context: context, title: widget.eventName!),
-      body: _tkModel.lsTicketTypes != null 
+      body: _tkModel.lsTicketTypes!.isNotEmpty
       ? ListView.builder(
-        controller: _tkModel.scrollController,
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemCount: _tkModel.lsTicketTypes!.length,
         itemBuilder: (context, index){
-          return ListTicketTypeBody(
-            lstLenght: _tkModel.lsTicketTypes!.length,
-            mgLeft: index == 0 ? 20 : 0,
-            mgRight: 20,
-            imgUrl: imgUrl,
-            ticketModel: _tkModel,
-            index: index,
+          return SingleChildScrollView(
+            controller: _controller,
+            physics: const BouncingScrollPhysics(),
+            child: ListTicketTypeBody(
+              lstLenght: _tkModel.lsTicketTypes!.length,
+              controller: _controller,
+              mgLeft: index == 0 ? 20 : 0,
+              mgRight: 20,
+              imgUrl: imgUrl,
+              ticketModel: _tkModel,
+              index: index,
+            ),
           );
-          // TicketCardComponent(
-          //   dataSubmittion: dataSubmition,
-          //   ticketTypeIndex: index,
-          //   ticketModel: _tkModel,
-          //   ticketObj: _tkModel.ticketTypesFromApi![index], 
-          //   imgUrl: imgUrl,
-          //   mgLeft: index == 0 ? 20 : 0,
-          //   mgRight: 20,
-          //   lstLenght: _tkModel.lsTicketTypes!.length,
-          //   onValueChange: onValueChange,
-          //   // onChangeSession: onChangeSession,
-          //   // onTabShow: onTabShow,
-          //   onChangeQty: onChangeQty
-          // );
+
         }
       ) 
-      : const Center(
-        child: CircularProgressIndicator(),
-      ),
+      : loading(),
 
     );
   }

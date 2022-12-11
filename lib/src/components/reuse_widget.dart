@@ -596,9 +596,9 @@ Future<void> blurBackgroundDecoration(BuildContext context, Widget screen) {
 Widget loading() {
   return Center(
     child: CircularProgressIndicator(
-        backgroundColor: Colors.transparent,
-        valueColor:
-            AlwaysStoppedAnimation(hexaCodeToColor(AppColors.lightBlueSky))),
+      backgroundColor: Colors.transparent,
+      valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.primaryColor))
+    ),
   );
 }
 

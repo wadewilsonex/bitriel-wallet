@@ -23,7 +23,7 @@ class PaymentController extends getx.GetxController {
             paymentSheetParameters: SetupPaymentSheetParameters(
             merchantDisplayName: 'Prospects',
             // customerId: paymentIntentData!['order']['userId'],
-            paymentIntentClientSecret: paymentIntentData!['clientSecret'],
+            paymentIntentClientSecret: paymentIntentData['clientSecret'],
             // customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
           )
         );
@@ -31,16 +31,16 @@ class PaymentController extends getx.GetxController {
         await Stripe.instance.presentPaymentSheet();
 
         // print("finish initPaymentSheet ");
-        await Stripe.instance.confirmPayment(
-          paymentIntentData['clientSecret'].toString(), 
-          const PaymentMethodParams.card(
-            paymentMethodData: PaymentMethodData(
-              billingDetails: BillingDetails( name: 'Jenny Rosen',),
-            ),
-          ),
-        ).then((value) {
-          print("confirmPayment $value");
-        });
+        // await Stripe.instance.confirmPayment(
+        //   paymentIntentData['clientSecret'].toString(), 
+        //   const PaymentMethodParams.card(
+        //     paymentMethodData: PaymentMethodData(
+        //       billingDetails: BillingDetails( name: 'Jenny Rosen',),
+        //     ),
+        //   ),
+        // ).then((value) {
+        //   print("confirmPayment $value");
+        // });
 
         // Stripe.instance.confirmPayment(
         //   paymentIntentClientSecret: paymentIntentData!['clientSecret'].toString(), 
@@ -52,7 +52,9 @@ class PaymentController extends getx.GetxController {
         // );
 
         /// 3
-        // displayPaymentSheet(context, qty, price, wallet );
+        // displayPaymentSheet(context, qty, price, wallet )
+        // ;
+
 
       }
     } catch (e, s) {
