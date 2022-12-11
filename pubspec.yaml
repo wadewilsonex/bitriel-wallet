@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 7.0.0+99
+version: 7.0.1+100
 
 #6 feature
 #8 debug
@@ -44,6 +44,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
 
   google_fonts: ^3.0.1
+
+  awesome_select: ^6.0.0
 
   # Icons
   iconsax: ^0.0.8
@@ -154,9 +156,6 @@ dependencies:
   wallet_connect: ^1.0.2
   eth_sig_util: ^0.0.9
   flutter_stripe: ^5.1.0
-  
-  # webview_flutter
-  flutter_inappwebview: ^5.4.3+7
 
   # Device Preview
   device_preview: ^1.1.0
@@ -171,15 +170,22 @@ dependencies:
   external_app_launcher: ^3.1.0
 
   dropdown_button2: ^1.7.2
+  showcaseview: ^2.0.0+1
+  form_validation: ^2.1.0+22
+  syncfusion_flutter_datepicker: ^20.3.60
 
 dependency_overrides:
     # git:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
 
-  polkawallet_sdk: 0.4.8
+  polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
+  # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
   permission_handler: ^9.2.0
   qr_code_scanner: ^1.0.0
+  
+  # webview_flutter
+  flutter_inappwebview: ^5.4.3+7
 
 dev_dependencies:
   flutter_lints: ^2.0.1
@@ -276,6 +282,18 @@ flutter:
         - asset: assets/fonts/prompt/Prompt-Thin.ttf
         - asset: assets/fonts/prompt/Prompt-ExtraBold.ttf
         - asset: assets/fonts/prompt/Prompt-ExtraLight.ttf
+
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow/Barlow-Black.ttf
+        - asset: assets/fonts/Barlow/Barlow-Bold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Regular.ttf
+        - asset: assets/fonts/Barlow/Barlow-Light.ttf
+        - asset: assets/fonts/Barlow/Barlow-Medium.ttf
+        - asset: assets/fonts/Barlow/Barlow-SemiBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-Thin.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraBold.ttf
+        - asset: assets/fonts/Barlow/Barlow-ExtraLight.ttf
 
   uses-material-design: true
   # fonts:
