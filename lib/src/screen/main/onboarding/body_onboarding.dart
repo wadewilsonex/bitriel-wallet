@@ -67,17 +67,13 @@ class OnboardignBody extends StatelessWidget {
             )
           ),
 
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          //   child: _setupMenu(context),
-          // ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
 
               GoogleAuthButton(
                 onPressed: () async {
+                  underContstuctionAnimationDailog(context: context);
                 },
                 style: const AuthButtonStyle(
                   buttonType: AuthButtonType.icon,
@@ -90,10 +86,11 @@ class OnboardignBody extends StatelessWidget {
 
               EmailAuthButton(
                 onPressed: () async {
-                  Navigator.push(
-                    context, 
-                    Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  );
+                  underContstuctionAnimationDailog(context: context);
+                  // Navigator.push(
+                  //   context, 
+                  //   Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  // );
 
                 },
                 style: const AuthButtonStyle(
@@ -107,8 +104,8 @@ class OnboardignBody extends StatelessWidget {
 
               CustomAuthButton(
                 onPressed: () async {
-                  // underContstuctionAnimationDailog(context: context);
-                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  underContstuctionAnimationDailog(context: context);
+                  // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
                 authIcon: AuthIcon(
                   iconPath: "assets/icons/phone-call.png",
@@ -154,27 +151,25 @@ class OnboardignBody extends StatelessWidget {
 
           Column(
             children: [
+              
               MyGradientButton(
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.createAccTitle,
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 action: () {
-                  // PassCodeComponent().passCode(context: context, inputController: inputController!);
     
                   Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                  // Navigator.pushNamed(context, AppString.contentBackup);
-                  // Navigator.push(context,MaterialPageRoute(builder: (context) => ContentsBackup()));
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => MyUserInfo("error shallow spin vault lumber destroy tattoo steel rose toilet school speed")));
                 },
               ),
+
               MyFlatButton(
                 isTransparent: true,
                 textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.secondary,
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                 textButton: AppString.importAccTitle,
                 action: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Passcode(label: PassCodeLabel.fromImportSeeds)));
+                  
                   Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
               )
