@@ -38,7 +38,6 @@ class AppState extends State<App> {
 
       // Query Selendra Endpoint
       await getSelendraEndpoint().then((value) async {
-        print("AppState Value $value ");
         // Assign Data and Store Endpoint Into Local DB
         await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
       });
@@ -52,7 +51,7 @@ class AppState extends State<App> {
   }
 
   Future<void> initApi() async {
-    print("Tos initApi");
+
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
@@ -74,7 +73,6 @@ class AppState extends State<App> {
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
-        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 
@@ -94,10 +92,8 @@ class AppState extends State<App> {
         }
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true){
-        if (kDebugMode) {
-          print("Error initApi $e");
-        }
+      if (kDebugMode) {
+        print("Error initApi $e");
       }
     }
   }

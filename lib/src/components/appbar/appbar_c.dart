@@ -15,8 +15,8 @@ PreferredSizeWidget defaultAppBar({
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: const EdgeInsets.all(10),
-        // padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -24,16 +24,19 @@ PreferredSizeWidget defaultAppBar({
         ),
       ),
     ),
-    leading: IconButton(
-      onPressed: () {
-        homePageModel!.globalKey!.currentState!.openDrawer();
-      },
-      icon: Icon(
-        Iconsax.profile_circle, 
-        color: isDarkMode 
-          ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-          : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-        size: 6.w,
+    leading: Container(
+      margin: const EdgeInsets.only(left: 15),
+      child: IconButton(
+        onPressed: () {
+          homePageModel!.globalKey!.currentState!.openDrawer();
+        },
+        icon: Icon(
+          Iconsax.profile_circle, 
+          color: isDarkMode 
+            ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+            : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+          size: 6.w,
+        ),
       ),
     ),
     
@@ -84,7 +87,8 @@ PreferredSizeWidget defaultAppBar({
     ),
     actions: <Widget>[
       
-      Padding(
+      Container(
+        margin: const EdgeInsets.only(right: 10),
         padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
         child: IconButton(
           icon: Align(

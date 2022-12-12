@@ -30,6 +30,7 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   initState(){
+    
     PhoneInputFormatter.replacePhoneMask(
       countryCode: 'RU',
       newMask: '+0 (000) 000 00 00',

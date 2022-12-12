@@ -1,5 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/trx_explorer_webview/trx_explorer_webview.dart';
+import 'package:wallet_apps/src/screen/home/transaction/trx_explorer_webview.dart';
 import '../../../../models/asset_info.dart';
 
 class BodyTransactionDetail extends StatelessWidget {

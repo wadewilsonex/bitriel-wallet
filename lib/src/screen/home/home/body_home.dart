@@ -9,8 +9,8 @@ import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
-import 'package:wallet_apps/src/screen/home/events/find_event.dart';
-import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
+import 'package:wallet_apps/src/screen/home/events/events.dart';
+import 'package:wallet_apps/src/screen/home/explorer/explorer.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
@@ -45,11 +45,7 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: 
-      // homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 
-      // ? null
-      // : 
-      defaultAppBar(
+      appBar: defaultAppBar(
         context: context,
         homePageModel: homePageModel,
         pushReplacement: pushReplacement
@@ -61,7 +57,7 @@ class HomePageBody extends StatelessWidget {
         children: [
           
           // Explorer(),
-          DiscoverPage(homePageModel: homePageModel!),
+          ExplorerPage(homePageModel: homePageModel!),
 
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
@@ -83,7 +79,7 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",

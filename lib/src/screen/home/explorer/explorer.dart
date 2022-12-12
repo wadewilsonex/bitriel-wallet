@@ -1,21 +1,19 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/discover_m.dart';
-import 'package:wallet_apps/src/screen/home/explorer_tab/body_explorer.dart';
+import 'package:wallet_apps/src/screen/home/explorer/body_explorer.dart';
 
-class DiscoverPage extends StatefulWidget {
+class ExplorerPage extends StatefulWidget {
   final HomePageModel? homePageModel;
-  const DiscoverPage({
+  const ExplorerPage({
     Key? key,
     this.homePageModel,
   }) : super(key: key);
 
   @override
-  State<DiscoverPage> createState() => _DiscoverPageState();
+  State<ExplorerPage> createState() => _ExplorerPageState();
 }
 
-
-
-class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderStateMixin{
+class _ExplorerPageState extends State<ExplorerPage> with SingleTickerProviderStateMixin{
 
   late TabController _tabController;
 

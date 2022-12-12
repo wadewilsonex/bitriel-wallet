@@ -64,9 +64,11 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       
     });
 
-    setState((){
-      _ipfsAPI = dotenv.get('IPFS_API');
-    });
+    if (mounted) {
+      setState((){
+        _ipfsAPI = dotenv.get('IPFS_API');
+      });
+    }
     
   }
 
@@ -114,22 +116,9 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             eventDate: "10 - 21 august, 2022", 
             eventName: "NIGHT MUSIC FESTIVAL",
             listEvent: events,
-            // onPressed: (){
-            //   Navigator.push(
-            //     context, 
-            //     Transition(child: ListTicket(eventName: events![index]['name']!, eventId: events![index]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            //   );
-            // }
           );
         }
       ) : loading(),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: hexaCodeToColor(AppColors.secondary),
-      //   onPressed: (){
-      //     _showPasses(context);
-      //   },
-      //   child: const Icon( Iconsax.ticket ),
-      // ),
 
     );
   }

@@ -55,7 +55,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
       });
     });
 
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 
