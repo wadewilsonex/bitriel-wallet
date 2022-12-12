@@ -818,9 +818,9 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare) {
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45}) {
   return SizedBox(
-    width: 45.w,
+    width: width.w,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
@@ -1205,35 +1205,45 @@ Widget textRowWidget(String leadingText, String trailingText) {
   );
 }
 
-Widget tfPasswordWidget(TextEditingController password, String title) {
+Widget tfPasswordWidget(TextEditingController password, String title, {Function? onSubmit}) {
   return TextFormField(
     obscureText: true,
     controller: password,
+    onFieldSubmitted: (String value) {
+      if (onSubmit != null) onSubmit();
+    },
     style: TextStyle(
       color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
     ),
     decoration: InputDecoration(
+
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
       ),
+
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
       ),
+
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
       ),
+
       hintText: title,
       hintStyle: TextStyle(
         fontSize: 14,
         color: hexaCodeToColor("#AAAAAA"),
       ),
+
       prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+      
       /* Prefix Text */
       filled: true,
-      fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+      fillColor: Colors.white//hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+
     ),
     validator: (val){
       if(val != password.text) {

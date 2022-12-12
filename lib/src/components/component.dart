@@ -243,7 +243,7 @@ class MyGradientButton extends StatelessWidget {
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height,
+    this.height = 50,
     this.isTransparent = false,
     required this.begin,
     required this.end,
@@ -266,10 +266,6 @@ class MyGradientButton extends StatelessWidget {
             offset: const Offset(0.0, 2)
           )
         ],
-        // border: Border.all(
-        //   color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
-        //   width: 1,
-        // ),
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],
@@ -277,7 +273,6 @@ class MyGradientButton extends StatelessWidget {
           end: end, 
           stops: const [0.25, 0.75],
         ),
-        // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
       child: MaterialButton(
         hoverColor: Colors.transparent,

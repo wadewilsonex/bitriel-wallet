@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -27,8 +28,6 @@ class _HomePageState extends State<HomePage> {
   int? randomNum;
 
   final bool? pushReplacement = true;
-
-  final String _initSLDNetwork = "wss://rpc0.selendra.org";
 
   @override
   void initState() {
@@ -153,13 +152,19 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+
+
+    StorageServices.fetchData(DbKey.sldNetwork).then((value) {
+      print("initState DbKey.sldNetwork $value");
+    });
+
+    print("Provider.of<ApiProvider>(context).network ${Provider.of<ApiProvider>(context).selNetwork}");
     return HomePageBody(
       isTrx: widget.isTrx,
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
-      getReward: _scanLogin,
-      initSLDNetwork: _initSLDNetwork
+      getReward: _scanLogin
     );
   }
 }

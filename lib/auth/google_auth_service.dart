@@ -13,7 +13,7 @@ class GoogleAuthService{
           return HomePage();
         }
         else{
-          return Welcome();
+          return Onboarding();
         }
       },
     );

@@ -73,8 +73,8 @@ class AppState extends State<App> {
 
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
-        await apiProvider.connectSELNode(context: context, endpoint: apiProvider.network);
-        
+        await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
+        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 

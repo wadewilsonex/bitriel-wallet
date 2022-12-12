@@ -32,15 +32,6 @@ class MenuBody extends StatelessWidget {
 
         // Wallet
         MenuSubTitle(index: 1),
-        
-        // MyListTile(
-        //   icon: Icon(Iconsax.card_coin, color: Colors.white, size: 22.5.sp),
-        //   index: 2,
-        //   subIndex: 1,
-        //   onTap: () {
-        //     Navigator.push(context, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-        //   },
-        // ),
 
         MyListTile(
           icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
@@ -123,43 +114,6 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
         
-        // Consumer<ApiProvider>(
-        //   builder: (context, provider, widget) {
-        //     return MyListTile(
-        //       icon: Icon(Iconsax.arrow_swap, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
-        //       enable: false,
-        //       index: 4,
-        //       subIndex: 1,
-        //       trailing: ReuseDropDown(
-        //         initialValue: provider.network,
-        //         itemsList: AppConfig.sldNetwork,
-        //         onChanged: (String value) async {
-        //           await DialogComponents().dialogCustom(
-        //             context: context,
-        //             contents: "Switch network",
-        //             btn: TextButton(
-        //               onPressed: () async {
-
-        //                 provider.network = value;
-
-        //                 // Notify Value Change Of Selected Network
-        //                 provider.notifyListeners();
-        //                 Navigator.pop(context, "true");
-        //               }, 
-        //               child: MyText(text: "Yes",)
-        //             ),
-        //           ).then((res) async {
-        //             if (res != null) {
-
-        //               await provider.connectSELNode(context: context, endpoint: value);
-        //             }
-        //           });
-        //         },
-        //       ),
-        //     );
-        //   }
-        // ),
-
         MenuSubTitle(index: 5),
 
 

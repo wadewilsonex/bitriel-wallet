@@ -27,7 +27,7 @@ class MenuState extends State<Menu> {
   void initState() {
 
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
-    print(Provider.of<ApiProvider>(context, listen: false).network);
+    print(Provider.of<ApiProvider>(context, listen: false).selNetwork);
     Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
 
     readBio();
@@ -128,6 +128,7 @@ class MenuState extends State<Menu> {
       key: _menuModel.globalKey,
       child: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: MenuBody(
             userInfo: widget.userData,
             model: _menuModel,

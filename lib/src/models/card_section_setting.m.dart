@@ -164,7 +164,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       await Provider.of<GoogleAuthService>(context, listen: false).signOut();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
     } catch (e) {
 
       // Close Dialog Loading

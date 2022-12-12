@@ -60,13 +60,6 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             // Show AppBar Only In Landing Pages
-            // if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
-            //   title: "Passcode",
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //   },
-            // ) 
-            // else Container(),
 
             if(label != null) Expanded(child: Container(),) 
             else Container(),
@@ -151,9 +144,7 @@ class PasscodeBody extends StatelessWidget{
       )
     );
   }
-
   
-
   final List<RichText> passCodeContents = [
 
     RichText(

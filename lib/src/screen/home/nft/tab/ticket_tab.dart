@@ -13,13 +13,13 @@ class TicketTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return lstTicket!.isNotEmpty ?
-    ListView.builder(
+    return lstTicket!.isNotEmpty 
+    ? ListView.builder(
       itemCount: lstTicket!.length,
       itemBuilder: (context, index){
         return NFTCardComponent(eventName: lstTicket![index].ticketType!.name, index: index, length: lstTicket!.length, ticketNFTModel: lstTicket![index],);
       }
-    ) : Center(
+    ) : const Center(
       child: MyText(
         text: "No Ticket",
       ),

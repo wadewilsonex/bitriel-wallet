@@ -5,8 +5,7 @@ import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
   required HomePageModel? homePageModel,
-  required bool? pushReplacement,
-  required String? initSLDNetwork,
+  required bool? pushReplacement
 }) {
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
@@ -46,7 +45,7 @@ PreferredSizeWidget defaultAppBar({
           builder: (context, provider, child) {
             return GestureDetector(
               onTap: () async {
-                await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
+                await HomeFunctional().changeNetwork(context: context, setState: setState);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,6 +64,7 @@ PreferredSizeWidget defaultAppBar({
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
             
                         Padding(

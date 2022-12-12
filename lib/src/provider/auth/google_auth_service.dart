@@ -19,7 +19,7 @@ class GoogleAuthService extends ChangeNotifier {
           return HomePage();
         }
         else{
-          return Welcome();
+          return Onboarding();
         }
       },
     );
