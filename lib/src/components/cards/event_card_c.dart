@@ -1,10 +1,7 @@
 import 'dart:ui';
-
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
 
 class EventCardComponents extends StatelessWidget {
 
@@ -13,53 +10,60 @@ class EventCardComponents extends StatelessWidget {
   final String? eventName;
   final String? eventDate;
   final List<Map<String, dynamic>>? listEvent;
-  final Function()? onPressed;
 
   const EventCardComponents({
     this.ipfsAPI,
     this.title, 
     this.eventName, 
     this.eventDate,
-    this.listEvent,
-    this.onPressed,
+    this.listEvent
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed!,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
     
-          MyText(
-            top: 30,
-            left: 30,
-            bottom: 10,
-            text: title,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-          
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                listEvent!.length,
-                (i) => Padding(
-                  padding: EdgeInsets.only(
-                    left: i == 0 ? 20 : 0,
-                    right: i != 19 ? 20 : 0,
-                  ),
+        MyText(
+          top: 30,
+          left: 30,
+          bottom: 10,
+          text: title,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+        
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 200,
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              listEvent!.length,
+              (i) => Padding(
+                padding: EdgeInsets.only(
+                  left: i == 0 ? 20 : 0,
+                  right: i != 19 ? 20 : 0,
+                ),
+                child: InkWell(
+                  onTap: (){
+
+                    Provider.of<TicketProvider>(context, listen: false).eventName = listEvent![i]['name']!;
+                    
+                    Navigator.push(
+                      context, 
+                      Transition(child: ListTicketType(eventName: listEvent![i]['name']!, eventId: listEvent![i]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    );
+                  },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Stack(
                       children: [
                   
-                        SizedBox(
+                        Container(
+                          color: Colors.white,
                           height: 200,
                           width: MediaQuery.of(context).size.width - 60,
                           child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
@@ -91,7 +95,7 @@ class EventCardComponents extends StatelessWidget {
                                     children: [
                                     
                                       MyText(
-                                        text: listEvent![i]['startDate'],//"10 - 21 august, 2022",
+                                        text: AppUtils.timeZoneToDateTime(listEvent![i]['startDate']),
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         bottom: 5,
@@ -111,7 +115,7 @@ class EventCardComponents extends StatelessWidget {
                             ),
                           ),
                         ),
-    
+                    
                         Positioned(
                           right: 10,
                           top: 10,
@@ -133,11 +137,11 @@ class EventCardComponents extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+          )
     
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

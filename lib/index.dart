@@ -24,15 +24,14 @@ export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
 export 'package:responsive_sizer/responsive_sizer.dart';
+export 'package:shimmer/shimmer.dart';
 
 //Component
-export 'package:wallet_apps/src/components/animation.dart';
-export 'package:wallet_apps/src/components/bottom_sheet.dart';
+export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
 export 'package:wallet_apps/src/components/home_c.dart';
-export 'package:wallet_apps/src/components/main_component.dart';
 export 'package:wallet_apps/src/components/menu_c.dart';
 export 'package:wallet_apps/src/components/my_input.dart';
 export 'package:wallet_apps/src/components/platform_specific/android_native.dart';

@@ -5,36 +5,42 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart' as http;
 import 'package:transition/transition.dart';
+import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 
 class PaymentController extends getx.GetxController {
-  Map<String, dynamic>? paymentIntentData;
 
-  Future<void> makePayment(BuildContext context, {required num qty, required num price, required String wallet}) async {
+  Future<void> makePayment(BuildContext context, Map<String, dynamic>? paymentIntentData) async {
+
     try {
-      paymentIntentData = await createPaymentIntent(context, qty, wallet);
-      print("paymentIntentData $paymentIntentData");
 
       if (paymentIntentData != null) {
-        await Stripe.instance.initPaymentSheet(
-          paymentSheetParameters: SetupPaymentSheetParameters(
-          merchantDisplayName: 'Prospects',
-          customerId: paymentIntentData!['customer'],
-          paymentIntentClientSecret: paymentIntentData!['clientSecret'],
-          customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
-        ));
 
-        Stripe.instance.confirmPayment(
-          paymentIntentData!['clientSecret'].toString(), 
-          const PaymentMethodParams.card(
-            paymentMethodData: PaymentMethodData(
-              billingDetails: BillingDetails( name: 'Jenny Rosen',),
-            ),
-          ),
+        await Stripe.instance.initPaymentSheet(
+            paymentSheetParameters: SetupPaymentSheetParameters(
+            merchantDisplayName: 'Prospects',
+            // customerId: paymentIntentData!['order']['userId'],
+            paymentIntentClientSecret: paymentIntentData['clientSecret'],
+            // customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
+          )
         );
+
+        await Stripe.instance.presentPaymentSheet();
+
+        // print("finish initPaymentSheet ");
+        // await Stripe.instance.confirmPayment(
+        //   paymentIntentData['clientSecret'].toString(), 
+        //   const PaymentMethodParams.card(
+        //     paymentMethodData: PaymentMethodData(
+        //       billingDetails: BillingDetails( name: 'Jenny Rosen',),
+        //     ),
+        //   ),
+        // ).then((value) {
+        //   print("confirmPayment $value");
+        // });
 
         // Stripe.instance.confirmPayment(
         //   paymentIntentClientSecret: paymentIntentData!['clientSecret'].toString(), 
@@ -45,12 +51,15 @@ class PaymentController extends getx.GetxController {
         //   ),
         // );
 
-        displayPaymentSheet(context, qty, price, wallet );
+        /// 3
+        // displayPaymentSheet(context, qty, price, wallet )
+        // ;
+
 
       }
     } catch (e, s) {
       print('exception:$e$s');
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
     }
   }
 
@@ -81,23 +90,24 @@ class PaymentController extends getx.GetxController {
   }
 
   //  Future<Map<String, dynamic>>
-  createPaymentIntent(BuildContext context, num qty, String wallet) async {
-    try {
-      Map<String, dynamic> body = {
-        'quantity': qty,
-        'user_address': wallet,
-      };
-      var response = await http.post(
-        Uri.parse("${dotenv.get("URL_PAYMENT")}/create-payment-intent"),
-        body: json.encode(body),
-        headers: conceteHeader()
-      );
-      print("${jsonDecode(response.body)}");
-      return jsonDecode(response.body);
-    } catch (err) {
-      print('err charging user: ${err.toString()}');
-      Navigator.of(context).pop();
-    }
-  }
+  // _createPaymentIntent(BuildContext context, num qty, String wallet) async {
+  //   print("dotenv.get(URL_PAYMENT) ${dotenv.get('URL_PAYMENT')}");
+  //   try {
+  //     Map<String, dynamic> body = {
+  //       'quantity': qty,
+  //       'user_address': wallet,
+  //     };
+  //     var response = await http.post(
+  //       Uri.parse("${dotenv.get("URL_PAYMENT")}/create-payment-intent"),
+  //       body: json.encode(body),
+  //       headers: conceteHeader()
+  //     );
+
+  //     return jsonDecode(response.body);
+  //   } catch (err) {
+  //     print('err charging user: ${err.toString()}');
+  //     Navigator.of(context).pop();
+  //   }
+  // }
 
 }

@@ -438,7 +438,7 @@ Future dialogSuccess(BuildContext context, Widget text, Widget title,
             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: text,
           ),
-          actions: <Widget>[action!],
+          actions: <Widget>[action ?? Container()],
         );
       });
   return result;
@@ -596,9 +596,9 @@ Future<void> blurBackgroundDecoration(BuildContext context, Widget screen) {
 Widget loading() {
   return Center(
     child: CircularProgressIndicator(
-        backgroundColor: Colors.transparent,
-        valueColor:
-            AlwaysStoppedAnimation(hexaCodeToColor(AppColors.lightBlueSky))),
+      backgroundColor: Colors.transparent,
+      valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.primaryColor))
+    ),
   );
 }
 

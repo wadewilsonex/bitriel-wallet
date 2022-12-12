@@ -2,11 +2,12 @@ import 'package:wallet_apps/index.dart';
 
 class FullScreenImageViewer extends StatelessWidget {
   
-  const FullScreenImageViewer(this.url,{Key? key}) : super(key: key);
   final String url;
+  const FullScreenImageViewer(this.url, {Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
+    print("url $url");
     return Scaffold(
       backgroundColor: hexaCodeToColor("393939"),
       body: SafeArea(
@@ -19,7 +20,7 @@ class FullScreenImageViewer extends StatelessWidget {
               child: Hero(
                 tag: 'imageHero',
                 // child: Image.network(url),
-                child: Image.asset(url),
+                child: Image.network(url),
               ),
             ),
           ),
