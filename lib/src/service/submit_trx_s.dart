@@ -78,10 +78,9 @@ class SubmitTrxService {
         // }
     } catch (e) {
       await customDialog(context, 'Opps', e.toString());
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error sendNative $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error sendNative $e");
       }
     }
     return false;

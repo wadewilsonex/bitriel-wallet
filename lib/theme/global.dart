@@ -1,17 +1,12 @@
 // For Theme Initialize
-
-import 'package:wallet_apps/index.dart';
-
 // bool isDarkMode = true;
 
-bool isDarkMode = true;
+import 'package:awesome_select/awesome_select.dart';
 
-// void setThemeValue(BuildContext context, bool value) {
-//   Provider.of<ThemeProvider>(context, listen: false).setTheme = value;
-//   isDarkMode = Provider.of<ThemeProvider>(context, listen: false).isDark;
-//   print("setTheme $isDarkMode");
-// } 
+bool isDarkMode = true;
 
 
 // Padding Size
 const double paddingSize = 15.0;
+
+List<S2Choice<String>> sldNetworkList = [];

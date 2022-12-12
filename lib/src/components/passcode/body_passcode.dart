@@ -42,7 +42,8 @@ class PasscodeBody extends StatelessWidget{
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
@@ -59,13 +60,6 @@ class PasscodeBody extends StatelessWidget{
           children: [
 
             // Show AppBar Only In Landing Pages
-            // if(label != PassCodeLabel.fromCreateSeeds && label != PassCodeLabel.fromImportSeeds) MyAppBar(
-            //   title: "Passcode",
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //   },
-            // ) 
-            // else Container(),
 
             if(label != null) Expanded(child: Container(),) 
             else Container(),
@@ -137,7 +131,7 @@ class PasscodeBody extends StatelessWidget{
               child: MyText(
                 text: is4digits == false ? "Switch to 4 digits passcode" : "Switch to 6 digits passcode",
                 color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
               ),
             ),
 
@@ -150,9 +144,7 @@ class PasscodeBody extends StatelessWidget{
       )
     );
   }
-
   
-
   final List<RichText> passCodeContents = [
 
     RichText(
@@ -234,17 +226,22 @@ class ReusePinNum extends StatelessWidget {
         enabled: false,
         obscureText: true,
         textAlign: TextAlign.center,
+        maxLines: 1,
+        minLines: 1,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(bottom: 57.sp, left: 7.sp),
+          isDense: true,
+          contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8)
+            borderRadius: BorderRadius.circular(8),
+            gapPadding: 0
           ),
           filled: true,
+          // border: OutlineInputBorder(),
           fillColor: Colors.white30
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 35.sp,
+          fontSize: 33.sp,
           color: hexaCodeToColor(AppColors.secondary)
         ),
       ),
@@ -361,7 +358,7 @@ class ReuseNumPad extends StatelessWidget {
                 },
                 child: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 20.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 20.sp),
                 ),
               )
             ],
@@ -386,14 +383,14 @@ class ReuseKeyBoardNum extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
           ),
-          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor))
+          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
         ),
         onPressed: onPressed,
         child: child == null ? Text(
           '$n',
           style: TextStyle(
             fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
-            color: Colors.white,
+            color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ) : child!,

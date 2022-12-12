@@ -41,11 +41,11 @@ class AppUtils {
     final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
     return formatDate(parse, [
       yyyy,
-      '/',
+      '-',
       mm,
-      '/',
+      '-',
       dd,
-      ' ',
+      '   ',
       hh,
       ':',
       nn,
@@ -64,11 +64,11 @@ class AppUtils {
       
       return formatDate(parse, [
         yyyy,
-        '/',
+        '-',
         mm,
-        '/',
+        '-',
         dd,
-        ' ',
+        '   ',
         hh,
         ':',
         nn,
@@ -78,13 +78,103 @@ class AppUtils {
         am
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error timeStampToDate $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
       }
     }
     return '';
+  }
+
+  static String timeZoneToDateTime(String tz) {
+    try {
+
+      // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
+      final parse = DateTime.parse(tz);
+      
+      return formatDate(parse, [
+        yyyy,
+        '-',
+        mm,
+        '-',
+        dd,
+        '   ',
+        hh,
+        ':',
+        nn,
+        ':',
+        ss,
+        ' ',
+        am
+      ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
+    } catch (e) {
+      
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
+      }
+    }
+    return '';
+  }
+  static String timeZoneToDate(String tz, {bool? isSpace = true}) {
+    try {
+
+      // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
+      final parse = DateTime.parse(tz);
+      
+      return formatDate(parse, [
+        yyyy,
+        '-',
+        mm,
+        '-',
+        dd,
+        isSpace! ? '   ' : '' 
+      ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
+    } catch (e) {
+      
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
+      }
+    }
+    return '';
+  }
+
+  static String stringDateToDateTime(String stringData) {
+    /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
+    List<String> tmp = stringData.split(" ");
+    
+    return formatDate(DateTime.parse(tmp[0]), [
+      yyyy,
+      '-',
+      mm,
+      '-',
+      dd
+    ]); /* Return Real Date Time */
+  }
+
+  static String dateTimeToDateOnly(DateTime timeStamp) {
+    /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
+    
+    return formatDate(timeStamp, [
+      yyyy,
+      '-',
+      mm,
+      '-',
+      dd
+    ]); /* Return Real Date Time */
+  }
+
+  static String dateTimeToTimeOnly(DateTime timeStamp) {
+    /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
+    
+    return formatDate(timeStamp, [
+      hh,
+      ':',
+      nn,
+      ':',
+      ss,
+      ' ',
+      am
+    ]); /* Return Real Date Time */
   }
 
   static int convertHexaColor(String colorhexcode) {
@@ -130,9 +220,10 @@ class AppUtils {
   static Color colorSelector({bool? isDark, String? hexaColor, Color? enumColor}){
     if (hexaColor != null){
       txtColor = hexaCodeToColor(hexaColor);
-    } else if (enumColor != null) {
+    }
+    else if (enumColor != null){
       txtColor = enumColor;
-    } 
+    }
     // Default Black White
     else if (isDark!) {
       txtColor = hexaCodeToColor(AppColors.whiteColorHexa);

@@ -25,11 +25,7 @@ class DefiMenuItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
-            width: 0.75,
-          ),
-          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorBtn),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -50,14 +46,14 @@ class DefiMenuItem extends StatelessWidget {
             
                     MyText(
                       text: title,
-                      // hexaColor: AppColors.whiteColorHexa,
+                      hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
                       fontWeight: FontWeight.w700,
                     ),
             
                     MyText(
                       text: subtitle,
                       textAlign: TextAlign.start,
-                      // hexaColor: isDarkMode ? AppColors.greyColor : AppColors.lowWhite,
+                      hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.greyColor,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

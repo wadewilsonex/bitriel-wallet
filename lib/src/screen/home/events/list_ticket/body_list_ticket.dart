@@ -17,6 +17,7 @@ class ListTicketTypeBody extends StatelessWidget {
   final double? mgRight;
   final String? imgUrl;
   final TicketModel? ticketModel;
+  final ScrollController? controller;
   /// Index OF Month - Year
   final int? index;
 
@@ -28,115 +29,109 @@ class ListTicketTypeBody extends StatelessWidget {
     required this.lstLenght,
     required this.mgLeft,
     required this.mgRight,
+    this.controller
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    /// Assign Ticket Typ Name To Ticket Provider
-    // dataSubmittion!.ticketTypeName = ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name;
-    // dataSubmittion!.ticketTypeImage = ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image;
-    // dataSubmittion!.price = ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price;
-    // dataSubmittion!.indexMonthYear = index;
+    return Column(
+      children: [
 
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
+        Container(
+          padding: const EdgeInsets.only(bottom: 20),
+          /// If listLength > 1 Card Size Should Minus More 20 To Show A Little Side Of Other
+          /// 
+          /// Else If TicketType Have Only One Card Size Should Full Width Of The Screen
+          width: MediaQuery.of(context).size.width - (lstLenght! > 1 ? 60 : 40),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16)
+          ),
+          margin: EdgeInsets.only(top: 20, left: mgLeft!, right: mgRight!, bottom: 20),
+          child: Column(
+            children: [
 
-          Container(
-            padding: const EdgeInsets.only(bottom: 20),
-            /// If listLength > 1 Card Size Should Minus More 20 To Show A Little Side Of Other
-            /// 
-            /// Else If TicketType Have Only One Card Size Should Full Width Of The Screen
-            width: MediaQuery.of(context).size.width - (lstLenght! > 1 ? 60 : 40),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16)
-            ),
-            margin: EdgeInsets.only(top: 20, left: mgLeft!, right: mgRight!, bottom: 20),
-            child: Column(
-              children: [
+              ClipRRect(
 
-                ClipRRect(
-
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)
-                  ),
-                  child: Stack(
-                    children: [
-
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 145,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16)
-                          )
-                        ),
-                        child: Image.network("$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image}", fit: BoxFit.cover,),
-                      ),
-                          
-                      BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: hexaCodeToColor("#413B3B").withOpacity(0.4),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          height: 145,
-                          padding: const EdgeInsets.all(10),
-                          alignment: Alignment.center,
-                          child: MyText(
-                            text: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name.toString(),
-                            color2: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        )
-                      )
-                    ],
-                  ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16)
                 ),
-
-                TicketItemComponent(label: "Price", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price.toString(), valueColor: AppColors.primaryColor, valueFontSize: 20),
-                
-                TicketItemComponent(label: "Description", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.description.toString()),
-                
-                Row(
+                child: Stack(
                   children: [
-                    Expanded(
-                      child: TicketItemComponent(label: "Start Date", value: AppUtils.timeZoneToDateTime(ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.startDate!)),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 145,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16)
+                        )
+                      ),
+                      child: Image.network("$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image}", fit: BoxFit.cover,),
                     ),
-                    Expanded(
-                      child: TicketItemComponent(label: "End Date", value: AppUtils.timeZoneToDateTime(ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.endDate!)),
-                    ),
+                        
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: hexaCodeToColor("#413B3B").withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        height: 145,
+                        padding: const EdgeInsets.all(10),
+                        alignment: Alignment.center,
+                        child: MyText(
+                          text: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name.toString(),
+                          color2: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    )
                   ],
                 ),
-                
-                TicketItemComponent(label: "Status", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.status.toString()),
-                
-                Reservation(
-                  dataSubmittion: DataSubmittion.assignAboveData(
-                    ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name!,
-                    "$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
-                    index!,
-                    ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price!,
+              ),
+
+              TicketItemComponent(label: "Price", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price.toString(), valueColor: AppColors.primaryColor, valueFontSize: 20),
+              
+              TicketItemComponent(label: "Description", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.description.toString()),
+              
+              Row(
+                children: [
+                  Expanded(
+                    child: TicketItemComponent(label: "Start Date", value: AppUtils.timeZoneToDateTime(ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.startDate!)),
                   ),
-                  index: index,
-                  eventId: ticketModel!.eventId,
-                  ticketTypeId: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.id,
-                  ticketTypeModel: ticketModel!.lsTicketTypes![index!]
-                )
+                  Expanded(
+                    child: TicketItemComponent(label: "End Date", value: AppUtils.timeZoneToDateTime(ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.endDate!)),
+                  ),
+                ],
+              ),
+              
+              TicketItemComponent(label: "Status", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.status.toString()),
+              
+              Reservation(
+                ticketModel: ticketModel!,
+                controller: controller,
+                dataSubmittion: DataSubmittion.assignAboveData(
+                  ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name!,
+                  "$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
+                  index!,
+                  ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price!,
+                ),
+                index: index,
+                eventId: ticketModel!.eventId,
+                ticketTypeId: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.id,
+                ticketTypeModel: ticketModel!.lsTicketTypes![index!]
+              )
 
-              ],
-            )
+            ],
+          )
 
-          ),
-        ],
-      )
+        ),
+      ],
     );
   }
 }

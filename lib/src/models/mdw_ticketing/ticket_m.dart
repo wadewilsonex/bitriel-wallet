@@ -2,6 +2,8 @@ import 'package:wallet_apps/index.dart';
 
 class DataSubmittion {
 
+  ScrollController scrollCon = ScrollController();
+
   String? ticketTypeImage;
   String? ticketTypeName;
   String? eventName;
@@ -139,7 +141,6 @@ class TicketTypes {
   // TicketTypes(){}
   
   TicketTypes.fromApi(Map<String, dynamic> data){
-    print("data $data");
     isShow = false;
     joinDateIndex = -1;
     mmYYIndex = -1;

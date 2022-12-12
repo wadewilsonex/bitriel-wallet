@@ -3,7 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/trx_history_c.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
 import 'package:wallet_apps/src/screen/home/asset_info/asset_detail.dart';
-import 'package:wallet_apps/src/screen/transaction_detail.dart/trx_detail.dart';
+import 'package:wallet_apps/src/screen/home/transaction/transaction_detail.dart/trx_detail.dart';
 
 class AssetInfoBody extends StatelessWidget {
 
@@ -122,9 +122,7 @@ class AssetInfoBody extends StatelessWidget {
                           // Logo
                           GestureDetector(
                             onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                              if (kDebugMode) {
-                                print("Index ${assetInfoModel!.index}");
-                              }
+                              
                               final image = ImagePicker();
                               await image.pickImage(source: ImageSource.gallery).then((value) async {
                                 if (kDebugMode) {

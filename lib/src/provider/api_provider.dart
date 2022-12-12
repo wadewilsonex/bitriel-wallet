@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:defichaindart/defichaindart.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
@@ -40,7 +41,7 @@ class ApiProvider with ChangeNotifier {
   String? _jsCode;
 
   bool isMainnet = true;
-  bool isDebug = false;
+  bool isDebug = true;
   
   int selNativeIndex = 0;
   int kgoIndex = 3;
@@ -52,6 +53,9 @@ class ApiProvider with ChangeNotifier {
 
   String? funcName;
 
+  /// Selendra Endpoint
+  String? selNetwork;
+
   bool get isConnected => _isConnected;
 
   void setAccount(AccountM acc){
@@ -62,7 +66,45 @@ class ApiProvider with ChangeNotifier {
   
   AccountM get getAccount => accountM;
 
+  Future<void> initSelendraEndpoint(Map<String, dynamic> json) async {
+    try {
+
+      sldNetworkList = [
+        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0'),
+        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1')
+      ];
+      
+      AppConfig.networkList[0].wsUrlMN = json['mainnet'][0];
+
+      selNetwork = json['mainnet'][0];
+
+      await StorageServices.storeData(json, DbKey.lsSldEndpoint);
+      
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error initSelendraEndpoint $e");
+      }
+    }
+    
+  }
+
   Future<void> initApi({@required BuildContext? context}) async {
+
+    // Asign Network
+    await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
+      /// Get Endpoint form Local DB
+      /// 
+      if (nw != null){
+
+        selNetwork = nw;
+      } else {
+        selNetwork = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+
+      }
+
+      await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
+      notifyListeners();
+    });
     
     funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
@@ -353,11 +395,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> setBtcMarket(Market marketData, List<List<double>> lineChartData, String currentPrice, String priceChange24h, {@required BuildContext? context}) async {
 
-    // btc.marketData = marketData;
-    // btc.marketPrice = currentPrice;
-    // btc.change24h = priceChange24h;
-    // btc.lineChartList = lineChartData ?? [];
-
     final contract = Provider.of<ContractProvider>(context!, listen: false);
     contract.listContract[btcIndex].marketData = marketData;
     contract.listContract[btcIndex].marketPrice = currentPrice;
@@ -432,31 +469,37 @@ class ApiProvider with ChangeNotifier {
     return false;
   }
 
-  Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring'}) async {
+  Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring', String? endpoint}) async {
+
     try {
 
       NetworkParams node = NetworkParams();
       NetworkParams? res = NetworkParams();
 
       node.name = 'Indranet hosted By Selendra';
-      node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;
+      node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
         res = value;
         if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
+      }).then((value) async {
+        
+        /// Save To Local After Connect Network 
+        if (endpoint != null){
+          selNetwork = endpoint;
+          
+          await StorageServices.storeData(
+            selNetwork,
+            DbKey.sldNetwork
+          );
+        }
       });
-
-      // final res = await _sdk.webView!.evalJavascript("settings.connect(${jsonEncode([node].map((e) => e.endpoint).toList())})");
-
-      // if (res != null) 
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error connectSELNode $e");
-        }
+      if (kDebugMode) {
+        print("Error connectSELNode $e");
       }
     }
     return null;
@@ -528,10 +571,9 @@ class ApiProvider with ChangeNotifier {
       // });
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error subscribeSELBalance $e");
-        }
+
+      if (kDebugMode) {
+        print("Error subscribeSELBalance $e");
       }
     }
   }
@@ -554,17 +596,12 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getDotChainDecimal({@required BuildContext? context}) async {
-    if (kDebugMode) {
-      print("getDotChainDecimal");
-    }
+    
     try {
       dynamic res;
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
         res = value;
-        if (kDebugMode) {
-          print("value $value");
-        }
         contract.setDotAddr(_keyring.allAccounts[0].address!, res[0]);
         await subscribeDotBalance(context: context);
       });
@@ -606,6 +643,7 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getAddressIcon() async {
+
     try {
 
       final res = await _sdk.api.account.getPubKeyIcons(
@@ -703,10 +741,9 @@ class ApiProvider with ChangeNotifier {
       final String? encryted = await FlutterAesEcbPkcs5.encryptString(privateKey, key);
       return encryted!;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error encryptPrivateKey $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error encryptPrivateKey $e");
       }
     }
     return '';

@@ -93,80 +93,52 @@ class ContractProvider with ChangeNotifier {
   /// Run First 
   Future<void> initJson() async {
     try {
-
-      if (kDebugMode) {
-        print("initJson listContract.isEmpty ${listContract.isEmpty}");
-      }
+      
       // True In Case First Time Initialize
       await setSavedList().then((value) async {
-        if (kDebugMode) {
-          print("setSavedList $value");
-        }
-        // if (value == false){
 
-          final json = await rootBundle.loadString(AssetPath.contractJson);
+        final json = await rootBundle.loadString(AssetPath.contractJson);
 
-          if (kDebugMode) {
-            print("rootBundle.loadString ${json.runtimeType}");
-          }
-          final decode = jsonDecode(json);
+        final decode = jsonDecode(json);
 
-          sortListContract.clear();
-          listContract.clear();
-          
-          if (kDebugMode) {
-            print("forEach");
-          }
-          decode.forEach((value){
-            // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
-              if (kDebugMode) {
-                print("value['symbol'] ${value['symbol']}");
-              }
-              if (kDebugMode) {
-                print("value['contract'] ${value['contract']}");
-              }
-              listContract.add(
-                SmartContractModel(
-                  id: value['id'],
-                  name: value["name"],
-                  logo: value["logo"],
-                  address: value['address'],
-                  contract: value['contract'],
-                  contractTest: value['contract_test'],
-                  symbol: value["symbol"],
-                  org: value["org"],
-                  orgTest: value["org_test"],
-                  isContain: value["isContain"],
-                  balance: value["balance"],
-                  show: value["show"],
-                  maxSupply: value["max_supply"],
-                  description: value["description"],
-                  listActivity: [],
-                  lineChartList: value['lineChartData'],
-                  lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-                )
-              );
-            // }
-          });
-        // }
+        sortListContract.clear();
+        listContract.clear();
+        
+        decode.forEach((value){
+          // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
+            listContract.add(
+              SmartContractModel(
+                id: value['id'],
+                name: value["name"],
+                logo: value["logo"],
+                address: value['address'],
+                contract: value['contract'],
+                contractTest: value['contract_test'],
+                symbol: value["symbol"],
+                org: value["org"],
+                orgTest: value["org_test"],
+                isContain: value["isContain"],
+                balance: value["balance"],
+                show: value["show"],
+                maxSupply: value["max_supply"],
+                description: value["description"],
+                listActivity: [],
+                lineChartList: value['lineChartData'],
+                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+              )
+            );
+          // }
+        });
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
-        if (kDebugMode) {
-          print("Finish storeData");
-        }
-        await StorageServices.fetchAsset(DbKey.listContract).then((value) {
-          if (kDebugMode) {
-            print("value $value");
-          }
-        });
+        
         notifyListeners();
       });
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error initJson $e");
-        }
+
+      if (kDebugMode) {
+        print("Error initJson $e");
       }
     }
   }
@@ -189,9 +161,6 @@ class ContractProvider with ChangeNotifier {
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
-        if (kDebugMode) {
-          print("DbKey.listContract $value");
-        }
         if (value != null) {
           listContract = List<SmartContractModel>.from(value);
         }
@@ -304,85 +273,22 @@ class ContractProvider with ChangeNotifier {
     }
   }
 
-  // Future<void> selTokenWallet(BuildContext context) async {
-  //   try {
-
-  //     await initBscClient();
-  //     final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest! );//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030');
-  //     //final contract = await initBsc(listContract[0].address);
-  //     _selToken = new ContractService(_bscClient!, contract);
-  //     final balance = await _selToken!.getTokenBalance(getEthAddr(ethAdd));
-
-  //     final chainDecimal = await _selToken!.getChainDecimal();
-
-  //     listContract[apiProvider.selV1Index].balance = Fmt.bigIntToDouble(
-  //       balance,
-  //       chainDecimal.toInt(),
-  //     ).toString();
-
-  //     listContract[apiProvider.selV1Index].chainDecimal = chainDecimal.toInt();
-  //     listContract[apiProvider.selV1Index].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.selV1Index]);
-  //     listContract[apiProvider.selV1Index].address = ethAdd;//'0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
-      
-  //     notifyListeners();
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug == true) print("Err selTokenWallet $e");
-  //   }
-  // }
-
-  // Future<void> selv2TokenWallet(BuildContext context) async {
-  //   try {
-
-  //     await initBscClient();
-  //     final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, apiProvider.isMainnet ? listContract[apiProvider.selV2Index].contract! : listContract[apiProvider.selV2Index].contractTest!);//listContract[1].address!);
-  //     //final contract = await initBsc(listContract[1].address);
-  //     _selV2 = new ContractService(_bscClient!, contract);
-
-  //     final balance = await _selV2!.getTokenBalance(getEthAddr(ethAdd));
-
-  //     final chainDecimal = await _selV2!.getChainDecimal();
-
-  //     listContract[apiProvider.selV2Index].balance = Fmt.bigIntToDouble(
-  //       balance,
-  //       int.parse(chainDecimal.toString()),
-  //     ).toString();
-
-  //     listContract[apiProvider.selV2Index].chainDecimal = chainDecimal.toInt();
-  //     listContract[apiProvider.selV2Index].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.selV2Index]); 
-  //     listContract[apiProvider.selV2Index].address = ethAdd;//'0x46bF747DeAC87b5db70096d9e88debd72D4C7f3C'; //chainDecimal.toString();
-  //     notifyListeners();
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug == true) print("Error selv2TokenWallet $e");
-  //   }
-  // }
-
   Future<void> kgoTokenWallet() async {
-    if (kDebugMode) {
-      print("kgoTokenWallet");
-    }
+    
     if (apiProvider.isMainnet){
       try {
 
         await initBscClient();
-        if (kDebugMode) {
-          print("initBscClient ${listContract[apiProvider.kgoIndex].symbol}");
-        }
+        
         final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[apiProvider.kgoIndex].contract!);
-        if (kDebugMode) {
-          print("finish contract");
-        }
+        
         //final contract = await initBsc(listContract[2].address);
         _kgo = ContractService(_bscClient!, contract);
 
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
 
-        if (kDebugMode) {
-          print("balance $balance");
-        }
         final chainDecimal = await _kgo!.getChainDecimal();
-        if (kDebugMode) {
-          print("kgo chainDecimal $chainDecimal");
-        }
+
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
           int.parse(chainDecimal.toString()),
@@ -495,7 +401,7 @@ class ContractProvider with ChangeNotifier {
       // 1. Add Default Asset First
       for (var element in listContract) {
         if (element.show!){
-          // print("element.balance! ${element.balance!}");
+          
           if (element.marketPrice!.isNotEmpty) {
             element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
           } else {
@@ -661,10 +567,8 @@ class ContractProvider with ChangeNotifier {
 
       return contract;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Err initBsc $e");
-        }
+      if (kDebugMode) {
+        print("Err initBsc $e");
       }
     }
     return null;
@@ -812,75 +716,6 @@ class ContractProvider with ChangeNotifier {
 
     return gasPrice;
   }
-
-  // Future<String> approveSwap(String privateKey) async {
-
-  //   try {
-
-  //     await initBscClient();
-  //     final contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, listContract[apiProvider.selV1Index].address!);
-  //     // final contract = await initBsc(listContract[0].address);
-  //     final ethFunction = contract.function('approve');
-
-  //     final credentials = await EthPrivateKey.fromHex(privateKey);//_bscClient!.credentialsFromPrivateKey(privateKey);
-  //     final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
-
-  //     final gasPrice = await _bscClient!.getGasPrice();
-
-  //     final maxGas = await _bscClient!.estimateGas(
-  //       sender: EthereumAddress.fromHex(ethAddr!),
-  //       to: contract.address,
-  //       data: ethFunction.encodeCall(
-  //         [
-  //           EthereumAddress.fromHex(_appConfig.swapAddr),
-  //           BigInt.parse('1000000000000000042420637374017961984'),
-  //         ],
-  //       ),
-  //     );
-
-  //     final approve = await _bscClient!.sendTransaction(
-  //       credentials,
-  //       Transaction.callContract(
-  //         contract: contract,
-  //         function: ethFunction,
-  //         gasPrice: gasPrice,
-  //         maxGas: maxGas.toInt(),
-  //         parameters: [
-  //           EthereumAddress.fromHex(_appConfig.swapAddr),
-  //           BigInt.parse('1000000000000000042420637374017961984'),
-  //         ],
-  //       ),
-  //       chainId: null,
-  //       fetchChainIdFromNetworkId: true,
-  //     );
-
-  //     return approve;
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug) print("Error approveSwap $e");
-  //     // return e.toString();
-  //     throw new Exception(e);
-  //   }
-  // }
-
-  // Future<dynamic> checkAllowance() async {
-  //   try {
-
-  //     final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
-  //     final res = await query(
-  //       apiProvider.isMainnet ? listContract[apiProvider.selV1Index].contract! : listContract[apiProvider.selV1Index].contractTest!,
-  //       'allowance',
-  //       [
-  //         EthereumAddress.fromHex(ethAddr!),
-  //         EthereumAddress.fromHex(_appConfig.swapAddr)
-  //       ],
-  //     );
-
-  //     return res.first;
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug) print("Error checkAllowance $e");
-  //     throw new Exception(e);
-  //   }
-  // }
 
   Future<String> swap(String amount, String privateKey) async {
     try {
@@ -1104,50 +939,6 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
-  // Future<String> sendTxBsc(
-  //   String contractAddr,
-  //   String chainDecimal,
-  //   String privateKey,
-  //   String reciever,
-  //   String amount,
-  // ) async {
-  //   initBscClient();
-  //   final contract =
-  //       await AppUtils.contractfromAssets(AppConfig.bep20Path, contractAddr);
-  //   // final contract = await initBsc(contractAddr);
-  //   final txFunction = contract.function('transfer');
-  //   final credentials = await _bscClient.credentialsFromPrivateKey(privateKey);
-
-  //   final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
-
-  //   final maxGas = await _bscClient.estimateGas(
-  //     sender: EthereumAddress.fromHex(ethAddr),
-  //     to: EthereumAddress.fromHex(contractAddr),
-  //     data: txFunction.encodeCall(
-  //       [
-  //         EthereumAddress.fromHex(reciever),
-  //         BigInt.from(double.parse(amount) * pow(10, 18))
-  //       ],
-  //     ),
-  //   );
-
-  //   final res = await _bscClient.sendTransaction(
-  //     credentials,
-  //     Transaction.callContract(
-  //       contract: contract,
-  //       function: txFunction,
-  //       maxGas: maxGas.toInt(),
-  //       parameters: [
-  //         EthereumAddress.fromHex(reciever),
-  //         BigInt.from(double.parse(amount) * pow(10, 18))
-  //       ],
-  //     ),
-  //     fetchChainIdFromNetworkId: true,
-  //   );
-
-  //   return res;
-  // }
-
   Future<String> sendTxEthCon(
     String contractAddr,
     String chainDecimal,
@@ -1158,9 +949,8 @@ class ContractProvider with ChangeNotifier {
   ) async {
     await initEtherClient();
     final contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddr);
-    //final contract = await initEtherContract(contractAddr);
     final txFunction = contract.function('transfer');
-    final credentials = EthPrivateKey.fromHex(privateKey);//_etherClient!.credentialsFromPrivateKey(privateKey);
+    final credentials = EthPrivateKey.fromHex(privateKey);
 
     final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
 
@@ -1196,198 +986,64 @@ class ContractProvider with ChangeNotifier {
   Future<void> addToken(String symbol, BuildContext context, {String? contractAddr, String? network}) async {
     _marketProvider ??= Provider.of<MarketProvider>(context, listen: false);
     try {
-
-      // if (symbol == 'SEL') {
         
-      //   if (!listContract[0].isContain!) {
-      //     listContract[0].isContain = true;
-
-      //     await StorageServices.saveBool('SEL', true);
-
-      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol("$symbol (BEP-20)");
-
-      //   }
-      // } else if (symbol == 'BNB') {
-
-      //   if (!listContract[4].isContain!) {
-      //     listContract[4].isContain = true;
-
-      //     await StorageServices.saveBool('BNB', true);
-
-      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
-
-      //     // await getBscDecimal();
-      //     // await getBnbBalance();
-
-      //     listContract[4].lineChartModel = LineChartModel().prepareGraphChart(listContract[0]);
-      //   }
-      // } else if (symbol == 'DOT') {
-      //   if (!listContract[5].isContain!) {
-          
-      //     await StorageServices.saveBool('DOT', true);
-
-      //     await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
-      //     //Provider.of<ApiProvider>(context, listen: false).isDotContain();
-      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol);
-      //   }
-      // } else if (symbol == 'KGO') {
-      //   if (!listContract[5].isContain!) {
-
-      //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('KGO (BEP-20)');
-      //     // await Provider.of<ContractProvider>(context, listen: false)
-      //     //     .getKgoSymbol();
-      //     // await Provider.of<ContractProvider>(context, listen: false)
-      //     //     .getKgoDecimal()
-      //     //     .then((value) async {
-      //     //   await Provider.of<ContractProvider>(context, listen: false)
-      //     //       .getKgoBalance();
-      //     // });
-      //   }
-      // } else {
-      if (kDebugMode) {
-        print("searchCoinFromMarket $network");
-      }
+      if (network != null) {
         
-        if (network != null) {
+        dynamic symbol;
+        dynamic name;
+        dynamic decimal;
+        dynamic balance;
+        dynamic tmpBalance;
+        
+        if (network == 'Ethereum'){
+          symbol = await queryEther(contractAddr!, 'symbol', []);
+          name = await queryEther(contractAddr, 'name', []);
+          decimal = await queryEther(contractAddr, 'decimals', []);
+          balance = await queryEther(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+
+          tmpBalance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            (decimal[0] as BigInt ).toInt(),
+          ).toString(); 
+
+        } else if (network == 'BSC'){
+          symbol = await query(contractAddr!, 'symbol', []);
+          name = await query(contractAddr, 'name', []);
+          decimal = await query(contractAddr, 'decimals', []);
+          balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
+          tmpBalance = Fmt.bigIntToDouble(
+            balance[0] as BigInt,
+            int.parse(decimal[0].toString()),
+          ).toString();
           
-          dynamic symbol;
-          dynamic name;
-          dynamic decimal;
-          dynamic balance;
-          dynamic tmpBalance;
-          
-          if (network == 'Ethereum'){
-            symbol = await queryEther(contractAddr!, 'symbol', []);
-            name = await queryEther(contractAddr, 'name', []);
-            decimal = await queryEther(contractAddr, 'decimals', []);
-            balance = await queryEther(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-
-            tmpBalance = Fmt.bigIntToDouble(
-              balance[0] as BigInt,
-              (decimal[0] as BigInt ).toInt(),
-            ).toString(); 
-
-          } else if (network == 'BSC'){
-            symbol = await query(contractAddr!, 'symbol', []);
-            name = await query(contractAddr, 'name', []);
-            decimal = await query(contractAddr, 'decimals', []);
-            balance = await query(contractAddr, 'balanceOf', [EthereumAddress.fromHex(ethAdd)]);
-            tmpBalance = Fmt.bigIntToDouble(
-              balance[0] as BigInt,
-              int.parse(decimal[0].toString()),
-            ).toString();
-            
-          }
-
-          // await _marketProvider!.searchCoinFromMarket(symbol[0]);
-          // if (_marketProvider!.lsCoin!.isNotEmpty) await _marketProvider!.queryCoinFromMarket(_marketProvider!.lsCoin![0]['id']);
-          // print("finish queryCoinFromMarket ${)}");
-
-          // if (network == 'Ethereum') {
-
-          //   final TokenModel mToken = TokenModel();
-
-          //   mToken.symbol = symbol.first.toString();
-          //   mToken.decimal = decimal.first.toString();
-          //   mToken.balance = balance.first.toString();
-          //   mToken.contractAddr = contractAddr;
-          //   mToken.org = 'ERC-20';
-
-          //   if (token.isEmpty) {
-          //     await addContractToken(mToken);
-
-          //     await StorageServices.saveEthContractAddr(contractAddr);
-          //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
-          //   }
-
-          //   if (token.isNotEmpty) {
-          //     if (!token.contains(mToken)) {
-          //       addContractToken(mToken);
-
-          //       await StorageServices.saveEthContractAddr(contractAddr);
-          //       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (ERC-20)');
-          //     }
-          //   }
-          // } else {
-          //   print("symbol ${symbol[0]}");
-          //   print("name ${name[0]}");
-          //   print("decimal ${decimal[0]}");
-          //   print("balance ${balance[0]}");
-
-          //   // if (token.isNotEmpty) {
-          //   //   final TokenModel item = token.firstWhere(
-          //   //     (element) => element.symbol.toLowerCase() == symbol[0].toString().toLowerCase(), orElse: () => null
-          //   //   );
-
-          //   //   if (item == null) {
-          //   //     await addContractToken(
-          //   //       TokenModel(
-          //   //         contractAddr: contractAddr,
-          //   //         decimal: decimal[0].toString(),
-          //   //         symbol: symbol[0].toString(),
-          //   //         balance: balance[0].toString(),
-          //   //         org: 'BEP-20',
-          //   //       ),
-          //   //     );
-
-          //   //     await StorageServices.saveContractAddr(contractAddr);
-          //   //     Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('${symbol[0]} (BEP-20)');
-          //   //   }
-          //   // } else {
-          //   //   token.add(
-          //   //     TokenModel(
-          //   //       contractAddr: contractAddr,
-          //   //       decimal: decimal[0].toString(),
-          //   //       symbol: symbol[0].toString(),
-          //   //       balance: balance[0].toString(),
-          //   //       org: 'BEP-20'
-          //   //     ),
-          //   //   );
-
-          //   //   await StorageServices.saveContractAddr(contractAddr);
-          //   //   Provider.of<WalletProvider>(context, listen: false).addTokenSymbol(symbol[0].toString());
-          //   // }
-          // }
-
-          if (kDebugMode) {
-            print("decimal $decimal");
-          }
-
-          SmartContractModel newContract = SmartContractModel(
-            id: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['id'],
-            name: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['name'],
-            symbol: symbol[0],
-            chainDecimal: (decimal[0] as BigInt ).toInt(),
-            balance: tmpBalance.toString(),
-            address: ethAdd,
-            isContain: true,
-            logo: _marketProvider!.lsCoin!.isEmpty ? '${AppConfig.assetsPath}circle.png' : _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
-            listActivity: [],
-            lineChartModel: LineChartModel(),
-            type: '',
-            org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-            orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
-            marketData: Market(),
-            lineChartList: [],
-            change24h: _marketProvider!.lsCoin!.isEmpty ? '0' : _marketProvider!.queried!['price_change_percentage_24h'].toString(),
-            marketPrice: _marketProvider!.lsCoin!.isEmpty ? '' : _marketProvider!.queried!['current_price'].toString(),
-            contract: apiProvider.isMainnet ? contractAddr: '',
-            contractTest: apiProvider.isMainnet ? '' : contractAddr,
-          );
-          
-          newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * (_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : 1.0) );
-
-          // Provider.of<MarketProvider>(context, listen: false).id.add(newContract.id!);
-          // await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(newContract.id!).then((value){
-            
-          //   print(value);
-          // });
-          // print("newContract.marketPrice ${newContract.marketPrice}");
-          // newContract.lineChartModel = LineChartModel().prepareGraphChart(newContract);
-          
-          addedContract.add(newContract);
         }
-      // }
+
+        SmartContractModel newContract = SmartContractModel(
+          id: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['id'],
+          name: _marketProvider!.lsCoin!.isEmpty ? name[0] : _marketProvider!.queried!['name'],
+          symbol: symbol[0],
+          chainDecimal: (decimal[0] as BigInt ).toInt(),
+          balance: tmpBalance.toString(),
+          address: ethAdd,
+          isContain: true,
+          logo: _marketProvider!.lsCoin!.isEmpty ? '${AppConfig.assetsPath}circle.png' : _marketProvider!.queried!['image'],// AppConfig.assetsPath+'circle.png',
+          listActivity: [],
+          lineChartModel: LineChartModel(),
+          type: '',
+          org: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+          orgTest: network == 'Ethereum' ? 'ERC-20' : 'BEP-20',
+          marketData: Market(),
+          lineChartList: [],
+          change24h: _marketProvider!.lsCoin!.isEmpty ? '0' : _marketProvider!.queried!['price_change_percentage_24h'].toString(),
+          marketPrice: _marketProvider!.lsCoin!.isEmpty ? '' : _marketProvider!.queried!['current_price'].toString(),
+          contract: apiProvider.isMainnet ? contractAddr: '',
+          contractTest: apiProvider.isMainnet ? '' : contractAddr,
+        );
+        
+        newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * (_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : 1.0) );
+        
+        addedContract.add(newContract);
+      }
       
       notifyListeners();
     } catch (e) {

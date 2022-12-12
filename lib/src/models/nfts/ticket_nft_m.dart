@@ -13,9 +13,10 @@ class TicketNFTModel{
   String? qrUrl;
   String? createdAt;
   String? updatedAt;
-  ReservatioinModel? reservatioin;
+  ReservatioinModel? reservation;
   DefaultTicketSchemaType? ticketType;
   String? id;
+  EventData? eventData;
 
   TicketNFTModel.fromApi(Map<String, dynamic> data){
 
@@ -30,10 +31,47 @@ class TicketNFTModel{
     qrUrl = data['qrUrl'];
     createdAt = data['createdAt'];
     updatedAt = data['updatedAt'];
-    reservatioin = ReservatioinModel.fromApi(data['reservation']);
+    reservation = ReservatioinModel.fromApi(data['reservation']);
     ticketType = DefaultTicketSchemaType().fromApi(data['ticketType']);
     id = data['id'];
+    eventData = EventData.fromJson(data['event']);
 
+  }
+
+}
+
+class EventData {
+
+	String? name;
+	String? description;
+	String? shortDescription;
+	String? location;
+	String? image;
+	String? address;
+	String? openHour;
+	String? startDate;
+	String? endDate;
+	String? createdAt;
+	String? updatedAt;
+	String? status;
+	String? id;
+	int? __v;
+
+  EventData.fromJson(Map<String, dynamic> data){
+    name = data['name'];
+    description = data['description'];
+    shortDescription = data['shortDescription'];
+    location = data['location'];
+    image = data['image'];
+    address = data['address'];
+    openHour = data['openHour'];
+    startDate = data['startDate'];
+    endDate = data['endDate'];
+    createdAt = data['createdAt'];
+    updatedAt = data['updatedAt'];
+    status = data['status'];
+    id = data['id'];
+    __v = data['__v'];
   }
 
 }
@@ -45,12 +83,21 @@ class ReservatioinModel {
   String? ticketTypeId;
   String? sessionId;
   String? id;
+  int? __v;
+  String? createdAt;
+  String? updatedAt;
+  Session? session;
 
   ReservatioinModel.fromApi(Map<String, dynamic> dataApi){
+    
     ticketId = dataApi['ticketId'];
     eventId = dataApi['eventId'];
     ticketTypeId = dataApi['ticketTypeId'];
     sessionId = dataApi['sessionId'];
     id = dataApi['id'];
+    __v = dataApi['__v'];
+    createdAt = dataApi['createdAt'];
+    updatedAt = dataApi['updatedAt'];
+    session = Session().fromApi(dataApi['session']);
   }
 }

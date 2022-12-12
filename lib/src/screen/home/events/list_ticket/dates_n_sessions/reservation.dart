@@ -14,6 +14,8 @@ class Reservation extends StatefulWidget {
   final String? ticketTypeId;
   final TicketTypes? ticketTypeModel;
   final DataSubmittion? dataSubmittion;
+  final TicketModel? ticketModel;
+  final ScrollController? controller;
 
   const Reservation({
     Key? key,
@@ -21,7 +23,9 @@ class Reservation extends StatefulWidget {
     required this.eventId,
     required this.ticketTypeId,
     required this.ticketTypeModel,
-    required this.dataSubmittion
+    required this.dataSubmittion,
+    required this.ticketModel,
+    required this.controller
   }) : super(key: key);
 
   @override
@@ -37,8 +41,7 @@ class RreservationState extends State<Reservation> {
   DataSubmittion? dataSubmittion;
 
   void querySessionsByTicketTypeId() async {
-    // Initialize First List With Empty Data
-
+    
     await PostRequest().getTicketTypeGroupedByDate(widget.ticketTypeId!, widget.eventId!).then((res) async {
 
       (await json.decode(res.body))['sessionsByMonth'].entries.forEach( (MapEntry f){
@@ -47,11 +50,9 @@ class RreservationState extends State<Reservation> {
         );
       });
 
-      print(lstMontYear!.length);
-
     });
 
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 
@@ -60,10 +61,7 @@ class RreservationState extends State<Reservation> {
     dataSubmittion!.date = lstMontYear![ dataSubmittion!.indexMonthYear! ].session!.lstDateAndSessions![index].date;
     dataSubmittion!.indexDate = index;
 
-    print(dataSubmittion!.date);
-    print(dataSubmittion!.indexDate);
-
-    setState(() { });
+    if (mounted) setState(() { });
   }
 
   void onTabShow(bool value){
@@ -79,9 +77,9 @@ class RreservationState extends State<Reservation> {
 
     lstMontYear![ dataSubmittion!.indexMonthYear! ].initSession = value;
     
-    print("lstMontYear![ Provider.of<TicketProvider>(context, listen: false).indexMonthYear! ].initSession ${lstMontYear![ dataSubmittion!.indexMonthYear! ].initSession}");
+    widget.controller!.animateTo(150, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
     
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 
@@ -93,7 +91,7 @@ class RreservationState extends State<Reservation> {
       dataSubmittion!.item!.qty = dataSubmittion!.item!.qty! + 1;
     }
 
-    setState(() { });
+    if (mounted) setState(() { });
   }
 
   @override
@@ -114,19 +112,7 @@ class RreservationState extends State<Reservation> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    // InkWell(
-    //   onTap: (){
-
-    //     print(dataSubmittion!.ticketTypeName);
-    //     print(dataSubmittion!.ticketTypeImage);
-    //     print(dataSubmittion!.price);
-    //     print(dataSubmittion!.indexMonthYear);
-    //     print(widget.index);
-    //   },
-    //   child: Text("Click"),
-    // );
-    ReservationBody(
+    return ReservationBody(
       dataSubmittion: dataSubmittion,
       lstMontYear: lstMontYear,
       ticketTypeModel: widget.ticketTypeModel!,

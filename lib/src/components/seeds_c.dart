@@ -37,7 +37,7 @@ class SeedsCompoent {
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
+              color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
               borderRadius: const BorderRadius.all(Radius.circular(50)),
             ),
             // color: grey,
@@ -50,14 +50,14 @@ class SeedsCompoent {
                   if ( (i * 3 + pos + 1) < 10)
                   MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.whiteColorHexa,
+                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   )
 
                   else MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
-                    hexaColor: AppColors.whiteColorHexa,
+                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
                     fontSize: 15,
                     fontWeight: FontWeight.bold
                   ),
@@ -83,13 +83,13 @@ class SeedsCompoent {
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.orangeColor),
+          color: isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
           borderRadius: const BorderRadius.all(Radius.circular(50)),
         ), 
         // color: grey,
         child: MyText(
           text: txt,
-          color2: Colors.white, fontSize: 15, fontWeight: FontWeight.bold
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor, fontSize: 15, fontWeight: FontWeight.bold
         ),
       )
     );
@@ -117,7 +117,7 @@ class SeedContents extends StatelessWidget{
           fontWeight: FontWeight.bold,
         ),
 
-        SizedBox(height: 5.5.h),
+        SizedBox(height: 2.2.h),
         MyText(
           text: subTitle,
           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,

@@ -1,5 +1,4 @@
 /* -------------This file is hold all Packages, Path of file -------------*/
-
 export 'dart:async';
 export 'dart:convert';
 export 'dart:io' show Platform;
@@ -25,15 +24,14 @@ export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
 export 'package:responsive_sizer/responsive_sizer.dart';
+export 'package:shimmer/shimmer.dart';
 
 //Component
-export 'package:wallet_apps/src/components/animation.dart';
-export 'package:wallet_apps/src/components/bottom_sheet.dart';
+export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
 export 'package:wallet_apps/src/components/home_c.dart';
-export 'package:wallet_apps/src/components/main_component.dart';
 export 'package:wallet_apps/src/components/menu_c.dart';
 export 'package:wallet_apps/src/components/my_input.dart';
 export 'package:wallet_apps/src/components/platform_specific/android_native.dart';
@@ -51,7 +49,7 @@ export 'package:wallet_apps/src/components/portfolio_cus.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/passcode/passcode.dart';
-export 'package:wallet_apps/src/components/appbar_c.dart';
+export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
 
 // Add Asset
 export 'package:wallet_apps/src/models/asset_m.dart';
@@ -89,8 +87,6 @@ export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
 // Add Phone
 
 export 'package:wallet_apps/src/route/router.dart';
-//Check In
-export 'package:wallet_apps/src/screen/home/check_in/check_in.dart';
 /* Home Screen */
 export 'package:wallet_apps/src/screen/home/menu/account/account.dart';
 
@@ -100,6 +96,7 @@ export 'package:wallet_apps/src/screen/home/navigation_drawer/navigation_drawer.
 // Add Assets
 export 'package:wallet_apps/src/screen/home/menu/add_asset/add_asset.dart';
 export 'package:wallet_apps/src/screen/home/menu/add_asset/body_add_asset.dart';
+
 /* Menu Screen */
 export 'package:wallet_apps/src/screen/home/menu/menu.dart';
 export 'package:wallet_apps/src/screen/home/menu/menu_body.dart';
@@ -132,27 +129,17 @@ export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
-export 'package:wallet_apps/src/screen/main/mnemonic/confirm_mnemonic.dart';
-export 'package:wallet_apps/src/screen/main/mnemonic/contents_backup.dart';
-export 'package:wallet_apps/src/screen/main/mnemonic/create_mnemoic.dart';
-export 'package:wallet_apps/src/screen/main/import_account/import_acc.dart';
-export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
-export 'package:wallet_apps/src/screen/main/local_auth/finger_print.dart';
-export 'package:wallet_apps/src/screen/main/create_user_info/body_user_info.dart';
+export 'package:wallet_apps/src/screen/main/seeds/import_seeds/import_acc.dart';
+export 'package:wallet_apps/src/screen/main/finger_print.dart';
 // Finger Print
-export 'package:wallet_apps/src/screen/main/splash_screen/splash_screen.dart';
+export 'package:wallet_apps/src/screen/main/splash_screen.dart';
 
-export 'package:wallet_apps/src/screen/main/import_account/body_import_acc.dart';
-export 'package:wallet_apps/src/screen/main/import_user_info/import_user_info.dart';
+export 'package:wallet_apps/src/screen/main/seeds/import_seeds/body_import_acc.dart';
 // Main Screeen
-export 'package:wallet_apps/src/screen/main/welcome/welcome.dart';
-export 'package:wallet_apps/src/screen/main/welcome/body_welcome.dart';
-
-export 'package:wallet_apps/src/screen/home/asset_list.dart';
+export 'package:wallet_apps/src/screen/main/onboarding/onboarding.dart';
+export 'package:wallet_apps/src/screen/main/onboarding/body_onboarding.dart';
 
 export 'package:wallet_apps/src/screen/home/contact_book/contact_book.dart';
-
-export 'package:wallet_apps/src/screen/main/create_user_info/user_info.dart';
 
 /* Local File */
 export 'package:wallet_apps/src/service/services.dart';

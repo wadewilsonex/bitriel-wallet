@@ -15,7 +15,7 @@ class NftTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: MyText(
-        text: "No Ticket",
+        text: "No NFT",
       ),
     );
     // lstTicket!.isNotEmpty ?

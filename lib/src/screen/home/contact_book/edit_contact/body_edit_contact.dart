@@ -95,10 +95,8 @@ class EditContactBody extends StatelessWidget {
                             onChanged!(response.toString());
                           }
                         } catch (e) {
-                          if (ApiProvider().isDebug == true) {
-                            if (kDebugMode) {
-                              print("Error from QR scanner $e");
-                            }
+                          if (kDebugMode) {
+                            print("Error from QR scanner $e");
                           }
                         }
                       },

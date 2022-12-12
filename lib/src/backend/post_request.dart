@@ -1,6 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/backend.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {
@@ -25,7 +26,6 @@ class PostRequest {
 
   // Web2 wallet api
   Future<http.Response> registerPhoneNumber(final String? phoneNumber) async {
-    print("registerPhoneNumber phoneNumber $phoneNumber");
     body = json.encode({
       "phoneNumber": phoneNumber,
     });
@@ -43,8 +43,6 @@ class PostRequest {
       "phoneNumber": phoneNumber,
       "opt" : opt
     });
-
-    print("body $body");
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/verify/otp"),
@@ -80,14 +78,11 @@ class PostRequest {
   }
 
   Future<http.Response> loginVerifyOPT(final String phoneNumber, final String opt) async {
-    print("loginVerifyOPT ${phoneNumber.length} ${opt.length}");
-    print("${dotenv.get("WEB2_URL_API")}/login/verify/otp");
     body = json.encode({
         "phoneNumber": "+85511725228",
         "otp": "672789"
     });
-    print("body $body");
-    print("body.runtimeType ${body.runtimeType}");
+    
     // ({
     //   "phoneNumber": phoneNumber,
     //   "opt" : opt
@@ -100,17 +95,53 @@ class PostRequest {
     );
   }
 
-  /// Http Header
-  Map<String, String> conceteHeader({String? key, String? value}) { /* Concete More Content Of Header */
-    return key != null 
-    ? { /* if Parameter != Null = Concete Header With  */
-      "Content-Type": "application/json; charset=utf-8", 
-      'accept': 'application/json',
-      key: value!
-    }
-    : { /* if Parameter Null = Don't integrate */
-      "Content-Type": "application/json; charset=utf-8",
-      'accept': 'application/json'
-    };
+  /* MetaDoers World */
+
+  Future<http.Response> getTicketsByEventId(String id) async {
+
+    body = json.encode({
+      "eventId": id
+    });
+
+
+    // String js = await rootBundle.loadString('assets/json/list_year.json');
+    // print("js $js");
+    // // print((await json.decode(js)));
+    // return http.Response(js, 200);
+
+    return await http.post(
+      Uri.parse("${dotenv.get('DOERS_API')}ticket-types"),
+      body: body,
+      headers: conceteHeader()
+    );
   }
+
+  Future<http.Response> getTicketTypeGroupedByDate(String tkTypeId, String evntId) async {
+    
+    body = json.encode({
+      "ticketTypeId": tkTypeId,
+      "eventId": evntId
+    });
+
+    // String js = await rootBundle.loadString('assets/json/by-ticket-type-grouped-by-date.json');
+    // print(js);
+    // return http.Response(js, 200);
+    return await http.post(
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type-grouped-by-date"),
+      body: body,
+      headers: conceteHeader()
+    );
+  }
+
+  Future<http.Response> bookTicket(String body) async {
+
+    return await http.post(
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}payments/stripe/pay"),
+      body: body,
+      headers: conceteHeader()
+    );
+  }
+  
 }

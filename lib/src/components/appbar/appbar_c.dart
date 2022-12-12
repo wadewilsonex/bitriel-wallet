@@ -1,12 +1,11 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
   required HomePageModel? homePageModel,
-  required bool? pushReplacement,
-  required String? initSLDNetwork,
+  required bool? pushReplacement
 }) {
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
@@ -16,8 +15,8 @@ PreferredSizeWidget defaultAppBar({
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: const EdgeInsets.all(10),
-        // padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -25,16 +24,19 @@ PreferredSizeWidget defaultAppBar({
         ),
       ),
     ),
-    leading: IconButton(
-      onPressed: () {
-        homePageModel!.globalKey!.currentState!.openDrawer();
-      },
-      icon: Icon(
-        Iconsax.profile_circle, 
-        color: isDarkMode 
-          ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-          : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-        size: 6.w,
+    leading: Container(
+      margin: const EdgeInsets.only(left: 15),
+      child: IconButton(
+        onPressed: () {
+          homePageModel!.globalKey!.currentState!.openDrawer();
+        },
+        icon: Icon(
+          Iconsax.profile_circle, 
+          color: isDarkMode 
+            ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+            : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+          size: 6.w,
+        ),
       ),
     ),
     
@@ -46,7 +48,7 @@ PreferredSizeWidget defaultAppBar({
           builder: (context, provider, child) {
             return GestureDetector(
               onTap: () async {
-                await HomeFunctional().changeNetwork(provider: provider, context: context, setState: setState, initSLDNetwork: initSLDNetwork);
+                await HomeFunctional().changeNetwork(context: context, setState: setState);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,6 +67,7 @@ PreferredSizeWidget defaultAppBar({
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      
                       MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
             
                         Padding(
@@ -84,7 +87,8 @@ PreferredSizeWidget defaultAppBar({
     ),
     actions: <Widget>[
       
-      Padding(
+      Container(
+        margin: const EdgeInsets.only(right: 10),
         padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
         child: IconButton(
           icon: Align(

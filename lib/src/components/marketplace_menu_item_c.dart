@@ -23,19 +23,8 @@ class SelEcoSysMenuItem extends StatelessWidget {
       child: Container(
         height: 15.h,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
-            width: 0.75,
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 48.0,
-              offset: const Offset(0.0, 2)
-            )
-          ],
           borderRadius: BorderRadius.circular(8),
-          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorBtn),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -53,7 +42,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: MyText(
                 text: title,
-                // hexaColor: AppColors.whiteColorHexa,
+                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
                 fontWeight: FontWeight.w700,
               ),
             ),

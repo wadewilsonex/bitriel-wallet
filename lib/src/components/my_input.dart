@@ -240,7 +240,7 @@ class MySeedField extends StatelessWidget {
                 color: hexaCodeToColor(AppColors.textColor), fontSize: 18.0),
             /* Prefix Text */
             filled: true,
-            fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.06) : hexaCodeToColor(AppColors.whiteHexaColor),
+            fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.blackColor).withOpacity(0.06),
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20.0),
@@ -306,4 +306,43 @@ OutlineInputBorder mySeedFieldBorder(Color borderColor) {
         color: borderColor,
       ),
       borderRadius: BorderRadius.circular(12));
+}
+
+Widget myInputWidget({required BuildContext context, required TextEditingController controller, required String hintText, required Function? validator}){
+  return Padding(
+    padding: const EdgeInsets.all(paddingSize),
+    child: TextFormField(
+      validator: (value) {
+        return validator!(value);
+      },
+      controller: controller,
+      style: TextStyle(
+        fontSize: 14,
+        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
+      ),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+        ),
+        hintText: hintText,
+        hintStyle: TextStyle(
+          fontSize: 14,
+          color: hexaCodeToColor("#AAAAAA"),
+        ),
+        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+        /* Prefix Text */
+        filled: true,
+        fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+      ),
+    ),
+  );
 }

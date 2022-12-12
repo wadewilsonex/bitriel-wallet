@@ -1,5 +1,8 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
+import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
@@ -29,18 +32,9 @@ class MenuBody extends StatelessWidget {
 
         // Wallet
         MenuSubTitle(index: 1),
-        
-        // MyListTile(
-        //   icon: Icon(Iconsax.card_coin, color: Colors.white, size: 22.5.sp),
-        //   index: 2,
-        //   subIndex: 1,
-        //   onTap: () {
-        //     Navigator.push(context, Transition(child: Swap(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-        //   },
-        // ),
 
         MyListTile(
-          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 1,
           subIndex: 0,
           onTap: () {
@@ -49,22 +43,19 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
-          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 1,
           subIndex: 1,
           onTap: () {
-            // underContstuctionAnimationDailog(context: context);
+            
             Navigator.push(context, Transition(child: const AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
         
         MyListTile(
-          // icon: Icon(Iconsax.wallet, color: Colors.white, size: 22.5.sp),
           index: 1,
           subIndex: 2,
           onTap: () async {
-
-            // await StorageServices.removeKey(DbKey.wcSession);
             
             WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
             wConnectC.setBuildContext = context;
@@ -83,21 +74,10 @@ class MenuBody extends StatelessWidget {
                   context, 
                   Transition(child: const WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                 );
-                // _wConnectC.sessionStore = WCSessionStore.fromJson(value);
-                // try {
 
-                //   _wConnectC.wcClient.connectFromSessionStore(_wConnectC.sessionStore!);
-                //   // _wConnectC.connectToPreviousSession();
-                //   Navigator.push(
-                //     context, 
-                //     Transition(child: WalletConnectPage(wcData: value,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                //   );
-                // } catch (e){
-                //   if (ApiProvider().isDebug == true) print("error _wConnectC.wcClient $e");
-                // }
               }
             });
-            // underContstuctionAnimationDailog(context: context);
+            
           },
         ),
 
@@ -105,7 +85,7 @@ class MenuBody extends StatelessWidget {
         MenuSubTitle(index: 3),
 
         MyListTile(
-          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -120,7 +100,7 @@ class MenuBody extends StatelessWidget {
 
         MenuSubTitle(index: 4),
         MyListTile(
-          icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           enable: false,
           index: 4,
           subIndex: 0,
@@ -133,11 +113,32 @@ class MenuBody extends StatelessWidget {
           ),
           onTap: null,
         ),
-
+        
         MenuSubTitle(index: 5),
 
+
         MyListTile(
-          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : Colors.black, size: 22.5.sp),
+          icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          index: 5,
+          subIndex: 1,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
+        MyListTile(
+          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          index: 5,
+          subIndex: 2,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
+        MyListTile(
+          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 5,
           subIndex: 0,
           onTap: () async {
@@ -145,6 +146,7 @@ class MenuBody extends StatelessWidget {
             //_launchInBrowser('https://selendra.com/privacy');
           },
         ),
+
       ],
     );
   }

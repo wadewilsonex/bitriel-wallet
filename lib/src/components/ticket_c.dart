@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 class TicketPainter extends CustomPainter {
   final Color borderColor;
   final Color bgColor;
+  final double dsahHeight;
 
   static const _cornerGap = 20.0;
   static const _cutoutRadius = 20.0;
   static const _cutoutDiameter = _cutoutRadius * 2;
 
-  TicketPainter({required this.bgColor, required this.borderColor});
+  TicketPainter({required this.bgColor, required this.borderColor, required this.dsahHeight});
 
   @override
   void paint(Canvas canvas, Size size) {
     final maxWidth = size.width;
     final maxHeight = size.height;
 
-    final cutoutStartPos = maxHeight - maxHeight * 0.7;
+    final cutoutStartPos = maxHeight - maxHeight * dsahHeight;
     final leftCutoutStartY = cutoutStartPos;
     final rightCutoutStartY = cutoutStartPos - _cutoutDiameter;
     final dottedLineY = cutoutStartPos - _cutoutRadius;

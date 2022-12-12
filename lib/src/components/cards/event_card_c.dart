@@ -1,9 +1,4 @@
 import 'dart:ui';
-
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
@@ -67,7 +62,8 @@ class EventCardComponents extends StatelessWidget {
                     child: Stack(
                       children: [
                   
-                        SizedBox(
+                        Container(
+                          color: Colors.white,
                           height: 200,
                           width: MediaQuery.of(context).size.width - 60,
                           child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
@@ -82,14 +78,9 @@ class EventCardComponents extends StatelessWidget {
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
                                   child: Container(
-                                  // margin: const EdgeInsets.only(left: 10, bottom: 10),
-                                  // alignment: Alignment.bottomLeft,
                                   decoration: BoxDecoration(
-                                    // color: hexaCodeToColor("#413B3B").withOpacity(0.7),
                                     borderRadius: BorderRadius.circular(10),
-                                    // border: Border.all(color: hexaCodeToColor("#383838"))
                                   ),
-                                  // width: MediaQuery.of(context).size.width - 60,
                                   height: 8.h,
                                   padding: const EdgeInsets.all(10),
                                   child: Column(

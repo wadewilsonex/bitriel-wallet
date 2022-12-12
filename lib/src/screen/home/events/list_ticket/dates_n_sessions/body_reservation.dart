@@ -45,7 +45,6 @@ class ReservationBody extends StatelessWidget {
         TicketItemComponent(
           label: "Select Joining Date",
           onTap: () async {
-            print("dateTimePicker");
 
             // List Month - Year 
             // And List All Available Date In Each Month.
@@ -92,16 +91,15 @@ class ReservationBody extends StatelessWidget {
           )
         ) : Container(),
 
-        /// 2.1 Sessioin Drop Down
+        /// 2.1 Session Drop Down
         /// 
         /// List Sessions
         if ( ticketTypeModel!.isShow! )
           Container(
-            margin: EdgeInsets.only(left: 45, right: 45),
+            margin: const EdgeInsets.only(left: 45, right: 45),
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: lstMontYear![ dataSubmittion!.indexMonthYear! ].session!.lstDateAndSessions![ dataSubmittion!.indexDate! ].sessions!.length,
-              // ticketModel!.lstMontYear![ ticketTypeIndex! ].lstSessionsByMonth![ ticketModel!.lsTicketTypes![ticketTypeIndex!].mmYYIndex! ].lstDateAndSessions![ ticketModel!.lsTicketTypes![ticketTypeIndex!].joinDateIndex! ].sessions!.length,
               itemBuilder: (context, index) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +117,8 @@ class ReservationBody extends StatelessWidget {
                       onChangeSession: onSessionChange!
                     ),
 
-                    if(index != lstMontYear![ dataSubmittion!.indexMonthYear! ].session!.lstDateAndSessions![ dataSubmittion!.indexDate! ].sessions!.length-1) Divider(
+                    if(index != lstMontYear![ dataSubmittion!.indexMonthYear! ].session!.lstDateAndSessions![ dataSubmittion!.indexDate! ].sessions!.length-1) 
+                    const Divider(
                       height: 1,
                       thickness: 1,
                     ),
@@ -136,30 +135,34 @@ class ReservationBody extends StatelessWidget {
           child: Row(
             children: [
     
-              Icon(Icons.airplane_ticket),
+              SvgPicture.asset('${AppConfig.iconsPath}quantity.svg', width: 25.sp,),
+              // Icon(Iconsax.quant)
               Expanded(child: Container()),
 
               Row(
                 children: [
 
                   IconButton(
+                    padding: EdgeInsets.zero,
                     onPressed: (){
                       onQtyChange!(-1);
                     }, 
-                    icon: Icon(Icons.add)
+                    icon: const Icon(Iconsax.minus)
                   ),
 
                   MyText(
                     text: dataSubmittion!.item!.qty.toString(),
                     fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
 
                   IconButton(
+                    padding: EdgeInsets.zero,
                     onPressed: (){
 
                       onQtyChange!(1);
                     }, 
-                    icon: Icon(Icons.add)
+                    icon: Icon(Iconsax.add)
                   )
                 ],
               )
@@ -168,7 +171,7 @@ class ReservationBody extends StatelessWidget {
         ) 
         else Container(),
 
-        if ( dataSubmittion!.from!.isNotEmpty && dataSubmittion!.to!.isNotEmpty )
+        if ( dataSubmittion!.item!.qty != 0 )
         TicketItemComponent(
           label: "User Info", 
           child: InkWell(
@@ -192,7 +195,7 @@ class ReservationBody extends StatelessWidget {
             child: Row(
               children: [
               
-                Icon(Icons.airplane_ticket),
+                Icon(Iconsax.user_add),
                 Expanded(child: Container()),
 
                 Icon(Icons.arrow_forward_ios_outlined)

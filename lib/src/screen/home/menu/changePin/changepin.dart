@@ -303,10 +303,9 @@ class ChangePinState extends State<ChangePin> {
 
 
     } catch (e){
-      if (_apiProvider!.isDebug) {
-        if (kDebugMode) {
-          print("Error _updatePkWithNewPass $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error _updatePkWithNewPass $e");
       }
     } 
   }

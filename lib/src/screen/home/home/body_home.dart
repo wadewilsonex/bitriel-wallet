@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
@@ -9,16 +8,13 @@ import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
-import 'package:wallet_apps/src/screen/home/doers_event_ticket/find_event.dart';
-import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
-import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
-import 'package:wallet_apps/src/screen/home/swap/swap.dart';
+import 'package:wallet_apps/src/screen/home/events/events.dart';
+import 'package:wallet_apps/src/screen/home/explorer/explorer.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
-
-import '../setting/setting.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -29,7 +25,7 @@ class HomePageBody extends StatelessWidget {
   final Function? onTapWeb;
   final Function? getReward;
 
-  const HomePageBody({ 
+  HomePageBody({ 
     Key? key, 
     this.isTrx,
     this.homePageModel,
@@ -44,77 +40,15 @@ class HomePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: homePageModel!.globalKey,
+      // extendBody: true,
       drawer: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 ?
-      null
-      :
-      AppBar(
-        // iconTheme: IconThemeData(
-        //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        // ),
-        backgroundColor: homePageModel!.activeIndex == 1 ? hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa) : hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-        elevation: 0,
-        leadingWidth: 15.w,
-        leading: IconButton(
-          onPressed: () {
-            homePageModel!.globalKey!.currentState!.openDrawer();
-          },
-          icon: Icon(
-            Iconsax.profile_circle, 
-            color: isDarkMode 
-              ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-              : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-            size: 6.w,
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                Iconsax.chart_3,
-                color: isDarkMode 
-                  ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-                size: 6.w,
-              ),
-            ),
-            onPressed: () async {
-              portfolioDailog(context: context);
-            },
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize - 8.5),
-            child: IconButton(
-              icon: Align(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Iconsax.scan,
-                  color: isDarkMode 
-                    ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.blackColor : AppColors.blackColor),
-                  size: 6.w,
-                ),
-              ),
-              onPressed: () async {
-                
-                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                // if (value != null){
-                //   getReward!(value);
-                // }
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                  pushReplacement!,
-                );
-              },
-            ),
-          )
-        ],
+      appBar: defaultAppBar(
+        context: context,
+        homePageModel: homePageModel,
+        pushReplacement: pushReplacement
       ),
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
@@ -123,7 +57,7 @@ class HomePageBody extends StatelessWidget {
         children: [
           
           // Explorer(),
-          DiscoverPage(homePageModel: homePageModel!),
+          ExplorerPage(homePageModel: homePageModel!),
 
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
@@ -132,14 +66,21 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                
+                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+
+                ShowCaseWidget(
+                  builder: Builder(
+                    builder : (context) => Container()
+                  ),
+                ),
 
                 const SizedBox(height: 10), 
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",
                     fontSize: 17.5,
@@ -159,7 +100,7 @@ class HomePageBody extends StatelessWidget {
           
                 const SizedBox(height: 10), 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
                     fontSize: 17.5,
@@ -179,7 +120,7 @@ class HomePageBody extends StatelessWidget {
           
                 const SizedBox(height: 10), 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",
                     fontSize: 17.5,
@@ -192,15 +133,16 @@ class HomePageBody extends StatelessWidget {
                   child: _selEcoSysMenu(context),
                 ),
                 
+                // SizedBox(height: 10.h), 
               ],
             ),
           ),
 
           // SwapPage(),
-          // EventTicket(),
-          FindEvent(),
+          const FindEvent(),
 
-          SettingPage(),
+          // const SettingPage(), Fifth tab
+          const NFT(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -217,7 +159,8 @@ class HomePageBody extends StatelessWidget {
           options: CarouselOptions(
             viewportFraction: 1,  
             aspectRatio: 29 / 10,
-            autoPlay: true,
+            autoPlay: false,
+            enableInfiniteScroll: false,
             enlargeCenterPage: true,
             scrollDirection: Axis.horizontal,
             onPageChanged: homePageModel!.onAdsCarouselChanged,
@@ -225,10 +168,11 @@ class HomePageBody extends StatelessWidget {
           items: imgList
             .map((item) => GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context, 
-                  Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
+                // Navigator.push(
+                //   context, 
+                //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                // );
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -244,9 +188,14 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
-                    child: Image.asset(
+                    child: item['asset'].contains("https") ? Image.network(
                       item['asset'],
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                    )
+                    : Image.asset(
+                      item['asset'], 
+                      fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ),
@@ -265,8 +214,8 @@ class HomePageBody extends StatelessWidget {
             dotWidth: 25.0.sp,
             dotHeight: 5.0.sp,
             paintStyle: PaintingStyle.fill,
-            dotColor: hexaCodeToColor(AppColors.sliderColor).withOpacity(0.36),
-            activeDotColor: hexaCodeToColor(AppColors.sliderColor),
+            dotColor: hexaCodeToColor(AppColors.secondary).withOpacity(0.36),
+            activeDotColor: hexaCodeToColor(AppColors.secondary),
           ), 
           
         ),
@@ -287,7 +236,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -301,7 +250,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -323,7 +272,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
+                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -342,7 +291,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
+                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -359,7 +308,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor), size: iconSize),
+                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {

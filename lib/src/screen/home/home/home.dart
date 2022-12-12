@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/provider/mdw_p.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    
+
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
         setState(() {
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
     };
     
     AppServices.noInternetConnection(context: context);
+    
     super.initState();
     
   }
@@ -141,6 +143,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
+
   // Future<String> _signId(String id) async {
 
   //   return await Provider.of<ApiProvider>(context, listen: false).getPrivateKey("august midnight obvious fragile pretty begin useless collect elder ability enhance series");
@@ -149,6 +152,7 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+
     return HomePageBody(
       isTrx: widget.isTrx,
       homePageModel: _model,

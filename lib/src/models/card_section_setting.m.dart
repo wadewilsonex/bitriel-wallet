@@ -129,10 +129,14 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     
     try {
       
-      await api.apiKeyring.deleteAccount(
-        api.getKeyring,
-        api.getKeyring.keyPairs[0],
-      );
+      try {
+        await api.apiKeyring.deleteAccount(
+          api.getKeyring,
+          api.getKeyring.keyPairs[0],
+        );
+      } catch(e){
+        print("Error deleteAccount $e");
+      }
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       // final event = await StorageServices.fetchData(DbKey.event);
@@ -156,15 +160,14 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
       await wcComponent.killAllSession();
 
-      print("google signOut");
-
       await Provider.of<GoogleAuthService>(context, listen: false).signOut();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
     } catch (e) {
-      if (kDebugMode) {
-        print("_deleteAccount ${e.toString()}");
-      }
+
+      // Close Dialog Loading
+      Navigator.pop(context);
+      
       // await dialog(context, e.toString(), 'Opps');
     }
   }

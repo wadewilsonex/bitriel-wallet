@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/components/tab_c.dart';
@@ -22,12 +23,11 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
   List<TicketNFTModel>? lstTicket = [];
 
   void queryTickets() async {
-    print("queryTickets");
-    await StorageServices.fetchData(DbKey.token).then((value) async {
-      print("token value != null $value");
-      if (value != null)
-      await PostRequest().getTickets(value).then((res) async {
-        print("Res data ${res.body}");
+
+    // await StorageServices.fetchData(DbKey.token).then((value) async {
+    //   print("token value != null $value");
+    //   if (value != null)
+      await getTickets('value').then((res) async {
 
         (await json.decode(res.body))['tickets'].forEach((data){
           lstTicket!.add(
@@ -38,7 +38,7 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
         setState(() { });
         
       });
-    });
+    // });
   }
 
   @override

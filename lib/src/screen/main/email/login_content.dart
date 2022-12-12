@@ -29,14 +29,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
   ChangeScreenAnimation animationS = ChangeScreenAnimation();
 
   Future<void> login() async {
-    // print("_model.email.text ${_model.email.text}");
-    // print("_model.password.text ${_model.password.text}");
-    // setState(() => _loading = true);
-    // await Future.delayed(Duration(seconds: 3));
-    // _loading = false;
-    // if (mounted == true) {
-    //   setState(() {});
-    // }
+
     print(Form.of(context)?.validate());
     if (_model.getFmKey.currentState!.validate()){
       await _decryptDataLogin();
@@ -45,7 +38,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
   }
 
   Future<void> _decryptDataLogin() async {
-    print("_decryptDataLogin");
+
     try {
 
       // Verify OTP with HTTPs
@@ -53,20 +46,11 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
       Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
 
       final responseJson = json.decode(response.body);
-      print("responseJson ${responseJson.runtimeType}");
-      print(responseJson['user'].containsKey("encrypted"));
 
       if (response.statusCode == 200) {
 
-        // if(!mounted) return;
         if (responseJson['user'].containsKey("encrypted")){
 
-          // Navigator.pushAndRemoveUntil(
-          //   context, 
-          //   MaterialPageRoute(builder: (context) => HomePage()), 
-          //   (route) => false
-          // );
-          // Navigator.push(context, Transition(child: SetPassword(phoneNumber: widget.phoneNumber!, responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           Navigator.push(context, Transition(child: ImportJson(json: responseJson, password: "123",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         }
           

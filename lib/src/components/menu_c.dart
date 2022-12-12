@@ -1,8 +1,12 @@
 /* The components file has custom widgets which are used by multiple different screens */
+import 'dart:ui';
+
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/shimmer_c.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wallet_apps/src/constants/ui_helper.dart';
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class MenuHeader extends StatelessWidget {
   
@@ -12,8 +16,6 @@ class MenuHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
@@ -95,8 +97,8 @@ class MenuHeader extends StatelessWidget {
                       ]
                     )
                   )
-
-
+    
+    
                 ],
               )
             ],
@@ -134,12 +136,12 @@ class MenuSubTitle extends StatelessWidget {
                   text: MenuModel.listTile[index!]['title'].toString(),
                   hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                   textAlign: TextAlign.start,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               Expanded(
                 child: Divider(
-                  thickness: 0.5,
+                  thickness: 0.4,
                   color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.darkGrey),
                   indent: 10,
                 ),
@@ -178,20 +180,20 @@ class MyListTile extends StatelessWidget {
       onTap: onTap,
       leading: icon ?? Image.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
-        color: isDarkMode ? Colors.white : Colors.black,
+        color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey),
         width: 22.5.sp,
         height: 22.5.sp
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
         textAlign: TextAlign.left,
-        fontSize: 16,
+        fontSize: 15,
       ),
       trailing: trailing,
     );
   }
 }
-
+  
 // Widget customListTile(
 //     BuildContext context, IconData icon, String title, dynamic method,
 //     {bool maintenance = false}) {

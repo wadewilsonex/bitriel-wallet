@@ -29,4 +29,7 @@ class DbKey{
   static String coinData = "coinData";
 
   static String wcSession = "session";
+
+  static String sldNetwork = "sldNetwork_key";
+  static String lsSldEndpoint = "lsSldEndpoint_key";
 }

@@ -120,9 +120,11 @@ class Component {
 }
 
 class MyFlatButton extends StatelessWidget {
+
   final String? textButton;
   final String? buttonColor;
   final String? textColor;
+  final Widget? subChild;
   final FontWeight? fontWeight;
   final double? fontSize;
   final EdgeInsetsGeometry? edgeMargin;
@@ -132,10 +134,13 @@ class MyFlatButton extends StatelessWidget {
   final double? width;
   final double? height;
   final bool? isTransparent;
+  final bool? isBorder;
+  final double? opacity;
 
   const MyFlatButton({
     Key? key, 
     this.textButton,
+    this.subChild,
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
     this.fontWeight = FontWeight.bold,
@@ -146,6 +151,8 @@ class MyFlatButton extends StatelessWidget {
     this.width = double.infinity,
     this.height,
     this.isTransparent = false,
+    this.isBorder,
+    this.opacity = 1,
     @required this.action,
   }) : super(key: key);
 
@@ -160,10 +167,10 @@ class MyFlatButton extends StatelessWidget {
       height: height,
 
       decoration: isTransparent! ? null : BoxDecoration(
-        border: Border.all(
-          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.50),
+        border: isBorder! ? Border.all(
+          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
           width: 1,
-        ),
+        ) : null,
         borderRadius: BorderRadius.circular(size8), 
         boxShadow: [
           if (hasShadow!)
@@ -180,17 +187,24 @@ class MyFlatButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
-          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!),
+          backgroundColor: isTransparent! ? Colors.transparent : hexaCodeToColor(buttonColor!).withOpacity(opacity!),
         ),
         onPressed: action == null ? null : (){
           action!();
         },
-        child: Center(
-          child: MyText(
-            text: textButton!,
-            hexaColor: textColor!,
-            fontWeight: fontWeight!,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MyText(
+              text: textButton!,
+              hexaColor: textColor!,
+              fontWeight: fontWeight!,
+            ),
+            
+            subChild ?? Container()
+          ],
         ),
       ),
     );
@@ -229,7 +243,7 @@ class MyGradientButton extends StatelessWidget {
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height,
+    this.height = 50,
     this.isTransparent = false,
     required this.begin,
     required this.end,
@@ -238,7 +252,6 @@ class MyGradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
 
     return Container(
       padding: edgePadding,
@@ -253,10 +266,6 @@ class MyGradientButton extends StatelessWidget {
             offset: const Offset(0.0, 2)
           )
         ],
-        border: Border.all(
-          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.25),
-          width: 1,
-        ),
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],
@@ -264,7 +273,6 @@ class MyGradientButton extends StatelessWidget {
           end: end, 
           stops: const [0.25, 0.75],
         ),
-        // color: action == null ? Colors.white.withOpacity(0.06) : null
       ),
       child: MaterialButton(
         hoverColor: Colors.transparent,
@@ -484,6 +492,7 @@ class BodyScaffold extends StatelessWidget {
 class MyIconButton extends StatelessWidget {
 
   final String? title;
+  final bool? isActive;
   final Widget? child;
   final String? icon;
   final double? iconSize;
@@ -494,6 +503,7 @@ class MyIconButton extends StatelessWidget {
   const MyIconButton({
     Key? key, 
     this.title,
+    this.isActive = false,
     this.child,
     this.icon,
     this.iconSize,
@@ -516,15 +526,16 @@ class MyIconButton extends StatelessWidget {
         children: [
           child ?? SvgPicture.asset(
             '${AppConfig.iconsPath}$icon',
-            width: iconSize ?? 30,
-            height: iconSize ?? 30,
+            width: iconSize ?? 24,
+            height: iconSize ?? 24,
             color: isDarkMode ? Colors.white : Colors.black,
           ),
           const SizedBox(height: 5),
           MyText(
             text: title,
             hexaColor: txtColor,
-            
+            fontSize: 12,
+            fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
           )
         ],
       )

@@ -14,11 +14,6 @@ class MyApiKeyring extends ApiKeyring {
   final ServiceKeyring service;
   MyApiKeyring(this.apiRoot, this.service) : super(apiRoot, service);
 
-  // MyServiceKeyring setServiceKeyring(ServiceKeyring se){
-  //   service.serviceRoot = se.serviceRoot;
-  //   return service;
-  // }
-
   @override
   Future<KeyPairData> addAccount(
     Keyring keyring, {
@@ -37,11 +32,8 @@ class MyApiKeyring extends ApiKeyring {
       }
     }
 
-    print("Strat EncryptSeed");
     // save keystore to storage
     await EncryptSeed(keyring.store.ss58List).addAccount(acc);
-
-    print("finish await EncryptSeed(keyring.store.ss58List).addAccount(acc)");
 
     await updatePubKeyIconsMap(keyring, [acc['pubKey']]);
     await updatePubKeyAddressMap(keyring);

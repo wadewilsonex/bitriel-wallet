@@ -61,9 +61,6 @@ class WalletConnectComponent with ChangeNotifier {
         connectToPreviousSession(lsWcClients[i], autoKill: true);
       });
 
-      if (kDebugMode) {
-        print("kill session");
-      }
     }
     lsWcClients.clear();
     await StorageServices.removeKey(DbKey.wcSession);
@@ -91,19 +88,15 @@ class WalletConnectComponent with ChangeNotifier {
     try {
       final pref = await SharedPreferences.getInstance();
       String? value = pref.getString("session");
-      if (kDebugMode) {
-        print("initSession value $value");
-      }
+      
       if (value != null){
         sessionStore = WCSessionStore.fromJson(jsonDecode(value));
         notifyListeners();
       }
     }
     catch(error){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Err initSession $error");
-        }
+      if (kDebugMode) {
+        print("Err initSession $error");
       }
     }
   }
@@ -121,9 +114,7 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   qrScanHandler(String value) {
-    if (kDebugMode) {
-      print("qrScanHandler");
-    }
+    
     try {
 
       final session = WCSession.from(value);
@@ -138,10 +129,9 @@ class WalletConnectComponent with ChangeNotifier {
       // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
       wcClient.connectNewSession(session: session, peerMeta: peerMeta);
     } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("error qrScanHandler $e");
-        }
+      
+      if (kDebugMode) {
+        print("error qrScanHandler $e");
       }
     }
   }
@@ -160,17 +150,9 @@ class WalletConnectComponent with ChangeNotifier {
     //   : null;
       
     if (sessionStore != null) {
-      if (kDebugMode) {
-        print("connectToPreviousSession sessionStore != null");
-      }
+      
       await wcClient.connectFromSessionStore(sessionStore!);
 
-      if (kDebugMode) {
-        print(wcClient.isConnected);
-      }
-      if (kDebugMode) {
-        print("wcClient id ${wcClient.peerMeta!.name}");
-      }
       if (autoKill == true) await wcClient.killSession();
       
     } else {
@@ -330,12 +312,6 @@ class WalletConnectComponent with ChangeNotifier {
 
   onSessionClosed(int? code, String? reason) async {
     
-    if (kDebugMode) {
-      print("close session code: $code");
-    }
-    if (kDebugMode) {
-      print("close session reason: $reason");
-    }
     // await StorageServices.removeKey(DbKey.wcSession);
     await wcClient.approveRequest(id: wcClient.chainId!, result: result);
 

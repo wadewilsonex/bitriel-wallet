@@ -157,175 +157,20 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
       },
     );
 
-    
-    // if (pin == '') pin = await Component.pinDialogBox(context);
-  
-    // print("_airDropProvider!.getPrivateKey ${_airDropProvider!.getPrivateKey}");
-
-    // await fetchSigned();
-
-    // _airDropProvider!.setPrivateKey = (pin != '' ? await AppServices.getPrivateKey(pin, context) : pin)!;
-    // dialogLoading(context);
-    // final gsheets = GSheets(AppConfig.credentials);
-    // fetch spreadsheet by its id
-    // final ss = await gsheets.spreadsheet(_spreadsheetId);
-    // get worksheet by its title
-
-    // final sheet = ss.worksheetById(0);
-
-    /* --- Mainnet Event Airdrop ---*/
-    // dialogLoading(context, content: "Claiming Airdrop");
-
-    // try {
-
-    //   final api = await Provider.of<ApiProvider>(context, listen: false);
-
-    //   final timeStamp = await DateTime.now().millisecondsSinceEpoch;
-
-    //   // Init GSheet
-    //   final gsheet = new GSheets(AppConfig.credentials);
-    //   // Fetch SpreadSheet by ID
-    //   final ss = await gsheet.spreadsheet(AppConfig.speedsheetId);
-
-    //   bool isAlready = false;
-
-    //   Worksheet? worksheet = await ss.worksheetByTitle('Sheet1');
-    //   print("allColumns");
-    //   // Fetch All Sheets Column
-    //   await worksheet!.values.allColumns().then((value) async {
-
-    //     // Work on column 0 "address"
-    //     for(int i = 0 ; i < value[0].length; i++){
-    //       if (value[0][i] == api.getKeyring.current.pubKey){
-    //         isAlready = true;
-    //       }
-
-    //       if (isAlready == true) break;
-          
-    //     }
-    //     for(int i = 0 ; i < value[1].length; i++){
-    //       if (value[1][i] == api.accountM.address){
-    //         isAlready = true;
-    //       }
-
-    //       if (isAlready == true) break;
-          
-    //     }
-    //   });
-
-    //   if (isAlready == false){
-    //     var sheet = ss.worksheetByTitle('Sheet1');
-    //     sheet!.values.appendRow([api.getKeyring.current.pubKey, api.accountM.address, timeStamp]);
-    //     await enableAnimation();
-
-    //   } else {
-    //     await showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return AlertDialog(
-    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-    //           title: Align(
-    //             child: Text('Opps'),
-    //           ),
-    //           content: Padding(
-    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-    //             child: MyText(text: "You had already claim the airdrop"),
-    //           ),
-    //           actions: <Widget>[
-    //             TextButton(
-    //               onPressed: () => Navigator.pop(context),
-    //               child: const Text('Close'),
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-    //   }
-
-    //   Navigator.pop(context);
-
-      /* --- Normal Airdrop ---*/
-      // await http.post(
-      //   Uri.parse('https://airdropv2-api.selendra.org/sign'),
-      //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer ${token['token']}"},
-      //   body: json.encode({
-      //     "password": '123456',
-      //   })
-      // ).then((value) async {
-      //   final res = json.decode(value.body);
-      //   print("Sign with API $res");
-      // });
-      // print("Value $value");
-      // int date = int.parse(value!['Date']);
-
-      // final byte32 = await _airDropProvider!.encodeRS(context, value!['r'], value!['s']);
-      // bool claimOut = await _airDropProvider!.isClaimOut(value!, byte32, context: context);
-      // // bool claimOut = false;
-      // print("claimOut $claimOut");
-      // if ( claimOut == false && DateTime.now().millisecondsSinceEpoch < date){
-      //   print("Claim Success");
-
-      //   // Close Dialog
-      //   Navigator.pop(context);
-
-      //   await enableAnimation();
-      // } else {
-      //   // Close Dialog
-      //   Navigator.pop(context);
-      // }
-
-    // } catch (e) {
-    //   print("Error submitForm ${e}");
-    //   Navigator.pop(context);
-
-    //   if (e.toString() == 'Exception: RPCError: got code 3 with msg "execution reverted: Your message is not signed by admin.".'){
-    //     // print("Re submit");
-    //     await StorageServices.removeKey(DbKey.signData);
-    //     await submitForm();
-    //   } else {
-
-    //     await showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return AlertDialog(
-    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-    //           title: Align(
-    //             child: Text('Opps'),
-    //           ),
-    //           content: Padding(
-    //             padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-    //             child: MyText(text: e.toString()),
-    //           ),
-    //           actions: <Widget>[
-    //             TextButton(
-    //               onPressed: () => Navigator.pop(context),
-    //               child: const Text('Close'),
-    //             ),
-    //           ],
-    //         );
-    //       },
-    //     );
-
-    //   }
-    // }
-
   }
 
   Future<void> enableAnimation() async {
-    // flareController.play('Checkmark');
 
     setState(() {
       _submitted = true;
     });
     await StorageServices.setUserID('claim', DbKey.claim);
-    // Provider.of<ContractProvider>(context, listen: false).getBscBalance();
-    // Provider.of<ContractProvider>(context, listen: false).getBnbBalance();
 
     Timer(const Duration(seconds: 3), () {
       setState(() {
         _submitted = false;
       });
-    //   Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
+      
     });
   }
 
@@ -342,8 +187,6 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
     await Future.delayed(const Duration(milliseconds: 100), () async {
 
       _airDropProvider = Provider.of<AirDropProvider>(context, listen: false);
-      // await _airDropProvider!.initContract();
-      // await _airDropProvider!.airdropTokenAddress();
       _airDropProvider!.setConProvider(Provider.of<ContractProvider>(context, listen: false), context);
       await _airDropProvider!.signIn();
       
@@ -405,24 +248,11 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
 
-                            // Container(
-                            //   padding: const EdgeInsets.all(20),
-                            //   width: MediaQuery.of(context).size.width,
-                            //   child: ClipRRect(
-                            //     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                            //     child: Image.asset(
-                            //       'assets/bep20.png',
-                            //       height: 180,
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            // ),
-
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: SvgPicture.asset("${AppConfig.illustrationsPath}mainnet.svg", width: 270, height: 270,),
                             ),
-                            // Shimmer(child: child, gradient: gradient)
+                            
                             MyText(
                               text: "Celebrate Selendra Mainnet Launch\nShare 222 \$SEL in airdrop",
                               fontWeight: FontWeight.bold,
@@ -532,105 +362,11 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                     }
                                   ),
 
-                                  // MyFlatButton(
-                                  //   textButton: "Submit",
-                                  //   edgeMargin: const EdgeInsets.only(
-                                  //     top: 20,
-                                  //   ),
-                                  //   hasShadow: _enableButton,
-                                  //   action: submitForm//_enableButton ? submitForm : null,
-                                  // ),
-
                                   const AirDropDes(),
                                 ]
                               ),
                             ),
                             
-
-                            // Column(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     MyText(
-                            //       top: 16.0,
-                            //       pBottom: 16.0,
-                            //       left: 16.0,
-                            //       width: double.infinity,
-                            //       text: "Share the airdrop with your friends and family",
-                            //       fontWeight: FontWeight.bold,
-                            //       color: isDarkMode.value
-                            //         ? AppColors.darkSecondaryText
-                            //         : AppColors.textColor,
-                            //       textAlign: TextAlign.left,
-                            //       overflow: TextOverflow.ellipsis,
-                            //       bottom: 4.0,
-                            //     ),
-                                
-                            //     Row(
-                            //       mainAxisAlignment: MainAxisAlignment.center,
-                            //       children: [
-                            //         ElevatedButton(
-                            //           style: ButtonStyle(
-                            //             backgroundColor: MaterialStateProperty.all(Colors.white),
-                            //             padding: MaterialStateProperty.all(EdgeInsets.all(8)),
-                            //             shape: MaterialStateProperty.all(CircleBorder())
-                            //           ),
-                            //           onPressed: () async {
-                            //             final social = _airDropProvider!.urls[SocialMedia.twitter];
-                            //             if (await canLaunch(social)){
-                            //               await launch(social);
-                            //             }
-                            //           }, 
-                            //           child: SvgPicture.asset("assets/logo/twitter.svg", width: iconSize, height: iconSize,),
-                            //         ),
-
-                            //         SizedBox(width: 10,),
-                            //         ElevatedButton(
-                            //           style: ButtonStyle(
-                            //             backgroundColor: MaterialStateProperty.all(Colors.white),
-                            //             padding: MaterialStateProperty.all(EdgeInsets.all(8)),
-                            //             shape: MaterialStateProperty.all(CircleBorder())
-                            //           ),
-                            //           onPressed: () async {
-                            //             final social = _airDropProvider!.urls[SocialMedia.facebook];
-                            //             if (await canLaunch(social)){
-                            //               await launch(social);
-                            //             }
-                            //           }, 
-                            //           child: SvgPicture.asset("assets/logo/facebook.svg", width: iconSize, height: iconSize),
-                            //         ),
-                            //         SizedBox(width: 10,),
-                            //         ElevatedButton(
-                            //           style: ButtonStyle(
-                            //             backgroundColor: MaterialStateProperty.all(Colors.white),
-                            //             padding: MaterialStateProperty.all(EdgeInsets.all(8)),
-                            //             shape: MaterialStateProperty.all(CircleBorder())
-                            //           ),
-                            //           onPressed: () async {
-                            //             final social = _airDropProvider!.urls[SocialMedia.telegram];
-                            //             if (await canLaunch(social)){
-                            //               await launch(social);
-                            //             }
-                            //           }, 
-                            //           child: SvgPicture.asset("assets/logo/telegram.svg", width: iconSize, height: iconSize),
-                            //         )
-                            //       ],
-                            //     )
-                                
-                            //   ]
-                            // ),
-                            
-                            // const SizedBox(height: 20),
-                            // MyFlatButton(
-                            //   textButton: "Subscribe",
-                            //   edgeMargin: const EdgeInsets.only(
-                            //     top: 40,
-                            //     left: 66,
-                            //     right: 66,
-                            //   ),
-                            //   hasShadow: _enableButton,
-                            //   action: submitForm//_enableButton ? submitForm : null,
-                            // ),
-                            // const SizedBox(height: 200),
                           ],
                         ),
                       ),
@@ -650,13 +386,6 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const <Widget>[
-                      // Expanded(
-                      //   child: CustomAnimation.flareAnimation(
-                      //     flareController,
-                      //     AppConfig.animationPath+"check.flr",
-                      //     "Checkmark",
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
