@@ -155,7 +155,7 @@ dependencies:
   walletconnect_dart: ^0.0.11
   wallet_connect: ^1.0.2
   eth_sig_util: ^0.0.9
-  flutter_stripe: ^5.1.0
+  flutter_stripe: ^7.0.0
 
   # Device Preview
   device_preview: ^1.1.0
@@ -165,7 +165,6 @@ dependencies:
 
   # Download
   path_provider:
-  # downloads_path_provider_28:
 
   external_app_launcher: ^3.1.0
 
