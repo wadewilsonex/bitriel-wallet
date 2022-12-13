@@ -1,10 +1,9 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class ImportJson extends StatefulWidget {
 
@@ -20,7 +19,7 @@ class ImportJson extends StatefulWidget {
   }
 }
 
-class ImportJsonState extends State<ImportJson> {
+class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
 
   final ImportAccModel _importAccModel = ImportAccModel();
 
@@ -34,15 +33,37 @@ class ImportJsonState extends State<ImportJson> {
 
   Timer? _timer;
 
+  AnimationController? animationController;
+  Animation<double>? animation;
+
   @override
   void initState() {
     
+    animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animation = Tween(
+      begin: 0.0, end: 1.0
+    ).animate(animationController!);
+
+    animationController!.forward();
+    
+    // animationController!.reverse();S
+
+    animationController!.repeat();
+
     loadingMgs = "Importing wallet";
     _api = Provider.of<ApiProvider>(context, listen: false);
+
     importAccFromJson();
+
     AppServices.noInternetConnection(context: context);
     
     super.initState();
+  }
+
+  @override
+  dispose(){
+    animationController!.dispose();
+    super.dispose();
   }
 
   Future<bool>? validateJson(String mnemonic) async {
@@ -153,9 +174,12 @@ class ImportJsonState extends State<ImportJson> {
           children: [
             loading(),
 
-            MyText(
-              top: 10,
-              text: loadingMgs,
+            FadeTransition(
+              opacity: animation!,
+              child: MyText(
+                top: 10,
+                text: loadingMgs,
+              ),
             )
           ],
         ),
