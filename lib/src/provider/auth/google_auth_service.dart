@@ -19,7 +19,7 @@ class GoogleAuthService extends ChangeNotifier {
           return HomePage();
         }
         else{
-          return Welcome();
+          return Onboarding();
         }
       },
     );
@@ -27,11 +27,9 @@ class GoogleAuthService extends ChangeNotifier {
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      print("signInWithGoogle");
+      
       // Trigger the authentication flow
       return await _googleSignIn.signIn().then((ggUser) async {
-        
-        print("googleUser $ggUser");
 
         // Obtain the auth details from the request
         final GoogleSignInAuthentication googleAuth = await ggUser!.authentication;
@@ -46,7 +44,10 @@ class GoogleAuthService extends ChangeNotifier {
         return await FirebaseAuth.instance.signInWithCredential(credential);
       });
     } catch (e) {
-      print("Error signInWithGoogle $e");
+      
+      if (kDebugMode){
+        print("Error signInWithGoogle $e");
+      }
     }
 
     return null;
@@ -55,13 +56,13 @@ class GoogleAuthService extends ChangeNotifier {
   Future<void> signOut() async {
 
     try {
-
-      print("FirebaseAuth.instance ${FirebaseAuth.instance.currentUser}");
+      
       await _googleSignIn.signOut();
 
-      print("FirebaseAuth.instance ${FirebaseAuth.instance.currentUser}");
     } catch (e) {
-      print("Err signOut $e");
+      if (kDebugMode){
+        print("Err signOut $e");
+      }
     }
   }
 

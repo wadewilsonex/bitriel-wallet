@@ -184,7 +184,7 @@ class AccountBody extends StatelessWidget{
                 begin: Alignment.bottomRight, 
                 end: Alignment.topLeft, 
                 action: (){
-                  deleteAccout;
+                  deleteAccout!();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

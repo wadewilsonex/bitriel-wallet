@@ -39,16 +39,13 @@ class StorageServices {
 
       _preferences = await SharedPreferences.getInstance();
       _decode = jsonEncode(data);
-      if (kDebugMode) {
-        print("_decode $_decode");
-      }
+      
       await _preferences!.setString(path, _decode!);
 
     } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error storeData $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error storeData $e");
       }
     }
     return _preferences!;
@@ -73,9 +70,6 @@ class StorageServices {
 
   static Future<void> storeAssetData(BuildContext context) async {
 
-    if (kDebugMode) {
-      print("storeAssetData storeAssetData");
-    }
     try {
 
       final contract = Provider.of<ContractProvider>(context, listen: false);
@@ -86,10 +80,9 @@ class StorageServices {
       await _preferences!.setString(DbKey.listContract, jsonEncode(lsContract));
       await _preferences!.setString(DbKey.addedContract, jsonEncode(adContract));
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error storeAssetData $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error storeAssetData $e");
       }
     }
   }
@@ -236,10 +229,9 @@ class StorageServices {
       }
 
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error fetchAsset $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error fetchAsset $e");
       }
     }
     //return _preferences.getString(_path);

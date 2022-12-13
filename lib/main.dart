@@ -34,8 +34,6 @@ Future<void> main() async {
   Stripe.merchantIdentifier = 'any string works';
   await Stripe.instance.applySettings();
 
-  print("Main ${Stripe.publishableKey}");
-
   // runApp(
   //   MultiProvider(
   //     providers: [

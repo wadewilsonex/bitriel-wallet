@@ -16,8 +16,9 @@ class ExplorerBody extends StatelessWidget {
       backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SingleChildScrollView(
         child: Container(
+          margin: const EdgeInsets.only(top: 30),
           height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.only(left: paddingSize, right: paddingSize),
+          // padding: const EdgeInsets.only(left: paddingSize, right: paddingSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -28,6 +29,7 @@ class ExplorerBody extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
+
               GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
@@ -49,6 +51,7 @@ class ExplorerBody extends StatelessWidget {
                   );
                 },
               ),
+              
             ],
           ),
         )

@@ -40,10 +40,9 @@ class _ListTicketTypeState extends State<ListTicketType> {
   }
 
   void queryTicket() async {
-    print("queryTicket");
+    
     await PostRequest().getTicketsByEventId(widget.eventId!).then((value) async{
       
-      print("value ${value.body}");
       _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
 
       _tkModel.ticketTypesFromApi!.forEach( (element){
@@ -55,7 +54,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
       });
     });
 
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 

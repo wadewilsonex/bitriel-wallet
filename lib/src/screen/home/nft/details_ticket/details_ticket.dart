@@ -34,7 +34,14 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
 
   @override
   initState(){
+    // Timer(Duration(milliseconds: 10), (){
+
+    //   SystemChrome.setPreferredOrientations([
+    //     DeviceOrientation.portraitUp,
+    //   ]);
+    // });
     // queryEventInfo();
+    
     super.initState();
   }
 
@@ -42,74 +49,48 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        constraints: const BoxConstraints(
-          maxHeight: double.infinity,
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          clipBehavior: Clip.none,
-          children: [
-
-            Stack(
-              children: [
-
-                ClipRRect(
-                  child: Container(
-                    height: 224,
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.network("${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}", fit: BoxFit.cover),
-                  ),
-                ),
-
-                // Stack Button Back
-                Positioned(
-                  left: 25,
-                  top: 25 + 20,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.4),
-                          shape: BoxShape.circle
-                      ),
-                      child: Icon(Iconsax.arrow_left_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 14),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+        
+              ClipRRect(
+                child: Container(
+                  height: 224,
+                  width: MediaQuery.of(context).size.width,
+                  child: Hero(
+                    tag: "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}",
+                    child: Image.network(
+                      "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}", 
+                      fit: BoxFit.cover
+                    )
                     ),
-                  ),
                 ),
-            
-                // Stack Button Share
-                Positioned(
-                  right: 25,
-                  top: 25 + 20,
-                  child: InkWell(
-                    onTap: () {
-            
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.4),
-                        shape: BoxShape.circle
-                      ),
-                      child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 14,),
-                    ),
+              ),
+        
+              Column(
+                children: [
+                  // Stack Button Back
+        
+                  Container(
+                    height: 80
+                    // margin: EdgeInsets.only(bottom: 50),
                   ),
-                ),
-                
-                // Stack Text Button Full Screen Image
-                Positioned(
-                  child: Container(
-                    height:220,
+        
+                  Container(
+                    height: 89,
                     alignment: Alignment.center,
                     child: InkWell(
                       onTap: () {
                         
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => FullScreenImageViewer("${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}")),
+                          MaterialPageRoute(builder: (context) => FullScreenImageViewer(
+                            // "https://images.all-free-download.com/images/graphiclarge/beach_cloud_dawn_horizon_horizontal_landscape_ocean_601821.jpg"
+                            "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}"
+                            )
+                          ),
                         );
                       },
                       child: ClipRRect(
@@ -133,17 +114,65 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                       ),
                     )
                   ),
-                ),
+        
+          
+                  // Stack Ticketing Details 
+                  // Flexible(flex: 5, child: _detailDebitTrxWidget(context)),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: _detailDebitTrxWidget(context),
+                  ),
+                  
+                  // Stack Text Button Full Screen Image
+                  // Positioned(
+                  //   child: ,
+                  // ),
+                ],
+              ),
 
-              ],
-            ),
-            // Stack Ticketing Details 
-            // Flexible(flex: 5, child: _detailDebitTrxWidget(context)),
-            Align(
-              alignment: AlignmentDirectional.bottomCenter,
-              child: _detailDebitTrxWidget(context),
-            ),
-          ],
+              SafeArea(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  child: Row(
+                    children: [
+                                    
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            shape: BoxShape.circle
+                          ),
+                          child: Icon(Iconsax.arrow_left_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 14),
+                        ),
+                      ),
+                                    
+                      Expanded(child: Container()),
+                                    
+                      // Stack Button Share
+                      InkWell(
+                        onTap: () {
+                  
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
+                            shape: BoxShape.circle
+                          ),
+                          child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 14,),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+        
+            ],
+          ),
         ),
       )
     );
@@ -161,69 +190,57 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              MyText(
-                text: widget.ticketNFTModel!.eventData!.name,
-                hexaColor: AppColors.orangeColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-
-              SizedBox(height: 2.h,),
-
-              const MyText(
-                text: "Get Ready for the best music festival.",
-                hexaColor: AppColors.textColor,
-              ),
-
-              SizedBox(height: 3.h,),
-              
-              SizedBox(
-                width: 250,
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+          
+                MyText(
+                  text: widget.ticketNFTModel!.eventData!.name,
+                  hexaColor: AppColors.orangeColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+          
+                SizedBox(height: 2.h,),
+          
+                const MyText(
+                  text: "Get Ready for the best music festival.",
+                  hexaColor: AppColors.textColor,
+                ),
+          
+                SizedBox(height: 3.h,),
+                
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const MyText(
-                              text: "Ticket Price",
-                              hexaColor: AppColors.lightGreyColor,
-                            ),
-                            
-                            SizedBox(height: 1.h,),
-
-                            MyText(
-                              hexaColor: AppColors.textColor,
-                              text: widget.ticketNFTModel!.ticketType!.price!.toString(),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
+                      
+                      const MyText(
+                        bottom: 10,
+                        text: "Ticket Price",
+                        hexaColor: AppColors.lightGreyColor,
+                      ),
+          
+                      MyText(
+                        hexaColor: AppColors.textColor,
+                        text: widget.ticketNFTModel!.ticketType!.price!.toString(),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
-              ),
-
-              SizedBox(height: 3.h,),
-
-              SizedBox(
-                width: 300,
-                child: Center(
+          
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
+          
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -235,7 +252,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                             ),
                             
                             SizedBox(height: 1.h,),
-
+          
                             MyText(
                               hexaColor: AppColors.textColor,
                               text: AppUtils.stringDateToDateTime(widget.ticketNFTModel!.reservation!.session!.date!),
@@ -244,9 +261,8 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                           ],
                         ),
                       ),
-
-                      SizedBox(
-                        width: 22.w,
+          
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -257,7 +273,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                             ),
                             
                             SizedBox(height: 1.h,),
-
+                              
                             MyText(
                               textAlign: TextAlign.start,
                               hexaColor: AppColors.textColor,
@@ -270,31 +286,25 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                     ],
                   ),
                 ),
-              ),
-
-
-              SizedBox(height: 3.h,),
-
-              SizedBox(
-                width: 300,
-                child: Center(
+          
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
+          
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
+          
                             const MyText(
+                              bottom: 10,
                               text: "Ticket Type",
                               hexaColor: AppColors.lightGreyColor,
                             ),
-                            
-                            SizedBox(height: 1.h,),
-
+          
                             MyText(
                               hexaColor: AppColors.textColor,
                               text: widget.ticketNFTModel!.ticketType!.name!,
@@ -304,20 +314,18 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                           ],
                         ),
                       ),
-
-                      SizedBox(
-                        width: 22.w,
+          
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
+          
                             const MyText(
+                              bottom: 10,
                               text: "Visitor",
                               hexaColor: AppColors.lightGreyColor,
                             ),
-                            
-                            SizedBox(height: 1.h,),
-
+          
                             const MyText(
                               hexaColor: AppColors.textColor,
                               text: "User",
@@ -329,35 +337,53 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                     ],
                   ),
                 ),
-              ),
-
-              SizedBox(height: 5.5.h,),
-
-              Center(
-                child: Column(
-                  children: [
-
-                    const MyText(
-                      top: 20,
-                      text: "Show This QR Code to Ticket Checker",
-                      hexaColor: AppColors.textColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-
-                    SizedBox(height: 2.5.h,),
-
-                    SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: qrCodeGenerator(widget.ticketNFTModel!.qrUrl!, "", Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare)
-                    )
-                  ],
+          
+                SizedBox(height: 5.5.h,),
+          
+                Center(
+                  child: Column(
+                    children: [
+          
+                      const MyText(
+                        top: 20,
+                        text: "Show This QR Code to Ticket Checker",
+                        hexaColor: AppColors.textColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+          
+                      SizedBox(height: 2.5.h,),
+          
+                      InkWell(
+                        onTap: () {
+          
+                          showDialog(
+                            context: context, 
+                            builder: (context){
+                              return Container(
+                                color: Colors.black,
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                alignment: Alignment.center,
+                                // padding: EdgeInsets.all(16),
+                                child: Image.network(widget.ticketNFTModel!.qrUrl!),
+                              );
+                            }
+                          );
+                        },
+                        child: SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: Image.network(widget.ticketNFTModel!.qrUrl!)
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-
-
-              // Spacer(),
-            ],
+          
+          
+                // Spacer(),
+              ],
+            ),
           ),
         ),
       ),

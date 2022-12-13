@@ -188,49 +188,34 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(_modelAsset.controllerAssetCode.text);
       if (res || resEther) {
 
-        // if (res) {
+        // Check And Add Address ERC-20 || BEP-20
+        if (initialValue == 1) { // 1 = Ethereum
 
-          // if (_modelAsset.controllerAssetCode.text == AppConfig.kmpiAddr) {
-          //   setState(() {
-          //     _modelAsset.match = true;
-          //     _modelAsset.loading = false;
-          //   });
-          // }
-        // } else {
-
-          // Check And Add Address ERC-20 || BEP-20
-          if (initialValue == 1) { // 1 = Ethereum
-
-            await searchEtherContract();
-          } 
-          else {
-            if(!mounted) return;
-            final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
-            if (kDebugMode) {
-              print("res $res");
-            }
-            _tokenSymbol = res[0].toString();
-
-
-
-            await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
-            if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
-                  
-              setState(() {
-                _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
-              });
-              
-              print("Provider.of<MarketProvider>(context, listen: false).lsCoin ${Provider.of<MarketProvider>(context, listen: false).lsCoin}");
-              await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
+          await searchEtherContract();
+        } 
+        else {
+          if(!mounted) return;
+          final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
           
-            }
-          }
+          _tokenSymbol = res[0].toString();
 
-          setState(() {
-            
-            _modelAsset.loading = false;
-          });
-        // }
+          await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
+          if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
+                
+            setState(() {
+              _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
+            });
+          
+            await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
+        
+          }
+        }
+
+        setState(() {
+          
+          _modelAsset.loading = false;
+        });
+        
       } else {
         DialogComponents().dialogCustom(
           context: context,
@@ -279,9 +264,7 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void onSubmit() {
-    // if (_modelAsset.formStateAsset.currentState!.validate()) {
-      submitAsset();
-    // }
+    submitAsset();
   }
 
   String? onChanged(String textChange) {

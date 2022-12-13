@@ -122,9 +122,7 @@ class AssetInfoBody extends StatelessWidget {
                           // Logo
                           GestureDetector(
                             onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                              if (kDebugMode) {
-                                print("Index ${assetInfoModel!.index}");
-                              }
+                              
                               final image = ImagePicker();
                               await image.pickImage(source: ImageSource.gallery).then((value) async {
                                 if (kDebugMode) {

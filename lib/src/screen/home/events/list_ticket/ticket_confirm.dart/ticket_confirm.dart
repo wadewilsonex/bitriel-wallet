@@ -193,19 +193,20 @@ class TicketConfirmation extends StatelessWidget {
                     Map<String, dynamic> jsn = Map<String, dynamic>.from((await json.decode(value.body)));
                     
                     await StorageServices.storeData(jsn['token'], DbKey.token);
-                    print("Start payment");
-                    await controller.makePayment(context, {'clientSecret': 'pi_3MDhjfJSyRUhBrUu0q0StOWF_secret_wKWu1Vtd6yPS9aFFdL9defKas'});
 
+                    await controller.makePayment(context, {'clientSecret': 'pi_3MDhjfJSyRUhBrUu0q0StOWF_secret_wKWu1Vtd6yPS9aFFdL9defKas'});
 
                     Navigator.pushAndRemoveUntil(
                       context, 
                       MaterialPageRoute(builder: (context) => HomePage(activePage: 4,))
                       ,(route) => false
                     );
-                    print("finish payment");
+                    
                   });
                 } catch (e){
-                  print("Error e");
+                  if (kDebugMode){
+                    print("Error e");
+                  }
                 }
               }, 
               child: MyText(

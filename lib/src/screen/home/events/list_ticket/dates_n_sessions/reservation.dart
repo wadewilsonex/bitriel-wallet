@@ -41,7 +41,7 @@ class RreservationState extends State<Reservation> {
   DataSubmittion? dataSubmittion;
 
   void querySessionsByTicketTypeId() async {
-    print("querySessionsByTicketTypeId ");
+    
     await PostRequest().getTicketTypeGroupedByDate(widget.ticketTypeId!, widget.eventId!).then((res) async {
 
       (await json.decode(res.body))['sessionsByMonth'].entries.forEach( (MapEntry f){
@@ -50,11 +50,9 @@ class RreservationState extends State<Reservation> {
         );
       });
 
-      print(lstMontYear!.length);
-
     });
 
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 
@@ -63,7 +61,7 @@ class RreservationState extends State<Reservation> {
     dataSubmittion!.date = lstMontYear![ dataSubmittion!.indexMonthYear! ].session!.lstDateAndSessions![index].date;
     dataSubmittion!.indexDate = index;
 
-    setState(() { });
+    if (mounted) setState(() { });
   }
 
   void onTabShow(bool value){
@@ -81,7 +79,7 @@ class RreservationState extends State<Reservation> {
     
     widget.controller!.animateTo(150, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
     
-    setState(() { });
+    if (mounted) setState(() { });
 
   }
 
@@ -93,7 +91,7 @@ class RreservationState extends State<Reservation> {
       dataSubmittion!.item!.qty = dataSubmittion!.item!.qty! + 1;
     }
 
-    setState(() { });
+    if (mounted) setState(() { });
   }
 
   @override

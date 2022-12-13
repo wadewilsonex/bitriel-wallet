@@ -20,7 +20,7 @@ class MDWProvider extends ChangeNotifier {
   MDWModel model = MDWModel();
 
   Future<void> init() async {
-    print("init");
+    
     _nftContractAddr = dotenv.get('NFT');
   }
 
@@ -46,9 +46,9 @@ class MDWProvider extends ChangeNotifier {
   Future<void> fetchItemsByAddress() async {
     model.tickets = [];
     // Initialize Contract Service Object With Contract Object
-    print("_provider!.ethAdd ${_provider!.ethAdd}");
+    
     try {
-      print("deployContract");
+      
       await _mdwClient!.call(
         contract: _deployedContract!, 
         function: _deployedContract!.function("fetchItemsByAddress"), 

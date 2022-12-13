@@ -34,7 +34,6 @@ class AssetsPageBody extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
@@ -158,9 +157,12 @@ class AssetsPageBody extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(20)),
           ),
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
           child: Column(
             children: [
+              
+              SizedBox(height: 5.h),
+              
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
@@ -182,7 +184,7 @@ class AssetsPageBody extends StatelessWidget {
                 }
               ),
 
-              SizedBox(height: 3.h),
+              SizedBox(height: 5.h),
               _operationRequest(context),
             ],
           ),

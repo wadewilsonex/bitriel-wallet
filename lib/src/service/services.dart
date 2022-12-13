@@ -73,8 +73,7 @@ class AppServices {
   }
 
   // ignore: avoid_void_async
-  static void closeSnackBar(
-      GlobalKey<ScaffoldState> globalKey, String content) async {
+  static void closeSnackBar(GlobalKey<ScaffoldState> globalKey, String content) async {
     // await globalKey.currentState.showSnackBar(snackBarBody(content, globalKey)).closed.then((value) =>
     //   print("value $value")
     // );

@@ -57,10 +57,9 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        if (ApiProvider().isDebug == true) {
-          if (kDebugMode) {
-            print("Error listenTransfer $e");
-          }
+        
+        if (kDebugMode) {
+          print("Error listenTransfer $e");
         }
       }
     })
@@ -93,10 +92,9 @@ class NativeService implements INativeService {
       );
 
     } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Err sendTx $e");
-        }
+
+      if (kDebugMode) {
+        print("Err sendTx $e");
       }
     }
 

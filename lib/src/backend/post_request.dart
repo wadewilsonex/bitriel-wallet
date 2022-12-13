@@ -26,7 +26,6 @@ class PostRequest {
 
   // Web2 wallet api
   Future<http.Response> registerPhoneNumber(final String? phoneNumber) async {
-    print("registerPhoneNumber phoneNumber $phoneNumber");
     body = json.encode({
       "phoneNumber": phoneNumber,
     });
@@ -44,8 +43,6 @@ class PostRequest {
       "phoneNumber": phoneNumber,
       "opt" : opt
     });
-
-    print("body $body");
 
     return await http.post(
       Uri.parse("${dotenv.get("WEB2_URL_API")}/register/verify/otp"),
@@ -81,14 +78,10 @@ class PostRequest {
   }
 
   Future<http.Response> loginVerifyOPT(final String phoneNumber, final String opt) async {
-    print("loginVerifyOPT ${phoneNumber.length} ${opt.length}");
-    print("${dotenv.get("WEB2_URL_API")}/login/verify/otp");
     body = json.encode({
         "phoneNumber": "+85511725228",
         "otp": "672789"
     });
-    print("body $body");
-    print("body.runtimeType ${body.runtimeType}");
     
     // ({
     //   "phoneNumber": phoneNumber,
@@ -124,8 +117,7 @@ class PostRequest {
   }
 
   Future<http.Response> getTicketTypeGroupedByDate(String tkTypeId, String evntId) async {
-    print("tkTypeId $tkTypeId");
-    print("evntId $evntId");
+    
     body = json.encode({
       "ticketTypeId": tkTypeId,
       "eventId": evntId
@@ -151,18 +143,5 @@ class PostRequest {
       headers: conceteHeader()
     );
   }
-
-  // Future<http.Response> getSessionsByDate(String date, ) async {
-  //   print("getSessionsByEventId ${dotenv.get('DOERS_API')}");
-  //   body = json.encode({
-  //     "eventId": "637ff66d4903dd71e36fd4cd",
-  //     "date": date
-  //   });
-
-  //   return await http.post(
-  //     Uri.parse("${dotenv.get('DOERS_API')}sessions/by-date"),
-  //     body: body,
-  //     headers: conceteHeader()
-  //   );
-  // }
+  
 }

@@ -45,6 +45,7 @@ class AssetsItemComponent extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: scModel!.logo!.contains('http') 
+                  
                   ? Image.network(
                     scModel!.logo!,
                     fit: BoxFit.contain,

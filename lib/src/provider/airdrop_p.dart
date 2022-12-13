@@ -73,22 +73,6 @@ class AirDropProvider with ChangeNotifier {
   }
 
   /* --------------------Read Contract-------------------- */
-  // Future<void> airdropTokenAddress() async {
-  //   try {
-
-  //     await _contractP!.initBscClient();
-  //     final preFunction = _deployedContract!.function('airdropTokenAddress');
-  //     final res = await _contractP!.bscClient.call(
-  //       contract: _deployedContract!, 
-  //       function: preFunction, 
-  //       params: []
-  //     );
-
-
-  //   } catch (e) {
-  //     if (ApiProvider().isDebug == true) print("Error airdropTokenAddress $e");
-  //   }
-  // }
 
   Future<String> getTrxFee() async {
     try {
@@ -289,10 +273,8 @@ class AirDropProvider with ChangeNotifier {
       // });
       // print("Done connect to mongo");
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error signToDb $e");
-        }
+      if (kDebugMode) {
+        print("Error signToDb $e");
       }
     }
   }

@@ -89,8 +89,7 @@ class ReservatioinModel {
   Session? session;
 
   ReservatioinModel.fromApi(Map<String, dynamic> dataApi){
-    print("ReservatioinModel");
-    print("dataApi $dataApi");
+    
     ticketId = dataApi['ticketId'];
     eventId = dataApi['eventId'];
     ticketTypeId = dataApi['ticketTypeId'];

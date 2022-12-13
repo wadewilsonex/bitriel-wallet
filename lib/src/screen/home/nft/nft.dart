@@ -10,7 +10,6 @@ import 'package:wallet_apps/src/screen/home/nft/tab/ticket_tab.dart';
 import 'package:wallet_apps/src/screen/home/nft/tab/nft_tab.dart';
 
 class NFT extends StatefulWidget {
-
   const NFT({Key? key}) : super(key: key);
 
   @override
@@ -25,12 +24,10 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
 
   void queryTickets() async {
 
-    print("queryTickets");
-    await StorageServices.fetchData(DbKey.token).then((value) async {
-      print("token value != null $value");
-      if (value != null)
-      await getTickets(value).then((res) async {
-        print("Res data ${res.body}");
+    // await StorageServices.fetchData(DbKey.token).then((value) async {
+    //   print("token value != null $value");
+    //   if (value != null)
+      await getTickets('value').then((res) async {
 
         (await json.decode(res.body))['tickets'].forEach((data){
           lstTicket!.add(
@@ -41,7 +38,7 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
         setState(() { });
         
       });
-    });
+    // });
   }
 
   @override

@@ -79,10 +79,8 @@ class AppUtils {
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
       
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error timeStampToDate $e");
-        }
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
       }
     }
     return '';
@@ -110,10 +108,9 @@ class AppUtils {
         am
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error timeStampToDate $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
       }
     }
     return '';
@@ -133,10 +130,9 @@ class AppUtils {
         isSpace! ? '   ' : '' 
       ]);//formatDate(parse, [yyyy, '/', mm, '/', dd]); /* Return Real Date Time */
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error timeStampToDate $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error timeStampToDate $e");
       }
     }
     return '';
@@ -145,7 +141,7 @@ class AppUtils {
   static String stringDateToDateTime(String stringData) {
     /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
     List<String> tmp = stringData.split(" ");
-    print("tmp $tmp");
+    
     return formatDate(DateTime.parse(tmp[0]), [
       yyyy,
       '-',

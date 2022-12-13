@@ -117,10 +117,9 @@ class TrxFunctional {
         }
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("err sendTxBnb $e");
-        }
+      
+      if (kDebugMode) {
+        print("err sendTxBnb $e");
       }
     }
   }
@@ -144,11 +143,6 @@ class TrxFunctional {
   // }
 
   Future<void> sendTxEther(String reciever, String amount, {required int? chainDecimal}) async {
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("sendTxEther");
-      }
-    }
 
     try {
       if (privateKey != null) {
@@ -212,11 +206,6 @@ class TrxFunctional {
   }
 
   Future<dynamic> sendTxErc20(ContractService tokenService, TransactionInfo txInfo) async {
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("sendTxErc20");
-      }
-    }
     
     if (txInfo.privateKey != null) {
       try {
@@ -247,11 +236,6 @@ class TrxFunctional {
   }
 
   Future<dynamic> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("sendTxBep20");
-      }
-    }
     
     if (txInfo.privateKey != null) {
       try {
@@ -415,10 +399,9 @@ class TrxFunctional {
 
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
     } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Err navigateAssetInfo $e");
-        }
+
+      if (kDebugMode) {
+        print("Err navigateAssetInfo $e");
       }
     }
   }
@@ -554,13 +537,6 @@ class TrxFunctional {
     final api = Provider.of<ApiProvider>(context!, listen: false);
     final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("_contract.listContract[_api.selNativeIndex].address ${contract.listContract[api.selNativeIndex].address}");
-        print("_api.getKeyring.current.pubKey ${api.getKeyring.current.pubKey}");
-      }
-    }
-
     final sender = TxSenderData(
       contract.listContract[api.selNativeIndex].address,
       api.getKeyring.current.pubKey,
@@ -568,18 +544,8 @@ class TrxFunctional {
 
     final txInfo = TxInfoData('balances', 'transfer', sender);
 
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("txInfo $txInfo");
-      }
-    }
-
     final chainDecimal = contract.listContract[api.selNativeIndex].chainDecimal;
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("_contract.listContract[_api.selNativeIndex].chainDecimal ${contract.listContract[api.selNativeIndex].chainDecimal}");
-      }
-    }
+    
     try {
       final Map hash = await api.getSdk.api.tx.signAndSend(
         txInfo,
@@ -656,101 +622,16 @@ class TrxFunctional {
 
     bool enough = true;
     try {
+
       final contract = Provider.of<ContractProvider>(context!, listen: false);
-      // switch (asset) {
-      //   case "SEL":
-      //     final withoutComma = api.nativeM.balance.replaceAll(RegExp(','), '');
-      //     if (double.parse(withoutComma) < double.parse(amount)) {
-      //       _enough = false;
-      //     }
-      //     break;
-      //   case "DOT":
-      //     final withoutComma = contract.listContract[5].balance.replaceAll(RegExp(','), '');
-      //     if (double.parse(withoutComma) < double.parse(amount)) {
-      //       _enough = false;
-      //     }
 
-      //     break;
-      //   case "BTC":
-      //     if (double.parse(contract.listContract[6].balance) < double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-      //   case "SEL (BEP-20)":
-      //     if (double.parse(contract.listContract[0].balance) <
-      //         double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-      //   case "SEL v2 (BEP-20)":
-      //     if (double.parse(contract.listContract[1].balance) <
-      //         double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-      //   case "KGO (BEP-20)":
-      //     if (double.parse(contract.listContract[2].balance) <
-      //         double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-      //   case "ETH":
-      //     if (double.parse(contract.listContract[3].balance) <
-      //         double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-
-      //   case "BNB":
-      //     if (double.parse(contract.listContract[4].balance) < double.parse(amount)) {
-      //       _enough = false;
-      //     }
-
-      //     break;
-
-      //   default:
-      //     if (asset.contains('ERC-20')) {
-      //       final contractAddr = ContractProvider().findContractAddr(asset);
-      //       final balance = await ContractProvider().queryEther(contractAddr, 'balanceOf', []);
-
-      //       if (double.parse(balance.first) < double.parse(amount)) {
-      //         _enough = false;
-      //       }
-      //     } else {
-
-      //       if (ApiProvider().isDebug == true) print("BEP-20 ${contract.sortListContract[index].address}");
-      //       // final contractAddr = ContractProvider().findContractAddr(asset);
-      //       // if (ApiProvider().isDebug == true) print("Found $contractAddr");
-      //       dynamic balance = await ContractProvider().query(contract.sortListContract[index].address, 'balanceOf', [EthereumAddress.fromHex(contract.ethAdd)]);
-            
-      //       if (ApiProvider().isDebug == true) print("Balance $balance");
-      //       if (ApiProvider().isDebug == true) print(contract.sortListContract[index].chainDecimal.toString());
-      //       balance = Fmt.bigIntToDouble(
-      //         balance[0] as BigInt,
-      //         int.parse(contract.sortListContract[index].chainDecimal.toString()),
-      //       ).toString();
-
-      //       if (ApiProvider().isDebug == true) print("After Balance $balance");
-      //       if (double.parse(balance) < double.parse(amount)) {
-      //         _enough = false;
-      //       }
-      //     }
-
-      //     break;
-      // }
       if (double.parse(contract.sortListContract[index].balance!.replaceAll(",", "")) < double.parse(amount)) {
         enough = false;
       }
+
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error checkBalanceofCoin $e");
-        }
+      if (kDebugMode) {
+        print("Error checkBalanceofCoin $e");
       }
     }
     return enough;
@@ -765,13 +646,10 @@ class TrxFunctional {
     try {
 
       switch (asset) {
+
         case "SEL":
           bool res = false;
-          if (ApiProvider().isDebug == true) {
-            if (kDebugMode) {
-              print("org validateAddr $org");
-            }
-          }
+          
           if (org == 'BEP-20'){
             if (ApiProvider().isDebug == true) {
               if (kDebugMode) {
@@ -783,14 +661,11 @@ class TrxFunctional {
           isValid = res;
           
           break;
+
         case "DOT":
           final res = await apiPro.validateAddress(address);
           isValid = res;
           break;
-        // case "BTC":
-        //   final res = await apiPro.validateBtcAddr(address);
-        //   _isValid = res;
-        //   break;
 
         default:
           final res = await conPro.validateEvmAddr(address);
@@ -800,10 +675,9 @@ class TrxFunctional {
 
       return isValid;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Erorr validateAddr $e");
-        }
+      
+      if (kDebugMode) {
+        print("Erorr validateAddr $e");
       }
       return isValid;
     }
@@ -851,15 +725,9 @@ class TrxFunctional {
 
   Future<dynamic>? estGasFeePrice(double? gasFee, String? asset, {int? assetIndex}) async {
 
-    if (ApiProvider().isDebug == true) {
-      if (kDebugMode) {
-        print("gasFee ${gasFee ?? 'no gas'}");
-        print("asset ${asset ?? 'no asset'}");
-      }
-    }
-
     String? marketPrice;
     int? chainDecimal;
+
     try {
 
       api = Provider.of<ApiProvider>(context!, listen: false);
@@ -877,15 +745,9 @@ class TrxFunctional {
         default:
           
           marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-          // marketPrice = (contract.listContract.where((element) {
-          //   if (element.symbol == asset) return true;
-          //   return false;
-          // }).toList())[0].marketPrice;//[api!.bnbIndex].marketData!.currentPrice!;
           break;
       }
-      // marketPrice = (marketPrice == "0" || marketPrice == "") ? "1" : marketPrice!;
-      // chainDecimal = contract.sortListContract[assetIndex!].chainDecimal! == "0" ? "18" : contract.sortListContract[assetIndex].chainDecimal!;
-      // final estGasFeePrice = (gasFee! / pow(10, int.parse(chainDecimal) ) ) * double.parse(marketPrice);
+      
       marketPrice = (marketPrice == "0" || marketPrice == "") ? "1" : marketPrice!;
       chainDecimal = contract.sortListContract[assetIndex!].chainDecimal! == 0 ? 18 : contract.sortListContract[assetIndex].chainDecimal!;
       final estGasFeePrice = (gasFee! / pow(10, chainDecimal ) ) * double.parse(marketPrice);
@@ -907,30 +769,7 @@ class TrxFunctional {
     String estPrice;
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    // await MarketProvider().fetchTokenMarketPrice(context!);
-
-    // switch (asset) {
-      
-    //   case 'KGO (BEP-20)':
-    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-    //     break;
-    //   case 'ETH':
-    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-    //     break;
-    //   case 'BNB':
-    //   print("contract.listContract[api!.bnbIndex].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}");
-    //     marketPrice = contract.sortListContract[assetIndex].marketPrice;
-    //     break;
-    //   case 'DOT':
-    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-    //     break;
-    //   case 'BTC':
-    //     marketPrice = contract.sortListContract[assetIndex!].marketPrice;
-    //     break;
-    //   default:
-    //     estPrice = '\$0.00';
-    //     break;
-    // }
+    
     // "0" For Contract That Has 0 Decimal
     marketPrice = contract.sortListContract[assetIndex!].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
     marketPrice = marketPrice!.isEmpty ? "0" : marketPrice;
@@ -944,8 +783,8 @@ class TrxFunctional {
     String? maxGas = '';
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
-    try {
 
+    try {
       
       if (network != null && network == "ERC-20"){
         maxGas = await contractProvider.getErc20MaxGas(
@@ -969,14 +808,12 @@ class TrxFunctional {
           amount, 
           decimal: contractProvider.sortListContract[index].chainDecimal!
         );
-          // if (contractProvider.sortListContract[index].org! != (api.isMainnet ? 'Selendra Chain' : 'Testnet')){
-          // }
       }
+
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error estMaxGas $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error estMaxGas $e");
       }
     }
     return maxGas!;

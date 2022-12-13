@@ -15,8 +15,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return RouteAnimation(enterPage: const TrxActivity());
     case AppString.importAccView:
       return RouteAnimation(enterPage: const ImportAcc());
-    case AppString.contentBackup:
-      return RouteAnimation(enterPage: ContentsBackup());
     // case AppString.checkinView:
     //   return RouteAnimation(enterPage: const CheckIn());
     //   break;

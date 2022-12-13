@@ -77,14 +77,14 @@ class PaymentController extends getx.GetxController {
       
     } on Exception catch (e) {
       if (e is StripeException) {
-        print("Error from Stripe: ${e.error.localizedMessage}");
+        
         Navigator.of(context).pop();
       } else {
-        print("Unforeseen error: ${e}");
+
         Navigator.of(context).pop();
       }
     } catch (e) {
-      print("exception:$e");
+      
       Navigator.of(context).pop();
     }
   }

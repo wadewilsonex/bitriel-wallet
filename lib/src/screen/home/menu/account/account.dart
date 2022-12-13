@@ -74,12 +74,14 @@ class AccountState extends State<Account> {
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
+      final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
       // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
+      await StorageServices.storeData(sldNW, DbKey.sldNetwork);
       // await StorageServices.storeData(event, DbKey.event);
 
       await StorageServices().clearSecure();
@@ -93,12 +95,11 @@ class AccountState extends State<Account> {
       if(!mounted) return;
       Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Welcome()), ModalRoute.withName('/'));
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("_deleteAccount ${e.toString()}");
-        }
+
+      if (kDebugMode) {
+        print("_deleteAccount ${e.toString()}");
       }
       // await dialog(context, e.toString(), 'Opps');
     }
@@ -119,11 +120,9 @@ class AccountState extends State<Account> {
         await customDialog(context, 'Backup Key', 'Incorrect Pin');
       }
     } catch (e) {
-      //await dialog(context, e.toString(), 'Opps');
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error getBackupKey $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error getBackupKey $e");
       }
     }
     _accountModel.pinController.text = '';
@@ -192,9 +191,6 @@ class AccountState extends State<Account> {
 
   Future<void> _changePin() async {
 
-    // setState(() {
-    //   _accountModel.loading = true;
-    // });
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
     await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
@@ -210,9 +206,7 @@ class AccountState extends State<Account> {
     // Close Dialog
     if(!mounted) return;
     Navigator.pop(context);
-    // _accountModel.oldPassController.text = '';
-    // _accountModel.newPassController.text = '';
-    // _accountModel.oldNode.requestFocus();
+    
   }
 
   @override

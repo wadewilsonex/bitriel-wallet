@@ -20,10 +20,9 @@ class GetWalletMethod {
 
       Share.shareXFiles([XFile(file.path)], text: wallet);
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error qrShare ${e.toString()}");
-        }
+      
+      if (kDebugMode) {
+        print("Error qrShare ${e.toString()}");
       }
     }
   }

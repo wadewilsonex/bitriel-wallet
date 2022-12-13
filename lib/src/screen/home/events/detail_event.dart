@@ -73,10 +73,9 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
       Share.shareXFiles([XFile(file.path)], text: name);
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error qrShare ${e.toString()}");
-        }
+      
+      if (kDebugMode) {
+        print("Error qrShare ${e.toString()}");
       }
     }
   }

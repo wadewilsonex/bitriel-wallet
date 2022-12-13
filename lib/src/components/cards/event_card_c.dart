@@ -78,14 +78,9 @@ class EventCardComponents extends StatelessWidget {
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
                                   child: Container(
-                                  // margin: const EdgeInsets.only(left: 10, bottom: 10),
-                                  // alignment: Alignment.bottomLeft,
                                   decoration: BoxDecoration(
-                                    // color: hexaCodeToColor("#413B3B").withOpacity(0.7),
                                     borderRadius: BorderRadius.circular(10),
-                                    // border: Border.all(color: hexaCodeToColor("#383838"))
                                   ),
-                                  // width: MediaQuery.of(context).size.width - 60,
                                   height: 8.h,
                                   padding: const EdgeInsets.all(10),
                                   child: Column(

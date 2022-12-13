@@ -30,11 +30,11 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   initState(){
+    
     PhoneInputFormatter.replacePhoneMask(
       countryCode: 'RU',
       newMask: '+0 (000) 000 00 00',
     );
-    print("(model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty) ${(model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty)}");
     super.initState();
   }
 
@@ -73,7 +73,6 @@ class _UserInfoState extends State<UserInfo> {
                     label: Text("Email")
                   ),
                   validator: (value) {
-                    print("value validate $value");
                     if(value == null || value.isEmpty || !value.contains('@') || !value.contains('.')){
                       return 'Invalid Email';
                     }
@@ -95,10 +94,7 @@ class _UserInfoState extends State<UserInfo> {
                     ),
                     onPressed: (model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty || email != null) ? null : 
                     (){
-                      print("model.email.text ${model.name.text}");
-                      print("model.email.text ${model.phoneNumber.text}");
-                      print("model.email.text ${model.email.text}");
-                      print(model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty);
+                      
                       Navigator.pop(context, model);
                     }, 
                     child: MyText(

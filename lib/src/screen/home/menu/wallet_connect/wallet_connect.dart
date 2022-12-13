@@ -38,14 +38,10 @@ class WalletConnectPageState extends State<WalletConnectPage> {
     _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
     _wConnectC!.setBuildContext = context;
     await StorageServices.fetchData("session").then((value) {
-      if (kDebugMode) {
-        print("Session $value");
-      }
+      
       _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
     });
-    if (kDebugMode) {
-      print("session store: ${_wConnectC!.sessionStore!.session.toString()}");
-    }
+    
   }
 
   @override

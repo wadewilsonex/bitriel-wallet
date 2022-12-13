@@ -123,12 +123,12 @@ class SubmitTrxState extends State<SubmitTrx> {
     return false;
   }
 
-  String validateAddress(String address) {
-    // value == null ? 'Please fill in receiver address' : null
-    print("validate");
+  String validateAddress(String? address) {
+    
     if (address == ""){
       return "Please fill in receiver address";
     } else if (address != null){
+
       Provider.of<ApiProvider>(context, listen: false).validateAddress(address).then((value) {
 
       if (value == false) {
@@ -171,10 +171,9 @@ class SubmitTrxState extends State<SubmitTrx> {
         if (_scanPayM.enable == true) await sendTrx(trxFunc!.txInfo!, context: context);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error onSubmit $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error onSubmit $e");
       }
     }
   }
@@ -369,18 +368,14 @@ class SubmitTrxState extends State<SubmitTrx> {
 
         // Close Dialog Estimating Fee
         Navigator.pop(context);
-        if (ApiProvider().isDebug == true) {
-          if (kDebugMode) {
-            print("Err validateSubmit ExceptionHandler $e");
-          }
-        }
+
         await trxFunc!.customDialog("Oops", e.cause);
       }
       catch (e) {
         
         // Close Dialog Estimating Fee
         Navigator.pop(context);
-        if (ApiProvider().isDebug == true) print("Err validateSubmit $e");
+        if (kDebugMode) print("Err validateSubmit $e");
         // await trxFunc!.customDialog("Oops", e.toString());
       }
     }
@@ -397,7 +392,6 @@ class SubmitTrxState extends State<SubmitTrx> {
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
-      // await  dialogBox().then((String? resPin) async {
       if(!mounted) return;
       String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
@@ -427,13 +421,6 @@ class SubmitTrxState extends State<SubmitTrx> {
         } else {
           
           /* ------------------Check and Get Private------------ */
-          // Get Private Key Only BTC Contract
-          // if (_scanPayM.asset == 'BTC') {
-          //   trxFunc!.privateKey = await trxFunc!.getBtcPrivateKey(resPin, context: context);
-          // } 
-          // // Get Private Key For Other Contract
-          // else {
-          // }
 
           trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
 
@@ -490,22 +477,8 @@ class SubmitTrxState extends State<SubmitTrx> {
               final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
               if (contractM.org!.contains('ERC-20')) {
 
-                // final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
-                // final chainDecimal = await ContractProvider().queryEther(contractAddr!, 'decimals', []);
-
                 await _contractProvider!.initErc20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxErc20(_contractProvider!.getErc20, txInfo);
-                // print("contractAddr ${contractAddr}");
-                // print("chainDecimal![0].toString() ${chainDecimal![0].toString()}");
-                // print("_scanPayM.controlReceiverAddress.text ${_scanPayM.controlReceiverAddress.text}");
-                // print("_scanPayM.controlAmount.tex ${_scanPayM.controlAmount.text}");
-
-                // _scanPayM.hash = await trxFunc!.sendTxErc(
-                //   contractAddr,
-                //   chainDecimal[0].toString(),
-                //   _scanPayM.controlReceiverAddress.text,
-                //   _scanPayM.controlAmount.text
-                // );
                 
               } else {
                 await _contractProvider!.initBep20Service(contractAddr!);

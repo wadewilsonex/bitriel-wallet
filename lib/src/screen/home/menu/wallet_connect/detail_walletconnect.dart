@@ -28,14 +28,11 @@ class _DetailWalletConnectState extends State<DetailWalletConnect> {
   }
 
   void killSession() async {
+
     _wConnectC!.wcClient.killSession();
-    if (kDebugMode) {
-      print("widget.index! ${widget.index!}");
-    }
+    
     _wConnectC!.lsWcClients.removeAt(widget.index!);
-    if (kDebugMode) {
-      print("_wConnectC!.lsWcClients ${_wConnectC!.lsWcClients}");
-    }
+    
     List<Map<String, dynamic>> tmpWcSession = [];
 
     for (var element in _wConnectC!.lsWcClients) {

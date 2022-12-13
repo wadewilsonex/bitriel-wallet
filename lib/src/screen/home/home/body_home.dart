@@ -1,35 +1,20 @@
-import 'dart:ffi';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
-import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/models/marketplace_list_m.dart';
-import 'package:wallet_apps/src/screen/home/ads_webview/ads_webview.dart';
 import 'package:wallet_apps/src/screen/home/assets/assets.dart';
-import 'package:wallet_apps/src/screen/home/events/find_event.dart';
-import 'package:wallet_apps/src/screen/home/explorer_tab/explorer.dart';
+import 'package:wallet_apps/src/screen/home/events/events.dart';
+import 'package:wallet_apps/src/screen/home/explorer/explorer.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 import 'package:wallet_apps/src/screen/home/nft/nft.dart';
-import 'package:wallet_apps/src/screen/home/portfolio/portfolio.dart';
-import 'package:wallet_apps/src/screen/home/swap/swap.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/src/service/marketplace_webview.dart';
-import 'package:awesome_select/awesome_select.dart';
-import '../setting/setting.dart';
-
-import 'package:wallet_apps/src/components/network_choice.dart' as choices;
 
 class HomePageBody extends StatelessWidget {
 
@@ -39,7 +24,6 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
-  String? initSLDNetwork;
 
   HomePageBody({ 
     Key? key, 
@@ -48,8 +32,7 @@ class HomePageBody extends StatelessWidget {
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
-    this.getReward,
-    this.initSLDNetwork
+    this.getReward
     }) : super(key: key);
 
 
@@ -62,15 +45,10 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: 
-      // homePageModel!.activeIndex == 4 || homePageModel!.activeIndex == 3 
-      // ? null
-      // : 
-      defaultAppBar(
+      appBar: defaultAppBar(
         context: context,
         homePageModel: homePageModel,
-        pushReplacement: pushReplacement,
-        initSLDNetwork: initSLDNetwork
+        pushReplacement: pushReplacement
       ),
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
@@ -79,7 +57,7 @@ class HomePageBody extends StatelessWidget {
         children: [
           
           // Explorer(),
-          DiscoverPage(homePageModel: homePageModel!),
+          ExplorerPage(homePageModel: homePageModel!),
 
           AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
 
@@ -101,7 +79,7 @@ class HomePageBody extends StatelessWidget {
                 _menu(context),
 
                 const SizedBox(height: 10), 
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DeFi",

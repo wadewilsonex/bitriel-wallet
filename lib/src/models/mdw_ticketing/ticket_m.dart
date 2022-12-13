@@ -141,7 +141,6 @@ class TicketTypes {
   // TicketTypes(){}
   
   TicketTypes.fromApi(Map<String, dynamic> data){
-    print("data $data");
     isShow = false;
     joinDateIndex = -1;
     mmYYIndex = -1;

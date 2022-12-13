@@ -68,7 +68,6 @@ class NFTCardComponent extends StatelessWidget{
             ],
           ),
         )
-
       ),
     );
   }
@@ -134,7 +133,6 @@ class TicketCardComponent extends StatelessWidget{
 
           ],
         )
-
       ),
     );
   }
