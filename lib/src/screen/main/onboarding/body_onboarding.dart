@@ -104,7 +104,8 @@ class OnboardignBody extends StatelessWidget {
 
               CustomAuthButton(
                 onPressed: () async {
-                  underContstuctionAnimationDailog(context: context);
+                  // underContstuctionAnimationDailog(context: context);
+                  Navigator.push(context, Transition(child: const ImportJson(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                   // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
                 authIcon: AuthIcon(
