@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/headless_webview_p.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class OnboardingState extends State<Onboarding> {
 
   @override
   void initState() {
+
+    Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
     
     // inAppUpdate();
     AppServices.noInternetConnection(context: context);

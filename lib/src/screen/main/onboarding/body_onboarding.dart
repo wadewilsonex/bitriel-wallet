@@ -1,11 +1,8 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/portrait_card_c.dart';
-import 'package:wallet_apps/src/screen/main/json/import_json.dart';
+import 'package:wallet_apps/src/screen/main/social_login/email/login_content.dart';
 import 'package:wallet_apps/src/screen/main/social_login/phonenumber/phone_main_screen.dart';
-
-import '../social_login/email/login_content.dart';
 
 class OnboardignBody extends StatelessWidget {
 
@@ -14,7 +11,6 @@ class OnboardignBody extends StatelessWidget {
   final Function? tabGoogle;
 
   OnboardignBody({Key? key, this.selected, this.tabGoogle}) : super(key: key);
-  // WelcomeBody({this.inputController});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +36,6 @@ class OnboardignBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
-                    // text: "Set up \nyour wallet",
                     text: "Welcome!",
                     fontWeight: FontWeight.w600,
                     textAlign: TextAlign.center,
@@ -56,6 +51,7 @@ class OnboardignBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
+                    width: MediaQuery.of(context).size.width / 1.5,
                     text: "Bitriel offers users to store, transact, hold, buy, sell crypto assets, and more!",
                     textAlign: TextAlign.center,
                     hexaColor: isDarkMode
@@ -86,11 +82,11 @@ class OnboardignBody extends StatelessWidget {
 
               EmailAuthButton(
                 onPressed: () async {
-                  underContstuctionAnimationDailog(context: context);
-                  // Navigator.push(
-                  //   context, 
-                  //   Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  // );
+                  // underContstuctionAnimationDailog(context: context);
+                  Navigator.push(
+                    context, 
+                    Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
 
                 },
                 style: const AuthButtonStyle(
@@ -105,8 +101,8 @@ class OnboardignBody extends StatelessWidget {
               CustomAuthButton(
                 onPressed: () async {
                   // underContstuctionAnimationDailog(context: context);
-                  Navigator.push(context, Transition(child: const ImportJson(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                  // Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  // Navigator.push(context, Transition(child: const ImportJson(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 },
                 authIcon: AuthIcon(
                   iconPath: "assets/icons/phone-call.png",
