@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/main/json/import_json.dart';
-import 'package:wallet_apps/src/screen/main/social_login/phonenumber/set_password/set_password.dart';
+import 'package:wallet_apps/src/screen/main/social_login/set_password/set_password.dart';
 
 class OPTVerification extends StatefulWidget {
 
@@ -78,10 +78,10 @@ class OPTVerificationState extends State<OPTVerification> {
       if (response.statusCode == 200) {
 
         if(!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ImportJson(json: responseJson))
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => ImportJson(json: responseJson))
+        // );
           
       } else if (response.statusCode == 401) {
 
@@ -208,6 +208,7 @@ class OPTVerificationState extends State<OPTVerification> {
 
   @override
   void initState() {
+
     Timer.periodic(const Duration(seconds: 5), (timer) {
       if(!mounted) return;
       setState(() {
@@ -276,6 +277,7 @@ class OPTVerificationState extends State<OPTVerification> {
                 delay: const Duration(milliseconds: 600),
                 duration: const Duration(milliseconds: 500),
                 child: VerificationCode(
+                  autofocus: true,
                   itemSize: 40,
                   length: 6,
                   digitsOnly: true,

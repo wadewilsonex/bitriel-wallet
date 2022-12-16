@@ -115,8 +115,8 @@ class TicketModel {
 
     tkTypeIndex = -1;
     eventId = '';
-    ticketTypesFromApi = [];
-    lsTicketTypes = List<TicketTypes>.empty(growable: true);
+    // ticketTypesFromApi = [];
+    // lsTicketTypes = List<TicketTypes>.empty(growable: true);
 
     montYearFromApi = {};
 

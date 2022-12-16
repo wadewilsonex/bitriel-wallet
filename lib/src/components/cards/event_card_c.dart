@@ -111,22 +111,22 @@ class EventCardComponents extends StatelessWidget {
                           ),
                         ),
                     
-                        Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Container(
-                            // alignment: Alignment.bottomLeft,
-                            decoration: BoxDecoration(
-                              color: hexaCodeToColor("#413B3B").withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(30)
-                            ),
-                            // width: MediaQuery.of(context).size.width - 60,
-                            height: 5.h,
-                            width: 5.h,
-                            padding: EdgeInsets.all(10),
-                            child: Icon(Iconsax.heart, color: Colors.white, size: 4.w,),
-                          ),
-                        ),
+                        // Positioned(
+                        //   right: 10,
+                        //   top: 10,
+                        //   child: Container(
+                        //     // alignment: Alignment.bottomLeft,
+                        //     decoration: BoxDecoration(
+                        //       color: hexaCodeToColor("#413B3B").withOpacity(0.7),
+                        //       borderRadius: BorderRadius.circular(30)
+                        //     ),
+                        //     // width: MediaQuery.of(context).size.width - 60,
+                        //     height: 5.h,
+                        //     width: 5.h,
+                        //     padding: EdgeInsets.all(10),
+                        //     child: Icon(Iconsax.heart, color: Colors.white, size: 4.w,),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
