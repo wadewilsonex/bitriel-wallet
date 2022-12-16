@@ -44,17 +44,23 @@ class _ListTicketTypeState extends State<ListTicketType> {
     await PostRequest().getTicketsByEventId(widget.eventId!).then((value) async{
       
       _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
+      print('_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}');
+      if (_tkModel.ticketTypesFromApi!.isNotEmpty){
 
-      _tkModel.ticketTypesFromApi!.forEach( (element){
-        print(element);
-        _tkModel.lsTicketTypes!.add(
-          TicketTypes.fromApi(element)
-        );
+        _tkModel.ticketTypesFromApi!.forEach( (element){
+          print(element);
+          _tkModel.lsTicketTypes!.add(
+            TicketTypes.fromApi(element)
+          );
 
-      });
+        });
+      }
+
+      if (mounted) setState(() { });
     });
 
-    if (mounted) setState(() { });
+    print(("_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}"));
+
 
   }
 
@@ -62,30 +68,47 @@ class _ListTicketTypeState extends State<ListTicketType> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: eventAppBar(context: context, title: widget.eventName!),
-      body: _tkModel.lsTicketTypes!.isNotEmpty
-      ? ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: _tkModel.lsTicketTypes!.length,
-        itemBuilder: (context, index){
-          return SingleChildScrollView(
-            controller: _controller,
-            physics: const BouncingScrollPhysics(),
-            child: ListTicketTypeBody(
-              lstLenght: _tkModel.lsTicketTypes!.length,
-              controller: _controller,
-              mgLeft: index == 0 ? 20 : 0,
-              mgRight: 20,
-              imgUrl: imgUrl,
-              ticketModel: _tkModel,
-              index: index,
-            ),
-          );
-
-        }
-      ) 
-      : loading(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+      
+            if (_tkModel.ticketTypesFromApi == null) loading()
+      
+            else if (_tkModel.ticketTypesFromApi!.isNotEmpty)
+              ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: _tkModel.lsTicketTypes!.length,
+              itemBuilder: (context, index){
+                
+                return SingleChildScrollView(
+                  controller: _controller,
+                  physics: const BouncingScrollPhysics(),
+                  child: ListTicketTypeBody(
+                    lstLenght: _tkModel.lsTicketTypes!.length,
+                    controller: _controller,
+                    mgLeft: index == 0 ? 20 : 0,
+                    mgRight: 20,
+                    imgUrl: imgUrl,
+                    ticketModel: _tkModel,
+                    index: index,
+                  ),
+                );
+      
+              }
+            )
+      
+            else 
+            const MyText(text: "No Ticket Type",)
+            
+          ],
+        ),
+      ),
 
     );
   }

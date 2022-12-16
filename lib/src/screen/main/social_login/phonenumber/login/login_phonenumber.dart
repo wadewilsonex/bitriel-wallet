@@ -17,7 +17,9 @@ class _LoginSeedPhoneNumberState extends State<LoginSeedPhoneNumber> {
   
 
   Future<void> _login(String getPhoneNumber) async {
+
     getPhoneNumber = "+85511725228";
+    
     Navigator.push(context, Transition(child: OPTVerification(phoneNumber: getPhoneNumber), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
     // try {
     //   final response = await PostRequest().loginPhoneNumber(phoneNumberController.text);
@@ -46,12 +48,14 @@ class _LoginSeedPhoneNumberState extends State<LoginSeedPhoneNumber> {
 
   @override
   void initState() {
+
     phoneNumberController.text = "+85511725228";
     super.initState();
   }
 
   @override
   void dispose() {
+
     phoneNumberController.dispose();
     passwordController.dispose();
     super.dispose();

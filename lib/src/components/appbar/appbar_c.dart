@@ -28,6 +28,7 @@ PreferredSizeWidget defaultAppBar({
       height: 10.h,
       margin: const EdgeInsets.only(left: 15, top: 10),
       child: IconButton(
+        padding: EdgeInsets.zero,
         onPressed: () {
           homePageModel!.globalKey!.currentState!.openDrawer();
         },

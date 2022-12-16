@@ -31,12 +31,6 @@ class AppState extends State<App> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
 
-      if(!mounted) return;
-      Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-      if(!mounted) return;
-      Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
-
       // Query Selendra Endpoint
       await getSelendraEndpoint().then((value) async {
         // Assign Data and Store Endpoint Into Local DB
@@ -77,6 +71,13 @@ class AppState extends State<App> {
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
         
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
+
+          if(!mounted) return;
+          Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+          if(!mounted) return;
+          Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+
           /// Cannot connect Both Network On the Same time
           /// 
           /// It will be wrong data of that each connection. 

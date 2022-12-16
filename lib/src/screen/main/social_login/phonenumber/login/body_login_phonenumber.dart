@@ -1,5 +1,6 @@
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/registration/head_title_c.dart';
 import 'package:wallet_apps/src/screen/main/social_login/otp_verification.dart';
 
 class LoginSeedPhoneNumberBody extends StatelessWidget {
@@ -24,7 +25,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            _headerTitle(),
+            const HeaderTitle(title: "Phone", subTitle: "Enter your phone number",),
       
             _inputField(context),
 
@@ -43,29 +44,6 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _headerTitle(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        
-        const MyText(
-          text: "Phone",
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.start,
-          top: 30,
-          bottom: 10,
-        ),
-
-        MyText(
-          text: "Enter your phone number",
-          textAlign: TextAlign.start,
-          bottom: 30,
-        )
-      ],
     );
   }
 
