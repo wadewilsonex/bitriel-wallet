@@ -81,9 +81,9 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   }
   void initStateData(TickerProvider tickerProvider, Function mySetState){
 
-    _importAccountModel!.loadingMgs = "LOADING...";
-    
     _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
+    
+    _importAccountModel!.loadingMgs = "LOADING...";
 
     _importAccountModel!.animation = Tween(
       begin: 0.0, end: 1.0
@@ -92,24 +92,21 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     _importAccountModel!.animationController!.addListener(() {
       print("animationController!.value ${_importAccountModel!.animationController!.value}");
 
-      if (_importAccountModel!.animationController!.value >= 0.17 && _importAccountModel!.animationController!.value <= 0.19) {
+      if (_importAccountModel!.animationController!.value >= 0.15 && _importAccountModel!.animationController!.value <= 0.19) {
         
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.37 && _importAccountModel!.animationController!.value <= 0.39) {
+      else if (_importAccountModel!.animationController!.value >= 0.40 && _importAccountModel!.animationController!.value <= 0.49) {
+        
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.77 && _importAccountModel!.animationController!.value <= 0.79) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
-      }
-
-      else if (_importAccountModel!.animationController!.value >= 0.85 && _importAccountModel!.animationController!.value <= 0.86) {
+      else if (_importAccountModel!.animationController!.value >= 0.75 && _importAccountModel!.animationController!.value <= 0.79) {
+        
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
       }
@@ -123,14 +120,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   Future<void> importAcc() async {
 
-    changeStatus("DECRYPTING ACCOUNT", avg: "1/4");
-    _importAccountModel!.animationController!.forward();    
-
-    print("finish DECRYPTING ACCOUNT");
-
-    await Future.delayed(const Duration(seconds: 2));
-    print("animationController ${_importAccountModel!.animationController!.value}");
-    
     changeStatus("IMPORTING ACCOUNT", avg: "2/4");
     _importAccountModel!.animationController!.forward(from: 0.2);
     
@@ -149,8 +138,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       password: widget.createKeyModel!.passCode
     );
 
-    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");
-    _importAccountModel!.animationController!.forward(from: 0.5);
+    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
+    _importAccountModel!.animationController!.forward(from: 0.2);
 
     await connectNetwork(widget.createKeyModel!.lsSeeds!.join(" "));
     
@@ -178,11 +167,13 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       
       await StorageServices().writeSecure(DbKey.private, res);
 
-      _importAccountModel!.animationController!.forward(from: 0.6);
-      changeStatus("FETCHING ASSETS", avg: "3/4");
-
       // Store PIN 6 Digit
       // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
+
+      await Future.delayed(const Duration(seconds: 2));
+
+      changeStatus("GETTING READY", avg: "2/3");
+      _importAccountModel!.animationController!.forward(from: 0.5);
 
       if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -190,13 +181,22 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       if(!mounted) return;
       await _apiProvider!.queryBtcData(context, mnemonic, "123");
 
-      _importAccountModel!.animationController!.forward(from: 0.9);
-      changeStatus("GETTING READY", avg: "4/4");
+      _importAccountModel!.animationController!.forward(from: 8);
+      changeStatus("DONE", avg: "3/3");
 
       ContractsBalance().getAllAssetBalance();
 
-      
+      await Future.delayed(Duration(milliseconds: 3), (){});
+
+      if(!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context, 
+        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        ModalRoute.withName('/')
+      );
+
     }); 
+
   }
 
   void changeStatus(String? status, {String? avg}){
@@ -206,119 +206,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     _importAccountModel!.loadingMgs = status;
   }
   
-  Future<void> verifySeeds() async {
-    dynamic res;
-    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
-    try {
-      res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
-      if (res == true){ 
-
-        if(!mounted) return;
-
-        dialogLoading(context, content: "Fetching and adding asset\n\nThis processing may take a bit longer\nPlease wait a moment");
-
-        dynamic json = await api.apiKeyring.importAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          key: widget.createKeyModel!.lsSeeds!.join(" "),
-          name: "User",
-          password: widget.createKeyModel!.passCode, 
-        );
-        
-        await api.apiKeyring.addAccount(
-          api.getKeyring,
-          keyType: KeyType.mnemonic,
-          acc: json,
-          password: widget.createKeyModel!.passCode,
-        );
-
-        await importAccountNAsset(api);
-        
-        // await DialogComponents().dialogCustom(
-        //   context: context,
-        //   contents: "You have successfully create your account.",
-        //   textButton: "Complete",
-        //   image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
-        //   btn2: MyGradientButton(
-        //     edgeMargin: const EdgeInsets.only(left: 20, right: 20),
-        //     textButton: "Complete",
-        //     begin: Alignment.bottomLeft,
-        //     end: Alignment.topRight,
-        //     action: () async {  
-        //       Navigator.pop(context);
-        //     },
-        //   )
-        // );
-
-        if(!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context, 
-          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/')
-        );
-      }
-      else{
-        
-        await DialogComponents().dialogCustom(
-          context: context,
-          titles: "Opps",
-          contents: "Invalid seeds spot. Please try again!",
-          textButton: "Close",
-          btn2: MyGradientButton(
-            edgeMargin: const EdgeInsets.only(left: 20, right: 20),
-            textButton: "Close",
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            action: () async {  
-              Navigator.pop(context);
-            },
-          )
-        );
-      }
-    } catch (e) {
-      
-      if (kDebugMode) {
-        print("Error validateMnemonic $e");
-      }
-    }
-    return res;
-  }
-  
-  Future<void> importAccountNAsset(ApiProvider api) async {
-
-    final resPk = await api.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
-
-    /// Cannot connect Both Network On the Same time
-    /// 
-    /// It will be wrong data of that each connection. 
-    /// 
-    /// This Function Connect Polkadot Network And then Connect Selendra Network
-    await api.connectSELNode(context: context).then((value) async {
-
-      await api.getAddressIcon();
-      // Get From Account js
-      await api.getCurrentAccount(context: context);
-
-      await ContractProvider().extractAddress(resPk);
-
-      final res = await api.encryptPrivateKey(resPk, widget.createKeyModel!.passCode);
-      
-      // Store Private Key with Encrypt With PassCode Or PIN.
-      await StorageServices().writeSecure(DbKey.private, res);
-
-      // Store PIN 6 Digit
-      await StorageServices().writeSecure(DbKey.passcode, widget.createKeyModel!.passCode);
-
-      if(!mounted) return;
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-      if(!mounted) return;
-      await api.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
-
-      await ContractsBalance().getAllAssetBalance();
-    }); 
-  }
-
   @override
   Widget build(BuildContext context) {
     return VerifyPassphraseBody(

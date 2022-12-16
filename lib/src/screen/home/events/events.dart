@@ -112,9 +112,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           
           return EventCardComponents(
             ipfsAPI: _ipfsAPI,
-            title: "Meta Doers World", 
-            eventDate: "10 - 21 august, 2022", 
-            eventName: "NIGHT MUSIC FESTIVAL",
+            title: "Do For Metaverse",
             listEvent: events,
           );
         }

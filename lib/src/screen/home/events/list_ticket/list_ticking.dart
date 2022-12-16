@@ -47,6 +47,8 @@ class _ListTicketTypeState extends State<ListTicketType> {
       print('_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}');
       if (_tkModel.ticketTypesFromApi!.isNotEmpty){
 
+        _tkModel.lsTicketTypes = List<TicketTypes>.empty(growable: true);
+
         _tkModel.ticketTypesFromApi!.forEach( (element){
           print(element);
           _tkModel.lsTicketTypes!.add(
@@ -79,29 +81,31 @@ class _ListTicketTypeState extends State<ListTicketType> {
             if (_tkModel.ticketTypesFromApi == null) loading()
       
             else if (_tkModel.ticketTypesFromApi!.isNotEmpty)
-              ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: _tkModel.lsTicketTypes!.length,
-              itemBuilder: (context, index){
-                
-                return SingleChildScrollView(
-                  controller: _controller,
-                  physics: const BouncingScrollPhysics(),
-                  child: ListTicketTypeBody(
-                    lstLenght: _tkModel.lsTicketTypes!.length,
+              Expanded(
+                child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: _tkModel.lsTicketTypes!.length,
+                itemBuilder: (context, index){
+                  
+                  return SingleChildScrollView(
                     controller: _controller,
-                    mgLeft: index == 0 ? 20 : 0,
-                    mgRight: 20,
-                    imgUrl: imgUrl,
-                    ticketModel: _tkModel,
-                    index: index,
-                  ),
-                );
-      
-              }
-            )
+                    physics: const BouncingScrollPhysics(),
+                    child: ListTicketTypeBody(
+                      lstLenght: _tkModel.lsTicketTypes!.length,
+                      controller: _controller,
+                      mgLeft: index == 0 ? 20 : 0,
+                      mgRight: 20,
+                      imgUrl: imgUrl,
+                      ticketModel: _tkModel,
+                      index: index,
+                    ),
+                  );
+                    
+                }
+                          ),
+              )
       
             else 
             const MyText(text: "No Ticket Type",)

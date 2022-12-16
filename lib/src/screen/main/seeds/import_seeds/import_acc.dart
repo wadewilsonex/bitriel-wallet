@@ -35,6 +35,7 @@ class ImportAccState extends State<ImportAcc> {
   void initState() {
 
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
     AppServices.noInternetConnection(context: context);
     StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
     super.initState();
@@ -143,39 +144,35 @@ class ImportAccState extends State<ImportAcc> {
 
   void initStateData(TickerProvider tickerProvider, Function mySetState){
 
-    _importAccountModel!.loadingMgs = "LOADING...";
-    
     _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
+    _importAccountModel!.loadingMgs = "LOADING...";
+    
     _importAccountModel!.animation = Tween(
       begin: 0.0, end: 1.0
     ).animate(_importAccountModel!.animationController!);  
 
     _importAccountModel!.animationController!.addListener(() {
-      print("animationController!.value ${_importAccountModel!.animationController!.value}");
-
-      if (_importAccountModel!.animationController!.value >= 0.17 && _importAccountModel!.animationController!.value <= 0.19) {
+      print("_importAccountModel!.animationController!.value ${_importAccountModel!.animationController!.value}");
+      if (_importAccountModel!.animationController!.value >= 0.15 && _importAccountModel!.animationController!.value <= 0.19) {
         
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.37 && _importAccountModel!.animationController!.value <= 0.39) {
+      else if (_importAccountModel!.animationController!.value >= 0.40 && _importAccountModel!.animationController!.value <= 0.49) {
+        
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.77 && _importAccountModel!.animationController!.value <= 0.79) {
+      else if (_importAccountModel!.animationController!.value >= 0.75 && _importAccountModel!.animationController!.value <= 0.79) {
+        
         _importAccountModel!.value = _importAccountModel!.animationController!.value;
         _importAccountModel!.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.85 && _importAccountModel!.animationController!.value <= 0.86) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
-      }
-      
       mySetState();
 
     });
@@ -183,18 +180,9 @@ class ImportAccState extends State<ImportAcc> {
     importAcc();
   }
 
-  Future<void> importAcc() async {
-
-    changeStatus("DECRYPTING ACCOUNT", avg: "1/4");
-    _importAccountModel!.animationController!.forward();    
-
-    print("finish DECRYPTING ACCOUNT");
-
-    await Future.delayed(const Duration(seconds: 2));
-    print("animationController ${_importAccountModel!.animationController!.value}");
+  Future<void> importAcc() async { 
     
-    changeStatus("IMPORTING ACCOUNT", avg: "2/4");
-    _importAccountModel!.animationController!.forward(from: 0.2);
+    changeStatus("IMPORTING ACCOUNT", avg: "1/3");
     
     final jsn = await _apiProvider!.apiKeyring.importAccount(
       _apiProvider!.getKeyring, 
@@ -211,9 +199,9 @@ class ImportAccState extends State<ImportAcc> {
       password: _importAccModel.pwCon.text
     );
 
-    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");
-    _importAccountModel!.animationController!.forward(from: 0.5);
-
+    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
+    _importAccountModel!.animationController!.forward(from: 0.2);
+    
     await connectNetwork(_importAccModel.mnemonicCon.text);
 
   }
@@ -236,24 +224,24 @@ class ImportAccState extends State<ImportAcc> {
 
       await ContractProvider().extractAddress(resPk);
 
-      final res = await _apiProvider!.encryptPrivateKey(resPk, "123");
+      final res = await _apiProvider!.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
       
       await StorageServices().writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
       // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
 
-      _importAccountModel!.animationController!.forward(from: 0.9);
-      changeStatus("GETTING READY", avg: "4/4");
+      changeStatus("GETTING READY", avg: "2/3");
+      _importAccountModel!.animationController!.forward(from: 0.5);
 
       if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
       if(!mounted) return;
-      await _apiProvider!.queryBtcData(context, mnemonic, "123");
-      
-      _importAccountModel!.animationController!.forward(from: 1);
-      changeStatus("DONE", avg: "4/4");
+      await _apiProvider!.queryBtcData(context, mnemonic, _importAccModel.pwCon.text);
+
+      _importAccountModel!.animationController!.forward(from: 8);
+      changeStatus("DONE", avg: "3/3");
 
       ContractsBalance().getAllAssetBalance();
 
