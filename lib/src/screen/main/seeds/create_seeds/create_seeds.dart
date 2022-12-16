@@ -127,6 +127,8 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
     super.initState();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return CreateSeedsBody(

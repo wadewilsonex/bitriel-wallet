@@ -5,13 +5,19 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:web3dart/web3dart.dart';
 
 class ContractsBalance extends ChangeNotifier {
+
+  static BuildContext? _context;
+
+  set setContext(BuildContext ctx){
+    _context = ctx;
+  }
   
   /// The function get all asset information 
-  Future<void> getAllAssetBalance({@required BuildContext? context, bool? isRefresh}) async {
+  Future<void> getAllAssetBalance({bool? isRefresh}) async {
     try {
 
-      final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
-      final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+      final contractProvider = Provider.of<ContractProvider>(_context!, listen: false);
+      final apiProvider = Provider.of<ApiProvider>(_context!, listen: false);
       final btcAddr = await StorageServices.fetchData(DbKey.bech32);
 
       if (btcAddr != null) {
@@ -32,15 +38,15 @@ class ContractsBalance extends ChangeNotifier {
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
-        await apiProvider.getBtcBalance(context: context);
+        await apiProvider.getBtcBalance(context: _context);
 
-        await apiProvider.connectPolNon(context: context);
+        await apiProvider.connectPolNon(context: _context);
         
         /// Fetch and Fill Market Price Into Asset
-        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        await Provider.of<MarketProvider>(_context!, listen: false).fetchTokenMarketPrice(_context!);
         
         /// Fetch main balance
-        await apiProvider.totalBalance(context: context);
+        await apiProvider.totalBalance(context: _context!);
 
         // Sort After MarketPrice Filled Into Asset
         await contractProvider.sortAsset();
@@ -48,7 +54,7 @@ class ContractsBalance extends ChangeNotifier {
         contractProvider.setReady();
         
         /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
-        await StorageServices.storeAssetData(context);
+        await StorageServices.storeAssetData(_context!);
         
       // });
     } catch (e) {

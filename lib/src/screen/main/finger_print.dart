@@ -1,14 +1,18 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
 class FingerPrint extends StatefulWidget {
 
   final String localAuth = "/localAuth";
   final bool? isEnable;
 
-  final Function? importAccount;
+  final ImportAccountModel? importAccountModel;
 
-  const FingerPrint({Key? key, this.importAccount, this.isEnable = false}) : super(key: key);
+  final Function? initStateData;
+
+  const FingerPrint({Key? key, this.importAccountModel, this.initStateData, this.isEnable = false}) : super(key: key);
   
   @override
   FingerPrintState createState() => FingerPrintState();
@@ -50,12 +54,19 @@ class FingerPrintState extends State<FingerPrint> {
         await Future.delayed(const Duration(seconds: 1), (){});
         
         // Add Account From Verify Seed Before Navigate To Home Page
-        if(widget.importAccount != null) {
+        if(widget.initStateData != null) {
           await StorageServices.saveBio(true);
           // Close Dialog
           if(!mounted) return;
           Navigator.pop(context);
-          await widget.importAccount!();
+          
+          Navigator.push(
+            context,
+            Transition(
+              child: FingerPrint(initStateData: widget.initStateData!,),
+              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            )
+          );
         }
 
         if(!mounted) return;
@@ -170,7 +181,10 @@ class FingerPrintState extends State<FingerPrint> {
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
                   textButton: "Skip",
                   action: () async {
-                    await widget.importAccount!();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ImportJson(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
+                    );
                   },
                 )
               ],

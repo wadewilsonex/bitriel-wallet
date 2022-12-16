@@ -5,7 +5,7 @@ import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/main/json/import_json.dart';
+import 'package:wallet_apps/src/screen/main/data_loading.dart';
 import 'package:wallet_apps/src/screen/main/social_login/set_password/set_password.dart';
 
 class OPTVerification extends StatefulWidget {

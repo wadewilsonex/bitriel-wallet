@@ -25,6 +25,8 @@ class AppState extends State<App> {
   @override
   void initState() {
 
+    Provider.of<ContractsBalance>(context, listen: false).setContext = context;
+
     MarketProvider().fetchTokenMarketPrice(context);
 
     // readTheme();
@@ -91,7 +93,7 @@ class AppState extends State<App> {
           // Get From Keyring js
           await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
-          await ContractsBalance().getAllAssetBalance(context: context);
+          await ContractsBalance().getAllAssetBalance();
           
         }
       });
