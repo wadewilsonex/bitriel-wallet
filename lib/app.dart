@@ -24,6 +24,7 @@ class AppState extends State<App> {
 
   @override
   void initState() {
+
     MarketProvider().fetchTokenMarketPrice(context);
 
     // readTheme();
@@ -55,6 +56,7 @@ class AppState extends State<App> {
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
@@ -73,6 +75,7 @@ class AppState extends State<App> {
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
+        
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
           /// Cannot connect Both Network On the Same time
           /// 

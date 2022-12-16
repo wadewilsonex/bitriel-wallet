@@ -25,7 +25,8 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     leading: Container(
-      margin: const EdgeInsets.only(left: 15),
+      height: 10.h,
+      margin: const EdgeInsets.only(left: 15, top: 10),
       child: IconButton(
         onPressed: () {
           homePageModel!.globalKey!.currentState!.openDrawer();
@@ -40,55 +41,59 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     
-    title: StatefulBuilder(
-      builder: (BuildContext context, StateSetter setState) {
-
-        return Consumer<ApiProvider>(
-        
-          builder: (context, provider, child) {
-            return GestureDetector(
-              onTap: () async {
-                await HomeFunctional().changeNetwork(context: context, setState: setState);
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  
-                  WidgetShimmer(
-                    txt: provider.accountM.address, 
-                    child: MyText(
-                      text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
-                      textAlign: TextAlign.center
-                    ),
-                  ),
-            
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      
-                      MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
-            
-                        Padding(
-                        padding: const EdgeInsets.only(left: 4),
-                        child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
-                      )
-                    ],
-                  ),
+    title: Container(
+      height: 10.h,
+      margin: EdgeInsets.only(top: 10),
+      child: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+    
+          return Consumer<ApiProvider>(
+          
+            builder: (context, provider, child) {
+              return GestureDetector(
+                onTap: () async {
+                  await HomeFunctional().changeNetwork(context: context, setState: setState);
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     
-                ],
-              )
-            );
-          }
-        );
-
-      },
+                    WidgetShimmer(
+                      txt: provider.accountM.address, 
+                      child: MyText(
+                        text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                        textAlign: TextAlign.center
+                      ),
+                    ),
+              
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        
+                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
+              
+                          Padding(
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                        )
+                      ],
+                    ),
+                      
+                  ],
+                )
+              );
+            }
+          );
+    
+        },
+      ),
     ),
     actions: <Widget>[
       
       Container(
-        margin: const EdgeInsets.only(right: 10),
+        margin: const EdgeInsets.only(right: 10, top: 10),
         padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
         child: IconButton(
           icon: Align(

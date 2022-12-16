@@ -22,7 +22,7 @@ class MenuHeader extends StatelessWidget {
       margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
       decoration: BoxDecoration(
         gradient: isDarkMode ? null : LinearGradient(
-          colors: [hexaCodeToColor("#F27649"), hexaCodeToColor("#F28907")],
+          colors: [hexaCodeToColor("#CECECE"), hexaCodeToColor("#CECECE")],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight, 
           stops: const [0.25, 0.75],

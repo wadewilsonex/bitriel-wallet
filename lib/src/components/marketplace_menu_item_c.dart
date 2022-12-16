@@ -24,7 +24,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
         height: 15.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorBtn),
+          color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

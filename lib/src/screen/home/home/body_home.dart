@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:video_player/video_player.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
@@ -24,6 +25,7 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+  final VideoPlayerController? videoController;
 
   HomePageBody({ 
     Key? key, 
@@ -32,7 +34,8 @@ class HomePageBody extends StatelessWidget {
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
-    this.getReward
+    this.getReward,
+    this.videoController
     }) : super(key: key);
 
 
@@ -66,8 +69,28 @@ class HomePageBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                Container(
+                  height: 130,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  margin: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          Transition(child: MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                        );
+                      },
+                      child: VideoPlayer(videoController!),
+                    ),
+                  ),
+                ),
                 
-                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
 
                 ShowCaseWidget(
                   builder: Builder(
@@ -224,7 +247,7 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _menu(BuildContext context) {
-    double iconSize = 7.w;
+    double iconSize = 6.w;
 
     return Column(
       children: [

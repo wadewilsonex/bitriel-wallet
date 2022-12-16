@@ -13,7 +13,11 @@ class ContractsBalance extends ChangeNotifier {
       final contractProvider = Provider.of<ContractProvider>(context!, listen: false);
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
       final btcAddr = await StorageServices.fetchData(DbKey.bech32);
-      if (btcAddr != null) Provider.of<ApiProvider>(context, listen: false).setBtcAddr(btcAddr.toString());
+
+      if (btcAddr != null) {
+        apiProvider.setBtcAddr(btcAddr.toString());
+        contractProvider.listContract[apiProvider.btcIndex].address = btcAddr;
+      }
 
       // await contractProvider.setSavedList().then((value) async {
 
