@@ -112,20 +112,40 @@ class ListTicketTypeBody extends StatelessWidget {
               
               TicketItemComponent(label: "Status", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.status.toString()),
               
-              Reservation(
-                ticketModel: ticketModel!,
-                controller: controller,
-                dataSubmittion: DataSubmittion.assignAboveData(
-                  ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name!,
-                  "$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
-                  index!,
-                  ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price!,
-                ),
-                index: index,
-                eventId: ticketModel!.eventId,
-                ticketTypeId: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.id,
-                ticketTypeModel: ticketModel!.lsTicketTypes![index!]
-              )
+              TicketItemComponent(label: "Date", icon: Icon(Icons.date_range), onTap: () async {
+
+                  await showDialog(
+                    context: context, 
+                    builder: (context){
+                      return AlertDialog(
+                        title: MyText(
+                          text: "Message",
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        content: MyText(
+                          height: 30,
+                          text: "Under construction",
+                          fontSize: 16,
+                        ),
+                      );
+                    }
+                  );
+              },)
+              // Reservation(
+              //   ticketModel: ticketModel!,
+              //   controller: controller,
+              //   dataSubmittion: DataSubmittion.assignAboveData(
+              //     ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.name!,
+              //     "$imgUrl${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.image!}",
+              //     index!,
+              //     ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price!,
+              //   ),
+              //   index: index,
+              //   eventId: ticketModel!.eventId,
+              //   ticketTypeId: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.id,
+              //   ticketTypeModel: ticketModel!.lsTicketTypes![index!]
+              // )
 
             ],
           )

@@ -24,6 +24,9 @@ class AppState extends State<App> {
 
   @override
   void initState() {
+
+    Provider.of<ContractsBalance>(context, listen: false).setContext = context;
+
     MarketProvider().fetchTokenMarketPrice(context);
 
     // readTheme();
@@ -49,6 +52,7 @@ class AppState extends State<App> {
     try {
     
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
@@ -67,6 +71,7 @@ class AppState extends State<App> {
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
+        
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
           if(!mounted) return;
@@ -88,7 +93,7 @@ class AppState extends State<App> {
           // Get From Keyring js
           await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
-          await ContractsBalance().getAllAssetBalance(context: context);
+          await ContractsBalance().getAllAssetBalance();
           
         }
       });

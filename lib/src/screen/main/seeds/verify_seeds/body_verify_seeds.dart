@@ -5,14 +5,14 @@ import 'package:wallet_apps/src/models/createkey_m.dart';
 class VerifyPassphraseBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
-  final Function? verify;
+  final Function? submit;
   final Function? onTap;
   final Function? remove3Seeds;
 
   const VerifyPassphraseBody({
     Key? key, 
     this.createKeyModel,
-    this.verify,
+    this.submit,
     this.onTap,
     this.remove3Seeds
   }) : super(key: key);
@@ -117,13 +117,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   action: () async {
-                    await Navigator.push(
-                      context, 
-                      Transition(
-                        child: FingerPrint(importAccount: verify,),
-                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                      )
-                    );
+                    submit!();
                   },
                 )
               ],

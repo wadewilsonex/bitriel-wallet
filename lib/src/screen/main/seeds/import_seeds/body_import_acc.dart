@@ -25,7 +25,6 @@ class ImportAccBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     
 
     return BodyScaffold(
       height: MediaQuery.of(context).size.height,

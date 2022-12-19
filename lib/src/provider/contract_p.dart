@@ -823,6 +823,7 @@ class ContractProvider with ChangeNotifier {
     try {
 
       listContract[apiProvider.btcIndex].address = await StorageServices().readSecure(DbKey.bech32);
+      
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug) {

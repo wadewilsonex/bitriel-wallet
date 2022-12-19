@@ -63,88 +63,88 @@ class OnboardignBody extends StatelessWidget {
             )
           ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
 
-              GoogleAuthButton(
-                onPressed: () async {
-                  underContstuctionAnimationDailog(context: context);
-                },
-                style: const AuthButtonStyle(
-                  buttonType: AuthButtonType.icon,
-                  iconType: AuthIconType.secondary,
-                ),
-                themeMode: ThemeMode.light,
-              ),
+          //     GoogleAuthButton(
+          //       onPressed: () async {
+          //         underContstuctionAnimationDailog(context: context);
+          //       },
+          //       style: const AuthButtonStyle(
+          //         buttonType: AuthButtonType.icon,
+          //         iconType: AuthIconType.secondary,
+          //       ),
+          //       themeMode: ThemeMode.light,
+          //     ),
 
-              SizedBox(width: 20.sp,),
+          //     SizedBox(width: 20.sp,),
 
-              EmailAuthButton(
-                onPressed: () async {
-                  // underContstuctionAnimationDailog(context: context);
-                  Navigator.push(
-                    context, 
-                    Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  );
+          //     EmailAuthButton(
+          //       onPressed: () async {
+          //         // underContstuctionAnimationDailog(context: context);
+          //         Navigator.push(
+          //           context, 
+          //           Transition(child: const LoginContent(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          //         );
 
-                },
-                style: const AuthButtonStyle(
-                  buttonType: AuthButtonType.icon,
-                  iconType: AuthIconType.secondary,
-                ),
-                themeMode: ThemeMode.light,
-              ),
+          //       },
+          //       style: const AuthButtonStyle(
+          //         buttonType: AuthButtonType.icon,
+          //         iconType: AuthIconType.secondary,
+          //       ),
+          //       themeMode: ThemeMode.light,
+          //     ),
 
-              SizedBox(width: 20.sp,),
+          //     SizedBox(width: 20.sp,),
 
-              CustomAuthButton(
-                onPressed: () async {
-                  // underContstuctionAnimationDailog(context: context);
-                  // Navigator.push(context, Transition(child: const ImportJson(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                  Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                },
-                authIcon: AuthIcon(
-                  iconPath: "assets/icons/phone-call.png",
-                  iconSize: 30,
-                ),
-                style: const AuthButtonStyle(
-                  buttonType: AuthButtonType.icon,
-                  iconType: AuthIconType.outlined,
-                  buttonColor: Colors.white,
-                  height: 50
-                ),
-                themeMode: ThemeMode.light,
-              ),
-            ],
-          ),
+          //     CustomAuthButton(
+          //       onPressed: () async {
+          //         // underContstuctionAnimationDailog(context: context);
+          //         // Navigator.push(context, Transition(child: const ImportJson(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          //         Navigator.push(context, Transition(child: const PhoneMainScreen(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          //       },
+          //       authIcon: AuthIcon(
+          //         iconPath: "assets/icons/phone-call.png",
+          //         iconSize: 30,
+          //       ),
+          //       style: const AuthButtonStyle(
+          //         buttonType: AuthButtonType.icon,
+          //         iconType: AuthIconType.outlined,
+          //         buttonColor: Colors.white,
+          //         height: 50
+          //       ),
+          //       themeMode: ThemeMode.light,
+          //     ),
+          //   ],
+          // ),
           
-          Padding(
-            padding: const EdgeInsets.all(paddingSize + 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xff818181),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'OR',
-                  style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Divider(
-                    thickness: 1,
-                    color: Color(0xff818181),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(paddingSize + 5),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: const <Widget>[
+          //       Expanded(
+          //         child: Divider(
+          //           thickness: 1,
+          //           color: Color(0xff818181),
+          //         ),
+          //       ),
+          //       SizedBox(width: 10),
+          //       Text(
+          //         'OR',
+          //         style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
+          //       ),
+          //       SizedBox(width: 10),
+          //       Expanded(
+          //         child: Divider(
+          //           thickness: 1,
+          //           color: Color(0xff818181),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
           Column(
             children: [

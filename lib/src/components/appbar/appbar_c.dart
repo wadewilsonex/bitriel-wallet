@@ -43,7 +43,8 @@ PreferredSizeWidget defaultAppBar({
     ),
     
     title: Container(
-      margin: const EdgeInsets.only(top: 10),
+      height: 10.h,
+      margin: EdgeInsets.only(top: 10),
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
     
