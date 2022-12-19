@@ -107,8 +107,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
                           ),
               )
       
-            else 
-            const MyText(text: "No Ticket Type",)
+            else MyText(text: "No Ticket Type",)
             
           ],
         ),

@@ -1,6 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/cards/nft_c.dart';
 
@@ -24,7 +21,7 @@ class AllTab extends StatelessWidget {
           ],
         );
       }
-    ) : const Center(
+    ) : Center(
       child: MyText(
         text: "No Ticket",
       ),

@@ -265,8 +265,8 @@ class AssetsPageBody extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.push(
-                  context, 
-                  Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    context,
+                    Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                 );
               },
               child: Column(

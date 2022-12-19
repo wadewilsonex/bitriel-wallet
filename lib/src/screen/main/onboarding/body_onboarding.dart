@@ -52,7 +52,7 @@ class OnboardignBody extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
                     width: MediaQuery.of(context).size.width / 1.5,
-                    text: "Bitriel offers users to store, transact, hold, buy, sell crypto assets, and more!",
+                    text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
                     textAlign: TextAlign.center,
                     hexaColor: isDarkMode
                       ? AppColors.lowWhite

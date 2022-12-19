@@ -273,7 +273,7 @@ class ImportAccState extends State<ImportAcc> {
           reImport: widget.reimport,
           importAccModel: _importAccModel,
           onChanged: onChanged,
-          onSubmit: widget.reimport != null ? onSubmitIm : (){
+          onSubmit: widget.reimport != null ? onSubmit : (){
             Navigator.push(
               context,
               Transition(
@@ -286,7 +286,7 @@ class ImportAccState extends State<ImportAcc> {
           },
           clearInput: clearInput,
           enable: enable,
-          submit: widget.reimport != null ? onSubmitIm : (){
+          submit: widget.reimport != null ? onSubmit : (){
             Navigator.push(
               context,
               Transition(
