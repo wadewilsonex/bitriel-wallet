@@ -54,9 +54,35 @@ class DiscoverPageBody extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: const [
-                  SelendraExplorer(),
-                  MultiExplorer(),
+                // children: const [
+                //   SelendraExplorer(),
+                //   MultiExplorer(),
+                // ],
+                children: [
+                  
+                  GestureDetector(
+                    onHorizontalDragUpdate: (details) {
+                      if (details.delta.direction > 0) {
+                        tabController.animateTo(1);
+                      }
+                      else{
+                        homePageModel!.globalKey!.currentState!.openDrawer();
+                      }
+                    },
+                    child: const SelendraExplorer()
+                  ),
+                  
+                  GestureDetector(
+                    onHorizontalDragUpdate: (details) {
+                      if (details.delta.direction > 0) {
+                        homePageModel!.pageController!.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                      }
+                      else{
+                        tabController.animateTo(0);
+                      }
+                    },
+                    child: const MultiExplorer(),
+                  ),
                 ],
               ),
             ),

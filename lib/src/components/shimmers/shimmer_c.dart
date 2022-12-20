@@ -97,7 +97,7 @@ class TextShimmer extends StatelessWidget{
       text: txt ?? '',
       fontSize: 16,
       fontWeight: FontWeight.bold,
-      hexaColor: AppColors.whiteColorHexa
+      hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor
     ) 
     : Shimmer.fromColors(
       period: const Duration(seconds: 2),

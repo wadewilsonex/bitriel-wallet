@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
@@ -207,11 +208,14 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     _importAccountModel.loadingMgs = status;
   }
   
-  @override
-  Widget build(BuildContext context) {
-    return VerifyPassphraseBody(
-      createKeyModel: widget.createKeyModel,
-      submit: () async {
+  Future<void> verifySeeds() async {
+    dynamic res;
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
+    try {
+      res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
+      if (res == true){ 
+
+        if(!mounted) return;
         await Navigator.push(
           context, 
           Transition(
@@ -219,7 +223,27 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
-      },
+        
+      }
+      else{
+        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
+      }
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
+    }
+    return res;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return VerifyPassphraseBody(
+      createKeyModel: widget.createKeyModel,
+      submit: verifySeeds,
       onTap: onTap,
       remove3Seeds: remove3Seeds
     );

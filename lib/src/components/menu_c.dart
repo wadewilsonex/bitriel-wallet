@@ -69,7 +69,7 @@ class MenuHeader extends StatelessWidget {
                         MyText(
                           right: 5,
                           text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
-                          hexaColor: AppColors.lowWhite,
+                          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                           fontSize: 13,
                           textAlign: TextAlign.left
                         ),
@@ -88,14 +88,12 @@ class MenuHeader extends StatelessWidget {
                             '${AppConfig.iconsPath}qr_code.svg',
                             width: 5.w,
                             height: 5.w,
-                            color: hexaCodeToColor(isDarkMode ? AppColors.secondary : AppColors.whiteColorHexa),
+                            color: hexaCodeToColor(AppColors.secondary),
                           )
                         )
                       ]
                     )
                   )
-    
-    
                 ],
               )
             ],

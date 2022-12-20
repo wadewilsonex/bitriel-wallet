@@ -84,37 +84,18 @@ class ImportAccState extends State<ImportAcc> {
     }
   }
 
-  // Submit Mnemonic
-  Future<void> submit() async {
-    // try {
-    //   if (_importAccModel.mnemonicCon.text.isNotEmpty){
-    //     await validateMnemonic(_importAccModel.mnemonicCon.text)!.then((value) async {
-    //       if (value) {
-    //         Navigator.push(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => ImportUserInfo(
-    //               _importAccModel.mnemonicCon.text,
-    //             ),
-    //           ),
-    //         );
-    //       } else {
-
-    //         await customDialog(context, 'Opps', 'Invalid seed phrases or mnemonic');
-    //       }
-    //     });
-    //   } else {
-
-    //   }
-    // } catch (e) {
-    //   if (ApiProvider().isDebug == true) print("Error submit $e");
-    // }
-  }
-
   Future<void> onSubmitIm() async {
-    // if (_importAccModel.formKey.currentState!.validate()) {
-    //   reImport();
-    // }
+    if(_importAccModel.formKey.currentState!.validate()){
+      Navigator.push(
+        context,
+        Transition(
+          child: FingerPrint(
+            initStateData: initStateData,
+            importAccountModel: _importAccountModel,
+          )
+        )
+      );
+    }
   }
 
   Future<void> isDotContain() async {
@@ -275,30 +256,9 @@ class ImportAccState extends State<ImportAcc> {
           reImport: widget.reimport,
           importAccModel: _importAccModel,
           onChanged: onChanged,
-          onSubmit: widget.reimport != null ? onSubmit : (){
-            Navigator.push(
-              context,
-              Transition(
-                child: FingerPrint(
-                  initStateData: initStateData,
-                  importAccountModel: _importAccountModel,
-                )
-              )
-            );
-          },
+          onSubmit: widget.reimport != null ? onSubmitIm : onSubmit,
           clearInput: clearInput,
           enable: enable,
-          submit: widget.reimport != null ? onSubmit : (){
-            Navigator.push(
-              context,
-              Transition(
-                child: FingerPrint(
-                  initStateData: initStateData,
-                  importAccountModel: _importAccountModel,
-                )
-              )
-            );
-          },
         ),
       )
     );
