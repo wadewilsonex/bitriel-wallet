@@ -7,14 +7,14 @@ class TabItemComponent extends StatelessWidget{
   final int? index;
   final Function()? onTap;
 
-  TabItemComponent({required this.label , required this.active, required this.index, required this.onTap});
+  const TabItemComponent({Key? key, required this.label , required this.active, required this.index, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
     return InkWell(
       onTap: onTap!,
       child: Container(
-        margin: EdgeInsets.only(right: 30),
+        margin: const EdgeInsets.only(right: 30),
         height: 30,
         child: Column(
           

@@ -540,7 +540,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     return  Navigator.push(
       context,
       Transition(
-        child: SuccessTransfer(),
+        child: const SuccessTransfer(),
         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
       ),
     );

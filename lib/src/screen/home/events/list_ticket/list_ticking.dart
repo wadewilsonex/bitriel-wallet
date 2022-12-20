@@ -1,11 +1,7 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/appbar/event_c.dart';
-import 'package:wallet_apps/src/components/cards/ticket_card_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/body_list_ticket.dart';
@@ -24,9 +20,9 @@ class _ListTicketTypeState extends State<ListTicketType> {
 
   String? imgUrl;
   
-  TicketModel _tkModel = TicketModel();
+  final TicketModel _tkModel = TicketModel();
   
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -44,24 +40,30 @@ class _ListTicketTypeState extends State<ListTicketType> {
     await PostRequest().getTicketsByEventId(widget.eventId!).then((value) async{
       
       _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
-      print('_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}');
+      if (kDebugMode) {
+        print('_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}');
+      }
       if (_tkModel.ticketTypesFromApi!.isNotEmpty){
 
         _tkModel.lsTicketTypes = List<TicketTypes>.empty(growable: true);
 
-        _tkModel.ticketTypesFromApi!.forEach( (element){
-          print(element);
+        for (var element in _tkModel.ticketTypesFromApi!) {
+          if (kDebugMode) {
+            print(element);
+          }
           _tkModel.lsTicketTypes!.add(
             TicketTypes.fromApi(element)
           );
 
-        });
+        }
       }
 
       if (mounted) setState(() { });
     });
 
-    print(("_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}"));
+    if (kDebugMode) {
+      print(("_tkModel.ticketTypesFromApi ${_tkModel.ticketTypesFromApi}"));
+    }
 
 
   }
@@ -70,7 +72,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: eventAppBar(context: context, title: widget.eventName!),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -107,7 +109,7 @@ class _ListTicketTypeState extends State<ListTicketType> {
                           ),
               )
       
-            else MyText(text: "No Ticket Type",)
+            else const MyText(text: "No Ticket Type",)
             
           ],
         ),

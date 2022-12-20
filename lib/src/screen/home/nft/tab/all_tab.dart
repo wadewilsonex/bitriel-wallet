@@ -21,7 +21,7 @@ class AllTab extends StatelessWidget {
           ],
         );
       }
-    ) : Center(
+    ) : const Center(
       child: MyText(
         text: "No Ticket",
       ),

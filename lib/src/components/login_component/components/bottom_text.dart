@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
 import 'package:wallet_apps/src/components/login_component/helper_functions.dart';

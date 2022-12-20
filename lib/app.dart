@@ -6,7 +6,6 @@ import 'package:wallet_apps/src/graphql/ql_client.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'package:web3dart/web3dart.dart';
 import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();

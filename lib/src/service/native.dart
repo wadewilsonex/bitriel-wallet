@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/inative.dart';
-import 'package:web3dart/web3dart.dart';
 
 class NativeService implements INativeService {
   

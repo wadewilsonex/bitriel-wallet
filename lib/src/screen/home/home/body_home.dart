@@ -27,7 +27,7 @@ class HomePageBody extends StatelessWidget {
   final Function? getReward;
   final VideoPlayerController? videoController;
 
-  HomePageBody({ 
+  const HomePageBody({ 
     Key? key, 
     this.isTrx,
     this.homePageModel,
@@ -75,14 +75,14 @@ class HomePageBody extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5)
                   ),
-                  margin: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
+                  margin: const EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: InkWell(
                       onTap: (){
                         Navigator.push(
                           context,
-                          Transition(child: MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                          Transition(child: const MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                         );
                       },
                       child: VideoPlayer(videoController!),
@@ -122,7 +122,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "NFTs",
@@ -142,7 +142,7 @@ class HomePageBody extends StatelessWidget {
                 ),
           
                 const SizedBox(height: 10), 
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: paddingSize),
                   child: MyText(
                     text: "DApps",

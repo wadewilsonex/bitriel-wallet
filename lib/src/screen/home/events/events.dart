@@ -1,29 +1,7 @@
-import 'dart:ui' as ui;
-import 'dart:ui';
-import 'package:animated_background/animated_background.dart';
-import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:random_avatar/random_avatar.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/cards/event_card_c.dart';
-import 'package:wallet_apps/src/constants/color.dart';
-import 'package:wallet_apps/src/constants/textstyle.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/models/event_model.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/events/detail_event.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
-import 'package:wallet_apps/src/screen/home/events/ticket_options.dart';
-import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class FindEvent extends StatefulWidget {
 
@@ -53,8 +31,10 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   void ticketInitializer() async {
     
     Provider.of<MDWProvider>(context, listen: false).init();
-    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context);
-    await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress();
+    await Provider.of<MDWProvider>(context, listen: false).initNFTContract(context).then((value) async => {
+      await Provider.of<MDWProvider>(context, listen: false).fetchItemsByAddress(),
+    });
+    
   }
 
   void fetchEvent() async {

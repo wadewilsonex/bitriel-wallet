@@ -16,7 +16,7 @@ class TicketTab extends StatelessWidget {
       itemBuilder: (context, index){
         return NFTCardComponent(eventName: lstTicket![index].ticketType!.name, index: index, length: lstTicket!.length, ticketNFTModel: lstTicket![index],);
       }
-    ) : Center(
+    ) : const Center(
       child: MyText(
         text: "No Ticket",
       ),

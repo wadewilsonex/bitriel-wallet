@@ -1,12 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class ImportJson extends StatefulWidget {
@@ -86,24 +81,21 @@ class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
     
                 Lottie.asset("${AppConfig.animationPath}data_center_loading.json", width: 70.w, height: 70.w),
     
-                Container(
-                  
-                  child: AnimatedTextKit(
-                    repeatForever: true,
-                    pause: const Duration(seconds: 1),
-                    animatedTexts: [
+                AnimatedTextKit(
+                  repeatForever: true,
+                  pause: const Duration(seconds: 1),
+                  animatedTexts: [
       
-                      TypewriterAnimatedText(
-                        widget.importAccountModel!.loadingMgs!,
-                        textAlign: TextAlign.center,
-                        textStyle: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    TypewriterAnimatedText(
+                      widget.importAccountModel!.loadingMgs!,
+                      textAlign: TextAlign.center,
+                      textStyle: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
                       ),
+                    ),
       
-                    ],
-                  ),
+                  ],
                 ),
     
                 Expanded(child: Container()),

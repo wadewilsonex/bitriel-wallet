@@ -17,7 +17,7 @@ class SelendraExplorerBody extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
-        MyText(
+        const MyText(
           text: "Selendra Explorer",
           fontWeight: FontWeight.bold,
           fontSize: 18,

@@ -4,7 +4,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 import 'package:wallet_apps/src/service/native.dart';
-import 'package:web3dart/web3dart.dart';
 
 class TrxFunctional {
 

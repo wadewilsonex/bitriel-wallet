@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/icontract.dart';
-import 'package:web3dart/web3dart.dart';
 
 class ContractService implements IContractService {
   

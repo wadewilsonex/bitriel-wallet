@@ -266,7 +266,7 @@ class DateAndSessions{
   
   List<Session>? sessions;
   
-  DaetAndSessions(){
+  dateAndSessions(){
     sessions = [];
   }
 }

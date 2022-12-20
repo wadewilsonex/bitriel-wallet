@@ -34,9 +34,9 @@ class ImportAccBody extends StatelessWidget {
         child: Column(
           children: [
 
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
-              child: const SeedContents(
+              child: SeedContents(
                 title: 'Restore with seed', 
                 subTitle: 'Please add your 12 words seed below to restore your wallet.'
               ),

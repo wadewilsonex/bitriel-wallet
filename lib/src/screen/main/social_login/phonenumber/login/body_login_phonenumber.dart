@@ -1,7 +1,6 @@
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/registration/head_title_c.dart';
-import 'package:wallet_apps/src/screen/main/social_login/otp_verification.dart';
 
 class LoginSeedPhoneNumberBody extends StatelessWidget {
   final TextEditingController? phoneNumber;

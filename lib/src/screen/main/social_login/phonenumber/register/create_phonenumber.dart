@@ -36,7 +36,9 @@ class _CreateSeedPhoneNumberState extends State<CreateSeedPhoneNumber> {
       }
 
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

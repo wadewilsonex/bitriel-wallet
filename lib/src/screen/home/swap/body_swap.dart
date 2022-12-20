@@ -103,7 +103,7 @@ class SwapPageBody extends StatelessWidget {
         
               _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
               
-              MyText(
+              const MyText(
                 text: 'Enter how much you want to swap',
                 fontWeight: FontWeight.bold,
                 
@@ -142,23 +142,23 @@ class SwapPageBody extends StatelessWidget {
 
   Widget _payInput(BuildContext context){
     return Padding(
-      padding: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
+      padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
 
           Padding(
-            padding: EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: Row(
               children: [
-                MyText(
+                const MyText(
                   text: 'You Pay',
                   fontWeight: FontWeight.bold,
                 ),
                 
                 Expanded(child: Container()),
           
-                MyText(
+                const MyText(
                   text: 'Available',
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
@@ -230,7 +230,7 @@ class SwapPageBody extends StatelessWidget {
                   i: 0,
                   onPressed: (){
                     Provider.of<SwapProvider>(context, listen: false).label = "first";
-                    Navigator.push(context, Transition(child: SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                    Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
                     swapPageModel!.myController!.clear();
                     swapPageModel!.percentActive = 0;
                   }
@@ -253,7 +253,7 @@ class SwapPageBody extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [
+            children: const [
               MyText(
                 text: 'You Get',
                 fontWeight: FontWeight.bold,

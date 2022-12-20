@@ -10,7 +10,7 @@ class NFTCardComponent extends StatelessWidget{
   final String? eventName;
   final TicketNFTModel? ticketNFTModel;
 
-  NFTCardComponent({required this.eventName, required this.index, required this.length, required this.ticketNFTModel});
+  const NFTCardComponent({Key? key, required this.eventName, required this.index, required this.length, required this.ticketNFTModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -47,7 +47,7 @@ class NFTCardComponent extends StatelessWidget{
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(10)
                   ),
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -79,8 +79,9 @@ class TicketCardComponent extends StatelessWidget{
   final int? length;
   final String? giftName;
 
-  TicketCardComponent({ required this.giftName, required this.index, required this.length});
+  const TicketCardComponent({Key? key,  required this.giftName, required this.index, required this.length}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
     return InkWell(
       // onTap: onPressed!,
@@ -98,14 +99,14 @@ class TicketCardComponent extends StatelessWidget{
             Container(
               width: 121,
               height: 121,
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(AppConfig.assetsPath+"appbar_bg.jpg", fit: BoxFit.cover,),
+                child: Image.asset("${AppConfig.assetsPath}appbar_bg.jpg", fit: BoxFit.cover,),
               ),
             ),
         

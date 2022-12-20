@@ -1,6 +1,4 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:wallet_apps/index.dart';
 
 class TicketCardBody extends StatefulWidget {
   const TicketCardBody({Key? key}) : super(key: key);

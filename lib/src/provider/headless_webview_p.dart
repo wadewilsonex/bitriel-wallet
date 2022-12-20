@@ -19,7 +19,9 @@ class HeadlessWebView with ChangeNotifier {
   );
 
   initHeadlessWebview() async {
-    print("initHeadlessWebview");
+    if (kDebugMode) {
+      print("initHeadlessWebview");
+    }
     headlessWebView = HeadlessInAppWebView(
       initialData: InAppWebViewInitialData(
         data: """
@@ -37,12 +39,16 @@ class HeadlessWebView with ChangeNotifier {
       ),
       initialOptions: _options,
       onWebViewCreated: (controller) async {
-        print("onWebViewCreated");
+        if (kDebugMode) {
+          print("onWebViewCreated");
+        }
         await controller.clearCache();
       },
       onLoadStop: (controller, uri) async {
 
-        print('controller uri');
+        if (kDebugMode) {
+          print('controller uri');
+        }
         
         // webViewController = controller;
         
@@ -51,7 +57,9 @@ class HeadlessWebView with ChangeNotifier {
       },
       
       onConsoleMessage: (controller, consoleMessage) {
-        print("onConsoleMessage");
+        if (kDebugMode) {
+          print("onConsoleMessage");
+        }
         // it will print: {message: {"bar":"bar_value","baz":"baz_value"}, messageLevel: 1}
       },
     );

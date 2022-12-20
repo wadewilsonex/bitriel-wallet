@@ -16,7 +16,7 @@ PreferredSizeWidget defaultAppBar({
     flexibleSpace: SafeArea(
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -44,7 +44,7 @@ PreferredSizeWidget defaultAppBar({
     
     title: Container(
       height: 10.h,
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
     

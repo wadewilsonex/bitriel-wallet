@@ -1,4 +1,3 @@
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';

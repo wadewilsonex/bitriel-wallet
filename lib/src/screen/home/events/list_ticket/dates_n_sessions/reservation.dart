@@ -1,6 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
@@ -77,7 +74,7 @@ class RreservationState extends State<Reservation> {
 
     lstMontYear![ dataSubmittion!.indexMonthYear! ].initSession = value;
     
-    widget.controller!.animateTo(150, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+    widget.controller!.animateTo(150, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
     
     if (mounted) setState(() { });
 

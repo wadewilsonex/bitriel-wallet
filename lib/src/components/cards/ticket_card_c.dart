@@ -3,11 +3,7 @@ import 'dart:ui';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
-import 'package:wallet_apps/src/components/dialog/datetime_picker_c.dart';
-import 'package:wallet_apps/src/components/radio/radio_session_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
-
-import '../bottom_sheet/datetime_ticket_c.dart';
 
 class TicketCardComponent extends StatefulWidget{
 
@@ -25,7 +21,7 @@ class TicketCardComponent extends StatefulWidget{
   final Function? onChangeSession;
   final Function? onChangeQty;
 
-  TicketCardComponent({
+  const TicketCardComponent({Key? key, 
     required this.dataSubmittion,
     required this.ticketTypeIndex,
     required this.ticketObj, 
@@ -38,7 +34,7 @@ class TicketCardComponent extends StatefulWidget{
     this.onValueChange, 
     this.onChangeSession,
     this.onChangeQty
-  });
+  }) : super(key: key);
 
   @override
   State<TicketCardComponent> createState() => _TicketCardComponentState();

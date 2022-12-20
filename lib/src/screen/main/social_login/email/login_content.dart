@@ -2,8 +2,6 @@ import 'package:http/http.dart';
 import 'package:form_validation/form_validation.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
-import 'package:wallet_apps/src/components/login_component/components/bottom_text.dart';
-import 'package:wallet_apps/src/components/login_component/components/top_text.dart';
 import 'package:wallet_apps/src/components/login_component/helper_functions.dart';
 import 'package:wallet_apps/src/components/registration/head_title_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -30,7 +28,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
   late final List<Widget> loginContent;
   late final List<Widget> createAccountContent;
 
-  ImportAccountModel? _importAccountModel = ImportAccountModel();
+  final ImportAccountModel _importAccountModel = ImportAccountModel();
   ApiProvider? _apiProvider;
   
   final EmailModel _model = EmailModel();
@@ -46,7 +44,9 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
   Future<void> _decryptDataLogin() async {
 
-    print("Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning() ${Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning()}");
+    if (kDebugMode) {
+      print("Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning() ${Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning()}");
+    }
 
     try {
 
@@ -56,16 +56,19 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
       final responseJson = json.decode(response.body);
 
-      print("responseJson $responseJson");
+      if (kDebugMode) {
+        print("responseJson $responseJson");
+      }
 
       if (response.statusCode == 200) {
 
         if (responseJson['user'].containsKey("encrypted")){
 
+          if(!mounted) return;
           Navigator.push(
             context, 
             Transition(
-              child: ImportJson(
+              child: const ImportJson(
                 // json: responseJson, 
                 // password: "123",
                 // webViewController: Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.webViewController,
@@ -102,13 +105,17 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
       }
 
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
 
   Widget _loginButton(String title) {
-    print("_loginButton");
+    if (kDebugMode) {
+      print("_loginButton");
+    }
     return MyGradientButton(
       edgeMargin: const EdgeInsets.all(paddingSize),
       textButton: title,
@@ -259,37 +266,39 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
 
   void initStateData(TickerProvider tickerProvider, Function mySetState){
-    _importAccountModel!.loadingMgs = "LOADING...";
+    _importAccountModel.loadingMgs = "LOADING...";
     
-    _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
+    _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
-    _importAccountModel!.animation = Tween(
+    _importAccountModel.animation = Tween(
       begin: 0.0, end: 1.0
-    ).animate(_importAccountModel!.animationController!);  
+    ).animate(_importAccountModel.animationController!);  
 
-    _importAccountModel!.animationController!.addListener(() {
-      print("animationController!.value ${_importAccountModel!.animationController!.value}");
+    _importAccountModel.animationController!.addListener(() {
+      if (kDebugMode) {
+        print("animationController!.value ${_importAccountModel.animationController!.value}");
+      }
 
-      if (_importAccountModel!.animationController!.value >= 0.17 && _importAccountModel!.animationController!.value <= 0.19) {
+      if (_importAccountModel.animationController!.value >= 0.17 && _importAccountModel.animationController!.value <= 0.19) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.47 && _importAccountModel!.animationController!.value <= 0.49) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.47 && _importAccountModel.animationController!.value <= 0.49) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.77 && _importAccountModel!.animationController!.value <= 0.79) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.77 && _importAccountModel.animationController!.value <= 0.79) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.85 && _importAccountModel!.animationController!.value <= 0.86) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.85 && _importAccountModel.animationController!.value <= 0.86) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
       
       mySetState();
@@ -304,18 +313,22 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
     await Future.delayed(const Duration(seconds: 1));
 
     changeStatus("DECRYPTING ACCOUNT", avg: "1/4");
-    _importAccountModel!.animationController!.forward();    
+    _importAccountModel.animationController!.forward();    
 
     // Execute JS
     // await widget.webViewController!.callAsyncJavaScript(functionBody: "return await decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) async {
-        print("finish DECRYPTING ACCOUNT");
+        if (kDebugMode) {
+          print("finish DECRYPTING ACCOUNT");
+        }
 
         await Future.delayed(const Duration(seconds: 2));
-        print("animationController ${_importAccountModel!.animationController!.value}");
+        if (kDebugMode) {
+          print("animationController ${_importAccountModel.animationController!.value}");
+        }
         
     //   if (value!.value != null){
         changeStatus("IMPORTING ACCOUNT", avg: "2/4");
-        _importAccountModel!.animationController!.forward(from: 0.2);
+        _importAccountModel.animationController!.forward(from: 0.2);
         
         // final jsn = await _api!.apiKeyring.importAccount(
         //   _api!.getKeyring, 
@@ -336,18 +349,20 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
         await Future.delayed(const Duration(seconds: 2));
 
-        print("CONNECT TO SELENDRA NETWORK ${_importAccountModel!.animationController!.value}");
+        if (kDebugMode) {
+          print("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
+        }
 
         changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");
-        _importAccountModel!.animationController!.forward(from: 0.5);
+        _importAccountModel.animationController!.forward(from: 0.5);
 
         await Future.delayed(const Duration(seconds: 2));
         changeStatus("GETTING READ", avg: "4/4");
-        _importAccountModel!.animationController!.forward(from: 0.8);
+        _importAccountModel.animationController!.forward(from: 0.8);
 
         await Future.delayed(const Duration(seconds: 2));
         
-        _importAccountModel!.animationController!.forward(from: 1);
+        _importAccountModel.animationController!.forward(from: 1);
         changeStatus("DONE", avg: "4/4");
 
         // if(!mounted) return;
@@ -387,7 +402,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
       
       await StorageServices().writeSecure(DbKey.private, res);
 
-      _importAccountModel!.animationController!.forward(from: 0.6);
+      _importAccountModel.animationController!.forward(from: 0.6);
       changeStatus("FETCHING ASSETS", avg: "3/4");
 
       // Store PIN 6 Digit
@@ -399,7 +414,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
       if(!mounted) return;
       await _apiProvider!.queryBtcData(context, mnemonic, "123");
 
-      _importAccountModel!.animationController!.forward(from: 0.9);
+      _importAccountModel.animationController!.forward(from: 0.9);
       changeStatus("GETTING READY", avg: "4/4");
 
       ContractsBalance().getAllAssetBalance();
@@ -410,9 +425,9 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
   void changeStatus(String? status, {String? avg}){
     
-    _importAccountModel!.average = avg;
-    _importAccountModel!.value = _importAccountModel!.value! + 0.333;
-    _importAccountModel!.loadingMgs = status;
+    _importAccountModel.average = avg;
+    _importAccountModel.value = _importAccountModel.value! + 0.333;
+    _importAccountModel.loadingMgs = status;
   }
 
   @override
@@ -430,7 +445,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
       // ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Form(
@@ -448,9 +463,9 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
                 // ),
         
                 Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
                   alignment: Alignment.centerLeft,
-                  child: HeaderTitle(title: "Email", subTitle: "Enter your email",),
+                  child: const HeaderTitle(title: "Email", subTitle: "Enter your email",),
                 ),
                 
                 myInputWidget(

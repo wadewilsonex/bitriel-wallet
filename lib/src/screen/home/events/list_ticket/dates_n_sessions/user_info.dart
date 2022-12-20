@@ -1,6 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/user_info_m.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
@@ -8,7 +5,7 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 class UserInfo extends StatefulWidget {
 
-  UserInfo({Key? key}) : super(key: key);
+  const UserInfo({Key? key}) : super(key: key);
 
   @override
   State<UserInfo> createState() => _UserInfoState();
@@ -53,7 +50,7 @@ class _UserInfoState extends State<UserInfo> {
                 
                 TextFormField(
                   controller: model.name,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Name")
                   ),
                   onChanged: onChanged,
@@ -62,14 +59,14 @@ class _UserInfoState extends State<UserInfo> {
                   controller: model.phoneNumber,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [ FilteringTextInputFormatter.allow(RegExp('[0-9.,]')) ],
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Phone number")
                   ),
                   onChanged: onChanged,
                 ),
                 TextFormField(
                   controller: model.email,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     label: Text("Email")
                   ),
                   validator: (value) {
@@ -83,13 +80,13 @@ class _UserInfoState extends State<UserInfo> {
                 ),
               
                 Container(
-                  margin: EdgeInsets.only(top: 30),
+                  margin: const EdgeInsets.only(top: 30),
                   child: ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       )),
-                      padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
+                      padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
                       backgroundColor: MaterialStatePropertyAll(hexaCodeToColor( (model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty || email != null) ? AppColors.greyCode : AppColors.primaryColor ))
                     ),
                     onPressed: (model.email.text.isEmpty || model.name.text.isEmpty || model.phoneNumber.text.isEmpty || email != null) ? null : 

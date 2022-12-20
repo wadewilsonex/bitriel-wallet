@@ -5,7 +5,7 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class GoogleAuthService extends ChangeNotifier {
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'email'
     ],
@@ -16,10 +16,10 @@ class GoogleAuthService extends ChangeNotifier {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if(snapshot.hasData){
-          return HomePage();
+          return const HomePage();
         }
         else{
-          return Onboarding();
+          return const Onboarding();
         }
       },
     );

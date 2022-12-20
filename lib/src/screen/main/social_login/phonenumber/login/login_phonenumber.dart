@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/main/social_login/otp_verification.dart';
 import 'package:wallet_apps/src/screen/main/social_login/phonenumber/login/body_login_phonenumber.dart';
 

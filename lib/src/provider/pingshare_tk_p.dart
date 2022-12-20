@@ -1,8 +1,4 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/mdw_m.dart';
-import 'package:wallet_apps/src/service/contract.dart';
 
 /// PING SHARE TOKEN
 class PingShareTKProvider extends ChangeNotifier {

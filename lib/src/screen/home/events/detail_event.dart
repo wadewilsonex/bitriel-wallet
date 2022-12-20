@@ -1,9 +1,6 @@
 import 'dart:ui';
-
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
@@ -19,10 +16,10 @@ class EventDetailPage extends StatefulWidget {
   final Event event;
   const EventDetailPage(this.event, {Key? key}) : super(key: key);
   @override
-  _EventDetailPageState createState() => _EventDetailPageState();
+  EventDetailPageState createState() => EventDetailPageState();
 }
 
-class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
+class EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
   late Event event;
   late AnimationController controller;
   late AnimationController bodyScrollAnimationController;
@@ -33,14 +30,20 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   bool isFavorite = false;
 
   Future<Uint8List> _capturePng(GlobalKey globalKey) async {
-    print('inside');
+    if (kDebugMode) {
+      print('inside');
+    }
     RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     var pngBytes = byteData!.buffer.asUint8List();
     var bs64 = base64Encode(pngBytes);
-    print(pngBytes);
-    print(bs64);
+    if (kDebugMode) {
+      print(pngBytes);
+    }
+    if (kDebugMode) {
+      print(bs64);
+    }
     setState(() {});
     return pngBytes;
     // try {
@@ -98,7 +101,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Iconsax.close_circle, color: Colors.white, size: 30),
+                  icon: const Icon(Iconsax.close_circle, color: Colors.white, size: 30),
                 ),
               ),
             ],
@@ -156,7 +159,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                       ),
                     ),
 
-                    Container(
+                    SizedBox(
                       width: 250,
                       // padding: const EdgeInsets.all(paddingSize),
                       child: Center(
@@ -176,7 +179,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                   ),
                                   MyText(
                                     hexaColor: AppColors.whiteHexaColor,
-                                    text: "${value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "........")}",
+                                    text: value.accountM.address!.replaceRange(5, value.accountM.address!.length - 5, "........"),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ],
@@ -211,7 +214,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
                     SizedBox(height: 2.h,),
 
-                    Container(
+                    SizedBox(
                       width: 250,
                       // padding: const EdgeInsets.all(paddingSize),
                       child: Center(
@@ -286,7 +289,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                   ),
                                 ),
 
-                                MyText(
+                                const MyText(
                                   text: "Download",
                                   hexaColor: AppColors.whiteHexaColor,
                                 )
@@ -310,7 +313,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                                     child: Icon(Iconsax.link, color: hexaCodeToColor(AppColors.whiteColorHexa)),
                                   ),
                             
-                                  MyText(
+                                  const MyText(
                                     text: "Share",
                                     hexaColor: AppColors.whiteHexaColor,
                                   )

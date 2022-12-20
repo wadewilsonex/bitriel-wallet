@@ -1,8 +1,6 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
-import 'package:wallet_apps/src/provider/headless_webview_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -29,7 +27,7 @@ class _SetPasswordState extends State<SetPassword> {
   
   ApiProvider? _apiProvider;
 
-  ImportAccountModel? _importAccountModel = ImportAccountModel();
+  final ImportAccountModel _importAccountModel = ImportAccountModel();
 
   @override
   initState(){
@@ -73,43 +71,47 @@ class _SetPasswordState extends State<SetPassword> {
       // }
 
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   void initStateData(TickerProvider tickerProvider, Function mySetState){
     
-    _importAccountModel!.loadingMgs = "LOADING...";
+    _importAccountModel.loadingMgs = "LOADING...";
     
-    _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
+    _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
-    _importAccountModel!.animation = Tween(
+    _importAccountModel.animation = Tween(
       begin: 0.0, end: 1.0
-    ).animate(_importAccountModel!.animationController!);  
+    ).animate(_importAccountModel.animationController!);  
 
-    _importAccountModel!.animationController!.addListener(() {
-      print("animationController!.value ${_importAccountModel!.animationController!.value}");
+    _importAccountModel.animationController!.addListener(() {
+      if (kDebugMode) {
+        print("animationController!.value ${_importAccountModel.animationController!.value}");
+      }
 
-      if (_importAccountModel!.animationController!.value >= 0.17 && _importAccountModel!.animationController!.value <= 0.19) {
+      if (_importAccountModel.animationController!.value >= 0.17 && _importAccountModel.animationController!.value <= 0.19) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.47 && _importAccountModel!.animationController!.value <= 0.49) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.47 && _importAccountModel.animationController!.value <= 0.49) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.77 && _importAccountModel!.animationController!.value <= 0.79) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.77 && _importAccountModel.animationController!.value <= 0.79) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.85 && _importAccountModel!.animationController!.value <= 0.86) {
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+      else if (_importAccountModel.animationController!.value >= 0.85 && _importAccountModel.animationController!.value <= 0.86) {
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
       
       mySetState();
@@ -124,18 +126,22 @@ class _SetPasswordState extends State<SetPassword> {
     await Future.delayed(const Duration(seconds: 1));
 
     changeStatus("DECRYPTING ACCOUNT", avg: "1/4");
-    _importAccountModel!.animationController!.forward();    
+    _importAccountModel.animationController!.forward();    
 
     // Execute JS
     // await widget.webViewController!.callAsyncJavaScript(functionBody: "return await decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) async {
-        print("finish DECRYPTING ACCOUNT");
+        if (kDebugMode) {
+          print("finish DECRYPTING ACCOUNT");
+        }
 
         await Future.delayed(const Duration(seconds: 2));
-        print("animationController ${_importAccountModel!.animationController!.value}");
+        if (kDebugMode) {
+          print("animationController ${_importAccountModel.animationController!.value}");
+        }
         
     //   if (value!.value != null){
         changeStatus("IMPORTING ACCOUNT", avg: "2/4");
-        _importAccountModel!.animationController!.forward(from: 0.2);
+        _importAccountModel.animationController!.forward(from: 0.2);
         
         // final jsn = await _api!.apiKeyring.importAccount(
         //   _api!.getKeyring, 
@@ -156,18 +162,20 @@ class _SetPasswordState extends State<SetPassword> {
 
         await Future.delayed(const Duration(seconds: 2));
 
-        print("CONNECT TO SELENDRA NETWORK ${_importAccountModel!.animationController!.value}");
+        if (kDebugMode) {
+          print("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
+        }
 
         changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");
-        _importAccountModel!.animationController!.forward(from: 0.5);
+        _importAccountModel.animationController!.forward(from: 0.5);
 
         await Future.delayed(const Duration(seconds: 2));
         changeStatus("GETTING READ", avg: "4/4");
-        _importAccountModel!.animationController!.forward(from: 0.8);
+        _importAccountModel.animationController!.forward(from: 0.8);
 
         await Future.delayed(const Duration(seconds: 2));
         
-        _importAccountModel!.animationController!.forward(from: 1);
+        _importAccountModel.animationController!.forward(from: 1);
         changeStatus("DONE", avg: "4/4");
 
         // if(!mounted) return;
@@ -207,7 +215,7 @@ class _SetPasswordState extends State<SetPassword> {
       
       await StorageServices().writeSecure(DbKey.private, res);
 
-      _importAccountModel!.animationController!.forward(from: 0.6);
+      _importAccountModel.animationController!.forward(from: 0.6);
       changeStatus("FETCHING ASSETS", avg: "3/4");
 
       // Store PIN 6 Digit
@@ -219,7 +227,7 @@ class _SetPasswordState extends State<SetPassword> {
       if(!mounted) return;
       await _apiProvider!.queryBtcData(context, mnemonic, "123");
 
-      _importAccountModel!.animationController!.forward(from: 0.9);
+      _importAccountModel.animationController!.forward(from: 0.9);
       changeStatus("GETTING READY", avg: "4/4");
 
       ContractsBalance().getAllAssetBalance();
@@ -230,9 +238,9 @@ class _SetPasswordState extends State<SetPassword> {
 
   void changeStatus(String? status, {String? avg}){
     
-    _importAccountModel!.average = avg;
-    _importAccountModel!.value = _importAccountModel!.value! + 0.333;
-    _importAccountModel!.loadingMgs = status;
+    _importAccountModel.average = avg;
+    _importAccountModel.value = _importAccountModel.value! + 0.333;
+    _importAccountModel.loadingMgs = status;
   }
 
   @override
@@ -260,7 +268,7 @@ class _SetPasswordState extends State<SetPassword> {
       
               tfPasswordWidget(password, "Password"),
               
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
       
               tfPasswordWidget(
                 confirmPassword, "Confirm Password",

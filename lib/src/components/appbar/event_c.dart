@@ -28,7 +28,7 @@ PreferredSizeWidget eventAppBar({
             borderRadius: const BorderRadius.all(Radius.circular(30)),
             color: hexaCodeToColor("#413B3B")
           ),
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

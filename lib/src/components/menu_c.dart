@@ -1,12 +1,9 @@
 /* The components file has custom widgets which are used by multiple different screens */
-import 'dart:ui';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class MenuHeader extends StatelessWidget {
   
@@ -113,7 +110,7 @@ class MenuSubTitle extends StatelessWidget {
   
   final int? index;
 
-  MenuSubTitle({Key? key, this.index}) : super(key: key);
+  const MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

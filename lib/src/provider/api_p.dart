@@ -321,7 +321,9 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<dynamic> getAddressUxto(String address) async {
-    print("getAddressUxto $address");
+    if (kDebugMode) {
+      print("getAddressUxto $address");
+    }
     try {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));

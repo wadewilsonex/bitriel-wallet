@@ -1,11 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:http/http.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/main/data_loading.dart';
 import 'package:wallet_apps/src/screen/main/social_login/set_password/set_password.dart';
 
 class OPTVerification extends StatefulWidget {
@@ -110,7 +107,9 @@ class OPTVerificationState extends State<OPTVerification> {
       }
 
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -172,6 +171,7 @@ class OPTVerificationState extends State<OPTVerification> {
         // if(!mounted) return;
         if (responseJson['user'].containsKey("encrypted")){
           
+          if(!mounted) return;
           Navigator.push(context, Transition(child: SetPassword(phoneNumber: widget.phoneNumber!, responseJson: responseJson), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         }
           
@@ -202,7 +202,9 @@ class OPTVerificationState extends State<OPTVerification> {
       }
 
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

@@ -27,7 +27,9 @@ class MenuState extends State<Menu> {
   void initState() {
 
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
-    print(Provider.of<ApiProvider>(context, listen: false).selNetwork);
+    if (kDebugMode) {
+      print(Provider.of<ApiProvider>(context, listen: false).selNetwork);
+    }
     Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
 
     readBio();

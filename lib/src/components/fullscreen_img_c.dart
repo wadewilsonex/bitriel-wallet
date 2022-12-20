@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'dart:math' as math;
 
 class FullScreenImageViewer extends StatefulWidget {
   
@@ -15,7 +14,7 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
 
   void changeImagePosition(){
     
-    Timer(Duration(milliseconds: 10), (){
+    Timer(const Duration(milliseconds: 10), (){
 
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,

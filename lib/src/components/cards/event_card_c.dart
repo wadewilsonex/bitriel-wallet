@@ -11,13 +11,13 @@ class EventCardComponents extends StatelessWidget {
   final String? eventDate;
   final List<Map<String, dynamic>>? listEvent;
 
-  const EventCardComponents({
+  const EventCardComponents({Key? key, 
     this.ipfsAPI,
     this.title, 
     this.eventName, 
     this.eventDate,
     this.listEvent
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

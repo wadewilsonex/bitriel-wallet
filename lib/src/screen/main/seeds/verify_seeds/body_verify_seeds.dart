@@ -99,7 +99,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                         children: [
                           Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                           const SizedBox(width: 9),
-                          MyText(
+                          const MyText(
                             text: "Try Again",
                             fontSize: 14,
                             fontWeight: FontWeight.bold,  

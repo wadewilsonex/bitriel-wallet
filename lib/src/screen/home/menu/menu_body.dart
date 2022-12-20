@@ -1,8 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/components/reuse_dropdown.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
-import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
@@ -31,7 +28,7 @@ class MenuBody extends StatelessWidget {
         MenuHeader(userInfo: userInfo),
 
         // Wallet
-        MenuSubTitle(index: 1),
+        const MenuSubTitle(index: 1),
 
         MyListTile(
           icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
@@ -82,7 +79,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         // Account
-        MenuSubTitle(index: 3),
+        const MenuSubTitle(index: 3),
 
         MyListTile(
           icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
@@ -98,7 +95,7 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
 
-        MenuSubTitle(index: 4),
+        const MenuSubTitle(index: 4),
         MyListTile(
           icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           enable: false,
@@ -114,7 +111,7 @@ class MenuBody extends StatelessWidget {
           onTap: null,
         ),
         
-        MenuSubTitle(index: 5),
+        const MenuSubTitle(index: 5),
 
 
         MyListTile(

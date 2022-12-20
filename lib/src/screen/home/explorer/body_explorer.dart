@@ -25,7 +25,7 @@ class DiscoverPageBody extends StatelessWidget {
             TabBar(
               labelColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.textColor),
               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-              tabs: [
+              tabs: const [
 
                 Tab(
                   child: MyText(
@@ -54,7 +54,7 @@ class DiscoverPageBody extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 controller: tabController,
-                children: [
+                children: const [
                   SelendraExplorer(),
                   MultiExplorer(),
                 ],

@@ -1,4 +1,3 @@
-import 'package:shimmer/shimmer.dart';
 import 'package:wallet_apps/index.dart';
 
 class AvatarShimmer extends StatelessWidget{

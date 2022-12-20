@@ -1,8 +1,4 @@
 import 'dart:ui';
-
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
@@ -12,11 +8,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/payment_controller.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
-import 'package:wallet_apps/src/screen/home/events/payment_option.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
-
-import 'package:transition/transition.dart';
 
 class TicketConfirmation extends StatelessWidget {
 
@@ -46,7 +38,7 @@ class TicketConfirmation extends StatelessWidget {
               children: [
           
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16)
                   ),
@@ -56,7 +48,7 @@ class TicketConfirmation extends StatelessWidget {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: 145,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(16),
                             topRight: Radius.circular(16)
@@ -89,7 +81,7 @@ class TicketConfirmation extends StatelessWidget {
           
                 TicketItemComponent(
                   label: 'Price',
-                  icon: Icon(Icons.price_change_outlined),
+                  icon: const Icon(Icons.price_change_outlined),
                   value: dataSubmittion!.price!.toString(),
                   valueColor: AppColors.primaryColor, 
                   valueFontSize: 20
@@ -102,7 +94,7 @@ class TicketConfirmation extends StatelessWidget {
                     Expanded(
                       child: TicketItemComponent(
                         label: 'Joining Date',
-                        icon: Icon(Icons.calendar_month),
+                        icon: const Icon(Icons.calendar_month),
                         value: AppUtils.stringDateToDateTime(dataSubmittion!.date!),
                         valueColor: AppColors.primaryColor
                       )
@@ -111,7 +103,7 @@ class TicketConfirmation extends StatelessWidget {
                     Expanded(
                       child: TicketItemComponent(
                         label: 'Amount',
-                        icon: Icon(Icons.confirmation_number_outlined),
+                        icon: const Icon(Icons.confirmation_number_outlined),
                         value: dataSubmittion!.item!.qty!.toString(),
                         valueColor: AppColors.primaryColor
                       )
@@ -126,7 +118,7 @@ class TicketConfirmation extends StatelessWidget {
                     Expanded(
                       child: TicketItemComponent(
                         label: 'Session',
-                        icon: Icon(Icons.timelapse_sharp),
+                        icon: const Icon(Icons.timelapse_sharp),
                         value: "${dataSubmittion!.from!} - ${dataSubmittion!.to!}",
                         valueColor: AppColors.primaryColor
                       )
@@ -167,7 +159,7 @@ class TicketConfirmation extends StatelessWidget {
           ),
 
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: ElevatedButton(
               onPressed: () async {
 
@@ -188,40 +180,42 @@ class TicketConfirmation extends StatelessWidget {
                   final PaymentController controller = Get.put(PaymentController());
                   
                   await PostRequest().bookTicket(json.encode(DataSubmittion().toJson(dataSubmittion!))).then((value) async {
-                    print(value.body);
+                    if (kDebugMode) {
+                      print(value.body);
+                    }
 
                     Map<String, dynamic> jsn = Map<String, dynamic>.from((await json.decode(value.body)));
                     
-                    await StorageServices.storeData(jsn['token'], DbKey.token);
+                    await StorageServices.storeData(jsn['token'], DbKey.token).then((value) async => {
+                      await controller.makePayment(context, {'clientSecret': 'pi_3MDhjfJSyRUhBrUu0q0StOWF_secret_wKWu1Vtd6yPS9aFFdL9defKas'}),
+                    }).then((value) => {
+                      Navigator.pushAndRemoveUntil(
+                        context, 
+                        MaterialPageRoute(builder: (context) => const HomePage(activePage: 4,))
+                        ,(route) => false
+                      ),
+                    });
 
-                    await controller.makePayment(context, {'clientSecret': 'pi_3MDhjfJSyRUhBrUu0q0StOWF_secret_wKWu1Vtd6yPS9aFFdL9defKas'});
-
-                    Navigator.pushAndRemoveUntil(
-                      context, 
-                      MaterialPageRoute(builder: (context) => HomePage(activePage: 4,))
-                      ,(route) => false
-                    );
-                    
                   });
                 } catch (e){
                   if (kDebugMode){
                     print("Error e");
                   }
                 }
-              }, 
+              },
+              style: ButtonStyle(
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                )),
+                padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
+                backgroundColor: MaterialStatePropertyAll(hexaCodeToColor(AppColors.primaryColor)),
+              ), 
               child: MyText(
                 width: MediaQuery.of(context).size.width,
                 color2: Colors.white,
                 text: "Buy",
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
-              ),
-              style: ButtonStyle(
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                )),
-                padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
-                backgroundColor: MaterialStatePropertyAll(hexaCodeToColor(AppColors.primaryColor)),
               ),
             )
             

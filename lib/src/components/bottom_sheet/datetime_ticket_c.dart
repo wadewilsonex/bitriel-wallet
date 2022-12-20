@@ -1,7 +1,6 @@
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
-import 'package:wallet_apps/src/provider/ticket_p.dart';
 
 Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data}){
   
@@ -22,7 +21,7 @@ Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data}){
             child: ListView.builder(
               itemCount: data!.length,
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
                 return ExpansionTile(
                   /// Month - Year
@@ -51,7 +50,7 @@ Future dateTimeTicket({BuildContext? context, List<ListMonthYear>? data}){
                     //   },  
                     // )
                     
-                    Container(
+                    SizedBox(
                       height: 150,
                       child: SingleChildScrollView(
                       child: Column(

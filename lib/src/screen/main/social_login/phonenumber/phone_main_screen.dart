@@ -1,7 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/indecator_c.dart';
 import 'package:wallet_apps/src/screen/main/social_login/phonenumber/login/login_phonenumber.dart';
-import 'package:wallet_apps/src/screen/main/social_login/phonenumber/register/create_phonenumber.dart';
 
 class PhoneMainScreen extends StatefulWidget {
   const PhoneMainScreen({
@@ -32,7 +30,7 @@ class _PhoneMainScreenState extends State<PhoneMainScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: LoginSeedPhoneNumber()
       // SafeArea(
       //   child: SizedBox(
