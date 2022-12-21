@@ -1,4 +1,3 @@
-import 'package:defichaindart/defichaindart.dart';
 import 'package:wallet_apps/index.dart';
 
 class PasscodeBody extends StatelessWidget{

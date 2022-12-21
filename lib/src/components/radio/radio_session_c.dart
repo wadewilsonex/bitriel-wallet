@@ -1,6 +1,3 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 
 class RadioComponent extends StatelessWidget {
@@ -12,7 +9,7 @@ class RadioComponent extends StatelessWidget {
   final int? value;
   final Function? onChangeSession;
 
-  RadioComponent({
+  const RadioComponent({
     Key? key, 
     required this.data,
     required this.groupValue, 

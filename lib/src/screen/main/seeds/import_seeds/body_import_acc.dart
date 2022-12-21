@@ -8,7 +8,6 @@ class ImportAccBody extends StatelessWidget {
   final Function? onChanged;
   final Function? onSubmit;
   final Function? clearInput;
-  final Function? submit;
 
   const ImportAccBody({
     Key? key, 
@@ -18,7 +17,6 @@ class ImportAccBody extends StatelessWidget {
     this.clearInput,
     this.enable,
     this.reImport,
-    this.submit,
   }) : super(key: key);
 
   final EdgeInsetsGeometry padding = const EdgeInsets.only(left: paddingSize, right: paddingSize);
@@ -34,9 +32,9 @@ class ImportAccBody extends StatelessWidget {
         child: Column(
           children: [
 
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
-              child: const SeedContents(
+              child: SeedContents(
                 title: 'Restore with seed', 
                 subTitle: 'Please add your 12 words seed below to restore your wallet.'
               ),

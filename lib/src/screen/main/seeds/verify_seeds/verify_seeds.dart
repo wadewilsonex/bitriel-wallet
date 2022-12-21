@@ -22,7 +22,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   
   ApiProvider? _apiProvider;
 
-  ImportAccountModel? _importAccountModel = ImportAccountModel();
+  final ImportAccountModel _importAccountModel = ImportAccountModel();
 
   void remove3Seeds() {
 
@@ -81,34 +81,36 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   }
   void initStateData(TickerProvider tickerProvider, Function mySetState){
 
-    _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
+    _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
     
-    _importAccountModel!.loadingMgs = "LOADING...";
+    _importAccountModel.loadingMgs = "LOADING...";
 
-    _importAccountModel!.animation = Tween(
+    _importAccountModel.animation = Tween(
       begin: 0.0, end: 1.0
-    ).animate(_importAccountModel!.animationController!);  
+    ).animate(_importAccountModel.animationController!);  
 
-    _importAccountModel!.animationController!.addListener(() {
-      print("animationController!.value ${_importAccountModel!.animationController!.value}");
+    _importAccountModel.animationController!.addListener(() {
+      if (kDebugMode) {
+        print("animationController!.value ${_importAccountModel.animationController!.value}");
+      }
 
-      if (_importAccountModel!.animationController!.value >= 0.15 && _importAccountModel!.animationController!.value <= 0.19) {
+      if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.40 && _importAccountModel!.animationController!.value <= 0.49) {
+      else if (_importAccountModel.animationController!.value >= 0.40 && _importAccountModel.animationController!.value <= 0.49) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.75 && _importAccountModel!.animationController!.value <= 0.79) {
+      else if (_importAccountModel.animationController!.value >= 0.75 && _importAccountModel.animationController!.value <= 0.79) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
       
       mySetState();
@@ -121,7 +123,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   Future<void> importAcc() async {
 
     changeStatus("IMPORTING ACCOUNT", avg: "2/4");
-    _importAccountModel!.animationController!.forward(from: 0.2);
+    _importAccountModel.animationController!.forward(from: 0.2);
     
     final jsn = await _apiProvider!.apiKeyring.importAccount(
       _apiProvider!.getKeyring, 
@@ -139,7 +141,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     );
 
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
-    _importAccountModel!.animationController!.forward(from: 0.2);
+    _importAccountModel.animationController!.forward(from: 0.2);
 
     await connectNetwork(widget.createKeyModel!.lsSeeds!.join(" "));
     
@@ -173,7 +175,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       await Future.delayed(const Duration(seconds: 2));
 
       changeStatus("GETTING READY", avg: "2/3");
-      _importAccountModel!.animationController!.forward(from: 0.5);
+      _importAccountModel.animationController!.forward(from: 0.5);
 
       if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -181,12 +183,12 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       if(!mounted) return;
       await _apiProvider!.queryBtcData(context, mnemonic, "123");
 
-      _importAccountModel!.animationController!.forward(from: 8);
+      _importAccountModel.animationController!.forward(from: 8);
       changeStatus("DONE", avg: "3/3");
 
       ContractsBalance().getAllAssetBalance();
 
-      await Future.delayed(Duration(milliseconds: 3), (){});
+      await Future.delayed(const Duration(milliseconds: 3), (){});
 
       if(!mounted) return;
       Navigator.pushAndRemoveUntil(
@@ -201,16 +203,19 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   void changeStatus(String? status, {String? avg}){
     
-    _importAccountModel!.average = avg;
-    _importAccountModel!.value = _importAccountModel!.value! + 0.333;
-    _importAccountModel!.loadingMgs = status;
+    _importAccountModel.average = avg;
+    _importAccountModel.value = _importAccountModel.value! + 0.333;
+    _importAccountModel.loadingMgs = status;
   }
   
-  @override
-  Widget build(BuildContext context) {
-    return VerifyPassphraseBody(
-      createKeyModel: widget.createKeyModel,
-      submit: () async {
+  Future<void> verifySeeds() async {
+    dynamic res;
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
+    try {
+      res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
+      if (res == true){ 
+
+        if(!mounted) return;
         await Navigator.push(
           context, 
           Transition(
@@ -218,7 +223,27 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
-      },
+        
+      }
+      else{
+        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
+      }
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error validateMnemonic $e");
+        }
+      }
+    }
+    return res;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return VerifyPassphraseBody(
+      createKeyModel: widget.createKeyModel,
+      submit: verifySeeds,
       onTap: onTap,
       remove3Seeds: remove3Seeds
     );

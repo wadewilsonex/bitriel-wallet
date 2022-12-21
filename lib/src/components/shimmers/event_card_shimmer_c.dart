@@ -4,6 +4,8 @@ import 'package:wallet_apps/index.dart';
 
 class EventCardShimmerComponent extends StatelessWidget {
 
+  const EventCardShimmerComponent({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context){
     return Shimmer.fromColors(
@@ -15,19 +17,19 @@ class EventCardShimmerComponent extends StatelessWidget {
         children: [
       
           Container(
-            margin: EdgeInsets.only(left: 30, top: 30, bottom: 10),
+            margin: const EdgeInsets.only(left: 30, top: 30, bottom: 10),
             child: Shimmer.fromColors(
+              baseColor: Colors.red.withOpacity(0.5),
+              highlightColor: Colors.red,
               child: Container(
                 width: 15.w,
                 color: Colors.white,
-                child: MyText(
+                child: const MyText(
                   text: "",
                   color2: Colors.transparent,
                   fontSize: 18,
                 ),
               ),
-              baseColor: Colors.red.withOpacity(0.5),
-              highlightColor: Colors.red,
             ),
           ),
           
@@ -81,27 +83,27 @@ class EventCardShimmerComponent extends StatelessWidget {
                                     children: [
                                     
                                       Shimmer.fromColors(
-                                        child: MyText(
+                                        baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.5),
+                                        highlightColor: Colors.white,
+                                        child: const MyText(
                                           text: '',
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           bottom: 5,
                                           hexaColor: "#878787",
-                                        ), 
-                                        baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.5),
-                                        highlightColor: Colors.white,
+                                        ),
                                       ),
                                     
                                       Shimmer.fromColors(
-                                        child: MyText(
+                                        baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.5),
+                                        highlightColor: Colors.white,
+                                        child: const MyText(
                                           text: '',
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           bottom: 5,
                                           hexaColor: "#878787",
-                                        ), 
-                                        baseColor: hexaCodeToColor(AppColors.whiteHexaColor).withOpacity(0.5),
-                                        highlightColor: Colors.white,
+                                        ),
                                       )
                                     ],
                                   ),
@@ -123,7 +125,7 @@ class EventCardShimmerComponent extends StatelessWidget {
                             // width: MediaQuery.of(context).size.width - 60,
                             height: 5.h,
                             width: 5.h,
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Icon(Iconsax.heart, color: Colors.white, size: 4.w,),
                           ),
                         ),

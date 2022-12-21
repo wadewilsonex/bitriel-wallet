@@ -1,8 +1,5 @@
-import 'package:coupon_uikit/coupon_uikit.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
-import 'package:wallet_apps/src/screen/home/events/events.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 class SuccessTransferBody extends StatelessWidget {
@@ -89,7 +86,7 @@ class SuccessTransferBody extends StatelessWidget {
               padding: const EdgeInsets.only(top: paddingSize + 50),
               child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40.sp,),
             ),
-            MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
+            const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
         ),
         Container(
@@ -135,7 +132,7 @@ class SuccessTransferBody extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Spacer(),
+                  const Spacer(),
 
                   textRowWidget("Hash:", hash!),
                   textRowWidget("Transaction Date:", trxDate!),
@@ -143,7 +140,7 @@ class SuccessTransferBody extends StatelessWidget {
                   textRowWidget("To Address:", toAddress!),
                   textRowWidget("Fee:", fee!),
 
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -162,7 +159,7 @@ class SuccessTransferBody extends StatelessWidget {
               padding: const EdgeInsets.only(top: paddingSize + 50),
               child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40.sp,),
             ),
-            MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
+            const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
         ),
 
@@ -211,7 +208,7 @@ class SuccessTransferBody extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),
-                                MyText(
+                                const MyText(
                                   text: "SELENDRA Pte., Ltd",
                                   hexaColor: AppColors.blackColor,
                                   textAlign: TextAlign.start,

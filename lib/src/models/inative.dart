@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:web3dart/web3dart.dart';
 
 abstract class INativeService {
   Future<Credentials>? getCredentials(String privateKey);

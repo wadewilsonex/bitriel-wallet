@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:web3dart/web3dart.dart';
 
 
 // ignore: avoid_classes_with_only_static_members

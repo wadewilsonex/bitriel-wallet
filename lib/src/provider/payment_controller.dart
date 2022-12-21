@@ -1,14 +1,6 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart' as getx;
-import 'package:http/http.dart' as http;
-import 'package:transition/transition.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/backend.dart';
-import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
 
 class PaymentController extends getx.GetxController {
@@ -58,22 +50,25 @@ class PaymentController extends getx.GetxController {
 
       }
     } catch (e, s) {
-      print('exception:$e$s');
+      if (kDebugMode) {
+        print('exception:$e$s');
+      }
       // Navigator.of(context).pop();
     }
   }
 
   displayPaymentSheet(BuildContext context, num qty, num price, String wallet) async {
     try {
-      await Stripe.instance.presentPaymentSheet();
+      await Stripe.instance.presentPaymentSheet().then((value) => {
+        Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(qty: qty, price: price, fromAddress: wallet, isDebitCard: true,)), (route) => false),
+      });
       // getx.Get.snackbar('Payment', 'Payment Successful',
       //     snackPosition: getx.SnackPosition.BOTTOM,
       //     backgroundColor: Colors.green,
       //     colorText: Colors.white,
       //     margin: const EdgeInsets.all(10),
       //     duration: const Duration(seconds: 2));
-
-      Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(qty: qty, price: price, fromAddress: wallet, isDebitCard: true,)), (route) => false);
+      // Navigator.pushAndRemoveUntil(context, Transition(child: SuccessTransfer(qty: qty, price: price, fromAddress: wallet, isDebitCard: true,)), (route) => false);
       
     } on Exception catch (e) {
       if (e is StripeException) {

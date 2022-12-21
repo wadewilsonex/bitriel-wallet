@@ -11,7 +11,11 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+<<<<<<< HEAD
 version: 7.1.0+101
+=======
+version: 8.0.0+101
+>>>>>>> daveat
 
 #6 feature
 #8 debug
@@ -155,7 +159,7 @@ dependencies:
   walletconnect_dart: ^0.0.11
   wallet_connect: ^1.0.2
   eth_sig_util: ^0.0.9
-  flutter_stripe: ^5.1.0
+  flutter_stripe: ^7.0.0
 
   # Device Preview
   device_preview: ^1.1.0
@@ -165,7 +169,6 @@ dependencies:
 
   # Download
   path_provider:
-  # downloads_path_provider_28:
 
   external_app_launcher: ^3.1.0
 
@@ -183,8 +186,8 @@ dependency_overrides:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
 
-  # polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
-  polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
+  polkawallet_sdk: # 0.4.8 # // Work For Android But not work for iOS
+  # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
   permission_handler: ^9.2.0
   qr_code_scanner: ^1.0.0
   

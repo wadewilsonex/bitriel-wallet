@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 import '../../../index.dart';
 
 Future dateTimePicker({required BuildContext context, required List<Map<String, dynamic>>? ticketObj}){

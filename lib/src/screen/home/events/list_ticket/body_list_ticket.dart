@@ -1,14 +1,7 @@
 import 'dart:ui';
-
-import 'package:coupon_uikit/coupon_uikit.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
-import 'package:wallet_apps/src/provider/ticket_p.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticket/dates_n_sessions/reservation.dart';
 
 class ListTicketTypeBody extends StatelessWidget {
 
@@ -112,12 +105,12 @@ class ListTicketTypeBody extends StatelessWidget {
               
               TicketItemComponent(label: "Status", value: ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.status.toString()),
               
-              TicketItemComponent(label: "Date", icon: Icon(Icons.date_range), onTap: () async {
+              TicketItemComponent(label: "Date", icon: const Icon(Icons.date_range), onTap: () async {
 
                   await showDialog(
                     context: context, 
                     builder: (context){
-                      return AlertDialog(
+                      return const AlertDialog(
                         title: MyText(
                           text: "Message",
                           fontSize: 17,

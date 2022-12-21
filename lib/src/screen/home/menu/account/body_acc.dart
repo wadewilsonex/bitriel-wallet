@@ -180,7 +180,7 @@ class AccountBody extends StatelessWidget{
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MyGradientButton(
-                lsColor: [AppColors.warningColor, AppColors.warningColor],
+                lsColor: const [AppColors.warningColor, AppColors.warningColor],
                 begin: Alignment.bottomRight, 
                 end: Alignment.topLeft, 
                 action: (){

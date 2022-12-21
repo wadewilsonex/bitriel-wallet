@@ -1,12 +1,9 @@
 /* The components file has custom widgets which are used by multiple different screens */
-import 'dart:ui';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class MenuHeader extends StatelessWidget {
   
@@ -72,7 +69,7 @@ class MenuHeader extends StatelessWidget {
                         MyText(
                           right: 5,
                           text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
-                          hexaColor: AppColors.lowWhite,
+                          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                           fontSize: 13,
                           textAlign: TextAlign.left
                         ),
@@ -91,14 +88,12 @@ class MenuHeader extends StatelessWidget {
                             '${AppConfig.iconsPath}qr_code.svg',
                             width: 5.w,
                             height: 5.w,
-                            color: hexaCodeToColor(isDarkMode ? AppColors.secondary : AppColors.whiteColorHexa),
+                            color: hexaCodeToColor(AppColors.secondary),
                           )
                         )
                       ]
                     )
                   )
-    
-    
                 ],
               )
             ],
@@ -113,7 +108,7 @@ class MenuSubTitle extends StatelessWidget {
   
   final int? index;
 
-  MenuSubTitle({Key? key, this.index}) : super(key: key);
+  const MenuSubTitle({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

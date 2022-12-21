@@ -1,13 +1,9 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/bottom_sheet/datetime_ticket_c.dart';
 import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/components/radio/radio_session_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/user_info_m.dart';
-import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/dates_n_sessions/user_info.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/ticket_confirm.dart/ticket_confirm.dart';
 
@@ -60,14 +56,14 @@ class ReservationBody extends StatelessWidget {
           child: Row(
             children: [
     
-              Icon(Icons.date_range), 
+              const Icon(Icons.date_range), 
               dataSubmittion!.date != "" ? MyText(
                 left: 10,
                 text: AppUtils.stringDateToDateTime(dataSubmittion!.date!),
                 fontWeight: FontWeight.w600,
               ) : Container(),
               Expanded(child: Container()),
-              Icon(Icons.arrow_forward_ios_outlined)
+              const Icon(Icons.arrow_forward_ios_outlined)
             ],
           )
         ),
@@ -83,7 +79,7 @@ class ReservationBody extends StatelessWidget {
           child: Row(
             children: [
     
-              Icon(Iconsax.clock),
+              const Icon(Iconsax.clock),
               Expanded(child: Container()),
               Icon( !(ticketTypeModel!.isShow! ) ? Icons.arrow_forward_ios_outlined : Icons.keyboard_arrow_down_sharp)
               
@@ -162,7 +158,7 @@ class ReservationBody extends StatelessWidget {
 
                       onQtyChange!(1);
                     }, 
-                    icon: Icon(Iconsax.add)
+                    icon: const Icon(Iconsax.add)
                   )
                 ],
               )
@@ -195,10 +191,10 @@ class ReservationBody extends StatelessWidget {
             child: Row(
               children: [
               
-                Icon(Iconsax.user_add),
+                const Icon(Iconsax.user_add),
                 Expanded(child: Container()),
 
-                Icon(Icons.arrow_forward_ios_outlined)
+                const Icon(Icons.arrow_forward_ios_outlined)
 
               ],
             ),
@@ -208,13 +204,13 @@ class ReservationBody extends StatelessWidget {
 
         if ( dataSubmittion!.from!.isNotEmpty && dataSubmittion!.to!.isNotEmpty )
         Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 30),
+          margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
           child: ElevatedButton(
             style: ButtonStyle(
               shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               )),
-              padding: MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
+              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 20)),
               backgroundColor: MaterialStatePropertyAll(hexaCodeToColor( (dataSubmittion!.item!.qty != 0) ? AppColors.primaryColor : AppColors.greyCode))
             ),
             onPressed: dataSubmittion!.item!.qty == 0 ? null : (){

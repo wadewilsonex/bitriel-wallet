@@ -11,6 +11,6 @@ class DetailsNFT extends StatefulWidget {
 class _DetailsNFTState extends State<DetailsNFT> {
   @override
   Widget build(BuildContext context) {
-    return DetailsNFTBody();
+    return const DetailsNFTBody();
   }
 }

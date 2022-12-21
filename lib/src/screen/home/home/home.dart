@@ -1,10 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 

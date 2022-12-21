@@ -10,7 +10,8 @@ class TicketItemComponent extends StatelessWidget{
   final double? valueFontSize;
   final Function? onTap;
 
-  TicketItemComponent({ 
+  const TicketItemComponent({
+    Key? key,  
     required this.label, 
     this.value,
     this.icon,
@@ -18,7 +19,7 @@ class TicketItemComponent extends StatelessWidget{
     this.valueColor = "#49595F",
     this.valueFontSize = 16,
     this.onTap
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -47,7 +48,7 @@ class TicketItemComponent extends StatelessWidget{
               child ?? Row(
                 children: [
                   
-                  icon != null ? Container(child: icon!, margin: EdgeInsets.only(right: 10),) : Container(), 
+                  icon != null ? Container(margin: const EdgeInsets.only(right: 10), child: icon!,) : Container(), 
                   Flexible(
                     child: MyText(
                       textAlign: TextAlign.start,

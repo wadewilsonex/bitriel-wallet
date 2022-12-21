@@ -23,7 +23,7 @@ class ImportAccState extends State<ImportAcc> {
 
   final ImportAccModel _importAccModel = ImportAccModel();
 
-  ImportAccountModel? _importAccountModel = ImportAccountModel();
+  final ImportAccountModel _importAccountModel = ImportAccountModel();
   ApiProvider? _apiProvider;
 
   bool? status;
@@ -84,37 +84,18 @@ class ImportAccState extends State<ImportAcc> {
     }
   }
 
-  // Submit Mnemonic
-  Future<void> submit() async {
-    // try {
-    //   if (_importAccModel.mnemonicCon.text.isNotEmpty){
-    //     await validateMnemonic(_importAccModel.mnemonicCon.text)!.then((value) async {
-    //       if (value) {
-    //         Navigator.push(
-    //           context,
-    //           MaterialPageRoute(
-    //             builder: (context) => ImportUserInfo(
-    //               _importAccModel.mnemonicCon.text,
-    //             ),
-    //           ),
-    //         );
-    //       } else {
-
-    //         await customDialog(context, 'Opps', 'Invalid seed phrases or mnemonic');
-    //       }
-    //     });
-    //   } else {
-
-    //   }
-    // } catch (e) {
-    //   if (ApiProvider().isDebug == true) print("Error submit $e");
-    // }
-  }
-
   Future<void> onSubmitIm() async {
-    // if (_importAccModel.formKey.currentState!.validate()) {
-    //   reImport();
-    // }
+    if(_importAccModel.formKey.currentState!.validate()){
+      Navigator.push(
+        context,
+        Transition(
+          child: FingerPrint(
+            initStateData: initStateData,
+            importAccountModel: _importAccountModel,
+          )
+        )
+      );
+    }
   }
 
   Future<void> isDotContain() async {
@@ -144,33 +125,35 @@ class ImportAccState extends State<ImportAcc> {
 
   void initStateData(TickerProvider tickerProvider, Function mySetState){
 
-    _importAccountModel!.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
+    _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
-    _importAccountModel!.loadingMgs = "LOADING...";
+    _importAccountModel.loadingMgs = "LOADING...";
     
-    _importAccountModel!.animation = Tween(
+    _importAccountModel.animation = Tween(
       begin: 0.0, end: 1.0
-    ).animate(_importAccountModel!.animationController!);  
+    ).animate(_importAccountModel.animationController!);  
 
-    _importAccountModel!.animationController!.addListener(() {
-      print("_importAccountModel!.animationController!.value ${_importAccountModel!.animationController!.value}");
-      if (_importAccountModel!.animationController!.value >= 0.15 && _importAccountModel!.animationController!.value <= 0.19) {
+    _importAccountModel.animationController!.addListener(() {
+      if (kDebugMode) {
+        print("_importAccountModel!.animationController!.value ${_importAccountModel.animationController!.value}");
+      }
+      if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
 
       } 
 
-      else if (_importAccountModel!.animationController!.value >= 0.40 && _importAccountModel!.animationController!.value <= 0.49) {
+      else if (_importAccountModel.animationController!.value >= 0.40 && _importAccountModel.animationController!.value <= 0.49) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
-      else if (_importAccountModel!.animationController!.value >= 0.75 && _importAccountModel!.animationController!.value <= 0.79) {
+      else if (_importAccountModel.animationController!.value >= 0.75 && _importAccountModel.animationController!.value <= 0.79) {
         
-        _importAccountModel!.value = _importAccountModel!.animationController!.value;
-        _importAccountModel!.animationController!.stop();
+        _importAccountModel.value = _importAccountModel.animationController!.value;
+        _importAccountModel.animationController!.stop();
       }
 
       mySetState();
@@ -200,7 +183,7 @@ class ImportAccState extends State<ImportAcc> {
     );
 
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
-    _importAccountModel!.animationController!.forward(from: 0.2);
+    _importAccountModel.animationController!.forward(from: 0.2);
     
     await connectNetwork(_importAccModel.mnemonicCon.text);
 
@@ -232,7 +215,7 @@ class ImportAccState extends State<ImportAcc> {
       // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
 
       changeStatus("GETTING READY", avg: "2/3");
-      _importAccountModel!.animationController!.forward(from: 0.5);
+      _importAccountModel.animationController!.forward(from: 0.5);
 
       if(!mounted) return;
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
@@ -240,12 +223,12 @@ class ImportAccState extends State<ImportAcc> {
       if(!mounted) return;
       await _apiProvider!.queryBtcData(context, mnemonic, _importAccModel.pwCon.text);
 
-      _importAccountModel!.animationController!.forward(from: 8);
+      _importAccountModel.animationController!.forward(from: 8);
       changeStatus("DONE", avg: "3/3");
 
       ContractsBalance().getAllAssetBalance();
 
-      await Future.delayed(Duration(milliseconds: 3), (){});
+      await Future.delayed(const Duration(milliseconds: 3), (){});
 
       if(!mounted) return;
       Navigator.pushAndRemoveUntil(
@@ -258,9 +241,9 @@ class ImportAccState extends State<ImportAcc> {
 
   void changeStatus(String? status, {String? avg}){
     
-    _importAccountModel!.average = avg;
-    _importAccountModel!.value = _importAccountModel!.value! + 0.333;
-    _importAccountModel!.loadingMgs = status;
+    _importAccountModel.average = avg;
+    _importAccountModel.value = _importAccountModel.value! + 0.333;
+    _importAccountModel.loadingMgs = status;
   }
 
   @override
@@ -273,30 +256,9 @@ class ImportAccState extends State<ImportAcc> {
           reImport: widget.reimport,
           importAccModel: _importAccModel,
           onChanged: onChanged,
-          onSubmit: widget.reimport != null ? onSubmitIm : (){
-            Navigator.push(
-              context,
-              Transition(
-                child: FingerPrint(
-                  initStateData: initStateData,
-                  importAccountModel: _importAccountModel,
-                )
-              )
-            );
-          },
+          onSubmit: widget.reimport != null ? onSubmitIm : onSubmit,
           clearInput: clearInput,
           enable: enable,
-          submit: widget.reimport != null ? onSubmitIm : (){
-            Navigator.push(
-              context,
-              Transition(
-                child: FingerPrint(
-                  initStateData: initStateData,
-                  importAccountModel: _importAccountModel,
-                )
-              )
-            );
-          },
         ),
       )
     );

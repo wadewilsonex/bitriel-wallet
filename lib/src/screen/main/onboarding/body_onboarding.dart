@@ -1,8 +1,5 @@
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/main/social_login/email/login_content.dart';
-import 'package:wallet_apps/src/screen/main/social_login/phonenumber/phone_main_screen.dart';
 
 class OnboardignBody extends StatelessWidget {
 

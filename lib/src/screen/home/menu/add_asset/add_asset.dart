@@ -199,7 +199,10 @@ class AddAssetState extends State<AddAsset> {
           
           _tokenSymbol = res[0].toString();
 
+          if (!mounted) return;
           await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
+
+          if (!mounted) return;
           if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
                 
             setState(() {

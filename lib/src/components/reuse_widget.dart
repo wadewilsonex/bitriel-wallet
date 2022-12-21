@@ -1271,7 +1271,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
-                    content: Container(
+                    content: SizedBox(
                       width: 250,
                       child: Consumer<ReceiveWalletProvider>(
                         builder: (context, provider, widget){

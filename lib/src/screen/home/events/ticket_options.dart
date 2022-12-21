@@ -2,14 +2,9 @@ import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/color.dart';
-import 'package:wallet_apps/src/constants/textstyle.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
 import 'package:wallet_apps/src/models/event_model.dart';
 import 'package:wallet_apps/src/screen/home/events/detail_event.dart';
-import 'package:wallet_apps/src/utils/date_utils.dart';
 
 class TicketOptions extends StatefulWidget {
 
@@ -164,7 +159,7 @@ class _TicketOptionsState extends State<TicketOptions> with TickerProviderStateM
                           color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa),
                           borderRadius: BorderRadius.circular(100)
                         ),
-                        child: MyText(
+                        child: const MyText(
                           text: "USD \$10",
                           textAlign: TextAlign.start,
                           // hexaColor: AppColors.whiteColorHexa,
@@ -182,13 +177,13 @@ class _TicketOptionsState extends State<TicketOptions> with TickerProviderStateM
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           MyText(
                             text: "Early Bird",
                             fontWeight: FontWeight.w600,
                           ),
 
-                          const Spacer(),      
+                          Spacer(),      
 
                           MyText(
                             text: "MDW",

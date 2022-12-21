@@ -22,12 +22,16 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
 
   void queryTickets() async {
 
-    print("queryTickets");
+    if (kDebugMode) {
+      print("queryTickets");
+    }
     await StorageServices.fetchData(DbKey.token).then((value) async {
     //   print("token value != null $value");
       if (value != null){
         await getTickets('value').then((res) async {
-          print("Res data ${res.body}");
+          if (kDebugMode) {
+            print("Res data ${res.body}");
+          }
 
           (await json.decode(res.body))['tickets'].forEach((data){
             lstTicket!.add(
@@ -86,7 +90,7 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
             child: TabBarView(
               children: [
                 
-                AllTab(lstTicket: []),
+                const AllTab(lstTicket: []),
                 TicketTab(lstTicket: lstTicket,),
                 NftTab(lstTicket: lstTicket!)
                 // NFTBody(type: "ALL",),

@@ -15,7 +15,7 @@ class DialogComponents {
             borderRadius: BorderRadius.circular(15)
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-          title: MyText(
+          title: const MyText(
             fontSize: 20,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,

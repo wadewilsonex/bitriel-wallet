@@ -118,8 +118,10 @@ class SearchItem extends StatelessWidget{
                     onChanged: (bool value) async {
                       Provider.of<ContractProvider>(context, listen: false).listContract[index].show = value;
                       mySetState!(() { });
-                      await StorageServices.storeAssetData(context);
-                      await Provider.of<ContractProvider>(context, listen: false).sortAsset();
+                      await StorageServices.storeAssetData(context).then((value) async => {
+                        await Provider.of<ContractProvider>(context, listen: false).sortAsset(),
+                      });
+                      
                     },
                   )
 

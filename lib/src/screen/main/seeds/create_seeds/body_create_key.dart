@@ -82,7 +82,7 @@ class CreateSeedsBody extends StatelessWidget {
                             children: [
                               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
-                              MyText(
+                              const MyText(
                                 text: "Generate new seed",
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,  
@@ -105,7 +105,7 @@ class CreateSeedsBody extends StatelessWidget {
                             children: [
                               Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
-                              MyText(
+                              const MyText(
                                 text: "Copy",
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,  

@@ -4,11 +4,11 @@ import 'package:wallet_apps/index.dart';
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case AppString.splashScreenView:
-      return RouteAnimation(enterPage: MySplashScreen());
+      return RouteAnimation(enterPage: const MySplashScreen());
     case AppString.localAuth:
-      return RouteAnimation(enterPage: FingerPrint());
+      return RouteAnimation(enterPage: const FingerPrint());
     case AppString.accountView:
-      return RouteAnimation(enterPage: Account());
+      return RouteAnimation(enterPage: const Account());
     // case AppString.contactBookView:
     //   return RouteAnimation(enterPage: ContactBook());
     case AppString.txActivityView:
@@ -28,6 +28,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;
     default:
-      return RouteAnimation(enterPage: MySplashScreen());
+      return RouteAnimation(enterPage: const MySplashScreen());
   }
 }

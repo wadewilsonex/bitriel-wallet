@@ -1,13 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/fullscreen_img_c.dart';
 import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 
 class DetailsTicketing extends StatefulWidget {
 
@@ -48,7 +44,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
@@ -56,7 +52,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
             children: [
         
               ClipRRect(
-                child: Container(
+                child: SizedBox(
                   height: 224,
                   width: MediaQuery.of(context).size.width,
                   child: Hero(
@@ -132,7 +128,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
 
               SafeArea(
                 child: Container(
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                   child: Row(
                     children: [
                                     
@@ -213,7 +209,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                 SizedBox(height: 3.h,),
                 
                 Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(bottom: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +232,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                 ),
           
                 Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -288,7 +284,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                 ),
           
                 Container(
-                  margin: EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -318,15 +314,15 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
           
-                            const MyText(
+                            MyText(
                               bottom: 10,
                               text: "Visitor",
                               hexaColor: AppColors.lightGreyColor,
                             ),
           
-                            const MyText(
+                            MyText(
                               hexaColor: AppColors.textColor,
                               text: "User",
                               fontWeight: FontWeight.bold,
