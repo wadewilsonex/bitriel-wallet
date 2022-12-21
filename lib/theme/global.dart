@@ -7,6 +7,6 @@ bool isDarkMode = true;
 
 
 // Padding Size
-const double paddingSize = 15.0;
+const double paddingSize = 20.0;
 
 List<S2Choice<String>> sldNetworkList = [];

@@ -68,10 +68,8 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
 
-        // await apiProvider.connectPolNon(context: context).then((value) async {
-        // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
-        
+        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
           if(!mounted) return;
@@ -144,6 +142,7 @@ class AppState extends State<App> {
                   return GraphQLProvider(
                     client: GQLClient().client,
                     child: MaterialApp(
+                      debugShowCheckedModeBanner: false,
                       navigatorKey: AppUtils.globalKey,
                       title: AppString.appName,
                       theme: AppStyle.myTheme(context),

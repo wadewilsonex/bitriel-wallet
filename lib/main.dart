@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
@@ -15,12 +14,14 @@ import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 
+
 Future<void> main() async {
   
   await dotenv.load(fileName: ".env");
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
+  // await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 

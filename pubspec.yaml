@@ -237,6 +237,7 @@ flutter:
     - assets/json/
     - assets/logo/
     - assets/ads/
+    - assets/ads/mdw/
     - assets/illustration/
     - assets/payment/
     - .env

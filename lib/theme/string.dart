@@ -46,7 +46,7 @@ class AppString {
 
   static String claimAirdropNote =
       "Share Selendra's love to your friends by posting this airdrop on your social media profile Twitter, Linkedin, Facebook.";
-  static String createAccTitle = "Getting Started";
+  static String createAccTitle = "Create wallet";
   static String importAccTitle = "Restore Wallet";
 
   static String reset = "Reset";

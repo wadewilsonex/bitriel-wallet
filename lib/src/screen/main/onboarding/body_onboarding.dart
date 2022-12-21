@@ -36,7 +36,7 @@ class OnboardignBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
-                    text: "Welcome!",
+                    text: "Welcome",
                     fontWeight: FontWeight.w600,
                     textAlign: TextAlign.center,
                     fontSize: 19,
@@ -52,7 +52,7 @@ class OnboardignBody extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: MyText(
                     width: MediaQuery.of(context).size.width / 1.5,
-                    text: "Bitriel offers users to store, transact, hold, buy, sell crypto assets, and more!",
+                    text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
                     textAlign: TextAlign.center,
                     hexaColor: isDarkMode
                       ? AppColors.lowWhite
@@ -132,7 +132,7 @@ class OnboardignBody extends StatelessWidget {
           //       ),
           //       SizedBox(width: 10),
           //       Text(
-          //         'OR',
+          //         'Create wallet with mobile number',
           //         style: TextStyle(color: Color(0xff818181), fontWeight: FontWeight.w500),
           //       ),
           //       SizedBox(width: 10),

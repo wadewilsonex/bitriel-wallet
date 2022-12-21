@@ -69,12 +69,14 @@ class FingerPrintState extends State<FingerPrint> {
           );
         }
 
-        if(!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context, 
-          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/')
-        );
+        else {
+          if(!mounted) return;
+          Navigator.pushAndRemoveUntil(
+            context, 
+            Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+            ModalRoute.withName('/')
+          );
+        }
       }
     } on SocketException catch (e) {
 
@@ -139,7 +141,7 @@ class FingerPrintState extends State<FingerPrint> {
               width: 275,
               top: 19.0,
               text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
-              fontSize: 20.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.bold,
               hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa

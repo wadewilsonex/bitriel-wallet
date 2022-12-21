@@ -2,6 +2,8 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
+const double height = 7.0;
+
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
   required HomePageModel? homePageModel,
@@ -10,13 +12,13 @@ PreferredSizeWidget defaultAppBar({
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
-    toolbarHeight: 10.h,
+    toolbarHeight: height.h,
     leadingWidth: 15.w,
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: hexaCodeToColor("#E6E6E6")),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -25,7 +27,7 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     leading: Container(
-      height: 10.h,
+      height: height.h,
       margin: const EdgeInsets.only(left: 15, top: 10),
       child: IconButton(
         padding: EdgeInsets.zero,
@@ -43,7 +45,7 @@ PreferredSizeWidget defaultAppBar({
     ),
     
     title: Container(
-      height: 10.h,
+      height: height.h,
       margin: EdgeInsets.only(top: 10),
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {

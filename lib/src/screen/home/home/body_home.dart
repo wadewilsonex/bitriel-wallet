@@ -70,27 +70,27 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Container(
-                  height: 130,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5)
-                  ),
-                  margin: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          Transition(child: MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                        );
-                      },
-                      child: VideoPlayer(videoController!),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 130,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(5)
+                //   ),
+                //   margin: EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(5),
+                //     child: InkWell(
+                //       onTap: (){
+                //         Navigator.push(
+                //           context,
+                //           Transition(child: MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                //         );
+                //       },
+                //       child: VideoPlayer(videoController!),
+                //     ),
+                //   ),
+                // ),
                 
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
+                _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
 
                 ShowCaseWidget(
                   builder: Builder(
@@ -178,6 +178,7 @@ class HomePageBody extends StatelessWidget {
   Widget _carouselAds(BuildContext context, int activeIndex) {
     return Column(
       children: [
+
         CarouselSlider(
           options: CarouselOptions(
             viewportFraction: 1,  
@@ -211,14 +212,16 @@ class HomePageBody extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(8.0),
                     ),
-                    child: item['asset'].contains("https") ? Image.network(
-                      item['asset'],
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                    )
-                    : Image.asset(
+                    child: 
+                    // item['asset'].contains("https") ? Image.network(
+                    //   item['asset'],
+                    //   fit: BoxFit.fill,
+                    //   width: MediaQuery.of(context).size.width,
+                    // )
+                    // : 
+                    Image.asset(
                       item['asset'], 
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ),

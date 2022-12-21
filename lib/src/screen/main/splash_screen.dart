@@ -40,6 +40,22 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   // First Check
   Future<void> getCurrentAccount() async {
 
+
+      // final mode = await StorageServices.fetchData(DbKey.themeMode);
+      // final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+      // // final event = await StorageServices.fetchData(DbKey.event);
+
+      // await StorageServices().clearStorage();
+
+      // // Re-Save Them Mode
+      // await StorageServices.storeData(mode, DbKey.themeMode);
+      // await StorageServices.storeData(sldNW, DbKey.sldNetwork);
+      // // await StorageServices.storeData(event, DbKey.event);
+
+      // await StorageServices().clearSecure();
+
+      
+
     // await Future.delayed(const Duration(seconds: 1), () async {
     //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
@@ -49,7 +65,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       await Future.delayed(const Duration(seconds: 1), () async {
 
         await StorageServices().readSecure(DbKey.private)!.then((String value) async {
-          if (value.isEmpty) {
+          print("StorageServices().readSecure ${value}");
+
+          // print("Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isNotEmpty")
+
+          if (value.isEmpty || Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
           } else {
             
