@@ -69,6 +69,12 @@ class _HomePageState extends State<HomePage> {
     
   }
 
+  @override
+  void dispose(){
+    _videoController!.dispose();
+    super.dispose();
+  }
+
   void onPageChanged(int index){
     setState(() {
       _model.activeIndex = index;

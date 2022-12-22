@@ -1,5 +1,7 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/menu_item_c.dart';
+import 'package:wallet_apps/src/components/welcome_item_c.dart';
 
 class OnboardignBody extends StatelessWidget {
 
@@ -15,50 +17,83 @@ class OnboardignBody extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
-    
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  '${AppConfig.assetsPath}logo/bitriel-logo-v2.png',
-                  // height: MediaQuery.of(context).size.height * 0.25,
-                  width: MediaQuery.of(context).size.width * 0.25,
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
           
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: MyText(
-                    text: "Welcome!",
-                    fontWeight: FontWeight.w600,
-                    textAlign: TextAlign.center,
-                    fontSize: 19,
-                    hexaColor: isDarkMode
-                      ? AppColors.whiteColorHexa
-                      : AppColors.darkGrey,
-                  ),
+          SizedBox(
+            height: 5.h,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyText(
+                  text: "Set up\nyour Bitriel wallet",
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.start,
+                  fontSize: 22,
+                  hexaColor: isDarkMode
+                    ? AppColors.whiteColorHexa
+                    : AppColors.blackColor,
                 ),
                 const SizedBox(
                   height: 25,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: MyText(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
-                    textAlign: TextAlign.center,
-                    hexaColor: isDarkMode
-                      ? AppColors.lowWhite
-                      : AppColors.textColor,
-                  ),
+                MyText(
+                  text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
+                  textAlign: TextAlign.start,
+                  hexaColor: isDarkMode
+                    ? AppColors.lowWhite
+                    : AppColors.darkGrey,
                 )
-              ]
-            )
+              ],
+            ),
           ),
+
+          // Expanded(
+          //   child: Column(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       // Image.asset(
+          //       //   '${AppConfig.assetsPath}logo/bitriel-logo-v2.png',
+          //       //   // height: MediaQuery.of(context).size.height * 0.25,
+          //       //   width: MediaQuery.of(context).size.width * 0.25,
+          //       // ),
+          //       // const SizedBox(
+          //       //   height: 40,
+          //       // ),
+          
+          //       Padding(
+          //         padding: const EdgeInsets.only(left: 20, right: 20),
+          //         child: MyText(
+          //           text: "Set up\nyour Bitriel wallet",
+          //           fontWeight: FontWeight.w600,
+          //           textAlign: TextAlign.center,
+          //           fontSize: 19,
+          //           hexaColor: isDarkMode
+          //             ? AppColors.whiteColorHexa
+          //             : AppColors.darkGrey,
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         height: 25,
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(left: 20, right: 20),
+          //         child: MyText(
+          //           width: MediaQuery.of(context).size.width / 1.5,
+          //           text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
+          //           textAlign: TextAlign.center,
+          //           hexaColor: isDarkMode
+          //             ? AppColors.lowWhite
+          //             : AppColors.textColor,
+          //         ),
+          //       )
+          //     ]
+          //   )
+          // ),
 
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,30 +178,116 @@ class OnboardignBody extends StatelessWidget {
           //   ),
           // ),
 
+          // const Spacer(),
+
           Column(
             children: [
-              
-              MyGradientButton(
-                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                textButton: AppString.createAccTitle,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () {
-    
-                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                },
-              ),
 
-              MyFlatButton(
-                isTransparent: true,
-                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.secondary,
-                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                textButton: AppString.importAccTitle,
-                action: () {
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20 / 2),
+                      child: WelcomeItem(
+                        title: "Create wallet",
+                        textColor: AppColors.whiteColorHexa,
+                        image: Padding(
+                          padding: const EdgeInsets.all(paddingSize),
+                          child: Image.asset("assets/icons/setup-1.png"),
+                        ),
+                        icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                        itemColor: "#263238",
+                        action: () {
+                          Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        },
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 20, right: 20, left: 20 / 2),
+                      child: WelcomeItem(
+                        title: "Import wallet",
+                        textColor: AppColors.whiteColorHexa,
+                        image: Padding(
+                          padding: const EdgeInsets.all(paddingSize),
+                          child: Image.asset("assets/icons/setup-2.png"),
+                        ),
+                        icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                        itemColor: "#F27649",
+                        action: () {
+                          Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(bottom: 50, left: 20, right: 20 / 2),
+              //         child: WelcomeItem(
+              //           title: "Create wallet",
+              //           textColor: AppColors.whiteColorHexa,
+              //           image: Padding(
+              //             padding: const EdgeInsets.all(paddingSize),
+              //             child: Image.asset("assets/icons/setup-3.png"),
+              //           ),
+              //           icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+              //           itemColor: "#5CA2E1",
+              //           action: () {
+              //             Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              //           },
+              //         ),
+              //       ),
+              //     ),
+
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(bottom: 50, right: 20, left: 20 / 2),
+              //         child: WelcomeItem(
+              //           title: "Import wallet",
+              //           textColor: AppColors.whiteColorHexa,
+              //           image: Padding(
+              //             padding: const EdgeInsets.all(paddingSize),
+              //             child: Image.asset("assets/icons/setup-4.png"),
+              //           ),
+              //           icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+              //           itemColor: "#FFB573",
+              //           action: () {
+              //             Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
+              // MyGradientButton(
+              //   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+              //   textButton: AppString.createAccTitle,
+              //   begin: Alignment.bottomLeft,
+              //   end: Alignment.topRight,
+              //   action: () {
+    
+              //     Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              //   },
+              // ),
+
+              // MyFlatButton(
+              //   isTransparent: true,
+              //   textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.secondary,
+              //   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+              //   textButton: AppString.importAccTitle,
+              //   action: () {
                   
-                  Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                },
-              )
+              //     Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              //   },
+              // )
             ],
           ),
         ],

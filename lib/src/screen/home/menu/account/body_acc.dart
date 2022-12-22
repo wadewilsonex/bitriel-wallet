@@ -192,7 +192,8 @@ class AccountBody extends StatelessWidget{
 
                   children: const [
                     MyText(
-                      text: "Logout",
+                      text: "Log Out",
+                      fontWeight: FontWeight.bold,
                       hexaColor: AppColors.whiteColorHexa,
                     ),
                   ],

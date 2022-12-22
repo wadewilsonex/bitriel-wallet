@@ -1,18 +1,20 @@
 import 'package:wallet_apps/index.dart';
 
-class MyMenuItem extends StatelessWidget {
+class WelcomeItem extends StatelessWidget {
   final String? title;
+  final String? itemColor;
   final Widget? icon;
+  final String? textColor;
+  final Widget? image;
   final Function? action;
-  final AlignmentGeometry begin;
-  final AlignmentGeometry end;
   
-  const MyMenuItem({
+  const WelcomeItem({
     Key? key, 
     this.title,
+    this.itemColor,
+    this.textColor,
     this.icon,
-    required this.begin,
-    required this.end,
+    this.image,
     required this.action,
   }) : super(key: key);
 
@@ -24,42 +26,32 @@ class MyMenuItem extends StatelessWidget {
         action!();
       },
       child: Container(
-        width: 200,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ],
           borderRadius: BorderRadius.circular(8),
-          gradient: LinearGradient(
-            colors: isDarkMode ? [hexaCodeToColor("#0D6BA6"), hexaCodeToColor("#2EF9C8")] : [hexaCodeToColor("#FFFFFF"), hexaCodeToColor("#FFFFFF")],
-            begin: begin,
-            end: end, 
-          )
+          color: hexaCodeToColor(itemColor!)
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   icon!
                 ],
               ),
             ),
+
+            image!,
+
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 10.0),
               child: Row(  
                 children: [
                   MyText(
                     text: title,
-                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
+                    hexaColor: textColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ],

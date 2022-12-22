@@ -64,6 +64,7 @@ PreferredSizeWidget defaultAppBar({
                       txt: provider.accountM.address, 
                       child: MyText(
                         text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                        fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center
                       ),
                     ),
@@ -73,7 +74,7 @@ PreferredSizeWidget defaultAppBar({
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         
-                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
+                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
               
                           Padding(
                           padding: const EdgeInsets.only(left: 4),

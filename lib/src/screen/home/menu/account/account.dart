@@ -48,12 +48,12 @@ class AccountState extends State<Account> {
   Future<void> deleteAccout() async {
     await customDialog(
       context, 
-      'Delete account', 
-      'Are you sure to delete your account?',
+      'Log Out account', 
+      'Are you sure to log out your account?',
       btn2: TextButton(
         onPressed: () async => await _deleteAccount(),
         child: const MyText(
-          text: 'Delete',
+          text: 'Log Out',
           hexaColor: AppColors.redColor,
           fontWeight: FontWeight.w700
         ),

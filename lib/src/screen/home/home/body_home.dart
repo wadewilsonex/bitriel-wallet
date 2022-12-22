@@ -259,7 +259,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -273,7 +273,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -295,7 +295,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -314,7 +314,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -331,7 +331,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {
