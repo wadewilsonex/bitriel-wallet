@@ -263,7 +263,8 @@ class SubmitTrxState extends State<SubmitTrx> {
               await enableAnimation();
             }
           });
-        } else {
+        } 
+        else {
           if (!isValid) {
             if(!mounted) return;
             Navigator.pop(context);
@@ -383,6 +384,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // Second Execute
   Future<dynamic> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
+
     try {
 
       trxFunc!.contract = _contractProvider;
@@ -487,9 +489,11 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
           }
         }
+        
       }
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
+      print("Error $e");
       throw Exception(e);
     }
   }

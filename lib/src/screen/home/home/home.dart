@@ -24,8 +24,6 @@ class _HomePageState extends State<HomePage> {
 
   final Random _random = Random();
 
-  VideoPlayerController? _videoController;
-
   int? randomNum;
 
   final bool? pushReplacement = true;
@@ -33,14 +31,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
-    _videoController = VideoPlayerController.network("https://gateway.kumandra.org/files/QmXj9y8TRKJGdk9rmiK5bWsqrM4yg7Ni5tM8SdH5oUtJtS")..initialize().then((_) {
-      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-      setState(() {});
-    });
-
-    _videoController!.setVolume(0);
-    _videoController!.setLooping(true);
-    _videoController!.play();
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -71,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose(){
-    _videoController!.dispose();
+    // _videoController!.dispose();
     super.dispose();
   }
 
@@ -175,7 +165,6 @@ class _HomePageState extends State<HomePage> {
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
       getReward: _scanLogin,
-      videoController: _videoController
     );
   }
 }

@@ -22,7 +22,6 @@ class SubmitTrxService {
 
       final chainDecimal = contract.sortListContract[scanPay.assetValue].chainDecimal;
       if (contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
-        
         return await api.connectSELNode(context: context).then((value) async {
           fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
             txInfoData,
@@ -77,17 +76,18 @@ class SubmitTrxService {
         //   await customDialog(context, 'Opps', 'Something went wrong!');
         // }
     } catch (e) {
-      await customDialog(context, 'Opps', e.toString());
       
       if (kDebugMode) {
         print("Error sendNative $e");
       }
+      
+      await customDialog(context, 'Opps', e.toString());
     }
+
     return false;
   }
 
   Future<void> sendTx(ApiProvider api, ModelScanPay scanPay, String password, BuildContext context, TxInfoData txInfoData, int chainDecimal ) async {
-
     await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).signAndSend(
       txInfoData,
       [
