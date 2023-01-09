@@ -2,7 +2,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
-const double height = 7.0;
+const double height = 8.0;
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
@@ -20,9 +20,11 @@ PreferredSizeWidget defaultAppBar({
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          border: Border.all(color: hexaCodeToColor("#E6E6E6")),
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
+          borderRadius: const BorderRadius.all(Radius.circular(36)),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
+          boxShadow: [
+            BoxShadow(spreadRadius: 0, blurRadius: 4, offset: Offset(0, 2), color: Color.fromARGB(255, 126, 126, 126).withOpacity(0.5))
+          ]
         ),
       ),
     ),
@@ -66,6 +68,7 @@ PreferredSizeWidget defaultAppBar({
                       txt: provider.accountM.address, 
                       child: MyText(
                         text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                        fontWeight: FontWeight.bold,
                         textAlign: TextAlign.center
                       ),
                     ),
@@ -75,7 +78,7 @@ PreferredSizeWidget defaultAppBar({
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         
-                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 13,),
+                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
               
                           Padding(
                           padding: const EdgeInsets.only(left: 4),

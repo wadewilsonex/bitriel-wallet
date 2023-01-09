@@ -52,14 +52,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       // await StorageServices.storeData(sldNW, DbKey.sldNetwork);
       // // await StorageServices.storeData(event, DbKey.event);
 
-      // await StorageServices().clearSecure();
-
-      
-
-    // await Future.delayed(const Duration(seconds: 1), () async {
-    //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-
-    // });
     
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
@@ -67,8 +59,10 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         await StorageServices().readSecure(DbKey.private)!.then((String value) async {
           print("StorageServices().readSecure ${value}");
 
-          // print("Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isNotEmpty")
+          print("Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty ${Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty}");
 
+          // print("Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isNotEmpty")
+          //  || Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty
           if (value.isEmpty || Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
           } else {
@@ -106,16 +100,17 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
               // checkBio();
             }
           }
+          
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error Splash screen $e");
-        }
+      
+      if (kDebugMode) {
+        print("Error Splash screen $e");
       }
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Onboarding() ), (route) => false);
     }
+
   }
   
   Future<void> checkBio() async {

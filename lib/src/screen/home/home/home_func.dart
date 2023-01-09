@@ -53,6 +53,7 @@ class HomeFunctional {
                     },
                     choiceType: S2ChoiceType.radios,
                     choiceItems: sldNetworkList,
+                    choiceStyle: S2ChoiceStyle(titleStyle: TextStyle(color: hexaCodeToColor(AppColors.blackColor))),
                     modalType: S2ModalType.popupDialog,
                     modalHeader: false,
                     modalConfig: const S2ModalConfig(

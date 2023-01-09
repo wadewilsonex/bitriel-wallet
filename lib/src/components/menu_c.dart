@@ -29,20 +29,21 @@ class MenuHeader extends StatelessWidget {
       ),
       child: Consumer<ApiProvider>(
         builder: (context, value, child) {
-          return Row(
-            children: [
-              
-              InkWell(
-                onTap: value.accountM.address == null ? null : () {
-                  Navigator.push(
-                    context,
-                    Transition(
-                      child: const Account(),
-                      transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                    )
-                  );
-                },
-                child: AvatarShimmer(
+
+          return InkWell(
+            onTap: value.accountM.address == null ? null : () {
+              Navigator.push(
+                context,
+                Transition(
+                  child: const Account(),
+                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                )
+              );
+            },
+            child: Row(
+              children: [
+                
+                AvatarShimmer(
                   txt: value.accountM.addressIcon,
                   child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0.w, height: 5.0.w)
                   // SvgPicture.string(
@@ -50,56 +51,61 @@ class MenuHeader extends StatelessWidget {
                   //   width: 5.0.w,
                   //   // height: 8.0,
                   // )
-                )
-              ),
-                
-              const SizedBox(width: 5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  
-                  TextShimmer(txt: value.accountM.name),
-                  
-                  WidgetShimmer(
-                    txt: value.accountM.address, 
-                    child: Row(
-                      children: [
-                        
-                        MyText(
-                          right: 5,
-                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
-                          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
-                          fontSize: 13,
-                          textAlign: TextAlign.left
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            await Clipboard.setData(
-                              ClipboardData(text: value.accountM.address ??''),
-                            );
-                            Fluttertoast.showToast(
-                              msg: "Copied address",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                            );
-                          }, 
-                          child: SvgPicture.asset(
-                            '${AppConfig.iconsPath}qr_code.svg',
-                            width: 5.w,
-                            height: 5.w,
-                            color: hexaCodeToColor(AppColors.secondary),
+                ),
+                    
+                const SizedBox(width: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    
+                    TextShimmer(txt: value.accountM.name),
+                    
+                    WidgetShimmer(
+                      txt: value.accountM.address, 
+                      child: Row(
+                        children: [
+                          
+                          MyText(
+                            right: 5,
+                            text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
+                            hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                            fontSize: 13,
+                            textAlign: TextAlign.left,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: value.accountM.address ??''),
+                              );
+                              Fluttertoast.showToast(
+                                msg: "Copied address",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                              );
+                            }, 
+                            child: SvgPicture.asset(
+                              '${AppConfig.iconsPath}qr_code.svg',
+                              width: 5.w,
+                              height: 5.w,
+                              color: hexaCodeToColor(AppColors.secondary),
+                            )
                           )
-                        )
-                      ]
+                        ]
+                      )
                     )
-                  )
-                ],
-              )
-            ],
+                  ],
+                ),
+
+                Expanded(
+                  child: Container()
+                ),
+                Icon(Icons.arrow_forward_ios_rounded, size: 3.w,)
+              ],
+            ),
           );
-        },
-      ),
+        }
+      )
     );
   }
 }

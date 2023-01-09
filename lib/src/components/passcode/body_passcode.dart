@@ -71,7 +71,7 @@ class PasscodeBody extends StatelessWidget{
             // For Change PIN
             else MyText(
               text: titleStatus,
-              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : AppColors.whiteColorHexa,
+              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -92,7 +92,7 @@ class PasscodeBody extends StatelessWidget{
             // For Change PIN
             else MyText(
               text: subStatus,
-              hexaColor: AppColors.whiteColorHexa,
+              hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
               fontWeight: FontWeight.bold,
             ), 
 

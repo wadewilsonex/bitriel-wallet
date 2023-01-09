@@ -240,6 +240,7 @@ function _extractEvents(api: ApiPromise, result: SubmittableResult) {
  * sign and send extrinsic to network and wait for result.
  */
 function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string, msgId: string) {
+  console.log("txInfo.txName", txInfo.txName);
   return new Promise(async (resolve) => {
     let tx: SubmittableExtrinsic<"promise">;
     // wrap tx with council.propose for treasury propose
@@ -250,6 +251,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     } else {
       tx = api.tx[txInfo.module][txInfo.call](...paramList);
     }
+    console.log("tx", tx);
     let unsub = () => { };
     const onStatusChange = (result: SubmittableResult) => {
       if (result.status.isInBlock || result.status.isFinalized) {

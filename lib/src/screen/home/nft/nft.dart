@@ -62,8 +62,10 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
 
-          SizedBox(
+          Container(
+            margin: EdgeInsets.only(top: paddingSize),
             width: 60.w,
+            height: 6.h,
             child: TabBar(
               labelColor: hexaCodeToColor(AppColors.primaryColor),
               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),

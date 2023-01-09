@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/bottom_app_bar/bottom_appBar_c.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
@@ -25,7 +26,6 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
-  final VideoPlayerController? videoController;
 
   const HomePageBody({ 
     Key? key, 
@@ -34,10 +34,8 @@ class HomePageBody extends StatelessWidget {
     this.onPageChanged,
     this.pushReplacement,
     this.onTapWeb,
-    this.getReward,
-    this.videoController
-    }) : super(key: key);
-
+    this.getReward
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,25 +68,25 @@ class HomePageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Container(
-                  height: 130,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5)
-                  ),
-                  margin: const EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          Transition(child: const MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                        );
-                      },
-                      child: VideoPlayer(videoController!),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 130,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(5)
+                //   ),
+                //   margin: const EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(5),
+                //     child: InkWell(
+                //       onTap: (){
+                //         Navigator.push(
+                //           context,
+                //           Transition(child: const MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                //         );
+                //       },
+                //       child: VideoPlayer(videoController!),
+                //     ),
+                //   ),
+                // ),
                 
                 _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
 
@@ -98,8 +96,8 @@ class HomePageBody extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 10), 
-                _menu(context),
+                // const SizedBox(height: 10), 
+                // _menu(context),
 
                 const SizedBox(height: 10), 
                 const Padding(
@@ -168,7 +166,7 @@ class HomePageBody extends StatelessWidget {
           const NFT(),
         ],
       ),
-      bottomNavigationBar: MyBottomAppBar(
+      bottomNavigationBar: BottomAppBarCom(
         index: homePageModel!.activeIndex,
         onIndexChanged: onPageChanged,
       ),
@@ -176,76 +174,79 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _carouselAds(BuildContext context, int activeIndex) {
-    return Column(
-      children: [
-
-        CarouselSlider(
-          options: CarouselOptions(
-            viewportFraction: 1,  
-            aspectRatio: 29 / 10,
-            autoPlay: false,
-            enableInfiniteScroll: false,
-            enlargeCenterPage: true,
-            scrollDirection: Axis.horizontal,
-            onPageChanged: homePageModel!.onAdsCarouselChanged,
-          ),
-          items: imgList
-            .map((item) => GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context, 
-                //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                // );
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: Card(
-                  margin: const EdgeInsets.only(  
-                    top: 10.0,
-                    bottom: 10.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8.0),
-                    ),
-                    child: 
-                    // item['asset'].contains("https") ? Image.network(
-                    //   item['asset'],
-                    //   fit: BoxFit.fill,
-                    //   width: MediaQuery.of(context).size.width,
-                    // )
-                    // : 
-                    Image.asset(
-                      item['asset'], 
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
+    return Container(
+      margin: EdgeInsets.only(top: paddingSize + 10, bottom: 10),
+      child: Column(
+        children: [
+    
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                viewportFraction: 1,  
+                aspectRatio: 29 / 10,
+                autoPlay: true,
+                enableInfiniteScroll: true,
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: homePageModel!.onAdsCarouselChanged,
+              ),
+              items: imgList
+                .map((item) => GestureDetector(
+                  onTap: () {
+                    // Navigator.push(
+                    //   context, 
+                    //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    // );
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                        child: 
+                        // item['asset'].contains("https") ? Image.network(
+                        //   item['asset'],
+                        //   fit: BoxFit.fill,
+                        //   width: MediaQuery.of(context).size.width,
+                        // )
+                        // : 
+                        Image.asset(
+                          item['asset'], 
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              )
+              .toList(),
             ),
-          )
-          .toList(),
-        ),
-
-        AnimatedSmoothIndicator(
-          activeIndex: activeIndex,
-          count: imgList.length,
-          effect: SlideEffect(
-            radius: 5.0,
-            dotWidth: 25.0.sp,
-            dotHeight: 5.0.sp,
-            paintStyle: PaintingStyle.fill,
-            dotColor: hexaCodeToColor(AppColors.secondary).withOpacity(0.36),
-            activeDotColor: hexaCodeToColor(AppColors.secondary),
-          ), 
-          
-        ),
-      ],
+          ),
+    
+          AnimatedSmoothIndicator(
+            activeIndex: activeIndex,
+            count: imgList.length,
+            effect: SlideEffect(
+              radius: 5.0,
+              dotWidth: 20.0.sp,
+              dotHeight: 7.0.sp,
+              paintStyle: PaintingStyle.fill,
+              dotColor: hexaCodeToColor(AppColors.greyColor).withOpacity(0.36),
+              activeDotColor: hexaCodeToColor(AppColors.secondary),
+            ), 
+            
+          ),
+        ],
+      ),
     );
   }
 
@@ -262,7 +263,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Swap",
-                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.card_coin, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   action: () {
@@ -276,7 +277,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
-                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.discount_shape, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   action: () {
@@ -298,7 +299,7 @@ class HomePageBody extends StatelessWidget {
                   title: "Send",
                   icon: Transform.rotate(
                     angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                    child: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   ),
                   
                   begin: Alignment.bottomLeft,
@@ -317,7 +318,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Recieve",
-                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.import, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   action: () {
@@ -334,7 +335,7 @@ class HomePageBody extends StatelessWidget {
               Expanded(
                 child: MyMenuItem(
                   title: "Pay",
-                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor("#49595F"), size: iconSize),
+                  icon: Icon(Iconsax.scan, color: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa) : hexaCodeToColor(AppColors.secondary), size: iconSize),
                   begin: Alignment.bottomRight,
                   end: Alignment.topCenter,
                   action: () async {

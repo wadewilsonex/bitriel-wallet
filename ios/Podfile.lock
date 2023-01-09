@@ -15,7 +15,7 @@ PODS:
     - FirebaseAuth (~> 10.3.0)
   - Firebase/CoreOnly (10.3.0):
     - FirebaseCore (= 10.3.0)
-  - firebase_auth (4.2.0):
+  - firebase_auth (4.2.1):
     - Firebase/Auth (= 10.3.0)
     - firebase_core
     - Flutter
@@ -121,27 +121,42 @@ PODS:
     - FMDB (>= 2.7.5)
   - store_redirect (0.0.1):
     - Flutter
-  - Stripe (22.8.4):
-    - Stripe/Stripe3DS2 (= 22.8.4)
-    - StripeApplePay (= 22.8.4)
-    - StripeCore (= 22.8.4)
-    - StripeUICore (= 22.8.4)
-  - Stripe/Stripe3DS2 (22.8.4):
-    - StripeApplePay (= 22.8.4)
-    - StripeCore (= 22.8.4)
-    - StripeUICore (= 22.8.4)
+  - Stripe (23.1.1):
+    - StripeApplePay (= 23.1.1)
+    - StripeCore (= 23.1.1)
+    - StripePayments (= 23.1.1)
+    - StripePaymentsUI (= 23.1.1)
+    - StripeUICore (= 23.1.1)
   - stripe_ios (0.0.1):
     - Flutter
-    - Stripe (~> 22.8.1)
-    - StripeFinancialConnections (~> 22.8.1)
-  - StripeApplePay (22.8.4):
-    - StripeCore (= 22.8.4)
-  - StripeCore (22.8.4)
-  - StripeFinancialConnections (22.8.4):
-    - StripeCore (= 22.8.4)
-    - StripeUICore (= 22.8.4)
-  - StripeUICore (22.8.4):
-    - StripeCore (= 22.8.4)
+    - Stripe (~> 23.1.0)
+    - StripeApplePay (~> 23.1.0)
+    - StripeFinancialConnections (~> 23.1.0)
+    - StripePayments (~> 23.1.0)
+    - StripePaymentSheet (~> 23.1.0)
+    - StripePaymentsUI (~> 23.1.0)
+  - StripeApplePay (23.1.1):
+    - StripeCore (= 23.1.1)
+  - StripeCore (23.1.1)
+  - StripeFinancialConnections (23.1.1):
+    - StripeCore (= 23.1.1)
+    - StripeUICore (= 23.1.1)
+  - StripePayments (23.1.1):
+    - StripeCore (= 23.1.1)
+    - StripePayments/Stripe3DS2 (= 23.1.1)
+  - StripePayments/Stripe3DS2 (23.1.1):
+    - StripeCore (= 23.1.1)
+  - StripePaymentSheet (23.1.1):
+    - StripeApplePay (= 23.1.1)
+    - StripeCore (= 23.1.1)
+    - StripePayments (= 23.1.1)
+    - StripePaymentsUI (= 23.1.1)
+  - StripePaymentsUI (23.1.1):
+    - StripeCore (= 23.1.1)
+    - StripePayments (= 23.1.1)
+    - StripeUICore (= 23.1.1)
+  - StripeUICore (23.1.1):
+    - StripeCore (= 23.1.1)
   - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -207,6 +222,9 @@ SPEC REPOS:
     - StripeApplePay
     - StripeCore
     - StripeFinancialConnections
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
     - StripeUICore
     - Toast
 
@@ -281,7 +299,7 @@ SPEC CHECKSUMS:
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   external_app_launcher: ad55ac844aa21f2d2197d7cec58ff0d0dc40bbc0
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
-  firebase_auth: 579a0dc15451491cc83fccaa5102296635f24938
+  firebase_auth: 30cbdb28d5c38f572c331a8590a93e2a1201d75c
   firebase_core: 6f2f753e316765799d88568232ed59e300ff53db
   FirebaseAuth: 0e415d29d846c1dce2fb641e46f35e9888d9bec6
   FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
@@ -319,18 +337,21 @@ SPEC CHECKSUMS:
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   store_redirect: 2977747cf81689a39bd62c248c2deacb7a0d131e
-  Stripe: 59f6659e8ea413def19c97c57e23f5ec6ea48cf8
-  stripe_ios: 8ad17b19d7d2189d7c19fd15d9ecffeca696390f
-  StripeApplePay: 6e9aebd3d248464836e9fbdaef6e5fb1817d56a6
-  StripeCore: 193f27552fb98108ebfe0df11651fe5f38948305
-  StripeFinancialConnections: 955c345ada7d0dff1a9bd15c4ebc97eacce4ac75
-  StripeUICore: 6a5bbea0164d63bd91000f001903e7901859e1a4
+  Stripe: ff389e265eeffb891b871b62b2fa644e30e69338
+  stripe_ios: 728603d6aa71a76f00dd05e202cba7d5b357a4be
+  StripeApplePay: 4413b4f21c0206094df20775aa5e8e063b9c8b5d
+  StripeCore: 6318dff8f7e42125c6e8b671ac54a6e82804705a
+  StripeFinancialConnections: 3586b42043921d46eadf59bb0dcd2ac17ff109f2
+  StripePayments: 7e903765860f1cc914041069edc9cf5e202f5ef7
+  StripePaymentSheet: 49602fb474a86e7624a082f256fd786b2eac80cb
+  StripePaymentsUI: e4b2be5b5b5edb774fc8667a71429194c39ce2a4
+  StripeUICore: 149ba9dda3f48dff829d2ebb2e3d455bc59dc0ed
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   vibration: 7d883d141656a1c1a6d8d238616b2042a51a1241
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 775997f741c536251164e3eacf6e34abf2eb7a17
+PODFILE CHECKSUM: aae11de45a6e71df39b05a6bd844ce09550cc9fb
 
 COCOAPODS: 1.11.3

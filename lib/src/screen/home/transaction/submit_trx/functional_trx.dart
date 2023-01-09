@@ -730,9 +730,11 @@ class TrxFunctional {
     try {
 
       api = Provider.of<ApiProvider>(context!, listen: false);
+      
       final contract = Provider.of<ContractProvider>(context!, listen: false);
 
       await MarketProvider().fetchTokenMarketPrice(context!);
+
       switch (asset) {
         
         case 'BTC':

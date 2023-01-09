@@ -90,6 +90,9 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> initApi({@required BuildContext? context}) async {
 
+    if(kDebugMode){
+      print("initApi");
+    }
     // Asign Network
     await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
       /// Get Endpoint form Local DB
@@ -105,29 +108,34 @@ class ApiProvider with ChangeNotifier {
       await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
       notifyListeners();
     });
+
+    if(kDebugMode){
+      print("selNetwork $selNetwork");
+    }
     
     funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
+    
     try {
 
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
         _jsCode = js;
       });
 
-      // Setup ss58Format base on Networkgg
-      // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
+      print("Finish load js");
 
       await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
+      print('finish init Keyring');
       await _sdk.init(_keyring, jsCode: _jsCode);
 
+      print('finish init sdk');
+      
       _apiKeyring = MyApiKeyring(_sdk.api, _sdk.api.keyring.service!);
       notifyListeners();
 
     } catch (e) {
-      if (ApiProvider().isDebug) {
-        if (kDebugMode) {
-          print("Error initApi $e");
-        }
+      if (kDebugMode) {
+        print("Error initApi $e");
       }
     }
   }
@@ -339,22 +347,30 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> totalBalance({@required BuildContext? context}) async {
+    print("totalBalance");
     final contract = Provider.of<ContractProvider>(context!, listen: false);
+    try {
     
-    double total = 0.0;
+      double total = 0.0;
 
-    var balanceList = [];
-    
-    for (var element in contract.sortListContract) {
-      if(element.marketPrice!.isNotEmpty){
-        total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
-        balanceList.add(total);
+      var balanceList = [];
+      
+      for (var element in contract.sortListContract) {
+        if(element.marketPrice!.isNotEmpty){
+          total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+          balanceList.add(total);
+        }
       }
+
+      total = balanceList.reduce((a, b) => a + b);
+
+      contract.totalAmount = total;
+
+      print("contract.totalAmount ${contract.totalAmount}");
+    } catch (e){
+      contract.totalAmount = 0;
+      print("Error totalBalance $e");
     }
-
-    total = balanceList.reduce((a, b) => a + b);
-
-    contract.totalAmount = total;
   
   }
 
@@ -516,8 +532,9 @@ class ApiProvider with ChangeNotifier {
       dynamic res;
       
       ContractProvider contract = Provider.of<ContractProvider>(context!, listen: false);
-      
+
       await querySELAddress().then((value) async {
+
         await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
           
           res = value;
@@ -540,6 +557,7 @@ class ApiProvider with ChangeNotifier {
     
     // Get SEL native Address From Account 
     await _sdk.webView!.evalJavascript('account.getSELAddr()').then((value) async {
+
       if (value != null){
         contractProvider!.listContract[selNativeIndex].address = value;
       } else {

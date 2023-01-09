@@ -569,6 +569,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       ),
       body: Stack(
         children: [
+          
           if(_loading) const Center(
             child: CircularProgressIndicator(),
           )

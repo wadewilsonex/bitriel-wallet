@@ -26,7 +26,7 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
-    MarketProvider().fetchTokenMarketPrice(context);
+    // MarketProvider().fetchTokenMarketPrice(context);
 
     // readTheme();
 
@@ -67,8 +67,14 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
 
+        if(kDebugMode){
+          print(Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty);
+          print("finish initApi");
+          print("print(Provider.of<ApiProvider>(context, listen: false).getKeyring.allAccounts.length); ${Provider.of<ApiProvider>(context, listen: false).getKeyring.allAccounts.length}");
+        }
+        
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
-        print("apiProvider.getKeyring.keyPairs.isNotEmpty ${apiProvider.getKeyring.keyPairs.isNotEmpty}");
+        
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
           if(!mounted) return;

@@ -21,6 +21,7 @@ class AssetsPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: BodyScaffold(
@@ -30,111 +31,107 @@ class AssetsPageBody extends StatelessWidget {
         isSafeArea: false,
         bottom: 0,
         child: Container(
-          padding: const EdgeInsets.all(20),
+          // padding: EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize, top: paddingSize+10),
           color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
-              _userWallet(context),
+              Padding(
+                padding: EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize, top: paddingSize+10),
+                child: _userWallet(context),
+              ),
           
-              SizedBox(
-                height: 30.sp,
+              Container(
+                height: 25.sp,
+                margin: EdgeInsets.only(bottom: 5),
                 child: categoryToken()
               ),
           
-              Row(
-                children: [
-                  MyText(
-                    text: "Assets",
-                    hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
-                    fontWeight: FontWeight.w500
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 1,
-                      color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
-                    ),
-                  ),
-                ],
+              Divider(
+                thickness: 1,
+                color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
               ),
           
-              Column(
-                children: [
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (detail){
-                      
-                      onVerticalUpdate!(detail);
-                    },
+              Padding(
+                padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onHorizontalDragEnd: (details) {
+                        onHorizontalChanged!(details);
+                      },
+                      onVerticalDragUpdate: (detail){
+                        
+                        onVerticalUpdate!(detail);
+                      },
 
-                    child: SizedBox(
-                      // Provide Screen Height Per Assets Length (model!.assetLength)
-                      // width: MediaQuery.of(context).size.width,
-                      height: 8.h * model!.assetLength,
-                      child: TabBarView(
-                        controller: model!.tabController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                      
-                          _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                          _selendraNetworkList(context, model!.nativeAssets! ),
-                          _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
-                          _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-                          
-                        ]
-                      ),
-                    )
-                  ),
-
-                  if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (details) {
-
-                      // Prevent Scroll When Empty Asset
-                      if(model!.assetLength > 5) onVerticalUpdate!(details);
-                    },
-                    child: SizedBox(
-                      height: 60.sp,
-                      child: OverflowBox(
-                        minHeight: 60.h,
-                        maxHeight: 60.h,
-                        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+                      child: SizedBox(
+                        // Provide Screen Height Per Assets Length (model!.assetLength)
+                        // width: MediaQuery.of(context).size.width,
+                        height: 8.h * model!.assetLength,
+                        child: TabBarView(
+                          controller: model!.tabController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                        
+                            _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                            _selendraNetworkList(context, model!.nativeAssets! ),
+                            _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
+                            _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                            
+                          ]
+                        ),
                       )
                     ),
-                  ),
 
-                  // Add Asset For BEP-20
-                  if (model!.tabController!.index == 2) 
-                  addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+                    if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
+                    GestureDetector(
+                      onHorizontalDragEnd: (details) {
+                        onHorizontalChanged!(details);
+                      },
+                      onVerticalDragUpdate: (details) {
 
-                  // Add Asset For ERC-20
-                  else if (model!.tabController!.index == 3) 
-                  addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
-                  
-                  // For Gesture
-                  if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (details) {
-
-                      // Prevent Scroll When Empty Asset
-                      if(model!.assetLength > 5) onVerticalUpdate!(details);
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 8.h * 5,
-                      color: Colors.transparent,
+                        // Prevent Scroll When Empty Asset
+                        if(model!.assetLength > 5) onVerticalUpdate!(details);
+                      },
+                      child: SizedBox(
+                        height: 60.sp,
+                        child: OverflowBox(
+                          minHeight: 60.h,
+                          maxHeight: 60.h,
+                          child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+                        )
+                      ),
                     ),
-                  )
-                ],
+
+                    // Add Asset For BEP-20
+                    if (model!.tabController!.index == 2) 
+                    addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+
+                    // Add Asset For ERC-20
+                    else if (model!.tabController!.index == 3) 
+                    addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                    
+                    // For Gesture
+                    if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
+                    GestureDetector(
+                      onHorizontalDragEnd: (details) {
+                        onHorizontalChanged!(details);
+                      },
+                      onVerticalDragUpdate: (details) {
+
+                        // Prevent Scroll When Empty Asset
+                        if(model!.assetLength > 5) onVerticalUpdate!(details);
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 8.h * 5,
+                        color: Colors.transparent,
+                      ),
+                    )
+                  ],
+                ),
               )
               
               // _otherNetworkList(context),
@@ -177,7 +174,7 @@ class AssetsPageBody extends StatelessWidget {
               Consumer<ContractProvider>(
                 builder: (context, provider, widget){
                   return MyText(
-                    text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                    text: provider.listContract.isEmpty ? '' : """≈ ${ provider.usdToBtc(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0') ) } BTC""",
                     // hexaColor: AppColors.tokenNameColor,
                   );
                 }

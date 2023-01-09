@@ -72,7 +72,9 @@ class QrScannerState extends State<QrScanner> {
             
             Expanded(
               child: Stack(
+                alignment: Alignment.center,
                 children: [
+                  
                   QRView(
                     key: qrKey,
                     onQRViewCreated: (QRViewController qrView) async {
@@ -84,17 +86,19 @@ class QrScannerState extends State<QrScanner> {
                       borderWidth: 10,
                     ),
                   ),
-                  const Positioned(
-                    left: 85,
+            
+                  Positioned(
+                    left: (MediaQuery.of(context).size.width / 2) - 100,
                     top: 550,
                     child: MyText(
+                      width: 200,
                       text: "Scan QR Code to login, send, pay",
                       // fontSize: 15,
                       hexaColor: AppColors.whiteColorHexa,
                     ),
                   )
                 ]
-              )
+              ),
             ),
           ],
         ),

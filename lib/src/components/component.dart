@@ -318,7 +318,7 @@ class MyText extends StatelessWidget {
     this.text,
     this.hexaColor,
     this.color2,
-    this.fontSize = 15,
+    this.fontSize = 16,
     this.fontWeight = FontWeight.normal,
     this.top = 0,
     this.right = 0,

@@ -193,7 +193,22 @@ class SubmitTrxBody extends StatelessWidget {
                         textButton: "CONTINUE",
                         begin: Alignment.bottomLeft,
                         end: Alignment.topRight,
-                        action: scanPayM!.enable ? validateSubmit : null,
+                        action: 
+                        // (){
+                        //   showDialog(
+                        //     context: context, builder: (context){
+                        //       return AlertDialog(
+                        //         title: MyText(
+                        //           text: "Oops",
+                        //         ),
+                        //         content: MyText(
+                        //           text: "Feature under maintenance",
+                        //         ),
+                        //       );
+                        //     }
+                        //   );
+                        // }
+                          scanPayM!.enable ? validateSubmit : null,
                       ),
             
                     ],

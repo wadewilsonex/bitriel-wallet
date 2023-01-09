@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/acc_c.dart';
@@ -41,6 +42,7 @@ class AccountBody extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        titleSpacing: 0,
         title: const MyText(
           text: "Account",
           fontSize: 17,
@@ -110,16 +112,31 @@ class AccountBody extends StatelessWidget{
                                   ? AppColors.whiteColorHexa
                                   : AppColors.textColor,
                                 fontSize: 20,
+                                fontWeight: FontWeight.w600,
                               ),
 
-                              Padding(
-                                padding: const EdgeInsets.all(paddingSize),
-                                child: MyText(
-                                  text: provider.accountM.address ?? '',
-                                  hexaColor: isDarkMode
-                                    ? AppColors.whiteColorHexa
-                                    : AppColors.textColor,
-                                  fontSize: 16,
+                              InkWell(
+                                onTap: () async {
+                                  
+                                  await Clipboard.setData(
+                                    ClipboardData(text: provider.accountM.address ??''),
+                                  );
+
+                                  Fluttertoast.showToast(
+                                    msg: "Copied address",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(paddingSize),
+                                  child: MyText(
+                                    text: provider.accountM.address ?? '',
+                                    hexaColor: isDarkMode
+                                      ? AppColors.whiteColorHexa
+                                      : AppColors.textColor,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               )
                             ],
@@ -192,7 +209,8 @@ class AccountBody extends StatelessWidget{
 
                   children: const [
                     MyText(
-                      text: "Logout",
+                      text: "Delete Account",
+                      fontWeight: FontWeight.bold,
                       hexaColor: AppColors.whiteColorHexa,
                     ),
                   ],
