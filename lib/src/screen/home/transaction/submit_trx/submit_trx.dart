@@ -172,111 +172,115 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // First Execute
   Future<void> validateSubmit() async {
-    
+    print("validateSubmit");
     final contract = Provider.of<ContractProvider>(context, listen: false);
     _scanPayM.asset = contract.sortListContract[_scanPayM.assetValue!].symbol;
     try {
 
       var gasPrice;
       dialogLoading(context);
+
       final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: contract.sortListContract[_scanPayM.assetValue!].org);
       
-      if ( isNative() || contract.sortListContract[_scanPayM.assetValue!].symbol == "DOT"){
-        // Close Dialog
-        Navigator.pop(context);
+      await sendTrx(trxFunc!.txInfo!, context: context);
+      // if ( isNative() || contract.sortListContract[_scanPayM.assetValue!].symbol == "DOT"){
+      //   // Close Dialog
+      //   Navigator.pop(context);
+
+      //   print("isNative");
         
-        await sendTrx(trxFunc!.txInfo!, context: context);
-      } else {
+      //   await sendTrx(trxFunc!.txInfo!, context: context);
+      // } else {
 
-        if (!isValid) {
-          Navigator.pop(context);
-          await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
-        } else {
+      //   if (!isValid) {
+      //     Navigator.pop(context);
+      //     await trxFunc!.customDialog('Oops', 'Invalid Reciever Address.');
+      //   } else {
 
-          final isEnough = await trxFunc!.checkBalanceofCoin(
-            _scanPayM.asset!,
-            _scanPayM.controlAmount.text,
-            _scanPayM.assetValue!
-          );
+      //     final isEnough = await trxFunc!.checkBalanceofCoin(
+      //       _scanPayM.asset!,
+      //       _scanPayM.controlAmount.text,
+      //       _scanPayM.assetValue!
+      //     );
 
-          if (!isEnough && isValid) {
-            if (isValid) {
-              Navigator.pop(context);
-            }
-            await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
-          }
+      //     if (!isEnough && isValid) {
+      //       if (isValid) {
+      //         Navigator.pop(context);
+      //       }
+      //       await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient balance for transaction.');
+      //     }
 
-          if (isValid) {
-            gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
-          }
+      //     if (isValid) {
+      //       gasPrice = await trxFunc!.getNetworkGasPrice(_scanPayM.asset!);
+      //     }
 
-          if (isValid && isEnough) {
+      //     if (isValid && isEnough) {
 
-            if (gasPrice != null) {
+      //       if (gasPrice != null) {
 
-              final estAmtPrice = await trxFunc!.calPrice(
-                _scanPayM.asset!,
-                _scanPayM.controlAmount.text,
-              );
+      //         final estAmtPrice = await trxFunc!.calPrice(
+      //           _scanPayM.asset!,
+      //           _scanPayM.controlAmount.text,
+      //         );
 
-              final maxGas = await trxFunc!.estMaxGas(
-                context,
-                _scanPayM.asset!,
-                _scanPayM.controlReceiverAddress.text,
-                _scanPayM.controlAmount.text,
-                _scanPayM.assetValue!
-              );
+      //         final maxGas = await trxFunc!.estMaxGas(
+      //           context,
+      //           _scanPayM.asset!,
+      //           _scanPayM.controlReceiverAddress.text,
+      //           _scanPayM.controlAmount.text,
+      //           _scanPayM.assetValue!
+      //         );
 
-              final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+      //         final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
 
-              var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
+      //         var gasFeeToEther = double.parse((gasFee / pow(10, 9)).toString());
 
-              final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
+      //         final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!);
 
-              final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
+      //         final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, 9)).toString());
 
-              final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
+      //         final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last);
 
-              final estTotalPrice = estGasFeePrice! + estToSendPrice;
+      //         final estTotalPrice = estGasFeePrice! + estToSendPrice;
 
-              trxFunc!.txInfo = TransactionInfo(
-                coinSymbol: _scanPayM.asset,
-                receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
-                amount: _scanPayM.controlAmount.text,
-                gasPrice: gasPrice,
-                feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
-                  ? 'BNB'
-                  : 'ETH',
-                gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-                maxGas: maxGas,
-                gasFee: gasFee.toInt().toString(),
-                totalAmt: totalAmt.toString(),
-                estAmountPrice: estAmtPrice.first.toString(),
-                estTotalPrice: estTotalPrice.toStringAsFixed(2),
-                estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-              );
+      //         trxFunc!.txInfo = TransactionInfo(
+      //           coinSymbol: _scanPayM.asset,
+      //           receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
+      //           amount: _scanPayM.controlAmount.text,
+      //           gasPrice: gasPrice,
+      //           feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
+      //             ? 'BNB'
+      //             : 'ETH',
+      //           gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+      //           maxGas: maxGas,
+      //           gasFee: gasFee.toInt().toString(),
+      //           totalAmt: totalAmt.toString(),
+      //           estAmountPrice: estAmtPrice.first.toString(),
+      //           estTotalPrice: estTotalPrice.toStringAsFixed(2),
+      //           estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+      //         );
 
-              Navigator.pop(context);
+      //         Navigator.pop(context);
 
-              await Navigator.push(
-                context,
-                RouteAnimation(
-                  enterPage: ConfirmationTx(
-                    trxInfo: trxFunc!.txInfo,
-                    sendTrx: sendTrx,
-                    gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
-                  ),
-                ),
-              );
-            } else {
+      //         await Navigator.push(
+      //           context,
+      //           RouteAnimation(
+      //             enterPage: ConfirmationTx(
+      //               trxInfo: trxFunc!.txInfo,
+      //               sendTrx: sendTrx,
+      //               gasFeetoEther: gasFeeToEther.toStringAsFixed(8),
+      //             ),
+      //           ),
+      //         );
+      //       } else {
 
-              Navigator.pop(context);
-              await sendTrx(trxFunc!.txInfo!, context: context);
-            }
-          }
+      //         Navigator.pop(context);
+      //         await sendTrx(trxFunc!.txInfo!, context: context);
+      //       }
+      //     }
 
-        }
-      }
+      //   }
+      // }
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Err validateSubmit $e");
     }
@@ -284,7 +288,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // Second Execute
   Future<void>  sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
-
+    
+    print("sendTrx");
     ContractProvider _contract = Provider.of<ContractProvider>(context!, listen: false);
     try {
       // Unfocus All Field Input
@@ -301,17 +306,17 @@ class SubmitTrxState extends State<SubmitTrx> {
       trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
-      await dialogBox().then((String? resPin) async {
-        if (resPin != null) {
+      // await dialogBox().then((String? resPin) async {
+      //   if (resPin != null) {
 
           // Second: Start Loading For Sending
           dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
+          String resPin = "123";
+          trxFunc!.pin = "123";//resPin;
 
-          trxFunc!.pin = resPin;
-
-          if (
-            isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "DOT"
-          ){
+          // if (
+          //   isNative() || trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].symbol == "DOT"
+          // ){
 
             await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
               if (value == true){
@@ -323,87 +328,87 @@ class SubmitTrxState extends State<SubmitTrx> {
                 Navigator.pop(context);
               }
             });
-          } else {
-            /* ------------------Check and Get Private------------ */
-            // Get Private Key Only BTC Contract
-            if (_scanPayM.asset == 'BTC') {
-              trxFunc!.privateKey = await trxFunc!.getBtcPrivateKey(resPin, context: context);
-            } 
-            // Get Private Key For Other Contract
-            else {
-              trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
-            }
+          // } else {
+          //   /* ------------------Check and Get Private------------ */
+          //   // Get Private Key Only BTC Contract
+          //   if (_scanPayM.asset == 'BTC') {
+          //     trxFunc!.privateKey = await trxFunc!.getBtcPrivateKey(resPin, context: context);
+          //   } 
+          //   // Get Private Key For Other Contract
+          //   else {
+          //     trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
+          //   }
 
-            /* ------------------Check PIN------------ */
-            // Pin Incorrect And Private Key Response NULL
-            if (trxFunc!.privateKey == null) {
-              // Close Second Dialog
-              Navigator.pop(context);
+          //   /* ------------------Check PIN------------ */
+          //   // Pin Incorrect And Private Key Response NULL
+          //   if (trxFunc!.privateKey == null) {
+          //     // Close Second Dialog
+          //     Navigator.pop(context);
 
-              await trxFunc!.customDialog('Opps', 'PIN verification failed');
-            }
+          //     await trxFunc!.customDialog('Opps', 'PIN verification failed');
+          //   }
 
-            // Pin Correct And Response With Private Key
-            else if (trxFunc!.privateKey != null) {
+          //   // Pin Correct And Response With Private Key
+          //   else if (trxFunc!.privateKey != null) {
 
-              trxFunc!.txInfo!.coinSymbol = _scanPayM.asset;
-              trxFunc!.txInfo!.privateKey = trxFunc!.privateKey;
-              trxFunc!.txInfo!.amount = _scanPayM.controlAmount.text;
-              trxFunc!.txInfo!.receiver = trxFunc!.contract!.getEthAddr(
-                _scanPayM.controlReceiverAddress.text,
-              );
+          //     trxFunc!.txInfo!.coinSymbol = _scanPayM.asset;
+          //     trxFunc!.txInfo!.privateKey = trxFunc!.privateKey;
+          //     trxFunc!.txInfo!.amount = _scanPayM.controlAmount.text;
+          //     trxFunc!.txInfo!.receiver = trxFunc!.contract!.getEthAddr(
+          //       _scanPayM.controlReceiverAddress.text,
+          //     );
 
-              SmartContractModel contractM = _contract.sortListContract[_scanPayM.assetValue!];
+          //     SmartContractModel contractM = _contract.sortListContract[_scanPayM.assetValue!];
 
-              /* -------------Processing Transaction----------- */
-              if (contractM.symbol == "SEL"){
-                if (contractM.org == 'BEP-20'){
+          //     /* -------------Processing Transaction----------- */
+          //     if (contractM.symbol == "SEL"){
+          //       if (contractM.org == 'BEP-20'){
 
-                  await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelToken, txInfo);
-                } else {
-                  //trxFunc!.sendTx(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
-                }
-              } else if (contractM.symbol == "SEL (v2)"){
+          //         await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelToken, txInfo);
+          //       } else {
+          //         //trxFunc!.sendTx(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
+          //       }
+          //     } else if (contractM.symbol == "SEL (v2)"){
 
-                await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelv2, txInfo);
-              } else if (contractM.symbol == "BNB"){
+          //       await trxFunc!.sendTxBep20(trxFunc!.contract!.getSelv2, txInfo);
+          //     } else if (contractM.symbol == "BNB"){
 
-                await trxFunc!.sendTxEvm(trxFunc!.contract!.getBnb, txInfo);
-              } else if (contractM.symbol == "ETH"){
+          //       await trxFunc!.sendTxEvm(trxFunc!.contract!.getBnb, txInfo);
+          //     } else if (contractM.symbol == "ETH"){
 
-                await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
-              } else if (contractM.symbol == "BTC"){
+          //       await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
+          //     } else if (contractM.symbol == "BTC"){
 
-                await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
-              } else if (contractM.symbol == "KGO"){
+          //       await trxFunc!.sendTxBtc(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
+          //     } else if (contractM.symbol == "KGO"){
 
-                await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);
-              } else {
-                if (_scanPayM.asset!.contains('ERC-20')) {
+          //       await trxFunc!.sendTxBep20(trxFunc!.contract!.getKgo, txInfo);
+          //     } else {
+          //       if (_scanPayM.asset!.contains('ERC-20')) {
 
-                  final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
-                  final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
-                  await trxFunc!.sendTxErc(
-                    contractAddr,
-                    chainDecimal![0].toString(),
-                    _scanPayM.controlReceiverAddress.text,
-                    _scanPayM.controlAmount.text
-                  );
+          //         final contractAddr = ContractProvider().findContractAddr(_scanPayM.asset!);
+          //         final chainDecimal = await ContractProvider().queryEther(contractAddr, 'decimals', []);
+          //         await trxFunc!.sendTxErc(
+          //           contractAddr,
+          //           chainDecimal![0].toString(),
+          //           _scanPayM.controlReceiverAddress.text,
+          //           _scanPayM.controlAmount.text
+          //         );
                   
-                } else {
+          //       } else {
                   
-                  final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].address; //ContractProvider().findContractAddr(_scanPayM.asset);
-                  await Provider.of<ContractProvider>(context, listen: false).initBep20Service(contractAddr!);
-                  await trxFunc!.sendTxBep20(trxFunc!.contract!.getBep20, txInfo);
-                }
-              }
-            }
+          //         final contractAddr = trxFunc!.contract!.sortListContract[_scanPayM.assetValue!].address; //ContractProvider().findContractAddr(_scanPayM.asset);
+          //         await Provider.of<ContractProvider>(context, listen: false).initBep20Service(contractAddr!);
+          //         await trxFunc!.sendTxBep20(trxFunc!.contract!.getBep20, txInfo);
+          //       }
+          //     }
+          //   }
 
-            await ContractsBalance().refetchContractBalance(context: context);
-            enableAnimation();
-          }
-        }
-      });
+          //   await ContractsBalance().refetchContractBalance(context: context);
+          //   enableAnimation();
+          // }
+        // }
+      // });
     } catch (e) {
       if (ApiProvider().isDebug == false) print("Err sendTrx $e");
       //Close Dialog

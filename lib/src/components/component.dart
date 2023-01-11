@@ -44,10 +44,10 @@ class Component {
           ),
           actions: <Widget>[
             // ignore: deprecated_member_use
-            FlatButton(
-              onPressed: method,
-              child: const Text('Setting'),
-            ),
+            // FlatButton(
+            //   onPressed: method,
+            //   child: const Text('Setting'),
+            // ),
           ],
         );
       },

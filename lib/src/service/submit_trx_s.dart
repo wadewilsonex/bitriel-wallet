@@ -5,7 +5,8 @@ class SubmitTrxService {
 
   /// Submit Transaction For Sel Native Or Dot
   Future<bool> sendNative(ModelScanPay scanPay, String password, BuildContext context, {@required TransactionInfo? txInfo} ) async {
-
+    
+    print("sendNative");
     try {
       // await trxFunc!.sendTx(scanPay.controlReceiverAddress.text, scanPay.controlAmount.text);
       String? mhash;
