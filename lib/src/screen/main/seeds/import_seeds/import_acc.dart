@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
 class ImportAcc extends StatefulWidget {
 
@@ -75,7 +76,7 @@ class ImportAccState extends State<ImportAcc> {
       Navigator.push(
         context, 
         Transition(
-          child: FingerPrint(initStateData: initStateData, importAccountModel: _importAccountModel,),
+          child: ImportJson(initStateData: initStateData, importAccountModel: _importAccountModel,),
           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
         )
       );

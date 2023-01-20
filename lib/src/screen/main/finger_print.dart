@@ -70,11 +70,15 @@ class FingerPrintState extends State<FingerPrint> {
         }
 
         if(!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context, 
-          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-          ModalRoute.withName('/')
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ImportJson(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
         );
+        // Navigator.pushAndRemoveUntil(
+        //   context, 
+        //   Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        //   ModalRoute.withName('/')
+        // );
       }
     } on SocketException catch (e) {
 

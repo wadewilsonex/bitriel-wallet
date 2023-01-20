@@ -104,42 +104,42 @@ final portfolioChart = LineChartData(
   ],
 );
 
-Widget homeAppBar(BuildContext context, {Function? query}) {
+// Widget homeAppBar(BuildContext context, {Function? query}) {
    
-  return Container(
-    height: 70,
-    color: isDarkMode
-      ? hexaCodeToColor(AppColors.darkCard)
-      : hexaCodeToColor(AppColors.whiteHexaColor),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset(
-          '${AppConfig.assetsPath}bitriel_home.png',
-          width: 170,
-          height: 170,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: IconButton(
-            iconSize: 30,
-            color: isDarkMode ? Colors.white : Colors.black,
-            icon: SvgPicture.asset("${AppConfig.iconsPath}list.svg"),
-            onPressed: () async {
-              await MyBottomSheet().listToken(context: context, query: query);
-              // Navigator.push(
-              //   context,
-              //   RouteAnimation(
-              //     enterPage: AddAsset(),
-              //   ),
-              // );
-            },
-          ),
-        ),
-      ],
-    ),
-  );
-}
+//   return Container(
+//     height: 70,
+//     color: isDarkMode
+//       ? hexaCodeToColor(AppColors.darkCard)
+//       : hexaCodeToColor(AppColors.whiteHexaColor),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Image.asset(
+//           '${AppConfig.assetsPath}bitriel_home.png',
+//           width: 170,
+//           height: 170,
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(right: 16.0),
+//           child: IconButton(
+//             iconSize: 30,
+//             color: isDarkMode ? Colors.white : Colors.black,
+//             icon: SvgPicture.asset("${AppConfig.iconsPath}list.svg"),
+//             onPressed: () async {
+//               await MyBottomSheet().listToken(context: context, query: query);
+//               // Navigator.push(
+//               //   context,
+//               //   RouteAnimation(
+//               //     enterPage: AddAsset(),
+//               //   ),
+//               // );
+//             },
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 Widget cardToken(
   /* Card Token Display */
@@ -389,7 +389,7 @@ class MyBottomAppBar extends StatelessWidget {
       
                   Expanded(
                     child: MyIconButton(
-                      title: "Explorer",
+                      title: "Discover",
                       txtColor: index == 0 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                       isActive: index == 0 ? true : false,
                       onPressed: () {

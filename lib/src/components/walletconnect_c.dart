@@ -181,48 +181,101 @@ class WalletConnectComponent with ChangeNotifier {
 
   // After Scan QR
   onSessionRequest(int id, WCPeerMeta peerMeta) async {
-    await showDialog(
+    await showModalBottomSheet(
+      backgroundColor: Colors.white,
       context: context!,
-      builder: (_) {
-        return SimpleDialog(
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: Column(
-            children: [
-              // if (peerMeta.icons.isNotEmpty)
-              //   Container(
-              //     height: 100.0,
-              //     width: 100.0,
-              //     padding: const EdgeInsets.only(bottom: 8.0),
-              //     child: Image.network(peerMeta.icons.first.replaceAll("localhost", ip!)),
-              //   ),
-              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
-            ],
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
-          children: [
+      shape: const RoundedRectangleBorder( // <-- SEE HERE
+        borderRadius: BorderRadius.vertical( 
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  
+                  SizedBox(height: 10.h,),
 
-            if (peerMeta.description.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: peerMeta.description, hexaColor: AppColors.lowWhite,),
+                  CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(peerMeta.icons[0]),
+                    backgroundColor: Colors.transparent,
+                  ),
+
+                  SizedBox(width: 2.w,),
+
+                  Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor), size: 50,),
+
+                  SizedBox(width: 2.w,),
+
+                  Image.asset("assets/logo/bitriel-logo-v2.png", height: 55, width: 55),
+                ],
               ),
+            ),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              child: MyText(text: "${peerMeta.name} would like to connect to you wallet", fontWeight: FontWeight.w700, hexaColor: AppColors.textColor, fontSize: 17,),
+            ),
+
+            SizedBox(height: 2.h,),
             if (peerMeta.url.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: 'Connection to ${peerMeta.url}', hexaColor: AppColors.lowWhite),
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor, fontSize: 14),
               ),
+
+            SizedBox(height: 2.h,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+              child: Column(
+                children: [
+                  const MyText(text: 'View you wallet balance and activity', hexaColor: AppColors.textColor, fontSize: 14,),
+                  SizedBox(height: .5.h,),
+                  const MyText(text: 'Request approval for transactions', hexaColor: AppColors.textColor, fontSize: 14,),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 2.5.h,),
             Row(
               children: [
+
                 Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: hexaCodeToColor(AppColors.orangeColor),
-                    ),
-                    onPressed: () async {
+                  child: MyGradientButton(
+                    edgeMargin: const EdgeInsets.all(paddingSize),
+                    lsColor: const [AppColors.primaryColor, AppColors.primaryColor],
+                    lsColorOpacity: const [0.2, 0.2],
+                    textButton: "Cancel",
+                    textColor: AppColors.textColor,
+                    fontWeight: FontWeight.w400,
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () async {
+                      wcClient.rejectSession();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+
+                Expanded(
+                  child: MyGradientButton(
+                    edgeMargin: const EdgeInsets.all(paddingSize),
+                    textButton: "Connect",
+                    fontWeight: FontWeight.w400,
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () async {
                       isApprove = true;
                       wcClient.approveSession(
-                        accounts: [Provider.of<ContractProvider>(context!, listen: false).ethAdd],
+                        accounts: [Provider.of<ContractProvider>(context, listen: false).ethAdd],
                         chainId: wcClient.chainId,
                       );
 
@@ -238,40 +291,19 @@ class WalletConnectComponent with ChangeNotifier {
                       }
 
                       await StorageServices.storeData(tmpWcSession, DbKey.wcSession);
-                      
-                      // Close Approve Dialog
-                      // Navigator.pop(context!);
-
-                      // print("Start navigate");
-                      // await Navigator.pushReplacement(
-                      //   context!, 
-                      //   Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                      // );
-                      // Navigator.pop(context!);
+                    
                       notifyListeners();
                     },
-                    child: const MyText(text: 'APPROVE', hexaColor: AppColors.lowWhite,),
                   ),
+               
                 ),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: hexaCodeToColor(AppColors.orangeColor),
-                    ),
-                    onPressed: () {
-                      wcClient.rejectSession();
-                      Navigator.pop(context!);
-                    },
-                    child: const MyText(text: 'REJECT', hexaColor: AppColors.lowWhite),
-                  ),
-                ),
+
               ],
             ),
+
           ],
         );
-      },
+      }
     );
   }
 

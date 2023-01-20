@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/main/data_loading.dart';
 import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/body_verify_seeds.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
 
@@ -216,13 +217,21 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       if (res == true){ 
 
         if(!mounted) return;
-        await Navigator.push(
+        Navigator.push(
           context, 
           Transition(
-            child: FingerPrint(initStateData: initStateData, importAccountModel: _importAccountModel,),
+            child: ImportJson(initStateData: initStateData, importAccountModel: _importAccountModel,),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
+
+        // await Navigator.push(
+        //   context, 
+        //   Transition(
+        //     child: FingerPrint(initStateData: initStateData, importAccountModel: _importAccountModel,),
+        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+        //   )
+        // );
         
       }
       else{

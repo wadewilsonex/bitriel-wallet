@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_apps/index.dart';
 
 LineChartData chart(
@@ -98,7 +97,7 @@ LineChartData chart(
                     .toStringAsFixed(2)
                     .replaceFirst('.', ',')
                     .replaceAll(RegExp(r'\B(?=(\d{3})+(?!\d))'), '.'),
-                GoogleFonts.poppins(
+                TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                   fontSize: 12.sp,

@@ -18,7 +18,6 @@ export 'package:line_awesome_flutter/line_awesome_flutter.dart';
 export 'package:local_auth/local_auth.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:qr_flutter/qr_flutter.dart';
-export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';

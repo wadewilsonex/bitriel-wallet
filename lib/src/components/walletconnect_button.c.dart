@@ -17,51 +17,48 @@ class WalletConnectMenuItem extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          action!();
-        },
-        child: Container(
-          // width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 48.0,
-                offset: const Offset(0.0, 2)
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 50.0,
+              height: 50.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(image!),
+                )
               )
-            ],
-            borderRadius: BorderRadius.circular(8),
-            color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteHexaColor)
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(image!),
-                    )
-                  )
-                ),
-              ),
 
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: MyText(
-                  text: title,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
+          MyText(
+            text: title,
+            fontWeight: FontWeight.w700,
           ),
-        ),
+
+          const Spacer(),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                action!();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: hexaCodeToColor(AppColors.warningColor),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: const MyText(text: "Disconnect", hexaColor: AppColors.whiteColorHexa, fontSize: 14,)
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -493,7 +493,9 @@ class SubmitTrxState extends State<SubmitTrx> {
       }
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
-      print("Error $e");
+      if (kDebugMode) {
+        print("Error $e");
+      }
       throw Exception(e);
     }
   }
@@ -562,7 +564,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: const MyText(
-          text: "Sent",
+          text: "Send",
           fontSize: 17,
           fontWeight: FontWeight.bold,
         ),

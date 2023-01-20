@@ -52,25 +52,5 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
     );
-    
-    // return MyFlatButton(
-    //   edgeMargin: const EdgeInsets.symmetric(vertical: 8),
-    //   textColor: (index == selectedIndex) ? (isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : AppColors.greyColor,
-    //   width: 25.w,  
-    //   textButton: title,
-    //   // subChild: Container(
-    //   //   margin: EdgeInsets.only(top: 10.sp),
-    //   //   width: 2.w, height: 2.w, decoration: (index == selectedIndex) ? BoxDecoration(
-    //   //   borderRadius: BorderRadius.circular(100),
-    //   //   color: hexaCodeToColor(AppColors.primaryColor)
-    //   // ) : BoxDecoration(),),
-    //   buttonColor: (index == selectedIndex) ? (isDarkMode ? AppColors.primaryColor : "#fcf2e1") : AppColors.whiteHexaColor,
-    //   opacity: 1.0,
-    //   isBorder: false,
-    //   isTransparent: index == selectedIndex ? false : true,
-    //   action: () {
-    //     onTap(index, isTap: true);
-    //   },
-    // );
   }
 }

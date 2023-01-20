@@ -176,7 +176,7 @@ class ReservationBody extends StatelessWidget {
                 isScrollControlled:true,
                 context: context, 
                 builder: (context){
-                  return UserInfo();
+                  return const UserInfo();
                 }
               ).then(( value) {
                 if (value != null){

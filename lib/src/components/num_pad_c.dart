@@ -176,7 +176,7 @@ class NumPad extends StatelessWidget {
                 },
                 icon: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.lowWhite), size: 21.5.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.textColor), size: 21.5.sp),
                 ),
                 size: buttonSize,
                 color: buttonColor,
@@ -231,9 +231,9 @@ class NumberButton extends StatelessWidget {
         child: Center(
           child: icon ?? Text(
             number.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold, 
-              color: Colors.white, 
+              color: hexaCodeToColor(AppColors.textColor), 
               fontSize: 16
             ),
           ),

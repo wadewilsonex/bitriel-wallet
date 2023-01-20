@@ -1,3 +1,4 @@
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
@@ -26,19 +27,20 @@ PreferredSizeWidget defaultAppBar({
     ),
     leading: Container(
       height: 10.h,
-      margin: const EdgeInsets.only(left: 15, top: 10),
-      child: IconButton(
-        padding: EdgeInsets.zero,
-        onPressed: () {
-          homePageModel!.globalKey!.currentState!.openDrawer();
-        },
-        icon: Icon(
-          Iconsax.profile_circle, 
-          color: isDarkMode 
-            ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-            : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-          size: 6.w,
-        ),
+      margin: const EdgeInsets.only(left: 20, top: 10),
+      child: Consumer<ApiProvider>(
+          
+        builder: (context, provider, child) {
+          return GestureDetector(
+            onTap: () async {
+              homePageModel!.globalKey!.currentState!.openDrawer();
+            },
+            child: AvatarShimmer(
+              txt: provider.accountM.addressIcon,
+              child: randomAvatar(provider.accountM.addressIcon ?? ''),
+            )
+          );
+        }
       ),
     ),
     
@@ -103,8 +105,8 @@ PreferredSizeWidget defaultAppBar({
             child: Icon(
               Iconsax.scan,
               color: isDarkMode 
-                ? hexaCodeToColor(homePageModel.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                : hexaCodeToColor(homePageModel.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+                ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+                : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
               size: 6.w,
             ),
           ),

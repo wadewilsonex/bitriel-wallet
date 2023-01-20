@@ -1,5 +1,6 @@
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/body_walletconnect_page.dart';
 
 class WalletConnectPage extends StatefulWidget {
@@ -44,6 +45,22 @@ class WalletConnectPageState extends State<WalletConnectPage> {
     
   }
 
+  void killSession(int index) async {
+
+    _wConnectC!.wcClient.killSession();
+    
+    _wConnectC!.lsWcClients.removeAt(index);
+    
+    List<Map<String, dynamic>> tmpWcSession = [];
+
+    for (var element in _wConnectC!.lsWcClients) {
+      tmpWcSession.add(element.toJson());
+    }
+
+    await StorageServices.storeData(tmpWcSession, DbKey.wcSession);
+    _wConnectC!.afterKill();
+  }
+
   @override
   void initState() {
     filterListWcSession();
@@ -63,6 +80,7 @@ class WalletConnectPageState extends State<WalletConnectPage> {
       handleRememberMe: handleRememberMe,
       isChecked: isChecked,
       formKey: formKey,
+      killSession: killSession,
     );
   }
 }

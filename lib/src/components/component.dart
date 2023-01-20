@@ -227,6 +227,7 @@ class MyGradientButton extends StatelessWidget {
   final double? height;
   final bool? isTransparent;
   final List<String>? lsColor;
+  final List<double>? lsColorOpacity;
   final AlignmentGeometry begin;
   final AlignmentGeometry end;
 
@@ -235,6 +236,7 @@ class MyGradientButton extends StatelessWidget {
     this.child,
     this.textButton = "",
     this.lsColor = const [ "#F27649", "#F28907" ],
+    this.lsColorOpacity = const [1, 1],
     this.buttonColor = AppColors.secondary,
     this.textColor = AppColors.whiteColorHexa,
     this.fontWeight = FontWeight.bold,
@@ -268,7 +270,7 @@ class MyGradientButton extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
-          colors: [hexaCodeToColor(lsColor![0]), hexaCodeToColor(lsColor![1])],
+          colors: [hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]), hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])],
           begin: begin,
           end: end, 
           stops: const [0.25, 0.75],
@@ -534,7 +536,7 @@ class MyIconButton extends StatelessWidget {
           MyText(
             text: title,
             hexaColor: txtColor,
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
           )
         ],

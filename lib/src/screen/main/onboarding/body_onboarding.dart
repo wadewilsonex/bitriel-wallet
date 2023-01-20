@@ -1,6 +1,5 @@
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/welcome_item_c.dart';
 
 class OnboardignBody extends StatelessWidget {

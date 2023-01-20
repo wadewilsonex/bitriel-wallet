@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/src/api/api_chart.dart';
@@ -18,6 +20,10 @@ class AssetDetail extends StatefulWidget {
 }
 
 class AssetDetailState extends State<AssetDetail> {
+
+  bool _isLoaded = false;
+ 
+
 
   String convert(String? supply) {
     var formatter = NumberFormat.decimalPattern();
@@ -52,6 +58,14 @@ class AssetDetailState extends State<AssetDetail> {
   @override
   void initState() {
     queryAssetChart();
+
+    // make _isLoaded true after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isLoaded = true;
+      });
+    });
+    
     super.initState();
   }
 
@@ -69,6 +83,18 @@ class AssetDetailState extends State<AssetDetail> {
             const CircularProgressIndicator()
             
             else if (widget.scModel.chart!.isNotEmpty) 
+            FadeInUp(
+              duration: const Duration(milliseconds: 1000),
+              child: SizedBox(
+                width: double.infinity,
+                height: 250,
+                child: LineChart(
+                  mainData(widget.scModel.chart!),
+                  swapAnimationDuration: const Duration(milliseconds: 1000), // Optional
+                  swapAnimationCurve: Curves.linear, // Optional
+                ),
+              ),
+            ),
             chartAsset(
               true,
               ClipRRect(
@@ -106,9 +132,7 @@ class AssetDetailState extends State<AssetDetail> {
   Widget line() {
     return Container(
       height: 1,
-      color: isDarkMode
-        ? hexaCodeToColor(AppColors.titleAssetColor)
-        : hexaCodeToColor(AppColors.textColor),
+      color: hexaCodeToColor("#C1C1C1").withOpacity(0.5)
     );
   }
 
@@ -155,6 +179,7 @@ class AssetDetailState extends State<AssetDetail> {
           text: 'Token Info',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
+          hexaColor: AppColors.primaryColor,
         ),
 
         const SizedBox(height: 16.0),
@@ -167,14 +192,17 @@ class AssetDetailState extends State<AssetDetail> {
 
         textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
 
+        SizedBox(height: 1.5.h), 
+
         line(),
 
-        const SizedBox(height: 10.0),
+        SizedBox(height: 1.5.h),
 
         MyText(
           text: 'About ${widget.scModel.name}',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
+          hexaColor: AppColors.primaryColor,
         ),
 
         const SizedBox(height: 16.0),
@@ -215,9 +243,11 @@ class AssetDetailState extends State<AssetDetail> {
 
         textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
 
+        SizedBox(height: 1.5.h),
+
         line(),
 
-        const SizedBox(height: 10.0),
+        SizedBox(height: 1.5.h),
 
         MyText(
           text: 'About ${widget.scModel.marketData!.name}',
@@ -247,6 +277,115 @@ class AssetDetailState extends State<AssetDetail> {
         maxHeight: 60.h,
         child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
       )
+    );
+  }
+
+  List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a),
+  ];
+
+  LineChartData mainData(List<FlSpot> spots) {
+    return LineChartData(
+      borderData: FlBorderData(
+        show: false,
+      ),
+      gridData: FlGridData(
+        show: true,
+        horizontalInterval: 1.6,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            dashArray: const [3, 3],
+            color: const Color(0xff37434d).withOpacity(0.2),
+            strokeWidth: 2,
+          );
+        },
+        drawVerticalLine: false
+      ),
+      titlesData: FlTitlesData(
+        show: false,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+              color: Color(0xff68737d),
+              fontWeight: FontWeight.bold,
+              fontSize: 11),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return 'MAR';
+              case 4:
+                return 'JUN';
+              case 8:
+                return 'SEP';
+              case 11:
+                return 'OCT';
+            }
+            return '';
+          },
+          margin: 10,
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          interval: 1,
+          getTextStyles: (context, value) => const TextStyle(
+            color: Color(0xff67727d),
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+          
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '10k';
+              case 3:
+                return '30k';
+              case 5:
+                return '50k';
+            }
+            return '';
+          },
+          reservedSize: 25,
+          margin: 12,
+        ),
+      ),
+      minX: 0,
+      maxX: 11,
+      minY: 0,
+      maxY: 6,
+      lineBarsData: [
+        LineChartBarData(
+          spots: _isLoaded ? [
+
+            const FlSpot(0, 3),
+            const FlSpot(2.4, 2),
+            const FlSpot(4.4, 3),
+            const FlSpot(6.4, 3.1),
+            const FlSpot(8, 4),
+            const FlSpot(9.5, 4),
+            const FlSpot(11, 5),
+          ] : spots,
+          isCurved: true,
+          colors: gradientColors,
+          barWidth: 2,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradientFrom: const Offset(0, 0),
+            gradientTo: const Offset(0, 1),
+            colors: [
+              const Color(0xff02d39a).withOpacity(0.1),
+              const Color(0xff02d39a).withOpacity(0),
+            ]
+          ),
+        ),
+      ],
     );
   }
 }

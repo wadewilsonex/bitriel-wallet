@@ -3,7 +3,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class SetPassword extends StatefulWidget {
 
@@ -20,7 +20,7 @@ class _SetPasswordState extends State<SetPassword> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
-  late PullToRefreshController pullToRefreshController;
+  // late PullToRefreshController pullToRefreshController;
   String url = "";
   double progress = 0;
   final urlController = TextEditingController();

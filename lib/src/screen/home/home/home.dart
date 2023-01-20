@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:video_player/video_player.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';

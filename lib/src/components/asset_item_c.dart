@@ -8,7 +8,7 @@ class AssetsItemComponent extends StatelessWidget {
   final SmartContractModel? scModel;
 
   const AssetsItemComponent({Key? key, 
-    @required this.scModel
+    @required this.scModel,
   }) : super(key: key);
 
   @override
@@ -113,7 +113,7 @@ class AssetsItemComponent extends StatelessWidget {
         
                     scModel!.marketPrice != null ?
                     MyText(
-                      text: scModel!.marketPrice!.isNotEmpty ? '\$ ${scModel!.marketPrice}' : '\$0.0',
+                      text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 15.5,
                       fontWeight: FontWeight.w500,
                     )
@@ -180,7 +180,7 @@ class AssetsItemComponent extends StatelessWidget {
                   MyText(
                     fontSize: 15,
                     // width: double.infinity,
-                    text: double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5),//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+                    text: "${double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5)} ${scModel!.symbol!}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                     textAlign: TextAlign.right,
                     fontWeight: FontWeight.w600,
                     hexaColor: isDarkMode
