@@ -77,7 +77,7 @@ class AssetInfoBody extends StatelessWidget {
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 hexaColor: AppColors.textColor,
-                                text: "${assetInfoModel!.smartContractModel!.symbol!} (${ApiProvider().isMainnet ? assetInfoModel!.smartContractModel!.org : assetInfoModel!.smartContractModel!.orgTest})"
+                                text: "${assetInfoModel!.smartContractModel!.symbol!} ${ApiProvider().isMainnet ? assetInfoModel!.smartContractModel!.org!.isNotEmpty ? "(${assetInfoModel!.smartContractModel!.org})" : "" : "(${assetInfoModel!.smartContractModel!.orgTest})"}"
                                 // assetInfoModel!.smartContractModel!.id! == null
                                 //     ? assetInfoModel!.smartContractModel!.symbol!
                                 //     : assetInfoModel!.smartContractModel!.id!.toUpperCase(),
@@ -102,7 +102,7 @@ class AssetInfoBody extends StatelessWidget {
                                     }
                                   );
                                 },
-                                child: const Icon(Iconsax.chart),
+                                child: Icon(Iconsax.chart, color: hexaCodeToColor(AppColors.primaryColor),),
                               ),
                             ],
                           )
@@ -129,24 +129,24 @@ class AssetInfoBody extends StatelessWidget {
 
                           // Logo
                           GestureDetector(
-                            onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
-                              
-                              final image = ImagePicker();
-                              await image.pickImage(source: ImageSource.gallery).then((value) async {
-                                if (kDebugMode) {
-                                  print(value!.path);
-                                }
-                                Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
-                                  if (element.contract == assetInfoModel!.smartContractModel!.contract){
-                                    // element.logo = value.path;
-                                    // If found
-                                    return true;
-                                  }
-                                  // Not found
-                                  return false;
-                                });
-                              });
-                            },
+                            // onTap: assetInfoModel!.smartContractModel!.org != "BEP-20" && assetInfoModel!.smartContractModel!.org != "ERC-20" ? null : () async {
+                            //
+                            //   final image = ImagePicker();
+                            //   await image.pickImage(source: ImageSource.gallery).then((value) async {
+                            //     if (kDebugMode) {
+                            //       print(value!.path);
+                            //     }
+                            //     Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
+                            //       if (element.contract == assetInfoModel!.smartContractModel!.contract){
+                            //         // element.logo = value.path;
+                            //         // If found
+                            //         return true;
+                            //       }
+                            //       // Not found
+                            //       return false;
+                            //     });
+                            //   });
+                            // },
                             child: Stack(
                               alignment: Alignment.topCenter,
                               children: [
@@ -168,19 +168,19 @@ class AssetInfoBody extends StatelessWidget {
                                   )
                                 ),
 
-                                assetInfoModel!.smartContractModel!.org == "BEP-20" || assetInfoModel!.smartContractModel!.org == "ERC-20" ? Positioned(
-                                  right: 0,
-                                  child: Icon(
-                                    Icons.edit, 
-                                    size: 18.sp,
-                                    color: hexaCodeToColor(
-                                      // isDarkMode
-                                      // ? AppColors.greyCode
-                                      // : 
-                                      AppColors.whiteColorHexa
-                                    ),
-                                  ),
-                                ) : Container()
+                                // assetInfoModel!.smartContractModel!.org == "BEP-20" || assetInfoModel!.smartContractModel!.org == "ERC-20" ? Positioned(
+                                //   right: 0,
+                                //   child: Icon(
+                                //     Icons.edit,
+                                //     size: 18.sp,
+                                //     color: hexaCodeToColor(
+                                //       // isDarkMode
+                                //       // ? AppColors.greyCode
+                                //       // :
+                                //       AppColors.whiteColorHexa
+                                //     ),
+                                //   ),
+                                // ) : Container()
                               ],
                             ),
                           ),
