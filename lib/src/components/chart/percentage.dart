@@ -9,7 +9,7 @@ Container profitPercentageWidget(double profitPercent) {
       borderRadius: BorderRadius.circular(20),
     ),
     child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.5.h),
+      padding: EdgeInsets.symmetric(horizontal: 3.vmax, vertical: 0.5.vmax),
       child: Row(
         children: [
           Text(
@@ -18,7 +18,7 @@ Container profitPercentageWidget(double profitPercent) {
               color: Colors.white,
               letterSpacing: 0.5,
               fontWeight: FontWeight.bold,
-              fontSize: 14.sp,
+              fontSize: 2.vmax,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

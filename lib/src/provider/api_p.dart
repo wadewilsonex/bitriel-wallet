@@ -11,7 +11,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/service/apikeyring.dart';
+import 'package:wallet_apps/src/utils/service/apikeyring.dart';
 import 'package:bip39/bip39.dart' as bip39;
 
 class ApiProvider with ChangeNotifier {
@@ -493,14 +493,18 @@ class ApiProvider with ChangeNotifier {
     try {
 
       NetworkParams node = NetworkParams();
-      NetworkParams? res = NetworkParams();
+      NetworkParams nodePol = NetworkParams();
 
       node.name = 'Indranet hosted By Selendra';
       node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
-      await _sdk.api.connectNode(_keyring, [node]).then((value) async {
-        res = value;
+      nodePol.name = 'Polkadot(Live, hosted by PatractLabs)';
+      nodePol.endpoint = isMainnet ? AppConfig.networkList[1].wsUrlMN : AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
+      nodePol.ss58 = 0;
+
+      await _sdk.api.connectNode(_keyring, [node, nodePol]).then((value) async {
+        // node = value!;
         if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
       }).then((value) async {
         
@@ -515,7 +519,7 @@ class ApiProvider with ChangeNotifier {
         }
       });
 
-      return res;
+      return node;
     } catch (e) {
       if (kDebugMode) {
         print("Error connectSELNode $e");

@@ -246,5 +246,6 @@ double offsetToOpacity({
   return (currentOffset * returnMax) / maxOffset;
 }
 
-
-class ContractParser {}
+String replaceRange(String? value, {int? length = 10}){
+  return value!.replaceRange(length!, value.length - 7, ".....");
+}

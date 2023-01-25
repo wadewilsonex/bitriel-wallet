@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:intl/intl.dart';
 
 class Fmt {

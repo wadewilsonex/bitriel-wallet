@@ -1,14 +1,7 @@
 import 'dart:ui' as ui;
+import 'package:wallet_apps/index.dart';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:lottie/lottie.dart';
-import 'package:random_avatar/random_avatar.dart';
-import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/pie_chart.dart';
-import 'package:wallet_apps/src/constants/ui_helper.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
-import 'dialog_c.dart';
 
 /* -----------------------------------Variable--------------------------------------------------- */
 /* Size */
@@ -21,7 +14,7 @@ const double size10 = 10.0;
 const double size17 = 17.0;
 const double size34 = 34.0;
 const double size15 = 15.0;
-const double size18 = 18.0;
+const double size18 = 2.6;
 const double size28 = 28.0;
 const double size50 = 50.0;
 const double size80 = 80.0;
@@ -117,7 +110,10 @@ TextField userTextField(
 
 OutlineInputBorder errorOutline() {
   /* User Error Input Outline Border */
-  return const OutlineInputBorder(borderSide: BorderSide(color: Colors.red));
+  return OutlineInputBorder(
+    borderSide: const BorderSide(color: Colors.red),
+    borderRadius: BorderRadius.circular(1.vmax)
+  );
 }
 
 /* Button shadow */
@@ -252,10 +248,10 @@ Future<void> successDialog(
             child: Column(
               children: [
 
-                Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
-                const MyText(
+                Icon(Icons.check_circle_outline_rounded, size: 20.vmax, color: Colors.green,),
+                MyText(
                   text: 'SUCCESS!',
-                  fontSize: 20,
+                  fontSize: 2.9.vmax,
                   top: 10,
                   hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.bold,
@@ -353,7 +349,7 @@ Future dialogEvent(
                 const MyText(
                   text: 'Selendra Airdrop',
                   //color: '#000000',
-                  fontSize: 28,
+                  fontSize: 4,
                   fontWeight: FontWeight.bold,
                 ),
                 const SizedBox(
@@ -365,7 +361,7 @@ Future dialogEvent(
                   textAlign: TextAlign.start,
                   right: 16,
                   left: 16,
-                  fontSize: 16,
+                  fontSize: 2.5,
                 ),
                 const SizedBox(
                   height: 28,
@@ -464,13 +460,13 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
                 children: [
                   const MyText(
                     text: 'Date: ',
-                    fontSize: 14.0,
+                    fontSize: 2,
                   ),
                   Expanded(
                       child: MyText(
                     text: txHistory.date,
                     textAlign: TextAlign.start,
-                    fontSize: 14.0,
+                    fontSize: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
                 ],
@@ -479,14 +475,14 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
                 children: [
                   const MyText(
                     text: 'Destination: ',
-                    fontSize: 14.0,
+                    fontSize: 2,
                   ),
                   Expanded(
                       child: MyText(
                     text: txHistory.destination,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
-                    fontSize: 14.0,
+                    fontSize: 2,
                   )),
                 ],
               ),
@@ -494,13 +490,13 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
                 children: [
                   const MyText(
                     text: 'Sender: ',
-                    fontSize: 14.0,
+                    fontSize: 2,
                   ),
                   Expanded(
                       child: MyText(
                     text: txHistory.sender,
                     textAlign: TextAlign.start,
-                    fontSize: 14.0,
+                    fontSize: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
                 ],
@@ -509,13 +505,13 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
                 children: [
                   const MyText(
                     text: 'Organization: ',
-                    fontSize: 14.0,
+                    fontSize: 2,
                   ),
                   Expanded(
                       child: MyText(
                     text: txHistory.org,
                     textAlign: TextAlign.start,
-                    fontSize: 14.0,
+                    fontSize: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
                 ],
@@ -524,7 +520,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
                 children: [
                   const MyText(
                     text: 'Amount: ',
-                    fontSize: 14.0,
+                    fontSize: 2,
                   ),
                   Expanded(
                     child: MyText(
@@ -544,7 +540,7 @@ Future<void> txDetailDialog(BuildContext context, TxHistory txHistory) async {
   );
 }
 
-Widget textMessage({String text = "Message", double fontSize = 20.0}) {
+Widget textMessage({String text = "Message", double fontSize = 2.9}) {
   return FittedBox(
     child: Text(text,
         style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600)),
@@ -802,9 +798,10 @@ Widget labelUserInput(String text, String colorHexa) {
   return Text(
     text,
     style: TextStyle(
-        color: hexaCodeToColor(colorHexa),
-        fontSize: 12.0,
-        fontWeight: FontWeight.bold),
+      color: hexaCodeToColor(colorHexa),
+      fontSize: 2.9.vmax,
+      fontWeight: FontWeight.bold
+    ),
   );
 }
 
@@ -818,9 +815,9 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45}) {
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 25}) {
   return SizedBox(
-    width: width.w,
+    width: width.vmax,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
@@ -856,9 +853,9 @@ Widget textNotification(String text, BuildContext context) {
   return Align(
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 20.0,
+        fontSize: 2.9.vmax,
         fontWeight: FontWeight.w300,
       ),
     ),
@@ -896,7 +893,7 @@ Widget fieldPicker(BuildContext context, String labelText, String widgetName,
               Expanded(
                 child: Text(
                   labelText,
-                  style: const TextStyle(color: Colors.white, fontSize: 18.0),
+                  style: TextStyle(color: Colors.white, fontSize: 2.6.vmax),
                 ),
               ),
               Icon(
@@ -937,19 +934,19 @@ Widget inputField(
     obscureText: obcureText!,
     controller: controller,
     textInputAction: inputAction,
-    style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 18.0),
+    style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 2.6.vmax),
     validator: (String? value){
       return validateField!(value);
     },
     decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(
-            fontSize: 18.0,
+            fontSize: 2.6.vmax,
             color: focusNode!.hasFocus || controller!.text != ""
                 ? hexaCodeToColor("#FFFFF").withOpacity(0.3)
                 : hexaCodeToColor("#ffffff")),
         prefixText: prefixText,
-        prefixStyle: const TextStyle(color: Colors.white, fontSize: 18.0),
+        prefixStyle: TextStyle(color: Colors.white, fontSize: 2.6.vmax),
         /* Prefix Text */
         filled: true,
         fillColor: hexaCodeToColor("#FFFFFF").withOpacity(0.1),
@@ -994,7 +991,7 @@ Widget customDropDown(
       top: 11.0,
       bottom: 11.0,
       left: 26.0,
-      right: 14.0,
+      right: 2,
     ),
     decoration: BoxDecoration(
       color: hexaCodeToColor(AppColors.whiteHexaColor),
@@ -1041,7 +1038,7 @@ Widget textButton(
     String? text,
     EdgeInsets? padding = const EdgeInsets.all(13),
     void Function()? onTap,
-    double? fontSize = 18.0,
+    double? fontSize = 2.6,
     FontWeight? fontWeight = FontWeight.w400
   }) {
   return InkWell(
@@ -1051,7 +1048,7 @@ Widget textButton(
       child: textScale(
           text: text!,
           hexaColor: textColor!,
-          fontSize: fontSize!,
+          fontSize: fontSize!.vmax,
           underline: TextDecoration.none,
           fit: BoxFit.fill,
           fontWeight: fontWeight!),
@@ -1061,7 +1058,7 @@ Widget textButton(
 
 Widget textScale(
   { String? text,
-    double? fontSize = 18.0,
+    double? fontSize = 2.6,
     String? hexaColor = "#1BD2FA",
     TextDecoration? underline,
     BoxFit? fit = BoxFit.contain,
@@ -1073,7 +1070,7 @@ Widget textScale(
         style: TextStyle(
           color: hexaCodeToColor(hexaColor!),
           decoration: underline,
-          fontSize: fontSize,
+          fontSize: fontSize!.vmax,
           fontWeight: fontWeight,
         ),
         textAlign: textAlign),
@@ -1122,14 +1119,15 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
       "assets/animation/under-construction.json",
       repeat: true,
       reverse: true,
-      height: 25.h,
+      height: 25.vmax,
     ),
     btn2: MyGradientButton(
+      width: MediaQuery.of(context!).size.width,
       textButton: "OK",
       begin: Alignment.bottomLeft,
       end: Alignment.topRight,
       action: () async {
-        Navigator.pop(context!);
+        Navigator.pop(context);
       },
     )
   );
@@ -1234,11 +1232,11 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
 
       hintText: title,
       hintStyle: TextStyle(
-        fontSize: 14,
+        fontSize: 2.vmax,
         color: hexaCodeToColor("#AAAAAA"),
       ),
 
-      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.vmax),
       
       /* Prefix Text */
       filled: true,
@@ -1286,7 +1284,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                                 MyText(
                                   top: 50,
                                   text: value.accountM.name,
-                                  fontSize: 18,
+                                  fontSize: 2.6,
                                   fontWeight: FontWeight.w600,
                                   hexaColor: AppColors.blackColor,
                                 ),

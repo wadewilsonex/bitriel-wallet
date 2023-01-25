@@ -22,7 +22,7 @@ class ExplorerItem extends StatelessWidget {
         action!();
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: EdgeInsets.symmetric(vertical: 1.2.vmax),
         child: Container(
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -33,17 +33,18 @@ class ExplorerItem extends StatelessWidget {
                 offset: const Offset(0.0, 2)
               )
             ],
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(1.2.vmax),
             color: hexaCodeToColor(isDarkMode ? AppColors.defiMenuItem : AppColors.whiteColorHexa)
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(1.2.vmax),
                 child: Container(
-                  width: 50.0,
-                  height: 50.0,
+                  width: 4.4.vmax,
+                  height: 4.4.vmax,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                   ),
@@ -56,7 +57,7 @@ class ExplorerItem extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.all(2.0),
+                padding: EdgeInsets.all(0.3.vmax),
                 child: MyText(
                   text: title,
                   // hexaColor: AppColors.whiteColorHexa,

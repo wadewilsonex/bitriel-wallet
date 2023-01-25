@@ -22,7 +22,7 @@ class ListTileComponent extends StatelessWidget{
         ),
         height: 8.h,
         child: Padding(
-          padding: const EdgeInsets.all(paddingSize),
+          padding: EdgeInsets.all(paddingSize),
           child: Row(
             children: [
               MyText(

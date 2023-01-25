@@ -51,10 +51,11 @@ async function connect(nodes: string[]) {
       });
 
       (<any>window).api = res;
-      // const url = nodes[(<any>res)._options.provider.__private_9_endpointIndex];
-      const url = nodes[(<any>res).isConnected];
+      // const url = nodes[(<any>res)._options.provider.__private_15_endpointIndex];
+      // const url = nodes[(<any>res).isConnected];
       console.log("hello log", `${url} wss c  onnected success`);
-      resolve(url);
+      // resolve(url);
+      resolve((<any>window).api);
     } catch (err) {
       send("log", `connect failed`);
       wsProvider.disconnect();

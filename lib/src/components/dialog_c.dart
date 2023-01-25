@@ -16,7 +16,7 @@ class DialogComponents {
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           title: const MyText(
-            fontSize: 20,
+            fontSize: 2.9,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
           ),
@@ -44,7 +44,7 @@ class DialogComponents {
                 child: MyText(
                   text: contents,
                   textAlign: TextAlign.left,
-                  fontSize: 18,
+                  fontSize: 2.5,
                   hexaColor: isDarkMode ? AppColors.secondary : AppColors.orangeColor,
                   fontWeight: FontWeight.bold,
                   pLeft: 16,
@@ -110,15 +110,20 @@ class DialogComponents {
   Future dialogCustom({ 
     required BuildContext? context, 
     String? titles, 
-    double? titlesFontSize = 15,
-    EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , 
+    double? titlesFontSize = 2.2,
+    EdgeInsetsGeometry? contentPadding, 
     String? contents, 
-    double? contentsFontSize = 15,
+    double? contentsFontSize = 2.2,
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
     String? textButton, btn, btn2
   }) async {
+    if (contentPadding == null){
+      titlesFontSize = titlesFontSize!.vmax;
+      contentsFontSize = contentsFontSize!.vmax;
+      contentPadding = EdgeInsets.all(3.4.vmax);
+    }
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
@@ -126,8 +131,8 @@ class DialogComponents {
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: AlertDialog(
             contentPadding: contentPadding!,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(2.9.vmax)),
             ),
             backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             title: titles != null ? MyText(
@@ -135,7 +140,7 @@ class DialogComponents {
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
             ) : Container(),
-            buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
+            buttonPadding: btn2 != null ? EdgeInsets.only(left: 3.4.vmax, right: 3.4.vmax, bottom: 3.4.vmax) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -146,10 +151,10 @@ class DialogComponents {
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3.h) : Container(),
+                image != null ? SizedBox(height: 3.vmax) : Container(),
                 MyText(
                   text: contents,
-                  fontSize: titlesFontSize,
+                  fontSize: contentsFontSize,
                 )
               ],
             ) : contents2,

@@ -1,7 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
-import 'package:wallet_apps/src/components/login_component/helper_functions.dart';
-import 'package:wallet_apps/src/screen/main/social_login/email/login_content.dart';
 
 
 class BottomText extends StatefulWidget {
@@ -46,11 +43,11 @@ class _BottomTextState extends State<BottomText> {
         },
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(2.4.vmax),
           child: RichText(
             text: TextSpan(
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: 2.4.vmax,
                 fontFamily: 'Montserrat',
               ),
               children: [

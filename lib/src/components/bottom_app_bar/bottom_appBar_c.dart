@@ -1,7 +1,6 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:wallet_apps/index.dart';
+
+const double spacing = 15;
 
 class BottomAppBarCom extends StatelessWidget {
 
@@ -14,7 +13,7 @@ class BottomAppBarCom extends StatelessWidget {
   final Function? contactPiker;
   final void Function()? openDrawer;
   final void Function(int index)? onIndexChanged;
-  final double iconSize = 7.w;
+  final double iconSize = 4.vmax;
 
   BottomAppBarCom({
     Key? key,
@@ -31,23 +30,24 @@ class BottomAppBarCom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("2.vmax 2.vmax $iconSize");
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         
         Container(
-          margin: EdgeInsets.only(left: 10, bottom: 10, right: 10),
+          margin: EdgeInsets.only(left: spacing.sp, bottom: spacing.sp, right: spacing.sp),
 
           decoration: BoxDecoration(
             // border: Border.all(color: hexaCodeToColor("#E6E6E6")),
-            borderRadius: const BorderRadius.all(Radius.circular(50)),
+            borderRadius: BorderRadius.all(Radius.circular(50.sp)),
             color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             boxShadow: [
 
               BoxShadow(spreadRadius: 0, blurRadius: 4, offset: Offset(0, 0), color: Color.fromARGB(255, 126, 126, 126).withOpacity(0.5))
             ]
           ),
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.symmetric(vertical: 15.sp),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -60,9 +60,10 @@ class BottomAppBarCom extends StatelessWidget {
                   onPressed: () {
                     onIndexChanged!(0);
                   },
-                  child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                  child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor), )
                 ),
               ),
+
               Expanded(
                 child: MyIconButton(
                   title: "Asset",
@@ -75,6 +76,7 @@ class BottomAppBarCom extends StatelessWidget {
                   child: Icon(Iconsax.wallet, size: iconSize, color: index == 1 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
                 ),
               ),
+
               Expanded(
                 child: MyIconButton(
                   title: "Home",
@@ -87,6 +89,7 @@ class BottomAppBarCom extends StatelessWidget {
                   child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
                 ),
               ),
+
               // Expanded(
               //   child: MyIconButton(
               //     title: "Swap",
@@ -108,6 +111,7 @@ class BottomAppBarCom extends StatelessWidget {
               //     child: Icon(Iconsax.convert_card, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
               //   ),
               // ),
+
               Expanded(
                 child: MyIconButton(
                   title: "Event",

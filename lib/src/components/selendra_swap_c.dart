@@ -39,7 +39,7 @@ class SelendraSwap extends StatelessWidget {
               text: subtitle,
               hexaColor: AppColors.whiteColorHexa,
               textAlign: TextAlign.start,
-              fontSize: 14,
+              fontSize: 2,
             ),
             trailing: Container(
               height: 10.h,

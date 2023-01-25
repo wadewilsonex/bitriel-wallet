@@ -1,8 +1,8 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
-import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 const double height = 8.0;
+
+const ldPadding = 1.5;
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
@@ -12,15 +12,15 @@ PreferredSizeWidget defaultAppBar({
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
-    toolbarHeight: height.h,
-    leadingWidth: 15.w,
+    toolbarHeight: height.vmax,
+    leadingWidth: 10.vmax,
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.only(left: ldPadding.vmax, right: ldPadding.vmax, top: 1.5.vmax),
+        padding: EdgeInsets.symmetric(horizontal: 2.vmax),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(36)),
+          borderRadius: BorderRadius.all(Radius.circular(36.sp)),
           color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
           boxShadow: [
             BoxShadow(spreadRadius: 0, blurRadius: 4, offset: Offset(0, 2), color: Color.fromARGB(255, 126, 126, 126).withOpacity(0.5))
@@ -29,8 +29,9 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     leading: Container(
-      height: height.h,
-      margin: const EdgeInsets.only(left: 15, top: 10),
+      margin: EdgeInsets.only(left: (ldPadding+1.5).vmax, top: 1.5.vmax),
+      width: 5.vmax,
+      height: 5.vmax,
       child: IconButton(
         padding: EdgeInsets.zero,
         onPressed: () {
@@ -41,7 +42,7 @@ PreferredSizeWidget defaultAppBar({
           color: isDarkMode 
             ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
             : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-          size: 6.w,
+          size: 22.sp,
         ),
       ),
     ),
@@ -78,11 +79,11 @@ PreferredSizeWidget defaultAppBar({
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         
-                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
+                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 2.2,),
               
                           Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                          padding: EdgeInsets.only(left: 0.5.vmax),
+                          child: Icon(Iconsax.arrow_down_1, size: 2.2.vmax, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
                         )
                       ],
                     ),
@@ -97,20 +98,19 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     actions: <Widget>[
-      
+
       Container(
-        margin: const EdgeInsets.only(right: 10, top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
+        margin: EdgeInsets.only(top: ldPadding.vmax, right: (ldPadding+2).vmax,),
+        width: 5.vmax,
+        height: 5.vmax,
         child: IconButton(
-          icon: Align(
-            alignment: Alignment.centerRight,
-            child: Icon(
-              Iconsax.scan,
-              color: isDarkMode 
-                ? hexaCodeToColor(homePageModel.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                : hexaCodeToColor(homePageModel.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-              size: 6.w,
-            ),
+          padding: EdgeInsets.zero,
+          icon: Icon(
+            Iconsax.scan,
+            color: isDarkMode 
+              ? hexaCodeToColor(homePageModel.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+              : hexaCodeToColor(homePageModel.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+            size: 3.5.vmax,
           ),
           onPressed: () async {
             // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));

@@ -27,7 +27,7 @@ class CategoryCard extends StatelessWidget {
       },
 
       child: SizedBox(
-        width: 20.w,
+        width: 12.vmax,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,18 +35,18 @@ class CategoryCard extends StatelessWidget {
             
             MyText(
               text: title,
-              fontSize: 15,
+              fontSize: 2.1,
               fontWeight: (index == selectedIndex) ? FontWeight.bold : FontWeight.w400,
               hexaColor: (index == selectedIndex) ? (isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : AppColors.greyColor,
             ),
             
-            SizedBox(height: 0.65.h,),
+            SizedBox(height: 0.65.vmax,),
 
             (index == selectedIndex) ?
             Container(
               decoration: BoxDecoration(shape: BoxShape.circle, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor)),
-              width: 5,
-              height: 5,
+              width: 1.vmax,
+              height: 1.vmax,
             ) 
             : Container(),
           ],

@@ -23,7 +23,7 @@ class NumPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: EdgeInsets.symmetric(horizontal: paddingSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -231,10 +231,10 @@ class NumberButton extends StatelessWidget {
         child: Center(
           child: icon ?? Text(
             number.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold, 
               color: Colors.white, 
-              fontSize: 16
+              fontSize: 2.5.vmax
             ),
           ),
         ),

@@ -40,7 +40,7 @@ class SearchItem extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Container(
-      padding: const EdgeInsets.all(paddingSize),
+      padding: EdgeInsets.all(paddingSize),
       color: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.lowWhite),//"#2C2C2D" : AppColors.bgdColor),
       child: ListView.builder(
         itemCount: lsItem!.length,
@@ -50,7 +50,7 @@ class SearchItem extends StatelessWidget{
               onTap!();
             },
             child: Padding(
-              padding: const EdgeInsets.only(bottom: paddingSize),
+              padding: EdgeInsets.only(bottom: paddingSize),
               child: Row(
                 children: <Widget>[
 
@@ -58,8 +58,8 @@ class SearchItem extends StatelessWidget{
                   Container(
                     width: 65, //size ?? 65,
                     height: 65, //size ?? 65,
-                    padding: const EdgeInsets.only(right: 10),
-                    // margin: const EdgeInsets.only(right: 5),
+                    padding: EdgeInsets.only(right: 10),
+                    // margin: EdgeInsets.only(right: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                     ),
@@ -78,7 +78,7 @@ class SearchItem extends StatelessWidget{
                         TextSpan(
                           text: lsItem![index].symbol != null ? '${lsItem![index].symbol} ' : '',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 2.6.vmax,
                             fontWeight: FontWeight.bold,
                             color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
@@ -89,7 +89,7 @@ class SearchItem extends StatelessWidget{
                             TextSpan(
                               text: ApiProvider().isMainnet ? lsItem![index].org : lsItem![index].orgTest,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 2.vmax,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkMode
                                   ? AppColors.whiteColorHexa
@@ -106,7 +106,7 @@ class SearchItem extends StatelessWidget{
                         hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.darkSecondaryText,
-                        fontSize: 14,
+                        fontSize: 2.vmax,
                       )
                     ],
                   ),
@@ -150,7 +150,7 @@ class SearchItemTrx extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Container(
-      padding: const EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+      padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
       color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lowWhite),
       child: ListView.builder(
         itemCount: lsItem!.length,
@@ -160,7 +160,7 @@ class SearchItemTrx extends StatelessWidget{
               onTap!();
             },
             child: Padding(
-              padding: const EdgeInsets.only(bottom: paddingSize),
+              padding: EdgeInsets.only(bottom: paddingSize),
               child: Row(
                 children: <Widget>[
 
@@ -168,8 +168,8 @@ class SearchItemTrx extends StatelessWidget{
                   Container(
                     width: 65, //size ?? 65,
                     height: 65, //size ?? 65,
-                    padding: const EdgeInsets.only(right: 10),
-                    // margin: const EdgeInsets.only(right: 5),
+                    padding: EdgeInsets.only(right: 10),
+                    // margin: EdgeInsets.only(right: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                     ),
@@ -188,7 +188,7 @@ class SearchItemTrx extends StatelessWidget{
                         TextSpan(
                           text: lsItem![index].symbol != null ? '${lsItem![index].symbol}' : '',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 2.6.vmax,
                             fontWeight: FontWeight.bold,
                             color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
@@ -199,7 +199,7 @@ class SearchItemTrx extends StatelessWidget{
                             TextSpan(
                               text: " ${lsItem![index].name!}",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 2.vmax,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkMode
                                   ? AppColors.darkSecondaryText
@@ -217,7 +217,7 @@ class SearchItemTrx extends StatelessWidget{
                         hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.blackColor,
-                        fontSize: 14,
+                        fontSize: 2.vmax,
                       )
                       : Container()
                     ],
@@ -241,7 +241,7 @@ class SearchItemTrx extends StatelessWidget{
                         hexaColor: isDarkMode
                         ? AppColors.darkSecondaryText
                         : AppColors.blackColor,
-                        fontSize: 14,
+                        fontSize: 2.vmax,
                       )
                     ],
                   ),           

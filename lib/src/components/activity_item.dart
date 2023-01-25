@@ -49,7 +49,7 @@ class ActivityItem extends StatelessWidget {
                     ),
                     MyText(
                       text: 'To: $addr',
-                      fontSize: 14,
+                      fontSize: 2,
                       fontWeight: FontWeight.bold,
                       hexaColor: AppColors.darkSecondaryText,
                     ),

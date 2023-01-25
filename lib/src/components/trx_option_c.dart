@@ -25,7 +25,7 @@ class MyBottomSheetItem extends StatelessWidget {
           MyText(
             top: 6,
             text: subTitle,
-            fontSize: 12,
+            fontSize: 1.8,
             hexaColor:
                 isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           )

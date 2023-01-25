@@ -1,7 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
-import 'package:wallet_apps/src/components/login_component/helper_functions.dart';
-import 'package:wallet_apps/src/screen/main/social_login/email/login_content.dart';
 
 class TopText extends StatefulWidget {
   
@@ -33,7 +30,7 @@ class _TopTextState extends State<TopText> {
         text: widget.animationS.currentScreen == Screens.welcomeBack
             ? 'Create\nAccount'
             : 'Login with email',
-        fontSize: 22,
+        fontSize: 3.3,
         fontWeight: FontWeight.w600,
         textAlign: TextAlign.start,
       ),

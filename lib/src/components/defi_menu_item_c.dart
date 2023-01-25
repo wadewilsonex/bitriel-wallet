@@ -24,21 +24,22 @@ class DefiMenuItem extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(15.sp),
           color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
         ),
+        // padding: EdgeInsets.symmetric(vertical: 1.vmax),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 1.vmax),
               child: image!,
             ),
 
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(1.vmax),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,6 +55,7 @@ class DefiMenuItem extends StatelessWidget {
                       text: subtitle,
                       textAlign: TextAlign.start,
                       hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.greyColor,
+                      fontSize: 2.2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

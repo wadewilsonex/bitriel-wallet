@@ -86,15 +86,15 @@ class NetworkSensitiveState extends State<NetworkSensitive> {
               padding: const EdgeInsets.only(left: 16.0, top: 8.0),
               child: Text(
                 text1,
-                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 22),
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 3.2.vmax),
               ),
             ),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('CANCEL',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
+              child: Text('CANCEL',
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 2.5.vmax)),
             ),
             TextButton(
               onPressed: () async {
@@ -108,7 +108,7 @@ class NetworkSensitiveState extends State<NetworkSensitive> {
                 'RETRY',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 16,
+                  fontSize: 2.5.vmax,
                   color: hexaCodeToColor(AppColors.secondary),
                 ),
               ),

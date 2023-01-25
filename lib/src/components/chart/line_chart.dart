@@ -52,7 +52,7 @@ LineChartData chart(
               getTextStyles: (context, value) => TextStyle(
                 color: const Color(0xff68737d),
                 fontWeight: FontWeight.bold,
-                fontSize: 12.sp,
+                fontSize: 1.8.vmax,
               ),
               getTitles: (value) {
                 switch (value.toInt()) {
@@ -83,7 +83,7 @@ LineChartData chart(
               getTextStyles: (context, value) => TextStyle(
                 color: const Color(0xff68737d),
                 fontWeight: FontWeight.bold,
-                fontSize: 12.sp,
+                fontSize: 1.8.vmax,
               ),
             ),
           ),
@@ -101,7 +101,7 @@ LineChartData chart(
                 GoogleFonts.poppins(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
-                  fontSize: 12.sp,
+                  fontSize: 1.8.vmax,
                   letterSpacing: 0.5,
                 ),
               );

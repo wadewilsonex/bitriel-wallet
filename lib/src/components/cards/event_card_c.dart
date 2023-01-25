@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
-import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
+import 'package:wallet_apps/src/presentation/home/events/list_ticket/list_ticking.dart';
 
 class EventCardComponents extends StatelessWidget {
 
@@ -26,17 +26,17 @@ class EventCardComponents extends StatelessWidget {
       children: [
     
         MyText(
-          top: 30,
-          left: 30,
-          bottom: 10,
+          top: 4.vmax,
+          left: 4.vmax,
+          bottom: 1.vmax,
           text: title,
-          fontSize: 18,
+          fontSize: 2.7,
           fontWeight: FontWeight.w600,
         ),
         
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 200,
+          height: 24.vmax,
           child: ListView(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -44,8 +44,8 @@ class EventCardComponents extends StatelessWidget {
               listEvent!.length,
               (i) => Padding(
                 padding: EdgeInsets.only(
-                  left: i == 0 ? 20 : 0,
-                  right: i != 19 ? 20 : 0,
+                  left: i == 0 ? 3.vmax : 0,
+                  right: i != 19 ? 5.vmax : 0,
                 ),
                 child: InkWell(
                   onTap: (){
@@ -58,31 +58,28 @@ class EventCardComponents extends StatelessWidget {
                     );
                   },
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(2.vmax),
                     child: Stack(
                       children: [
                   
                         Container(
                           color: Colors.white,
-                          height: 200,
-                          width: MediaQuery.of(context).size.width - 60,
+                          height: 27.h,
+                          width: MediaQuery.of(context).size.width - 13.vmax,
                           child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
                         ),
                   
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
-                            margin: const EdgeInsets.only(left: 10, bottom: 10),
+                            margin: EdgeInsets.only(left: 1.8.vmax, bottom: 1.8.vmax),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(1.5.vmax),
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
                                   child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  height: 8.h,
-                                  padding: const EdgeInsets.all(10),
+                                  // height: 8.h,
+                                  padding: EdgeInsets.all(1.5.vmax),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +88,7 @@ class EventCardComponents extends StatelessWidget {
                                     
                                       MyText(
                                         text: AppUtils.timeZoneToDateTime(listEvent![i]['startDate']),
-                                        fontSize: 15,
+                                        fontSize: 2.2,
                                         fontWeight: FontWeight.w600,
                                         bottom: 5,
                                         hexaColor: "#878787",
@@ -99,7 +96,7 @@ class EventCardComponents extends StatelessWidget {
                                     
                                       MyText(
                                         text: listEvent![i]['name'], //"NIGHT MUSIC FESTIVAL",
-                                        fontSize: 16,
+                                        fontSize: 2.4,
                                         color2: Colors.white,
                                         fontWeight: FontWeight.w700,
                                       )

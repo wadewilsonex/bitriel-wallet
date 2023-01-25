@@ -1,6 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/service/contract.dart';
+import 'package:wallet_apps/src/utils/service/contract.dart';
 
 class Attendance extends ChangeNotifier {
 

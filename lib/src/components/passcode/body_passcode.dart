@@ -36,12 +36,13 @@ class PasscodeBody extends StatelessWidget{
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
+          size: 18.sp,
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontSize: 18,
+          fontSize: 2.7,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
@@ -53,7 +54,7 @@ class PasscodeBody extends StatelessWidget{
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        padding: EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -65,14 +66,14 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN' : 'Verify PIN',
-              fontSize: 22,
+              fontSize: 3.2,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
               hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
-              fontSize: 22,
+              fontSize: 3.2,
               fontWeight: FontWeight.bold,
             ),
 
@@ -153,14 +154,14 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               fontWeight: FontWeight.bold,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
@@ -168,7 +169,7 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -183,21 +184,21 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Enter ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 2.8.vmax,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -240,7 +241,7 @@ class ReusePinNum extends StatelessWidget {
         ),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 33.sp,
+          fontSize: 4.8.vmax,
           color: hexaCodeToColor(AppColors.secondary)
         ),
       ),
@@ -388,7 +389,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
         child: child == null ? Text(
           '$n',
           style: TextStyle(
-            fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
+            fontSize: 2.4.vmax * MediaQuery.of(context).textScaleFactor,
             color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),

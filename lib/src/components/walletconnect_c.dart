@@ -195,10 +195,10 @@ class WalletConnectComponent with ChangeNotifier {
               //     padding: const EdgeInsets.only(bottom: 8.0),
               //     child: Image.network(peerMeta.icons.first.replaceAll("localhost", ip!)),
               //   ),
-              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
+              MyText(text: peerMeta.name, fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 2.6,),
             ],
           ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
           children: [
 
             if (peerMeta.description.isNotEmpty)
@@ -253,7 +253,7 @@ class WalletConnectComponent with ChangeNotifier {
                     child: const MyText(text: 'APPROVE', hexaColor: AppColors.lowWhite,),
                   ),
                 ),
-                const SizedBox(width: 16.0),
+                SizedBox(width: 2.4.vmax),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
@@ -281,8 +281,8 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: const MyText(text: "Error", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          title: const MyText(text: "Error", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 2.6,),
+          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
@@ -319,8 +319,8 @@ class WalletConnectComponent with ChangeNotifier {
       builder: (_) {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 2.6,),
+          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
           children: [
 
             // Padding(
@@ -464,23 +464,23 @@ class WalletConnectComponent with ChangeNotifier {
                 ),
               Text(
                 wcClient.remotePeerMeta!.name,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
+                  fontSize: 2.9.vmax,
                 ),
               ),
             ],
           ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
           children: [
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
+                  fontSize: 2.7.vmax,
                 ),
               ),
             ),
@@ -489,17 +489,17 @@ class WalletConnectComponent with ChangeNotifier {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Receipient',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
+                      fontSize: 2.4.vmax,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
                     ethereumTransaction.to!,
-                    style: const TextStyle(fontSize: 16.0),
+                    style: TextStyle(fontSize: 2.4.vmax),
                   ),
                 ],
               ),
@@ -507,44 +507,38 @@ class WalletConnectComponent with ChangeNotifier {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'Transaction Fee',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontSize: 2.4.vmax,
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   child: Text(
-                  //     '${EthConver .weiToEthUnTrimmed(gasPrice * BigInt.parse(ethereumTransaction.gas ?? '0'), 18)} MATIC',
-                  //     style: TextStyle(fontSize: 16.0),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     flex: 2,
                     child: Text(
                       'Transaction Amount',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontSize: 2.4.vmax,
                       ),
                     ),
                   ),
                   // Expanded(
                   //   child: Text(
                   //     '${EthConversions.weiToEthUnTrimmed(BigInt.parse(ethereumTransaction.value ?? '0'), 18)} MATIC',
-                  //     style: TextStyle(fontSize: 16.0),
+                  //     style: TextStyle(fontSize: 2.4.vmax),
                   //   ),
                   // ),
                 ],
@@ -556,39 +550,38 @@ class WalletConnectComponent with ChangeNotifier {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Function',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontSize: 2.4.vmax,
                       ),
                     ),
                     const SizedBox(height: 8.0),
                     Text(
                       contractFunction.name,
-                      style: const TextStyle(fontSize: 16.0),
+                      style: TextStyle(fontSize: 2.4.vmax),
                     ),
                   ],
                 ),
               ),
             Theme(
-              data:
-                  Theme.of(context!).copyWith(dividerColor: Colors.transparent),
+              data: Theme.of(context!).copyWith(dividerColor: Colors.transparent),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
-                  title: const Text(
+                  title: Text(
                     'Data',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
+                      fontSize: 2.4.vmax,
                     ),
                   ),
                   children: [
                     Text(
                       ethereumTransaction.data!,
-                      style: const TextStyle(fontSize: 16.0),
+                      style: TextStyle(fontSize: 2.4.vmax),
                     ),
                   ],
                 ),
@@ -606,7 +599,7 @@ class WalletConnectComponent with ChangeNotifier {
                     child: const Text('CONFIRM'),
                   ),
                 ),
-                const SizedBox(width: 16.0),
+                SizedBox(width: 2.4.vmax),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
@@ -654,16 +647,16 @@ class WalletConnectComponent with ChangeNotifier {
               ),
             ],
           ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
           children: [
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: const Text(
+              child: Text(
                 'Sign Message',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
+                  fontSize: 2.7.vmax,
                 ),
               ),
             ),
@@ -674,17 +667,17 @@ class WalletConnectComponent with ChangeNotifier {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
-                  title: const Text(
+                  title: Text(
                     'Message',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
+                      fontSize: 2.4.vmax,
                     ),
                   ),
                   children: [
                     Text(
                       decoded,
-                      style: const TextStyle(fontSize: 16.0),
+                      style: TextStyle(fontSize: 2.4.vmax),
                     ),
                   ],
                 ),
@@ -724,7 +717,7 @@ class WalletConnectComponent with ChangeNotifier {
                     child: const Text('SIGN'),
                   ),
                 ),
-                const SizedBox(width: 16.0),
+                SizedBox(width: 2.4.vmax),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(

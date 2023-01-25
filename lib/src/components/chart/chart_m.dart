@@ -55,7 +55,7 @@ Padding chartAsset(
                     child: Text(
                       ' $crypto ($cryptoCode) - $exchangeCurrency',
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 2.4.vmax,
                         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                       ),
                       maxLines: 2,
@@ -68,7 +68,7 @@ Padding chartAsset(
                   MyText(
                     text: "\$$marketPrice",
                     hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
-                    fontSize: 15,
+                    fontSize: 2.2,
                     fontWeight: FontWeight.w700,
                   ),
                 ],

@@ -26,8 +26,9 @@ class WelcomeItem extends StatelessWidget {
         action!();
       },
       child: Container(
+        height: 35.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.sp),
           color: hexaCodeToColor(itemColor!)
         ),
         child: Column(
@@ -36,18 +37,19 @@ class WelcomeItem extends StatelessWidget {
           children: [
             
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.only(top: 15.sp, left: 15.sp),
               child: icon!,
             ),
 
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 20.h,
-              child: image!,
+            Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: image!,
+              ),
             ),
 
             Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10.0),
+              padding: EdgeInsets.only(bottom: 15.sp, left: 15.sp),
               child: MyText(
                 text: title,
                 hexaColor: textColor,

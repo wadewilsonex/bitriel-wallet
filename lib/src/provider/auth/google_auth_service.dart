@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/presentation/home/home/home.dart';
 
 class GoogleAuthService extends ChangeNotifier {
 

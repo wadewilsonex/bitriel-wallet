@@ -1,7 +1,7 @@
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart' as getx;
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/transaction/success_transfer/success_transfer.dart';
+import 'package:wallet_apps/src/presentation/home/transaction/success_transfer/success_transfer.dart';
 
 class PaymentController extends getx.GetxController {
 
