@@ -162,6 +162,7 @@ class ImportAccState extends State<ImportAcc> {
     });
 
     importAcc();
+    // importJson();
   }
 
   Future<void> importAcc() async { 
@@ -185,6 +186,40 @@ class ImportAccState extends State<ImportAcc> {
 
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
+    
+    await connectNetwork(_importAccModel.mnemonicCon.text);
+
+  }
+
+  Future<void> importJson() async { 
+    
+    try {
+      changeStatus("IMPORTING ACCOUNT", avg: "1/3");
+    
+      final jsn = await _apiProvider!.apiKeyring.importAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.keystore, 
+        key: _importAccModel.mnemonicCon.text,   
+        name: 'User', 
+        password: _importAccModel.pwCon.text
+      );
+
+      print("jsn $jsn");
+
+      await _apiProvider!.apiKeyring.addAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.keystore, 
+        acc: jsn!,
+        password: _importAccModel.pwCon.text
+      );
+
+      changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
+      _importAccountModel.animationController!.forward(from: 0.2);
+    } catch (e) {
+      if (kDebugMode){
+        print("error importJson $e");
+      }
+    }
     
     await connectNetwork(_importAccModel.mnemonicCon.text);
 

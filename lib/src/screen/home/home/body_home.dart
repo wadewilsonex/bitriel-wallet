@@ -215,12 +215,6 @@ class HomePageBody extends StatelessWidget {
                   title: "Swap",
                   asset: "assets/icons/swap-coin.png",
                   colorHex: "#0D6BA6",
-                  height: 0,
-                  width: 50,
-                  bottom: 0,
-                  left: 35,
-                  top: 15,
-                  right: 0,
                   action: () async {
                     await showBarModalBottomSheet(
                       context: context,
@@ -247,12 +241,6 @@ class HomePageBody extends StatelessWidget {
                   title: "Staking",
                   asset: "assets/icons/stake-coin.png",
                   colorHex: "#151644",
-                  height: 0,
-                  width: 50,
-                  bottom: 0,
-                  left: 35,
-                  top: 10,
-                  right: 0,
                   action: () {
                     underContstuctionAnimationDailog(context: context);
                   },
@@ -272,12 +260,6 @@ class HomePageBody extends StatelessWidget {
                   title: "Buy",
                   asset: "assets/icons/buy-coin.png",
                   colorHex: "#F29F05",
-                  height: 0,
-                  width: 50,
-                  bottom: 0,
-                  left: -60,
-                  top: 10,
-                  right: 0,
                   action: () async {
                     underContstuctionAnimationDailog(context: context);
                   },
@@ -288,15 +270,9 @@ class HomePageBody extends StatelessWidget {
 
               Expanded(
                 child: MyMenuItem(
-                  title: "Bitriel NFT",
-                  asset: "assets/icons/stake-coin.png",
-                  colorHex: "#151644",
-                  height: 0,
-                  width: 50,
-                  bottom: 0,
-                  left: 35,
-                  top: 10,
-                  right: 0,
+                  title: "bitriel NFT",
+                  asset: "assets/icons/nft_polygon.png",
+                  colorHex: "#192E3C",
                   action: () {
                     Navigator.push(
                       context, 

@@ -22,8 +22,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return RouteAnimation(enterPage: const ReceiveWallet());
     case AppString.claimAirdropView:
       return RouteAnimation(enterPage: const ClaimAirDrop());
-    case AppString.navigationDrawerView:
-      return RouteAnimation(enterPage: const NavigationDrawer());
+    // case AppString.navigationDrawerView:
+    //   return RouteAnimation(enterPage: const NavigationDrawer());
     // case AppString.inviteFriendView:
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;

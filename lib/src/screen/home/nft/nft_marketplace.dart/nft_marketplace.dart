@@ -211,7 +211,7 @@ class NFTMarketPlace extends StatelessWidget {
                   Spacer(),
                   
                   MyText(
-                    text: "See All", 
+                    text: "View All", 
                     hexaColor: AppColors.primaryColor,
                   ),
                 ],

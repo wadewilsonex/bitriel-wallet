@@ -157,42 +157,145 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
-          text: 'Token Info',
-          fontWeight: FontWeight.bold,
-          textAlign: TextAlign.left,
-          hexaColor: AppColors.primaryColor,
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                MyText(
+                  text: "Market cap",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: const [
+                MyText(
+                  text: "Circulation supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ],
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 2.h,),
 
-        textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                MyText(
+                  text: "Total volume",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Project Name', '${widget.scModel.name}', ''),
+            const Spacer(),
 
-        textRow('Token Standard', '${widget.scModel.org}', ''),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const MyText(
+                  text: "Total supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+          ],
+        ),
 
-        SizedBox(height: 1.5.h), 
+        SizedBox(height: 1.5.h),
 
         line(),
 
         SizedBox(height: 1.5.h),
 
-        MyText(
-          text: 'About ${widget.scModel.name}',
+        const MyText(
+          text: 'Description',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
-          hexaColor: AppColors.primaryColor,
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 1.5.h),
+
 
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
+          hexaColor: AppColors.greyCode,
         ),
+
+
+
+
+        // const MyText(
+        //   text: 'Token Info',
+        //   fontWeight: FontWeight.bold,
+        //   textAlign: TextAlign.left,
+        //   hexaColor: AppColors.primaryColor,
+        // ),
+
+        // const SizedBox(height: 16.0),
+
+        // textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
+
+        // textRow('Project Name', '${widget.scModel.name}', ''),
+
+        // textRow('Token Standard', '${widget.scModel.org}', ''),
+
+        // textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+
+        // SizedBox(height: 1.5.h), 
+
+        // line(),
+
+        // SizedBox(height: 1.5.h),
+
+        // MyText(
+        //   text: 'About ${widget.scModel.name}',
+        //   fontWeight: FontWeight.bold,
+        //   textAlign: TextAlign.left,
+        //   hexaColor: AppColors.primaryColor,
+        // ),
+
+        // const SizedBox(height: 16.0),
+
+        // MyText(
+        //   textAlign: TextAlign.start,
+        //   text: '${widget.scModel.description}',
+        // ),
       ],
     )
     :
@@ -233,7 +336,7 @@ class AssetDetailState extends State<AssetDetail> {
             const Spacer(),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const MyText(
                   text: "Circulation supply",
@@ -272,7 +375,7 @@ class AssetDetailState extends State<AssetDetail> {
             const Spacer(),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const MyText(
                   text: "Total supply",
@@ -288,20 +391,6 @@ class AssetDetailState extends State<AssetDetail> {
 
           ],
         ),
-
-        // const MyText(
-        //   text: 'Token Info',
-        //   fontWeight: FontWeight.bold,
-        //   textAlign: TextAlign.left,
-        // ),
-
-        // const SizedBox(height: 16.0),
-
-        // textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
-
-        // textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
-
-        // textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
 
         SizedBox(height: 1.5.h),
 

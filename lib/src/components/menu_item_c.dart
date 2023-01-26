@@ -6,12 +6,6 @@ class MyMenuItem extends StatelessWidget {
   final Widget? icon;
   final Function? action;
   final String colorHex;
-  final double top;
-  final double bottom;
-  final double left;
-  final double right;
-  final double width;
-  final double height;
   
   const MyMenuItem({
     Key? key, 
@@ -20,12 +14,6 @@ class MyMenuItem extends StatelessWidget {
     this.icon,
     required this.colorHex,
     required this.action,
-    required this.top,
-    required this.bottom,
-    required this.left,
-    required this.right,
-    required this.width,
-    required this.height,
   }) : super(key: key);
 
   @override
@@ -91,54 +79,45 @@ class MyMenuItem extends StatelessWidget {
       onTap: () {
         action!();
       },
-      child: Container( 
-        height: 100,
-        decoration: BoxDecoration(
-          color: hexaCodeToColor(colorHex),
-          borderRadius: BorderRadius.circular(8),
-        ) ,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Stack(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          height: 13.7.vmax,
+          decoration: BoxDecoration(
+            color: hexaCodeToColor(colorHex),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10, top: 5),
+                child: MyText(
+                  text: title,
+                  hexaColor: AppColors.whiteColorHexa,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                ),
+              ),
+
               Row(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 10, top: 10),
-                    child: MyText(
-                      text: title,
-                      hexaColor: AppColors.whiteColorHexa,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                  const Spacer(),
+                  Flexible(
+                    child: Align(
+                      heightFactor: 0.77,
+                      widthFactor: 0.77,
+                      alignment: Alignment.topLeft,
+                      child: Image.asset(asset!),
                     ),
                   ),
                 ],
               ),
-
-              Stack(
-                children: <Widget>[ 
-                  Positioned(
-                    top: top.sp,
-                    right: bottom.sp, 
-                    left: left.sp,
-                    bottom: bottom.sp,
-                    child:Container( 
-                      height: height.h,
-                      width: width.w,
-                      decoration:BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(asset!),
-                        ),
-                      )
-                    )
-                  ),
-                  
-                ],
-              ),
+              
             ],
           ),
+        ),
       ),
-    ),
       // child: Container(
       //   height: 14.h,
       //   // width: 120,
