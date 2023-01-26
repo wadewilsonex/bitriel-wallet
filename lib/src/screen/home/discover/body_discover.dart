@@ -93,7 +93,6 @@ class DiscoverPageBody extends StatelessWidget {
   Widget _searchInputWeb(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(paddingSize),
-      height: 25.h,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -105,9 +104,9 @@ class DiscoverPageBody extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            padding: const EdgeInsets.all(paddingSize),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

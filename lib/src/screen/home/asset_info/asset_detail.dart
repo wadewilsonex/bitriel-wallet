@@ -60,7 +60,7 @@ class AssetDetailState extends State<AssetDetail> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -94,12 +94,13 @@ class AssetDetailState extends State<AssetDetail> {
 
             SizedBox(height: 2.h),
             
-            widget.scModel.marketData == null 
+            widget.scModel.marketData == null
             ? FadeInUp(
                 duration: const Duration(milliseconds: 500),
                 child: assetFromJson()
             )
-            : FadeInUp(
+            :
+            FadeInUp(
                 duration: const Duration(milliseconds: 500),
                 child: assetFromApi()
             ),
@@ -210,19 +211,97 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.marketData!.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
-          text: 'Token Info',
-          fontWeight: FontWeight.bold,
-          textAlign: TextAlign.left,
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Market cap",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "\$${convert("${widget.scModel.marketData!.marketCap}")}",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Circulation supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "${convert("${widget.scModel.marketData!.circulatingSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ],
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 2.h,),
 
-        textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Total volume",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "\$${convert("${widget.scModel.marketData!.totalVolume}")}",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
+            const Spacer(),
 
-        textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Total supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "${convert("${widget.scModel.marketData!.totalSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+          ],
+        ),
+
+        // const MyText(
+        //   text: 'Token Info',
+        //   fontWeight: FontWeight.bold,
+        //   textAlign: TextAlign.left,
+        // ),
+
+        // const SizedBox(height: 16.0),
+
+        // textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
+
+        // textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
+
+        // textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
 
         SizedBox(height: 1.5.h),
 
@@ -230,35 +309,38 @@ class AssetDetailState extends State<AssetDetail> {
 
         SizedBox(height: 1.5.h),
 
-        MyText(
-          text: 'About ${widget.scModel.marketData!.name}',
+        const MyText(
+          text: 'Description',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 1.5.h),
 
         widget.scModel.marketData!.description == null ?
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.marketData!.description}',
+          hexaColor: AppColors.greyColor,
         )
         :
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
+          hexaColor: AppColors.greyCode,
         ),
       ],
     )
     :
-    SizedBox(
-      height: 60.sp,
-      child: OverflowBox(
-        minHeight: 60.h,
-        maxHeight: 60.h,
-        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
-      )
-    );
+    Container();
+    // SizedBox(
+    //   height: 60.sp,
+    //   child: OverflowBox(
+    //     minHeight: 60.h,
+    //     maxHeight: 60.h,
+    //     child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
+    //   )
+    // );
   }
 
 }

@@ -26,30 +26,35 @@ class CategoryCard extends StatelessWidget {
         onTap(index, isTap: true);
       },
 
-      child: SizedBox(
-        width: 20.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MyText(
-              text: title,
-              fontSize: 15,
-              fontWeight: (index == selectedIndex) ? FontWeight.bold : FontWeight.w400,
-              hexaColor: (index == selectedIndex) ? (isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : AppColors.greyColor,
-            ),
-            
-            SizedBox(height: 0.65.h,),
+      child: Row(
+        children: [
+          SizedBox(width: 2.w,),
 
-            (index == selectedIndex) ?
-            Container(
-              decoration: BoxDecoration(shape: BoxShape.circle, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor)),
-              width: 5,
-              height: 5,
-            ) 
-            : Container(),
-          ],
-        ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              MyText(
+                text: title,
+                fontSize: 15,
+                fontWeight: (index == selectedIndex) ? FontWeight.bold : FontWeight.w400,
+                hexaColor: (index == selectedIndex) ? (isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : AppColors.greyColor,
+              ),
+              
+              SizedBox(height: 0.65.h,),
+
+              (index == selectedIndex) ?
+              Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor)),
+                width: 5,
+                height: 5,
+              ) 
+              : Container(),
+            ],
+          ),
+
+          SizedBox(width: 7.w,),
+        ],
       ),
     );
   }

@@ -49,12 +49,12 @@ class Market {
     this.maxSupply,
     this.ath,
     this.athChangePercentage,
-    this.athDate,
+    // this.athDate,
     this.atl,
     this.atlChangePercentage,
-    this.atlDate,
+    // this.atlDate,
     this.roi,
-    this.lastUpdated,
+    // this.lastUpdated,
     this.description,
   });
 
@@ -78,12 +78,12 @@ class Market {
   String? maxSupply;
   String? ath;
   String? athChangePercentage;
-  DateTime? athDate;
+  // DateTime? athDate;
   String? atl;
   String? atlChangePercentage;
-  DateTime? atlDate;
+  // DateTime? atlDate;
   String? roi;
-  DateTime? lastUpdated;
+  // DateTime? lastUpdated;
   String? description;
 
   factory Market.fromJson(Map<String, dynamic> json) {
@@ -102,19 +102,18 @@ class Market {
         priceChange24H: json["price_change_24h"].toString(),
         priceChangePercentage24H: json["price_change_percentage_24h"].toString(),
         marketCapChange24H: json["market_cap_change_24h"].toString(),
-        marketCapChangePercentage24H:
-            json["market_cap_change_percentage_24h"].toString(),
+        marketCapChangePercentage24H: json["market_cap_change_percentage_24h"].toString(),
         circulatingSupply: json["circulating_supply"].toString(),
         totalSupply: json["total_supply"].toString(),
         maxSupply: json["max_supply"].toString(),
         ath: json["ath"].toString(),
         athChangePercentage: json["ath_change_percentage"].toString(),
-        athDate: DateTime.parse(json["ath_date"].toString()),
+        // athDate: DateTime.parse(json["ath_date"].toString()),
         atl: json["atl"].toString(),
         atlChangePercentage: json["atl_change_percentage"].toString(),
-        atlDate: DateTime.parse(json["atl_date"].toString()),
+        // atlDate: DateTime.parse(json["atl_date"].toString()),
         roi: json["roi"].toString(),
-        lastUpdated: DateTime.parse(json["last_updated"].toString()),
+        // lastUpdated: DateTime.parse(json["last_updated"].toString()),
         description: json["description"].toString(),
       );
     }
@@ -140,12 +139,12 @@ class Market {
         "max_supply": maxSupply,
         "ath": ath,
         "ath_change_percentage": athChangePercentage,
-        "ath_date": athDate!.toIso8601String(),
+        // "ath_date": athDate!.toIso8601String(),
         "atl": atl,
         "atl_change_percentage": atlChangePercentage,
-        "atl_date": atlDate!.toIso8601String(),
+        // "atl_date": atlDate!.toIso8601String(),
         "roi": roi,
-        "last_updated": lastUpdated!.toIso8601String(),
+        // "last_updated": lastUpdated!.toIso8601String(),
         "description": description,
       };
 }

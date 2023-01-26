@@ -2,12 +2,9 @@ import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_button.c.dart';
-import 'package:wallet_apps/src/screen/home/menu/wallet_connect/detail_walletconnect.dart';
 
 class WalletConnectBody extends StatelessWidget {
 
-  final TextEditingController emailInputController;
-  final TextEditingController passwordInputController;
   final bool? isChecked;
   final Function? handleRememberMe;
   final GlobalKey<FormState> formKey;
@@ -15,8 +12,6 @@ class WalletConnectBody extends StatelessWidget {
 
   const WalletConnectBody({
     Key? key, 
-    required this.emailInputController, 
-    required this.passwordInputController, 
     this.handleRememberMe, 
     this.isChecked = false,
     required this.formKey,
@@ -51,7 +46,7 @@ class WalletConnectBody extends StatelessWidget {
             // ],
             elevation: 0,
             backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-            title: MyText(text: 'Connected DApps', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+            title: MyText(text: 'WalletConnect', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
           ),
           body: SingleChildScrollView(
             child: Padding(

@@ -128,7 +128,7 @@ class MyInputField extends StatelessWidget {
           ),
           inputFormatters: textInputFormatter,
           /* Limit Length Of Text Input */
-          onChanged: (String? value){
+          onChanged: (String value){
             if (onChanged != null) onChanged!(value);
           },
           onFieldSubmitted: (value) {

@@ -190,10 +190,7 @@ class OnboardignBody extends StatelessWidget {
                       child: WelcomeItem(
                         title: "Create wallet",
                         textColor: AppColors.whiteColorHexa,
-                        image: Padding(
-                          padding: const EdgeInsets.all(paddingSize),
-                          child: Image.asset("assets/icons/setup-1.png"),
-                        ),
+                        image: Image.asset("assets/icons/setup-1.png", width: 100, height: 200,),
                         icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
                         itemColor: "#263238",
                         action: () {
@@ -209,10 +206,7 @@ class OnboardignBody extends StatelessWidget {
                       child: WelcomeItem(
                         title: "Import wallet",
                         textColor: AppColors.whiteColorHexa,
-                        image: Padding(
-                          padding: const EdgeInsets.all(paddingSize),
-                          child: Image.asset("assets/icons/setup-2.png"),
-                        ),
+                        image: Image.asset("assets/icons/setup-2.png", width: 100, height: 200,),
                         icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
                         itemColor: "#F27649",
                         action: () {

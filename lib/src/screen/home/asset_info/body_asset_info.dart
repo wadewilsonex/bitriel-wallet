@@ -1,5 +1,5 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/trx_history_c.dart';
 import 'package:wallet_apps/src/models/asset_info.dart';
@@ -88,18 +88,19 @@ class AssetInfoBody extends StatelessWidget {
                               // Right Text
                               InkWell(
                                 onTap: () async{
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.white,
+                                  await showBarModalBottomSheet(
                                     context: context,
-                                    shape: const RoundedRectangleBorder( // <-- SEE HERE
+                                    backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                                    shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical( 
                                         top: Radius.circular(25.0),
                                       ),
                                     ),
-                                    builder: (context) {
-                                      return AssetDetail(assetInfoModel!.smartContractModel!);
-                                    }
+                                    builder: (context) => Column(
+                                      children: [
+                                        AssetDetail(assetInfoModel!.smartContractModel!),
+                                      ],  
+                                    ),
                                   );
                                 },
                                 child: Icon(Iconsax.chart, color: hexaCodeToColor(AppColors.primaryColor),),

@@ -201,7 +201,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
-  void onChangeDropDown(String data) {
+  void onChangeAsset(String data) {
     setState(() {
       _scanPayM.assetValue = int.parse(data);
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
@@ -575,6 +575,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       ),
       body: Stack(
         children: [
+          
           if(_loading) const Center(
             child: CircularProgressIndicator(),
           )
@@ -590,7 +591,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             validateField: (String? value){
               return validateField(value!)!;
             },
-            onChangeDropDown: onChangeDropDown,
+            onChangeAsset: onChangeAsset,
             scanQR: scanQR,
           ),
 

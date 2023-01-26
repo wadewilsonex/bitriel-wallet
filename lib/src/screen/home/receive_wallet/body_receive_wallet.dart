@@ -39,15 +39,15 @@ class ReceiveWalletBody extends StatelessWidget {
                   child: Container(),
                 ),
 
-                SizedBox(
-                  width: 130,
-                  child: QrViewTitle(
-                    // assetInfo: provider.assetInfo,
-                    listContract: provider.lsContractSymbol,
-                    initialValue: provider.assetsIndex.toString(),
-                    onChanged: onChanged,
-                  ),
-                )
+                // SizedBox(
+                //   width: 130,
+                //   child: QrViewTitle(
+                //     // assetInfo: provider.assetInfo,
+                //     listContract: provider.lsContractSymbol,
+                //     initialValue: provider.assetsIndex.toString(),
+                //     onChanged: onChanged,
+                //   ),
+                // )
               ],
             ),
             leading: IconButton(

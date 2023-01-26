@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
@@ -334,10 +335,7 @@ class AssetsPageBody extends StatelessWidget {
               flex: 3,
               child: InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  // );
+                  underContstuctionAnimationDailog(context: context);
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -373,11 +371,21 @@ class AssetsPageBody extends StatelessWidget {
             Expanded(
               flex: 3,
               child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    Transition(child: const SwapMethod(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                  );
+                onTap: () async {
+                  await showBarModalBottomSheet(
+                      context: context,
+                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical( 
+                          top: Radius.circular(25.0),
+                        ),
+                      ),
+                      builder: (context) => Column(
+                        children: const [
+                          SwapMethod(),
+                        ],  
+                      ),
+                    );
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

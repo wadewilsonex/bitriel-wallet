@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
@@ -12,6 +13,8 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_market.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_trending.dart';
 import 'package:wallet_apps/src/screen/home/nft/nft.dart';
+import 'package:wallet_apps/src/screen/home/nft/nft_marketplace.dart/nft_marketplace.dart';
+import 'package:wallet_apps/src/screen/home/setting/setting.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 
 class HomePageBody extends StatelessWidget {
@@ -43,11 +46,11 @@ class HomePageBody extends StatelessWidget {
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: const Menu(),
       ),
-      appBar: defaultAppBar(
+      appBar: homePageModel!.activeIndex != 4 ? defaultAppBar(
         context: context,
         homePageModel: homePageModel,
         pushReplacement: pushReplacement
-      ),
+      ) : null,
       body: PageView(
         physics: const CustomPageViewScrollPhysics(),
         controller: homePageModel!.pageController,
@@ -98,10 +101,9 @@ class HomePageBody extends StatelessWidget {
                 const SizedBox(height: 10), 
           
                 SizedBox(
-                  height: 580, 
+                  height: 490,
                   child: _coinMenuCategory()
                 ),
-
 
                 discliamerText(),
 
@@ -112,8 +114,8 @@ class HomePageBody extends StatelessWidget {
           // SwapPage(),
           const FindEvent(),
 
-          // const SettingPage(), Fifth tab
-          const NFT(),
+          const SettingPage(),
+          // const NFT(),
         ],
       ),
       bottomNavigationBar: MyBottomAppBar(
@@ -220,9 +222,19 @@ class HomePageBody extends StatelessWidget {
                   top: 15,
                   right: 0,
                   action: () async {
-                    Navigator.push(
-                      context,
-                      Transition(child: const SwapMethod(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    await showBarModalBottomSheet(
+                      context: context,
+                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical( 
+                          top: Radius.circular(25.0),
+                        ),
+                      ),
+                      builder: (context) => Column(
+                        children: const [
+                          SwapMethod(),
+                        ],  
+                      ),
                     );
                   },
                 ),
@@ -267,73 +279,42 @@ class HomePageBody extends StatelessWidget {
                   top: 10,
                   right: 0,
                   action: () async {
-                    
+                    underContstuctionAnimationDailog(context: context);
                   },
                 ),
               ),
+
+              const SizedBox(width: 10,),
+
+              Expanded(
+                child: MyMenuItem(
+                  title: "Bitriel NFT",
+                  asset: "assets/icons/stake-coin.png",
+                  colorHex: "#151644",
+                  height: 0,
+                  width: 50,
+                  bottom: 0,
+                  left: 35,
+                  top: 10,
+                  right: 0,
+                  action: () {
+                    Navigator.push(
+                      context, 
+                      Transition(
+                        child: const NFTMarketPlace(),
+                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                      )
+                    );
+                  },
+                ),
+              ),
+
             ],
           ),
         ),
       ],
     );
   }
-
-  // Widget _coinMenuCategory() {
-  //   return DefaultTabController(
-  //     length: 3,
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-      
-  //         SizedBox(
-  //           width: 80.w,
-  //           child: TabBar(
-  //             labelColor: hexaCodeToColor(AppColors.primaryColor),
-  //             unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-  //             indicator: CircleTabIndicator(color: hexaCodeToColor(AppColors.primaryColor), radius: 3),
-  //             labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-  //             unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'NotoSans'),
-  //             tabs: const [
-  //               Tab(
-  //                 text: "Trending",
-  //               ),
-            
-  //               Tab(
-  //                 text: "Market",
-  //               ),
-            
-  //               Tab(
-  //                 text: "News",
-  //               )
-  //             ],
-  //           ),
-  //         ),
-      
-  //         Expanded(
-  //           child: TabBarView(
-  //             children: [
-                
-  //               Consumer<MarketProvider>(
-  //                 builder: (context, marketProvider, widget) {
-  //                   return CoinTrending(trendingCoin: marketProvider.cnts,);
-  //                 }
-  //               ),
-                
-  //               Consumer<MarketProvider>(
-  //                 builder: (context, marketProvider, widget) {
-  //                   return CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,);
-  //                 }
-  //               ),
-
-  //               const MyText(text: "News",),
-  //             ],
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _coinMenuCategory() {
     return DefaultTabController(
@@ -395,13 +376,14 @@ class HomePageBody extends StatelessWidget {
 
   Widget discliamerText(){
     return const Padding(
-      padding: EdgeInsets.all(paddingSize),
+      padding: EdgeInsets.symmetric(horizontal: paddingSize),
       child: MyText(
         text: 
         '''IMPORTANT DISCLAIMER: All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms ("Site") is for your general information only, procured from third party sources. We make no warranties of any kind in relation to our content, including but not limited to accuracy and updates. No part of the content that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyses and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.''',
-        hexaColor: "#C2C2C2",
+        hexaColor: AppColors.greyCode,
         textAlign: TextAlign.start,
-        fontSize: 14,
+        fontSize: 15,
+        pBottom: 10,
       ),
     );
   }

@@ -27,8 +27,8 @@ class AddAssetState extends State<AddAsset> {
   int? initialValue;
 
   List<Map<String, dynamic>> networkSymbol = [
-    {"symbol": "BSC", "index": 0},
-    {"symbol":"Ethereum", "index": 1}
+    {"symbol": "BSC", "index": 0, "logo": "assets/token_logo/bnb.png"},
+    {"symbol":"Ethereum", "index": 1, "logo": "assets/token_logo/eth.png"}
   ];
 
   @override
@@ -280,7 +280,7 @@ class AddAssetState extends State<AddAsset> {
     return null;
   }
 
-  void onChangeDropDown(String network) {
+  void onChangeNetwork(String network) {
     setState(() {
       initialValue = int.parse(network);
     });
@@ -326,7 +326,7 @@ class AddAssetState extends State<AddAsset> {
         bottomOpacity: 0,
         leadingWidth: 7.w,
         title: MyText(
-          text: "Add Asset",
+          text: "Add Custom Token",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           fontWeight: FontWeight.bold,
           fontSize: 17,
@@ -345,8 +345,8 @@ class AddAssetState extends State<AddAsset> {
         children: [
           AddAssetBody(
             assetM: _modelAsset,
-            initialValue: initialValue.toString(),
-            onChangeDropDown: onChangeDropDown,
+            initialValue: initialValue,
+            onChangeNetwork: onChangeNetwork,
             addAsset: addAsset,
             popScreen: popScreen,
             onChanged: onChanged,

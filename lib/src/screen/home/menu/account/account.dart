@@ -45,65 +45,65 @@ class AccountState extends State<Account> {
   }
   
 
-  Future<void> deleteAccout() async {
-    await customDialog(
-      context, 
-      'Log Out account', 
-      'Are you sure to log out your account?',
-      btn2: TextButton(
-        onPressed: () async => await _deleteAccount(),
-        child: const MyText(
-          text: 'Log Out',
-          hexaColor: AppColors.redColor,
-          fontWeight: FontWeight.w700
-        ),
-      ),
-    );
-  }
+  // Future<void> deleteAccout() async {
+  //   await customDialog(
+  //     context, 
+  //     'Delete wallet', 
+  //     'Are you sure to delete your account?',
+  //     btn2: TextButton(
+  //       onPressed: () async => await _deleteAccount(),
+  //       child: const MyText(
+  //         text: 'Delete',
+  //         hexaColor: AppColors.redColor,
+  //         fontWeight: FontWeight.w700
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Future<void> _deleteAccount() async {
+  // Future<void> _deleteAccount() async {
 
-    dialogLoading(context);
+  //   dialogLoading(context);
 
-    final api = Provider.of<ApiProvider>(context, listen: false);
+  //   final api = Provider.of<ApiProvider>(context, listen: false);
     
-    try {
-      await api.apiKeyring.deleteAccount(
-        api.getKeyring,
-        _accountModel.currentAcc!,
-      );
+  //   try {
+  //     await api.apiKeyring.deleteAccount(
+  //       api.getKeyring,
+  //       _accountModel.currentAcc!,
+  //     );
 
-      final mode = await StorageServices.fetchData(DbKey.themeMode);
-      final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
-      // final event = await StorageServices.fetchData(DbKey.event);
+  //     final mode = await StorageServices.fetchData(DbKey.themeMode);
+  //     final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+  //     // final event = await StorageServices.fetchData(DbKey.event);
 
-      await StorageServices().clearStorage();
+  //     await StorageServices().clearStorage();
 
-      // Re-Save Them Mode
-      await StorageServices.storeData(mode, DbKey.themeMode);
-      await StorageServices.storeData(sldNW, DbKey.sldNetwork);
-      // await StorageServices.storeData(event, DbKey.event);
+  //     // Re-Save Them Mode
+  //     await StorageServices.storeData(mode, DbKey.themeMode);
+  //     await StorageServices.storeData(sldNW, DbKey.sldNetwork);
+  //     // await StorageServices.storeData(event, DbKey.event);
 
-      await StorageServices().clearSecure();
+  //     await StorageServices().clearSecure();
 
-      if(!mounted) return;
+  //     if(!mounted) return;
       
-      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+  //     Provider.of<ContractProvider>(context, listen: false).resetConObject();
       
-      await Future.delayed(const Duration(seconds: 2), () {});
+  //     await Future.delayed(const Duration(seconds: 2), () {});
       
-      if(!mounted) return;
-      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+  //     if(!mounted) return;
+  //     Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
 
-      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
-    } catch (e) {
+  //     Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
+  //   } catch (e) {
 
-      if (kDebugMode) {
-        print("_deleteAccount ${e.toString()}");
-      }
-      // await dialog(context, e.toString(), 'Opps');
-    }
-  }
+  //     if (kDebugMode) {
+  //       print("_deleteAccount ${e.toString()}");
+  //     }
+  //     // await dialog(context, e.toString(), 'Opps');
+  //   }
+  // }
 
   Future<void> getBackupKey(String pass) async {
     
@@ -131,7 +131,7 @@ class AccountState extends State<Account> {
   Future<void> _changeName() async {
     dialogLoading(context);
     if (_accountModel.editNameController.text.isNotEmpty){
-      dialogLoading(context);
+      // dialogLoading(context);
       final api = Provider.of<ApiProvider>(context, listen: false);
       final changePass = await api.apiKeyring.changeName(api.getKeyring, _accountModel.editNameController.text);
       String funcName = "account";
@@ -146,20 +146,22 @@ class AccountState extends State<Account> {
       }
 
       if(!mounted) return;
-      Navigator.pop(context);
+      // Navigator.pop(context);
       if (changePass.name!.isNotEmpty) {
+        Navigator.pop(context);
         await customDialog(context, 'Change Name', 'You name has changed!!!');
       } else {
+        Navigator.pop(context);
         await customDialog(context, 'Oops', 'Change Failed!!!');
       }
 
-      _accountModel.editNameController.text = '';
+      // _accountModel.editNameController.text = '';
       // Close Dialog
-      if(!mounted) return;
-      Navigator.pop(context);
+      // if(!mounted) return;
+      // Navigator.pop(context);
 
       // Close Bottom Sheet
-      Navigator.pop(context);
+      // Navigator.pop(context);
     }
   }
 
@@ -230,7 +232,7 @@ class AccountState extends State<Account> {
       submitChangePin: _changePin,
       submitBackUpKey: submitBackUpKey,
       changeName: _changeName,
-      deleteAccout: deleteAccout
+      // deleteAccout: deleteAccout
     );
   }
 }

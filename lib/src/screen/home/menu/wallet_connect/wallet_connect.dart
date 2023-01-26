@@ -13,8 +13,6 @@ class WalletConnectPage extends StatefulWidget {
 
 class WalletConnectPageState extends State<WalletConnectPage> {
 
-  final TextEditingController emailInputController = TextEditingController();
-  final TextEditingController passwordInputController = TextEditingController();
   bool? isChecked = false;
   bool? checkLogin = true;
 
@@ -75,8 +73,6 @@ class WalletConnectPageState extends State<WalletConnectPage> {
   @override
   Widget build(BuildContext context) {
     return WalletConnectBody(
-      emailInputController: emailInputController,
-      passwordInputController: passwordInputController,
       handleRememberMe: handleRememberMe,
       isChecked: isChecked,
       formKey: formKey,

@@ -673,6 +673,9 @@ class MarketProvider with ChangeNotifier {
   List<ListMetketCoinModel> lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
 
   List<Map<String, dynamic>>? lsCoin = [];
+
+  Map<String, dynamic>? coinMarketDescription;
+
   Map<String, dynamic>? queried;
 
   List<String> id = [
@@ -848,9 +851,9 @@ class MarketProvider with ChangeNotifier {
   Future<void> fetchTrendingCoin() async {
     try {
       
-      final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
+      // final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
 
-      // final res = Response(json.encode(dt), 200);
+      final res = http.Response(json.encode(dt), 200);
       
       cnts = List<CoinsModel>.empty(growable: true);
 

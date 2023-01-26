@@ -228,6 +228,7 @@ flutter:
     - assets/ads/mdw/
     - assets/illustration/
     - assets/payment/
+    - assets/nfts/
     - .env
 
     # - ../assets/

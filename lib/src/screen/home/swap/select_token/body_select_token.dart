@@ -20,6 +20,7 @@ class SelectSwapTokenBody extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
+        title: const MyText(text: "Select Token", fontWeight: FontWeight.bold, fontSize: 20,),
         actions: <Widget>[
           IconButton(
             icon: Icon(
