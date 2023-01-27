@@ -16,20 +16,9 @@ class BackUpKeyBody extends StatelessWidget{
      
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: isDarkMode ? Colors.white : Colors.black,
-            size: 22.5.sp,
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0,
-        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 2.4, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+      appBar: secondaryAppBar(
+        context: context, 
+        title: MyText(text: 'Export Account', fontSize: 2.4, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,)
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: paddingSize),
@@ -37,7 +26,7 @@ class BackUpKeyBody extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            SizedBox(height: 2.5.h),
+            SizedBox(height: 2.5.vmax),
 
             ListTileComponent(
               text: "Keystore (json)",
@@ -62,21 +51,23 @@ class BackUpKeyBody extends StatelessWidget{
               },
             ),
 
-            SizedBox(height: 2.5.h),
+            SizedBox(height: 2.5.vmax),
             
             ListTileComponent(
               text: "Mnemonic",
               action: () async {
                 await Navigator.push(context, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
                   // await disableScreenShot!();
-                  ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-                  await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
-                    if (res!.seed != null){
-                      await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
-                    } else {
-                      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
-                    }
-                  });
+                  if (value != null){
+                    ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
+                    await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
+                      if (res!.seed != null){
+                        await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
+                      } else {
+                        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
+                      }
+                    });
+                  }
                 });
                 
               },

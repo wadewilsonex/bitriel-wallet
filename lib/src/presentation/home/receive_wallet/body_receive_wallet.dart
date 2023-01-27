@@ -20,15 +20,8 @@ class ReceiveWalletBody extends StatelessWidget {
         
         return Scaffold(
           key: provider.globalKey,
-          appBar: AppBar(
-            toolbarHeight: 10.vmax,
-            backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
-            iconTheme: IconThemeData(
-              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-            ),
-            elevation: 0,
-            bottomOpacity: 0,
-            leadingWidth: 7.vmax,
+          appBar: secondaryAppBar(
+            context: context,
             title: Row(
               children: [
 
@@ -53,16 +46,6 @@ class ReceiveWalletBody extends StatelessWidget {
                   ),
                 )
               ],
-            ),
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                Iconsax.arrow_left_2,
-                color: isDarkMode ? Colors.white : Colors.black,
-                size: 4.vmax,
-              ),
             ),
           ),
           body: SingleChildScrollView(

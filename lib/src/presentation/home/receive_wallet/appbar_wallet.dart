@@ -18,6 +18,7 @@ class QrViewTitle extends StatelessWidget {
       ),
       child: Consumer<WalletProvider>(
         builder: (context, value, child) {
+
           return DropdownButtonHideUnderline(
             child: DropdownButton2(
               value: isValue == true ? initialValue : null,
@@ -39,7 +40,7 @@ class QrViewTitle extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(child: Align(
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerRight,
                         child: MyText(text: value['symbol'], overflow: TextOverflow.ellipsis,))),
                       Divider(
                         color: hexaCodeToColor(AppColors.primary), 

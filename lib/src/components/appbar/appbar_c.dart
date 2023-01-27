@@ -130,6 +130,34 @@ PreferredSizeWidget defaultAppBar({
   );
 }
 
+PreferredSizeWidget secondaryAppBar({
+  required BuildContext? context,
+  required Widget? title,
+  Widget? leading
+}){
+  return AppBar(
+    toolbarHeight: 10.vmax,
+    backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+    iconTheme: IconThemeData(
+      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+    ),
+    elevation: 0,
+    bottomOpacity: 0,
+    leadingWidth: 7.vmax,
+    title: title,
+    leading: leading ?? IconButton(
+      onPressed: () {
+        Navigator.of(context!).pop();
+      },
+      icon: Icon(
+        Iconsax.arrow_left_2,
+        color: isDarkMode ? Colors.white : Colors.black,
+        size: 4.vmax,
+      ),
+    ),
+  );
+} 
+
 class AppBarCustom extends StatelessWidget {
   final double? pLeft;
   final double? pTop;

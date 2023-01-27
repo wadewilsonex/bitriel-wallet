@@ -17,14 +17,15 @@ class ListTileComponent extends StatelessWidget{
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(1.2.vmax),
           color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
         ),
-        height: 8.h,
+        height: 8.vmax,
         child: Padding(
           padding: EdgeInsets.all(paddingSize),
           child: Row(
             children: [
+              
               MyText(
                 text: text,
               ),
@@ -33,7 +34,7 @@ class ListTileComponent extends StatelessWidget{
 
               Icon(
                 Icons.arrow_forward_ios, 
-                size: 18.5.sp,
+                size: 2.64.vmax,
                 color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
               )
             ],

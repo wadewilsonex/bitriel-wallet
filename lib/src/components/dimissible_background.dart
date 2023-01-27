@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DismissibleBackground extends StatelessWidget {
   const DismissibleBackground({Key? key}) : super(key: key);
@@ -6,16 +7,18 @@ class DismissibleBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: EdgeInsets.symmetric(vertical: 0.71.vmax),
       color: Colors.red,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: const [
+        children: [
+
           Text(
             'Remove',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
+              fontSize: 2.6.vmax
             ),
           ),
           Icon(
@@ -23,7 +26,7 @@ class DismissibleBackground extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(
-            width: 10,
+            width: 1.4.vmax,
           ),
         ],
       ),

@@ -63,19 +63,19 @@ class AddAssetBody extends StatelessWidget {
                     children: [
 
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 8.0.sp),
-                        // height: 65,
+                        margin: EdgeInsets.symmetric(horizontal: paddingSize, vertical: 1.2.vmax),
+                        height: 9.28.vmax,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(1.2.vmax),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
                             MyText(
-                              left: 20.sp,
+                              left: 2.8.vmax,
                               text: 'Select Network',
                             ),
 
@@ -97,7 +97,8 @@ class AddAssetBody extends StatelessWidget {
                       ),
 
                       MyInputField(
-                        pBottom: 20.sp,
+                        // height: 9.28.vmax,
+                        pBottom: 2.8.vmax,
                         hintText: "Token Contract Address",
                         textInputFormatter: [
                           LengthLimitingTextInputFormatter(TextField.noMaxLength)
@@ -122,8 +123,8 @@ class AddAssetBody extends StatelessWidget {
                             }
                           },
                           child: Container(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor), size: 20),
+                            padding: EdgeInsets.only(right: 2.4.vmax),
+                            child: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor), size: 2.8.vmax),
                           ),
                         ),
                       ),
@@ -157,7 +158,7 @@ class AddAssetBody extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40.0),
+                SizedBox(height: 5.71.vmax),
 
                 MyGradientButton(
                   edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
@@ -182,17 +183,17 @@ class AddAssetBody extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: 9.w,
-            width: 9.w,
-            padding: const EdgeInsets.all(6),
-            margin: const EdgeInsets.only(right: 20),
-            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(40)),
+            height: 9.vmax,
+            width: 9.vmax,
+            padding: EdgeInsets.all(0.9.vmax),
+            margin: EdgeInsets.only(right: 2.8.vmax),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(5.71.vmax)),
             child: logo.contains('http') ? Image.network(logo) : Image.asset(logo),
           ),
 
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 20.sp),
+              margin: EdgeInsets.only(right: 2.8.vmax),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -211,7 +212,7 @@ class AddAssetBody extends StatelessWidget {
                 addAsset();
               },
               child: Container(
-                margin: const EdgeInsets.only(right: 16),
+                margin: EdgeInsets.only(right: 2.4.vmax),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

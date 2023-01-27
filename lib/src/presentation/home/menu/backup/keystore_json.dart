@@ -11,19 +11,9 @@ class KeyStoreJson extends StatelessWidget{
      
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: isDarkMode ? Colors.white : Colors.black,
-            size: 22.5.sp,
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0,
-        title: const MyText(text: 'Keystore (Json)', fontWeight: FontWeight.bold),
+      appBar: secondaryAppBar(
+        context: context, 
+        title: const MyText(text: 'Keystore (Json)', fontWeight: FontWeight.bold, fontSize: 2.4,)
       ),
       body: Column(
         children: [
@@ -40,7 +30,7 @@ class KeyStoreJson extends StatelessWidget{
           ),
 
           MyGradientButton(
-            edgeMargin: EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
+            edgeMargin: EdgeInsets.only(top: 2.4.vmax, left: 2.8.vmax, right: 2.8.vmax, bottom: 2.4.vmax),
             textButton: "Copy",
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,

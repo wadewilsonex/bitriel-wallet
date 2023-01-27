@@ -95,7 +95,7 @@ Future<void> main() async {
         // ),
       ],
       child: DevicePreview(
-        enabled: kReleaseMode,
+        enabled: false,//kReleaseMode,
         builder: (context) => App(), // Wrap your app
       ), 
     ),

@@ -122,25 +122,25 @@ class MenuBody extends StatelessWidget {
         
         const MenuSubTitle(index: 5),
 
-        MyListTile(
-          icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),
-          index: 5,
-          subIndex: 1,
-          onTap: () async {
-            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-            //_launchInBrowser('https://selendra.com/privacy');
-          },
-        ),
+        // MyListTile(
+        //   icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),
+        //   index: 5,
+        //   subIndex: 1,
+        //   onTap: () async {
+        //     Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //     //_launchInBrowser('https://selendra.com/privacy');
+        //   },
+        // ),
 
-        MyListTile(
-          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),
-          index: 5,
-          subIndex: 2,
-          onTap: () async {
-            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-            //_launchInBrowser('https://selendra.com/privacy');
-          },
-        ),
+        // MyListTile(
+        //   icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),
+        //   index: 5,
+        //   subIndex: 2,
+        //   onTap: () async {
+        //     Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //     //_launchInBrowser('https://selendra.com/privacy');
+        //   },
+        // ),
 
         MyListTile(
           icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),

@@ -135,14 +135,14 @@ class FingerPrintState extends State<FingerPrint> {
                   SizedBox(
                     height: 10.0.vmax,
                   ),
-                  Image.asset("assets/logo/fingerprint.png", width: 30.vmax,),
+                  Image.asset("assets/logo/fingerprint.png", width: 12.vmax, fit: BoxFit.cover,),
                   SizedBox(
                     height: 2.9.vmax,
                   ),
                   
                   MyText(
-                    width: 50.vmax,
-                    top: 19.vmax,
+                    width: 60.vmax,
+                    // top: 19.vmax,
                     text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
                     fontSize: 2.5,
                     fontWeight: FontWeight.bold,

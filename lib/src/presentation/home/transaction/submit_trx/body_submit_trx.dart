@@ -172,9 +172,13 @@ class SubmitTrxBody extends StatelessWidget {
                   children: [
                     Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 2.5.vmax),
                     SizedBox(width: 1.vmax,),
-                    MyText(
-                      text: "Select the right network, or assets may be lost.",
-                      hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
+                    
+                    Flexible(
+                      child: MyText(
+                        overflow: TextOverflow.ellipsis,
+                        text: "Select the right network, or assets may be lost.",
+                        hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
+                      )
                     ),
                   ],
                 ),

@@ -137,6 +137,7 @@ class AppState extends State<App> {
           value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
           child: LayoutBuilder(
             builder: (builder, constraints) {
+              
               return OrientationBuilder(
                 builder: (context, orientation) {
                   SizeConfig().init(constraints, orientation);

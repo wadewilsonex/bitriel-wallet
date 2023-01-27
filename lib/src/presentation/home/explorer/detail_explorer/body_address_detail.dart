@@ -94,7 +94,7 @@ class ExplorerDetailBody extends StatelessWidget {
           Lottie.asset(
             "assets/animation/no-results.json",
             repeat: false,
-            height: 30.h,
+            height: 30.vmax,
           ),
 
           MyText(

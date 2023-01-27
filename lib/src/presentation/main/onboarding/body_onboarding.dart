@@ -12,18 +12,17 @@ class OnboardingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("5.h ${5.h}");
     return SizedBox(
       // height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
           
           SizedBox(
-            height: 5.h,
+            height: 5.vmax,
           ),
 
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(2.85.vmax),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,14 +31,16 @@ class OnboardingBody extends StatelessWidget {
                   text: "Set up\nyour Bitriel wallet",
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.start,
-                  fontSize: 22,
+                  fontSize: 3.14,
                   hexaColor: isDarkMode
                     ? AppColors.whiteColorHexa
                     : AppColors.blackColor,
                 ),
-                const SizedBox(
-                  height: 25,
+                
+                SizedBox(
+                  height: 3.57.vmax,
                 ),
+
                 MyText(
                   text: "Safe keeping digital assets, send, receive, trade, and more with Bitriel wallet.",
                   textAlign: TextAlign.start,
@@ -188,15 +189,15 @@ class OnboardingBody extends StatelessWidget {
 
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20 / 2),
+                      padding: EdgeInsets.only(top: 2.85.vmax, bottom: 2.85.vmax, left: 2.85.vmax, right: 2.85.vmax / 2),
                       child: WelcomeItem(
                         title: "Create wallet",
                         textColor: AppColors.whiteColorHexa,
                         image: Padding(
                           padding: EdgeInsets.all(paddingSize),
-                          child: Image.asset("assets/icons/setup-1.png"),
+                          child: Image.asset("assets/icons/setup-1.png", fit: BoxFit.cover,),
                         ),
-                        icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                        icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.vmax),
                         itemColor: "#263238",
                         action: () {
                           Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
@@ -207,7 +208,7 @@ class OnboardingBody extends StatelessWidget {
 
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20, right: 20, left: 20 / 2),
+                      padding: EdgeInsets.only(top: 2.85.vmax, bottom: 2.85.vmax, left: 2.85.vmax, right: 2.85.vmax / 2),
                       child: WelcomeItem(
                         title: "Import wallet",
                         textColor: AppColors.whiteColorHexa,
@@ -215,7 +216,7 @@ class OnboardingBody extends StatelessWidget {
                           padding: EdgeInsets.all(paddingSize),
                           child: Image.asset("assets/icons/setup-2.png", fit: BoxFit.cover,),
                         ),
-                        icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                        icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.vmax),
                         itemColor: "#F27649",
                         action: () {
                           Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));

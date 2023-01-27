@@ -40,23 +40,13 @@ class AccountBody extends StatelessWidget{
   Widget build(BuildContext context){
      
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        titleSpacing: 0,
+      appBar: secondaryAppBar(
+        context: context,
         title: const MyText(
           text: "Account",
           fontSize: 2.5,
           fontWeight: FontWeight.w600
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-        ),
+        ), 
       ),
       body: BodyScaffold(
         height: MediaQuery.of(context).size.height,
@@ -64,12 +54,13 @@ class AccountBody extends StatelessWidget{
         ? const Center( child: CircularProgressIndicator())
         : Column(
           children: [
+
             Container(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(2.4.vmax),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(1.2.vmax),
                   color: isDarkMode
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
@@ -81,7 +72,7 @@ class AccountBody extends StatelessWidget{
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(1.2.vmax),
                       ),
                       child: Consumer<ApiProvider>(
                         builder: (context, provider, widget){
@@ -92,14 +83,14 @@ class AccountBody extends StatelessWidget{
                                 builder: (context, value, child) {
                                   return Container(
                                     alignment: Alignment.centerLeft,
-                                    margin: const EdgeInsets.only(
-                                      bottom: 16,
-                                      top: 16,
+                                    margin: EdgeInsets.only(
+                                      bottom: 2.4.vmax,
+                                      top: 2.4.vmax,
                                     ),
-                                    width: 70,
-                                    height: 70,
+                                    width: 10.vmax,
+                                    height: 10.vmax,
                                     decoration: BoxDecoration(
-                                      borderRadius:BorderRadius.circular(5),
+                                      borderRadius:BorderRadius.circular(0.71.vmax),
                                     ),
                                     child: randomAvatar(value.accountM.addressIcon ?? '')
                                   );
@@ -145,7 +136,7 @@ class AccountBody extends StatelessWidget{
                       ),
                     ),
 
-                    SizedBox(height: 2.5.h),
+                    SizedBox(height: 2.5.vmax),
 
                     ListTileComponent(
                       action: (){
@@ -195,7 +186,7 @@ class AccountBody extends StatelessWidget{
 
 
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(2.4.vmax),
               child: MyGradientButton(
                 lsColor: const [AppColors.warningColor, AppColors.warningColor],
                 begin: Alignment.bottomRight, 

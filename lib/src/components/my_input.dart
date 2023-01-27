@@ -6,6 +6,7 @@ class MyInputField extends StatelessWidget {
   final String? textColor;
   final int? maxLine;
   final double? pTop, pBottom;
+  final double? height;
   double? pLeft;
   double? pRight;
   final bool? obcureText;
@@ -30,6 +31,7 @@ class MyInputField extends StatelessWidget {
     this.prefixText,
     // this.pLeft = paddingSize,
     // this.pRight = paddingSize,
+    this.height,
     this.pTop = 5.0,
     this.pBottom = 0,
     this.obcureText = false,
@@ -59,6 +61,7 @@ class MyInputField extends StatelessWidget {
      
 
     return Container(
+      height: height,
       padding: EdgeInsets.fromLTRB(pLeft!, pTop!, pRight!, pBottom!),
       child: TextFormField(
         key: key,
@@ -247,7 +250,7 @@ class MySeedField extends StatelessWidget {
             fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.blackColor).withOpacity(0.06),
 
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(2.85.vmax),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -261,7 +264,7 @@ class MySeedField extends StatelessWidget {
             //     : hexaCodeToColor(AppColors.darkSecondaryText)),
             /* Enable Border But Not Show Error */
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(2.85.vmax),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -269,7 +272,7 @@ class MySeedField extends StatelessWidget {
             ),
             /* Show Error And Red Border */
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.circular(2.85.vmax),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -283,7 +286,7 @@ class MySeedField extends StatelessWidget {
                 ? hexaCodeToColor("#ffffff")
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
-            contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 1.h),
+            contentPadding: EdgeInsets.fromLTRB(2.14.vmax, 2.14.vmax, 2.14.vmax, 1.vmax),
             suffixIcon: suffixIcon,
             suffixIconConstraints: const BoxConstraints(
               minWidth: 0,
@@ -309,7 +312,7 @@ OutlineInputBorder mySeedFieldBorder(Color borderColor) {
       borderSide: BorderSide(
         color: borderColor,
       ),
-      borderRadius: BorderRadius.circular(12));
+      borderRadius: BorderRadius.circular(1.71.vmax));
 }
 
 Widget myInputWidget({required BuildContext context, required TextEditingController controller, required String hintText, required Function? validator}){

@@ -12,7 +12,7 @@ class DialogComponents {
       builder: (BuildContext context){
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(2.14.vmax)
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           title: const MyText(
@@ -36,7 +36,7 @@ class DialogComponents {
                   // side: BorderSide(
                   //   width: 1
                   // ),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(1.42.vmax),
                 ),
                 color: isDarkMode
                   ? Colors.white.withOpacity(0.06)
@@ -47,15 +47,15 @@ class DialogComponents {
                   fontSize: 2.5,
                   hexaColor: isDarkMode ? AppColors.secondary : AppColors.orangeColor,
                   fontWeight: FontWeight.bold,
-                  pLeft: 16,
-                  right: 16,
-                  top: 16,
-                  bottom: 16,
+                  pLeft: 2.28.vmax,
+                  right: 2.28.vmax,
+                  top: 2.28.vmax,
+                  bottom: 2.28.vmax,
                 ),
               ),
 
               Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 2.85.vmax),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -74,12 +74,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 2.85.vmax,),
                           
-                          SizedBox(width: 2.w,),
+                          SizedBox(width: 2.vmax,),
                           MyText(
                             text: "Copy",
-                            top: 5,
+                            top: 0.71.vmax,
                             hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
@@ -119,9 +119,8 @@ class DialogComponents {
     Image? image, 
     String? textButton, btn, btn2
   }) async {
+    print("1.vmax ${1.vmax}");
     if (contentPadding == null){
-      titlesFontSize = titlesFontSize!.vmax;
-      contentsFontSize = contentsFontSize!.vmax;
       contentPadding = EdgeInsets.all(3.4.vmax);
     }
     return await showDialog(

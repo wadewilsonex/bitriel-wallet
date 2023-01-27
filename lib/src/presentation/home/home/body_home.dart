@@ -39,6 +39,7 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("media query ${MediaQuery.of(context).size.width}");
     print("1.vmax ${1.vmax}");
     return Scaffold(
       key: homePageModel!.globalKey,

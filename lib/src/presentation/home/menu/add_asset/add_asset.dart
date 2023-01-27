@@ -317,29 +317,14 @@ class AddAssetState extends State<AddAsset> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: globalKey,
-      appBar: AppBar(
-        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
-        iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        ),
-        elevation: 0,
-        bottomOpacity: 0,
-        leadingWidth: 7.w,
+      appBar: secondaryAppBar(
+        context: context, 
         title: MyText(
           text: "Add Asset",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           fontWeight: FontWeight.bold,
-          fontSize: 2.5,
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-        ),
+          fontSize: 2.4,
+        )
       ),
       body: Stack(
         children: [
@@ -375,7 +360,7 @@ class AddAssetState extends State<AddAsset> {
                       child: Lottie.asset(
                         "assets/animation/check.json",
                         alignment: Alignment.center,
-                        width: 60.w,
+                        width: 60.vmax,
                       )
                     ),
                   ],
