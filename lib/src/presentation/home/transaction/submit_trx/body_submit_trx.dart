@@ -9,6 +9,7 @@ class SubmitTrxBody extends StatelessWidget {
   final Function? clickSend;
   final Function? validateSubmit;
   final Function? validateAddress;
+  final Function? onChangeAsset;
   final Function? onChanged;
   final String Function(String)? validateField;
   final Function(String)? onChangeDropDown;
@@ -26,6 +27,7 @@ class SubmitTrxBody extends StatelessWidget {
     this.onChanged,
     this.validateField,
     this.validateAddress,
+    this.onChangeAsset,
     this.onSubmit,
     this.clickSend,
     this.validateSubmit,

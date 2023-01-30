@@ -1,5 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import '../../../../graphql/graphql.dart';
 import 'body_address_detail.dart';
 
 class ExplorerDetail extends StatefulWidget {

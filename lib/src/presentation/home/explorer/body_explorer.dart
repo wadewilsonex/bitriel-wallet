@@ -7,10 +7,12 @@ class DiscoverPageBody extends StatelessWidget {
 
   final HomePageModel? homePageModel;
   final TabController tabController;
+  final TextEditingController? searchController;
   const DiscoverPageBody({
     Key? key,
     required this.tabController,
     this.homePageModel,
+    this.searchController,
   }) : super(key: key);
 
   @override

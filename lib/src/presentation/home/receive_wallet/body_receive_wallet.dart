@@ -1,6 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/presentation/home/receive_wallet/appbar_wallet.dart';
 
 class ReceiveWalletBody extends StatelessWidget {
   
@@ -36,15 +34,15 @@ class ReceiveWalletBody extends StatelessWidget {
                   child: Container(),
                 ),
 
-                SizedBox(
-                  width: 17.vmax,
-                  child: QrViewTitle(
-                    // assetInfo: provider.assetInfo,
-                    listContract: provider.lsContractSymbol,
-                    initialValue: provider.assetsIndex.toString(),
-                    onChanged: onChanged,
-                  ),
-                )
+                // SizedBox(
+                //   width: 17.vmax,
+                //   child: QrViewTitle(
+                //     // assetInfo: provider.assetInfo,
+                //     listContract: provider.lsContractSymbol,
+                //     initialValue: provider.assetsIndex.toString(),
+                //     onChanged: onChanged,
+                //   ),
+                // )
               ],
             ),
           ),

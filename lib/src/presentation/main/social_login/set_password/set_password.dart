@@ -20,7 +20,7 @@ class _SetPasswordState extends State<SetPassword> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
 
-  late PullToRefreshController pullToRefreshController;
+  // late PullToRefreshController pullToRefreshController;
   String url = "";
   double progress = 0;
   final urlController = TextEditingController();

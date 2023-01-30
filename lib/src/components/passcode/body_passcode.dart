@@ -64,7 +64,7 @@ class PasscodeBody extends StatelessWidget{
             else MyText(
               text: titleStatus,
               hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
-              fontSize: 3.2,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
 

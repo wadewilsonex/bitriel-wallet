@@ -1,3 +1,5 @@
+import 'package:wallet_apps/src/components/home_c.dart';
+
 import '../../../../index.dart';
 
 class AssetCheckIn extends StatelessWidget {

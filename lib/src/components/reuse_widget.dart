@@ -821,12 +821,10 @@ Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {do
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-
-      // embeddedImage: logoName.contains("http") ?  : AssetImage(logoName),
+      embeddedImage: const AssetImage('assets/logo/bitirel-logo-circle.png'),
       embeddedImageStyle: QrEmbeddedImageStyle(
-        // size: Size(10.w, 10.h),
+        size: Size(25.sp, 25.sp),
       ),
-      // version: QrVersions.auto,
       eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
       dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
       data: wallet,

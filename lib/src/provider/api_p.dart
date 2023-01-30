@@ -122,8 +122,9 @@ class ApiProvider with ChangeNotifier {
         _jsCode = js;
       });
 
-      print("Finish load js");
-
+      // Setup ss58Format base on Networkgg
+      // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
+    
       await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
       print('finish init Keyring');
       await _sdk.init(_keyring, jsCode: _jsCode);
@@ -495,29 +496,23 @@ class ApiProvider with ChangeNotifier {
       NetworkParams node = NetworkParams();
       NetworkParams nodePol = NetworkParams();
 
-      node.name = 'Indranet hosted By Selendra';
+      node.name = 'Selendra';
       node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
-      nodePol.name = 'Polkadot(Live, hosted by PatractLabs)';
-      nodePol.endpoint = isMainnet ? AppConfig.networkList[1].wsUrlMN : AppConfig.networkList[1].wsUrlTN;//'wss://westend-rpc.polkadot.io';//'wss://polkadot.elara.patract.io';//AppConfig.networkList[1].wsUrlMN; ;
-      nodePol.ss58 = 0;
+      await _sdk.api.connectNode(_keyring, [node]);
 
-      await _sdk.api.connectNode(_keyring, [node, nodePol]).then((value) async {
-        // node = value!;
-        if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
-      }).then((value) async {
+      if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
+      
+      /// Save To Local After Connect Network 
+      if (endpoint != null){
+        selNetwork = endpoint;
         
-        /// Save To Local After Connect Network 
-        if (endpoint != null){
-          selNetwork = endpoint;
-          
-          await StorageServices.storeData(
-            selNetwork,
-            DbKey.sldNetwork
-          );
-        }
-      });
+        await StorageServices.storeData(
+          selNetwork,
+          DbKey.sldNetwork
+        );
+      }
 
       return node;
     } catch (e) {

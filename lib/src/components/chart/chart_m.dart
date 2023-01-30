@@ -4,7 +4,6 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/chart/line_chart.dart';
 
 Padding chartAsset(
-    bool isHomePage,
     Widget? logo,
     String crypto,
     String cryptoCode,
@@ -18,9 +17,6 @@ Padding chartAsset(
   sortedSpots.sort((a, b) => a.y.compareTo(b.y));
   minY.value = sortedSpots.first.y;
   maxY.value = sortedSpots.last.y;
-  double profitPercent =
-      ((spots.last.y - spots[spots.length - 2].y) / spots[spots.length - 2].y) *
-          100;
 
   return Padding(
     padding: const EdgeInsets.all(0.0),
@@ -41,47 +37,60 @@ Padding chartAsset(
           ),
           child: Column(
             children: [
+              // MyText(
+              //   text: "\$$marketPrice",
+              //   hexaColor: AppColors.textColor,
+              //   fontSize: 25,
+              //   fontWeight: FontWeight.w700,
+              // ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 25.sp,
+                    width: 30.sp,
                     child: logo!,
                   ),
 
-                  SizedBox(
-                    width: 50.w,
-                    child: Text(
-                      ' $crypto ($cryptoCode) - $exchangeCurrency',
-                      style: TextStyle(
-                        fontSize: 2.4.vmax,
-                        color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                  Padding(
+                    padding: EdgeInsets.only(left: 1.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '$crypto ($cryptoCode) - $exchangeCurrency',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+
+                        MyText(
+                          text: "\$$marketPrice",
+                          hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
+                          fontSize: 19.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+
+                      ],
                     ),
                   ),
 
                   Expanded(child: Container()),
 
-                  MyText(
-                    text: "\$$marketPrice",
-                    hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
-                    fontSize: 2.2,
-                    fontWeight: FontWeight.w700,
-                  ),
                 ],
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 2.h, bottom: 1.h),
+                padding: EdgeInsets.only(top: 5.h),
                 child: SizedBox(
-                  width: 90.w,
-                  height: 10.h,
+                  width: double.infinity,
+                  height: 20.h,
                   child: Obx(
-                    () => LineChart(chart(isHomePage, spots, minY.value,
-                      maxY.value, profitPercent >= 0)
+                    () => LineChart(chart(spots, minY.value, maxY.value,)
                     ),
                   ),
                 ),

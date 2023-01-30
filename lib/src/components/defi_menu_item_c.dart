@@ -49,6 +49,7 @@ class DefiMenuItem extends StatelessWidget {
                       text: title,
                       hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
                       fontWeight: FontWeight.w700,
+                      fontSize: 17,
                     ),
             
                     MyText(

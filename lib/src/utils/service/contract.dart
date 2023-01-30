@@ -183,8 +183,34 @@ class ContractService implements IContractService {
         String org = _getOrg(i, ls);
         tmp.add({
           "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
-          "index": i
+          "index": i,
+          "logo": "${ls[i].logo}"
         });
+      }
+    }
+
+    return tmp;
+  }
+
+  static Map<String, dynamic> getConByIndex(BuildContext context, List<SmartContractModel> ls, int index){
+    Map<String, dynamic> tmp = {};
+    
+    String? org;
+    
+    if (ls.isNotEmpty){
+      
+      for (int i = 0; i < ls.length; i++){
+
+        org = _getOrg(i, ls);
+        if (ls[i].symbol == ls[index].symbol){
+          tmp = {
+            "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
+            "index": i,
+            "logo": "${ls[i].logo}"
+          };
+
+          break;
+        }
       }
     }
 

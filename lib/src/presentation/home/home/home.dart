@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
-import 'package:video_player/video_player.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/presentation/home/home/body_home.dart';
@@ -31,14 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
-    // _videoController = VideoPlayerController.network("https://gateway.kumandra.org/files/QmXj9y8TRKJGdk9rmiK5bWsqrM4yg7Ni5tM8SdH5oUtJtS")..initialize().then((_) {
-    //   // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //   setState(() {});
-    // });
-
-    // _videoController!.setVolume(0);
-    // _videoController!.setLooping(true);
-    // _videoController!.play();
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -69,6 +60,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose(){
+    // _videoController!.dispose();
     super.dispose();
   }
 
@@ -171,7 +163,7 @@ class _HomePageState extends State<HomePage> {
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
-      getReward: _scanLogin
+      getReward: _scanLogin,
     );
   }
 }

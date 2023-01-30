@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
-import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/presentation/home/swap/body_swap.dart';
+import 'package:wallet_apps/src/provider/swap_p.dart';
 
 class SwapPage extends StatefulWidget {
   const SwapPage({ Key? key }) : super(key: key);

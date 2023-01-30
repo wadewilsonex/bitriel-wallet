@@ -26,34 +26,35 @@ class WelcomeItem extends StatelessWidget {
         action!();
       },
       child: Container(
-        height: 35.vmax,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(1.2.vmax),
+          borderRadius: BorderRadius.circular(8),
           color: hexaCodeToColor(itemColor!)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Padding(
-              padding: EdgeInsets.only(top: 2.14.vmax, left: 2.14.vmax),
-              child: icon!,
-            ),
-
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                child: image!,
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  icon!
+                ],
               ),
             ),
 
+            image!,
+
             Padding(
-              padding: EdgeInsets.only(bottom: 2.14.vmax, left: 2.14.vmax),
-              child: MyText(
-                text: title,
-                hexaColor: textColor,
-                fontWeight: FontWeight.w600,
+              padding: const EdgeInsets.only(bottom: 10, left: 10.0),
+              child: Row(  
+                children: [
+                  MyText(
+                    text: title,
+                    hexaColor: textColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
               ),
             ),
           ],

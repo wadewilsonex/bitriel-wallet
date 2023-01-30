@@ -1,106 +1,134 @@
+import 'package:scan/scan.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScanner extends StatefulWidget {
   const QrScanner({Key? key}) : super(key: key);
 
-  // final List portList;
-  // final WalletSDK sdk;
-  // final Keyring keyring;
-
-  // QrScanner({this.portList, this.sdk, this.keyring});
-
   @override
-  State<StatefulWidget> createState() {
-    return QrScannerState();
-  }
+  State<QrScanner> createState() => _QrScannerState();
 }
 
-class QrScannerState extends State<QrScanner> {
+class _QrScannerState extends State<QrScanner> with SingleTickerProviderStateMixin {
+  final BorderRadius _borderRadius = const BorderRadius.vertical(
+    top: Radius.circular(20),
+  );
 
-  final GlobalKey qrKey = GlobalKey();
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
+  ScanController scanController = ScanController();
 
-  Future? _onQrViewCreated(QRViewController controller) async {
-    controller.resumeCamera();
-    try {
-      controller.scannedDataStream.listen((event) async {
-        controller.pauseCamera();
+  @override
+  void dispose() {
+    scanController.pause();
+    controller.dispose();
+    controller.stop();
+    super.dispose();
+  }
 
-        Navigator.pop(context, event.code);
+  @override
+  void initState() {
+    super.initState();
 
-      });
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    scaleAnimation = CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
-    } catch (e) {
-      if (kDebugMode) {
-        print("qr create $e");
-      }
-    }
+    controller.addListener(() {
+      setState(() {});
+    });
 
-    return controller;
+    controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-     
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
-        iconTheme: IconThemeData(
-          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-        ),
-        title: const MyText(
-          text: "Scan QR",
-          fontSize: 2.5,
-          fontWeight: FontWeight.w600
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(
-            Iconsax.arrow_left_2,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-        ),
-      ),
-      body: BodyScaffold(
-        physic: const NeverScrollableScrollPhysics(),
-        height: MediaQuery.of(context).size.height,
-        bottom: 0,
-        child: Column(
-          children: [
-            
-            Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  
-                  QRView(
-                    key: qrKey,
-                    onQRViewCreated: (QRViewController qrView) async {
-                      await _onQrViewCreated(qrView);
+    return ScaleTransition(
+      scale: scaleAnimation,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .8,
+                  child: ScanView(
+                    controller: scanController,
+                    scanLineColor: hexaCodeToColor(AppColors.primaryColor),
+                    onCapture: (data) => {
+                      Navigator.of(context).pop(data)
                     },
-                    overlay: QrScannerOverlayShape(
-                      borderColor: hexaCodeToColor(AppColors.whiteColorHexa),
-                      borderRadius: 10,
-                      borderWidth: 10,
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  right: 10,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                    iconSize: 40,
+                    color: hexaCodeToColor(AppColors.primaryColor)
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: _borderRadius,
+                      color: hexaCodeToColor(AppColors.whiteColorHexa)
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: const MyText(text: "Send Funds", fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.start),
+                          subtitle: const MyText(text: "Scan address QR code to send money", fontSize: 15, textAlign: TextAlign.start),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              SizedBox(
+                                width: 30,
+                                child: Icon(
+                                  Iconsax.arrow_up_3,
+                                  color: Colors.black
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          title: const MyText(text: "Connect to apps", fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.start),
+                          subtitle: const MyText(text: "Scan WalletConnect QR code", fontSize: 15, textAlign: TextAlign.start),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                child: Image.asset(
+                                  'assets/icons/wallet-connect.png',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-            
-                  Positioned(
-                    left: (MediaQuery.of(context).size.width / 2) - 100,
-                    top: 550,
-                    child: MyText(
-                      width: 200,
-                      text: "Scan QR Code to login, send, pay",
-                      // fontSize: 15,
-                      hexaColor: AppColors.whiteColorHexa,
-                    ),
-                  )
-                ]
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -70,8 +70,8 @@ class _NFTState extends State<NFT> with TickerProviderStateMixin {
               labelColor: hexaCodeToColor(AppColors.primaryColor),
               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
               indicator: CircleTabIndicator(color: hexaCodeToColor(AppColors.primaryColor), radius: 3),
-              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Barlow'),
-              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Barlow'),
+              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'NotoSans'),
               tabs: const [
                 Tab(
                   text: "ALL",

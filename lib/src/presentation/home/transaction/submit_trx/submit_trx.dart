@@ -201,7 +201,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
-  void onChangeDropDown(String data) {
+  void onChangeAsset(String data) {
     setState(() {
       _scanPayM.assetValue = int.parse(data);
       _scanPayM.balance = _contractProvider!.sortListContract[_scanPayM.assetValue].balance;
@@ -263,7 +263,8 @@ class SubmitTrxState extends State<SubmitTrx> {
               await enableAnimation();
             }
           });
-        } else {
+        } 
+        else {
           if (!isValid) {
             if(!mounted) return;
             Navigator.pop(context);
@@ -383,6 +384,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   // Second Execute
   Future<dynamic> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
+
     try {
 
       trxFunc!.contract = _contractProvider;
@@ -487,9 +489,13 @@ class SubmitTrxState extends State<SubmitTrx> {
             }
           }
         }
+        
       }
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
+      if (kDebugMode) {
+        print("Error $e");
+      }
       throw Exception(e);
     }
   }
@@ -562,8 +568,8 @@ class SubmitTrxState extends State<SubmitTrx> {
         leadingWidth: 7.vmax,
         title: const MyText(
           text: "Send",
+          fontSize: 17,
           fontWeight: FontWeight.bold,
-          fontSize: 2.5,
         ),
         leading: IconButton(
           onPressed: () {
@@ -610,7 +616,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             validateField: (String? value){
               return validateField(value!)!;
             },
-            onChangeDropDown: onChangeDropDown,
+            onChangeAsset: onChangeAsset,
             scanQR: scanQR,
           ),
 

@@ -1,8 +1,6 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
-import '../../../../graphql/graphql.dart';
 
 class ExplorerDetailBody extends StatelessWidget {
   final ExplorerQueries? explorerQueries;

@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
+import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 class AssetsPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
@@ -149,40 +153,53 @@ class AssetsPageBody extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
-            borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+            color: hexaCodeToColor(AppColors.whiteColorHexa),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            image: const DecorationImage(
+              image: AssetImage('assets/bg-glass.jpg'),
+              fit: BoxFit.cover
+            ),
           ),
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(left: 20.sp, right: 20.sp, bottom: 20.sp),
-          child: Column(
-            children: [
-              
-              SizedBox(height: 5.vmax),
-              
-              Consumer<ContractProvider>(
-                builder: (context, provider, widget){
-                  return MyText(
-                    text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
-                    // hexaColor: AppColors.whiteColorHexa,
-                    fontSize: 3.4,
-                    fontWeight: FontWeight.w600,
-                  );
-                }
+          
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+              child: Column(
+                children: [
+                  
+                  SizedBox(height: 2.5.h),
+                  
+                  Consumer<ContractProvider>(
+                    builder: (context, provider, widget){
+                      return MyText(
+                        text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
+                        hexaColor: AppColors.whiteColorHexa,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                      );
+                    }
+                  ),
+                  
+                  // SizedBox(height: 0.5.h),
+                  Consumer<ContractProvider>(
+                    builder: (context, provider, widget){
+                      return MyText(
+                        text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                        hexaColor: AppColors.whiteColorHexa,
+                      );
+                    }
+                  ),
+                      
+                  SizedBox(height: 2.5.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
+                    child: _operationRequest(context),
+                  ),
+                ],
               ),
-              
-              SizedBox(height: 1.vmax),
-              Consumer<ContractProvider>(
-                builder: (context, provider, widget){
-                  return MyText(
-                    text: provider.listContract.isEmpty ? '' : """≈ ${ provider.usdToBtc(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0') ) } BTC""",
-                    // hexaColor: AppColors.tokenNameColor,
-                  );
-                }
-              ),
-
-              SizedBox(height: 5.vmax),
-              _operationRequest(context),
-            ],
+            ),
           ),
         );
       } 
@@ -220,75 +237,183 @@ class AssetsPageBody extends StatelessWidget {
   Widget _operationRequest(BuildContext context) {
 
     return IntrinsicHeight(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-
-          Expanded(
-            flex: 3,
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context, 
-                  Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: hexaCodeToColor("#FEFEFE").withOpacity(0.9),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor))
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded( 
+              flex: 3,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context, 
+                    Transition(child: const SubmitTrx("", true, []), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+              
+                  children: [
+                    
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
+                      ),
+                      child: Transform.rotate(
+                        angle: 141.371669412,
+                        child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary)),
+                      ),
+                    ),
             
-                children: [
-                  
-                  Transform.rotate(
-                    angle: 141.371669412,
-                    child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,), size: 4.vmax,),
-                  ),
-          
-                  MyText(
-                    text: "Send",
-                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ],
+                    const MyText(
+                      text: "Send",
+                      hexaColor: AppColors.primaryColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          
-          SizedBox(
-            height: 15,
-            child: VerticalDivider(
+
+            VerticalDivider(
               color: hexaCodeToColor("#D9D9D9"),
               thickness: 1,
             ),
-          ),
-          
-          Expanded(
-            flex: 3,
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                );
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+
+            Expanded(
+              flex: 3,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+              
+                  children: [
+                    
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
+                      ),
+                      child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                    ),
             
-                children: [
-                  
-                  Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary), size: 4.vmax),
-          
-                  MyText(
-                    text: "Receive",
-                    hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ],
+                    MyText(
+                      text: "Receive",
+                      hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+
+            VerticalDivider(
+              color: hexaCodeToColor("#D9D9D9"),
+              thickness: 1,
+            ),
+            
+            Expanded(
+              flex: 3,
+              child: InkWell(
+                onTap: () {
+                  underContstuctionAnimationDailog(context: context);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+              
+                  children: [
+                    
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
+                      ),
+                      child: Icon(Iconsax.card, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                    ),
+            
+                    MyText(
+                      text: "Buy",
+                      hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            VerticalDivider(
+              color: hexaCodeToColor("#D9D9D9"),
+              thickness: 1,
+            ),
+            
+            Expanded(
+              flex: 3,
+              child: InkWell(
+                onTap: () async {
+                  await showBarModalBottomSheet(
+                      context: context,
+                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical( 
+                          top: Radius.circular(25.0),
+                        ),
+                      ),
+                      builder: (context) => Column(
+                        children: const [
+                          SwapMethod(),
+                        ],  
+                      ),
+                    );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+              
+                  children: [
+                    
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
+                      ),
+                      child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                    ),
+            
+                    const MyText(
+                      text: "Swap",
+                      hexaColor: AppColors.primaryColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            
+          ],
+        ),
       ),
     );
   }

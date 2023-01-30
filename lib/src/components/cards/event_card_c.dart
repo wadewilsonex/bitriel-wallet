@@ -26,9 +26,9 @@ class EventCardComponents extends StatelessWidget {
       children: [
     
         MyText(
-          top: 4.vmax,
-          left: 4.vmax,
-          bottom: 1.vmax,
+          top: 30,
+          left: 22,
+          bottom: 10,
           text: title,
           fontSize: 2.7,
           fontWeight: FontWeight.w600,

@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
@@ -94,10 +93,7 @@ Future<void> main() async {
         //   create: (context) => GoogleAuthService(),
         // ),
       ],
-      child: DevicePreview(
-        enabled: false,//kReleaseMode,
-        builder: (context) => App(), // Wrap your app
-      ), 
+      child: App(), 
     ),
   );
 }

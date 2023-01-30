@@ -6,7 +6,7 @@ class AddAssetBody extends StatelessWidget {
 
   final ModelAsset? assetM;
   final String? tokenSymbol;
-  final String? initialValue;
+  final int? initialValue;
   final List<Map<String, dynamic>>? networkSymbol;
   final Function? validateIssuer;
   final Function? popScreen;
@@ -16,7 +16,7 @@ class AddAssetBody extends StatelessWidget {
   final Function? submitAsset;
   final Function? addAsset;
   final Function? qrRes;
-  final Function? onChangeDropDown;
+  final Function? onChangeNetwork;
 
   const AddAssetBody({
     Key? key, 
@@ -32,7 +32,7 @@ class AddAssetBody extends StatelessWidget {
     this.submitAsset,
     this.addAsset,
     this.qrRes,
-    this.onChangeDropDown,
+    this.onChangeNetwork,
   }) : super(key: key);
 
   @override
@@ -47,14 +47,9 @@ class AddAssetBody extends StatelessWidget {
             child: Column(
               children: [
 
-                // const SizedBox(
-                //   height: 20.0,
-                // ),
-                // SvgPicture.asset(
-                //   '${AppConfig.iconsPath}contract.svg',
-                //   width: 20.w,
-                //   height: 20.h,
-                // ),
+                SizedBox(
+                  height: 2.h,
+                ),
                 
                 Form(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -62,39 +57,124 @@ class AddAssetBody extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: paddingSize, vertical: 1.2.vmax),
-                        height: 9.28.vmax,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
-                          borderRadius: BorderRadius.circular(1.2.vmax),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-                            MyText(
-                              left: 2.8.vmax,
-                              text: 'Select Network',
-                            ),
-
-                            Expanded(child: Container()),
-
-                            Flexible(
-                              child:  QrViewTitle(
-                                isValue: true,
-                                // assetInfo: provider.assetInfo,
-                                listContract: networkSymbol,
-                                initialValue: initialValue,
-                                onChanged: (value) {
-                                  onChangeDropDown!(value);
-                                },
+                      GestureDetector(
+                        onTap: () async {
+                          FocusScope.of(context).unfocus();
+                          await showModalBottomSheet(
+                            context: context,
+                            isDismissible: true,
+                            backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical( 
+                                top: Radius.circular(25.0),
                               ),
                             ),
-                          ],
+                            builder: (context) => _listNetwork(
+                              isValue: true,
+                              listNetwork: networkSymbol,
+                              initialValue: initialValue,
+                              onChanged: (value) {
+                                onChangeNetwork!(value);
+                              },
+                            ),
+                          );
+        
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            bottom: 8,
+                            left: paddingSize,
+                            right: paddingSize,
+                          ),
+                          
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(
+                              paddingSize, 0, paddingSize, 0
+                            ), 
+                            decoration: BoxDecoration(
+                              color: isDarkMode
+                                ? Colors.white.withOpacity(0.06)
+                                : hexaCodeToColor(AppColors.whiteHexaColor),
+                              borderRadius: BorderRadius.circular(size5),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                // provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
+                                // ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,) 
+                                // : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,),
+
+                                Expanded(
+                                  child: MyText(
+                                    pTop: paddingSize,
+                                    pBottom: paddingSize,
+                                    text: "Network",
+                                    // text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    textAlign: TextAlign.left,
+                                    hexaColor: isDarkMode
+                                      ? AppColors.darkSecondaryText
+                                      : AppColors.textColor,
+                                  ),
+                                ),
+
+                                Row(
+                                  children: [
+                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22.sp, width: 22.sp,),
+
+                                    SizedBox(width: 2.5.w,),
+
+                                    MyText(
+                                      text: "${networkSymbol![initialValue!]["symbol"]}",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+
+                                    SizedBox(width: 5.w,),
+
+                                    Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
+
+                      // Container(
+                      //   margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      //   // height: 65,
+                      //   width: double.infinity,
+                      //   decoration: BoxDecoration(
+                      //     color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
+                      //     borderRadius: BorderRadius.circular(8.0),
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+
+                      //       const MyText(
+                      //         left: 16.0,
+                      //         text: 'Network',
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+
+                      //       Expanded(child: Container()),
+
+                      //       Flexible(
+                      //         child:  DropdownList(
+                      //           isValue: true,
+                      //           // assetInfo: provider.assetInfo,
+                      //           listContract: networkSymbol,
+                      //           initialValue: initialValue,
+                      //           onChanged: (value) {
+                      //             onChangeNetwork!(value);
+                      //           },
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
 
                       MyInputField(
                         // height: 9.28.vmax,
@@ -123,8 +203,8 @@ class AddAssetBody extends StatelessWidget {
                             }
                           },
                           child: Container(
-                            padding: EdgeInsets.only(right: 2.4.vmax),
-                            child: Icon(Iconsax.scan, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor), size: 2.8.vmax),
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.primaryColor), size: 20),
                           ),
                         ),
                       ),
@@ -158,7 +238,7 @@ class AddAssetBody extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 5.71.vmax),
+                // const SizedBox(height: 40.0),
 
                 MyGradientButton(
                   edgeMargin: EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
@@ -200,6 +280,7 @@ class AddAssetBody extends StatelessWidget {
                 children: [
                   MyText(
                     text: tokenSymbol,
+                    fontWeight: FontWeight.bold,
                   ),
                   //MyText(text: org, fontSize: 15),
                 ],
@@ -249,4 +330,75 @@ class AddAssetBody extends StatelessWidget {
       child: child
     );
   }
+
+  Widget _listNetwork(
+    {
+      final bool? isValue,
+      final int? initialValue,
+      final Function? onChanged,
+      final List<Map<String, dynamic>>? listNetwork,
+    }
+  ){
+    return DraggableScrollableSheet(
+      initialChildSize: 0.9,
+      minChildSize: 0.5,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (_, scrollController) {
+        return Column(
+          children: [
+            Icon(
+              Icons.remove,
+              color: Colors.grey[600],
+              size: 25.sp,
+            ),
+
+            Expanded(
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: listNetwork!.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          onChanged!(index.toString());
+                          Navigator.pop(context, listNetwork[index]);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27.sp, width: 27.sp,)
+                              ),
+                                          
+                              SizedBox(width: 2.w,),
+                                          
+                              MyText(text: listNetwork[index]["symbol"], fontSize: 18, fontWeight: FontWeight.bold,),
+                                          
+                            ],
+                          ),
+                        ),
+                      ),
+                      
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                        child: Divider(
+                          thickness: 0.05,
+                          color: hexaCodeToColor(AppColors.darkGrey),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      }
+    );
+  }
+
 }

@@ -1,10 +1,4 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/import_acc_m.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:polkawallet_sdk/api/apiKeyring.dart';
-import 'package:wallet_apps/src/presentation/home/home/home.dart';
 
 class ImportAcc extends StatefulWidget {
 
@@ -75,7 +69,7 @@ class ImportAccState extends State<ImportAcc> {
       Navigator.push(
         context, 
         Transition(
-          child: FingerPrint(initStateData: initStateData, importAccountModel: _importAccountModel,),
+          child: ImportJson(initStateData: initStateData, importAccountModel: _importAccountModel,),
           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
         )
       );
@@ -161,6 +155,7 @@ class ImportAccState extends State<ImportAcc> {
     });
 
     importAcc();
+    // importJson();
   }
 
   Future<void> importAcc() async { 
@@ -184,6 +179,40 @@ class ImportAccState extends State<ImportAcc> {
 
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
+    
+    await connectNetwork(_importAccModel.mnemonicCon.text);
+
+  }
+
+  Future<void> importJson() async { 
+    
+    try {
+      changeStatus("IMPORTING ACCOUNT", avg: "1/3");
+    
+      final jsn = await _apiProvider!.apiKeyring.importAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.keystore, 
+        key: _importAccModel.mnemonicCon.text,   
+        name: 'User', 
+        password: _importAccModel.pwCon.text
+      );
+
+      print("jsn $jsn");
+
+      await _apiProvider!.apiKeyring.addAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.keystore, 
+        acc: jsn!,
+        password: _importAccModel.pwCon.text
+      );
+
+      changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
+      _importAccountModel.animationController!.forward(from: 0.2);
+    } catch (e) {
+      if (kDebugMode){
+        print("error importJson $e");
+      }
+    }
     
     await connectNetwork(_importAccModel.mnemonicCon.text);
 

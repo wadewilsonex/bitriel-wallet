@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/home_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class TrxActivity extends StatefulWidget {

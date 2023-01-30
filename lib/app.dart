@@ -1,8 +1,10 @@
-
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:responsive_framework/responsive_framework.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/config/route/router.dart' as router;
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
+// import 'package:wallet_apps/src/screen/home/home/home.dart';
+// import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
@@ -23,6 +25,12 @@ class AppState extends State<App> {
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
     // MarketProvider().fetchTokenMarketPrice(context);
+
+    Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
+
+
+    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+
 
     // readTheme();
 
@@ -141,34 +149,27 @@ class AppState extends State<App> {
               return OrientationBuilder(
                 builder: (context, orientation) {
                   SizeConfig().init(constraints, orientation);
-                  return AnnotatedRegion(
-                    value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-                    child: MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      navigatorKey: AppUtils.globalKey,
-                      title: AppString.appName,
-                      theme: AppStyle.myTheme(context),
-                      onGenerateRoute: router.generateRoute,
-                      // routes: {
-                      //   HomePage.route: (_) => GoogleAuthService().handleAuthState() // HomePage(),
-                      // },
-                      initialRoute: AppString.splashScreenView,
-                      
-                      builder: (context, child) => ResponsiveWrapper.builder(
-                        // BouncingScrollWrapper.builder(context, widget!),
-                          child,
-                          maxWidth: 1200,
-                          minWidth: 480,
-                          defaultScale: true,
-                          breakpoints: [
-                            ResponsiveBreakpoint.resize(480, name: MOBILE),
-                            ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                          ],
-                          background: Container(color: Color(0xFFF5F5F5))
-                      ),
-
-                    ),
+                  return MaterialApp(
+                    navigatorKey: AppUtils.globalKey,
+                    title: AppString.appName,
+                    theme: AppStyle.myTheme(context),
+                    // onGenerateRoute: router.generateRoute,
+                    routes: {
+                      HomePage.route: (_) => GoogleAuthService().handleAuthState() // HomePage(),
+                    },
+                    initialRoute: AppString.splashScreenView,
+                    // builder: (context, widget) => ResponsiveWrapper.builder(
+                    //   BouncingScrollWrapper.builder(context, widget!),
+                    //   maxWidth: 1200,
+                    //   // minWidth: 800,
+                    //   defaultScale: true,
+                    //   breakpoints: [
+                    //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
+                    //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                    //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                    //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+                    //   ],
+                    // ),
                   );
                 },
               );

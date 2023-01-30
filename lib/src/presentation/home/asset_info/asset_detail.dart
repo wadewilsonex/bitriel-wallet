@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/src/utils/rest_api/api_chart.dart';
@@ -52,13 +53,14 @@ class AssetDetailState extends State<AssetDetail> {
   @override
   void initState() {
     queryAssetChart();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -68,12 +70,11 @@ class AssetDetailState extends State<AssetDetail> {
             if (widget.scModel.chart == null)
             const CircularProgressIndicator()
             
-            else if (widget.scModel.chart!.isNotEmpty) 
-            chartAsset(
-              true,
-              ClipRRect(
-                borderRadius: BorderRadius.circular(80),
-                child: widget.scModel.logo!.contains('http') 
+            else if (widget.scModel.chart!.isNotEmpty)
+            FadeInUp(
+              duration: const Duration(milliseconds: 500),
+              child: chartAsset(
+                widget.scModel.logo!.contains('http')
                 ? Image.network(
                   widget.scModel.logo!,
                   fit: BoxFit.contain,
@@ -81,21 +82,28 @@ class AssetDetailState extends State<AssetDetail> {
                 : Image.asset(
                   widget.scModel.logo!,
                   fit: BoxFit.contain,
-                )
+                ),
+                widget.scModel.name!,
+                widget.scModel.symbol!,
+                'USD',
+                widget.scModel.marketPrice!,
+                widget.scModel.chart!,
               ),
-              widget.scModel.name!,
-              widget.scModel.symbol!,
-              'USD',
-              widget.scModel.marketPrice!,
-              widget.scModel.chart!,
             ),
             // else Container(),
 
             SizedBox(height: 2.h),
             
-            widget.scModel.marketData == null 
-            ? assetFromJson()
-            : assetFromApi(),
+            widget.scModel.marketData == null
+            ? FadeInUp(
+                duration: const Duration(milliseconds: 500),
+                child: assetFromJson()
+            )
+            :
+            FadeInUp(
+                duration: const Duration(milliseconds: 500),
+                child: assetFromApi()
+            ),
 
           ],
         )
@@ -106,9 +114,7 @@ class AssetDetailState extends State<AssetDetail> {
   Widget line() {
     return Container(
       height: 1,
-      color: isDarkMode
-        ? hexaCodeToColor(AppColors.titleAssetColor)
-        : hexaCodeToColor(AppColors.textColor),
+      color: hexaCodeToColor("#C1C1C1").withOpacity(0.5)
     );
   }
 
@@ -151,38 +157,145 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
-          text: 'Token Info',
-          fontWeight: FontWeight.bold,
-          textAlign: TextAlign.left,
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                MyText(
+                  text: "Market cap",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: const [
+                MyText(
+                  text: "Circulation supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ],
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 2.h,),
 
-        textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                MyText(
+                  text: "Total volume",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Project Name', '${widget.scModel.name}', ''),
+            const Spacer(),
 
-        textRow('Token Standard', '${widget.scModel.org}', ''),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const MyText(
+                  text: "Total supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "null",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+          ],
+        ),
+
+        SizedBox(height: 1.5.h),
 
         line(),
 
-        const SizedBox(height: 10.0),
+        SizedBox(height: 1.5.h),
 
-        MyText(
-          text: 'About ${widget.scModel.name}',
+        const MyText(
+          text: 'Description',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 1.5.h),
+
 
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
+          hexaColor: AppColors.greyCode,
         ),
+
+
+
+
+        // const MyText(
+        //   text: 'Token Info',
+        //   fontWeight: FontWeight.bold,
+        //   textAlign: TextAlign.left,
+        //   hexaColor: AppColors.primaryColor,
+        // ),
+
+        // const SizedBox(height: 16.0),
+
+        // textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
+
+        // textRow('Project Name', '${widget.scModel.name}', ''),
+
+        // textRow('Token Standard', '${widget.scModel.org}', ''),
+
+        // textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
+
+        // SizedBox(height: 1.5.h), 
+
+        // line(),
+
+        // SizedBox(height: 1.5.h),
+
+        // MyText(
+        //   text: 'About ${widget.scModel.name}',
+        //   fontWeight: FontWeight.bold,
+        //   textAlign: TextAlign.left,
+        //   hexaColor: AppColors.primaryColor,
+        // ),
+
+        // const SizedBox(height: 16.0),
+
+        // MyText(
+        //   textAlign: TextAlign.start,
+        //   text: '${widget.scModel.description}',
+        // ),
       ],
     )
     :
@@ -201,52 +314,122 @@ class AssetDetailState extends State<AssetDetail> {
     return widget.scModel.marketData!.description != null ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const MyText(
-          text: 'Token Info',
-          fontWeight: FontWeight.bold,
-          textAlign: TextAlign.left,
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Market cap",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "\$${convert("${widget.scModel.marketData!.marketCap}")}",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const MyText(
+                  text: "Circulation supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "${convert("${widget.scModel.marketData!.circulatingSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ],
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 2.h,),
 
-        textRow('Token Name', (widget.scModel.marketData!.symbol)!.toUpperCase(), ''),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MyText(
+                  text: "Total volume",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "\$${convert("${widget.scModel.marketData!.totalVolume}")}",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
 
-        textRow('Project Name', '${widget.scModel.marketData!.name}', ''),
+            const Spacer(),
 
-        textRow('Max Supply', '${widget.scModel.marketData!.maxSupply}', ''),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const MyText(
+                  text: "Total supply",
+                  fontSize: 14,
+                  hexaColor: AppColors.greyCode,
+                ),
+                MyText(
+                  text: "${convert("${widget.scModel.marketData!.totalSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+
+          ],
+        ),
+
+        SizedBox(height: 1.5.h),
 
         line(),
 
-        const SizedBox(height: 10.0),
+        SizedBox(height: 1.5.h),
 
-        MyText(
-          text: 'About ${widget.scModel.marketData!.name}',
+        const MyText(
+          text: 'Description',
           fontWeight: FontWeight.bold,
           textAlign: TextAlign.left,
         ),
 
-        const SizedBox(height: 16.0),
+        SizedBox(height: 1.5.h),
 
         widget.scModel.marketData!.description == null ?
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.marketData!.description}',
+          hexaColor: AppColors.greyColor,
         )
         :
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
+          hexaColor: AppColors.greyCode,
         ),
       ],
     )
     :
-    SizedBox(
-      height: 60.sp,
-      child: OverflowBox(
-        minHeight: 60.h,
-        maxHeight: 60.h,
-        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
-      )
-    );
+    Container();
+    // SizedBox(
+    //   height: 60.sp,
+    //   child: OverflowBox(
+    //     minHeight: 60.h,
+    //     maxHeight: 60.h,
+    //     child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
+    //   )
+    // );
   }
+
 }

@@ -18,7 +18,6 @@ export 'package:line_awesome_flutter/line_awesome_flutter.dart';
 export 'package:local_auth/local_auth.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:qr_flutter/qr_flutter.dart';
-export 'package:store_redirect/store_redirect.dart';
 export 'package:provider/provider.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:flutter_svg/flutter_svg.dart';
@@ -31,7 +30,7 @@ export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';
 /* Component File */
 export 'package:wallet_apps/src/components/component.dart';
 export 'package:wallet_apps/src/components/dimissible_background.dart';
-export 'package:wallet_apps/src/components/home_c.dart';
+// export 'package:wallet_apps/src/components/home_c.dart';
 export 'package:wallet_apps/src/components/menu_c.dart';
 export 'package:wallet_apps/src/components/my_input.dart';
 export 'package:wallet_apps/src/components/platform_specific/android_native.dart';
@@ -79,8 +78,6 @@ export 'package:wallet_apps/src/models/model_user_info.dart';
 
 export 'package:wallet_apps/src/models/tx_history.dart';
 
-export 'package:wallet_apps/src/models/m_import_acc.dart';
-
 /* Home presentation */
 export 'package:wallet_apps/src/models/portfolio_m.dart';
 export 'package:wallet_apps/src/models/portfolio_rate_m.dart';
@@ -90,7 +87,13 @@ export 'package:wallet_apps/src/presentation/home/menu/account/account.dart';
 
 export 'package:wallet_apps/src/presentation/home/claim_airdrop/claim_airdrop.dart';
 export 'package:wallet_apps/src/presentation/home/claim_airdrop/invite_friend.dart';
-export 'package:wallet_apps/src/presentation/home/navigation_drawer/navigation_drawer.dart';
+// export 'package:wallet_apps/src/presentation/home/navigation_drawer/navigation_drawer.dart';
+// export 'package:wallet_apps/src/route/router.dart';
+/* Home presentation */
+// export 'package:wallet_apps/src/presentation/home/menu/account/account.dart';
+
+export 'package:wallet_apps/src/presentation/home/claim_airdrop/claim_airdrop.dart';
+export 'package:wallet_apps/src/presentation/home/claim_airdrop/invite_friend.dart';
 // Add Assets
 export 'package:wallet_apps/src/presentation/home/menu/add_asset/add_asset.dart';
 export 'package:wallet_apps/src/presentation/home/menu/add_asset/body_add_asset.dart';
@@ -127,10 +130,10 @@ export 'package:wallet_apps/src/components/fill_pin_dialog.dart';
 export 'package:wallet_apps/src/presentation/home/transaction/submit_trx/submit_trx.dart';
 export 'package:wallet_apps/src/presentation/home/transaction/submit_trx/body_submit_trx.dart';
 export 'package:wallet_apps/src/presentation/home/transaction/confirmation/confimation_tx.dart';
-export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/import_acc.dart';
+// export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/import_acc.dart';
 export 'package:wallet_apps/src/presentation/main/finger_print.dart';
 // Finger Print
-export 'package:wallet_apps/src/presentation/main/splash_screen.dart';
+// export 'package:wallet_apps/src/presentation/main/splash_presentation.dart';
 
 export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/body_import_acc.dart';
 // Main Screeen
@@ -142,6 +145,7 @@ export 'package:wallet_apps/src/presentation/home/contact_book/contact_book.dart
 /* Local File */
 export 'package:wallet_apps/src/utils/local_storage_s.dart';
 export 'package:wallet_apps/src/utils/local_storage_s.dart';
+// export 'package:wallet_apps/src/service/services.dart';
 //Service
 export 'package:wallet_apps/src/utils/secure_storage/storage.dart';
 export 'package:wallet_apps/src/utils/app_utils.dart';
@@ -169,7 +173,7 @@ export 'package:wallet_apps/src/config/theme/string.dart';
 export 'package:wallet_apps/src/config/theme/style.dart';
 export 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 export 'package:wallet_apps/index.dart';
-export 'package:wallet_apps/src/graphql/ql_client.dart';
+// export 'package:wallet_apps/src/graphql/ql_client.dart';
 export 'package:wallet_apps/src/constants/db_key_con.dart';
 export 'package:wallet_apps/src/provider/provider.dart';
 export 'package:wallet_apps/src/presentation/home/home/home.dart';
@@ -188,7 +192,7 @@ export 'package:wallet_apps/src/presentation/home/home/home.dart';
 export 'package:flutter/material.dart';
 export 'package:wallet_apps/src/presentation/main/social_login/email/login_content.dart';
 
-export 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
+// export 'package:wallet_apps/src/components/login_component/animations/change_presentation_animation.dart';
 export 'package:wallet_apps/src/components/login_component/helper_functions.dart';
 export 'package:wallet_apps/src/presentation/main/social_login/email/login_content.dart';
 
@@ -199,3 +203,29 @@ export 'package:wallet_apps/src/presentation/home/home/home.dart';
 export 'package:wallet_apps/src/presentation/main/seeds/create_seeds/create_seeds.dart';
 
 export 'package:wallet_apps/src/components/dialog_c.dart';
+
+export 'package:wallet_apps/src/presentation/main/seeds/import_seeds/import_acc.dart';
+export 'package:wallet_apps/src/presentation/main/splash_screen.dart';
+
+export 'package:wallet_apps/src/components/login_component/animations/change_screen_animation.dart';
+export 'package:wallet_apps/src/presentation/home/menu/wallet_connect/body_walletconnect_page.dart';
+
+export 'package:wallet_apps/src/presentation/home/setting/body_setting.dart';
+
+export 'package:wallet_apps/src/components/dialog_c.dart';
+export 'package:wallet_apps/src/constants/db_key_con.dart';
+export 'package:wallet_apps/src/models/import_acc_m.dart';
+export 'package:wallet_apps/src/presentation/main/data_loading.dart';
+export 'package:wallet_apps/src/provider/provider.dart';
+export 'package:polkawallet_sdk/api/apiKeyring.dart';
+export 'package:wallet_apps/src/presentation/home/home/home.dart';
+
+
+export 'package:wallet_apps/src/components/dialog_c.dart';
+export 'package:wallet_apps/src/constants/db_key_con.dart';
+export 'package:wallet_apps/src/models/createkey_m.dart';
+export 'package:wallet_apps/src/models/import_acc_m.dart';
+export 'package:wallet_apps/src/provider/provider.dart';
+export 'package:wallet_apps/src/presentation/home/home/home.dart';
+export 'package:wallet_apps/src/presentation/main/seeds/verify_seeds/body_verify_seeds.dart';
+export 'package:polkawallet_sdk/api/apiKeyring.dart';

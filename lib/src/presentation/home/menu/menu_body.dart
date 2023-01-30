@@ -88,21 +88,30 @@ class MenuBody extends StatelessWidget {
           enable: false,
           index: 3,
           subIndex: 1,
-          trailing: SizedBox(
-            width: 10.vmax,
-            height: 10.vmax,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Switch(
-                value: model!.switchBio,
-                onChanged: (value) {
-                  switchBio!(context, value);
-                },
-              ),
-            ),
+          trailing: Switch(
+            value: model!.switchBio,
+            onChanged: (value) {
+              switchBio!(context, value);
+            },
           ),
           onTap: null,
         ),
+
+        // const MenuSubTitle(index: 4),
+        // MyListTile(
+        //   icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+        //   enable: false,
+        //   index: 4,
+        //   subIndex: 0,
+        //   trailing: Switch(
+        //     activeColor: hexaCodeToColor(AppColors.defiMenuItem),
+        //     value: isDarkMode,
+        //     onChanged: (value) {
+        //       switchTheme!(value);
+        //     },
+        //   ),
+        //   onTap: null,
+        // ),
         
         // const MenuSubTitle(index: 4),
         // MyListTile(
@@ -142,8 +151,28 @@ class MenuBody extends StatelessWidget {
         //   },
         // ),
 
+        // MyListTile(
+        //   icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+        //   index: 5,
+        //   subIndex: 1,
+        //   onTap: () async {
+        //     Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //     //_launchInBrowser('https://selendra.com/privacy');
+        //   },
+        // ),
+
         MyListTile(
-          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: iconSize.vmax),
+          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          index: 5,
+          subIndex: 2,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
+        MyListTile(
+          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 5,
           subIndex: 0,
           onTap: () async {
