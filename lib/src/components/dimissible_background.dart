@@ -7,7 +7,7 @@ class DismissibleBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 0.71.vmax),
+      margin: EdgeInsets.symmetric(vertical: 0.71.sp),
       color: Colors.red,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -18,7 +18,7 @@ class DismissibleBackground extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              fontSize: 2.6.vmax
+              fontSize: 2.6.sp
             ),
           ),
           Icon(
@@ -26,7 +26,7 @@ class DismissibleBackground extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(
-            width: 1.4.vmax,
+            width: 1.4.sp,
           ),
         ],
       ),

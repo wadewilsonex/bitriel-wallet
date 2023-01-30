@@ -24,9 +24,9 @@ class AvatarShimmer extends StatelessWidget{
           ? Colors.white.withOpacity(0.5)
           : Colors.grey[100]!,
         child: Container(
-          width: avatarSize.vmax,
-          height: avatarSize.vmax,
-          margin: EdgeInsets.only(right: 1.vmax),
+          width: avatarSize.sp,
+          height: avatarSize.sp,
+          margin: EdgeInsets.only(right: 1.sp),
           decoration: BoxDecoration(
             color: isDarkMode
               ? hexaCodeToColor(AppColors.whiteHexaColor)
@@ -36,9 +36,9 @@ class AvatarShimmer extends StatelessWidget{
         ),
       ) 
       : Container(
-        width: avatarSize.vmax,
-        height: avatarSize.vmax,
-        margin: EdgeInsets.only(right: 1.vmax),
+        width: avatarSize.sp,
+        height: avatarSize.sp,
+        margin: EdgeInsets.only(right: 1.sp),
         decoration: BoxDecoration(
           color: isDarkMode
             ? hexaCodeToColor(AppColors.whiteHexaColor)
@@ -73,9 +73,9 @@ class WidgetShimmer extends StatelessWidget{
         ? Colors.white.withOpacity(0.5)
         : Colors.grey[100]!,
       child: Container(
-        width: 14.vmax,
-        height: 1.2.vmax,
-        margin: EdgeInsets.only(bottom: 0.5.vmax),
+        width: 14.sp,
+        height: 1.2.sp,
+        margin: EdgeInsets.only(bottom: 0.5.sp),
         color: Colors.white,
       ),
     );
@@ -107,8 +107,8 @@ class TextShimmer extends StatelessWidget{
       highlightColor: highlightColor ?? Colors.white,
       child: Container(
         width: width,
-        height: 1.vmax,
-        margin: EdgeInsets.only(bottom: 0.5.vmax),
+        height: 1.sp,
+        margin: EdgeInsets.only(bottom: 0.5.sp),
         color: Colors.white,
       ),
     );

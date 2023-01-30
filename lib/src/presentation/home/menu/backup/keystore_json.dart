@@ -30,7 +30,7 @@ class KeyStoreJson extends StatelessWidget{
           ),
 
           MyGradientButton(
-            edgeMargin: EdgeInsets.only(top: 2.4.vmax, left: 2.8.vmax, right: 2.8.vmax, bottom: 2.4.vmax),
+            edgeMargin: EdgeInsets.only(top: 2.4.sp, left: 2.8.sp, right: 2.8.sp, bottom: 2.4.sp),
             textButton: "Copy",
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,

@@ -177,8 +177,8 @@ class AddAssetBody extends StatelessWidget {
                       // ),
 
                       MyInputField(
-                        // height: 9.28.vmax,
-                        pBottom: 2.8.vmax,
+                        // height: 9.28.sp,
+                        pBottom: 2.8.sp,
                         hintText: "Token Contract Address",
                         textInputFormatter: [
                           LengthLimitingTextInputFormatter(TextField.noMaxLength)
@@ -263,17 +263,17 @@ class AddAssetBody extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: 9.vmax,
-            width: 9.vmax,
-            padding: EdgeInsets.all(0.9.vmax),
-            margin: EdgeInsets.only(right: 2.8.vmax),
-            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(5.71.vmax)),
+            height: 9.sp,
+            width: 9.sp,
+            padding: EdgeInsets.all(0.9.sp),
+            margin: EdgeInsets.only(right: 2.8.sp),
+            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(5.71.sp)),
             child: logo.contains('http') ? Image.network(logo) : Image.asset(logo),
           ),
 
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 2.8.vmax),
+              margin: EdgeInsets.only(right: 2.8.sp),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +293,7 @@ class AddAssetBody extends StatelessWidget {
                 addAsset();
               },
               child: Container(
-                margin: EdgeInsets.only(right: 2.4.vmax),
+                margin: EdgeInsets.only(right: 2.4.sp),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

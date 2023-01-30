@@ -43,11 +43,11 @@ class _BottomTextState extends State<BottomText> {
         },
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: EdgeInsets.all(2.4.vmax),
+          padding: EdgeInsets.all(2.4.sp),
           child: RichText(
             text: TextSpan(
               style: TextStyle(
-                fontSize: 2.4.vmax,
+                fontSize: 2.4.sp,
                 fontFamily: 'Montserrat',
               ),
               children: [

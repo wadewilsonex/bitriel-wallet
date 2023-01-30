@@ -56,7 +56,7 @@ class AccountBody extends StatelessWidget{
             SizedBox(height: 1.h,),
 
             Container(
-              padding: EdgeInsets.all(2.4.vmax),
+              padding: EdgeInsets.all(2.4.sp),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -159,7 +159,7 @@ class AccountBody extends StatelessWidget{
                       ),
                     ),
 
-                    SizedBox(height: 2.5.vmax),
+                    SizedBox(height: 2.5.sp),
 
                     // ListTileComponent(
                     //   action: (){

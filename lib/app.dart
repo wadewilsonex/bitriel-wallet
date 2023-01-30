@@ -3,8 +3,9 @@ import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/config/route/router.dart' as router;
 // import 'package:wallet_apps/src/screen/home/home/home.dart';
-// import 'src/route/router.dart' as router;
+
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
@@ -21,7 +22,6 @@ class AppState extends State<App> {
 
   @override
   void initState() {
-
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
     // MarketProvider().fetchTokenMarketPrice(context);
@@ -153,7 +153,7 @@ class AppState extends State<App> {
                     navigatorKey: AppUtils.globalKey,
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
-                    // onGenerateRoute: router.generateRoute,
+                    onGenerateRoute: router.generateRoute,
                     routes: {
                       HomePage.route: (_) => GoogleAuthService().handleAuthState() // HomePage(),
                     },

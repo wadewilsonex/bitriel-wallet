@@ -27,19 +27,19 @@ class DefiMenuItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.sp),
           color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
         ),
-        // padding: EdgeInsets.symmetric(vertical: 1.vmax),
+        // padding: EdgeInsets.symmetric(vertical: 1.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
 
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 1.vmax),
+              padding: EdgeInsets.symmetric(horizontal: 1.sp),
               child: image!,
             ),
 
             Flexible(
               child: Padding(
-                padding: EdgeInsets.all(1.vmax),
+                padding: EdgeInsets.all(1.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,

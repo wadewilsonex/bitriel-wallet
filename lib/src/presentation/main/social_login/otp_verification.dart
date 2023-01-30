@@ -283,7 +283,7 @@ class OPTVerificationState extends State<OPTVerification> {
                   itemSize: 40,
                   length: 6,
                   digitsOnly: true,
-                  textStyle: TextStyle(fontSize: 2.9.vmax, color: isDarkMode ? Colors.white : Colors.black),
+                  textStyle: TextStyle(fontSize: 2.9.sp, color: isDarkMode ? Colors.white : Colors.black),
                   underlineColor: hexaCodeToColor(AppColors.orangeColor),
                   keyboardType: TextInputType.number,
                   underlineUnfocusedColor: isDarkMode ? Colors.white : Colors.black,

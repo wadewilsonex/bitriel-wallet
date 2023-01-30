@@ -72,14 +72,14 @@ class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
       child: Scaffold(
         body: SafeArea(
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 4.28.vmax, horizontal: 2.85.vmax),
+            margin: EdgeInsets.symmetric(vertical: 4.28.sp, horizontal: 2.85.sp),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
     
-                Lottie.asset("${AppConfig.animationPath}data_center_loading.json", width: 70.vmax, height: 70.vmax),
+                Lottie.asset("${AppConfig.animationPath}data_center_loading.json", width: 70.sp, height: 70.sp),
     
                 AnimatedTextKit(
                   repeatForever: true,
@@ -90,7 +90,7 @@ class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
                       widget.importAccountModel!.loadingMgs!,
                       textAlign: TextAlign.center,
                       textStyle: TextStyle(
-                        fontSize: 3.2.vmax,
+                        fontSize: 3.2.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -102,15 +102,15 @@ class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
     
                 Container(
                   width: MediaQuery.of(context).size.width / 1.3,
-                  height: 7.14.vmax,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(0.71.vmax)),
+                  height: 7.14.sp,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(0.71.sp)),
                   child: LiquidLinearProgressIndicator(
-                    borderRadius: 2.28.vmax,
+                    borderRadius: 2.28.sp,
                     value: widget.importAccountModel!.animation!.value.toDouble(), // Defaults to 0.5.
                     valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.primaryColor)), // Defaults to the current Theme's accentColor.
                     backgroundColor: Colors.grey, // Defaults to the current Theme's backgroundColor.
                     borderColor: Colors.white,
-                    borderWidth: 0.71.vmax,
+                    borderWidth: 0.71.sp,
                     direction: Axis.horizontal, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
                     center: MyText(
                       fontSize: 1.2,

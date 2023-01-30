@@ -8,7 +8,7 @@ class ReceiveWalletBody extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
-  final double? logoSize = 8.vmax;
+  final double? logoSize = 8.sp;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ReceiveWalletBody extends StatelessWidget {
                 ),
 
                 // SizedBox(
-                //   width: 17.vmax,
+                //   width: 17.sp,
                 //   child: QrViewTitle(
                 //     // assetInfo: provider.assetInfo,
                 //     listContract: provider.lsContractSymbol,
@@ -67,7 +67,7 @@ class ReceiveWalletBody extends StatelessWidget {
                         ),
 
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2.vmax),
+                          borderRadius: BorderRadius.circular(2.sp),
                           // boxShadow: [shadow(context)],
                           color: Colors.white
                         ),
@@ -81,7 +81,7 @@ class ReceiveWalletBody extends StatelessWidget {
                               child: Container(
                                 padding: EdgeInsets.all(paddingSize + 10),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(1.vmax),
+                                  borderRadius: BorderRadius.circular(1.sp),
                                   // boxShadow: [shadow(context)],
                                   color: isDarkMode
                                     ? Colors.white
@@ -91,7 +91,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                   children: [
                               
                                     ClipRRect(
-                                      borderRadius: BorderRadius.circular(50.vmax),
+                                      borderRadius: BorderRadius.circular(50.sp),
                                       child: conProvider.sortListContract[provider.assetsIndex].logo!.contains('http') 
                                       ? Image.network(
                                         conProvider.sortListContract[provider.assetsIndex].logo!,
@@ -113,7 +113,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       hexaColor: AppColors.textColor,
                                       text: conProvider.sortListContract[provider.assetsIndex].symbol,
-                                      bottom: 2.5.vmax,
+                                      bottom: 2.5.sp,
                                     ),
                               
                                     // Qr View
@@ -124,7 +124,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                     ),
                               
                                     MyText(
-                                      top: 2.5.vmax,
+                                      top: 2.5.sp,
                                       text: provider.accountM!.address ?? '',
                                       hexaColor: AppColors.darkBgd,
                                       fontSize: 2.4,
@@ -191,7 +191,7 @@ class ReceiveWalletBody extends StatelessWidget {
                       // Expanded(
                       //   child: Align(
                       //     alignment: Alignment.bottomCenter,
-                      //     child: Image.asset(isDarkMode ? "assets/logo/bitriel-logo-light.png" : "assets/logo/bitriel-logo-dark.png", width: 11.vmax,),
+                      //     child: Image.asset(isDarkMode ? "assets/logo/bitriel-logo-light.png" : "assets/logo/bitriel-logo-dark.png", width: 11.sp,),
                       //   ),
                       // )
 

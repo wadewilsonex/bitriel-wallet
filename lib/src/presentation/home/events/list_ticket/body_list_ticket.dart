@@ -117,7 +117,7 @@ class ListTicketTypeBody extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                         content: MyText(
-                          height: 4.4.vmax,
+                          height: 4.4.sp,
                           text: "Under construction",
                           fontSize: 2.4,
                         ),

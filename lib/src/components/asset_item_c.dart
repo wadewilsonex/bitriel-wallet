@@ -38,8 +38,8 @@ class AssetsItemComponent extends StatelessWidget {
         
               // Asset Logo
               scModel!.logo != null ? SizedBox(
-                height: 5.5.vmax,
-                width: 5.5.vmax,
+                height: 5.5.sp,
+                width: 5.5.sp,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: scModel!.logo!.contains('http') 
@@ -47,26 +47,26 @@ class AssetsItemComponent extends StatelessWidget {
                   ? Image.network(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 5.5.vmax,
-                    width: 5.5.vmax
+                    height: 5.5.sp,
+                    width: 5.5.sp
                   )
                   : Image.asset(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 5.5.vmax,
-                    width: 5.5.vmax,
+                    height: 5.5.sp,
+                    width: 5.5.sp,
                   )
                 ),
               ) 
               : ClipRRect(
                 child: SizedBox(
-                  height: 5.5.vmax,
-                  width: 5.5.vmax,
+                  height: 5.5.sp,
+                  width: 5.5.sp,
                 ),
               ),
         
               // Asset Name
-              SizedBox(width: 1.vmax),
+              SizedBox(width: 1.sp),
               SizedBox(
                 width: 30.w,
                 child: Column(

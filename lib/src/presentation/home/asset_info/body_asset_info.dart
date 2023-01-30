@@ -45,7 +45,7 @@ class AssetInfoBody extends StatelessWidget {
                 forceElevated: innerBox,
                 automaticallyImplyLeading: false,
                 leading: Container(),
-                toolbarHeight: 10.vmax,
+                toolbarHeight: 10.sp,
                 backgroundColor: isDarkMode
                   ? hexaCodeToColor(AppColors.darkBgd)
                   : Colors.white,

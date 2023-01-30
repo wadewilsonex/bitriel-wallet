@@ -134,16 +134,16 @@ class FingerPrintState extends State<FingerPrint> {
                 children: [
       
                   SizedBox(
-                    height: 10.0.vmax,
+                    height: 10.0.sp,
                   ),
-                  Image.asset("assets/logo/fingerprint.png", width: 12.vmax, fit: BoxFit.cover,),
+                  Image.asset("assets/logo/fingerprint.png", width: 12.sp, fit: BoxFit.cover,),
                   SizedBox(
-                    height: 2.9.vmax,
+                    height: 2.9.sp,
                   ),
                   
                   MyText(
-                    width: 60.vmax,
-                    // top: 19.vmax,
+                    width: 60.sp,
+                    // top: 19.sp,
                     text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
                     fontSize: 2.5,
                     fontWeight: FontWeight.bold,
@@ -152,12 +152,12 @@ class FingerPrintState extends State<FingerPrint> {
                       : AppColors.textColor,
                   ),
                   SizedBox(
-                    height: 2.9.vmax,
+                    height: 2.9.sp,
                   ),
             
                   MyText(
-                    top: 2.9.vmax,
-                    width: 80.vmax,
+                    top: 2.9.sp,
+                    width: 80.sp,
                     text: widget.isEnable == true ? '' : 'Activate biometrics for your wallet to make it even more secure.',
                     hexaColor: isDarkMode
                       ? AppColors.whiteColorHexa
@@ -172,7 +172,7 @@ class FingerPrintState extends State<FingerPrint> {
             // ),
         
             MyGradientButton(
-              edgeMargin: EdgeInsets.only(left: 2.9.vmax, right: 2.9.vmax, bottom: 2.4.vmax),
+              edgeMargin: EdgeInsets.only(left: 2.9.sp, right: 2.9.sp, bottom: 2.4.sp),
               textButton: widget.isEnable == true ? "Process biometry now" : "Enable biometry now",
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
@@ -185,7 +185,7 @@ class FingerPrintState extends State<FingerPrint> {
             : MyFlatButton(
               isTransparent: true,
               textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.secondary,
-              edgeMargin: EdgeInsets.only(left: 2.9.vmax, right: 2.9.vmax, bottom: 2.4.vmax),
+              edgeMargin: EdgeInsets.only(left: 2.9.sp, right: 2.9.sp, bottom: 2.4.sp),
               textButton: "Skip",
               action: () async {
                 Navigator.push(

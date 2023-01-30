@@ -314,7 +314,7 @@ class WalletConnectComponent with ChangeNotifier {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
           title: const MyText(text: "Error", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 2.6,),
-          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
+          contentPadding: EdgeInsets.fromLTRB(2.4.sp, 12.0, 2.4.sp, 2.4.sp),
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
@@ -352,7 +352,7 @@ class WalletConnectComponent with ChangeNotifier {
         return SimpleDialog(
           backgroundColor: hexaCodeToColor(AppColors.darkBgd),
           title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 2.6,),
-          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
+          contentPadding: EdgeInsets.fromLTRB(2.4.sp, 12.0, 2.4.sp, 2.4.sp),
           children: [
 
             // Padding(
@@ -498,12 +498,12 @@ class WalletConnectComponent with ChangeNotifier {
                 wcClient.remotePeerMeta!.name,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  fontSize: 2.9.vmax,
+                  fontSize: 2.9.sp,
                 ),
               ),
             ],
           ),
-          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
+          contentPadding: EdgeInsets.fromLTRB(2.4.sp, 12.0, 2.4.sp, 2.4.sp),
           children: [
             Container(
               alignment: Alignment.center,
@@ -512,7 +512,7 @@ class WalletConnectComponent with ChangeNotifier {
                 title,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 2.7.vmax,
+                  fontSize: 2.7.sp,
                 ),
               ),
             ),
@@ -525,13 +525,13 @@ class WalletConnectComponent with ChangeNotifier {
                     'Receipient',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 2.4.vmax,
+                      fontSize: 2.4.sp,
                     ),
                   ),
                   const SizedBox(height: 8.0),
                   Text(
                     ethereumTransaction.to!,
-                    style: TextStyle(fontSize: 2.4.vmax),
+                    style: TextStyle(fontSize: 2.4.sp),
                   ),
                 ],
               ),
@@ -546,7 +546,7 @@ class WalletConnectComponent with ChangeNotifier {
                       'Transaction Fee',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 2.4.vmax,
+                        fontSize: 2.4.sp,
                       ),
                     ),
                   ),
@@ -563,14 +563,14 @@ class WalletConnectComponent with ChangeNotifier {
                       'Transaction Amount',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 2.4.vmax,
+                        fontSize: 2.4.sp,
                       ),
                     ),
                   ),
                   // Expanded(
                   //   child: Text(
                   //     '${EthConversions.weiToEthUnTrimmed(BigInt.parse(ethereumTransaction.value ?? '0'), 18)} MATIC',
-                  //     style: TextStyle(fontSize: 2.4.vmax),
+                  //     style: TextStyle(fontSize: 2.4.sp),
                   //   ),
                   // ),
                 ],
@@ -586,13 +586,13 @@ class WalletConnectComponent with ChangeNotifier {
                       'Function',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 2.4.vmax,
+                        fontSize: 2.4.sp,
                       ),
                     ),
                     const SizedBox(height: 8.0),
                     Text(
                       contractFunction.name,
-                      style: TextStyle(fontSize: 2.4.vmax),
+                      style: TextStyle(fontSize: 2.4.sp),
                     ),
                   ],
                 ),
@@ -607,13 +607,13 @@ class WalletConnectComponent with ChangeNotifier {
                     'Data',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 2.4.vmax,
+                      fontSize: 2.4.sp,
                     ),
                   ),
                   children: [
                     Text(
                       ethereumTransaction.data!,
-                      style: TextStyle(fontSize: 2.4.vmax),
+                      style: TextStyle(fontSize: 2.4.sp),
                     ),
                   ],
                 ),
@@ -631,7 +631,7 @@ class WalletConnectComponent with ChangeNotifier {
                     child: const Text('CONFIRM'),
                   ),
                 ),
-                SizedBox(width: 2.4.vmax),
+                SizedBox(width: 2.4.sp),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(
@@ -679,7 +679,7 @@ class WalletConnectComponent with ChangeNotifier {
               ),
             ],
           ),
-          contentPadding: EdgeInsets.fromLTRB(2.4.vmax, 12.0, 2.4.vmax, 2.4.vmax),
+          contentPadding: EdgeInsets.fromLTRB(2.4.sp, 12.0, 2.4.sp, 2.4.sp),
           children: [
             Container(
               alignment: Alignment.center,
@@ -688,7 +688,7 @@ class WalletConnectComponent with ChangeNotifier {
                 'Sign Message',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 2.7.vmax,
+                  fontSize: 2.7.sp,
                 ),
               ),
             ),
@@ -703,13 +703,13 @@ class WalletConnectComponent with ChangeNotifier {
                     'Message',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 2.4.vmax,
+                      fontSize: 2.4.sp,
                     ),
                   ),
                   children: [
                     Text(
                       decoded,
-                      style: TextStyle(fontSize: 2.4.vmax),
+                      style: TextStyle(fontSize: 2.4.sp),
                     ),
                   ],
                 ),
@@ -749,7 +749,7 @@ class WalletConnectComponent with ChangeNotifier {
                     child: const Text('SIGN'),
                   ),
                 ),
-                SizedBox(width: 2.4.vmax),
+                SizedBox(width: 2.4.sp),
                 Expanded(
                   child: TextButton(
                     style: TextButton.styleFrom(

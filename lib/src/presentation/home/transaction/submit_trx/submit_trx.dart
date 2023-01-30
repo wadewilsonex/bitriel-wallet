@@ -558,14 +558,14 @@ class SubmitTrxState extends State<SubmitTrx> {
       key: _scanPayM.globalKey,
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       appBar: AppBar(
-        toolbarHeight: 10.vmax,
+        toolbarHeight: 10.sp,
         backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
         iconTheme: IconThemeData(
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.vmax,
+        leadingWidth: 7.sp,
         title: const MyText(
           text: "Send",
           fontSize: 17,
@@ -578,7 +578,7 @@ class SubmitTrxState extends State<SubmitTrx> {
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
-            size: 4.vmax,
+            size: 4.sp,
           ),
         ),
       ),
@@ -639,7 +639,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       "assets/animation/check.json",
                       alignment: Alignment.center,
                       repeat: false,
-                      width: 60.vmax,
+                      width: 60.sp,
                     )
                   ),
                 ],

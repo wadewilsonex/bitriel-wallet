@@ -82,7 +82,7 @@ class MyMenuItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Container(
-          height: 13.7.vmax,
+          height: 13.7.sp,
           decoration: BoxDecoration(
             color: hexaCodeToColor(colorHex),
             borderRadius: BorderRadius.circular(8),

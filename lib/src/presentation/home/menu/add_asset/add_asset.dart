@@ -360,7 +360,7 @@ class AddAssetState extends State<AddAsset> {
                       child: Lottie.asset(
                         "assets/animation/check.json",
                         alignment: Alignment.center,
-                        width: 60.vmax,
+                        width: 60.sp,
                       )
                     ),
                   ],

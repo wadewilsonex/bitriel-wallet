@@ -184,7 +184,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
           dsahHeight: 0.37
         ),
         child: Padding(
-          padding: EdgeInsets.all(2.9.vmax),
+          padding: EdgeInsets.all(2.9.sp),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,

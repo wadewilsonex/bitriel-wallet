@@ -43,8 +43,8 @@ class ImportAccBody extends StatelessWidget {
 
             MySeedField(
               pLeft: 0, pRight: 0,
-              pTop: 2.85.vmax,
-              pBottom: 2.6.vmax,
+              pTop: 2.85.sp,
+              pBottom: 2.6.sp,
               hintText: "Add your 12 keywords",
               textInputFormatter: [
                 LengthLimitingTextInputFormatter(

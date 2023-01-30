@@ -79,7 +79,7 @@ class MyInputField extends StatelessWidget {
           inputAction == null ? TextInputAction.next : inputAction,
         style: TextStyle(
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
-          fontSize: 2.vmax
+          fontSize: 2.sp
         ),
         validator: (String? value){
           return validateField!(value);
@@ -88,12 +88,12 @@ class MyInputField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(
-            fontSize: 2.vmax,
+            fontSize: 2.sp,
             color: hexaCodeToColor(AppColors.darkSecondaryText),
           ),
           labelText: labelText,
           labelStyle: TextStyle(
-            fontSize: 2.vmax,
+            fontSize: 2.sp,
             color: focusNode!.hasFocus || controller!.text != ""
                 ? isDarkMode
                     ? Colors.white.withOpacity(0.06)
@@ -102,7 +102,7 @@ class MyInputField extends StatelessWidget {
           ),
           prefixText: prefixText,
 
-          prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 2.vmax),
+          prefixStyle: TextStyle(color: hexaCodeToColor(AppColors.textColor), fontSize: 2.sp),
           /* Prefix Text */
           filled: true,
           fillColor: isDarkMode
@@ -152,7 +152,7 @@ OutlineInputBorder myTextInputBorder(Color borderColor) {
       borderSide: BorderSide(
         color: borderColor,
       ),
-      borderRadius: BorderRadius.circular(1.vmax));
+      borderRadius: BorderRadius.circular(1.sp));
 }
 
 
@@ -227,7 +227,7 @@ class MySeedField extends StatelessWidget {
               color: isDarkMode
                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                   : hexaCodeToColor(AppColors.textColor),
-              fontSize: 2.5.vmax),
+              fontSize: 2.5.sp),
           validator: (String? value){
             return validateField!(value);
           },
@@ -237,7 +237,7 @@ class MySeedField extends StatelessWidget {
             
             hintText: hintText,
             hintStyle: TextStyle(
-              fontSize: 2.5.vmax,
+              fontSize: 2.5.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.shadowBlueColor : AppColors.greyColor),
               fontWeight: FontWeight.w600
             ),
@@ -250,7 +250,7 @@ class MySeedField extends StatelessWidget {
             fillColor: isDarkMode ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06) : hexaCodeToColor(AppColors.blackColor).withOpacity(0.06),
 
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.85.vmax),
+              borderRadius: BorderRadius.circular(2.85.sp),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -264,7 +264,7 @@ class MySeedField extends StatelessWidget {
             //     : hexaCodeToColor(AppColors.darkSecondaryText)),
             /* Enable Border But Not Show Error */
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.85.vmax),
+              borderRadius: BorderRadius.circular(2.85.sp),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -272,7 +272,7 @@ class MySeedField extends StatelessWidget {
             ),
             /* Show Error And Red Border */
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.85.vmax),
+              borderRadius: BorderRadius.circular(2.85.sp),
               borderSide: const BorderSide(
                 color: Colors.transparent,
                 width: 0.0,
@@ -286,7 +286,7 @@ class MySeedField extends StatelessWidget {
                 ? hexaCodeToColor("#ffffff")
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
-            contentPadding: EdgeInsets.fromLTRB(2.14.vmax, 2.14.vmax, 2.14.vmax, 1.vmax),
+            contentPadding: EdgeInsets.fromLTRB(2.14.sp, 2.14.sp, 2.14.sp, 1.sp),
             suffixIcon: suffixIcon,
             suffixIconConstraints: const BoxConstraints(
               minWidth: 0,
@@ -312,7 +312,7 @@ OutlineInputBorder mySeedFieldBorder(Color borderColor) {
       borderSide: BorderSide(
         color: borderColor,
       ),
-      borderRadius: BorderRadius.circular(1.71.vmax));
+      borderRadius: BorderRadius.circular(1.71.sp));
 }
 
 Widget myInputWidget({required BuildContext context, required TextEditingController controller, required String hintText, required Function? validator}){
@@ -324,7 +324,7 @@ Widget myInputWidget({required BuildContext context, required TextEditingControl
       },
       controller: controller,
       style: TextStyle(
-        fontSize: 2.vmax,
+        fontSize: 2.sp,
         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
       ),
       decoration: InputDecoration(
@@ -342,10 +342,10 @@ Widget myInputWidget({required BuildContext context, required TextEditingControl
         ),
         hintText: hintText,
         hintStyle: TextStyle(
-          fontSize: 2.vmax,
+          fontSize: 2.sp,
           color: hexaCodeToColor("#AAAAAA"),
         ),
-        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.vmax),
+        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.sp),
         /* Prefix Text */
         filled: true,
         fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),

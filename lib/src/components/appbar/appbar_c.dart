@@ -13,13 +13,13 @@ PreferredSizeWidget defaultAppBar({
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
-    toolbarHeight: height.vmax,
-    leadingWidth: 10.vmax,
+    toolbarHeight: height.sp,
+    leadingWidth: 10.sp,
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: EdgeInsets.only(left: ldPadding.vmax, right: ldPadding.vmax, top: 1.5.vmax),
-        padding: EdgeInsets.symmetric(horizontal: 2.vmax),
+        margin: EdgeInsets.only(left: ldPadding.sp, right: ldPadding.sp, top: 1.5.sp),
+        padding: EdgeInsets.symmetric(horizontal: 2.sp),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(36.sp)),
           color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
@@ -83,8 +83,8 @@ PreferredSizeWidget defaultAppBar({
                         MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
               
                           Padding(
-                          padding: EdgeInsets.only(left: 0.5.vmax),
-                          child: Icon(Iconsax.arrow_down_1, size: 2.2.vmax, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                          padding: EdgeInsets.only(left: 0.5.sp),
+                          child: Icon(Iconsax.arrow_down_1, size: 2.2.sp, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
                         )
                       ],
                     ),
@@ -101,9 +101,9 @@ PreferredSizeWidget defaultAppBar({
     actions: <Widget>[
 
       Container(
-        margin: EdgeInsets.only(top: ldPadding.vmax, right: (ldPadding+2).vmax,),
-        width: 5.vmax,
-        height: 5.vmax,
+        margin: EdgeInsets.only(top: ldPadding.sp, right: (ldPadding+2).sp,),
+        width: 5.sp,
+        height: 5.sp,
         child: IconButton(
           icon: Align(
             alignment: Alignment.centerRight,
@@ -139,14 +139,14 @@ PreferredSizeWidget secondaryAppBar({
   Widget? leading
 }){
   return AppBar(
-    toolbarHeight: 10.vmax,
+    toolbarHeight: 10.sp,
     backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
     iconTheme: IconThemeData(
       color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
     ),
     elevation: 0,
     bottomOpacity: 0,
-    leadingWidth: 7.vmax,
+    leadingWidth: 7.sp,
     title: title,
     leading: leading ?? IconButton(
       onPressed: () {
@@ -155,7 +155,7 @@ PreferredSizeWidget secondaryAppBar({
       icon: Icon(
         Iconsax.arrow_left_2,
         color: isDarkMode ? Colors.white : Colors.black,
-        size: 4.vmax,
+        size: 4.sp,
       ),
     ),
   );

@@ -5,7 +5,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
-import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
+import 'package:wallet_apps/src/presentation/home/swap/swap_method/swap_method.dart';
 class AssetsPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
@@ -47,7 +47,7 @@ class AssetsPageBody extends StatelessWidget {
               ),
           
               Container(
-                height: 6.vmax,
+                height: 6.sp,
                 margin: EdgeInsets.only(bottom: 5),
                 child: categoryToken()
               ),
@@ -381,7 +381,7 @@ class AssetsPageBody extends StatelessWidget {
                       ),
                       builder: (context) => Column(
                         children: const [
-                          SwapMethod(),
+                          // SwapMethod(),
                         ],  
                       ),
                     );

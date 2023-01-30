@@ -40,7 +40,7 @@ class ActivityDetail extends StatelessWidget {
                     hexaColor: AppColors.secondary,
                   ),
                   MyText(
-                    top: 1.1.vmax,
+                    top: 1.1.sp,
                     text: trxInfo!.estGasFeePrice != null 
                       ? '≈ \$${trxInfo!.estGasFeePrice}' 
                       : '≈ \$0.00', //'≈ $0.00',

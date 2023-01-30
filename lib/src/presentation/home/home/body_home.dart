@@ -8,7 +8,12 @@ import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wallet_apps/src/presentation/home/assets/assets.dart';
 import 'package:wallet_apps/src/presentation/home/events/events.dart';
+import 'package:wallet_apps/src/presentation/home/explorer/explorer.dart';
+import 'package:wallet_apps/src/presentation/home/market/coin_market.dart';
+import 'package:wallet_apps/src/presentation/home/market/coin_trending.dart';
+import 'package:wallet_apps/src/presentation/home/nft/nft_marketplace.dart/nft_marketplace.dart';
 import 'package:wallet_apps/src/presentation/home/setting/setting.dart';
+import 'package:wallet_apps/src/presentation/home/swap/swap_method/swap_method.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -33,7 +38,7 @@ class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("media query ${MediaQuery.of(context).size.width}");
-    print("1.vmax ${1.vmax}");
+    print("1.sp ${1.sp}");
     return Scaffold(
       key: homePageModel!.globalKey,
       // extendBody: true,

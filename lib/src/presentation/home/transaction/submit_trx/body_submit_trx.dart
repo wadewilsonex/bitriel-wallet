@@ -46,16 +46,16 @@ class SubmitTrxBody extends StatelessWidget {
             scanQR!();
           },
           child: Container(
-            padding: EdgeInsets.only(right: 2.5.vmax),
+            padding: EdgeInsets.only(right: 2.5.sp),
             child: SvgPicture.asset(
               '${AppConfig.iconsPath}qr_code.svg',
-              width: 4.vmax,
-              height: 4.vmax,
+              width: 4.sp,
+              height: 4.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.orangeColor)
             ),
           ),
         ),
-        pBottom: 2.5.vmax,
+        pBottom: 2.5.sp,
         hintText: "Receiver address",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(TextField.noMaxLength),
@@ -71,7 +71,7 @@ class SubmitTrxBody extends StatelessWidget {
         onSubmit: () {}
       ),
       MyInputField(
-        pBottom: 2.5.vmax,
+        pBottom: 2.5.sp,
         hintText: "Amount",
         textInputFormatter: [
           LengthLimitingTextInputFormatter(
@@ -110,14 +110,14 @@ class SubmitTrxBody extends StatelessWidget {
                 fontSize: 5,
               ),
       
-              SizedBox(height: 1.vmax),
+              SizedBox(height: 1.sp),
       
               MyText(
                 text: "Available balance",
                 hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
               ),
       
-              SizedBox(height: 10.vmax,),
+              SizedBox(height: 10.sp,),
       
               listInput[0],
               
@@ -130,13 +130,13 @@ class SubmitTrxBody extends StatelessWidget {
                 ),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(
-                  paddingSize, 1.vmax, paddingSize, 1.vmax
+                  paddingSize, 1.sp, paddingSize, 1.sp
                 ), 
                 decoration: BoxDecoration(
                   color: isDarkMode
                     ? Colors.white.withOpacity(0.06)
                     : hexaCodeToColor(AppColors.whiteHexaColor),
-                  borderRadius: BorderRadius.circular(1.vmax),
+                  borderRadius: BorderRadius.circular(1.sp),
                 ),
                 child: Row(
                   children: <Widget>[
@@ -150,30 +150,30 @@ class SubmitTrxBody extends StatelessWidget {
                           : AppColors.textColor,
                       ),
                     ),
-                    Flexible(
-                      child:  QrViewTitle(
-                        isValue: true,
-                        listContract: ContractService.getConSymbol(context, contract.sortListContract),
-                        initialValue: scanPayM!.assetValue.toString(),
-                        onChanged: onChangeDropDown,
-                      ),
-                    )
+                    // Flexible(
+                    //   child:  QrViewTitle(
+                    //     isValue: true,
+                    //     listContract: ContractService.getConSymbol(context, contract.sortListContract),
+                    //     initialValue: scanPayM!.assetValue.toString(),
+                    //     onChanged: onChangeDropDown,
+                    //   ),
+                    // )
                   ],
                 ),
               ),
               
               Container(
                 margin: EdgeInsets.only(
-                  top: 1.5.vmax,
-                  bottom: 2.vmax,
+                  top: 1.5.sp,
+                  bottom: 2.sp,
                   left: paddingSize,
                   right: paddingSize,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 2.5.vmax),
-                    SizedBox(width: 1.vmax,),
+                    Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 2.5.sp),
+                    SizedBox(width: 1.sp,),
                     
                     Flexible(
                       child: MyText(

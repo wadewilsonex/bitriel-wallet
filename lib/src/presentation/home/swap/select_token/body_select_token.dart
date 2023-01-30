@@ -94,11 +94,11 @@ class SelectSwapTokenBody extends StatelessWidget {
             fontSize: 2,
             color: hexaCodeToColor("#AAAAAA"),
           ),
-          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.vmax),
+          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.sp),
           /* Prefix Text */
           filled: true,
           fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
-          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.vmax),
+          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.sp),
         ),
         onChanged: (String value){
           query!(label, value);

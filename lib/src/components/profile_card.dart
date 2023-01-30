@@ -12,8 +12,8 @@ class ProfileCard extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.only(
-          left: 2.9.vmax,
-          right: 2.9.vmax,
+          left: 2.9.sp,
+          right: 2.9.sp,
           top: 25,
           bottom: 25,
         ),
@@ -61,7 +61,7 @@ class ProfileCard extends StatelessWidget {
                         MyText(
                           text: value.accountM.name ?? 'Username',
                           hexaColor: "#FFFFFF",
-                          fontSize: 2.9.vmax,
+                          fontSize: 2.9.sp,
                         ),
                         SizedBox(
                           width: 100,
@@ -86,7 +86,7 @@ class ProfileCard extends StatelessWidget {
                           width: 150,
                           child: MyText(
                             text: '', //sdkModel.nativeBalance,
-                            fontSize: 4.3.vmax,
+                            fontSize: 4.3.sp,
                             hexaColor: AppColors.secondarytext,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,

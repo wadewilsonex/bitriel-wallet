@@ -126,7 +126,7 @@ class DetailsTicketingBody extends StatelessWidget {
           dsahHeight: 0.37
         ),
         child: Padding(
-          padding: EdgeInsets.all(2.9.vmax),
+          padding: EdgeInsets.all(2.9.sp),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

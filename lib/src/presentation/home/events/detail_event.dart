@@ -144,7 +144,7 @@ class EventDetailPageState extends State<EventDetailPage> with TickerProviderSta
                                     ),
                                   ),
                             
-                                  SizedBox(height: 2.vmax),
+                                  SizedBox(height: 2.sp),
                                   
                                   qrCodeProfile(
                                     value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',

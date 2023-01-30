@@ -33,14 +33,14 @@ class _AdsWebViewState extends State<AdsWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 10.vmax,
+        toolbarHeight: 10.sp,
         backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
         iconTheme: IconThemeData(
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.vmax,
+        leadingWidth: 7.sp,
         // iconTheme: IconThemeData(
         //   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         // ),
@@ -53,7 +53,7 @@ class _AdsWebViewState extends State<AdsWebView> {
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Iconsax.arrow_left_2, size: 4.vmax,),
+          icon: Icon(Iconsax.arrow_left_2, size: 4.sp,),
         ),
       ),
       body: Stack(

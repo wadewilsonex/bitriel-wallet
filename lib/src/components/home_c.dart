@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-double fontSizePort = 2.vmax;
+double fontSizePort = 2.sp;
 const fontColorPort = Colors.white;
 
 List<Color> _gradientColors = [
@@ -177,7 +177,7 @@ Widget cardToken(
                       TextStyle(
                           color: hexaCodeToColor(AppColors.lightBlueSky),
                           fontWeight: FontWeight.bold,
-                          fontSize: 4.vmax)),
+                          fontSize: 4.sp)),
                 ),
                 Container(
                   margin: EdgeInsets.only(
@@ -222,13 +222,13 @@ class AddAssetRowButton extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 5.5.vmax,
-              height: 5.5.vmax,
-              margin: EdgeInsets.only(right: 1.5.vmax),
+              width: 5.5.sp,
+              height: 5.5.sp,
+              margin: EdgeInsets.only(right: 1.5.sp),
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.secondary),
                 border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(5.5.vmax),
+                borderRadius: BorderRadius.circular(5.5.sp),
               ),
               alignment: Alignment.center,
               child: const Icon(
@@ -602,7 +602,7 @@ LineChartData mainData() {
         showTitles: true,
         reservedSize: 6,
         getTextStyles: (context, value) => TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 2.5.vmax),
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 2.5.sp),
         getTitles: (value) {
           switch (value.toInt()) {
             case 0:

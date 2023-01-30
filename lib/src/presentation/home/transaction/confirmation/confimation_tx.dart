@@ -72,7 +72,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                       children: [
           
                         MyText(
-                          top: 4.8.vmax,
+                          top: 4.8.sp,
                           text: AppString.amtToSend,
                           fontSize: 2.9,
                           hexaColor: isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
@@ -102,7 +102,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         ),
           
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: pTop.vmax, vertical: 28.0),
+                          padding: EdgeInsets.symmetric(horizontal: pTop.sp, vertical: 28.0),
                           child: Column(
                             children: [
                               // Send To
@@ -169,7 +169,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                   //fontWeight: FontWeight.bold,
                                 ),
                                 MyText(
-                                  top: pTop.vmax,
+                                  top: pTop.sp,
                                   text: '  ${widget.trxInfo!.gasPrice}',
                                   fontWeight: FontWeight.bold,
                                   hexaColor: isDarkMode
@@ -180,7 +180,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                               ]),
                               spaceRow([
                                 MyText(
-                                  top: pTop.vmax,
+                                  top: pTop.sp,
                                   text: AppString.gasLimit,
                                   fontWeight: FontWeight.bold,
                                   hexaColor: isDarkMode
@@ -188,7 +188,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                                     : AppColors.textColor,
                                 ),
                                 MyText(
-                                  top: pTop.vmax,
+                                  top: pTop.sp,
                                   text: '  ${widget.trxInfo!.maxGas}',
                                   hexaColor: isDarkMode
                                     ? AppColors.whiteColorHexa

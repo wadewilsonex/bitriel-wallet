@@ -1,8 +1,6 @@
 
 import 'package:wallet_apps/index.dart';
 
-import '../detail_explorer/address_detail.dart';
-
 class SelendraExplorerBody extends StatelessWidget {
   final TextEditingController? controller;
 
@@ -24,10 +22,10 @@ class SelendraExplorerBody extends StatelessWidget {
         ),
     
         MyText(
-          top: 2.vmax,
+          top: 2.sp,
           text: "Search Addresses and Hash",
           fontWeight: FontWeight.w500,
-          bottom: 5.vmax,
+          bottom: 5.sp,
         ),
     
         Form(
@@ -43,7 +41,7 @@ class SelendraExplorerBody extends StatelessWidget {
 
     return TextFormField(
       onFieldSubmitted: (val) {
-        Navigator.push(context, Transition(child: ExplorerDetail(controller: controller.text.toString(),), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        // Navigator.push(context, Transition(child: ExplorerDetail(controller: controller.text.toString(),), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       },
       validator: (val){
         if (val.toString().startsWith("0x") || val.toString().startsWith("se")){
@@ -54,43 +52,43 @@ class SelendraExplorerBody extends StatelessWidget {
       controller: controller,
       textInputAction: TextInputAction.search,
       style: TextStyle(
-        fontSize: 2.vmax,
+        fontSize: 2.sp,
         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
       ),
       decoration: InputDecoration(
         
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(1.2.vmax),
+          borderRadius: BorderRadius.circular(1.2.sp),
           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
         ),
 
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(1.2.vmax),
+          borderRadius: BorderRadius.circular(1.2.sp),
           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
         ),
 
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(1.2.vmax),
+          borderRadius: BorderRadius.circular(1.2.sp),
           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
         ),
 
-        contentPadding: EdgeInsets.only(left: 2.vmax, top: 2.vmax, right: 2.vmax, bottom: 2.vmax),
+        contentPadding: EdgeInsets.only(left: 2.sp, top: 2.sp, right: 2.sp, bottom: 2.sp),
 
         hintText: "Search address and hash",
         hintStyle: TextStyle(
-          fontSize: 2.vmax,
+          fontSize: 2.sp,
           color: hexaCodeToColor("#AAAAAA"),
         ),
 
-        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 11.2.vmax),
+        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 11.2.sp),
         
         /* Prefix Text */
         filled: true,
         fillColor: Colors.white,
-        suffixIconConstraints: BoxConstraints.expand(width: 6.vmax, height: 5.vmax),
-        suffixIcon: Icon(Iconsax.scan_barcode, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.vmax)
+        suffixIconConstraints: BoxConstraints.expand(width: 6.sp, height: 5.sp),
+        suffixIcon: Icon(Iconsax.scan_barcode, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.sp)
         // IconButton(
-        //   padding: EdgeInsets.all(1.2.vmax),
+        //   padding: EdgeInsets.all(1.2.sp),
         //   onPressed: () {
         //     final res = Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
@@ -103,7 +101,7 @@ class SelendraExplorerBody extends StatelessWidget {
         //       }
         //     });
         //   },
-        //   icon: Icon(Iconsax.scan_barcode, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.vmax),
+        //   icon: Icon(Iconsax.scan_barcode, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 2.9.sp),
         // ),
       ),
     );

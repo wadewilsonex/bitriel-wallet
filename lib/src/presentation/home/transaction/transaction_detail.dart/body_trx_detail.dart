@@ -10,7 +10,7 @@ class BodyTransactionDetail extends StatelessWidget {
     this.assetInfoModel,
   }) : super(key: key);
 
-  final double logoSize = 10.vmax;
+  final double logoSize = 10.sp;
   final pd = 1.2;
 
   @override
@@ -19,7 +19,7 @@ class BodyTransactionDetail extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.vmax,
+        leadingWidth: 7.sp,
         centerTitle: true,
         title: const MyText(
           text: "SEL Transfer",
@@ -37,7 +37,7 @@ class BodyTransactionDetail extends StatelessWidget {
           trxInfo(context),
 
           Padding(
-            padding: EdgeInsets.all(1.2.vmax),
+            padding: EdgeInsets.all(1.2.sp),
             child: Divider(
               thickness: 1,
               color: hexaCodeToColor(AppColors.greyColor),
@@ -56,7 +56,7 @@ class BodyTransactionDetail extends StatelessWidget {
 
   Widget headerWidget(BuildContext context){
     return Padding(
-      padding: EdgeInsets.all(pd.vmax),
+      padding: EdgeInsets.all(pd.sp),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -92,13 +92,13 @@ class BodyTransactionDetail extends StatelessWidget {
   Widget amountTrx(BuildContext context){
 
     return Padding(
-      padding: EdgeInsets.all(pd.vmax),
+      padding: EdgeInsets.all(pd.sp),
       child: Container(
-        padding: EdgeInsets.all(pd.vmax),
-        height: 10.vmax,
+        padding: EdgeInsets.all(pd.sp),
+        height: 10.sp,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(pd.vmax),
+          borderRadius: BorderRadius.circular(pd.sp),
           color: hexaCodeToColor(AppColors.bluebgColor)
         ),
         child: Column(
@@ -116,7 +116,7 @@ class BodyTransactionDetail extends StatelessWidget {
             Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15.vmax),
+                  borderRadius: BorderRadius.circular(15.sp),
                   child: assetInfoModel!.smartContractModel!.logo!.contains('http')
                       ? Image.network(
                     assetInfoModel!.smartContractModel!.logo!,
@@ -133,7 +133,7 @@ class BodyTransactionDetail extends StatelessWidget {
                 ),
 
                 MyText(
-                  left: 2.5.vmax,
+                  left: 2.5.sp,
                   text: "-1 SEL",
                   hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w600,

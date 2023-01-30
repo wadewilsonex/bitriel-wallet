@@ -85,7 +85,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   searchBoxDecoration: InputDecoration(
                     hintText: 'Search by country name or dial code',
-                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.vmax),
+                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.sp),
                     // alignLabelWithHint: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -103,7 +103,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                     contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
                     border: InputBorder.none,
                     hintText: 'Phone Number',
-                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.vmax),
+                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.sp),
                   ),
                   onSaved: (PhoneNumber number) {
                     if (kDebugMode) {

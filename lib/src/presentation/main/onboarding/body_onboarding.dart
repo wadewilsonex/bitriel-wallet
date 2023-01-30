@@ -18,11 +18,11 @@ class OnboardingBody extends StatelessWidget {
         children: [
           
           SizedBox(
-            height: 5.vmax,
+            height: 5.sp,
           ),
 
           Padding(
-            padding: EdgeInsets.all(2.85.vmax),
+            padding: EdgeInsets.all(2.85.sp),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class OnboardingBody extends StatelessWidget {
                 ),
                 
                 SizedBox(
-                  height: 3.57.vmax,
+                  height: 3.57.sp,
                 ),
 
                 MyText(
@@ -189,7 +189,7 @@ class OnboardingBody extends StatelessWidget {
 
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 2.85.vmax, bottom: 2.85.vmax, left: 2.85.vmax, right: 2.85.vmax / 2),
+                      padding: EdgeInsets.only(top: 2.85.sp, bottom: 2.85.sp, left: 2.85.sp, right: 2.85.sp / 2),
                       child: WelcomeItem(
                         title: "Create wallet",
                         textColor: AppColors.whiteColorHexa,
@@ -197,7 +197,7 @@ class OnboardingBody extends StatelessWidget {
                           padding: EdgeInsets.all(paddingSize),
                           child: Image.asset("assets/icons/setup-1.png", fit: BoxFit.cover,),
                         ),
-                        icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.vmax),
+                        icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.sp),
                         itemColor: "#263238",
                         action: () {
                           Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
@@ -208,7 +208,7 @@ class OnboardingBody extends StatelessWidget {
 
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 2.85.vmax, bottom: 2.85.vmax, left: 2.85.vmax, right: 2.85.vmax / 2),
+                      padding: EdgeInsets.only(top: 2.85.sp, bottom: 2.85.sp, left: 2.85.sp, right: 2.85.sp / 2),
                       child: WelcomeItem(
                         title: "Import wallet",
                         textColor: AppColors.whiteColorHexa,
@@ -216,7 +216,7 @@ class OnboardingBody extends StatelessWidget {
                           padding: EdgeInsets.all(paddingSize),
                           child: Image.asset("assets/icons/setup-2.png", fit: BoxFit.cover,),
                         ),
-                        icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.vmax),
+                        icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 4.sp),
                         itemColor: "#F27649",
                         action: () {
                           Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));

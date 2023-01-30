@@ -78,7 +78,7 @@ class SearchItem extends StatelessWidget{
                         TextSpan(
                           text: lsItem![index].symbol != null ? '${lsItem![index].symbol} ' : '',
                           style: TextStyle(
-                            fontSize: 2.6.vmax,
+                            fontSize: 2.6.sp,
                             fontWeight: FontWeight.bold,
                             color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
@@ -89,7 +89,7 @@ class SearchItem extends StatelessWidget{
                             TextSpan(
                               text: ApiProvider().isMainnet ? lsItem![index].org : lsItem![index].orgTest,
                               style: TextStyle(
-                                fontSize: 2.vmax,
+                                fontSize: 2.sp,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkMode
                                   ? AppColors.whiteColorHexa
@@ -106,7 +106,7 @@ class SearchItem extends StatelessWidget{
                         hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.darkSecondaryText,
-                        fontSize: 2.vmax,
+                        fontSize: 2.sp,
                       )
                     ],
                   ),
@@ -188,7 +188,7 @@ class SearchItemTrx extends StatelessWidget{
                         TextSpan(
                           text: lsItem![index].symbol != null ? '${lsItem![index].symbol}' : '',
                           style: TextStyle(
-                            fontSize: 2.6.vmax,
+                            fontSize: 2.6.sp,
                             fontWeight: FontWeight.bold,
                             color: hexaCodeToColor(isDarkMode
                               ? AppColors.whiteColorHexa
@@ -199,7 +199,7 @@ class SearchItemTrx extends StatelessWidget{
                             TextSpan(
                               text: " ${lsItem![index].name!}",
                               style: TextStyle(
-                                fontSize: 2.vmax,
+                                fontSize: 2.sp,
                                 fontWeight: FontWeight.bold,
                                 color: hexaCodeToColor(isDarkMode
                                   ? AppColors.darkSecondaryText
@@ -217,7 +217,7 @@ class SearchItemTrx extends StatelessWidget{
                         hexaColor: isDarkMode
                           ? AppColors.whiteColorHexa
                           : AppColors.blackColor,
-                        fontSize: 2.vmax,
+                        fontSize: 2.sp,
                       )
                       : Container()
                     ],
@@ -241,7 +241,7 @@ class SearchItemTrx extends StatelessWidget{
                         hexaColor: isDarkMode
                         ? AppColors.darkSecondaryText
                         : AppColors.blackColor,
-                        fontSize: 2.vmax,
+                        fontSize: 2.sp,
                       )
                     ],
                   ),           

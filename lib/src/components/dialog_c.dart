@@ -12,7 +12,7 @@ class DialogComponents {
       builder: (BuildContext context){
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(2.14.vmax)
+            borderRadius: BorderRadius.circular(2.14.sp)
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           title: const MyText(
@@ -36,7 +36,7 @@ class DialogComponents {
                   // side: BorderSide(
                   //   width: 1
                   // ),
-                  borderRadius: BorderRadius.circular(1.42.vmax),
+                  borderRadius: BorderRadius.circular(1.42.sp),
                 ),
                 color: isDarkMode
                   ? Colors.white.withOpacity(0.06)
@@ -47,15 +47,15 @@ class DialogComponents {
                   fontSize: 2.5,
                   hexaColor: isDarkMode ? AppColors.secondary : AppColors.orangeColor,
                   fontWeight: FontWeight.bold,
-                  pLeft: 2.28.vmax,
-                  right: 2.28.vmax,
-                  top: 2.28.vmax,
-                  bottom: 2.28.vmax,
+                  pLeft: 2.28.sp,
+                  right: 2.28.sp,
+                  top: 2.28.sp,
+                  bottom: 2.28.sp,
                 ),
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 2.85.vmax),
+                padding: EdgeInsets.only(top: 2.85.sp),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -74,12 +74,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 2.85.vmax,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 2.85.sp,),
                           
-                          SizedBox(width: 2.vmax,),
+                          SizedBox(width: 2.sp,),
                           MyText(
                             text: "Copy",
-                            top: 0.71.vmax,
+                            top: 0.71.sp,
                             hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
@@ -119,9 +119,9 @@ class DialogComponents {
     Image? image, 
     String? textButton, btn, btn2
   }) async {
-    print("1.vmax ${1.vmax}");
+    print("1.sp ${1.sp}");
     if (contentPadding == null){
-      contentPadding = EdgeInsets.all(3.4.vmax);
+      contentPadding = EdgeInsets.all(3.4.sp);
     }
     return await showDialog(
       context: context!, 
@@ -131,7 +131,7 @@ class DialogComponents {
           child: AlertDialog(
             contentPadding: contentPadding!,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(2.9.vmax)),
+              borderRadius: BorderRadius.all(Radius.circular(2.9.sp)),
             ),
             backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             title: titles != null ? MyText(
@@ -139,7 +139,7 @@ class DialogComponents {
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
             ) : Container(),
-            buttonPadding: btn2 != null ? EdgeInsets.only(left: 3.4.vmax, right: 3.4.vmax, bottom: 3.4.vmax) : EdgeInsets.zero,
+            buttonPadding: btn2 != null ? EdgeInsets.only(left: 3.4.sp, right: 3.4.sp, bottom: 3.4.sp) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -150,7 +150,7 @@ class DialogComponents {
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3.vmax) : Container(),
+                image != null ? SizedBox(height: 3.sp) : Container(),
                 MyText(
                   text: contents,
                   fontSize: contentsFontSize,

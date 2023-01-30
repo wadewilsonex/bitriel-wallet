@@ -93,7 +93,7 @@ Widget rowInformation(String title, dynamic data) {
             Text(
               title,
               style: TextStyle(
-                fontSize: 2.6.vmax,
+                fontSize: 2.6.sp,
                 color: Colors.white,
               ),
             ),
@@ -102,7 +102,7 @@ Widget rowInformation(String title, dynamic data) {
               child: Text(
                 "$data",
                 style: TextStyle(
-                  fontSize: 2.6.vmax,
+                  fontSize: 2.6.sp,
                   color: Colors.white,
                 ),
                 overflow: TextOverflow.ellipsis,

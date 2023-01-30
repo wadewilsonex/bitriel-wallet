@@ -18,8 +18,8 @@ class AirDropDes extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.left,
             fontSize: 2.4,
-            bottom: 0.8.vmax,
-            top: 4.6.vmax,
+            bottom: 0.8.sp,
+            top: 4.6.sp,
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -37,8 +37,8 @@ class AirDropDes extends StatelessWidget {
                     hexaColor: isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
                     fontSize: 2,
                     textAlign: TextAlign.start,
-                    right: 2.2.vmax,
-                    left: 2.6.vmax,
+                    right: 2.2.sp,
+                    left: 2.6.sp,
                   ),
                 )
               ],
@@ -57,8 +57,8 @@ class AirDropDes extends StatelessWidget {
                 hexaColor: isDarkMode ? AppColors.darkSecondaryText : AppColors.textColor,
                 fontSize: 2,
                 textAlign: TextAlign.start,
-                right: 2.4.vmax,
-                left: 1.5.vmax,
+                right: 2.4.sp,
+                left: 1.5.sp,
               )
             ],
           ),

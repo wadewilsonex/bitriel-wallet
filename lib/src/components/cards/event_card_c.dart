@@ -36,7 +36,7 @@ class EventCardComponents extends StatelessWidget {
         
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 24.vmax,
+          height: 24.sp,
           child: ListView(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -44,8 +44,8 @@ class EventCardComponents extends StatelessWidget {
               listEvent!.length,
               (i) => Padding(
                 padding: EdgeInsets.only(
-                  left: i == 0 ? 3.vmax : 0,
-                  right: i != 19 ? 5.vmax : 0,
+                  left: i == 0 ? 3.sp : 0,
+                  right: i != 19 ? 5.sp : 0,
                 ),
                 child: InkWell(
                   onTap: (){
@@ -58,28 +58,28 @@ class EventCardComponents extends StatelessWidget {
                     );
                   },
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(2.vmax),
+                    borderRadius: BorderRadius.circular(2.sp),
                     child: Stack(
                       children: [
                   
                         Container(
                           color: Colors.white,
                           height: 27.h,
-                          width: MediaQuery.of(context).size.width - 13.vmax,
+                          width: MediaQuery.of(context).size.width - 13.sp,
                           child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
                         ),
                   
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
-                            margin: EdgeInsets.only(left: 1.8.vmax, bottom: 1.8.vmax),
+                            margin: EdgeInsets.only(left: 1.8.sp, bottom: 1.8.sp),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(1.5.vmax),
+                              borderRadius: BorderRadius.circular(1.5.sp),
                                 child: BackdropFilter(
                                   filter: ImageFilter.blur(sigmaX: 9.0, sigmaY: 9.0),
                                   child: Container(
                                   // height: 8.h,
-                                  padding: EdgeInsets.all(1.5.vmax),
+                                  padding: EdgeInsets.all(1.5.sp),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,

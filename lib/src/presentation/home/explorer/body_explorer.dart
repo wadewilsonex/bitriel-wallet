@@ -19,7 +19,7 @@ class DiscoverPageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 2.9.vmax, right: 2.9.vmax),
+        margin: EdgeInsets.only(left: 2.9.sp, right: 2.9.sp),
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
@@ -30,16 +30,16 @@ class DiscoverPageBody extends StatelessWidget {
               tabs: [
 
                 Tab(
-                  height: 6.vmax,
-                  iconMargin: EdgeInsets.only(bottom: 1.5.vmax),
+                  height: 6.sp,
+                  iconMargin: EdgeInsets.only(bottom: 1.5.sp),
                   child: MyText(
                     text: "Selendra Explorer",
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Tab(
-                  height: 6.vmax,
-                  iconMargin: EdgeInsets.only(bottom: 1.5.vmax),
+                  height: 6.sp,
+                  iconMargin: EdgeInsets.only(bottom: 1.5.sp),
                   child: MyText(
                     text: "Other Explorer",
                     fontWeight: FontWeight.w600,
@@ -49,10 +49,10 @@ class DiscoverPageBody extends StatelessWidget {
               ],
               controller: tabController,
               indicatorSize: TabBarIndicatorSize.tab,
-              indicatorWeight: 1.vmax,
+              indicatorWeight: 1.sp,
               indicator: CustomTabIndicator(
-                radius: 1.2.vmax,
-                indicatorHeight: 0.5.vmax,
+                radius: 1.2.sp,
+                indicatorHeight: 0.5.sp,
                 color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor),
               )
             ),

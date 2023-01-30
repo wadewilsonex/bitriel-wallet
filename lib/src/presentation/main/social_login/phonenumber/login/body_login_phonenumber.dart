@@ -80,7 +80,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   searchBoxDecoration: InputDecoration(
                     hintText: 'Search by country name or dial code',
-                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.2.vmax),
+                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.2.sp),
                     // alignLabelWithHint: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -89,7 +89,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   ignoreBlank: false,
                   autoValidateMode: AutovalidateMode.disabled,
                   selectorTextStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-                  textStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black, fontSize: 2.2.vmax),
+                  textStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black, fontSize: 2.2.sp),
                   textFieldController: phoneNumber,
                   formatInput: false,
                   keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
@@ -98,7 +98,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                     contentPadding: const EdgeInsets.only(bottom: 15, left: 0),
                     border: InputBorder.none,
                     hintText: 'Phone Number',
-                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.vmax),
+                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 2.4.sp),
                   ),
                   onSaved: (PhoneNumber number) {
                     phoneNumber!.text = number.toString();

@@ -15,9 +15,9 @@ class MenuHeader extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 3.vmax, vertical: 2.vmax),
-      margin:  EdgeInsets.symmetric(horizontal: 2.vmax, vertical: 2.vmax),
-      width: 38.vmax,
+      padding: EdgeInsets.symmetric(horizontal: 3.sp, vertical: 2.sp),
+      margin:  EdgeInsets.symmetric(horizontal: 2.sp, vertical: 2.sp),
+      width: 38.sp,
       decoration: BoxDecoration(
         gradient: isDarkMode ? null : LinearGradient(
           colors: [hexaCodeToColor(AppColors.primaryColor).withOpacity(0.2), hexaCodeToColor(AppColors.primaryColor).withOpacity(0.2)],
@@ -26,7 +26,7 @@ class MenuHeader extends StatelessWidget {
           stops: const [0.25, 0.75],
         ),
         color: isDarkMode ? hexaCodeToColor(AppColors.bluebgColor ) : null,
-        borderRadius: BorderRadius.circular(2.vmax),
+        borderRadius: BorderRadius.circular(2.sp),
       ),
       child: Consumer<ApiProvider>(
         builder: (context, value, child) {
@@ -46,7 +46,7 @@ class MenuHeader extends StatelessWidget {
                 
                 AvatarShimmer(
                   txt: value.accountM.addressIcon,
-                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 6.0.vmax, height: 6.0.vmax)
+                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 6.0.sp, height: 6.0.sp)
                   // SvgPicture.string(
                   //   value.accountM.addressIcon ?? '',
                   //   width: 5.0.w,
@@ -54,7 +54,7 @@ class MenuHeader extends StatelessWidget {
                   // )
                 ),
                     
-                SizedBox(width: 1.vmax),
+                SizedBox(width: 1.sp),
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,12 +69,12 @@ class MenuHeader extends StatelessWidget {
                           children: [
                             
                             Flexible(child: MyText(
-                              right: 1.vmax,
+                              right: 1.sp,
                               text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "......."),
                               hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
-                              // fontSize: 1.9.vmax,
+                              // fontSize: 1.9.sp,
                               fontSize: 2,
-                              // width: 10.vmax,
+                              // width: 10.sp,
                               textAlign: TextAlign.left,
                             )),
                 
@@ -91,8 +91,8 @@ class MenuHeader extends StatelessWidget {
                             //   }, 
                             //   child: SvgPicture.asset(
                             //     '${AppConfig.iconsPath}qr_code.svg',
-                            //     width: 2.vmax,
-                            //     height: 2.vmax,
+                            //     width: 2.sp,
+                            //     height: 2.sp,
                             //     color: hexaCodeToColor(AppColors.secondary),
                             //   )
                             // )
@@ -102,7 +102,7 @@ class MenuHeader extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, size: 2.vmax,)
+                Icon(Icons.arrow_forward_ios_rounded, size: 2.sp,)
               ],
             ),
           );
@@ -121,11 +121,11 @@ class MenuSubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 2.vmax, top: 2.vmax, bottom: 1.vmax),
+      padding: EdgeInsets.only(left: 2.sp, top: 2.sp, bottom: 1.sp),
       // color: isDarkMode
       //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
       //   : Colors.grey[200],
-      // height: 8.vmax,
+      // height: 8.sp,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(
@@ -188,24 +188,24 @@ class MyListTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 7.5.vmax,
-          // padding: EdgeInsets.symmetric(vertical: padding!.vmax),
+          height: 7.5.sp,
+          // padding: EdgeInsets.symmetric(vertical: padding!.sp),
           child: Row(
             children: [
               
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 2.vmax),
+                padding: EdgeInsets.symmetric(horizontal: 2.sp),
                 child: icon ?? Image.asset(
                   MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
                   color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey),
-                  width: 3.5.vmax,
-                  height: 3.5.vmax
+                  width: 3.5.sp,
+                  height: 3.5.sp
                 ),
               ),
               MyText(
                 text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),
                 textAlign: TextAlign.left,
-                // fontSize: 2.2.vmax,
+                // fontSize: 2.2.sp,
               ),
               Expanded(child: Align(alignment: Alignment.centerRight, child: trailing ?? Container() ,) )
               

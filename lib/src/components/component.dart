@@ -258,7 +258,7 @@ class MyGradientButton extends StatelessWidget {
       padding: edgePadding,
       margin: edgeMargin,
       width: width,
-      height: height!.toDouble().vmax,
+      height: height!.toDouble().sp,
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
 
@@ -268,7 +268,7 @@ class MyGradientButton extends StatelessWidget {
             offset: const Offset(0.0, 2)
           )
         ],
-        borderRadius: BorderRadius.circular(1.5.vmax),
+        borderRadius: BorderRadius.circular(1.5.sp),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]), hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])],
           begin: begin,
@@ -349,7 +349,7 @@ class MyText extends StatelessWidget {
           style: TextStyle(
             fontWeight: fontWeight,
             color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
-            fontSize: fontSize!.vmax
+            fontSize: fontSize!.sp
           ),
           textAlign: textAlign,
           overflow: overflow,
@@ -528,8 +528,8 @@ class MyIconButton extends StatelessWidget {
         children: [
           child ?? SvgPicture.asset(
             '${AppConfig.iconsPath}$icon',
-              // width: lgSize.vmax,
-              // height: lgSize.vmax,
+              // width: lgSize.sp,
+              // height: lgSize.sp,
             width: iconSize ?? 24,
             height: iconSize ?? 24,
             color: isDarkMode ? Colors.white : Colors.black,

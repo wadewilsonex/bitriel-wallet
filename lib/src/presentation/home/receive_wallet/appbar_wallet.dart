@@ -25,7 +25,7 @@ class DropdownList extends StatelessWidget {
               value: isValue == true ? initialValue : null,
               isExpanded: true,
               dropdownElevation: 16,
-              dropdownPadding: EdgeInsets.symmetric(horizontal: 1.vmax),
+              dropdownPadding: EdgeInsets.symmetric(horizontal: 1.sp),
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)

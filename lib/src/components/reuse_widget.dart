@@ -112,7 +112,7 @@ OutlineInputBorder errorOutline() {
   /* User Error Input Outline Border */
   return OutlineInputBorder(
     borderSide: const BorderSide(color: Colors.red),
-    borderRadius: BorderRadius.circular(1.vmax)
+    borderRadius: BorderRadius.circular(1.sp)
   );
 }
 
@@ -248,10 +248,10 @@ Future<void> successDialog(
             child: Column(
               children: [
 
-                Icon(Icons.check_circle_outline_rounded, size: 20.vmax, color: Colors.green,),
+                Icon(Icons.check_circle_outline_rounded, size: 20.sp, color: Colors.green,),
                 MyText(
                   text: 'SUCCESS!',
-                  fontSize: 2.9.vmax,
+                  fontSize: 2.9.sp,
                   top: 10,
                   hexaColor: AppColors.lowWhite,
                   fontWeight: FontWeight.bold,
@@ -799,7 +799,7 @@ Widget labelUserInput(String text, String colorHexa) {
     text,
     style: TextStyle(
       color: hexaCodeToColor(colorHexa),
-      fontSize: 2.9.vmax,
+      fontSize: 2.9.sp,
       fontWeight: FontWeight.bold
     ),
   );
@@ -817,7 +817,7 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* QR Code Generate Function */
 Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 25}) {
   return SizedBox(
-    width: width.vmax,
+    width: width.sp,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
@@ -853,7 +853,7 @@ Widget textNotification(String text, BuildContext context) {
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 2.9.vmax,
+        fontSize: 2.9.sp,
         fontWeight: FontWeight.w300,
       ),
     ),
@@ -891,7 +891,7 @@ Widget fieldPicker(BuildContext context, String labelText, String widgetName,
               Expanded(
                 child: Text(
                   labelText,
-                  style: TextStyle(color: Colors.white, fontSize: 2.6.vmax),
+                  style: TextStyle(color: Colors.white, fontSize: 2.6.sp),
                 ),
               ),
               Icon(
@@ -932,19 +932,19 @@ Widget inputField(
     obscureText: obcureText!,
     controller: controller,
     textInputAction: inputAction,
-    style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 2.6.vmax),
+    style: TextStyle(color: hexaCodeToColor("#ffffff"), fontSize: 2.6.sp),
     validator: (String? value){
       return validateField!(value);
     },
     decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(
-            fontSize: 2.6.vmax,
+            fontSize: 2.6.sp,
             color: focusNode!.hasFocus || controller!.text != ""
                 ? hexaCodeToColor("#FFFFF").withOpacity(0.3)
                 : hexaCodeToColor("#ffffff")),
         prefixText: prefixText,
-        prefixStyle: TextStyle(color: Colors.white, fontSize: 2.6.vmax),
+        prefixStyle: TextStyle(color: Colors.white, fontSize: 2.6.sp),
         /* Prefix Text */
         filled: true,
         fillColor: hexaCodeToColor("#FFFFFF").withOpacity(0.1),
@@ -1046,7 +1046,7 @@ Widget textButton(
       child: textScale(
           text: text!,
           hexaColor: textColor!,
-          fontSize: fontSize!.vmax,
+          fontSize: fontSize!.sp,
           underline: TextDecoration.none,
           fit: BoxFit.fill,
           fontWeight: fontWeight!),
@@ -1068,7 +1068,7 @@ Widget textScale(
         style: TextStyle(
           color: hexaCodeToColor(hexaColor!),
           decoration: underline,
-          fontSize: fontSize!.vmax,
+          fontSize: fontSize!.sp,
           fontWeight: fontWeight,
         ),
         textAlign: textAlign),
@@ -1117,7 +1117,7 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
       "assets/animation/under-construction.json",
       repeat: true,
       reverse: true,
-      height: 25.vmax,
+      height: 25.sp,
     ),
     btn2: MyGradientButton(
       width: MediaQuery.of(context!).size.width,
@@ -1230,11 +1230,11 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
 
       hintText: title,
       hintStyle: TextStyle(
-        fontSize: 2.vmax,
+        fontSize: 2.sp,
         color: hexaCodeToColor("#AAAAAA"),
       ),
 
-      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.vmax),
+      prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 2.6.sp),
       
       /* Prefix Text */
       filled: true,

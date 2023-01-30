@@ -38,7 +38,7 @@ class About extends StatelessWidget {
           children: [
             
             SizedBox(
-              height: 3.vmax,
+              height: 3.sp,
             ),
 
             InkWell(
@@ -46,7 +46,7 @@ class About extends StatelessWidget {
                 _launchInBrowser('https://bitriel.com/privacy');
               },
               child: Container(
-                height: 10.vmax,
+                height: 10.sp,
                 margin: EdgeInsets.symmetric(horizontal: paddingSize),
                 width: double.infinity,
                 child: Column(
@@ -61,7 +61,7 @@ class About extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                     MyText(
-                      top: 0.57.vmax,
+                      top: 0.57.sp,
                       text: 'Read our full Privacy Policy',
                       textAlign: TextAlign.left,
                       hexaColor: isDarkMode
@@ -77,7 +77,7 @@ class About extends StatelessWidget {
                 _launchInBrowser('https://bitriel.com/termofuse');
               },
               child: Container(
-                height: 10.vmax,
+                height: 10.sp,
                 margin: EdgeInsets.symmetric(horizontal: paddingSize),
                 width: double.infinity,
                 child: Column(
@@ -122,7 +122,7 @@ class About extends StatelessWidget {
                           : AppColors.textColor,
                     ),
                     MyText(
-                      top: 0.57.vmax,
+                      top: 0.57.sp,
                       text:
                           'For questions, concerns, or comments can be address to: ',
                       textAlign: TextAlign.left,
@@ -135,7 +135,7 @@ class About extends StatelessWidget {
                       children: [
 
                         MyText(
-                          top: 0.57.vmax,
+                          top: 0.57.sp,
                           text: 'info@bitriel.com',
                           textAlign: TextAlign.left,
                           hexaColor: isDarkMode
@@ -144,8 +144,8 @@ class About extends StatelessWidget {
                         ),
 
                         IconButton(
-                          constraints: BoxConstraints.expand(width: 6.vmax, height: 6.vmax),
-                          padding: EdgeInsets.all(1.2.vmax),
+                          constraints: BoxConstraints.expand(width: 6.sp, height: 6.sp),
+                          padding: EdgeInsets.all(1.2.sp),
                           onPressed: () {
                             Clipboard.setData(
                               const ClipboardData(text: 'info@bitriel.com'),
@@ -158,7 +158,7 @@ class About extends StatelessWidget {
                           icon: Icon(
                             Iconsax.copy,
                             color: isDarkMode ? Colors.white : Colors.black,
-                            size: 2.7.vmax,
+                            size: 2.7.sp,
                           ),
                         )
                       ],
@@ -185,7 +185,7 @@ class About extends StatelessWidget {
                           : AppColors.textColor,
                     ),
                     MyText(
-                      top: 0.9.vmax,
+                      top: 0.9.sp,
                       text:
                           'Bitriel is used to store and transact SEL tokens and multiple other cryptocoins. Wallets can be integrated into any application where a use case exists, connecting the application to the Selendra main chain.',
                       textAlign: TextAlign.left,

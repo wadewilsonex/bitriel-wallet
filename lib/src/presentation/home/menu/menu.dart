@@ -128,7 +128,7 @@ class MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 40.vmax,
+      width: 40.sp,
       key: _menuModel.globalKey,
       child: SafeArea(
         child: SingleChildScrollView(

@@ -13,7 +13,7 @@ class BottomAppBarCom extends StatelessWidget {
   final Function? contactPiker;
   final void Function()? openDrawer;
   final void Function(int index)? onIndexChanged;
-  final double iconSize = 4.vmax;
+  final double iconSize = 4.sp;
 
   BottomAppBarCom({
     Key? key,
@@ -30,7 +30,7 @@ class BottomAppBarCom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("2.vmax 2.vmax $iconSize");
+    print("2.sp 2.sp $iconSize");
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

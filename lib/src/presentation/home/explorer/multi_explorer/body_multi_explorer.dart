@@ -16,7 +16,7 @@ class ExplorerBody extends StatelessWidget {
       backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(top: 2.9.vmax),
+          margin: EdgeInsets.only(top: 2.9.sp),
           height: MediaQuery.of(context).size.height,
           // padding: const EdgeInsets.only(left: paddingSize, right: paddingSize),
           child: Column(
@@ -24,7 +24,7 @@ class ExplorerBody extends StatelessWidget {
             children: [
 
               MyText(
-                bottom: 2.vmax,
+                bottom: 2.sp,
                 text: "Multi-Chain Explorer",
                 fontSize: 2.6,
                 fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class ExplorerBody extends StatelessWidget {
 
               GridView.builder(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 30.vmax,
+                  maxCrossAxisExtent: 30.sp,
                   childAspectRatio: 3 / 2,
                   crossAxisSpacing: paddingSize,
                 ),
