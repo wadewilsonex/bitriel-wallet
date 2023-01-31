@@ -16,16 +16,16 @@ class ChangePin extends StatefulWidget {
 
 class ChangePinState extends State<ChangePin> {
 
-  String titleStatus = "Old PassCode";
-  String subStatus = "Please fill your old passcode";
+  String titleStatus = "Old PIN";
+  String subStatus = "Please fill your old PIN";
 
   List<String> lsMessage = [
-    'Old PassCode',
-    'New PassCode',
-    'Invalid PassCode',
-    "Please fill correct passcode",
-    'Please fill your old passcode',
-    'Please fill your new passcode',
+    'Old PIN',
+    'New PIN',
+    'Invalid PIN',
+    "Please fill correct PIN",
+    'Please fill your old PIN',
+    'Please fill your new PIN',
   ];
 
   dynamic res;
@@ -253,7 +253,7 @@ class ChangePinState extends State<ChangePin> {
     Navigator.pop(context);
     await DialogComponents().dialogCustom(
       context: context,
-      contents: "You have successfully change passcode",
+      contents: "You have successfully change PIN",
       textButton: "Complete",
       image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
       btn2: MyGradientButton(

@@ -177,50 +177,6 @@ List<CardSection> backupSection({BuildContext? context}) {
   ];
 }
 
-// List<CardSection> settingsWCSection({BuildContext? context}) {
-//   return [
-//     CardSection(
-//       title: 'Wallet Connect',
-//       leadingIcon: Iconsax.bitcoin_convert,
-      
-//       action: () {
-//         Navigator.push(
-//           context!,
-//           Transition(
-//             child: const WalletConnectPage(),
-//             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-//           )
-//         );
-//       }
-//     ),
-//   ];
-// }
-
-// List<CardSection> settingsPolicySection({BuildContext? context}) {
-//   return [
-//     CardSection(
-//       title: 'Terms of Service',
-//       leadingIcon: Iconsax.archive_book,
-//       action: () {
-//         Navigator.push(
-//           context!, 
-//           Transition(child: const AdsWebView(url: "https://bitriel.com/termofuse", title: "Terms of Service",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-//         );
-//       }
-//     ),
-//     CardSection(
-//       title: 'Privacy Policy',
-//       leadingIcon: Iconsax.document,
-//       action: () {
-//         Navigator.push(
-//           context!, 
-//           Transition(child: const AdsWebView(url: "https://bitriel.com/privacy", title: "Privacy policy",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-//         );
-//       }
-//     ),
-//   ];
-// }
-
 List<CardSection> settingsLogoutSection({BuildContext? context}) {
   return [
     CardSection(
@@ -248,63 +204,45 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       ),
     );
   }
-
+  
   Future<void> _deleteAccount({BuildContext? context}) async {
 
     dialogLoading(context!);
 
     final api = Provider.of<ApiProvider>(context, listen: false);
-
-    final wcComponent = Provider.of<WalletConnectComponent>(context, listen: false);
     
     try {
-      
-      try {
-        await api.apiKeyring.deleteAccount(
-          api.getKeyring,
-          api.getKeyring.keyPairs[0],
-        );
-      } catch(e){
-        if (kDebugMode) {
-          print("Error deleteAccount $e");
-        }
-      }
+
+      await api.apiKeyring.deleteAccount(
+        api.getKeyring,
+        api.accountM.currentAcc,
+      );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
+      final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
       // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
-      // final pref = await SharedPreferences.getInstance();
-      // String? value = pref.getString("session");
-
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
+      await StorageServices.storeData(sldNW, DbKey.sldNetwork);
       // await StorageServices.storeData(event, DbKey.event);
 
-      await StorageServices().clearSecure().then((value) => {
-        Provider.of<ContractProvider>(context, listen: false).resetConObject(),
-        Provider.of<WalletProvider>(context, listen: false).clearPortfolio(),
-      });
+      await StorageServices().clearSecure();
       
-
-      // await Future.delayed(const Duration(seconds: 2), () {});
-
-
-      await wcComponent.killAllSession().then((value) async => {
-        await Provider.of<GoogleAuthService>(context, listen: false).signOut()
-      }).then((value) => {
-        Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/')),
-      });
-
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
       
-
+      await Future.delayed(const Duration(seconds: 2), () {});
       
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
     } catch (e) {
 
-      // Close Dialog Loading
-      Navigator.pop(context);
-      
+      if (kDebugMode) {
+        print("_deleteAccount ${e.toString()}");
+      }
       // await dialog(context, e.toString(), 'Opps');
     }
   }
