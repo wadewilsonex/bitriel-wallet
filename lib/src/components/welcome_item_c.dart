@@ -26,6 +26,8 @@ class WelcomeItem extends StatelessWidget {
         action!();
       },
       child: Container(
+        height: 30.vmax,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: hexaCodeToColor(itemColor!)
@@ -34,7 +36,7 @@ class WelcomeItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(top: 10, left: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -43,7 +45,11 @@ class WelcomeItem extends StatelessWidget {
               ),
             ),
 
+            const Spacer(), 
+            
             image!,
+
+            const Spacer(), 
 
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 10.0),

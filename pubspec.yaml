@@ -61,7 +61,12 @@ dependencies:
   # geocoding: ^2.0.5
 
   gsheets: ^0.4.2
-  modal_bottom_sheet: ^2.1.2
+  # modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: #^2.1.2
+    git:
+      url: https://github.com/followthemoney1/modal_bottom_sheet.git
+      ref: main
+      path: modal_bottom_sheet
 
   # Storage
   get_storage: ^2.0.3
@@ -75,7 +80,8 @@ dependencies:
   get: ^4.6.5
   async:
   firebase_auth:
-  firebase_core:
+  firebase_core: ^1.10.6
+  firebase_dynamic_links: ^4.0.3
   google_sign_in: ^5.4.2
 
   # Image service
@@ -171,6 +177,7 @@ dependencies:
 
 
 dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
     # git:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5

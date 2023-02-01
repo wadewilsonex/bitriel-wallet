@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:pinput/pinput.dart';
 
 class PasscodeBody extends StatelessWidget{
   
@@ -21,12 +22,6 @@ class PasscodeBody extends StatelessWidget{
     this.label, this.isFirst, this.lsControl, this.pinIndexSetup, this.clearPin, this.is4digits, this.onPressedDigit
   }) : super(key: key);
 
-  final outlineInputBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(80),
-    borderSide: const BorderSide(
-      color: Colors.transparent,
-    ),
-  );
 
   @override
   Widget build(BuildContext context){
@@ -49,6 +44,20 @@ class PasscodeBody extends StatelessWidget{
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2),
         ),
+
+        actions: [
+          TextButton(
+            onPressed: () {
+              onPressedDigit!();
+            }, 
+            child: MyText(
+              text: is4digits == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
+              color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -60,18 +69,20 @@ class PasscodeBody extends StatelessWidget{
 
             // Show AppBar Only In Landing Pages
 
-            if(label != null) Expanded(child: Container(),) 
-            else Container(),
+            // if(label != null) Expanded(child: Container(),) 
+            // else Container(),
+
+            SizedBox(height: 10.h),
 
             if (titleStatus == null ) MyText(
-              text: isFirst! ? 'PIN' : 'Verify PIN',
+              text: isFirst! ? 'Set up PIN' : 'Verify PIN',
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
-              hexaColor: titleStatus == "Invalid PassCode" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
+              hexaColor: titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -102,39 +113,27 @@ class PasscodeBody extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 
-                ReusePinNum(outlineInputBorder, lsControl![0]),
-                ReusePinNum(outlineInputBorder, lsControl![1]),
-                ReusePinNum(outlineInputBorder, lsControl![2]),
-                ReusePinNum(outlineInputBorder, lsControl![3]),
-                ReusePinNum(outlineInputBorder, lsControl![4]),
-                ReusePinNum(outlineInputBorder, lsControl![5]),
+                ReusePinNum(lsControl![0]),
+                ReusePinNum(lsControl![1]),
+                ReusePinNum(lsControl![2]),
+                ReusePinNum(lsControl![3]),
+                ReusePinNum(lsControl![4]),
+                ReusePinNum(lsControl![5]),
               ],
             )
             : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 
-                ReusePinNum(outlineInputBorder, lsControl![0]),
-                ReusePinNum(outlineInputBorder, lsControl![1]),
-                ReusePinNum(outlineInputBorder, lsControl![2]),
-                ReusePinNum(outlineInputBorder, lsControl![3]),
+                ReusePinNum(lsControl![0]),
+                ReusePinNum(lsControl![1]),
+                ReusePinNum(lsControl![2]),
+                ReusePinNum(lsControl![3]),
               ],
             ),
 
-            SizedBox(height: 5.h),
+            Expanded(child: Container(),),
 
-            TextButton(
-              onPressed: () {
-                onPressedDigit!();
-              }, 
-              child: MyText(
-                text: is4digits == false ? "Switch to 4 digits passcode" : "Switch to 6 digits passcode",
-                color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-
-            SizedBox(height: 2.h),
             ReuseNumPad(pinIndexSetup!, clearPin!),
             
             SizedBox(height: 10.h),
@@ -209,42 +208,80 @@ class PasscodeBody extends StatelessWidget{
 
 
 class ReusePinNum extends StatelessWidget {
-  final OutlineInputBorder outlineInputBorder;
 
   final TextEditingController textEditingController;
 
-  const ReusePinNum(this.outlineInputBorder, this.textEditingController, {Key? key}) : super(key: key);
+  const ReusePinNum(this.textEditingController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+
+    final defaultPinTheme = PinTheme(
       width: 50,
       height: 50,
-      child: TextField(
-        controller: textEditingController,
-        enabled: false,
-        obscureText: true,
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        minLines: 1,
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            gapPadding: 0
-          ),
-          filled: true,
-          // border: OutlineInputBorder(),
-          fillColor: Colors.white30
-        ),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 33.sp,
-          color: hexaCodeToColor(AppColors.secondary)
-        ),
+      textStyle: TextStyle(
+        fontSize: 30.sp,
+        color: hexaCodeToColor(AppColors.primaryColor),
       ),
+      decoration: const BoxDecoration(),
     );
+
+    final preFilledWidget = Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 3,
+          decoration: BoxDecoration(
+            color: hexaCodeToColor(AppColors.primaryColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ],
+    );
+
+    return Pinput(
+      length: 1,
+      obscureText: true,
+      pinAnimationType: PinAnimationType.slide,
+      controller: textEditingController,
+      defaultPinTheme: defaultPinTheme,
+      showCursor: false,
+      preFilledWidget: preFilledWidget,
+      useNativeKeyboard: false,
+    );
+
+    // return Flexible(
+    //   child: Padding(
+    //     padding: const EdgeInsets.all(8.0),
+    //     child: TextField(
+    //       controller: textEditingController,
+    //       enabled: false,
+    //       obscureText: true,
+    //       textAlign: TextAlign.center,
+    //       maxLines: 1,
+    //       minLines: 1,
+    //       decoration: InputDecoration(
+    //         isDense: true,
+    //         // contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
+    //         // border: InputBorder.none,
+    //         border: OutlineInputBorder(
+    //           borderRadius: BorderRadius.circular(8),
+    //           gapPadding: 0
+    //         ),
+    //         filled: true,
+    //         // border: OutlineInputBorder(),
+    //         fillColor: Colors.white30
+    //       ),
+    //       style: TextStyle(
+    //         fontWeight: FontWeight.bold,
+    //         fontSize: 30.sp,
+    //         color: hexaCodeToColor(AppColors.secondary)
+    //       ),
+    //     ),
+    //   ),
+    // );
+
     // return SizedBox(
     //   width: 20.0,
     //   height: 20.0,
