@@ -100,7 +100,12 @@ class OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      body: SafeArea(child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
+        ),
+      ),
     );
   }
 }

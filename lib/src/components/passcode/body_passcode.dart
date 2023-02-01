@@ -216,8 +216,6 @@ class ReusePinNum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final borderColor = hexaCodeToColor(AppColors.primaryColor);
-
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 50,
