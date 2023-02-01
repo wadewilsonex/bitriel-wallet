@@ -55,7 +55,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
 
                 <!-- External App -->
-                <category android:name="android.intent.category.HOME"/> 
+                <!-- <category android:name="android.intent.category.HOME"/>  -->
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
