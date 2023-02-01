@@ -51,14 +51,14 @@ class SeedsCompoent {
                   MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
                     hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-                    fontSize: 2.2,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold
                   )
 
                   else MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
                     hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-                    fontSize: 2.2,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold
                   ),
                 ]
@@ -89,7 +89,7 @@ class SeedsCompoent {
         // color: grey,
         child: MyText(
           text: txt,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor, fontSize: 2.2, fontWeight: FontWeight.bold
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor, fontSize: 15, fontWeight: FontWeight.bold
         ),
       )
     );
@@ -113,7 +113,7 @@ class SeedContents extends StatelessWidget{
         const SizedBox(height: 50),
         MyText(
           text: title,
-          fontSize: 2.6,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
 

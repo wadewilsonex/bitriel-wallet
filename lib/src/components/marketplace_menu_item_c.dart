@@ -23,7 +23,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
       child: Container(
         height: 15.h,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.sp),
+          borderRadius: BorderRadius.circular(8),
           color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
         ),
         child: Column(
@@ -32,14 +32,14 @@ class SelEcoSysMenuItem extends StatelessWidget {
           children: [
 
             Padding(
-              padding: EdgeInsets.all(8.0.sp),
+              padding: const EdgeInsets.all(8.0),
               child: image!,
             ),
 
             // const Spacer(),
 
             Padding(
-              padding: EdgeInsets.all(8.0.sp),
+              padding: const EdgeInsets.all(8.0),
               child: MyText(
                 text: title,
                 hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,

@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
-import 'package:wallet_apps/src/presentation/home/nft/details_ticket/details_ticket.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
 
 class NFTCardComponent extends StatelessWidget{
 
@@ -29,7 +29,7 @@ class NFTCardComponent extends StatelessWidget{
         height: 121,
         margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: index == length!-1 ? 20 : 0),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(2.4),
+          borderRadius: BorderRadius.circular(16),
           child: Stack(
             children: [
         
@@ -56,7 +56,7 @@ class NFTCardComponent extends StatelessWidget{
 
                       MyText(
                         text: eventName!, //"NIGHT MUSIC FESTIVAL",
-                        fontSize: 2.4,
+                        fontSize: 16,
                         color2: Colors.white,
                         fontWeight: FontWeight.w700,
                       )
@@ -90,7 +90,7 @@ class TicketCardComponent extends StatelessWidget{
         height: 121,
         margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: index == length!-1 ? 20 : 0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2.4),
+          borderRadius: BorderRadius.circular(16),
           color: hexaCodeToColor("#FEFEFE"),
         ),
         child: Row(
@@ -117,7 +117,7 @@ class TicketCardComponent extends StatelessWidget{
                 MyText(
                   top: 10,
                   text: giftName!, //"NIGHT MUSIC FESTIVAL",
-                  fontSize: 2.4,
+                  fontSize: 16,
                   hexaColor: "#49595F",
                   fontWeight: FontWeight.w800,
                 ),
@@ -125,7 +125,7 @@ class TicketCardComponent extends StatelessWidget{
                 MyText(
                   top: 5,
                   text: giftName!, //"NIGHT MUSIC FESTIVAL",
-                  fontSize: 2,
+                  fontSize: 14,
                   hexaColor: "#49595F",
                   fontWeight: FontWeight.w600,
                 )

@@ -1,9 +1,7 @@
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
-
-const double height = 8.0;
-
-const ldPadding = 1.5;
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
+import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
@@ -13,19 +11,17 @@ PreferredSizeWidget defaultAppBar({
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
-    toolbarHeight: height.sp,
-    leadingWidth: 10.sp,
+    toolbarHeight: 10.h,
+    leadingWidth: 15.w,
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
-        margin: EdgeInsets.only(left: ldPadding.sp, right: ldPadding.sp, top: 1.5.sp),
-        padding: EdgeInsets.symmetric(horizontal: 2.sp),
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(36.sp)),
-          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
-          boxShadow: [
-            BoxShadow(spreadRadius: 0, blurRadius: 4, offset: Offset(0, 2), color: Color.fromARGB(255, 126, 126, 126).withOpacity(0.5))
-          ]
+          border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
         ),
       ),
     ),
@@ -83,8 +79,8 @@ PreferredSizeWidget defaultAppBar({
                         MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
               
                           Padding(
-                          padding: EdgeInsets.only(left: 0.5.sp),
-                          child: Icon(Iconsax.arrow_down_1, size: 2.2.sp, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                          padding: const EdgeInsets.only(left: 4),
+                          child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
                         )
                       ],
                     ),
@@ -99,11 +95,10 @@ PreferredSizeWidget defaultAppBar({
       ),
     ),
     actions: <Widget>[
-
+      
       Container(
-        margin: EdgeInsets.only(top: ldPadding.sp, right: (ldPadding+2).sp,),
-        width: 5.sp,
-        height: 5.sp,
+        margin: const EdgeInsets.only(right: 10, top: 10),
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
         child: IconButton(
           icon: Align(
             alignment: Alignment.centerRight,
@@ -132,34 +127,6 @@ PreferredSizeWidget defaultAppBar({
     ],
   );
 }
-
-PreferredSizeWidget secondaryAppBar({
-  required BuildContext? context,
-  required Widget? title,
-  Widget? leading
-}){
-  return AppBar(
-    toolbarHeight: 10.sp,
-    backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
-    iconTheme: IconThemeData(
-      color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
-    ),
-    elevation: 0,
-    bottomOpacity: 0,
-    leadingWidth: 7.sp,
-    title: title,
-    leading: leading ?? IconButton(
-      onPressed: () {
-        Navigator.of(context!).pop();
-      },
-      icon: Icon(
-        Iconsax.arrow_left_2,
-        color: isDarkMode ? Colors.white : Colors.black,
-        size: 4.sp,
-      ),
-    ),
-  );
-} 
 
 class AppBarCustom extends StatelessWidget {
   final double? pLeft;

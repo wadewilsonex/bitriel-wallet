@@ -75,7 +75,7 @@ class _TicketCardComponentState extends State<TicketCardComponent> {
                   child: MyText(
                     text: widget.ticketObj!['name'].toString(),
                     color2: Colors.white,
-                    fontSize: 2.7,
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 )

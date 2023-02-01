@@ -1,4 +1,9 @@
 import 'package:wallet_apps/index.dart';
+import 'package:vibration/vibration.dart';
+import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
 enum PassCodeLabel {
   fromSplash,

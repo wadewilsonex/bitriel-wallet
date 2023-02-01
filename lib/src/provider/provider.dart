@@ -42,7 +42,7 @@ class ContractsBalance extends ChangeNotifier {
         await apiProvider.connectPolNon(context: _context);
         
         /// Fetch and Fill Market Price Into Asset
-        // await Provider.of<MarketProvider>(_context!, listen: false).fetchTokenMarketPrice(_context!);
+        await Provider.of<MarketProvider>(_context!, listen: false).fetchTokenMarketPrice(_context!);
         
         /// Fetch main balance
         await apiProvider.totalBalance(context: _context!);

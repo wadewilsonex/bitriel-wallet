@@ -58,7 +58,7 @@ class SwapTokenList extends StatelessWidget {
                 ),
                 MyText(
                   text: subtitle,
-                  fontSize: 1.9,
+                  fontSize: 13,
                   color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,

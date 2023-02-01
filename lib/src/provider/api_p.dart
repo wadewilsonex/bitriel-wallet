@@ -11,7 +11,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/utils/service/apikeyring.dart';
+import 'package:wallet_apps/src/service/apikeyring.dart';
 import 'package:bip39/bip39.dart' as bip39;
 
 class ApiProvider with ChangeNotifier {
@@ -90,9 +90,6 @@ class ApiProvider with ChangeNotifier {
 
   Future<void> initApi({@required BuildContext? context}) async {
 
-    if(kDebugMode){
-      print("initApi");
-    }
     // Asign Network
     await StorageServices.fetchData(DbKey.sldNetwork).then((nw) async {
       /// Get Endpoint form Local DB
@@ -108,14 +105,9 @@ class ApiProvider with ChangeNotifier {
       await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
       notifyListeners();
     });
-
-    if(kDebugMode){
-      print("selNetwork $selNetwork");
-    }
     
     funcName = 'account';
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
-    
     try {
 
       await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
@@ -126,17 +118,16 @@ class ApiProvider with ChangeNotifier {
       // await _sdk.webView!.evalJavascript("account.setupss58Format('$isMainnet')");
     
       await _keyring.init([0, isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]);
-      print('finish init Keyring');
       await _sdk.init(_keyring, jsCode: _jsCode);
 
-      print('finish init sdk');
-      
       _apiKeyring = MyApiKeyring(_sdk.api, _sdk.api.keyring.service!);
       notifyListeners();
 
     } catch (e) {
-      if (kDebugMode) {
-        print("Error initApi $e");
+      if (ApiProvider().isDebug) {
+        if (kDebugMode) {
+          print("Error initApi $e");
+        }
       }
     }
   }
@@ -348,30 +339,22 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> totalBalance({@required BuildContext? context}) async {
-    print("totalBalance");
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    try {
     
-      double total = 0.0;
+    double total = 0.0;
 
-      var balanceList = [];
-      
-      for (var element in contract.sortListContract) {
-        if(element.marketPrice!.isNotEmpty){
-          total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
-          balanceList.add(total);
-        }
+    var balanceList = [];
+    
+    for (var element in contract.sortListContract) {
+      if(element.marketPrice!.isNotEmpty){
+        total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
+        balanceList.add(total);
       }
-
-      total = balanceList.reduce((a, b) => a + b);
-
-      contract.totalAmount = total;
-
-      print("contract.totalAmount ${contract.totalAmount}");
-    } catch (e){
-      contract.totalAmount = 0;
-      print("Error totalBalance $e");
     }
+
+    total = balanceList.reduce((a, b) => a + b);
+
+    contract.totalAmount = total;
   
   }
 
@@ -494,13 +477,13 @@ class ApiProvider with ChangeNotifier {
     try {
 
       NetworkParams node = NetworkParams();
-      NetworkParams nodePol = NetworkParams();
+      NetworkParams? res = NetworkParams();
 
       node.name = 'Selendra';
       node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
-      await _sdk.api.connectNode(_keyring, [node]);
+      res = await _sdk.api.connectNode(_keyring, [node]);
 
       if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
       
@@ -514,7 +497,7 @@ class ApiProvider with ChangeNotifier {
         );
       }
 
-      return node;
+      return res;
     } catch (e) {
       if (kDebugMode) {
         print("Error connectSELNode $e");
@@ -531,9 +514,8 @@ class ApiProvider with ChangeNotifier {
       dynamic res;
       
       ContractProvider contract = Provider.of<ContractProvider>(context!, listen: false);
-
+      
       await querySELAddress().then((value) async {
-
         await _sdk.api.service.webView!.evalJavascript('settings.getChainDecimal(api)').then((value) async {
           
           res = value;
@@ -556,7 +538,6 @@ class ApiProvider with ChangeNotifier {
     
     // Get SEL native Address From Account 
     await _sdk.webView!.evalJavascript('account.getSELAddr()').then((value) async {
-
       if (value != null){
         contractProvider!.listContract[selNativeIndex].address = value;
       } else {

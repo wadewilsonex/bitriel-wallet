@@ -57,7 +57,7 @@ class NFTCard extends StatelessWidget {
                     children: [
                       Image(
                         image: const AssetImage("assets/SelendraCircle-Blue.png"),
-                        width: 2.5.sp,
+                        width: 2.5.vmax,
                       ),
                       const MyText(
                         text: " 1.25",

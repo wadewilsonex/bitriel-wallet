@@ -11,7 +11,7 @@ class PortFolioCus extends StatelessWidget {
      
     return Container(
       margin: const EdgeInsets.only(bottom: 2.0),
-      padding: EdgeInsets.only(left: 2.sp, right: 20, top: 32, bottom: 32),
+      padding: const EdgeInsets.only(left: 16, right: 20, top: 32, bottom: 32),
       width: double.infinity,
       height: 200,
       decoration: BoxDecoration(
@@ -48,7 +48,7 @@ class PortFolioCus extends StatelessWidget {
                           showChartValueBackground: false,
                           chartValueStyle: TextStyle(
                             color: hexaCodeToColor(isDarkMode ? "#FFFFFF" : "#000000"),
-                            fontSize: 2.sp,
+                            fontSize: 16,
                           ),
                         ),
                       )
@@ -66,7 +66,7 @@ class PortFolioCus extends StatelessWidget {
                           showChartValueBackground: false,
                           chartValueStyle: TextStyle(
                             color: hexaCodeToColor(isDarkMode ? "#FFFFFF" : "#000000"),
-                            fontSize: 2.sp,
+                            fontSize: 16,
                           ),
                         ),
                       );

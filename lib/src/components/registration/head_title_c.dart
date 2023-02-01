@@ -15,7 +15,7 @@ class HeaderTitle extends StatelessWidget {
         
         MyText(
           text: title!,
-          fontSize: 2.9,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
           top: 30,

@@ -39,8 +39,8 @@ class TicketItemComponent extends StatelessWidget{
     
               MyText(
                 textAlign: TextAlign.start,
-                bottom: 1.5.sp,
-                fontSize: 2,
+                bottom: 10,
+                fontSize: 14,
                 text: label ?? '',
                 hexaColor: "#BCBCBC",
               ),
@@ -48,7 +48,7 @@ class TicketItemComponent extends StatelessWidget{
               child ?? Row(
                 children: [
                   
-                  icon != null ? Container(margin: EdgeInsets.only(right: 1.5.sp), child: icon!,) : Container(), 
+                  icon != null ? Container(margin: const EdgeInsets.only(right: 10), child: icon!,) : Container(), 
                   Flexible(
                     child: MyText(
                       textAlign: TextAlign.start,

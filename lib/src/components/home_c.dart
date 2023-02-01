@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-double fontSizePort = 2.sp;
+const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
 
 List<Color> _gradientColors = [
@@ -177,7 +177,7 @@ Widget cardToken(
                       TextStyle(
                           color: hexaCodeToColor(AppColors.lightBlueSky),
                           fontWeight: FontWeight.bold,
-                          fontSize: 4.sp)),
+                          fontSize: 28.0)),
                 ),
                 Container(
                   margin: EdgeInsets.only(
@@ -222,13 +222,13 @@ class AddAssetRowButton extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 5.5.sp,
-              height: 5.5.sp,
-              margin: EdgeInsets.only(right: 1.5.sp),
+              width: 40.0,
+              height: 40.0,
+              margin: const EdgeInsets.only(right: 10.0),
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.secondary),
                 border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(5.5.sp),
+                borderRadius: BorderRadius.circular(40.0),
               ),
               alignment: Alignment.center,
               child: const Icon(
@@ -236,7 +236,7 @@ class AddAssetRowButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Text(
+            const Text(
               "Add asset",
               style: TextStyle(
                 color: fontColorPort,
@@ -601,8 +601,8 @@ LineChartData mainData() {
       bottomTitles: SideTitles(
         showTitles: true,
         reservedSize: 6,
-        getTextStyles: (context, value) => TextStyle(
-            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 2.5.sp),
+        getTextStyles: (context, value) => const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
         getTitles: (value) {
           switch (value.toInt()) {
             case 0:

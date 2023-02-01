@@ -102,7 +102,7 @@ class Component {
                               right: 10,
                               bottom: 10,
                               text: contents,
-                              fontSize: 1,
+                              fontSize: 16,
                               hexaColor: AppColors.blackColor,
                             )
                           : Container()
@@ -149,7 +149,7 @@ class MyFlatButton extends StatelessWidget {
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height = 8,
+    this.height,
     this.isTransparent = false,
     this.isBorder,
     this.opacity = 1,
@@ -159,11 +159,13 @@ class MyFlatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      
+
     return Container(
       padding: edgePadding,
       margin: edgeMargin,
       width: width,
-      height: height != null ? (height)!.toDouble().h : height,
+      height: height,
+
       decoration: isTransparent! ? null : BoxDecoration(
         border: isBorder! ? Border.all(
           color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.primaryColor).withOpacity(0.50),
@@ -195,7 +197,6 @@ class MyFlatButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
             MyText(
               text: textButton!,
               hexaColor: textColor!,
@@ -244,7 +245,7 @@ class MyGradientButton extends StatelessWidget {
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height = 8,
+    this.height = 50,
     this.isTransparent = false,
     required this.begin,
     required this.end,
@@ -258,17 +259,16 @@ class MyGradientButton extends StatelessWidget {
       padding: edgePadding,
       margin: edgeMargin,
       width: width,
-      height: height!.toDouble().sp,
+      height: height,
       decoration: BoxDecoration(
         boxShadow: <BoxShadow>[
-
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
-            blurRadius: 48.0.sp,
+            blurRadius: 48.0,
             offset: const Offset(0.0, 2)
           )
         ],
-        borderRadius: BorderRadius.circular(1.5.sp),
+        borderRadius: BorderRadius.circular(8),
         gradient: LinearGradient(
           colors: [hexaCodeToColor(lsColor![0]).withOpacity(lsColorOpacity![0]), hexaCodeToColor(lsColor![1]).withOpacity(lsColorOpacity![1])],
           begin: begin,
@@ -528,8 +528,6 @@ class MyIconButton extends StatelessWidget {
         children: [
           child ?? SvgPicture.asset(
             '${AppConfig.iconsPath}$icon',
-              // width: lgSize.sp,
-              // height: lgSize.sp,
             width: iconSize ?? 24,
             height: iconSize ?? 24,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -708,7 +706,7 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
             child: MyText(
               text: title,
               fontWeight: FontWeight.w600,
-              fontSize: 2.5, 
+              fontSize: 18, 
             ),
           ),
           content: Padding(
@@ -797,6 +795,33 @@ class MyPinput extends StatelessWidget {
       },
       onCompleted: onCompleted,
       // onSubmitted: onSubmit,
+    );
+  }
+}
+
+class ThreeDotLoading extends StatelessWidget{
+
+  final Indicator? indicator;
+  final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
+
+  const ThreeDotLoading({Key? key, this.indicator = Indicator.ballPulse, this.padding, @required this.width, @required this.height}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context ){
+    final isDark = Provider.of<ThemeProvider>(context).isDark;
+    return Container(
+      padding: padding,
+      width: width,
+      height: height,
+      child: LoadingIndicator(
+        indicatorType: indicator!, /// Required, The loading type of the widget
+        colors: [ isDark ? Colors.white : Colors.black],       /// Optional, The color collections
+        strokeWidth: 1,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+        backgroundColor: Colors.transparent,      /// Optional, Background of the widget
+        pathBackgroundColor: isDark ? Colors.black : Colors.white
+      ),
     );
   }
 }

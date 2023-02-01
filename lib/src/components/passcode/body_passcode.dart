@@ -22,7 +22,7 @@ class PasscodeBody extends StatelessWidget{
   }) : super(key: key);
 
   final outlineInputBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(11.4.sp),
+    borderRadius: BorderRadius.circular(80),
     borderSide: const BorderSide(
       color: Colors.transparent,
     ),
@@ -33,19 +33,27 @@ class PasscodeBody extends StatelessWidget{
      
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      appBar: secondaryAppBar(
-        context: context, 
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontSize: 2.4,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-        )
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left_2),
+        ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(horizontal: paddingSize),
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -57,7 +65,7 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'PIN' : 'Verify PIN',
-              fontSize: 3.2,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
@@ -69,7 +77,7 @@ class PasscodeBody extends StatelessWidget{
             ),
 
             SizedBox(
-              height: 5.sp,
+              height: 5.h,
             ),
             
             if (subStatus == null) Column(
@@ -88,7 +96,7 @@ class PasscodeBody extends StatelessWidget{
               fontWeight: FontWeight.bold,
             ), 
 
-            SizedBox(height: 5.sp),
+            SizedBox(height: 5.h),
 
             is4digits == false ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,10 +121,9 @@ class PasscodeBody extends StatelessWidget{
               ],
             ),
 
-            SizedBox(height: 5.sp),
+            SizedBox(height: 5.h),
 
             TextButton(
-              style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
               onPressed: () {
                 onPressedDigit!();
               }, 
@@ -127,10 +134,10 @@ class PasscodeBody extends StatelessWidget{
               ),
             ),
 
-            SizedBox(height: 2.sp),
+            SizedBox(height: 2.h),
             ReuseNumPad(pinIndexSetup!, clearPin!),
             
-            SizedBox(height: 10.sp),
+            SizedBox(height: 10.h),
           ],
         ),
       )
@@ -146,14 +153,14 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               fontWeight: FontWeight.bold,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
@@ -161,7 +168,7 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -176,21 +183,21 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Enter ', 
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
-              fontSize: 2.8.sp,
+              fontSize: 17.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -210,34 +217,32 @@ class ReusePinNum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: textEditingController,
-      enabled: false,
-      obscureText: true,
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      minLines: 1,
-      scrollPadding: EdgeInsets.zero,
-      decoration: InputDecoration(
-        constraints: BoxConstraints.expand(width: 7.14.sp, height: 7.14.sp),
-        isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 0.1.sp),//EdgeInsets.only(bottom: 7.5.sp, left: 1.sp),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(1.2.sp),
-          gapPadding: 0
+    return SizedBox(
+      width: 50,
+      height: 50,
+      child: TextField(
+        controller: textEditingController,
+        enabled: false,
+        obscureText: true,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        minLines: 1,
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            gapPadding: 0
+          ),
+          filled: true,
+          // border: OutlineInputBorder(),
+          fillColor: Colors.white30
         ),
-        filled: true,
-        // border: OutlineInputBorder(),
-        fillColor: Colors.white30
-      ),
-      style: TextStyle(
-        letterSpacing: 0,
-        wordSpacing: 0,
-        height: 1.2,
-        fontWeight: FontWeight.bold,
-        fontSize: 5.sp,
-        color: hexaCodeToColor(AppColors.secondary),
-        decoration: TextDecoration.none
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 33.sp,
+          color: hexaCodeToColor(AppColors.secondary)
+        ),
       ),
     );
     // return SizedBox(
@@ -281,89 +286,89 @@ class ReuseNumPad extends StatelessWidget {
   }
 
   Widget _buildNumberPad(context) {
-    return Column(
-      children: <Widget>[
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(1, () {
+                pinIndexSetup('1');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(2, () {
+                pinIndexSetup('2');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(3, () {
+                pinIndexSetup('3');
+              }),
+            ],
+          ),
 
-        Row(
-          children: <Widget>[
-            ReuseKeyBoardNum(1, () {
-              pinIndexSetup('1');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(2, () {
-              pinIndexSetup('2');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(3, () {
-              pinIndexSetup('3');
-            }),
-          ],
-        ),
+          const SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(4, () {
+                pinIndexSetup('4');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(5, () {
+                pinIndexSetup('5');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(6, () {
+                pinIndexSetup('6');
+              }),
+            ],
+          ),
 
-        SizedBox(height: 1.4.sp),
-        Row(
-          children: <Widget>[
-            ReuseKeyBoardNum(4, () {
-              pinIndexSetup('4');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(5, () {
-              pinIndexSetup('5');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(6, () {
-              pinIndexSetup('6');
-            }),
-          ],
-        ),
-
-        SizedBox(height: 1.4.sp),
-        Row(
-          children: <Widget>[
-            ReuseKeyBoardNum(7, () {
-              pinIndexSetup('7');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(8, () {
-              pinIndexSetup('8');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(9, () {
-              pinIndexSetup('9');
-            }),
-          ],
-        ),
-        
-        SizedBox(height: 1.4.sp),
-        Row(
-          children: <Widget>[
-            
-            Expanded(child: Container()),
-            // ReuseKeyBoardNum(null, null, child: Container()),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(0, () {
-              pinIndexSetup('0');
-            }),
-            SizedBox(width: 2.71.sp),
-            ReuseKeyBoardNum(
-              null, 
-              () {
-                clearPin();
-              },
-              child: Transform.rotate(
-                angle: 70.6858347058,
-                child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 2.85.sp),
-              ),
-            )
-          ],
-        )
-      ],
+          const SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              ReuseKeyBoardNum(7, () {
+                pinIndexSetup('7');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(8, () {
+                pinIndexSetup('8');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(9, () {
+                pinIndexSetup('9');
+              }),
+            ],
+          ),
+          
+          const SizedBox(height: 10),
+          Row(
+            children: <Widget>[
+              Expanded(child: Container()),
+              // ReuseKeyBoardNum(null, null, child: Container()),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(0, () {
+                pinIndexSetup('0');
+              }),
+              const SizedBox(width: 19),
+              ReuseKeyBoardNum(
+                null, 
+                () {
+                  clearPin();
+                },
+                child: Transform.rotate(
+                  angle: 70.6858347058,
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 20.sp),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
 
 class ReuseKeyBoardNum extends StatelessWidget {
-
   final int? n;
   final Widget? child;
   final Function()? onPressed;
@@ -375,7 +380,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
       child: TextButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.14.sp))
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
           ),
           backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
         ),
@@ -383,7 +388,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
         child: child == null ? Text(
           '$n',
           style: TextStyle(
-            fontSize: 2.4.sp * MediaQuery.of(context).textScaleFactor,
+            fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
             color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),

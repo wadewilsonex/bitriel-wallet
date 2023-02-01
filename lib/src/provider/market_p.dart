@@ -725,17 +725,13 @@ class MarketProvider with ChangeNotifier {
     final api = Provider.of<ApiProvider>(context, listen: false);
     sortDataMarket.clear();
 
-    // int i = 0;
     for (int i = 0; i < id.length; i++) {
-      print("id[i] ${id[i]}");
       try {
 
         final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id[i]}'));
-        
-        print("response ${response.body}");
+
         final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
 
-        print("jsonResponse[0] ${jsonResponse[0]}");
         if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
 
           sortDataMarket.addAll({jsonResponse[0]});
@@ -744,56 +740,58 @@ class MarketProvider with ChangeNotifier {
 
           final res = parseMarketData(jsonResponse);
 
-        //   if (i == 0) {
-        //     contract.setkiwigoMarket(
-        //       res!,
-        //       lineChartData!,
-        //       jsonResponse[0]['current_price'].toString(),
-        //       jsonResponse[0]['price_change_percentage_24h']
-        //           .toStringAsFixed(2)
-        //           .toString(),
-        //     );
-        //   } else if (i == 1) {
-        //     contract.setEtherMarket(
-        //       res!,
-        //       lineChartData!,
-        //       jsonResponse[0]['current_price'].toString(),
-        //       jsonResponse[0]['price_change_percentage_24h']
-        //           .toStringAsFixed(2)
-        //           .toString(),
-        //     );
-        //   } else if (i == 2) {
-        //     contract.setBnbMarket(
-        //       res!,
-        //       lineChartData!,
-        //       jsonResponse[0]['current_price'].toString(),
-        //       jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
-        //     );
-        //   } else if (i == 3) {
-        //     await api.setDotMarket(
-        //       res!,
-        //       lineChartData!,
-        //       jsonResponse[0]['current_price'].toString(),
-        //       jsonResponse[0]['price_change_percentage_24h']
-        //           .toStringAsFixed(2)
-        //           .toString(),
-        //       context: context
-        //     );
-        //   } else if (i == 4) {
-        //     await api.setBtcMarket(
-        //       res!,
-        //       lineChartData!,
-        //       jsonResponse[0]['current_price'].toString(),
-        //       jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
-        //       context: context
-        //     );
-        //   }
+          if (i == 0) {
+            contract.setkiwigoMarket(
+              res!,
+              lineChartData!,
+              jsonResponse[0]['current_price'].toString(),
+              jsonResponse[0]['price_change_percentage_24h']
+                  .toStringAsFixed(2)
+                  .toString(),
+            );
+          } else if (i == 1) {
+            contract.setEtherMarket(
+              res!,
+              lineChartData!,
+              jsonResponse[0]['current_price'].toString(),
+              jsonResponse[0]['price_change_percentage_24h']
+                  .toStringAsFixed(2)
+                  .toString(),
+            );
+          } else if (i == 2) {
+            contract.setBnbMarket(
+              res!,
+              lineChartData!,
+              jsonResponse[0]['current_price'].toString(),
+              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
+            );
+          } else if (i == 3) {
+            await api.setDotMarket(
+              res!,
+              lineChartData!,
+              jsonResponse[0]['current_price'].toString(),
+              jsonResponse[0]['price_change_percentage_24h']
+                  .toStringAsFixed(2)
+                  .toString(),
+              context: context
+            );
+          } else if (i == 4) {
+            await api.setBtcMarket(
+              res!,
+              lineChartData!,
+              jsonResponse[0]['current_price'].toString(),
+              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
+              context: context
+            );
+          }
         }
 
         notifyListeners();
       } catch (e) {
-        if (kDebugMode) {
-          print("Error fetchTokenMarketPrice $e");
+        if (ApiProvider().isDebug == true) {
+          if (kDebugMode) {
+            print("Error fetchTokenMarketPrice $e");
+          }
         }
         return;
       }

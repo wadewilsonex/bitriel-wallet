@@ -22,12 +22,12 @@ class EventCardShimmerComponent extends StatelessWidget {
               baseColor: Colors.red.withOpacity(0.5),
               highlightColor: Colors.red,
               child: Container(
-                width: 2.2.w,
+                width: 15.w,
                 color: Colors.white,
                 child: const MyText(
                   text: "",
                   color2: Colors.transparent,
-                  fontSize: 2.7,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -87,7 +87,7 @@ class EventCardShimmerComponent extends StatelessWidget {
                                         highlightColor: Colors.white,
                                         child: const MyText(
                                           text: '',
-                                          fontSize: 2.2,
+                                          fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           bottom: 5,
                                           hexaColor: "#878787",
@@ -99,7 +99,7 @@ class EventCardShimmerComponent extends StatelessWidget {
                                         highlightColor: Colors.white,
                                         child: const MyText(
                                           text: '',
-                                          fontSize: 2.2,
+                                          fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           bottom: 5,
                                           hexaColor: "#878787",

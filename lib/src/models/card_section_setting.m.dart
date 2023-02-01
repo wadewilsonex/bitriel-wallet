@@ -3,8 +3,10 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/presentation/home/menu/backup/keystore_json.dart';
-import 'package:wallet_apps/src/presentation/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:wallet_apps/src/screen/home/about/about_bitriel.dart';
+import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
+import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:wallet_apps/src/screen/home/security_privacy/security_privacy.dart';
 
 class CardSection {
   final String? title;
@@ -54,13 +56,13 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
       leadingIcon: Icon(Iconsax.security_user, color: hexaCodeToColor(AppColors.primaryColor)),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
-        // Navigator.push(
-        //   context!,
-        //   Transition(
-        //     child: const SecurityPrivacy(),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
+        Navigator.push(
+          context!,
+          Transition(
+            child: const SecurityPrivacy(),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
       }
     ),
 
@@ -69,13 +71,13 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
       leadingIcon: Icon(Iconsax.info_circle, color: hexaCodeToColor(AppColors.primaryColor)),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
-        // Navigator.push(
-        //   context!,
-        //   Transition(
-        //     child: AboutBitriel(packageInfo: packageInfo),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
+        Navigator.push(
+          context!,
+          Transition(
+            child: AboutBitriel(packageInfo: packageInfo),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
       }
     ),
 
@@ -290,12 +292,13 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
 
 
       await wcComponent.killAllSession().then((value) async => {
-        // await Provider.of<GoogleAuthService>(context, listen: false).signOut()
+        await Provider.of<GoogleAuthService>(context, listen: false).signOut()
       }).then((value) => {
         Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/')),
       });
 
-    
+      
+
       
     } catch (e) {
 

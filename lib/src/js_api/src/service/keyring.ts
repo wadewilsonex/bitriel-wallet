@@ -240,8 +240,6 @@ function _extractEvents(api: ApiPromise, result: SubmittableResult) {
  * sign and send extrinsic to network and wait for result.
  */
 function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string, msgId: string) {
-  console.log("txInfo.txName", txInfo.txName);
-  console.log("paramList", paramList);
   return new Promise(async (resolve) => {
     let tx: SubmittableExtrinsic<"promise">;
     // wrap tx with council.propose for treasury propose
@@ -252,30 +250,18 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
     } else {
       tx = api.tx[txInfo.module][txInfo.call](...paramList);
     }
-    console.log("tx", tx);
     let unsub = () => { };
     const onStatusChange = (result: SubmittableResult) => {
-      console.log("result.status.isInBlock", result.status.isInBlock);
-      console.log("result.status.isFinalized", result.status.isFinalized);
       if (result.status.isInBlock || result.status.isFinalized) {
         const { success, error } = _extractEvents(api, result);
-        console.log("success", success);
-        console.log("tx.hash.toString()", tx.hash.toString());
         if (success) {
-          console.log("Success");
           resolve({ hash: tx.hash.toString() });
         }
-        
-        console.log("error", error);
         if (error) {
-          console.log("Error");
           resolve({ error });
         }
         unsub();
       } else {
-        console.log("Else");
-        console.log("msgId", msgId);
-        console.log("result.status.type", result.status.type);
         (<any>window).send(msgId, result.status.type);
       }
     };
@@ -306,15 +292,7 @@ function sendTx(api: ApiPromise, txInfo: any, paramList: any[], password: string
       resolve({ error: "PIN verification failed" });
     }
 
-    // tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
-    //   .then((res) => {
-    //     unsub = res;
-    //   })
-    //   .catch((err) => {
-    //     resolve({ error: err.message });
-    //   });
-    console.log("txInfo.tip", txInfo.tip);
-    tx.signAndSend(keyPair, { tip: new BN(txInfo.tip) }, onStatusChange)
+    tx.signAndSend(keyPair, { tip: new BN(txInfo.tip, 10) }, onStatusChange)
       .then((res) => {
         unsub = res;
       })

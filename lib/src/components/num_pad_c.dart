@@ -23,7 +23,7 @@ class NumPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

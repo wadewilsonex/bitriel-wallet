@@ -7,8 +7,6 @@ class AvatarShimmer extends StatelessWidget{
 
   const AvatarShimmer({Key? key, this.txt, this.child}) : super(key: key);
 
-  final avatarSize = 4;
-
   @override
   Widget build (BuildContext context){
      
@@ -24,9 +22,9 @@ class AvatarShimmer extends StatelessWidget{
           ? Colors.white.withOpacity(0.5)
           : Colors.grey[100]!,
         child: Container(
-          width: avatarSize.sp,
-          height: avatarSize.sp,
-          margin: EdgeInsets.only(right: 1.sp),
+          width: 10.w,
+          height: 10.w,
+          margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
             color: isDarkMode
               ? hexaCodeToColor(AppColors.whiteHexaColor)
@@ -36,9 +34,9 @@ class AvatarShimmer extends StatelessWidget{
         ),
       ) 
       : Container(
-        width: avatarSize.sp,
-        height: avatarSize.sp,
-        margin: EdgeInsets.only(right: 1.sp),
+        width: 10.w,
+        height: 10.w,
+        margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           color: isDarkMode
             ? hexaCodeToColor(AppColors.whiteHexaColor)
@@ -73,9 +71,9 @@ class WidgetShimmer extends StatelessWidget{
         ? Colors.white.withOpacity(0.5)
         : Colors.grey[100]!,
       child: Container(
-        width: 14.sp,
-        height: 1.2.sp,
-        margin: EdgeInsets.only(bottom: 0.5.sp),
+        width: 100,
+        height: 8.0,
+        margin: const EdgeInsets.only(bottom: 3),
         color: Colors.white,
       ),
     );
@@ -97,7 +95,7 @@ class TextShimmer extends StatelessWidget{
     return txt != null 
     ? MyText(
       text: txt ?? '',
-      fontSize: 2.4,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
       hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor
     ) 
@@ -107,8 +105,8 @@ class TextShimmer extends StatelessWidget{
       highlightColor: highlightColor ?? Colors.white,
       child: Container(
         width: width,
-        height: 1.sp,
-        margin: EdgeInsets.only(bottom: 0.5.sp),
+        height: 8.0,
+        margin: const EdgeInsets.only(bottom: 3),
         color: Colors.white,
       ),
     );

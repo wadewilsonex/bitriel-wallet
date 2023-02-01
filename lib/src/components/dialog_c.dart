@@ -12,11 +12,11 @@ class DialogComponents {
       builder: (BuildContext context){
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(2.14.sp)
+            borderRadius: BorderRadius.circular(15)
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           title: const MyText(
-            fontSize: 2.9,
+            fontSize: 20,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
           ),
@@ -36,7 +36,7 @@ class DialogComponents {
                   // side: BorderSide(
                   //   width: 1
                   // ),
-                  borderRadius: BorderRadius.circular(1.42.sp),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 color: isDarkMode
                   ? Colors.white.withOpacity(0.06)
@@ -44,18 +44,18 @@ class DialogComponents {
                 child: MyText(
                   text: contents,
                   textAlign: TextAlign.left,
-                  fontSize: 2.5,
+                  fontSize: 18,
                   hexaColor: isDarkMode ? AppColors.secondary : AppColors.orangeColor,
                   fontWeight: FontWeight.bold,
-                  pLeft: 2.28.sp,
-                  right: 2.28.sp,
-                  top: 2.28.sp,
-                  bottom: 2.28.sp,
+                  pLeft: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 16,
                 ),
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 2.85.sp),
+                padding: const EdgeInsets.only(top: 20),
                 child: Consumer<ReceiveWalletProvider>(
                   builder: (context, provider, widget){
                     return GestureDetector(
@@ -74,12 +74,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 2.85.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20.sp,),
                           
-                          SizedBox(width: 2.sp,),
+                          SizedBox(width: 2.w,),
                           MyText(
                             text: "Copy",
-                            top: 0.71.sp,
+                            top: 5,
                             hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
@@ -110,19 +110,15 @@ class DialogComponents {
   Future dialogCustom({ 
     required BuildContext? context, 
     String? titles, 
-    double? titlesFontSize = 2.2,
-    EdgeInsetsGeometry? contentPadding, 
+    double? titlesFontSize = 15,
+    EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , 
     String? contents, 
-    double? contentsFontSize = 2.2,
+    double? contentsFontSize = 15,
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
     String? textButton, btn, btn2
   }) async {
-    print("1.sp ${1.sp}");
-    if (contentPadding == null){
-      contentPadding = EdgeInsets.all(3.4.sp);
-    }
     return await showDialog(
       context: context!, 
       builder: (BuildContext context){
@@ -130,8 +126,8 @@ class DialogComponents {
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
           child: AlertDialog(
             contentPadding: contentPadding!,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(2.9.sp)),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
             title: titles != null ? MyText(
@@ -139,7 +135,7 @@ class DialogComponents {
               fontWeight: FontWeight.bold,
               fontSize: titlesFontSize,
             ) : Container(),
-            buttonPadding: btn2 != null ? EdgeInsets.only(left: 3.4.sp, right: 3.4.sp, bottom: 3.4.sp) : EdgeInsets.zero,
+            buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
             content: contents != null ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -150,10 +146,10 @@ class DialogComponents {
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3.sp) : Container(),
+                image != null ? SizedBox(height: 3.h) : Container(),
                 MyText(
                   text: contents,
-                  fontSize: contentsFontSize,
+                  fontSize: titlesFontSize,
                 )
               ],
             ) : contents2,

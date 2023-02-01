@@ -3,11 +3,11 @@ import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/config/route/router.dart' as router;
-// import 'package:wallet_apps/src/screen/home/home/home.dart';
-
+import 'package:wallet_apps/src/screen/home/home/home.dart';
+import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
@@ -22,6 +22,7 @@ class AppState extends State<App> {
 
   @override
   void initState() {
+
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
     // MarketProvider().fetchTokenMarketPrice(context);
@@ -71,12 +72,8 @@ class AppState extends State<App> {
       
       await apiProvider.initApi(context: context).then((value) async {
 
-        if(kDebugMode){
-          print(Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs.isEmpty);
-          print("finish initApi");
-          print("print(Provider.of<ApiProvider>(context, listen: false).getKeyring.allAccounts.length); ${Provider.of<ApiProvider>(context, listen: false).getKeyring.allAccounts.length}");
-        }
-        
+        // await apiProvider.connectPolNon(context: context).then((value) async {
+        // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
         
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
@@ -145,7 +142,6 @@ class AppState extends State<App> {
           value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
           child: LayoutBuilder(
             builder: (builder, constraints) {
-              
               return OrientationBuilder(
                 builder: (context, orientation) {
                   SizeConfig().init(constraints, orientation);

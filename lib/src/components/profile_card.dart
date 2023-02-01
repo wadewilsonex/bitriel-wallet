@@ -11,9 +11,9 @@ class ProfileCard extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.only(
-          left: 2.9.sp,
-          right: 2.9.sp,
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
           top: 25,
           bottom: 25,
         ),
@@ -61,7 +61,7 @@ class ProfileCard extends StatelessWidget {
                         MyText(
                           text: value.accountM.name ?? 'Username',
                           hexaColor: "#FFFFFF",
-                          fontSize: 2.9.sp,
+                          fontSize: 20,
                         ),
                         SizedBox(
                           width: 100,
@@ -80,13 +80,13 @@ class ProfileCard extends StatelessWidget {
                     if (!value.isConnected)
                       Container()
                     else
-                      Align(
+                      const Align(
                         alignment: Alignment.bottomRight,
                         child: SizedBox(
                           width: 150,
                           child: MyText(
                             text: '', //sdkModel.nativeBalance,
-                            fontSize: 4.3.sp,
+                            fontSize: 30,
                             hexaColor: AppColors.secondarytext,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
