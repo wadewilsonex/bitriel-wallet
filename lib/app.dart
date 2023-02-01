@@ -1,3 +1,4 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
@@ -19,8 +20,62 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
 
+  // Deep Link init
+  // String? _linkMessage;
+  // bool _isCreatingLink = false;
+
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+  Future<void> initDynamicLinks() async {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      
+      Navigator.pushNamed(
+        context,
+        dynamicLinkData.link.path,
+      );
+
+    }).onError((error) {
+      if (kDebugMode) {
+        print('onLink error');
+        print(error.message);
+      }
+    });
+  }
+
+  // Future<void> _createDynamicLink(bool short, String link) async {
+  //   setState(() {
+  //     _isCreatingLink = true;
+  //   });
+
+  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
+  //     uriPrefix: kUriPrefix,
+  //     link: Uri.parse(kUriPrefix + link),
+  //     androidParameters: const AndroidParameters(
+  //       packageName: 'com.example.dynamiclink',
+  //       minimumVersion: 0,
+  //     ),
+  //   );
+
+  //   Uri url;
+  //   if (short) {
+  //     final ShortDynamicLink shortLink =
+  //         await dynamicLinks.buildShortLink(parameters);
+  //     url = shortLink.shortUrl;
+  //   } else {
+  //     url = await dynamicLinks.buildLink(parameters);
+  //   }
+
+  //   setState(() {
+  //     _linkMessage = url.toString();
+  //     _isCreatingLink = false;
+  //   });
+  // }
+
   @override
   void initState() {
+    super.initState();
+
+    initDynamicLinks();
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
@@ -46,8 +101,7 @@ class AppState extends State<App> {
       
       clearOldBtcAddr();
     });
-
-    super.initState();
+    
   }
 
   Future<void> initApi() async {
