@@ -150,7 +150,7 @@ class HomePageBody extends StatelessWidget {
                     //   context, 
                     //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     // );
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(activePage: 3,)), (route) => false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingSize),

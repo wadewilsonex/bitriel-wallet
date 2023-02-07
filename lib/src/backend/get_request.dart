@@ -1,12 +1,14 @@
-
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
 
 Future<http.Response> getSelendraEndpoint() async {
-  return await http.get(Uri.parse(dotenv.get('SELENDRA_API')));
+  return await http.get(Uri.parse(dotenv.get('SELENDRA_API_BITRIEL')));
+}
+
+Future<http.Response> getDeepLinkRoutes() async {
+  return await http.get(Uri.parse(dotenv.get('SELENDRA_API_DEEPLINK')));
 }
 
 /* MetaDoers World */

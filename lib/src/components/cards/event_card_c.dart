@@ -24,7 +24,7 @@ class EventCardComponents extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    
+
         MyText(
           top: 30,
           left: 22,
@@ -33,7 +33,7 @@ class EventCardComponents extends StatelessWidget {
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
-        
+
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 200,
@@ -51,9 +51,9 @@ class EventCardComponents extends StatelessWidget {
                   onTap: (){
 
                     Provider.of<TicketProvider>(context, listen: false).eventName = listEvent![i]['name']!;
-                    
+
                     Navigator.push(
-                      context, 
+                      context,
                       Transition(child: ListTicketType(eventName: listEvent![i]['name']!, eventId: listEvent![i]['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
                   },
@@ -61,14 +61,14 @@ class EventCardComponents extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     child: Stack(
                       children: [
-                  
+
                         Container(
                           color: Colors.white,
                           height: 200,
                           width: MediaQuery.of(context).size.width - 60,
                           child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
                         ),
-                  
+
                         Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
@@ -88,7 +88,7 @@ class EventCardComponents extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                    
+
                                       MyText(
                                         text: AppUtils.timeZoneToDateTime(listEvent![i]['startDate']),
                                         fontSize: 15,
@@ -96,7 +96,7 @@ class EventCardComponents extends StatelessWidget {
                                         bottom: 5,
                                         hexaColor: "#878787",
                                       ),
-                                    
+
                                       MyText(
                                         text: listEvent![i]['name'], //"NIGHT MUSIC FESTIVAL",
                                         fontSize: 16,
@@ -110,7 +110,7 @@ class EventCardComponents extends StatelessWidget {
                             ),
                           ),
                         ),
-                    
+
                         // Positioned(
                         //   right: 10,
                         //   top: 10,
@@ -134,7 +134,7 @@ class EventCardComponents extends StatelessWidget {
               ),
             ),
           )
-    
+
         ),
       ],
     );

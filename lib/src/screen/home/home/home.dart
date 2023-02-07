@@ -7,7 +7,7 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 
 class HomePage extends StatefulWidget {
 
-  static const String route = "/home";
+  static const String route = AppString.homeView;
   final int activePage;
   final bool? isTrx;
 
@@ -157,7 +157,6 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
-
     return HomePageBody(
       isTrx: widget.isTrx,
       homePageModel: _model,

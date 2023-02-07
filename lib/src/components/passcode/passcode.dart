@@ -257,7 +257,7 @@ class PasscodeState extends State<Passcode> {
       if(!mounted) return;
       Navigator.pushAndRemoveUntil(
         context, 
-        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        Transition(child: HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
         ModalRoute.withName('/')
       );
     } else {

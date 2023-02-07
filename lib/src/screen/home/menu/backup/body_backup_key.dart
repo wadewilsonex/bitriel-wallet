@@ -41,49 +41,6 @@ class BackUpKeyBody extends StatelessWidget{
             SizedBox(height: 2.5.h),
 
             _backupSection(context),
-
-            // ListTileComponent(
-            //   text: "Keystore (json)",
-            //   action: () async {
-            //     // await getKeyStoreJson!();
-            //     ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-            //     Map<String, dynamic> jsons = {
-            //       "address": Provider.of<ContractProvider>(context, listen: false).listContract[apiProvider.selNativeIndex].address,
-            //       "encoded": apiProvider.getKeyring.current.encoded,
-            //       "encoding": apiProvider.getKeyring.current.encoding,
-            //       "pubKey": apiProvider.getKeyring.current.pubKey,
-            //       "meta": apiProvider.getKeyring.current.meta,
-            //       "memo": apiProvider.getKeyring.current.memo,
-            //       "observation": apiProvider.getKeyring.current.observation,
-            //       "indexInfo": apiProvider.getKeyring.current.indexInfo
-            //     };
-
-            //     Navigator.push(
-            //       context, 
-            //       MaterialPageRoute(builder: (context) => KeyStoreJson(keystore: jsons,))
-            //     );
-            //   },
-            // ),
-
-            // SizedBox(height: 2.5.h),
-            
-            // ListTileComponent(
-            //   text: "Mnemonic",
-            //   action: () async {
-            //     await Navigator.push(context, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
-            //       // await disableScreenShot!();
-            //       ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-            //       await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
-            //         if (res!.seed != null){
-            //           await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
-            //         } else {
-            //           await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
-            //         }
-            //       });
-            //     });
-                
-            //   },
-            // )
           ]
         ),
       )

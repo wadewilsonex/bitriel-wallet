@@ -309,7 +309,7 @@ class AddAssetState extends State<AddAsset> {
 
     await Future.delayed(const Duration(seconds: 1), () {
       // Navigator.pushNamedAndRemoveUntil(context, Home.route, ModalRoute.withName('/'));
-      Navigator.pushReplacement(context, Transition(child: const HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
+      Navigator.pushReplacement(context, Transition(child: HomePage(activePage: 1,), transitionEffect: TransitionEffect.LEFT_TO_RIGHT,));
     });
   }
 

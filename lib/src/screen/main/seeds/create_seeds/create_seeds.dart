@@ -86,7 +86,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                   hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                 ),
         
-                SizedBox(height: 7.h),
+                SizedBox(height: 5.h),
                 MyGradientButton(
                   textButton: "I Agree",
                   begin: Alignment.bottomLeft,

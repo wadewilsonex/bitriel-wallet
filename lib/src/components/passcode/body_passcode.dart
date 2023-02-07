@@ -75,7 +75,7 @@ class PasscodeBody extends StatelessWidget{
             SizedBox(height: 10.h),
 
             if (titleStatus == null ) MyText(
-              text: isFirst! ? 'Set up PIN' : 'Verify PIN',
+              text: isFirst! ? 'Enter PIN' : 'Verify PIN',
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ) 

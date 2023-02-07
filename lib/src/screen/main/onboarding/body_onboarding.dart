@@ -98,7 +98,7 @@ class OnboardignBody extends StatelessWidget {
                       title: "Google Sign In",
                       textColor: AppColors.whiteColorHexa,
                       image: Image.asset("assets/icons/setup-3.png", ),
-                      icon: Icon(Iconsax.login_1, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                      icon: SvgPicture.asset("assets/icons/google-vector.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 6.w, width: 6.w),
                       itemColor: "#023859",
                       action: () {
                         GoogleAuthService().signInWithGoogle().then((value) => {
@@ -117,7 +117,7 @@ class OnboardignBody extends StatelessWidget {
                       title: "Import Json",
                       textColor: AppColors.whiteColorHexa,
                       image: Image.asset("assets/icons/setup-4.png",),
-                      icon: Icon(Iconsax.document, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
+                      icon: SvgPicture.asset("assets/icons/json-file.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 6.w, width: 6.w),
                       itemColor: "#0D6BA6",
                       action: () {
                         

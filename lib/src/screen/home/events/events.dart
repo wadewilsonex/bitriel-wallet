@@ -4,6 +4,7 @@ import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/cards/event_card_c.dart';
 
 class FindEvent extends StatefulWidget {
+  static const route = '/event';
 
   final bool? isRefetch;
 
@@ -90,10 +91,20 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         itemCount: 1,
         itemBuilder: (context, index) {
           
-          return EventCardComponents(
-            ipfsAPI: _ipfsAPI,
-            title: "Do For Metaverse",
-            listEvent: events,
+          return Column(
+            children: [
+              EventCardComponents(
+                ipfsAPI: _ipfsAPI,
+                title: "Do For Metaverse",
+                listEvent: events,
+              ),
+
+              EventCardComponents(
+                ipfsAPI: _ipfsAPI,
+                title: "ISI",
+                listEvent: events,
+              ),
+            ],
           );
         }
       ) : loading(),

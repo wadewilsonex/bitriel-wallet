@@ -1,4 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:get/get.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
@@ -11,7 +12,7 @@ final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
-  
+
   @override
   State<StatefulWidget> createState() {
     return AppState();
@@ -20,62 +21,36 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
 
-  // Deep Link init
-  // String? _linkMessage;
-  // bool _isCreatingLink = false;
-
+  // Init firebase deep link
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   Future<void> initDynamicLinks() async {
-    dynamicLinks.onLink.listen((dynamicLinkData) {
-      
-      Navigator.pushNamed(
-        context,
-        dynamicLinkData.link.path,
-      );
 
-    }).onError((error) {
-      if (kDebugMode) {
-        print('onLink error');
-        print(error.message);
-      }
+    // Query Deep Link Routes
+    await getDeepLinkRoutes().then((dpLink) async {
+
+      dynamicLinks.onLink.listen((dynamicLinkData) async {
+
+        WidgetsBinding.instance.addPostFrameCallback((_) async{
+          await Get.toNamed(AppString.eventView, arguments: 'event');
+        });
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //   Navigator.pushNamed(context, AppString.accountView);
+        // });
+
+
+      }).onError((error) {
+        if (kDebugMode) {
+          print('onLink error');
+          print(error.message);
+        }
+      });
     });
   }
-
-  // Future<void> _createDynamicLink(bool short, String link) async {
-  //   setState(() {
-  //     _isCreatingLink = true;
-  //   });
-
-  //   final DynamicLinkParameters parameters = DynamicLinkParameters(
-  //     uriPrefix: kUriPrefix,
-  //     link: Uri.parse(kUriPrefix + link),
-  //     androidParameters: const AndroidParameters(
-  //       packageName: 'com.example.dynamiclink',
-  //       minimumVersion: 0,
-  //     ),
-  //   );
-
-  //   Uri url;
-  //   if (short) {
-  //     final ShortDynamicLink shortLink =
-  //         await dynamicLinks.buildShortLink(parameters);
-  //     url = shortLink.shortUrl;
-  //   } else {
-  //     url = await dynamicLinks.buildLink(parameters);
-  //   }
-
-  //   setState(() {
-  //     _linkMessage = url.toString();
-  //     _isCreatingLink = false;
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
-
-    initDynamicLinks();
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
@@ -95,19 +70,23 @@ class AppState extends State<App> {
       await getSelendraEndpoint().then((value) async {
         // Assign Data and Store Endpoint Into Local DB
         await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
+
+        await initDynamicLinks();
       });
-      
+
+
+
       await initApi();
-      
+
       clearOldBtcAddr();
     });
-    
+
   }
 
   Future<void> initApi() async {
 
     try {
-    
+
       final apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
@@ -122,13 +101,13 @@ class AppState extends State<App> {
           contractProvider.setReady();
         }
       });
-      
+
       await apiProvider.initApi(context: context).then((value) async {
 
         // await apiProvider.connectPolNon(context: context).then((value) async {
         // });
         await apiProvider.connectSELNode(context: context, endpoint: apiProvider.selNetwork);
-        
+
         if (apiProvider.getKeyring.keyPairs.isNotEmpty) {
 
           if(!mounted) return;
@@ -138,9 +117,9 @@ class AppState extends State<App> {
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
 
           /// Cannot connect Both Network On the Same time
-          /// 
-          /// It will be wrong data of that each connection. 
-          /// 
+          ///
+          /// It will be wrong data of that each connection.
+          ///
           /// This Function Connect Polkadot Network And then Connect Selendra Network
           // await apiProvider.getDotChainDecimal(con5text: context);
           // await apiProvider.subscribeDotBalance(context: context);
@@ -151,7 +130,7 @@ class AppState extends State<App> {
           await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance();
-          
+
         }
       });
     } catch (e) {
@@ -189,7 +168,7 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     final darkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return ResponsiveSizer( 
+    return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return AnnotatedRegion(
           value: darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
@@ -198,13 +177,16 @@ class AppState extends State<App> {
               return OrientationBuilder(
                 builder: (context, orientation) {
                   SizeConfig().init(constraints, orientation);
-                  return MaterialApp(
+                  return GetMaterialApp(
                     navigatorKey: AppUtils.globalKey,
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
-                      HomePage.route: (_) => GoogleAuthService().handleAuthState() // HomePage(),
+                      HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+                      AppString.accountView: (_) => Account(
+                        argument: ModalRoute.of(context)?.settings.arguments,
+                      ),
                     },
                     initialRoute: AppString.splashScreenView,
                     // builder: (context, widget) => ResponsiveWrapper.builder(

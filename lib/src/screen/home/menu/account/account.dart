@@ -1,3 +1,4 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
@@ -5,9 +6,10 @@ import 'package:wallet_apps/src/screen/home/menu/account/body_acc.dart';
 import '../../../../../index.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
 
-  //static const route = '/account';
+  static const route = '/account';
+  final dynamic argument;
+  const Account({Key? key, this.argument}) : super(key: key);
   @override
   AccountState createState() => AccountState();
 }
@@ -213,7 +215,6 @@ class AccountState extends State<Account> {
 
   @override
   void initState() {
-
     _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
     _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
     super.initState();
