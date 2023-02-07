@@ -45,8 +45,6 @@ export 'package:wallet_apps/src/config/.app_config.dart';
 export 'package:wallet_apps/src/config/size_config.dart';
 export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
-export 'package:wallet_apps/src/components/route_animation.dart';
 export 'package:wallet_apps/src/components/passcode/passcode.dart';
 export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
 

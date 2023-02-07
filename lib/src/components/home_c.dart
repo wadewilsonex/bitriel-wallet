@@ -400,7 +400,7 @@ class MyBottomAppBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: MyIconButton(
-                      title: "Asset",
+                      title: "Wallet",
                       txtColor: index == 1 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                       isActive: index == 1 ? true : false,
                       onPressed: () {

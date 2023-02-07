@@ -72,7 +72,7 @@ class WalletConnectComponent with ChangeNotifier {
     for (int i = 0; i < l.length; i++ ){
       _internetAddress = l[0].addresses;
       ip = _internetAddress![0].address;
-      break;
+      // break;
     }
 
     notifyListeners();

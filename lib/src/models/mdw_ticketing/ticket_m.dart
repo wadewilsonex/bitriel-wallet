@@ -159,7 +159,7 @@ class DefaultTicketSchemaType {
   String? description;
   String? image;
   List<String>? eventIds;
-  int? price;
+  String? price;
   String? startDate;
   String? endDate;
   String? createdAt;
@@ -173,7 +173,7 @@ class DefaultTicketSchemaType {
     description = data['description'];
     image = data['image'];
     eventIds = List<String>.from(data['eventIds']);
-    price = data['price'];
+    price = data['price'].toString();
     startDate = data['startDate'];
     endDate = data['endDate'];
     createdAt = data['createdAt'];

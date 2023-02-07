@@ -12,7 +12,6 @@ import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_market.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_trending.dart';
-import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 import 'package:wallet_apps/src/screen/home/nft/nft_marketplace.dart/nft_marketplace.dart';
 import 'package:wallet_apps/src/screen/home/setting/setting.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
@@ -150,7 +149,7 @@ class HomePageBody extends StatelessWidget {
                     //   context, 
                     //   Transition(child: AdsWebView(item: item), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     // );
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => HomePage(activePage: 3,)), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute<void>(builder: (BuildContext context) => const HomePage(activePage: 3,)), (route) => false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingSize),

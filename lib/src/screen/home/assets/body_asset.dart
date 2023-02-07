@@ -42,25 +42,27 @@ class AssetsPageBody extends StatelessWidget {
               
               _userWallet(context),
           
+
+              //
+              // Row(
+              //   children: [
+              //     MyText(
+              //       text: "Assets",
+              //       hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
+              //       fontWeight: FontWeight.w500
+              //     ),
+              //     Expanded(
+              //       child: Divider(
+              //         thickness: 1,
+              //         color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
               SizedBox(
-                height: 30.sp,
-                child: categoryToken()
-              ),
-          
-              Row(
-                children: [
-                  MyText(
-                    text: "Assets",
-                    hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
-                    fontWeight: FontWeight.w500
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 1,
-                      color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
-                    ),
-                  ),
-                ],
+                  height: 30.sp,
+                  child: categoryToken()
               ),
           
               Column(

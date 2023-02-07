@@ -154,7 +154,8 @@ class AssetDetailState extends State<AssetDetail> {
   }
 
   Widget assetFromJson() {
-    return widget.scModel.description != null ? Column(
+    if (widget.scModel.description != null) {
+      return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
@@ -220,8 +221,8 @@ class AssetDetailState extends State<AssetDetail> {
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const MyText(
+              children: const [
+                MyText(
                   text: "Total supply",
                   fontSize: 14,
                   hexaColor: AppColors.greyCode,
@@ -277,7 +278,7 @@ class AssetDetailState extends State<AssetDetail> {
 
         // textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
 
-        // SizedBox(height: 1.5.h), 
+        // SizedBox(height: 1.5.h),
 
         // line(),
 
@@ -297,9 +298,9 @@ class AssetDetailState extends State<AssetDetail> {
         //   text: '${widget.scModel.description}',
         // ),
       ],
-    )
-    :
-    SizedBox(
+    );
+    } else {
+      return SizedBox(
       height: 60.sp,
       child: OverflowBox(
         minHeight: 60.h,
@@ -307,6 +308,7 @@ class AssetDetailState extends State<AssetDetail> {
         child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
       )
     );
+    }
   }
 
 

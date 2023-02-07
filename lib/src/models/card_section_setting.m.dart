@@ -1,7 +1,5 @@
-import 'package:wallet_apps/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/about/about_bitriel.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
