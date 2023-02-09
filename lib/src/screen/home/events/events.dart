@@ -101,7 +101,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
               EventCardComponents(
                 ipfsAPI: _ipfsAPI,
-                title: "ISI",
+                title: "ISI Dangkor Sen Chey",
                 listEvent: events,
               ),
             ],

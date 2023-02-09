@@ -6,7 +6,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/components/category_card_c.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
-class AssetsPageBody extends StatelessWidget {
+class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
@@ -14,7 +14,7 @@ class AssetsPageBody extends StatelessWidget {
   final Function? onHorizontalChanged;
   final Function? onVerticalUpdate;
 
-  const AssetsPageBody({ 
+  const WalletPageBody({
     Key? key,
     this.homePageModel,
     this.onTapCategories,
@@ -60,88 +60,232 @@ class AssetsPageBody extends StatelessWidget {
               //   ],
               // ),
 
-              SizedBox(
-                  height: 30.sp,
-                  child: categoryToken()
-              ),
-          
-              Column(
-                children: [
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (detail){
-                      
-                      onVerticalUpdate!(detail);
-                    },
+              const SizedBox(height: 10,),
 
-                    child: SizedBox(
-                      // Provide Screen Height Per Assets Length (model!.assetLength)
-                      // width: MediaQuery.of(context).size.width,
-                      height: 8.h * model!.assetLength,
-                      child: TabBarView(
-                        controller: model!.tabController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                      
-                          _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                          _selendraNetworkList(context, model!.nativeAssets! ),
-                          _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
-                          _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-                          
-                        ]
+              Center(
+                child: DefaultTabController(
+                  length: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                
+                      SizedBox(
+                        width: 60.w,
+                        child: TabBar(
+                          labelColor: hexaCodeToColor(AppColors.primaryColor),
+                          unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                          // indicatorSize: TabBarIndicatorSize.tab,
+                          // indicator: BoxDecoration(
+                          //   shape: BoxShape.rectangle,
+                          //   borderRadius: BorderRadius.circular(50),
+                          //   color: Colors.white,
+                          // ),
+                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'NotoSans'),
+                          tabs: const [
+                            Tab(
+                              text: "Assets",
+                            ),
+                
+                            Tab(
+                              text: "NFTs",
+                            )
+                          ],
+                        ),
                       ),
-                    )
+                
+                      // Expanded(
+                      //   child: TabBarView(
+                      //     children: [
+                                    
+                      //       Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           // SizedBox(
+                      //           //     height: 30.sp,
+                      //           //     child: categoryToken()
+                      //           // ),
+                            
+                      //           Column(
+                      //             children: [
+                      //               GestureDetector(
+                      //                   onHorizontalDragEnd: (details) {
+                      //                     onHorizontalChanged!(details);
+                      //                   },
+                      //                   onVerticalDragUpdate: (detail){
+                                                        
+                      //                     onVerticalUpdate!(detail);
+                      //                   },
+                                                        
+                      //                   child: SizedBox(
+                      //                     // Provide Screen Height Per Assets Length (model!.assetLength)
+                      //                     // width: MediaQuery.of(context).size.width,
+                      //                     height: 8.h * model!.assetLength,
+                      //                     child: TabBarView(
+                      //                         controller: model!.tabController,
+                      //                         physics: const NeverScrollableScrollPhysics(),
+                      //                         children: [
+                                                        
+                      //                           _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                      //                           _selendraNetworkList(context, model!.nativeAssets! ),
+                      //                           _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
+                      //                           _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+                                                        
+                      //                         ]
+                      //                     ),
+                      //                   )
+                      //               ),
+                                                        
+                      //               if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty ))
+                      //                 GestureDetector(
+                      //                   onHorizontalDragEnd: (details) {
+                      //                     onHorizontalChanged!(details);
+                      //                   },
+                      //                   onVerticalDragUpdate: (details) {
+                                                        
+                      //                     // Prevent Scroll When Empty Asset
+                      //                     if(model!.assetLength > 5) onVerticalUpdate!(details);
+                      //                   },
+                      //                   child: SizedBox(
+                      //                       height: 60.sp,
+                      //                       child: OverflowBox(
+                      //                         minHeight: 60.h,
+                      //                         maxHeight: 60.h,
+                      //                         child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+                      //                       )
+                      //                   ),
+                      //                 ),
+                                                        
+                      //               // Add Asset For BEP-20
+                      //               if (model!.tabController!.index == 2)
+                      //                 addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+                                                        
+                      //               // Add Asset For ERC-20
+                      //               else if (model!.tabController!.index == 3)
+                      //                 addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+                                                        
+                      //               // For Gesture
+                      //               if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
+                      //                 GestureDetector(
+                      //                   onHorizontalDragEnd: (details) {
+                      //                     onHorizontalChanged!(details);
+                      //                   },
+                      //                   onVerticalDragUpdate: (details) {
+                                                        
+                      //                     // Prevent Scroll When Empty Asset
+                      //                     if(model!.assetLength > 5) onVerticalUpdate!(details);
+                      //                   },
+                      //                   child: Container(
+                      //                     width: MediaQuery.of(context).size.width,
+                      //                     height: 8.h * 5,
+                      //                     color: Colors.transparent,
+                      //                   ),
+                      //                 )
+                      //             ],
+                      //           )
+                      //         ],
+                      //       ),
+                                    
+                      //       MyText(text: "NFTs")
+                      
+                      //     ],
+                      //   ),
+                      // )
+                    ],
                   ),
+                ),
+              ),
 
-                  if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty )) 
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (details) {
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     SizedBox(
+              //         height: 30.sp,
+              //         child: categoryToken()
+              //     ),
 
-                      // Prevent Scroll When Empty Asset
-                      if(model!.assetLength > 5) onVerticalUpdate!(details);
-                    },
-                    child: SizedBox(
-                      height: 60.sp,
-                      child: OverflowBox(
-                        minHeight: 60.h,
-                        maxHeight: 60.h,
-                        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
-                      )
-                    ),
-                  ),
+              //     Column(
+              //       children: [
+              //         GestureDetector(
+              //             onHorizontalDragEnd: (details) {
+              //               onHorizontalChanged!(details);
+              //             },
+              //             onVerticalDragUpdate: (detail){
 
-                  // Add Asset For BEP-20
-                  if (model!.tabController!.index == 2) 
-                  addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+              //               onVerticalUpdate!(detail);
+              //             },
 
-                  // Add Asset For ERC-20
-                  else if (model!.tabController!.index == 3) 
-                  addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
-                  
-                  // For Gesture
-                  if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
-                  GestureDetector(
-                    onHorizontalDragEnd: (details) {
-                      onHorizontalChanged!(details);
-                    },
-                    onVerticalDragUpdate: (details) {
+              //             child: SizedBox(
+              //               // Provide Screen Height Per Assets Length (model!.assetLength)
+              //               // width: MediaQuery.of(context).size.width,
+              //               height: 8.h * model!.assetLength,
+              //               child: TabBarView(
+              //                   controller: model!.tabController,
+              //                   physics: const NeverScrollableScrollPhysics(),
+              //                   children: [
 
-                      // Prevent Scroll When Empty Asset
-                      if(model!.assetLength > 5) onVerticalUpdate!(details);
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 8.h * 5,
-                      color: Colors.transparent,
-                    ),
-                  )
-                ],
-              )
+              //                     _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+              //                     _selendraNetworkList(context, model!.nativeAssets! ),
+              //                     _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
+              //                     _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
+
+              //                   ]
+              //               ),
+              //             )
+              //         ),
+
+              //         if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty ))
+              //           GestureDetector(
+              //             onHorizontalDragEnd: (details) {
+              //               onHorizontalChanged!(details);
+              //             },
+              //             onVerticalDragUpdate: (details) {
+
+              //               // Prevent Scroll When Empty Asset
+              //               if(model!.assetLength > 5) onVerticalUpdate!(details);
+              //             },
+              //             child: SizedBox(
+              //                 height: 60.sp,
+              //                 child: OverflowBox(
+              //                   minHeight: 60.h,
+              //                   maxHeight: 60.h,
+              //                   child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
+              //                 )
+              //             ),
+              //           ),
+
+              //         // Add Asset For BEP-20
+              //         if (model!.tabController!.index == 2)
+              //           addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
+
+              //         // Add Asset For ERC-20
+              //         else if (model!.tabController!.index == 3)
+              //           addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
+
+              //         // For Gesture
+              //         if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
+              //           GestureDetector(
+              //             onHorizontalDragEnd: (details) {
+              //               onHorizontalChanged!(details);
+              //             },
+              //             onVerticalDragUpdate: (details) {
+
+              //               // Prevent Scroll When Empty Asset
+              //               if(model!.assetLength > 5) onVerticalUpdate!(details);
+              //             },
+              //             child: Container(
+              //               width: MediaQuery.of(context).size.width,
+              //               height: 8.h * 5,
+              //               color: Colors.transparent,
+              //             ),
+              //           )
+              //       ],
+              //     )
+              //   ],
+              // ),
+
               
               // _otherNetworkList(context),
             ],

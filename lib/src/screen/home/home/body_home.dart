@@ -6,7 +6,7 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:wallet_apps/src/screen/home/assets/assets.dart';
+import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -58,7 +58,7 @@ class HomePageBody extends StatelessWidget {
           
           DiscoverPage(homePageModel: homePageModel!),
 
-          AssetsPage(isTrx: isTrx, homePageModel: homePageModel,),
+          WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

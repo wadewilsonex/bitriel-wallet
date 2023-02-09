@@ -1,18 +1,18 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
-import 'package:wallet_apps/src/screen/home/assets/body_asset.dart';
+import 'package:wallet_apps/src/screen/home/wallet/body_wallet.dart';
 
-class AssetsPage extends StatefulWidget {
+class WalletPage extends StatefulWidget {
 
   final HomePageModel? homePageModel;
   final bool? isTrx;
-  const AssetsPage({ Key? key, required this.homePageModel, this.isTrx = false }) : super(key: key);
+  const WalletPage({ Key? key, required this.homePageModel, this.isTrx = false }) : super(key: key);
 
   @override
-  State<AssetsPage> createState() => _AssetsPageState();
+  State<WalletPage> createState() => _WalletPageState();
 }
 
-class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateMixin {
+class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateMixin {
 
   int changeVertical = 0;
 
@@ -125,19 +125,16 @@ class _AssetsPageState extends State<AssetsPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: RefreshIndicator(
-        key: _model.indicator,
-        onRefresh: () async => await scrollRefresh(),
-        child: AssetsPageBody(
-          homePageModel: widget.homePageModel!,
-          model: _model,
-          onTapCategories: _onTapCategories,
-          onHorizontalChanged: _onHorizontalChanged,
-          onVerticalUpdate: _onVerticalUpdate,
-        )
-      ),
+    return RefreshIndicator(
+      key: _model.indicator,
+      onRefresh: () async => await scrollRefresh(),
+      child: WalletPageBody(
+        homePageModel: widget.homePageModel!,
+        model: _model,
+        onTapCategories: _onTapCategories,
+        onHorizontalChanged: _onHorizontalChanged,
+        onVerticalUpdate: _onVerticalUpdate,
+      )
     );
   }
 }

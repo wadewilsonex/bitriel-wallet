@@ -35,7 +35,7 @@ class AppUtils {
     return dateTime.millisecondsSinceEpoch;
   }
 
-  static String timeStampToDateTime(String timeStamp) {
+  static String timeStampToDateTime(String timeStamp, {String middleStyle = "   "}) {
     /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
     final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
     return formatDate(parse, [
@@ -44,7 +44,7 @@ class AppUtils {
       mm,
       '-',
       dd,
-      '   ',
+      middleStyle,
       hh,
       ':',
       nn,

@@ -317,10 +317,10 @@ packages:
     dependency: "direct main"
     description:
       name: coupon_uikit
-      sha256: aed0499d5380fe310c867a093cf8079c2282c4670d5f20ec8abcab65aad50bce
+      sha256: b9687e24b2878f7763f4afea4148fe85458025455e3fe5a9738ccffde4bbb1ba
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1+2"
+    version: "0.2.0"
   cross_file:
     dependency: transitive
     description:

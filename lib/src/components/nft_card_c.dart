@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 
 class NFTCard extends StatelessWidget {
@@ -86,7 +87,7 @@ class NFTCard extends StatelessWidget {
 class NFTDetail extends StatelessWidget {
   final String price;
   final String creator;
-  final String image;
+  final ImageProvider<Object> image;
   final String name;
   final String creatorImage;
   
@@ -107,7 +108,7 @@ class NFTDetail extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             appbar(context),
-            purchase(),
+            // purchase(),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -116,6 +117,17 @@ class NFTDetail extends StatelessWidget {
                   children: [
 
                     const Divider(),
+
+                    MyText(
+                      text: name,
+                      fontWeight: FontWeight.bold,
+                      textAlign: TextAlign.start,
+                      fontSize: 21,
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
 
                     MyText(
                       text: name,
@@ -143,38 +155,128 @@ class NFTDetail extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: bottomNavigationBar,
+    );
+  }
+
+  Widget get bottomNavigationBar {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topRight: Radius.circular(25),
+        topLeft: Radius.circular(25),
+      ),
+      child: Container(
+        height: 70,
+        color: hexaCodeToColor(AppColors.darkGreyBlue),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+
+            const SizedBox(width: 10,),
+
+            Row(
+              children: [
+                ClipRRect(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: [
+                          Image.asset('assets/SelendraCircle-Blue.png'),
+
+                          MyText(
+                            text: ' $price SEL',
+                            hexaColor: AppColors.whiteHexaColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+
+                          MyText(
+                            text: ' ≈ USD \$$price',
+                            hexaColor: AppColors.whiteHexaColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const Spacer(),
+
+            Container(
+              alignment: Alignment.center,
+              height: 40,
+              decoration: BoxDecoration(
+                // boxShadow: [
+                //   BoxShadow(
+                //     offset: const Offset(2, 1),
+                //     color: Colors.grey.shade300,
+                //     blurRadius: 10,
+                //   ),
+                // ],
+                color: hexaCodeToColor(AppColors.primaryColor),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const MyText(
+                      text: 'Buy Ticket',
+                      hexaColor: AppColors.whiteHexaColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+
+                    Icon(Iconsax.arrow_right_3, size: 19.sp, color: Colors.white,)
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(width: 10,),
+
+          ],
+        ),
+      )
     );
   }
 
   SliverToBoxAdapter purchase() {
     return SliverToBoxAdapter(
       child: ListTile(
-        trailing: GestureDetector(
-          onTap: () {
-            
-          },
-          child: Container(
-            alignment: Alignment.center,
-            width: 100,
-            height: 40,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(4, 2),
-                  color: Colors.grey.shade300,
-                  blurRadius: 20,
-                ),
-              ],
-              color: hexaCodeToColor(AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: const MyText(
-              text: 'Purchase',
-              hexaColor: AppColors.whiteHexaColor,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        // trailing: GestureDetector(
+        //   onTap: () {
+        //
+        //   },
+        //   child: Container(
+        //     alignment: Alignment.center,
+        //     width: 100,
+        //     height: 40,
+        //     decoration: BoxDecoration(
+        //       boxShadow: [
+        //         BoxShadow(
+        //           offset: const Offset(4, 2),
+        //           color: Colors.grey.shade300,
+        //           blurRadius: 20,
+        //         ),
+        //       ],
+        //       color: hexaCodeToColor(AppColors.primaryColor),
+        //       borderRadius: BorderRadius.circular(30),
+        //     ),
+        //     child: const MyText(
+        //       text: 'Purchase',
+        //       hexaColor: AppColors.whiteHexaColor,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //   ),
+        // ),
         title: MyText(
           text: creator,
           fontWeight: FontWeight.w600,
@@ -198,59 +300,11 @@ class NFTDetail extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(image),
-                  fit: BoxFit.cover,
+                  image: image,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 55,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ClipRRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 120,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.topRight,
-                            colors: [
-                              Colors.grey.shade200.withOpacity(0.6),
-                              Colors.grey.shade100.withOpacity(0.3),
-                            ],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset('assets/SelendraCircle-Blue.png'),
-                              
-                              MyText(
-                                text: '$price SEL',
-                                hexaColor: AppColors.whiteHexaColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
@@ -278,15 +332,15 @@ class NFTDetail extends StatelessWidget {
           ),
         ),
       ),
-      actions: [
+      actions: const [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: CircleAvatar(
-            backgroundColor: hexaCodeToColor(AppColors.primaryColor),
+            backgroundColor: Colors.white,
             radius: 19,
-            child: const Icon(
+            child: Icon(
               Iconsax.share,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ),

@@ -167,7 +167,7 @@ class NFTMarketPlace extends StatelessWidget {
                         creator: "BAYC Honoray", 
                         name: "Honorary Border APE #2",
                         price: "1.25", 
-                        image: "assets/nfts/1.png",
+                        image: AssetImage("assets/nfts/1.png"),
                         creatorImage: "assets/nfts/1.png",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
@@ -235,7 +235,7 @@ class NFTMarketPlace extends StatelessWidget {
                         creator: "BAYC Honoray", 
                         name: "Honorary Border APE #2",
                         price: "1.25", 
-                        image: "assets/nfts/1.png",
+                        image: AssetImage("assets/nfts/1.png"),
                         creatorImage: "assets/nfts/1.png",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
