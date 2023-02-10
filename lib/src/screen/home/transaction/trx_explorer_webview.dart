@@ -35,6 +35,7 @@ class _TrxExplorerWebViewState extends State<TrxExplorerWebView> {
           title: const MyText(
             text: 'Selendra Explorer',
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         body: Stack(

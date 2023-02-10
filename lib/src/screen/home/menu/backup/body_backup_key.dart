@@ -30,7 +30,7 @@ class BackUpKeyBody extends StatelessWidget{
         ),
         elevation: 0,
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        title: MyText(text: 'Export Account', fontSize: 18, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),

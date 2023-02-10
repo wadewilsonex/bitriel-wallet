@@ -7,6 +7,7 @@ class TicketDetail extends StatelessWidget {
   final String name;
   final String description;
   final String startDate;
+  final String status;
 
   const TicketDetail({
     Key? key,
@@ -16,6 +17,7 @@ class TicketDetail extends StatelessWidget {
     required this.image,
     required this.description,
     required this.startDate,
+    required this.status,
   }) : super(key: key);
 
   @override
@@ -140,7 +142,7 @@ class TicketDetail extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: bottomNavigationBar,
+      bottomNavigationBar: status == "Active" ? bottomNavigationBar : null,
     );
   }
 

@@ -1,26 +1,25 @@
 import 'dart:ui';
-
-import 'package:lottie/lottie.dart';
+import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
-import 'package:wallet_apps/src/components/category_card_c.dart';
+import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
-  final Function? onTapCategories;
-  final Function? onHorizontalChanged;
-  final Function? onVerticalUpdate;
+  // final Function? onTapCategories;
+  // final Function? onHorizontalChanged;
+  // final Function? onVerticalUpdate;
 
   const WalletPageBody({
     Key? key,
     this.homePageModel,
-    this.onTapCategories,
     this.model,
-    this.onHorizontalChanged,
-    this.onVerticalUpdate
+    // this.onTapCategories,
+    // this.onHorizontalChanged,
+    // this.onVerticalUpdate
   }) : super(key: key);
 
   @override
@@ -30,65 +29,46 @@ class WalletPageBody extends StatelessWidget {
       body: BodyScaffold(
         scrollController: model!.scrollController,
         width: MediaQuery.of(context).size.width,
-        // physic: NeverScrollableScrollPhysics(),
+        height: MediaQuery.of(context).size.height,
+        // physic: const BouncingScrollPhysics(),
         isSafeArea: false,
         bottom: 0,
         child: Container(
-          padding: const EdgeInsets.all(20),
+          // padding: const EdgeInsets.all(20),
           color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               
-              _userWallet(context),
-          
-
-              //
-              // Row(
-              //   children: [
-              //     MyText(
-              //       text: "Assets",
-              //       hexaColor: isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,
-              //       fontWeight: FontWeight.w500
-              //     ),
-              //     Expanded(
-              //       child: Divider(
-              //         thickness: 1,
-              //         color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.greyColor,),
-              //       ),
-              //     ),
-              //   ],
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                child: _userWallet(context),
+              ),
+        
 
               const SizedBox(height: 10,),
 
-              Center(
+              Expanded(
                 child: DefaultTabController(
                   length: 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
                 
-                      SizedBox(
-                        width: 60.w,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TabBar(
                           labelColor: hexaCodeToColor(AppColors.primaryColor),
                           unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-                          // indicatorSize: TabBarIndicatorSize.tab,
-                          // indicator: BoxDecoration(
-                          //   shape: BoxShape.rectangle,
-                          //   borderRadius: BorderRadius.circular(50),
-                          //   color: Colors.white,
-                          // ),
-                          labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-                          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'NotoSans'),
+                          indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                          labelStyle: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                          unselectedLabelStyle: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                           tabs: const [
                             Tab(
                               text: "Assets",
                             ),
-                
+                                        
                             Tab(
                               text: "NFTs",
                             )
@@ -96,197 +76,43 @@ class WalletPageBody extends StatelessWidget {
                         ),
                       ),
                 
-                      // Expanded(
-                      //   child: TabBarView(
-                      //     children: [
-                                    
-                      //       Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                      //         children: [
-                      //           // SizedBox(
-                      //           //     height: 30.sp,
-                      //           //     child: categoryToken()
-                      //           // ),
+                      Expanded(
+                        child: TabBarView(
+                          // physics: const BouncingScrollPhysics(),
+                          children: [
                             
-                      //           Column(
-                      //             children: [
-                      //               GestureDetector(
-                      //                   onHorizontalDragEnd: (details) {
-                      //                     onHorizontalChanged!(details);
-                      //                   },
-                      //                   onVerticalDragUpdate: (detail){
-                                                        
-                      //                     onVerticalUpdate!(detail);
-                      //                   },
-                                                        
-                      //                   child: SizedBox(
-                      //                     // Provide Screen Height Per Assets Length (model!.assetLength)
-                      //                     // width: MediaQuery.of(context).size.width,
-                      //                     height: 8.h * model!.assetLength,
-                      //                     child: TabBarView(
-                      //                         controller: model!.tabController,
-                      //                         physics: const NeverScrollableScrollPhysics(),
-                      //                         children: [
-                                                        
-                      //                           _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                      //                           _selendraNetworkList(context, model!.nativeAssets! ),
-                      //                           _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
-                      //                           _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-                                                        
-                      //                         ]
-                      //                     ),
-                      //                   )
-                      //               ),
-                                                        
-                      //               if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty ))
-                      //                 GestureDetector(
-                      //                   onHorizontalDragEnd: (details) {
-                      //                     onHorizontalChanged!(details);
-                      //                   },
-                      //                   onVerticalDragUpdate: (details) {
-                                                        
-                      //                     // Prevent Scroll When Empty Asset
-                      //                     if(model!.assetLength > 5) onVerticalUpdate!(details);
-                      //                   },
-                      //                   child: SizedBox(
-                      //                       height: 60.sp,
-                      //                       child: OverflowBox(
-                      //                         minHeight: 60.h,
-                      //                         maxHeight: 60.h,
-                      //                         child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
-                      //                       )
-                      //                   ),
-                      //                 ),
-                                                        
-                      //               // Add Asset For BEP-20
-                      //               if (model!.tabController!.index == 2)
-                      //                 addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
-                                                        
-                      //               // Add Asset For ERC-20
-                      //               else if (model!.tabController!.index == 3)
-                      //                 addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
-                                                        
-                      //               // For Gesture
-                      //               if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
-                      //                 GestureDetector(
-                      //                   onHorizontalDragEnd: (details) {
-                      //                     onHorizontalChanged!(details);
-                      //                   },
-                      //                   onVerticalDragUpdate: (details) {
-                                                        
-                      //                     // Prevent Scroll When Empty Asset
-                      //                     if(model!.assetLength > 5) onVerticalUpdate!(details);
-                      //                   },
-                      //                   child: Container(
-                      //                     width: MediaQuery.of(context).size.width,
-                      //                     height: 8.h * 5,
-                      //                     color: Colors.transparent,
-                      //                   ),
-                      //                 )
-                      //             ],
-                      //           )
-                      //         ],
-                      //       ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                children: [
+                                  _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                                ],
+                              )
+                            ),
                                     
-                      //       MyText(text: "NFTs")
-                      
-                      //     ],
-                      //   ),
-                      // )
+                            // const Center(
+                            //   child: MyText(
+                            //     text: "Your NFTs will be shown here",
+                            //     hexaColor: AppColors.greyCode,
+                            //     fontSize: 17,
+                            //   ),
+                            // ),
+                            ListView(
+                              children: [
+                                for (int i = 0; i < 10; i++)
+                                Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    child: nftAndTicket(context)
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
-
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     SizedBox(
-              //         height: 30.sp,
-              //         child: categoryToken()
-              //     ),
-
-              //     Column(
-              //       children: [
-              //         GestureDetector(
-              //             onHorizontalDragEnd: (details) {
-              //               onHorizontalChanged!(details);
-              //             },
-              //             onVerticalDragUpdate: (detail){
-
-              //               onVerticalUpdate!(detail);
-              //             },
-
-              //             child: SizedBox(
-              //               // Provide Screen Height Per Assets Length (model!.assetLength)
-              //               // width: MediaQuery.of(context).size.width,
-              //               height: 8.h * model!.assetLength,
-              //               child: TabBarView(
-              //                   controller: model!.tabController,
-              //                   physics: const NeverScrollableScrollPhysics(),
-              //                   children: [
-
-              //                     _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-              //                     _selendraNetworkList(context, model!.nativeAssets! ),
-              //                     _selendraNetworkList(context, model!.bep20Assets!, networkIndex: 2),
-              //                     _selendraNetworkList(context, model!.erc20Assets!, networkIndex: 3)
-
-              //                   ]
-              //               ),
-              //             )
-              //         ),
-
-              //         if ( (model!.tabController!.index == 2 && model!.bep20Assets!.isEmpty) || (model!.tabController!.index == 3 && model!.erc20Assets!.isEmpty ))
-              //           GestureDetector(
-              //             onHorizontalDragEnd: (details) {
-              //               onHorizontalChanged!(details);
-              //             },
-              //             onVerticalDragUpdate: (details) {
-
-              //               // Prevent Scroll When Empty Asset
-              //               if(model!.assetLength > 5) onVerticalUpdate!(details);
-              //             },
-              //             child: SizedBox(
-              //                 height: 60.sp,
-              //                 child: OverflowBox(
-              //                   minHeight: 60.h,
-              //                   maxHeight: 60.h,
-              //                   child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w),
-              //                 )
-              //             ),
-              //           ),
-
-              //         // Add Asset For BEP-20
-              //         if (model!.tabController!.index == 2)
-              //           addMoreAsset(context, const EdgeInsets.only(bottom: 20.0, top: 20.0 ))
-
-              //         // Add Asset For ERC-20
-              //         else if (model!.tabController!.index == 3)
-              //           addMoreAsset(context, model!.erc20Assets!.isEmpty ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0, top: 20.0 )),
-
-              //         // For Gesture
-              //         if ( (model!.tabController!.index == 2 || model!.tabController!.index == 3 || model!.tabController!.index == 1) && model!.assetLength < 5)
-              //           GestureDetector(
-              //             onHorizontalDragEnd: (details) {
-              //               onHorizontalChanged!(details);
-              //             },
-              //             onVerticalDragUpdate: (details) {
-
-              //               // Prevent Scroll When Empty Asset
-              //               if(model!.assetLength > 5) onVerticalUpdate!(details);
-              //             },
-              //             child: Container(
-              //               width: MediaQuery.of(context).size.width,
-              //               height: 8.h * 5,
-              //               color: Colors.transparent,
-              //             ),
-              //           )
-              //       ],
-              //     )
-              //   ],
-              // ),
-
-              
               // _otherNetworkList(context),
             ],
           ),
@@ -355,30 +181,36 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, {int? networkIndex}){
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: lsAsset.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index){
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              Transition(
-                child: AssetInfo(
-                  index: index,
-                  scModel: lsAsset[index]
-                ),
-                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-              ),
+  Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset){
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: lsAsset.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index){
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  Transition(
+                    child: AssetInfo(
+                      index: index,
+                      scModel: lsAsset[index]
+                    ),
+                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                  ),
+                );
+              },
+              child: AssetsItemComponent(
+                scModel: lsAsset[index]
+              )
             );
-          },
-          child: AssetsItemComponent(
-            scModel: lsAsset[index]
-          )
-        );
-      }
+          }
+        ),
+
+        // addMoreAsset(context)
+      ],
     );
   }
 
@@ -565,42 +397,12 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget categoryToken(){
-
-    return ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      itemCount: model!.categories!.length,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Row(
-          children: [
-            
-            CategoryCard(
-              index: index,
-              title: model!.categories![index],
-              selectedIndex: model!.categoryIndex!,
-              onTap: onTapCategories!,
-            ),
-
-          ],
-        );
-      }
-    );
-  }
-
-  Widget addMoreAsset(BuildContext context, EdgeInsetsGeometry padding){
+  Widget addMoreAsset(BuildContext context,){
     return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        onHorizontalChanged!(details);
-      },
-      onVerticalDragUpdate: (details) {
-        onVerticalUpdate!(details);
-      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         color: Colors.transparent,
-        padding: padding,
+        padding: const EdgeInsets.only(bottom: 20.0, top: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -616,7 +418,7 @@ class WalletPageBody extends StatelessWidget {
               onTap: (){
                 Navigator.push(
                   context, 
-                  MaterialPageRoute(builder: (context) => AddAsset(network: model!.tabController!.index == 2 ? 0 : 1,))
+                  MaterialPageRoute(builder: (context) => AddAsset(network: model?.assetTabController!.index == 2 ? 0 : 1,))
                 );
               },
               child: const MyText(
@@ -631,4 +433,50 @@ class WalletPageBody extends StatelessWidget {
       ),
     );
   }
+
+  Widget nftAndTicket(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                Transition(
+                    child: DetailsTicketingBody(),
+                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                )
+            );
+          },
+          child: CouponCard(
+            height: 150,
+            backgroundColor: Colors.white,
+            curveAxis: Axis.vertical,
+            firstChild: Image.network("https://dangkorsenchey.com/images/isi-dsc-logo.png"),
+            secondChild: Container(
+              width: double.maxFinite,
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  MyText(
+                    text: 'ISI DSC',
+                    textAlign: TextAlign.start,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  Spacer(),
+                  MyText(
+                    text: 'Valid Till - 15 FEB 2023',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
 }

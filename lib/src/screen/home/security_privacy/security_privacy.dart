@@ -14,7 +14,7 @@ class SecurityPrivacy extends StatelessWidget {
         elevation: 0,
         title: const MyText(
           text: "Security & Privacy",
-          fontSize: 17,
+          fontSize: 18,
           fontWeight: FontWeight.w600
         ),
         leading: IconButton(

@@ -114,7 +114,8 @@ class _ListTicketTypeState extends State<ListTicketType> {
                                     price: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.price!,
                                     image: NetworkImage(dotenv.get('IPFS_API')+_tkModel.lsTicketTypes![index].defaultTicketSchemaType!.image!),
                                     description: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.description!,
-                                    startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate.toString(),
+                                    startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate!,
+                                    status: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.status!
                                   ),
                                   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                                 )

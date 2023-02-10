@@ -23,7 +23,7 @@ class CoinMarketList extends StatelessWidget {
             width: 10.w,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Image.network(listCoinMarket![index!].image!)
+              child: Container(color: Colors.white, child: Image.network(listCoinMarket![index!].image!))
             ),
           ) 
           : ClipRRect(

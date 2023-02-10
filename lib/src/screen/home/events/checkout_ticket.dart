@@ -32,6 +32,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Checkout",
+          fontSize: 18,
           fontWeight: FontWeight.bold,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),

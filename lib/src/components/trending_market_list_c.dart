@@ -24,7 +24,7 @@ class TrendMarketList extends StatelessWidget {
             width: 10.w,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Image.network(trendingCoin![index!].item.large!)
+              child: Container(color: Colors.white, child: Image.network(trendingCoin![index!].item.large!))
             ),
           ) 
           : ClipRRect(

@@ -164,6 +164,8 @@ class AssetPageModel {
   PageController? pageController;
   TabController? tabController;
 
+  TabController? assetTabController;
+
   AssetPageModel(){
     categories = [
       "All",

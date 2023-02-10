@@ -71,58 +71,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     super.dispose();
   }
 
-  void _onTapCategories(int index, {bool? isTap}){
-    setState(() {
-      _model.categoryIndex = index;
-      // if (isTap != null) widget.homePageModel!.pageController.jumpToPage(index);
-      // else 
-      if (isTap != null) _model.tabController!.animateTo(index);
-
-      if (index == 0) {
-        _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
-      } else if (index == 1) {
-        _model.assetLength = _model.nativeAssets!.length;
-      } else if (index == 2) {
-        _model.assetLength = _model.bep20Assets!.length;
-      } else if (index == 3) {
-        _model.assetLength = _model.erc20Assets!.length;
-      }// > 5 ? _model.erc20Assets!.length : 5;
-    });
-  }
-
-  // Drag Horizontal Left And Right
-  void _onHorizontalChanged(DragEndDetails details){
-    // From Right To Left = Scroll To Home Page
-    if (details.primaryVelocity!.toDouble() < 0 && _model.tabController!.index == 3) {
-      widget.homePageModel!.pageController!.jumpToPage(2);
-    }
-
-    // From Left To Right = Scroll To Discover Page
-    else if (details.primaryVelocity!.toDouble() > 0 && _model.tabController!.index == 0) {
-      widget.homePageModel!.pageController!.jumpToPage(0);
-    }
-    
-    // Scroll Forward InSide Asset Page
-    else if (details.primaryVelocity!.toDouble() < 0) {
-
-      _onTapCategories(_model.tabController!.index+1);
-      _model.tabController!.animateTo(_model.tabController!.index+1);
-      // homePageModel!.pageController.jumpTo(2);
-    }
-    
-    // Scroll Backward InSide Asset Page
-    else if (details.primaryVelocity!.toDouble() > 0) {
-      _onTapCategories(_model.tabController!.index-1);
-      _model.tabController!.animateTo(_model.tabController!.index-1);
-      // homePageModel!.pageController.jumpTo(2);
-    }
-  }
-
-  // Drag Horizontal Left And Right
-  void _onVerticalUpdate(DragUpdateDetails details) async {
-    _model.scrollController!.jumpTo(_model.scrollController!.offset + (details.primaryDelta! * (-1)));
-  }
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -131,9 +79,9 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
       child: WalletPageBody(
         homePageModel: widget.homePageModel!,
         model: _model,
-        onTapCategories: _onTapCategories,
-        onHorizontalChanged: _onHorizontalChanged,
-        onVerticalUpdate: _onVerticalUpdate,
+        // onTapCategories: _onTapCategories,
+        // onHorizontalChanged: _onHorizontalChanged,
+        // onVerticalUpdate: _onVerticalUpdate,
       )
     );
   }

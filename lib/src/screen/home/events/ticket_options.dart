@@ -76,7 +76,7 @@
 //         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
 //         title: MyText(
 //           text: widget.title,
-//           fontSize: 20,
+//           fontSize: 18,
 //           fontWeight: FontWeight.bold,
 //           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
 //         ),

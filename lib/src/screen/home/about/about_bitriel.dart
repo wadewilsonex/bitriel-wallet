@@ -22,7 +22,7 @@ class AboutBitriel extends StatelessWidget {
           text: "About Bitriel",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 18,
         ),
         leading: IconButton(
           onPressed: () {

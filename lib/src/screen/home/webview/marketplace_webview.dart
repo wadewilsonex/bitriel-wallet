@@ -1,6 +1,5 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 
@@ -22,23 +21,12 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
   final GlobalKey webViewKey = GlobalKey();
   double _progress = 0;
   bool? isSecure;
-  String url = "";
-
-  void walletConnect() async{
-
-    WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
-    
-    wConnectC.setBuildContext = context;
-
-  }
 
   WalletConnectComponent? _wConnectC;
 
   @override
   void initState() {
     super.initState();
-
-    url = widget.url;
 
     _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 
@@ -59,13 +47,10 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
         ),
         backgroundColor: hexaCodeToColor(AppColors.primaryColor),
-        centerTitle: true,
-        // title: MyText(
-        //   text:  widget.title,
-        //   fontWeight: FontWeight.bold,
-        //   hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-        // ),
+        // centerTitle: true,
 
+        automaticallyImplyLeading: false
+        ,
         title: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,12 +60,12 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
               builder: (context, snapshot) {
                 final canGoBack = snapshot.hasData ? snapshot.data! : false;
                 return IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
+                  icon: Icon(Iconsax.arrow_left_2, color: hexaCodeToColor(!canGoBack ? AppColors.greyCode : AppColors.whiteColorHexa), size: 30,),
                   onPressed: !canGoBack
-                      ? null
-                      : () {
-                          webViewController?.goBack();
-                        },
+                    ? null
+                    : () {
+                      webViewController?.goBack();
+                    },
                 );
               },
             ),
@@ -97,10 +82,10 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       isSecure != null
-                          ? Icon(isSecure == true ? Icons.lock : Icons.lock_open,
-                              color: isSecure == true ? Colors.green : Colors.red,
-                              size: 12)
-                          : Container(),
+                        ? Icon(isSecure == true ? Icons.lock : Icons.lock_open,
+                          color: isSecure == true ? Colors.green : Colors.red,
+                          size: 12)
+                        : Container(),
                       const SizedBox(
                         width: 5,
                       ),
@@ -121,17 +106,15 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
               builder: (context, snapshot) {
                 final canGoForward = snapshot.hasData ? snapshot.data! : false;
                 return IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
+                  icon:  Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(!canGoForward ? AppColors.greyCode : AppColors.whiteColorHexa), size: 30,),
                   onPressed: !canGoForward
-                      ? null
-                      : () {
-                          webViewController?.goForward();
-                        },
+                    ? null
+                    : () {
+                      webViewController?.goForward();
+                    },
                 );
               },
             ),
-
-            Container(),
           ],
         ),
       ),
@@ -146,20 +129,21 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                   onWebViewCreated: (InAppWebViewController controller) {
                     webViewController = controller;
                   },
+
                   onLoadStart: (controller, url) {
                     if (url != null) {
                       setState(() {
-                        this.url = url.toString();
+                        // widget.url = url.toString();
                         isSecure = urlIsSecure(url);
                       });
                     }
                   },
                   onLoadStop: (controller, url) async {
-                    if (url != null) {
-                      setState(() {
-                        this.url = url.toString();
-                      });
-                    }
+                    // if (url != null) {
+                    //   setState(() {
+                    //     this.url = url.toString();
+                    //   });
+                    // }
           
                     final sslCertificate = await controller.getCertificate();
                     setState(() {
@@ -168,11 +152,11 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                     });
                   },
                   onUpdateVisitedHistory: (controller, url, isReload) {
-                    if (url != null) {
-                      setState(() {
-                        this.url = url.toString();
-                      });
-                    }
+                    // if (url != null) {
+                    //   setState(() {
+                    //     this.url = url.toString();
+                    //   });
+                    // }
                   },
                   // onTitleChanged: (controller, title) {
                   //   if (title != null) {
@@ -192,36 +176,17 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                     ),
                   ),
                   shouldOverrideUrlLoading: (controller, navAction) async {
-                    // final uri = navAction.request.url;
-                    // final url = uri.toString();
-                    final url = navAction.request.url;
+                    final uri = navAction.request.url;
+                    final url = uri.toString();
                     debugPrint('URL $url');
-                    // if (url.startsWith('wc:')) {
-                    //   if (url.contains('bridge') && url.contains('key')) {
-                    //     _wConnectC!.qrScanHandler(url);
-                    //   }
-                    //   return NavigationActionPolicy.CANCEL;
-                    // } else {
-                    //   return NavigationActionPolicy.ALLOW;
-                    // }
-          
-                    if (navAction.isForMainFrame &&
-                      url != null &&
-                      ![
-                        'http',
-                        'https',
-                        'file',
-                        'chrome',
-                        'data',
-                        'javascript',
-                        'about'
-                      ].contains(Uri.parse(widget.url).scheme)) {
-                    if (await canLaunchUrl(Uri.parse(widget.url))) {
-                      launchUrl(Uri.parse(widget.url));
+                    if (url.startsWith('wc:')) {
+                      if (url.contains('bridge') && url.contains('key')) {
+                        _wConnectC!.qrScanHandler(url);
+                      }
                       return NavigationActionPolicy.CANCEL;
+                    } else {
+                      return NavigationActionPolicy.ALLOW;
                     }
-                  }
-                  return NavigationActionPolicy.ALLOW;
                   },
                 ),
                 _progress < 1 ? SizedBox(
@@ -238,19 +203,19 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
           ),
         ],
       ),
-            bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.share),
+              icon: const Icon(Iconsax.share),
               onPressed: () {
                 Share.share(widget.url, subject: widget.title);
               },
             ),
             IconButton(
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(Iconsax.refresh),
               onPressed: () {
                 webViewController?.reload();
               },
@@ -259,28 +224,24 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
               onSelected: (item) => handleClick(item),
               itemBuilder: (context) => [
                 PopupMenuItem<int>(
-                    value: 0,
-                    child: Row(
-                      children: const [
-                        Icon(Icons.open_in_browser),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text('Open in the Browser')
-                      ],
-                    )),
-                // PopupMenuItem<int>(
-                //     value: 1,
-                //     child: Row(
-                //       children: const [
-                //         Icon(Icons.clear_all),
-                //         SizedBox(
-                //           width: 5,
-                //         ),
-                //         Text('Clear your browsing data')
-                //       ],
-                //     )),
+                  value: 0,
+                  child: Row(
+                    children: const [
+                      Icon(Iconsax.chrome),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text('Open in the Browser')
+                    ],
+                  )
+                ),
               ],
+            ),
+            IconButton(
+              icon: const Icon(Iconsax.close_circle),
+              onPressed: () { 
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
@@ -293,13 +254,6 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
       case 0:
         await InAppBrowser.openWithSystemBrowser(url: Uri.parse(widget.url));
         break;
-      // case 1:
-      //   await webViewController?.clearCache();
-      //   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      //     await webViewController?.clearHistory();
-      //   }
-      //   setState(() {});
-      //   break;
     }
   }
 

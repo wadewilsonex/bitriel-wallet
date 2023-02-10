@@ -329,7 +329,7 @@ class AddAssetState extends State<AddAsset> {
           text: "Add Custom Token",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 18,
         ),
         leading: IconButton(
           onPressed: () {

@@ -23,7 +23,7 @@ class BodyTransactionDetail extends StatelessWidget {
         title: const MyText(
           text: "SEL Transfer",
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 18,
         ),
       ),
       body: Column(

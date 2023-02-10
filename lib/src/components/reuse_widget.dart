@@ -818,13 +818,13 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45}) {
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45, bool embeddedImage = true}) {
   return SizedBox(
     width: width.w,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-      embeddedImage: const AssetImage('assets/logo/bitirel-logo-circle.png'),
+      embeddedImage: embeddedImage == true ? const AssetImage('assets/logo/bitirel-logo-circle.png') : null,
       embeddedImageStyle: QrEmbeddedImageStyle(
         size: Size(25.sp, 25.sp),
       ),
