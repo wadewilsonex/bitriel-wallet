@@ -203,30 +203,16 @@ class TicketDetail extends StatelessWidget {
             alignment: Alignment.center,
             height: 40,
             decoration: BoxDecoration(
-              // boxShadow: [
-              //   BoxShadow(
-              //     offset: const Offset(2, 1),
-              //     color: Colors.grey.shade300,
-              //     blurRadius: 10,
-              //   ),
-              // ],
               color: hexaCodeToColor(AppColors.primaryColor),
               borderRadius: BorderRadius.circular(30),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const MyText(
-                    text: 'Buy Ticket',
-                    hexaColor: AppColors.whiteHexaColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-
-                  Icon(Iconsax.arrow_right_3, size: 19.sp, color: Colors.white,)
-                ],
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: paddingSize),
+              child: MyText(
+                text: 'Buy Ticket',
+                hexaColor: AppColors.whiteHexaColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

@@ -54,6 +54,7 @@ class PasscodeBody extends StatelessWidget{
               text: is4digits == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
               color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
               fontWeight: FontWeight.w700,
+              fontSize: 15,
             ),
           ),
         ],
@@ -217,10 +218,11 @@ class ReusePinNum extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final defaultPinTheme = PinTheme(
-      width: 50,
-      height: 50,
+      width: 56,
+      height: 56,
+
       textStyle: TextStyle(
-        fontSize: 30.sp,
+        fontSize: 22,
         color: hexaCodeToColor(AppColors.primaryColor),
       ),
       decoration: const BoxDecoration(),

@@ -235,6 +235,7 @@ flutter:
     - assets/illustration/
     - assets/payment/
     - assets/nfts/
+    - assets/nfts/rieltiger/
     - .env
 
     # - ../assets/

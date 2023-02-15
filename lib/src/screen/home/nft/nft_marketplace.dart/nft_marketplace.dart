@@ -76,24 +76,23 @@ class NFTMarketPlace extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         child: Column(
                           children: const <Widget>[
-                            // SizedBox(height: 30),
                             ImageListView(
                               startIndex: 1,
                               duration: 25,
                             ),
                             SizedBox(height: 10),
                             ImageListView(
-                              startIndex: 11,
+                              startIndex: 1,
                               duration: 45,
                             ),
                             SizedBox(height: 10),
                             ImageListView(
-                              startIndex: 21,
+                              startIndex: 1,
                               duration: 65,
                             ),
                             SizedBox(height: 10),
                             ImageListView(
-                              startIndex: 31,
+                              startIndex: 1,
                               duration: 30,
                             ),
                           ],
@@ -155,26 +154,26 @@ class NFTMarketPlace extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.9,
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: 9,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
-                    context, 
+                    context,
                     Transition(
-                      child: const NFTDetail(
-                        creator: "BAYC Honoray", 
+                      child: NFTDetail(
+                        creator: "BAYC Honoray",
                         name: "Honorary Border APE #2",
-                        price: "1.25", 
-                        image: AssetImage("assets/nfts/1.png"),
+                        price: "1.25",
+                        image: "assets/nfts/rieltiger/${1 + index}.png",
                         creatorImage: "assets/nfts/1.png",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
                 },
-                child: const NFTCard()
+                child: NFTCard(image: "assets/nfts/rieltiger/${1 + index}.png",)
               );
             },
           ),
@@ -235,14 +234,14 @@ class NFTMarketPlace extends StatelessWidget {
                         creator: "BAYC Honoray", 
                         name: "Honorary Border APE #2",
                         price: "1.25", 
-                        image: AssetImage("assets/nfts/1.png"),
+                        image: "assets/nfts/1.png",
                         creatorImage: "assets/nfts/1.png",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
                 },
-                child: const NFTCard()
+                child: const NFTCard(image: "assets/nfts/1.png"),
               );
             },
           ),

@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 
+import 'fullscreen_img_c.dart';
+
 class NFTCard extends StatelessWidget {
-  const NFTCard({Key? key}) : super(key: key);
+  final String image;
+  const NFTCard({Key? key, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +18,14 @@ class NFTCard extends StatelessWidget {
           margin: const EdgeInsets.only(left: paddingSize, right: paddingSize),
           height: MediaQuery.of(context).size.width * 0.6,
           width: MediaQuery.of(context).size.width * 0.55,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20)
             ),
             color: Colors.grey,
             image: DecorationImage(
-              image: AssetImage("assets/nfts/1.png"),
+              image: AssetImage(image),
               fit: BoxFit.cover,
             )
           ),
@@ -87,7 +90,7 @@ class NFTCard extends StatelessWidget {
 class NFTDetail extends StatelessWidget {
   final String price;
   final String creator;
-  final ImageProvider<Object> image;
+  final String image;
   final String name;
   final String creatorImage;
   
@@ -107,8 +110,8 @@ class NFTDetail extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            appbar(context),
-            // purchase(),
+            _appbar(context, image),
+            _creatorProfile(),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -149,135 +152,98 @@ class NFTDetail extends StatelessWidget {
   }
 
   Widget get bottomNavigationBar {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topRight: Radius.circular(25),
-        topLeft: Radius.circular(25),
+    return Container(
+      height: 70,
+      decoration: BoxDecoration(
+        color: hexaCodeToColor(AppColors.whiteColorHexa),
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(25),
+          topLeft: Radius.circular(25),
+        ),
+        border: Border.all(
+          color: hexaCodeToColor(AppColors.primaryColor),
+        ),
       ),
-      child: Container(
-        height: 70,
-        color: hexaCodeToColor(AppColors.darkGreyBlue),
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
 
-            const SizedBox(width: 10,),
+          const SizedBox(width: 10,),
 
-            Row(
-              children: [
-                ClipRRect(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/SelendraCircle-Blue.png'),
+          Row(
+            children: [
+              ClipRRect(
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Image.asset('assets/SelendraCircle-Blue.png'),
 
-                          MyText(
-                            text: ' $price SEL',
-                            hexaColor: AppColors.whiteHexaColor,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        MyText(
+                          text: ' $price SEL',
+                          hexaColor: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
 
-                          MyText(
-                            text: ' ≈ USD \$$price',
-                            hexaColor: AppColors.whiteHexaColor,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        MyText(
+                          text: ' ≈ USD \$$price',
+                          hexaColor: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-
-            const Spacer(),
-
-            Container(
-              alignment: Alignment.center,
-              height: 40,
-              decoration: BoxDecoration(
-                // boxShadow: [
-                //   BoxShadow(
-                //     offset: const Offset(2, 1),
-                //     color: Colors.grey.shade300,
-                //     blurRadius: 10,
-                //   ),
-                // ],
-                color: hexaCodeToColor(AppColors.primaryColor),
-                borderRadius: BorderRadius.circular(30),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const MyText(
-                      text: 'Buy Ticket',
-                      hexaColor: AppColors.whiteHexaColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+            ],
+          ),
 
-                    Icon(Iconsax.arrow_right_3, size: 19.sp, color: Colors.white,)
-                  ],
-                ),
+          const Spacer(),
+
+          Container(
+            alignment: Alignment.center,
+            height: 40,
+            decoration: BoxDecoration(
+              color: hexaCodeToColor(AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: paddingSize),
+              child: MyText(
+                text: 'Place a bid',
+                hexaColor: AppColors.whiteHexaColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
+          ),
 
-            const SizedBox(width: 10,),
+          const SizedBox(width: 10,),
 
-          ],
-        ),
-      )
+        ],
+      ),
     );
   }
 
-  SliverToBoxAdapter purchase() {
+  SliverToBoxAdapter _creatorProfile() {
     return SliverToBoxAdapter(
       child: ListTile(
-        // trailing: GestureDetector(
-        //   onTap: () {
-        //
-        //   },
-        //   child: Container(
-        //     alignment: Alignment.center,
-        //     width: 100,
-        //     height: 40,
-        //     decoration: BoxDecoration(
-        //       boxShadow: [
-        //         BoxShadow(
-        //           offset: const Offset(4, 2),
-        //           color: Colors.grey.shade300,
-        //           blurRadius: 20,
-        //         ),
-        //       ],
-        //       color: hexaCodeToColor(AppColors.primaryColor),
-        //       borderRadius: BorderRadius.circular(30),
-        //     ),
-        //     child: const MyText(
-        //       text: 'Purchase',
-        //       hexaColor: AppColors.whiteHexaColor,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        // ),
         title: MyText(
           text: creator,
           fontWeight: FontWeight.w600,
           textAlign: TextAlign.start,
           fontSize: 19,
         ),
-        leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/1.png')),
+        leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/2.png')),
       ),
     );
   }
 
-  SliverAppBar appbar(BuildContext context) {
+  SliverAppBar _appbar(BuildContext context, String imageNFTs) {
     return SliverAppBar(
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
@@ -286,11 +252,19 @@ class NFTDetail extends StatelessWidget {
         background: Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: image,
-                  fit: BoxFit.fill,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FullScreenImageViewer(imageNFTs, false)),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(image),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),

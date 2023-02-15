@@ -26,14 +26,15 @@ class WelcomeItem extends StatelessWidget {
         action!();
       },
       child: Container(
-        height: 30.vmax,
-        width: MediaQuery.of(context).size.width,
+        // height: MediaQuery.of(context).size.height,
+        // width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: hexaCodeToColor(itemColor!)
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10, left: 10.0),
@@ -45,15 +46,19 @@ class WelcomeItem extends StatelessWidget {
               ),
             ),
 
-            const Spacer(), 
-            
-            image!,
+            // const Spacer(),
 
-            const Spacer(), 
+            Container(
+              height: 150,
+              width: 150,
+              child: image!
+            ),
+
+            // const Spacer(),
 
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 10.0),
-              child: Row(  
+              child: Row(
                 children: [
                   MyText(
                     text: title,

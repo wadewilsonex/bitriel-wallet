@@ -1,11 +1,11 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/appbar/event_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
 import 'package:wallet_apps/src/screen/home/events/list_ticket/body_list_ticket.dart';
-
 import '../ticket_detail.dart';
 
 class ListTicketType extends StatefulWidget {
@@ -106,19 +106,19 @@ class _ListTicketTypeState extends State<ListTicketType> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                Transition(
-                                  child: TicketDetail(
-                                    creator: widget.eventName!,
-                                    name: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.name!,
-                                    price: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.price!,
-                                    image: NetworkImage(dotenv.get('IPFS_API')+_tkModel.lsTicketTypes![index].defaultTicketSchemaType!.image!),
-                                    description: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.description!,
-                                    startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate!,
-                                    status: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.status!
-                                  ),
-                                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                                )
+                              context,
+                              Transition(
+                                child: TicketDetail(
+                                  creator: widget.eventName!,
+                                  name: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.name!,
+                                  price: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.price!,
+                                  image: NetworkImage(dotenv.get('IPFS_API')+_tkModel.lsTicketTypes![index].defaultTicketSchemaType!.image!),
+                                  description: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.description!,
+                                  startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate!,
+                                  status: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.status!
+                                ),
+                                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                              )
                             );
                           },
                           child: ListTicketTypeBody(
@@ -164,7 +164,24 @@ class _ListTicketTypeState extends State<ListTicketType> {
             //   ),
             // )
 
-            else const MyText(text: "No Ticket Type",)
+            else Center(
+              child: Column(
+                children: [
+
+                  Lottie.asset(
+                    "assets/animation/search_empty.json",
+                    repeat: true,
+                    reverse: true,
+                    width: 70.w,
+                  ),
+
+                  const Padding(
+                    padding: EdgeInsets.all(paddingSize),
+                    child: MyText(text: "Sorry, there are no results for this event, please try again later.", fontSize: 17, fontWeight: FontWeight.w600,),
+                  )
+                ],
+              ),
+            ),
 
           ],
         ),

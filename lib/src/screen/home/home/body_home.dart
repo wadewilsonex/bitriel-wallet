@@ -100,7 +100,7 @@ class HomePageBody extends StatelessWidget {
                 const SizedBox(height: 10), 
           
                 SizedBox(
-                  height: 490,
+                  height: 500,
                   child: _coinMenuCategory()
                 ),
 
@@ -219,14 +219,14 @@ class HomePageBody extends StatelessWidget {
                       context: context,
                       backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical( 
+                        borderRadius: BorderRadius.vertical(
                           top: Radius.circular(25.0),
                         ),
                       ),
                       builder: (context) => Column(
                         children: const [
                           SwapMethod(),
-                        ],  
+                        ],
                       ),
                     );
                   },
@@ -299,23 +299,23 @@ class HomePageBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
       
-          SizedBox(
-            width: 80.w,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TabBar(
               labelColor: hexaCodeToColor(AppColors.primaryColor),
               unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-              indicator: CircleTabIndicator(color: hexaCodeToColor(AppColors.primaryColor), radius: 3),
-              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-              unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontFamily: 'NotoSans'),
+              indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+              labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+              unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
               tabs: const [
                 Tab(
                   text: "Trending",
                 ),
-            
+
                 Tab(
                   text: "Market",
                 ),
-            
+
                 Tab(
                   text: "News",
                 )
@@ -326,13 +326,13 @@ class HomePageBody extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                
+
                 Consumer<MarketProvider>(
                   builder: (context, marketProvider, widget) {
                     return CoinTrending(trendingCoin: marketProvider.cnts,);
                   }
                 ),
-                
+
                 Consumer<MarketProvider>(
                   builder: (context, marketProvider, widget) {
                     return CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,);

@@ -84,7 +84,8 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                           context,
                           MaterialPageRoute(builder: (context) => FullScreenImageViewer(
                             // "https://images.all-free-download.com/images/graphiclarge/beach_cloud_dawn_horizon_horizontal_landscape_ocean_601821.jpg"
-                            "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}"
+                            "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}",
+                            true
                             )
                           ),
                         );

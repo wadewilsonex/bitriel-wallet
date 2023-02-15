@@ -60,10 +60,10 @@ class ImageListViewState extends State<ImageListView> {
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: _scrollController,
-          itemCount: 10,
+          itemCount: 9,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return _ImageTile(image: 'assets/nfts/${widget.startIndex + index}.png');
+            return _ImageTile(image: 'assets/nfts/rieltiger/${widget.startIndex + index}.png');
           },
         ),
       ),

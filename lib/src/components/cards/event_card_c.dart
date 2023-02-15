@@ -81,7 +81,6 @@ class EventCardComponents extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  height: 8.h,
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,

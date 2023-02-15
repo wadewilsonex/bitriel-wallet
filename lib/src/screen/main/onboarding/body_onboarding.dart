@@ -77,7 +77,7 @@ class OnboardignBody extends StatelessWidget {
                     child: WelcomeItem(
                       title: "Import wallet",
                       textColor: AppColors.whiteColorHexa,
-                      image: Image.asset("assets/icons/setup-2.png",),
+                      image: Image.asset("assets/icons/setup-2.png", fit: BoxFit.fill,),
                       icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 6.w),
                       itemColor: "#F27649",
                       action: () {

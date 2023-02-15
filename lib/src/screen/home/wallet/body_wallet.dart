@@ -62,8 +62,8 @@ class WalletPageBody extends StatelessWidget {
                           labelColor: hexaCodeToColor(AppColors.primaryColor),
                           unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
                           indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-                          labelStyle: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-                          unselectedLabelStyle: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                          unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                           tabs: const [
                             Tab(
                               text: "Assets",
@@ -81,13 +81,18 @@ class WalletPageBody extends StatelessWidget {
                           // physics: const BouncingScrollPhysics(),
                           children: [
                             
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                children: [
-                                  _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-                                ],
-                              )
+                            SingleChildScrollView(
+                              child: Container(
+                                // height: MediaQuery.of(context).size.height,
+                                margin: const EdgeInsets.symmetric(horizontal: 20),
+                                child: Column(
+                                  children: [
+                                    _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+
+                                    _addMoreAsset(context),
+                                  ],
+                                )
+                              ),
                             ),
                                     
                             // const Center(
@@ -102,7 +107,7 @@ class WalletPageBody extends StatelessWidget {
                                 for (int i = 0; i < 10; i++)
                                 Container(
                                     margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                    child: nftAndTicket(context)
+                                    child: _nftAndTicket(context)
                                 ),
                               ],
                             ),
@@ -182,35 +187,29 @@ class WalletPageBody extends StatelessWidget {
   }
 
   Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset){
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: lsAsset.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index){
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  Transition(
-                    child: AssetInfo(
-                      index: index,
-                      scModel: lsAsset[index]
-                    ),
-                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                  ),
-                );
-              },
-              child: AssetsItemComponent(
-                scModel: lsAsset[index]
-              )
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: lsAsset.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              Transition(
+                child: AssetInfo(
+                  index: index,
+                  scModel: lsAsset[index]
+                ),
+                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+              ),
             );
-          }
-        ),
-
-        // addMoreAsset(context)
-      ],
+          },
+          child: AssetsItemComponent(
+            scModel: lsAsset[index]
+          )
+        );
+      }
     );
   }
 
@@ -242,8 +241,7 @@ class WalletPageBody extends StatelessWidget {
                   children: [
                     
                     Container(
-                      width: 40,
-                      height: 40,
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
@@ -285,8 +283,7 @@ class WalletPageBody extends StatelessWidget {
                   children: [
                     
                     Container(
-                      width: 40,
-                      height: 40,
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
@@ -322,8 +319,7 @@ class WalletPageBody extends StatelessWidget {
                   children: [
                     
                     Container(
-                      width: 40,
-                      height: 40,
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
@@ -372,8 +368,7 @@ class WalletPageBody extends StatelessWidget {
                   children: [
                     
                     Container(
-                      width: 40,
-                      height: 40,
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
@@ -397,7 +392,7 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget addMoreAsset(BuildContext context,){
+  Widget _addMoreAsset(BuildContext context){
     return GestureDetector(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -418,7 +413,7 @@ class WalletPageBody extends StatelessWidget {
               onTap: (){
                 Navigator.push(
                   context, 
-                  MaterialPageRoute(builder: (context) => AddAsset(network: model?.assetTabController!.index == 2 ? 0 : 1,))
+                  MaterialPageRoute(builder: (context) => const AddAsset())
                 );
               },
               child: const MyText(
@@ -434,7 +429,7 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget nftAndTicket(BuildContext context) {
+  Widget _nftAndTicket(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
@@ -442,7 +437,7 @@ class WalletPageBody extends StatelessWidget {
             Navigator.push(
                 context,
                 Transition(
-                    child: DetailsTicketingBody(),
+                    child: const DetailsTicketingBody(),
                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                 )
             );

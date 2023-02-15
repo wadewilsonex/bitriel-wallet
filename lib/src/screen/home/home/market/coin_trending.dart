@@ -12,41 +12,43 @@ class CoinTrending extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      itemCount: trendingCoin!.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return Column(
+          children: [
+            if (trendingCoin == null) const CircularProgressIndicator()
 
-        if (trendingCoin == null) const CircularProgressIndicator()
+            else if (trendingCoin!.isNotEmpty)
 
-        else if (trendingCoin!.isNotEmpty) 
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-          itemCount: trendingCoin!.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index){
-            return TrendMarketList(trendingCoin: trendingCoin, index: index);
-          }
-        )
+            TrendMarketList(trendingCoin: trendingCoin, index: index)
 
-        else Center(
-          child: Column(
-            children: [
-              
-              SizedBox(height: 7.h),
+            else Center(
+              child: Column(
+              children: [
 
-              Lottie.asset(
+                SizedBox(height: 7.h),
+
+                Lottie.asset(
                 "assets/animation/search_empty.json",
                 repeat: true,
                 reverse: true,
                 width: 70.w,
+                ),
+
+                const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
+
+                ],
               ),
+            )
 
-              const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
-            ],
-          ),
-        )
 
-      ],
+          ],
+        );
+      }
     );
   }
 }

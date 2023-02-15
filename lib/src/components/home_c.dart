@@ -382,7 +382,7 @@ class MyBottomAppBar extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: SizedBox(
-              height: 7.h,
+              height: 8.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

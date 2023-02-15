@@ -1,5 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
@@ -177,7 +178,7 @@ class AppState extends State<App> {
               return OrientationBuilder(
                 builder: (context, orientation) {
                   SizeConfig().init(constraints, orientation);
-                  return GetMaterialApp(
+                  return MaterialApp(
                     navigatorKey: AppUtils.globalKey,
                     title: AppString.appName,
                     theme: AppStyle.myTheme(context),
@@ -189,18 +190,18 @@ class AppState extends State<App> {
                       ),
                     },
                     initialRoute: AppString.splashScreenView,
-                    // builder: (context, widget) => ResponsiveWrapper.builder(
-                    //   BouncingScrollWrapper.builder(context, widget!),
-                    //   maxWidth: 1200,
-                    //   // minWidth: 800,
-                    //   defaultScale: true,
-                    //   breakpoints: [
-                    //     const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
-                    //     const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                    //     const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                    //     const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
-                    //   ],
-                    // ),
+                    builder: (context, child) => ResponsiveWrapper.builder(
+                      child,
+                      maxWidth: 1200,
+                      minWidth: 480,
+                      defaultScale: true,
+                      breakpoints: const [
+                        ResponsiveBreakpoint.autoScale(600),
+                        ResponsiveBreakpoint.resize(480, name: MOBILE),
+                        ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                        ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                      ],
+                    ),
                   );
                 },
               );

@@ -12,37 +12,36 @@ class CoinMarket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      itemCount: 7,
+      shrinkWrap: true,
+      itemBuilder: (context, index){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            if (lsMarketCoin == null) const CircularProgressIndicator()
 
-        if (lsMarketCoin == null) const CircularProgressIndicator()
+            else if (lsMarketCoin!.isNotEmpty)
+            Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
 
-        else if (lsMarketCoin!.isNotEmpty) 
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-          itemCount: 7,
-          shrinkWrap: true,
-          itemBuilder: (context, index){
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
-
-                if (index == 6) InkWell(
+              if (index == 6) InkWell(
                   onTap: () async{
                     await showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      isDismissible: true,
-                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical( 
-                          top: Radius.circular(25.0),
+                        context: context,
+                        isScrollControlled: true,
+                        isDismissible: true,
+                        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
+                          ),
                         ),
-                      ),
-                      builder: (context) => _viewAllCoin(context)
+                        builder: (context) => _viewAllCoin(context)
                     );
                   },
                   child: const MyText(
@@ -52,30 +51,32 @@ class CoinMarket extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   )
                 ),
+
               ],
-            );
-          }
-        )
+            )
 
-        else Center(
-          child: Column(
-            children: [
-              
-              SizedBox(height: 7.h),
+            else Center(
+              child: Column(
+              children: [
 
-              Lottie.asset(
+                SizedBox(height: 7.h),
+
+                Lottie.asset(
                 "assets/animation/search_empty.json",
                 repeat: true,
                 reverse: true,
                 width: 70.w,
+                ),
+
+                const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
+                ],
               ),
+            )
 
-              const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
-            ],
-          ),
-        )
 
-      ],
+          ],
+        );
+      }
     );
   }
 

@@ -25,106 +25,166 @@ PreferredSizeWidget defaultAppBar({
         ),
       ),
     ),
-    leading: Container(
-      height: 10.h,
-      margin: const EdgeInsets.only(left: 20, top: 10),
-      child: Consumer<ApiProvider>(
-          
-        builder: (context, provider, child) {
-          return GestureDetector(
-            onTap: () async {
-              homePageModel!.globalKey!.currentState!.openDrawer();
-            },
-            child: AvatarShimmer(
-              txt: provider.accountM.addressIcon,
-              child: randomAvatar(provider.accountM.addressIcon ?? ''),
-            )
-          );
-        }
-      ),
-    ),
+
+    automaticallyImplyLeading: false,
     
-    title: Container(
-      height: 10.h,
-      margin: const EdgeInsets.only(top: 10),
-      child: StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-    
-          return Consumer<ApiProvider>(
-          
-            builder: (context, provider, child) {
-              return GestureDetector(
-                onTap: () async {
-                  await HomeFunctional().changeNetwork(context: context, setState: setState);
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    
-                    WidgetShimmer(
-                      txt: provider.accountM.address, 
-                      child: MyText(
-                        text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.center
-                      ),
-                    ),
-              
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        
-                        MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
-              
-                          Padding(
-                          padding: const EdgeInsets.only(left: 4),
-                          child: Icon(Iconsax.arrow_down_1, size: 15, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
-                        )
-                      ],
-                    ),
-                      
-                  ],
-                )
-              );
-            }
-          );
-    
-        },
-      ),
-    ),
-    actions: <Widget>[
-      
-      Container(
-        margin: const EdgeInsets.only(right: 10, top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
-        child: IconButton(
-          icon: Align(
-            alignment: Alignment.centerRight,
-            child: Icon(
-              Iconsax.scan,
-              color: isDarkMode 
-                ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-                : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-              size: 6.w,
-            ),
+    title: Row(
+      children: [
+
+        Container(
+          margin: const EdgeInsets.only(top: 10),
+          child: Consumer<ApiProvider>(
+
+              builder: (context, provider, child) {
+                return GestureDetector(
+                    onTap: () async {
+                      homePageModel!.globalKey!.currentState!.openDrawer();
+                    },
+                    child: AvatarShimmer(
+                      txt: provider.accountM.addressIcon,
+                      child: randomAvatar(provider.accountM.addressIcon ?? ''),
+                    )
+                );
+              }
           ),
-          onPressed: () async {
-            // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-            // if (value != null){
-            //   getReward!(value);
-            // }
-            
-            await TrxOptionMethod.scanQR(
-              context!,
-              [],
-              pushReplacement!,
+        ),
+
+        const Spacer(),
+        
+        StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+
+            return Consumer<ApiProvider>(
+
+              builder: (context, provider, child) {
+                return GestureDetector(
+                  onTap: () async {
+                    await HomeFunctional().changeNetwork(context: context, setState: setState);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: WidgetShimmer(
+                          txt: provider.accountM.address,
+                          child: MyText(
+                            text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                            fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                      ),
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                          MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
+
+                            Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: Icon(Iconsax.arrow_down_1, size: 20.sp, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                          )
+                        ],
+                      ),
+
+                    ],
+                  )
+                );
+              }
             );
+
           },
         ),
-      )
-    ],
+
+        const Spacer(),
+
+        Container(
+          margin: const EdgeInsets.only(top: 10),
+          child: IconButton(
+            icon: Icon(
+              Iconsax.scan,
+              color: isDarkMode
+                  ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+                  : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+              size: 22.sp,
+            ),
+            onPressed: () async {
+              // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+              // if (value != null){
+              //   getReward!(value);
+              // }
+
+              await TrxOptionMethod.scanQR(
+                context!,
+                [],
+                pushReplacement!,
+              );
+            },
+          ),
+        ),
+
+        // Expanded(
+        //   child: IconButton(
+        //     icon: Icon(
+        //       Iconsax.scan,
+        //       color: isDarkMode
+        //           ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+        //           : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+        //       size: 20.sp,
+        //     ),
+        //     onPressed: () async {
+        //       // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //       // if (value != null){
+        //       //   getReward!(value);
+        //       // }
+        //
+        //       await TrxOptionMethod.scanQR(
+        //         context!,
+        //         [],
+        //         pushReplacement!,
+        //       );
+        //     },
+        //   ),
+        // ),
+        
+      ],
+    ),
+    // actions: <Widget>[
+    //  
+    //   Container(
+    //     margin: const EdgeInsets.only(right: 10, top: 10),
+    //     padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
+    //     child: IconButton(
+    //       icon: Align(
+    //         alignment: Alignment.centerRight,
+    //         child: Icon(
+    //           Iconsax.scan,
+    //           color: isDarkMode 
+    //             ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
+    //             : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+    //           size: 6.w,
+    //         ),
+    //       ),
+    //       onPressed: () async {
+    //         // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    //         // if (value != null){
+    //         //   getReward!(value);
+    //         // }
+    //        
+    //         await TrxOptionMethod.scanQR(
+    //           context!,
+    //           [],
+    //           pushReplacement!,
+    //         );
+    //       },
+    //     ),
+    //   )
+    // ],
   );
 }
 

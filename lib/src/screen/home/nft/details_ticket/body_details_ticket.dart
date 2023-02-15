@@ -1,10 +1,6 @@
-import 'dart:ui';
-
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/ticket_c.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/components/fullscreen_img_c.dart';
 
 class DetailsTicketingBody extends StatelessWidget {
 
