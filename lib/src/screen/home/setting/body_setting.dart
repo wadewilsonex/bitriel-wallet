@@ -12,6 +12,7 @@ class BodySettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: const MyText(
@@ -74,7 +75,7 @@ class BodySettingPage extends StatelessWidget {
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05),
                         shape: BoxShape.circle
                       ),
-                      child: SizedBox(height: 25, width: 25, child: settingsAccSection(context: context)[index].leadingIcon),
+                      child: SizedBox(height: 20.sp, width: 20.sp, child: settingsAccSection(context: context)[index].leadingIcon),
                     ),
 
                     const SizedBox(width: 10,),
@@ -91,7 +92,7 @@ class BodySettingPage extends StatelessWidget {
                       ),
                     ),
                     
-                    Icon(settingsAccSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 17,),
+                    Icon(settingsAccSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 17.sp,),
 
                   ],
                 ),

@@ -41,9 +41,12 @@ class HomePageBody extends StatelessWidget {
     return Scaffold(
       key: homePageModel!.globalKey,
       // extendBody: true,
-      drawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: const Menu(),
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: const Menu(),
+        ),
       ),
       appBar: homePageModel!.activeIndex != 4 ? defaultAppBar(
         context: context,

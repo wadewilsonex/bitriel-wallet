@@ -29,24 +29,23 @@ PreferredSizeWidget defaultAppBar({
     automaticallyImplyLeading: false,
     
     title: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
-        Container(
-          margin: const EdgeInsets.only(top: 10),
-          child: Consumer<ApiProvider>(
+        Consumer<ApiProvider>(
 
-              builder: (context, provider, child) {
-                return GestureDetector(
-                    onTap: () async {
-                      homePageModel!.globalKey!.currentState!.openDrawer();
-                    },
-                    child: AvatarShimmer(
-                      txt: provider.accountM.addressIcon,
-                      child: randomAvatar(provider.accountM.addressIcon ?? ''),
-                    )
-                );
-              }
-          ),
+            builder: (context, provider, child) {
+              return GestureDetector(
+                  onTap: () async {
+                    homePageModel!.globalKey!.currentState!.openDrawer();
+                  },
+                  child: AvatarShimmer(
+                    txt: provider.accountM.addressIcon,
+                    child: randomAvatar(provider.accountM.addressIcon ?? ''),
+                  )
+              );
+            }
         ),
 
         const Spacer(),
@@ -103,22 +102,22 @@ PreferredSizeWidget defaultAppBar({
 
         const Spacer(),
 
-        Container(
-          margin: const EdgeInsets.only(top: 10),
+        Expanded(
+          flex: 0,
           child: IconButton(
+            iconSize: 22.sp,
             icon: Icon(
               Iconsax.scan,
               color: isDarkMode
                   ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
                   : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-              size: 22.sp,
             ),
             onPressed: () async {
               // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
               // if (value != null){
               //   getReward!(value);
               // }
-
+                
               await TrxOptionMethod.scanQR(
                 context!,
                 [],
@@ -127,64 +126,8 @@ PreferredSizeWidget defaultAppBar({
             },
           ),
         ),
-
-        // Expanded(
-        //   child: IconButton(
-        //     icon: Icon(
-        //       Iconsax.scan,
-        //       color: isDarkMode
-        //           ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
-        //           : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-        //       size: 20.sp,
-        //     ),
-        //     onPressed: () async {
-        //       // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-        //       // if (value != null){
-        //       //   getReward!(value);
-        //       // }
-        //
-        //       await TrxOptionMethod.scanQR(
-        //         context!,
-        //         [],
-        //         pushReplacement!,
-        //       );
-        //     },
-        //   ),
-        // ),
-        
       ],
     ),
-    // actions: <Widget>[
-    //  
-    //   Container(
-    //     margin: const EdgeInsets.only(right: 10, top: 10),
-    //     padding: const EdgeInsets.symmetric(horizontal: paddingSize - 5),
-    //     child: IconButton(
-    //       icon: Align(
-    //         alignment: Alignment.centerRight,
-    //         child: Icon(
-    //           Iconsax.scan,
-    //           color: isDarkMode 
-    //             ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa) 
-    //             : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-    //           size: 6.w,
-    //         ),
-    //       ),
-    //       onPressed: () async {
-    //         // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-    //         // if (value != null){
-    //         //   getReward!(value);
-    //         // }
-    //        
-    //         await TrxOptionMethod.scanQR(
-    //           context!,
-    //           [],
-    //           pushReplacement!,
-    //         );
-    //       },
-    //     ),
-    //   )
-    // ],
   );
 }
 

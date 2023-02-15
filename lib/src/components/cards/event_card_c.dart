@@ -36,7 +36,7 @@ class EventCardComponents extends StatelessWidget {
 
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 200,
+          height:  500,
           child: ListView(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -64,9 +64,9 @@ class EventCardComponents extends StatelessWidget {
 
                         Container(
                           color: Colors.white,
-                          height: 200,
-                          width: MediaQuery.of(context).size.width - 60,
-                          child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.cover,) : Container()
+                          width: MediaQuery.of(context).size.width - 70,
+                          height: MediaQuery.of(context).size.height,
+                          child: listEvent!.isNotEmpty ? Image.network("$ipfsAPI${listEvent![i]['image']}", fit: BoxFit.fill,) : Container()
                         ),
 
                         Align(

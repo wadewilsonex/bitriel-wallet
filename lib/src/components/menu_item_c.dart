@@ -37,7 +37,6 @@ class MyMenuItem extends StatelessWidget {
                   text: title,
                   hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w600,
-                  fontSize: 18,
                 ),
               ),
 
@@ -49,7 +48,7 @@ class MyMenuItem extends StatelessWidget {
                       heightFactor: 0.77,
                       widthFactor: 0.77,
                       alignment: Alignment.topLeft,
-                      child: Image.asset(asset!, height: 100,),
+                      child: Image.asset(asset!, ),
                     ),
                   ),
                 ],

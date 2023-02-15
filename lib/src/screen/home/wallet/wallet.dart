@@ -30,7 +30,8 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
     // await PortfolioServices().setPortfolio(context);
     if (_model.tabController!.index == 0 || _model.tabController!.index == 1){
-
+      
+      if(!mounted) return;
       await ContractsBalance().refetchContractBalance(context: context);
     } else if (_model.tabController!.index == 2){
       _model.indicator!.currentState!.show();

@@ -21,7 +21,7 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
   return [
     CardSection(
       title:'Account',
-      leadingIcon: Icon(Iconsax.user, color: hexaCodeToColor(AppColors.primaryColor)),
+      leadingIcon: Icon(Iconsax.user, color: hexaCodeToColor(AppColors.primaryColor), size: 18.sp,),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(
@@ -51,7 +51,7 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
 
     CardSection(
       title: 'Security & Privacy',
-      leadingIcon: Icon(Iconsax.security_user, color: hexaCodeToColor(AppColors.primaryColor)),
+      leadingIcon: Icon(Iconsax.security_user, color: hexaCodeToColor(AppColors.primaryColor), size: 18.sp,),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(
@@ -66,7 +66,7 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
 
     CardSection(
       title: 'About Bitriel',
-      leadingIcon: Icon(Iconsax.info_circle, color: hexaCodeToColor(AppColors.primaryColor)),
+      leadingIcon: Icon(Iconsax.info_circle, color: hexaCodeToColor(AppColors.primaryColor), size: 18.sp,),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(

@@ -258,6 +258,7 @@ class DiscoverPageBody extends StatelessWidget {
 
   Widget _selEcoSysMenu(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           children: [
@@ -265,7 +266,7 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: 30.w,
+                  width: double.infinity,
                 ),
                 title: "Weteka",
                 action: () async {

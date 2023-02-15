@@ -39,6 +39,8 @@ class MenuBody extends StatelessWidget {
           },
         ),
 
+        SizedBox(height: 2.h),
+
         MyListTile(
           icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 1,
@@ -49,6 +51,8 @@ class MenuBody extends StatelessWidget {
           },
         ),
         
+        SizedBox(height: 2.h),
+
         MyListTile(
           index: 1,
           subIndex: 2,
@@ -80,6 +84,8 @@ class MenuBody extends StatelessWidget {
 
         // Account
         const MenuSubTitle(index: 3),
+
+        SizedBox(height: 2.h),
 
         MyListTile(
           icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
@@ -124,6 +130,8 @@ class MenuBody extends StatelessWidget {
         //   },
         // ),
 
+        SizedBox(height: 2.h),
+
         MyListTile(
           icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 5,
@@ -134,6 +142,8 @@ class MenuBody extends StatelessWidget {
           },
         ),
 
+        SizedBox(height: 2.h),
+        
         MyListTile(
           icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
           index: 5,

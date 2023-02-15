@@ -156,8 +156,8 @@ class WalletPageBody extends StatelessWidget {
                       return MyText(
                         text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
                         hexaColor: AppColors.whiteColorHexa,
-                        fontSize: 20.sp,
                         fontWeight: FontWeight.w700,
+                        fontSize: 20,
                       );
                     }
                   ),
@@ -248,7 +248,7 @@ class WalletPageBody extends StatelessWidget {
                       ),
                       child: Transform.rotate(
                         angle: 141.371669412,
-                        child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary)),
+                        child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary), size: 20.sp,),
                       ),
                     ),
             
@@ -288,7 +288,7 @@ class WalletPageBody extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
                       ),
-                      child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                      child: Icon(Iconsax.import, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary), size: 20.sp)
                     ),
             
                     MyText(
@@ -324,7 +324,7 @@ class WalletPageBody extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
                       ),
-                      child: Icon(Iconsax.card, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                      child: Icon(Iconsax.card, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary), size: 20.sp)
                     ),
             
                     MyText(
@@ -373,7 +373,7 @@ class WalletPageBody extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.05)
                       ),
-                      child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary))
+                      child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.secondary), size: 20.sp)
                     ),
             
                     const MyText(
@@ -443,7 +443,7 @@ class WalletPageBody extends StatelessWidget {
             );
           },
           child: CouponCard(
-            height: 150,
+            height: 200,
             backgroundColor: Colors.white,
             curveAxis: Axis.vertical,
             firstChild: Image.network("https://dangkorsenchey.com/images/isi-dsc-logo.png"),
@@ -457,7 +457,7 @@ class WalletPageBody extends StatelessWidget {
                   MyText(
                     text: 'ISI DSC',
                     textAlign: TextAlign.start,
-                    fontSize: 22,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                   Spacer(),

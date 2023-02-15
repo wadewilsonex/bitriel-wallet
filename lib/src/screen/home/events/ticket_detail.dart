@@ -41,7 +41,7 @@ class TicketDetail extends StatelessWidget {
                       text: name,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 21,
+                      fontSize: 18,
                     ),
 
                     const SizedBox(
@@ -52,10 +52,11 @@ class TicketDetail extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.1),
-                          radius: 19,
+                          radius: 15.sp,
                           child: Icon(
                             Iconsax.calendar_1,
                             color: hexaCodeToColor(AppColors.primaryColor),
+                            size: 20.sp,
                           ),
                         ),
 
@@ -64,9 +65,10 @@ class TicketDetail extends StatelessWidget {
                         ),
 
                         MyText(
-                          text: AppUtils.timeStampToDateTime(startDate, middleStyle: "\n"),
+                          text: AppUtils.timeStampToDateTime(startDate, middleStyle: " "),
                           fontWeight: FontWeight.bold,
                           textAlign: TextAlign.start,
+                          fontSize: 14,
                         ),
                       ],
                     ),
@@ -79,10 +81,11 @@ class TicketDetail extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.1),
-                          radius: 19,
+                          radius: 15.sp,
                           child: Icon(
                             Iconsax.location,
                             color: hexaCodeToColor(AppColors.primaryColor),
+                            size: 20.sp,
                           ),
                         ),
 
@@ -97,11 +100,13 @@ class TicketDetail extends StatelessWidget {
                               text: "AIA Stadium",
                               fontWeight: FontWeight.bold,
                               textAlign: TextAlign.start,
+                              fontSize: 14,
                             ),
 
                             MyText(
                               text: "KMall, Phnom Penh",
                               textAlign: TextAlign.start,
+                              fontSize: 14,
                             ),
                           ],
                         ),
@@ -124,7 +129,7 @@ class TicketDetail extends StatelessWidget {
                       text: "About Event",
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 17,
+                      fontSize: 15,
                       bottom: 10,
                     ),
                     const MyText(
@@ -133,6 +138,7 @@ class TicketDetail extends StatelessWidget {
                       textAlign: TextAlign.start,
                       hexaColor: AppColors.greyCode,
                       pBottom: 10,
+                      fontSize: 14,
                     ),
 
                   ],
@@ -148,7 +154,7 @@ class TicketDetail extends StatelessWidget {
 
   Widget get bottomNavigationBar {
     return Container(
-      height: 70,
+      height: 100,
       decoration: BoxDecoration(
         color: hexaCodeToColor(AppColors.whiteColorHexa),
         borderRadius: const BorderRadius.only(
@@ -170,23 +176,24 @@ class TicketDetail extends StatelessWidget {
               ClipRRect(
                 child: Container(
                   alignment: Alignment.center,
-                  height: 50,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
                       children: [
-                        Image.asset('assets/SelendraCircle-Blue.png'),
+                        Image.asset('assets/SelendraCircle-Blue.png', height: 20.sp, width: 20.sp,),
 
                         MyText(
                           text: ' $price SEL',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
+                          fontSize: 14,
                         ),
 
                         MyText(
                           text: ' ≈ USD \$$price',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
+                          fontSize: 14,
                         ),
 
                       ],
@@ -200,18 +207,19 @@ class TicketDetail extends StatelessWidget {
           const Spacer(),
 
           Container(
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(paddingSize),
             alignment: Alignment.center,
-            height: 40,
             decoration: BoxDecoration(
               color: hexaCodeToColor(AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(100),
             ),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: MyText(
                 text: 'Buy Ticket',
                 hexaColor: AppColors.whiteHexaColor,
-                fontSize: 18,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -234,12 +242,12 @@ class TicketDetail extends StatelessWidget {
             text: creator,
             fontWeight: FontWeight.w700,
             textAlign: TextAlign.start,
-            fontSize: 19,
+            fontSize: 13,
           ),
           const MyText(
             text: "Organizer",
             textAlign: TextAlign.start,
-            fontSize: 15,
+            fontSize: 13,
             hexaColor: AppColors.greyCode,
           ),
         ],

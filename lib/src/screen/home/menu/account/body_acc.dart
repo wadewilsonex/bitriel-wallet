@@ -54,6 +54,7 @@ class AccountBody extends StatelessWidget{
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
+            size: 18.sp,
           ),
         ),
       ),

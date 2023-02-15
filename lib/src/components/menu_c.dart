@@ -117,7 +117,7 @@ class MenuSubTitle extends StatelessWidget {
       // color: isDarkMode
       //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
       //   : Colors.grey[200],
-      height: 55,
+      // height: 100,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(

@@ -38,8 +38,8 @@ class AssetsItemComponent extends StatelessWidget {
         
               // Asset Logo
               scModel!.logo != null ? SizedBox(
-                height: 10.w,
-                width: 10.w,
+                height: 25.sp,
+                width: 25.sp,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: scModel!.logo!.contains('http') 
@@ -47,28 +47,28 @@ class AssetsItemComponent extends StatelessWidget {
                   ? Image.network(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 10.w,
-                    width: 10.w
+                    height: 25.sp,
+                    width: 25.sp,
                   )
                   : Image.asset(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 10.w,
-                    width: 10.w,
+                    height: 25.sp,
+                    width: 25.sp,
                   )
                 ),
               ) 
               : ClipRRect(
                 child: SizedBox(
-                  height: 10.w,
-                  width: 10.w,
+                  height: 20.sp,
+                  width: 20.sp,
                 ),
               ),
         
               // Asset Name
               SizedBox(width: 2.w),
               SizedBox(
-                width: 30.w,
+                width: 25.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +81,7 @@ class AssetsItemComponent extends StatelessWidget {
                         
                         MyText(
                           text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
-                          fontSize: 15.5,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           hexaColor: isDarkMode
                             ? AppColors.whiteColorHexa
@@ -112,12 +112,12 @@ class AssetsItemComponent extends StatelessWidget {
                     scModel!.marketPrice != null ?
                     MyText(
                       text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
-                      fontSize: 15.5,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                     )
                     : const MyText(
                       text: '',
-                      fontSize: 15.5,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       hexaColor: AppColors.whiteColorHexa
                     ),
@@ -135,7 +135,7 @@ class AssetsItemComponent extends StatelessWidget {
                                 if (scModel!.change24h != "0")
                                 MyText(
                                   text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   hexaColor: double.parse(scModel!.change24h!).isNegative
                                     ? '#FF0000'
@@ -144,7 +144,7 @@ class AssetsItemComponent extends StatelessWidget {
                                 
                                 else MyText(
                                   text: '(${scModel!.change24h}%)',
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   hexaColor: AppColors.greyCode
                                   // double.parse(scModel!.change24h!).isNegative
@@ -176,7 +176,7 @@ class AssetsItemComponent extends StatelessWidget {
         
                   scModel!.balance != null ? 
                   MyText(
-                    fontSize: 15,
+                    fontSize: 14,
                     // width: double.infinity,
                     text: "${double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5)} ${scModel!.symbol!}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                     textAlign: TextAlign.right,

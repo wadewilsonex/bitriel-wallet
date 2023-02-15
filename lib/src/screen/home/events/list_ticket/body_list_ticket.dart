@@ -1,14 +1,10 @@
-import 'dart:ui';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/cards/ticket_item_c.dart';
 import 'package:wallet_apps/src/models/mdw_ticketing/ticket_m.dart';
 
 class ListTicketTypeBody extends StatelessWidget {
 
   final int? lstLenght;
-  final double? mgLeft;
-  final double? mgRight;
   final String? imgUrl;
   final TicketModel? ticketModel;
   final ScrollController? controller;
@@ -21,8 +17,6 @@ class ListTicketTypeBody extends StatelessWidget {
     required this.index, 
     required this.ticketModel,
     required this.lstLenght,
-    required this.mgLeft,
-    required this.mgRight,
     this.controller
   }) : super(key: key);
 
@@ -30,8 +24,8 @@ class ListTicketTypeBody extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return CouponCard(
-      height: 300,
-      curvePosition: 150,
+      height: 500,
+      curvePosition: 250,
       curveRadius: 30,
       borderRadius: 10,
       decoration: BoxDecoration(
@@ -59,7 +53,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 child: MyText(
                   text: "USD \$${ticketModel!.lsTicketTypes![index!].defaultTicketSchemaType!.price.toString()}",
                   color2: Colors.white,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -80,6 +74,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 hexaColor: AppColors.textColor,
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
+                fontSize: 14,
               ),
 
               const Spacer(),
@@ -89,6 +84,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 hexaColor: AppColors.greyCode,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
+                fontSize: 14,
               ),
 
               const SizedBox(height: 5,),
@@ -101,6 +97,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
+                fontSize: 12,
               ),
             ],
           ),
