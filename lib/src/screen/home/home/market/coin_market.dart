@@ -19,6 +19,7 @@ class CoinMarket extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index){
         return Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (lsMarketCoin == null) const CircularProgressIndicator()

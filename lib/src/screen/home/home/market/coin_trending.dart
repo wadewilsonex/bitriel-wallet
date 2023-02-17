@@ -19,11 +19,11 @@ class CoinTrending extends StatelessWidget {
       shrinkWrap: true,
       itemBuilder: (context, index){
         return Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (trendingCoin == null) const CircularProgressIndicator()
 
             else if (trendingCoin!.isNotEmpty)
-
             TrendMarketList(trendingCoin: trendingCoin, index: index)
 
             else Center(

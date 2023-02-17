@@ -266,7 +266,7 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: double.infinity,
+                  width: 40.w,
                 ),
                 title: "Weteka",
                 action: () async {
@@ -284,7 +284,7 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: SvgPicture.asset(
                   "assets/logo/Koompi_wifi.svg",
-                  width: 14.w,
+                  width: 20.w,
                   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
                 ),
                 title: "KOOMPI Fi-Fi",
@@ -306,7 +306,7 @@ class DiscoverPageBody extends StatelessWidget {
                   isDarkMode ?
                   "assets/logo/selendra-logo.png" :
                   "assets/logo/selendra.png",
-                  width: 7.w,
+                  width: 12.w,
                 ),
                 title: "Funan DApp",
                 action: () {
@@ -323,7 +323,7 @@ class DiscoverPageBody extends StatelessWidget {
                   isDarkMode 
                   ? "assets/logo/bitriel-light.png" 
                   : "assets/logo/bitriel-logo-v2.png",
-                  width: 10.w,
+                  width: 15.w,
                 ),
                 title: "Bitriel DEX",
                 action: () {

@@ -25,6 +25,7 @@ class MyMenuItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(
+          height: 100,
           decoration: BoxDecoration(
             color: hexaCodeToColor(colorHex),
           ),
@@ -40,18 +41,22 @@ class MyMenuItem extends StatelessWidget {
                 ),
               ),
 
-              Row(
-                children: [
-                  const Spacer(),
-                  Flexible(
-                    child: Align(
-                      heightFactor: 0.77,
-                      widthFactor: 0.77,
-                      alignment: Alignment.topLeft,
-                      child: Image.asset(asset!, ),
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Spacer(),
+                    Flexible(
+                      child: Align(
+                        heightFactor: 1,
+                        widthFactor: 1,
+                        alignment: Alignment.topLeft,
+                        child: Image.asset(asset!),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
             ],

@@ -41,7 +41,7 @@ class TicketDetail extends StatelessWidget {
                       text: name,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
 
                     const SizedBox(
@@ -154,7 +154,7 @@ class TicketDetail extends StatelessWidget {
 
   Widget get bottomNavigationBar {
     return Container(
-      height: 100,
+      height: 70,
       decoration: BoxDecoration(
         color: hexaCodeToColor(AppColors.whiteColorHexa),
         borderRadius: const BorderRadius.only(
@@ -186,14 +186,12 @@ class TicketDetail extends StatelessWidget {
                           text: ' $price SEL',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
-                          fontSize: 14,
                         ),
 
                         MyText(
                           text: ' ≈ USD \$$price',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
-                          fontSize: 14,
                         ),
 
                       ],
@@ -206,24 +204,43 @@ class TicketDetail extends StatelessWidget {
 
           const Spacer(),
 
-          Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.all(paddingSize),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: hexaCodeToColor(AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: paddingSize),
-              child: MyText(
-                text: 'Buy Ticket',
-                hexaColor: AppColors.whiteHexaColor,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+          ElevatedButton(
+            onPressed: () {
+              
+            },
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(hexaCodeToColor(AppColors.whiteColorHexa)),
+              backgroundColor: MaterialStateProperty.all<Color>(hexaCodeToColor(AppColors.primaryColor)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                )
               ),
             ),
+            child: const MyText(
+                text: 'Buy Ticket',
+                hexaColor: AppColors.whiteHexaColor,
+                fontWeight: FontWeight.w700,
+              ),
           ),
+          // Container(
+          //   height: 50,
+          //   padding: const EdgeInsets.all(8),
+          //   margin: const EdgeInsets.all(paddingSize),
+          //   alignment: Alignment.center,
+          //   decoration: BoxDecoration(
+          //     color: hexaCodeToColor(AppColors.primaryColor),
+          //     borderRadius: BorderRadius.circular(100),
+          //   ),
+          //   child: const Padding(
+          //     padding: EdgeInsets.symmetric(horizontal: paddingSize),
+          //     child: MyText(
+          //       text: 'Buy Ticket',
+          //       hexaColor: AppColors.whiteHexaColor,
+          //       fontWeight: FontWeight.w700,
+          //     ),
+          //   ),
+          // ),
 
           const SizedBox(width: 10,),
 

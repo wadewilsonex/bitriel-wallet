@@ -74,116 +74,85 @@ class _ListTicketTypeState extends State<ListTicketType> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: eventAppBar(context: context, title: widget.eventName!),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
 
-            if (_tkModel.ticketTypesFromApi == null) loading()
+          if (_tkModel.ticketTypesFromApi == null) loading()
 
-            else if (_tkModel.ticketTypesFromApi!.isNotEmpty)
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: paddingSize * 2, right: paddingSize * 2),
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 25,
-                      mainAxisSpacing: 25,
-                      mainAxisExtent: 500,
-                      childAspectRatio: 1
-                    ),
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: _tkModel.lsTicketTypes!.length,
-                    itemBuilder: (context, index){
+          else if (_tkModel.ticketTypesFromApi!.isNotEmpty)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: paddingSize * 2, right: paddingSize * 2),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    // mainAxisExtent: 400,
+                    childAspectRatio: 0.5
+                  ),
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: _tkModel.lsTicketTypes!.length,
+                  itemBuilder: (context, index){
 
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            Transition(
-                              child: TicketDetail(
-                                creator: widget.eventName!,
-                                name: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.name!,
-                                price: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.price!,
-                                image: NetworkImage(dotenv.get('IPFS_API')+_tkModel.lsTicketTypes![index].defaultTicketSchemaType!.image!),
-                                description: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.description!,
-                                startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate!,
-                                status: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.status!
-                              ),
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                            )
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                          child: ListTicketTypeBody(
-                            lstLenght: _tkModel.lsTicketTypes!.length,
-                            controller: _controller,
-                            imgUrl: imgUrl,
-                            ticketModel: _tkModel,
-                            index: index,
-                          ),
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          Transition(
+                            child: TicketDetail(
+                              creator: widget.eventName!,
+                              name: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.name!,
+                              price: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.price!,
+                              image: NetworkImage(dotenv.get('IPFS_API')+_tkModel.lsTicketTypes![index].defaultTicketSchemaType!.image!),
+                              description: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.description!,
+                              startDate: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.startDate!,
+                              status: _tkModel.lsTicketTypes![index].defaultTicketSchemaType!.status!
+                            ),
+                            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                          )
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                        child: ListTicketTypeBody(
+                          lstLenght: _tkModel.lsTicketTypes!.length,
+                          controller: _controller,
+                          imgUrl: imgUrl,
+                          ticketModel: _tkModel,
+                          index: index,
                         ),
-                      );
+                      ),
+                    );
 
-                    }
-                  ),
+                  }
                 ),
-              )
-
-            //   Expanded(
-            //     child: ListView.builder(
-            //     physics: const BouncingScrollPhysics(),
-            //     scrollDirection: Axis.horizontal,
-            //     shrinkWrap: true,
-            //     itemCount: _tkModel.lsTicketTypes!.length,
-            //     itemBuilder: (context, index){
-            //
-            //       return SingleChildScrollView(
-            //         controller: _controller,
-            //         physics: const BouncingScrollPhysics(),
-            //         child: ListTicketTypeBody(
-            //           lstLenght: _tkModel.lsTicketTypes!.length,
-            //           controller: _controller,
-            //           mgLeft: index == 0 ? 20 : 0,
-            //           mgRight: 20,
-            //           imgUrl: imgUrl,
-            //           ticketModel: _tkModel,
-            //           index: index,
-            //         ),
-            //       );
-            //
-            //     }
-            //   ),
-            // )
-
-            else Center(
-              child: Column(
-                children: [
-
-                  Lottie.asset(
-                    "assets/animation/search_empty.json",
-                    repeat: true,
-                    reverse: true,
-                    width: 70.w,
-                  ),
-
-                  const Padding(
-                    padding: EdgeInsets.all(paddingSize),
-                    child: MyText(text: "Sorry, there are no results for this event, please try again later.", fontSize: 17, fontWeight: FontWeight.w600,),
-                  )
-                ],
               ),
-            ),
+            )
+            
+          else Center(
+            child: Column(
+              children: [
 
-          ],
-        ),
+                Lottie.asset(
+                  "assets/animation/search_empty.json",
+                  repeat: true,
+                  reverse: true,
+                  width: 70.w,
+                ),
+
+                const Padding(
+                  padding: EdgeInsets.all(paddingSize),
+                  child: MyText(text: "Sorry, there are no results for this event, please try again later.", fontSize: 17, fontWeight: FontWeight.w600,),
+                )
+              ],
+            ),
+          ),
+
+        ],
       ),
 
     );
