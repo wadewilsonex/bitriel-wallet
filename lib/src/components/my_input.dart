@@ -71,7 +71,7 @@ class MyInputField extends StatelessWidget {
             inputAction == null ? TextInputAction.next : inputAction,
           style: TextStyle(
             color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
-            fontSize: 15.sp
+            fontSize: 18.sp
           ),
           validator: (String? value){
             return validateField!(value);
@@ -80,7 +80,7 @@ class MyInputField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               color: hexaCodeToColor(AppColors.darkSecondaryText),
             ),
             labelText: labelText,
@@ -219,7 +219,7 @@ class MySeedField extends StatelessWidget {
               color: isDarkMode
                   ? hexaCodeToColor(AppColors.whiteColorHexa)
                   : hexaCodeToColor(AppColors.textColor),
-              fontSize: 16.0.sp),
+              fontSize: 18.0.sp),
           validator: (String? value){
             return validateField!(value);
           },
@@ -229,7 +229,7 @@ class MySeedField extends StatelessWidget {
             
             hintText: hintText,
             hintStyle: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 18.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.shadowBlueColor : AppColors.greyColor),
               // fontSize: 16.0,
               fontWeight: FontWeight.w600

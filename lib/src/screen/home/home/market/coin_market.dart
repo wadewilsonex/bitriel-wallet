@@ -48,7 +48,6 @@ class CoinMarket extends StatelessWidget {
                   child: const MyText(
                     text: "View All",
                     hexaColor: AppColors.primaryColor,
-                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   )
                 ),
@@ -56,7 +55,8 @@ class CoinMarket extends StatelessWidget {
               ],
             )
 
-            else Center(
+            else if(lsMarketCoin!.isEmpty)
+            Center(
               child: Column(
               children: [
 

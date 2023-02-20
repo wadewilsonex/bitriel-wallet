@@ -41,7 +41,7 @@ class TicketDetail extends StatelessWidget {
                       text: name,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 20,
+                      fontSize: 21,
                     ),
 
                     const SizedBox(
@@ -52,11 +52,11 @@ class TicketDetail extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.1),
-                          radius: 15.sp,
+                          radius: 20,
                           child: Icon(
                             Iconsax.calendar_1,
                             color: hexaCodeToColor(AppColors.primaryColor),
-                            size: 20.sp,
+                            size: 22,
                           ),
                         ),
 
@@ -68,7 +68,6 @@ class TicketDetail extends StatelessWidget {
                           text: AppUtils.timeStampToDateTime(startDate, middleStyle: " "),
                           fontWeight: FontWeight.bold,
                           textAlign: TextAlign.start,
-                          fontSize: 14,
                         ),
                       ],
                     ),
@@ -81,11 +80,11 @@ class TicketDetail extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           backgroundColor: hexaCodeToColor(AppColors.primaryColor).withOpacity(0.1),
-                          radius: 15.sp,
+                          radius: 20,
                           child: Icon(
                             Iconsax.location,
                             color: hexaCodeToColor(AppColors.primaryColor),
-                            size: 20.sp,
+                            size: 22,
                           ),
                         ),
 
@@ -100,13 +99,11 @@ class TicketDetail extends StatelessWidget {
                               text: "AIA Stadium",
                               fontWeight: FontWeight.bold,
                               textAlign: TextAlign.start,
-                              fontSize: 14,
                             ),
 
                             MyText(
                               text: "KMall, Phnom Penh",
                               textAlign: TextAlign.start,
-                              fontSize: 14,
                             ),
                           ],
                         ),
@@ -129,7 +126,7 @@ class TicketDetail extends StatelessWidget {
                       text: "About Event",
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 15,
+                      fontSize: 18,
                       bottom: 10,
                     ),
                     const MyText(
@@ -138,7 +135,6 @@ class TicketDetail extends StatelessWidget {
                       textAlign: TextAlign.start,
                       hexaColor: AppColors.greyCode,
                       pBottom: 10,
-                      fontSize: 14,
                     ),
 
                   ],
@@ -257,20 +253,42 @@ class TicketDetail extends StatelessWidget {
         children: [
           MyText(
             text: creator,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             textAlign: TextAlign.start,
-            fontSize: 13,
+            fontSize: 17,
           ),
+
           const MyText(
             text: "Organizer",
             textAlign: TextAlign.start,
-            fontSize: 13,
             hexaColor: AppColors.greyCode,
           ),
+          
         ],
       ),
-      leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/1.png')),
+      leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/2.png')),
     );
+    // return ListTile(
+    //   contentPadding: EdgeInsets.zero,
+    //   title: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       MyText(
+    //         text: creator,
+    //         fontWeight: FontWeight.w700,
+    //         textAlign: TextAlign.start,
+    //         fontSize: 19,
+    //       ),
+    //       const MyText(
+    //         text: "Organizer",
+    //         textAlign: TextAlign.start,
+    //         fontSize: 19,
+    //         hexaColor: AppColors.greyCode,
+    //       ),
+    //     ],
+    //   ),
+    //   leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/1.png')),
+    // );
   }
 
   SliverAppBar appbar(BuildContext context) {

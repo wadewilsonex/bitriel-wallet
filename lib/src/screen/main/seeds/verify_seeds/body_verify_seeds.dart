@@ -101,7 +101,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                           const SizedBox(width: 9),
                           const MyText(
                             text: "Try Again",
-                            fontSize: 14,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,  
                           ),
                         ],

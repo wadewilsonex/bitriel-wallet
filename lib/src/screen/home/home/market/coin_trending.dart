@@ -26,7 +26,7 @@ class CoinTrending extends StatelessWidget {
             else if (trendingCoin!.isNotEmpty)
             TrendMarketList(trendingCoin: trendingCoin, index: index)
 
-            else Center(
+            else if(trendingCoin!.isEmpty) Center(
               child: Column(
               children: [
 

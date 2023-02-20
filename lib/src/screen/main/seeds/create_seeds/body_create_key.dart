@@ -35,6 +35,7 @@ class CreateSeedsBody extends StatelessWidget {
                   text: "After writing and securing your 12 words, click continue to proceed",
                   hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                   textAlign: TextAlign.start,
+                  fontSize: 18,
                 ),
                 
                 SizedBox(height: 7.h),
@@ -83,8 +84,8 @@ class CreateSeedsBody extends StatelessWidget {
                               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
                               const MyText(
-                                text: "Generate new seed",
-                                fontSize: 14,
+                                text: "Generate seed",
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -107,7 +108,7 @@ class CreateSeedsBody extends StatelessWidget {
                               const SizedBox(width: 9),
                               const MyText(
                                 text: "Copy",
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],

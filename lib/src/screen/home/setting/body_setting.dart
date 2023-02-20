@@ -18,7 +18,7 @@ class BodySettingPage extends StatelessWidget {
         title: const MyText(
           text: "Settings",
           fontWeight: FontWeight.bold,
-          fontSize: 20,
+          fontSize: 22,
         ),
       ),
       body: SingleChildScrollView(

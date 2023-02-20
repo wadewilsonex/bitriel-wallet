@@ -167,13 +167,13 @@ class AssetDetailState extends State<AssetDetail> {
               children: const [
                 MyText(
                   text: "Market cap",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
 
                 MyText(
                   text: "null",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -185,12 +185,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: const [
                 MyText(
                   text: "Circulation supply",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "null",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -207,12 +207,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: const [
                 MyText(
                   text: "Total volume",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "null",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -224,12 +224,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: const [
                 MyText(
                   text: "Total supply",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "null",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -256,47 +256,8 @@ class AssetDetailState extends State<AssetDetail> {
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
           hexaColor: AppColors.greyCode,
+          fontSize: 18,
         ),
-
-
-
-
-        // const MyText(
-        //   text: 'Token Info',
-        //   fontWeight: FontWeight.bold,
-        //   textAlign: TextAlign.left,
-        //   hexaColor: AppColors.primaryColor,
-        // ),
-
-        // const SizedBox(height: 16.0),
-
-        // textRow('Token Name', widget.scModel.symbol!.toUpperCase(), ''),
-
-        // textRow('Project Name', '${widget.scModel.name}', ''),
-
-        // textRow('Token Standard', '${widget.scModel.org}', ''),
-
-        // textRow('Max Supply', '${widget.scModel.maxSupply}', ''),
-
-        // SizedBox(height: 1.5.h),
-
-        // line(),
-
-        // SizedBox(height: 1.5.h),
-
-        // MyText(
-        //   text: 'About ${widget.scModel.name}',
-        //   fontWeight: FontWeight.bold,
-        //   textAlign: TextAlign.left,
-        //   hexaColor: AppColors.primaryColor,
-        // ),
-
-        // const SizedBox(height: 16.0),
-
-        // MyText(
-        //   textAlign: TextAlign.start,
-        //   text: '${widget.scModel.description}',
-        // ),
       ],
     );
     } else {
@@ -325,12 +286,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: [
                 const MyText(
                   text: "Market cap",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "\$${convert("${widget.scModel.marketData!.marketCap}")}",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -342,12 +303,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: [
                 const MyText(
                   text: "Circulation supply",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "${convert("${widget.scModel.marketData!.circulatingSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -364,12 +325,12 @@ class AssetDetailState extends State<AssetDetail> {
               children: [
                 const MyText(
                   text: "Total volume",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
                 ),
                 MyText(
                   text: "\$${convert("${widget.scModel.marketData!.totalVolume}")}",
                   fontWeight: FontWeight.w500,
+                  fontSize: 18,
                 ),
               ],
             ),
@@ -381,8 +342,8 @@ class AssetDetailState extends State<AssetDetail> {
               children: [
                 const MyText(
                   text: "Total supply",
-                  fontSize: 14,
                   hexaColor: AppColors.greyCode,
+                  fontSize: 18,
                 ),
                 MyText(
                   text: "${convert("${widget.scModel.marketData!.totalSupply}")} ${widget.scModel.marketData!.symbol!.toUpperCase()} ",
@@ -413,25 +374,19 @@ class AssetDetailState extends State<AssetDetail> {
           textAlign: TextAlign.start,
           text: '${widget.scModel.marketData!.description}',
           hexaColor: AppColors.greyColor,
+          fontSize: 18,
         )
         :
         MyText(
           textAlign: TextAlign.start,
           text: '${widget.scModel.description}',
           hexaColor: AppColors.greyCode,
+          fontSize: 18,
         ),
       ],
     )
     :
     Container();
-    // SizedBox(
-    //   height: 60.sp,
-    //   child: OverflowBox(
-    //     minHeight: 60.h,
-    //     maxHeight: 60.h,
-    //     child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
-    //   )
-    // );
   }
 
 }

@@ -54,7 +54,6 @@ class PasscodeBody extends StatelessWidget{
               text: is4digits == false ? "Use 4-digits PIN" : "Use 6-digits PIN",
               color2: isFirst! == true || isNewPass == true ? hexaCodeToColor(AppColors.primaryColor) : hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0),
               fontWeight: FontWeight.w700,
-              fontSize: 15,
             ),
           ),
         ],
@@ -77,14 +76,14 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'Enter PIN' : 'Verify PIN',
-              fontSize: 22,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
               hexaColor: titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
-              fontSize: 22,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
 
@@ -106,6 +105,7 @@ class PasscodeBody extends StatelessWidget{
               text: subStatus,
               hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
               fontWeight: FontWeight.bold,
+              fontSize: 19,
             ), 
 
             SizedBox(height: 5.h),
@@ -153,14 +153,14 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               fontWeight: FontWeight.bold,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
@@ -168,7 +168,7 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -183,21 +183,21 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Enter ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -222,7 +222,7 @@ class ReusePinNum extends StatelessWidget {
       height: 56,
 
       textStyle: TextStyle(
-        fontSize: 22,
+        fontSize: 50,
         color: hexaCodeToColor(AppColors.primaryColor),
       ),
       decoration: const BoxDecoration(),
@@ -253,60 +253,6 @@ class ReusePinNum extends StatelessWidget {
       useNativeKeyboard: false,
     );
 
-    // return Flexible(
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: TextField(
-    //       controller: textEditingController,
-    //       enabled: false,
-    //       obscureText: true,
-    //       textAlign: TextAlign.center,
-    //       maxLines: 1,
-    //       minLines: 1,
-    //       decoration: InputDecoration(
-    //         isDense: true,
-    //         // contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
-    //         // border: InputBorder.none,
-    //         border: OutlineInputBorder(
-    //           borderRadius: BorderRadius.circular(8),
-    //           gapPadding: 0
-    //         ),
-    //         filled: true,
-    //         // border: OutlineInputBorder(),
-    //         fillColor: Colors.white30
-    //       ),
-    //       style: TextStyle(
-    //         fontWeight: FontWeight.bold,
-    //         fontSize: 30.sp,
-    //         color: hexaCodeToColor(AppColors.secondary)
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // return SizedBox(
-    //   width: 20.0,
-    //   height: 20.0,
-    //   child: TextField(
-    //     controller: textEditingController,
-    //     enabled: false,
-    //     obscureText: true,
-    //     textAlign: TextAlign.center,
-    //     decoration: InputDecoration(
-    //       contentPadding: EdgeInsets.only(bottom: -50.sp, left: -7.sp),
-    //       border: outlineInputBorder,
-    //       filled: true,
-    //       fillColor: hexaCodeToColor(AppColors.passcodeColor),
-    //     ),
-    //     style: TextStyle(
-    //       fontWeight: FontWeight.bold,
-    //       fontSize: 40.sp,
-    //       color: hexaCodeToColor(
-    //         AppColors.secondary,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -427,7 +373,7 @@ class ReuseKeyBoardNum extends StatelessWidget {
         child: child == null ? Text(
           '$n',
           style: TextStyle(
-            fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
+            fontSize: 30 * MediaQuery.of(context).textScaleFactor,
             color: isDarkMode ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
           ),

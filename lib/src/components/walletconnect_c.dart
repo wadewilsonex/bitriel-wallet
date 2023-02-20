@@ -229,7 +229,7 @@ class WalletConnectComponent with ChangeNotifier {
             if (peerMeta.url.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor, fontSize: 14),
+                child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor),
               ),
 
             SizedBox(height: 2.h,),
@@ -237,9 +237,9 @@ class WalletConnectComponent with ChangeNotifier {
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Column(
                 children: [
-                  const MyText(text: 'View you wallet balance and activity', hexaColor: AppColors.textColor, fontSize: 14,),
+                  const MyText(text: 'View you wallet balance and activity', hexaColor: AppColors.textColor),
                   SizedBox(height: .5.h,),
-                  const MyText(text: 'Request approval for transactions', hexaColor: AppColors.textColor, fontSize: 14,),
+                  const MyText(text: 'Request approval for transactions', hexaColor: AppColors.textColor),
                 ],
               ),
             ),

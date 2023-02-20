@@ -87,6 +87,8 @@ class WalletPageBody extends StatelessWidget {
                                 margin: const EdgeInsets.symmetric(horizontal: 20),
                                 child: Column(
                                   children: [
+
+                                    const SizedBox(height: 10),
                                     _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
 
                                     _addMoreAsset(context),
@@ -136,7 +138,7 @@ class WalletPageBody extends StatelessWidget {
             color: hexaCodeToColor(AppColors.whiteColorHexa),
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             image: const DecorationImage(
-              image: AssetImage('assets/bg-glass.jpg'),
+              image: AssetImage('assets/5250206.jpg'),
               fit: BoxFit.cover
             ),
           ),
@@ -145,7 +147,7 @@ class WalletPageBody extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
               child: Column(
                 children: [
                   
@@ -154,10 +156,10 @@ class WalletPageBody extends StatelessWidget {
                   Consumer<ContractProvider>(
                     builder: (context, provider, widget){
                       return MyText(
-                        text: "\$ ${ (provider.mainBalance).toStringAsFixed(2) }",
+                        text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
                         hexaColor: AppColors.whiteColorHexa,
                         fontWeight: FontWeight.w700,
-                        fontSize: 20,
+                        fontSize: 22,
                       );
                     }
                   ),
@@ -168,6 +170,7 @@ class WalletPageBody extends StatelessWidget {
                       return MyText(
                         text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                         hexaColor: AppColors.whiteColorHexa,
+                        fontSize: 18,
                       );
                     }
                   ),

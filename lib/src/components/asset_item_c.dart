@@ -38,8 +38,8 @@ class AssetsItemComponent extends StatelessWidget {
         
               // Asset Logo
               scModel!.logo != null ? SizedBox(
-                height: 25.sp,
-                width: 25.sp,
+                height: 50,
+                width: 50,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: scModel!.logo!.contains('http') 
@@ -47,28 +47,28 @@ class AssetsItemComponent extends StatelessWidget {
                   ? Image.network(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 25.sp,
-                    width: 25.sp,
+                    height: 50,
+                    width: 50,
                   )
                   : Image.asset(
                     scModel!.logo!,
                     fit: BoxFit.contain,
-                    height: 25.sp,
-                    width: 25.sp,
+                    height: 50,
+                    width: 50,
                   )
                 ),
               ) 
-              : ClipRRect(
+              : const ClipRRect(
                 child: SizedBox(
-                  height: 20.sp,
-                  width: 20.sp,
+                  height: 50,
+                  width: 50,
                 ),
               ),
         
               // Asset Name
               SizedBox(width: 2.w),
               SizedBox(
-                width: 25.w,
+                width: 33.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +81,7 @@ class AssetsItemComponent extends StatelessWidget {
                         
                         MyText(
                           text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
-                          fontSize: 14,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           hexaColor: isDarkMode
                             ? AppColors.whiteColorHexa
@@ -95,7 +95,7 @@ class AssetsItemComponent extends StatelessWidget {
                     MyText(
                       top: 4.0,
                       text: scModel!.name ?? '',
-                      fontSize: 12,
+                      fontSize: 14,
                       hexaColor: AppColors.tokenNameColor
                     )
                   ],
@@ -112,12 +112,12 @@ class AssetsItemComponent extends StatelessWidget {
                     scModel!.marketPrice != null ?
                     MyText(
                       text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
-                      fontSize: 14,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                     )
                     : const MyText(
                       text: '',
-                      fontSize: 14,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                       hexaColor: AppColors.whiteColorHexa
                     ),
@@ -135,7 +135,7 @@ class AssetsItemComponent extends StatelessWidget {
                                 if (scModel!.change24h != "0")
                                 MyText(
                                   text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   hexaColor: double.parse(scModel!.change24h!).isNegative
                                     ? '#FF0000'
@@ -144,7 +144,7 @@ class AssetsItemComponent extends StatelessWidget {
                                 
                                 else MyText(
                                   text: '(${scModel!.change24h}%)',
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   hexaColor: AppColors.greyCode
                                   // double.parse(scModel!.change24h!).isNegative
@@ -176,7 +176,6 @@ class AssetsItemComponent extends StatelessWidget {
         
                   scModel!.balance != null ? 
                   MyText(
-                    fontSize: 14,
                     // width: double.infinity,
                     text: "${double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5)} ${scModel!.symbol!}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
                     textAlign: TextAlign.right,
@@ -192,7 +191,7 @@ class AssetsItemComponent extends StatelessWidget {
                   scModel!.money != null ? 
                   MyText(
                     text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
-                    fontSize: 12,
+                    fontSize: 15,
                     hexaColor: AppColors.tokenNameColor
                   ) 
                   : Container()

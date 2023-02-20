@@ -35,6 +35,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(height: 2.5.h),
               MyText(
@@ -89,6 +90,8 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
                   Navigator.pop(context);
                 },
               ),
+
+              SizedBox(height: 5.h),
             ],
           ),
         );

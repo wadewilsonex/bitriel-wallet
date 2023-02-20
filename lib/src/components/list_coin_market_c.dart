@@ -19,17 +19,17 @@ class CoinMarketList extends StatelessWidget {
         children: <Widget>[
           // Asset Logo
           listCoinMarket![index!].image != null ? SizedBox(
-            height: 10.w,
-            width: 10.w,
+            height: 50,
+            width: 50,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(color: Colors.white, child: Image.network(listCoinMarket![index!].image!))
             ),
           ) 
-          : ClipRRect(
+          : const ClipRRect(
             child: SizedBox(
-              height: 10.w,
-              width: 10.w,
+              height: 50,
+              width: 50,
             ),
           ),
       
@@ -49,7 +49,7 @@ class CoinMarketList extends StatelessWidget {
                     
                     MyText(
                       text: listCoinMarket![index!].symbol != null ? '${listCoinMarket![index!].symbol!.toUpperCase()} ' : '',
-                      fontSize: 15.5,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       hexaColor: isDarkMode
                         ? AppColors.whiteColorHexa
@@ -74,7 +74,7 @@ class CoinMarketList extends StatelessWidget {
 
           // Total Amount
           MyText(
-            fontSize: 15,
+            fontSize: 17,
             // width: double.infinity,
             text: "\$${double.parse("${listCoinMarket![index!].currentPrice}".replaceAll(",", "")).toStringAsFixed(5)}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
             textAlign: TextAlign.right,

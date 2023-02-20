@@ -25,7 +25,7 @@ class MyMenuItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          height: 100,
+          height: 125,
           decoration: BoxDecoration(
             color: hexaCodeToColor(colorHex),
           ),
@@ -36,6 +36,7 @@ class MyMenuItem extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 10, top: 5),
                 child: MyText(
                   text: title,
+                  fontSize: 18,
                   hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w600,
                 ),

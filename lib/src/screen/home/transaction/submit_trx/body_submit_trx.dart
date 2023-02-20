@@ -63,6 +63,7 @@ class SubmitTrxBody extends StatelessWidget {
         onChanged: onChanged,
         onSubmit: () {}
       ),
+      
       MyInputField(
         pBottom: 16,
         hintText: "Amount",
@@ -104,6 +105,7 @@ class SubmitTrxBody extends StatelessWidget {
                     child: MyText(
                       text: "Available balance",
                       hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                      fontSize: 18,
                     ),
                   ),
                   
@@ -124,6 +126,7 @@ class SubmitTrxBody extends StatelessWidget {
                       text: "Please, enter the receiver’s address with the amount of transfer ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol} in below field.",
                       hexaColor: "#878787",
                       textAlign: TextAlign.start,
+                      fontSize: 17,
                     ),
                   ),
     

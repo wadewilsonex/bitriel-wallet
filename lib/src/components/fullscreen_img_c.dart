@@ -52,9 +52,9 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
             child: GestureDetector(
               onTap: () => Navigator.of(context).pop(),
               child: Icon(
-                Iconsax.arrow_left_2,
+                Iconsax.close_circle,
                 color: Colors.black,
-                size: 18.sp,
+                size: 20.sp,
               ),
             ),
           ),

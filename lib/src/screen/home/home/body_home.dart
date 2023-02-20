@@ -106,8 +106,6 @@ class HomePageBody extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 1.5,
                   child: _coinMenuCategory()
                 ),
-                
-                AppUtils.discliamerText(),
               ],
             ),
           ),
@@ -311,11 +309,11 @@ class HomePageBody extends StatelessWidget {
               unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
               tabs: const [
                 Tab(
-                  text: "Trending",
+                  text: "Trendings",
                 ),
 
                 Tab(
-                  text: "Market",
+                  text: "Markets",
                 ),
 
                 // Tab(
@@ -331,13 +329,31 @@ class HomePageBody extends StatelessWidget {
 
                 Consumer<MarketProvider>(
                   builder: (context, marketProvider, widget) {
-                    return CoinTrending(trendingCoin: marketProvider.cnts,);
+                    return SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          CoinTrending(trendingCoin: marketProvider.cnts,),
+                    
+                          AppUtils.discliamerText(),
+                        ],
+                      ),
+                    );
                   }
                 ),
 
                 Consumer<MarketProvider>(
                   builder: (context, marketProvider, widget) {
-                    return CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,);
+                    return SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,),
+                          
+                          AppUtils.discliamerText(),
+                        ],
+                      ),
+                    );
                   }
                 ),
 

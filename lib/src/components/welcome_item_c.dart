@@ -48,7 +48,7 @@ class WelcomeItem extends StatelessWidget {
 
             // const Spacer(),
 
-            Container(
+            SizedBox(
               height: 150,
               width: 150,
               child: image!
@@ -64,6 +64,7 @@ class WelcomeItem extends StatelessWidget {
                     text: title,
                     hexaColor: textColor,
                     fontWeight: FontWeight.w600,
+                    fontSize: 18,
                   ),
                 ],
               ),

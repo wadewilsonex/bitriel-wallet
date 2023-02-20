@@ -289,6 +289,7 @@ class MyGradientButton extends StatelessWidget {
           hexaColor: textColor!,
           fontWeight: fontWeight!,
           // width: 100,
+          fontSize: 18,
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -536,7 +537,6 @@ class MyIconButton extends StatelessWidget {
           MyText(
             text: title,
             hexaColor: txtColor,
-            fontSize: 14,
             fontWeight: isActive! ? FontWeight.w600 : FontWeight.normal,
           )
         ],

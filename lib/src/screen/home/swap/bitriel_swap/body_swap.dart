@@ -137,7 +137,7 @@ class SwapPageBody extends StatelessWidget {
             const MyText(
               text: 'Enter how much you want to swap',
               fontWeight: FontWeight.bold,
-              
+              fontSize: 17,
             ),
       
             // MyText(
@@ -185,6 +185,7 @@ class SwapPageBody extends StatelessWidget {
                   text: 'You Pay',
                   fontWeight: FontWeight.bold,
                   hexaColor: AppColors.primaryColor,
+                  fontSize: 18,
                 ),
                 
                 Expanded(child: Container()),
@@ -192,7 +193,6 @@ class SwapPageBody extends StatelessWidget {
                 const MyText( 
                   text: 'Balance: ',
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
                 ),
 
                 Consumer<SwapProvider>(
@@ -202,14 +202,12 @@ class SwapPageBody extends StatelessWidget {
                         MyText(
                           text: provider.balance1,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
                           
                         ),
                         SizedBox(width: 1.w),
                         MyText(
                           text: provider.name1,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
                           
                         ),
                       ],
@@ -289,6 +287,7 @@ class SwapPageBody extends StatelessWidget {
                   text: 'You Get',
                   fontWeight: FontWeight.bold,
                   hexaColor: AppColors.primaryColor,
+                  fontSize: 18,
                 ),
 
                 Expanded(child: Container()),
@@ -296,7 +295,6 @@ class SwapPageBody extends StatelessWidget {
                 const MyText( 
                   text: 'Balance: ',
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
                 ),
 
                 Consumer<SwapProvider>(
@@ -306,15 +304,12 @@ class SwapPageBody extends StatelessWidget {
                         MyText(
                           text: provider.balance2,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
                           
                         ),
                         SizedBox(width: 1.w),
                         MyText(
                           text: provider.name2,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                          
                         ),
                       ],
                     );
@@ -482,7 +477,6 @@ class SwapPageBody extends StatelessWidget {
                   ),
                   child: MyText(
                     text: percent[i],
-                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     // color: AppColors.whiteColorHexa,
                     color2: percentActive == i+1 ? Colors.white : hexaCodeToColor(AppColors.primaryColor)
