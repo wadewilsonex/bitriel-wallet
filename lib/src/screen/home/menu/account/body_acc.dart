@@ -106,9 +106,7 @@ class AccountBody extends StatelessWidget{
                             
                             MyText(
                               text: provider.accountM.name ?? '',
-                              hexaColor: isDarkMode
-                                ? AppColors.whiteColorHexa
-                                : AppColors.textColor,
+                              hexaColor: AppColors.primaryColor,
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),

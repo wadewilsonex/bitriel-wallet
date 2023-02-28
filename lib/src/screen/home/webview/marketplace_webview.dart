@@ -21,6 +21,8 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
   final GlobalKey webViewKey = GlobalKey();
   double _progress = 0;
   bool? isSecure;
+  
+  String getUrl = "";
 
   WalletConnectComponent? _wConnectC;
 
@@ -31,6 +33,10 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
     _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 
     _wConnectC!.setBuildContext = context;
+
+    setState(() {
+      getUrl = widget.url;
+    });
     
   }
 
@@ -91,7 +97,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                       ),
                       Flexible(
                         child: Text(
-                          widget.url,
+                          getUrl,
                           style: const TextStyle(fontSize: 12, color: Colors.white70),
                           overflow: TextOverflow.fade,
                         )
@@ -125,7 +131,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
               children: [
                 InAppWebView(
                   key: webViewKey,
-                  initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+                  initialUrlRequest: URLRequest(url: getUrl.startsWith("https") == true ? Uri.parse(getUrl) : Uri.parse("https://www.google.com/search?q=$getUrl")),
                   onWebViewCreated: (InAppWebViewController controller) {
                     webViewController = controller;
                   },
@@ -133,17 +139,17 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                   onLoadStart: (controller, url) {
                     if (url != null) {
                       setState(() {
-                        // widget.url = url.toString();
+                        getUrl = url.toString();
                         isSecure = urlIsSecure(url);
                       });
                     }
                   },
                   onLoadStop: (controller, url) async {
-                    // if (url != null) {
-                    //   setState(() {
-                    //     this.url = url.toString();
-                    //   });
-                    // }
+                    if (url != null) {
+                      setState(() {
+                        getUrl = url.toString();
+                      });
+                    }
           
                     final sslCertificate = await controller.getCertificate();
                     setState(() {
@@ -211,7 +217,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
             IconButton(
               icon: const Icon(Iconsax.share),
               onPressed: () {
-                Share.share(widget.url, subject: widget.title);
+                Share.share(getUrl, subject: widget.title);
               },
             ),
             IconButton(
@@ -252,7 +258,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
   void handleClick(int item) async {
     switch (item) {
       case 0:
-        await InAppBrowser.openWithSystemBrowser(url: Uri.parse(widget.url));
+        await InAppBrowser.openWithSystemBrowser(url: Uri.parse(getUrl));
         break;
     }
   }

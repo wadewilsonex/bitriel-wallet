@@ -97,21 +97,21 @@ class DiscoverPageBody extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         image: const DecorationImage(
-          image: AssetImage('assets/search_bg.png'),
+          image: AssetImage('assets/search_bg.jpg'),
           fit: BoxFit.cover,
         ),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
           child: Padding(
             padding: const EdgeInsets.all(paddingSize),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const MyText(
-                  text: 'Browser',
+                  text: 'DApp Browser',
                   fontWeight: FontWeight.w700,
                   color2: Colors.white,
                   fontSize: 20,
@@ -122,7 +122,7 @@ class DiscoverPageBody extends StatelessWidget {
                 const MyText(
                   right: 25,
                   left: 25,
-                  text: "Welcome to Bitriel browser you can search any site you want",
+                  text: "Welcome to Bitriel DApp browser you can search any DApp sites you want",
                   color2: Colors.white,
                 ),
                 const SizedBox(
@@ -133,14 +133,15 @@ class DiscoverPageBody extends StatelessWidget {
                   onFieldSubmitted: (val) {
                     Navigator.push(
                       context,
-                      Transition(child: MarketPlaceWebView(url: searchController!.text, title: "Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                      Transition(child: MarketPlaceWebView(url: searchController!.text, title: "DApp Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
+                    searchController!.clear();
                   },
                   controller: searchController,
                   textInputAction: TextInputAction.search,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: hexaCodeToColor(AppColors.whiteColorHexa),
+                    fontSize: 20,
+                    color: hexaCodeToColor(AppColors.blackColor),
                   ),
                   decoration: InputDecoration(
                     
@@ -159,25 +160,26 @@ class DiscoverPageBody extends StatelessWidget {
                       borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
                     ),
 
-                    hintText: "Enter site name or URL",
+                    hintText: "Enter dapp site name or URL",
                     hintStyle: TextStyle(
-                      fontSize: 14,
-                      color: hexaCodeToColor(AppColors.whiteColorHexa),
+                      fontSize: 20,
+                      color: hexaCodeToColor(AppColors.blackColor),
                     ),
 
                     prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
                     
                     /* Prefix Text */
                     filled: true,
-                    fillColor: hexaCodeToColor("#D9D9D9").withOpacity(0.5),
+                    fillColor: hexaCodeToColor("#D9D9D9").withOpacity(0.9),
                     suffixIcon: IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          Transition(child: MarketPlaceWebView(url: searchController!.text, title: "Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                          Transition(child: MarketPlaceWebView(url: searchController!.text, title: "DApp Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                         );
+                        searchController!.clear();
                       },
-                      icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.whiteHexaColor), size: 20),
+                      icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.primaryColor), size: 20),
                     ),
                   ),
                 ),

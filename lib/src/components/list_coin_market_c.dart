@@ -19,8 +19,8 @@ class CoinMarketList extends StatelessWidget {
         children: <Widget>[
           // Asset Logo
           listCoinMarket![index!].image != null ? SizedBox(
-            height: 50,
-            width: 50,
+            height: 45,
+            width: 45,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(color: Colors.white, child: Image.network(listCoinMarket![index!].image!))
@@ -28,8 +28,8 @@ class CoinMarketList extends StatelessWidget {
           ) 
           : const ClipRRect(
             child: SizedBox(
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
             ),
           ),
       

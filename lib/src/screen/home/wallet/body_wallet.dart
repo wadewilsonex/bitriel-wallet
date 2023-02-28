@@ -24,107 +24,81 @@ class WalletPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-      body: BodyScaffold(
-        scrollController: model!.scrollController,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        // physic: const BouncingScrollPhysics(),
-        isSafeArea: false,
-        bottom: 0,
-        child: Container(
-          // padding: const EdgeInsets.all(20),
-          color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                child: _userWallet(context),
-              ),
-        
-
-              const SizedBox(height: 10,),
-
-              Expanded(
-                child: DefaultTabController(
-                  length: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TabBar(
-                          labelColor: hexaCodeToColor(AppColors.primaryColor),
-                          unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-                          indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-                          labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-                          unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
-                          tabs: const [
-                            Tab(
-                              text: "Assets",
-                            ),
-                                        
-                            Tab(
-                              text: "NFTs",
-                            )
-                          ],
-                        ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+        body: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverSafeArea(
+                top: false,
+                sliver: SliverAppBar(
+                  toolbarHeight: 250,
+                  pinned: true,
+                  floating: true,
+                  snap: true,
+                  title: _userWallet(context),
+                  centerTitle: true,
+                  automaticallyImplyLeading: false,
+                  bottom: TabBar(
+                    labelColor: hexaCodeToColor(AppColors.primaryColor),
+                    unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                    indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                    labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                    unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                    tabs: const [
+                      Tab(
+                        text: "Assets",
                       ),
-                
-                      Expanded(
-                        child: TabBarView(
-                          // physics: const BouncingScrollPhysics(),
-                          children: [
-                            
-                            SingleChildScrollView(
-                              child: Container(
-                                // height: MediaQuery.of(context).size.height,
-                                margin: const EdgeInsets.symmetric(horizontal: 20),
-                                child: Column(
-                                  children: [
-
-                                    const SizedBox(height: 10),
-                                    _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
-
-                                    _addMoreAsset(context),
-                                  ],
-                                )
-                              ),
-                            ),
-                                    
-                            // const Center(
-                            //   child: MyText(
-                            //     text: "Your NFTs will be shown here",
-                            //     hexaColor: AppColors.greyCode,
-                            //     fontSize: 17,
-                            //   ),
-                            // ),
-                            ListView(
-                              children: [
-                                for (int i = 0; i < 10; i++)
-                                Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                    child: _nftAndTicket(context)
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                  
+                      Tab(
+                        text: "NFTs",
                       )
                     ],
                   ),
                 ),
               ),
-              // _otherNetworkList(context),
-            ],
-          ),
+            ),
+          ],
+          
+          body: _tabBarView(context),
         ),
       ),
+    );
+  }
+
+  Widget _tabBarView(BuildContext context) {
+    return TabBarView(
+      children: [
+        
+        SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+
+                const SizedBox(height: 10),
+                _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+
+                _addMoreAsset(context),
+              ],
+            )
+          ),
+        ),
+          
+        ListView(
+          children: [
+            for (int i = 0; i < 10; i++)
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: _nftAndTicket(context)
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -138,7 +112,7 @@ class WalletPageBody extends StatelessWidget {
             color: hexaCodeToColor(AppColors.whiteColorHexa),
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             image: const DecorationImage(
-              image: AssetImage('assets/5250206.jpg'),
+              image: AssetImage('assets/bg-glass.jpg'),
               fit: BoxFit.cover
             ),
           ),

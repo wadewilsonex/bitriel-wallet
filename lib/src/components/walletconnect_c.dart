@@ -2,6 +2,7 @@ import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_connect/wallet_connect.dart';
+import 'package:wallet_connect_dart_v2/wallet_connect_dart_v2.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
@@ -118,11 +119,11 @@ class WalletConnectComponent with ChangeNotifier {
 
       final session = WCSession.from(value);
       final peerMeta = WCPeerMeta(
-        name: "Example Wallet",
+        name: "WalletConnect",
         url: session.bridge,
-        description: "Example Wallet",
+        description: "WalletConnect Developer App",
         icons: [
-          // "https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png"
+          'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
         ],
       );
       // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
@@ -741,10 +742,8 @@ class WalletConnectComponent with ChangeNotifier {
                         );
                       } else {
                         final creds = EthPrivateKey.fromHex(privateKey);
-                        final encodedMessage =
-                            hexToBytes(ethereumSignMessage.data!);
-                        final signedData =
-                            await creds.signPersonalMessage(encodedMessage);
+                        final encodedMessage = hexToBytes(ethereumSignMessage.data!);
+                        final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
                         signedDataHex = bytesToHex(signedData, include0x: true);
                       }
                       wcClient.approveRequest<String>(

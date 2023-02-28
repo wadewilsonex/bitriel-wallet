@@ -121,11 +121,11 @@ dependencies:
 
   animations: ^2.0.7
   provider: ^6.0.3
-  web3dart:
-  bip39: ^1.0.6
+  web3dart: ^2.6.1
+  # bip39: ^1.0.6
 
   dart_ecpair: ^1.0.2
-  defichaindart: ^3.8.7+3
+  flutter_bitcoin: ^1.0.1
 
   flutter_secure_storage: ^6.0.0
   # flutter_screenshot_switcher: ^2.1.0
@@ -153,11 +153,10 @@ dependencies:
   action_slider: ^0.6.0
 
   # Third-party
-  walletconnect_dart: ^0.0.11
   wallet_connect: ^1.0.2
+  wallet_connect_dart_v2: ^0.0.1
   eth_sig_util: ^0.0.9
   flutter_stripe: ^7.0.0
-
   flutter_native_splash: ^2.2.8
   random_avatar: ^0.0.7
 

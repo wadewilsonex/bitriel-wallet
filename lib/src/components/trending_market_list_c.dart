@@ -20,8 +20,8 @@ class TrendMarketList extends StatelessWidget {
       
           // Asset Logo
           trendingCoin![index!].item.large != null ? SizedBox(
-            height: 50,
-            width: 50,
+            height: 45,
+            width: 45,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(color: Colors.white, child: Image.network(trendingCoin![index!].item.large!, fit: BoxFit.fill,))
@@ -29,8 +29,8 @@ class TrendMarketList extends StatelessWidget {
           ) 
           : const ClipRRect(
             child: SizedBox(
-              height: 50,
-              width: 50,
+              height: 45,
+              width: 45,
             ),
           ),
       

@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 
 import 'fullscreen_img_c.dart';
@@ -186,12 +183,14 @@ class NFTDetail extends StatelessWidget {
                           text: ' $price SEL',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
+                          fontSize: 18,
                         ),
 
                         MyText(
                           text: ' ≈ USD \$$price',
                           hexaColor: AppColors.primaryColor,
                           fontWeight: FontWeight.w600,
+                          fontSize: 18,
                         ),
 
                       ],

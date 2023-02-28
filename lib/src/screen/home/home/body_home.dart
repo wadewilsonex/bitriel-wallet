@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/circle_tab_indicator_c.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
@@ -63,50 +63,46 @@ class HomePageBody extends StatelessWidget {
 
           WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
           
-                // Container(
-                //   height: 130,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(5)
-                //   ),
-                //   margin: const EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize, bottom: 20),
-                //   child: ClipRRect(
-                //     borderRadius: BorderRadius.circular(5),
-                //     child: InkWell(
-                //       onTap: (){
-                //         Navigator.push(
-                //           context,
-                //           Transition(child: const MarketPlaceWebView(url: "https://booking.doformetaverse.com/", title: "Do For Metaverse",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                //         );
-                //       },
-                //       child: VideoPlayer(videoController!),
-                //     ),
-                //   ),
-                // ),
-                
-                // _carouselAds(context, homePageModel!.adsCarouselActiveIndex),
-          
-                // ShowCaseWidget(
-                //   builder: Builder(
-                //     builder : (context) => Container()
-                //   ),
-                // ),
-          
-                const SizedBox(height: 10), 
-                _menu(context),
-          
-                const SizedBox(height: 10), 
-          
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.5,
-                  child: _coinMenuCategory()
+          DefaultTabController(
+            length: 2,
+            child: NestedScrollView(
+              floatHeaderSlivers: true,
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverSafeArea(
+                    top: false,
+                    sliver: SliverAppBar(
+                      toolbarHeight: 300,
+                      pinned: true,
+                      floating: true,
+                      snap: true,
+                      title: _menu(context),
+                      centerTitle: true,
+                      automaticallyImplyLeading: false,
+                      bottom: TabBar(
+                        labelColor: hexaCodeToColor(AppColors.primaryColor),
+                        unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                        indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                        labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                        unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                        tabs: const [
+                          Tab(
+                            text: "Trendings",
+                          ),
+                                      
+                          Tab(
+                            text: "Markets",
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
+              
+              body: _coinMenuCategory(),
             ),
           ),
 
@@ -205,7 +201,7 @@ class HomePageBody extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -232,9 +228,9 @@ class HomePageBody extends StatelessWidget {
                   },
                 ),
               ),
-
+            
               const SizedBox(width: 10,),
-
+            
               Expanded(
                 child: MyMenuItem(
                   title: "Staking",
@@ -248,9 +244,9 @@ class HomePageBody extends StatelessWidget {
             ],
           ),
         ),
-
+    
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: paddingSize , vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -264,9 +260,9 @@ class HomePageBody extends StatelessWidget {
                   },
                 ),
               ),
-
+    
               const SizedBox(width: 10,),
-
+    
               Expanded(
                 child: MyMenuItem(
                   title: "bitriel NFT",
@@ -283,7 +279,7 @@ class HomePageBody extends StatelessWidget {
                   },
                 ),
               ),
-
+    
             ],
           ),
         ),
@@ -292,77 +288,79 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _coinMenuCategory() {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-      
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: TabBar(
-              labelColor: hexaCodeToColor(AppColors.primaryColor),
-              unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-              indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-              labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-              unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
-              tabs: const [
-                Tab(
-                  text: "Trendings",
-                ),
+    return TabBarView(
+      children: [
 
-                Tab(
-                  text: "Markets",
-                ),
-
-                // Tab(
-                //   text: "News",
-                // )
-              ],
-            ),
-          ),
-      
-          Expanded(
-            child: TabBarView(
-              children: [
-
-                Consumer<MarketProvider>(
-                  builder: (context, marketProvider, widget) {
-                    return SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          CoinTrending(trendingCoin: marketProvider.cnts,),
-                    
-                          AppUtils.discliamerText(),
+        Consumer<MarketProvider>(
+          builder: (context, marketProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
+                  if (marketProvider.cnts.isNotEmpty)
+                  CoinTrending(trendingCoin: marketProvider.cnts,)
+                            
+                  else if(marketProvider.cnts.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                        "assets/animation/search_empty.json",
+                        repeat: true,
+                        reverse: true,
+                        width: 70.w,
+                        ),
+                                  
+                        const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
+                                  
                         ],
                       ),
-                    );
-                  }
-                ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
 
-                Consumer<MarketProvider>(
-                  builder: (context, marketProvider, widget) {
-                    return SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,),
-                          
-                          AppUtils.discliamerText(),
+        Consumer<MarketProvider>(
+          builder: (context, marketProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
+                  if (marketProvider.lsMarketLimit.isNotEmpty)
+                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                            
+                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                        "assets/animation/search_empty.json",
+                        repeat: true,
+                        reverse: true,
+                        width: 70.w,
+                        ),
+                                  
+                        const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
+                                  
                         ],
                       ),
-                    );
-                  }
-                ),
-
-                // const MyText(text: "News",),
-              ],
-            ),
-          )
-        ],
-      ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
+      ],
     );
   }
 

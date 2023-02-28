@@ -84,7 +84,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 hexaColor: AppColors.greyCode,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
-                fontSize: 14,
+                fontSize: 15,
               ),
 
               const SizedBox(height: 5,),
@@ -97,7 +97,7 @@ class ListTicketTypeBody extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.start,
                 overflow: TextOverflow.ellipsis,
-                fontSize: 12,
+                fontSize: 15,
               ),
             ],
           ),

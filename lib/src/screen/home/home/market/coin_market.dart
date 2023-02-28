@@ -13,67 +13,37 @@ class CoinMarket extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: paddingSize),
       itemCount: 7,
       shrinkWrap: true,
       itemBuilder: (context, index){
         return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            if (lsMarketCoin == null) const CircularProgressIndicator()
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
 
-            else if (lsMarketCoin!.isNotEmpty)
-            Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              CoinMarketList(listCoinMarket: lsMarketCoin, index: index),
-
-              if (index == 6) InkWell(
-                  onTap: () async{
-                    await showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        isDismissible: true,
-                        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(25.0),
-                          ),
-                        ),
-                        builder: (context) => _viewAllCoin(context)
-                    );
-                  },
-                  child: const MyText(
-                    text: "View All",
-                    hexaColor: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                  )
-                ),
-
-              ],
-            )
-
-            else if(lsMarketCoin!.isEmpty)
-            Center(
-              child: Column(
-              children: [
-
-                SizedBox(height: 7.h),
-
-                Lottie.asset(
-                "assets/animation/search_empty.json",
-                repeat: true,
-                reverse: true,
-                width: 70.w,
-                ),
-
-                const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
-                ],
-              ),
-            )
-
+          if (index == 6) InkWell(
+              onTap: () async{
+                await showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    isDismissible: true,
+                    backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    builder: (context) => _viewAllCoin(context)
+                );
+              },
+              child: const MyText(
+                text: "View All",
+                hexaColor: AppColors.primaryColor,
+                fontWeight: FontWeight.bold,
+              )
+            ),
 
           ],
         );
