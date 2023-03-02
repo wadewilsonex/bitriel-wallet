@@ -7,6 +7,7 @@ class HomeFunctional {
 
   /// Change SELENDRA Network
   Future changeNetwork({required BuildContext? context, required StateSetter? setState}) async {
+    
     return showBarModalBottomSheet(
       context: context!,
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),

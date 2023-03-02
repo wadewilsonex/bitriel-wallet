@@ -37,20 +37,23 @@ Padding chartAsset(
           ),
           child: Column(
             children: [
-              // MyText(
-              //   text: "\$$marketPrice",
-              //   hexaColor: AppColors.textColor,
-              //   fontSize: 25,
-              //   fontWeight: FontWeight.w700,
-              // ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   SizedBox(
-                    width: 30.sp,
-                    child: logo!,
+                    height: 55,
+                    width: 55,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(color: Colors.white, child: logo),
+                    ),
                   ),
+                  // SizedBox(
+                  //   width: 30.sp,
+                  //   child: logo!,
+                  // ),
 
                   Padding(
                     padding: EdgeInsets.only(left: 1.w),

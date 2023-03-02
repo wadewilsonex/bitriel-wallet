@@ -9,8 +9,6 @@ class MarketProvider with ChangeNotifier {
   
   List<CoinsModel> cnts = List<CoinsModel>.empty(growable: true);
 
-  List<ListMetketCoinModel> lsMarketCoin = List<ListMetketCoinModel>.empty(growable: true);
-
   List<ListMetketCoinModel> lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
 
   List<Map<String, dynamic>>? lsCoin = [];
@@ -46,7 +44,7 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<List<double>>?> fetchLineChartData(String id) async {
     List<List<double>>? prices;
-    final res = await http.get(Uri.parse( 'https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
+    final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/$id/market_chart?vs_currency=usd&days=1'));
 
     if (res.statusCode == 200) {
       final data = await jsonDecode(res.body);
@@ -66,77 +64,78 @@ class MarketProvider with ChangeNotifier {
     final api = Provider.of<ApiProvider>(context, listen: false);
     sortDataMarket.clear();
 
-    for (int i = 0; i < id.length; i++) {
-      try {
+    final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
 
-        final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id[i]}'));
+    final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
 
-        final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
+    // for (int i = 0; i < id.length; i++) {
+    try {
 
-        if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
+      if (response.statusCode == 200 && jsonResponse.isNotEmpty) {
 
-          sortDataMarket.addAll({jsonResponse[0]});
+        for (int i = 0; i < jsonResponse.length; i++) {
 
-          final lineChartData = await fetchLineChartData(id[i]);
+          sortDataMarket.addAll({jsonResponse[i]});
+        
 
-          final res = parseMarketData(jsonResponse);
+          List<List<double>> lineChartData = [];//await fetchLineChartData(jsonResponse[i]['id']);
 
-          if (i == 0) {
+          final res = Market();// parseMarketData(jsonResponse);
+      
+        
+          if (jsonResponse[i]['id'] == "kiwigo") {
             contract.setkiwigoMarket(
-              res!,
-              lineChartData!,
-              jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
+              res,
+              lineChartData,
+              jsonResponse[i]['current_price'].toString(),
+              jsonResponse[i]['price_change_percentage_24h'] == null ? "0" : jsonResponse[i]['price_change_percentage_24h'].toString(),
             );
-          } else if (i == 1) {
+          } else if (jsonResponse[i]['id'] == "ethereum") {
             contract.setEtherMarket(
-              res!,
-              lineChartData!,
-              jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
+              res,
+              lineChartData,
+              jsonResponse[i]['current_price'].toString(),
+              jsonResponse[i]['price_change_percentage_24h'] == null ? "0" : jsonResponse[i]['price_change_percentage_24h'].toString(),
             );
-          } else if (i == 2) {
+          } else if (jsonResponse[i]['id'] == "binancecoin") {
             contract.setBnbMarket(
-              res!,
-              lineChartData!,
-              jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
+              res,
+              lineChartData,
+              jsonResponse[i]['current_price'].toString(),
+              jsonResponse[i]['price_change_percentage_24h'] == null ? "0" : jsonResponse[i]['price_change_percentage_24h'].toString(),
             );
-          } else if (i == 3) {
+          } else if (jsonResponse[i]['id'] == "polkadot") {
             await api.setDotMarket(
-              res!,
-              lineChartData!,
-              jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h']
-                  .toStringAsFixed(2)
-                  .toString(),
+              res,
+              lineChartData,
+              jsonResponse[i]['current_price'].toString(),
+              jsonResponse[i]['price_change_percentage_24h'] == null ? "0" : jsonResponse[i]['price_change_percentage_24h'].toString(),
               context: context
             );
-          } else if (i == 4) {
+          } else if (jsonResponse[i]['id'] == "bitcoin") {
             await api.setBtcMarket(
-              res!,
-              lineChartData!,
-              jsonResponse[0]['current_price'].toString(),
-              jsonResponse[0]['price_change_percentage_24h'].toStringAsFixed(2).toString(),
+              res,
+              lineChartData,
+              jsonResponse[i]['current_price'].toString(),
+              jsonResponse[i]['price_change_percentage_24h'] == null ? "0" : jsonResponse[i]['price_change_percentage_24h'].toString(),
               context: context
             );
           }
-        }
 
-        notifyListeners();
-      } catch (e) {
-        if (ApiProvider().isDebug == true) {
-          if (kDebugMode) {
-            print("Error fetchTokenMarketPrice $e");
-          }
         }
-        return;
       }
+
+      notifyListeners();
+    } catch (e) {
+      if (ApiProvider().isDebug == true) {
+        if (kDebugMode) {
+          print("Error fetchTokenMarketPrice $e");
+        }
+      }
+      return;
     }
+    
+    // }
 
     // Sort Market Price
     // Map<String, dynamic> tmp = {};
@@ -179,6 +178,8 @@ class MarketProvider with ChangeNotifier {
     try {
 
       queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id'))).body)[0];
+
+      print("queried queryCoinFromMarket $queried");
       
     } catch (e){
       
@@ -198,7 +199,7 @@ class MarketProvider with ChangeNotifier {
 
       if (res.statusCode == 200) {
         final data = await jsonDecode(res.body);
-
+        
         for(int i = 0; i < data['coins'].length; i++){
           
           cnts.add(CoinsModel.fromJson(data['coins'][i]));
@@ -243,8 +244,6 @@ class MarketProvider with ChangeNotifier {
   Future<List<ListMetketCoinModel>> listMarketCoin() async{
 
     try {
-      
-      // final res = Response(json.encode(list), 200);
 
       final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
 
@@ -258,7 +257,6 @@ class MarketProvider with ChangeNotifier {
           lsMarketLimit.add(ListMetketCoinModel().fromJson(data[i]));
 
         }
-      
         notifyListeners();
 
         return lsMarketLimit;

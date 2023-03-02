@@ -307,16 +307,22 @@ class HomePageBody extends StatelessWidget {
                       children: [
                                   
                         Lottie.asset(
-                        "assets/animation/search_empty.json",
-                        repeat: true,
-                        reverse: true,
-                        width: 70.w,
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
                         ),
+                        
                                   
-                        const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )
                                   
-                        ],
-                      ),
+                      ],
+                    ),
                   ),
                   
                   AppUtils.discliamerShortText(context),
@@ -342,16 +348,20 @@ class HomePageBody extends StatelessWidget {
                       children: [
                                   
                         Lottie.asset(
-                        "assets/animation/search_empty.json",
-                        repeat: true,
-                        reverse: true,
-                        width: 70.w,
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
                         ),
                                   
-                        const MyText(text: "Opps, Something went wrong!", fontSize: 17, fontWeight: FontWeight.w600,)
-                                  
-                        ],
-                      ),
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )          
+                      ],
+                    ),
                   ),
                   
                   AppUtils.discliamerShortText(context),

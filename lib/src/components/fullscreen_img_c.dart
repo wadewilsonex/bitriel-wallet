@@ -1,4 +1,3 @@
-import 'package:get/utils.dart';
 import 'package:wallet_apps/index.dart';
 
 class FullScreenImageViewer extends StatefulWidget {

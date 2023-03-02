@@ -35,7 +35,7 @@ class DiscoverPageBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: MyText(
                 text: "DeFi",
-                fontSize: 17.5,
+                fontSize: 20,
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w600,
               ),
@@ -55,7 +55,7 @@ class DiscoverPageBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: MyText(
                 text: "NFTs",
-                fontSize: 17.5,
+                fontSize: 20,
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w600,
               ),
@@ -75,7 +75,7 @@ class DiscoverPageBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: paddingSize),
               child: MyText(
                 text: "DApps",
-                fontSize: 17.5,
+                fontSize: 20,
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w600,
               ),
@@ -122,8 +122,9 @@ class DiscoverPageBody extends StatelessWidget {
                 const MyText(
                   right: 25,
                   left: 25,
-                  text: "Welcome to Bitriel DApp browser you can search any DApp sites you want",
+                  text: "Welcome to bitriel DApp browser you can search any DApp sites you want",
                   color2: Colors.white,
+                  fontSize: 18,
                 ),
                 const SizedBox(
                   height: 20,
@@ -179,7 +180,7 @@ class DiscoverPageBody extends StatelessWidget {
                         );
                         searchController!.clear();
                       },
-                      icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.primaryColor), size: 20),
+                      icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.primaryColor), size: 30),
                     ),
                   ),
                 ),

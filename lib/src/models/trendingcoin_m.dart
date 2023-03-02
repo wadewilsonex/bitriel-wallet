@@ -1,3 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:wallet_apps/src/models/linechart_m.dart';
+
 class CoinsModel {
   
   late Item item;
@@ -21,6 +24,7 @@ class Item {
       this.slug,
       this.priceBtc,
       this.score,
+      this.chart,
     });
 
     String? id;
@@ -34,6 +38,9 @@ class Item {
     String? slug;
     double? priceBtc;
     int? score;
+    List<List<double>>? lineChartList = [];
+    List<FlSpot>? chart;
+    LineChartModel? lineChartModel = LineChartModel();
     
     Item fromJson(Map<String, dynamic> json){
       id = json['item']['id'];

@@ -58,6 +58,11 @@ class AssetDetailState extends State<AssetDetail> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -90,7 +95,7 @@ class AssetDetailState extends State<AssetDetail> {
                 widget.scModel.chart!,
               ),
             ),
-            // else Container(),
+
 
             SizedBox(height: 2.h),
             
