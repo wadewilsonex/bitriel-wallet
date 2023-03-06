@@ -380,9 +380,8 @@ class MyBottomAppBar extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
             ),
-            padding: const EdgeInsets.symmetric(vertical: 5),
             child: SizedBox(
-              height: 8.h,
+              height: 10.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

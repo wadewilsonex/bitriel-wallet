@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/api/api_chart.dart';
 import 'package:wallet_apps/src/components/chart/chart_m.dart';
@@ -93,6 +94,25 @@ class _CoinMarketListState extends State<CoinMarketList> {
                           ),
                         ),
                       )
+
+                      else Center(
+                        child: Column(
+                          children: [
+
+                            Lottie.asset(
+                              "assets/animation/search_empty.json",
+                              repeat: true,
+                              reverse: true,
+                              width: 70.w,
+                            ),
+
+                            const Padding(
+                              padding: EdgeInsets.all(paddingSize),
+                              child: MyText(text: "Sorry, there are no results for this coin!", fontSize: 18, fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                      ),
                       
                     ],
                   ),

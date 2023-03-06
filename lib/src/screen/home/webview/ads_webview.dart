@@ -42,10 +42,11 @@ class _AdsWebViewState extends State<AdsWebView> {
           text: widget.item != null ? widget.item!['title'] : widget.title!,
           fontWeight: FontWeight.bold,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          fontSize: 20,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
       ),
       body: Stack(

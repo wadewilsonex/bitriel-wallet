@@ -4,8 +4,10 @@ class AvatarShimmer extends StatelessWidget{
 
   final String? txt;
   final Widget? child;
+  final double? width;
+  final double? height;
 
-  const AvatarShimmer({Key? key, this.txt, this.child}) : super(key: key);
+  const AvatarShimmer({Key? key, this.txt, this.child, this.width = 50, this.height = 50}) : super(key: key);
 
   @override
   Widget build (BuildContext context){
@@ -22,8 +24,8 @@ class AvatarShimmer extends StatelessWidget{
           ? Colors.white.withOpacity(0.5)
           : Colors.grey[100]!,
         child: Container(
-          width: 10.w,
-          height: 10.w,
+          width: width,
+          height: height,
           margin: const EdgeInsets.only(right: 5),
           decoration: BoxDecoration(
             color: isDarkMode
@@ -34,8 +36,8 @@ class AvatarShimmer extends StatelessWidget{
         ),
       ) 
       : Container(
-        width: 10.w,
-        height: 10.w,
+        width: width,
+        height: height,
         margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           color: isDarkMode

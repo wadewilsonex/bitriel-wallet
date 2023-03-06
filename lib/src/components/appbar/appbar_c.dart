@@ -1,3 +1,4 @@
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
@@ -38,11 +39,14 @@ PreferredSizeWidget defaultAppBar({
             builder: (context, provider, child) {
               return GestureDetector(
                   onTap: () async {
-                    homePageModel!.globalKey!.currentState!.openDrawer();
+                    // homePageModel!.globalKey!.currentState!.openDrawer();
+                    bottomSheetAddAccount(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: AvatarShimmer(
+                      height: 45,
+                      width: 45,
                       txt: provider.accountM.addressIcon,
                       child: randomAvatar(provider.accountM.addressIcon ?? ''),
                     ),
@@ -75,7 +79,8 @@ PreferredSizeWidget defaultAppBar({
                           child: MyText(
                             text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
-                            textAlign: TextAlign.center
+                            textAlign: TextAlign.center,
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -85,11 +90,11 @@ PreferredSizeWidget defaultAppBar({
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          MyText(text: "Selendra", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 15,),
+                          MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 18,),
 
                             Padding(
                             padding: const EdgeInsets.only(left: 4),
-                            child: Icon(Iconsax.arrow_down_1, size: 20.sp, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
+                            child: Icon(Iconsax.arrow_down_1, size: 25, color: isDarkMode ? Colors.white : hexaCodeToColor("#5C5C5C"),),
                           )
                         ],
                       ),
@@ -137,68 +142,140 @@ PreferredSizeWidget defaultAppBar({
   );
 }
 
-class AppBarCustom extends StatelessWidget {
-  final double? pLeft;
-  final double? pTop;
-  final double? pRight;
-  final double? pBottom;
-  final EdgeInsetsGeometry? margin;
-  final Function? onPressed;
-  final Color? color;
-  final Widget? tile;
-  final GlobalKey<ScaffoldState>? globalKey;
-  
-  const AppBarCustom({Key? key, 
-    this.pLeft = 0,
-    this.pTop = 0,
-    this.pRight = 0,
-    this.pBottom = 0,
-    this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
-    this.color,
-    this.onPressed,
-    this.tile,
-    this.globalKey,
-  }) : super(key: key);
+void bottomSheetAddAccount(BuildContext context) async{
+  return showBarModalBottomSheet(
+    backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical( 
+        top: Radius.circular(25.0),
+      ),
+    ),
+    context: context,
+    builder: (BuildContext context) {
+      return ListView.builder(
+        itemCount: 15,
+        itemBuilder: (BuildContext context, int index) {
+          return Consumer<ApiProvider>(
+            builder: (context, provider, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  index == 0 ? const SizedBox(height: 25,) : Container(),
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      key: globalKey,
-      child: Container(
-        height: 65.0,
-        width: MediaQuery.of(context).size.width,
-        margin: margin,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(
-                Iconsax.profile_circle, 
-                size: 25, 
-                color: hexaCodeToColor(AppColors.whiteHexaColor)
-              ),
-              
-              onPressed: () {
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    child: MyText(
+                      text: "Wallet $index",
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color2: Colors.black,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(paddingSize),
+                    child: Row(
+                      children: [
+                        AvatarShimmer(
+                          txt: provider.accountM.addressIcon,
+                          child: randomAvatar(provider.accountM.addressIcon ?? '',),
+                        ),
 
-              },
-            ),
-            
-            IconButton(
-              icon: Icon(
-                Iconsax.scan,
-                size: 25,
-                color: hexaCodeToColor(AppColors.whiteHexaColor),
-              ),
-              onPressed: () {
-                
-              },
-            ),
-          ],
-        )
-      )
-    );
-  }
+                        const SizedBox(width: 10),
+                  
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            MyText(
+                              text: provider.accountM.name,
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              textAlign: TextAlign.start,
+                            ),
+
+                            MyText(
+                              text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              textAlign: TextAlign.start,
+                              hexaColor: AppColors.greyCode,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+          );
+        }
+      );
+    }
+  );
 }
+
+// class AppBarCustom extends StatelessWidget {
+//   final double? pLeft;
+//   final double? pTop;
+//   final double? pRight;
+//   final double? pBottom;
+//   final EdgeInsetsGeometry? margin;
+//   final Function? onPressed;
+//   final Color? color;
+//   final Widget? tile;
+//   final GlobalKey<ScaffoldState>? globalKey;
+  
+//   const AppBarCustom({Key? key, 
+//     this.pLeft = 0,
+//     this.pTop = 0,
+//     this.pRight = 0,
+//     this.pBottom = 0,
+//     this.margin = const EdgeInsets.fromLTRB(0, 0, 0, 0),
+//     this.color,
+//     this.onPressed,
+//     this.tile,
+//     this.globalKey,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       key: globalKey,
+//       child: Container(
+//         height: 65.0,
+//         width: MediaQuery.of(context).size.width,
+//         margin: margin,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             IconButton(
+//               icon: Icon(
+//                 Iconsax.profile_circle, 
+//                 size: 25, 
+//                 color: hexaCodeToColor(AppColors.whiteHexaColor)
+//               ),
+              
+//               onPressed: () {
+
+//               },
+//             ),
+            
+//             IconButton(
+//               icon: Icon(
+//                 Iconsax.scan,
+//                 size: 25,
+//                 color: hexaCodeToColor(AppColors.whiteHexaColor),
+//               ),
+//               onPressed: () {
+                
+//               },
+//             ),
+//           ],
+//         )
+//       )
+//     );
+//   }
+// }
 
 class MyAppBar extends StatelessWidget {
   final double? pLeft;

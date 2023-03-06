@@ -90,7 +90,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                       isSecure != null
                         ? Icon(isSecure == true ? Icons.lock : Icons.lock_open,
                           color: isSecure == true ? Colors.green : Colors.red,
-                          size: 12)
+                          size: 14)
                         : Container(),
                       const SizedBox(
                         width: 5,

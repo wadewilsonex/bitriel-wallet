@@ -36,13 +36,13 @@ class PasscodeBody extends StatelessWidget{
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
 
         actions: [
@@ -342,7 +342,7 @@ class ReuseNumPad extends StatelessWidget {
                 },
                 child: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 20.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 30 * MediaQuery.of(context).textScaleFactor),
                 ),
               )
             ],
@@ -362,22 +362,26 @@ class ReuseKeyBoardNum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: TextButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
+      child: SizedBox(
+        height: 55,
+        width: MediaQuery.of(context).size.width,
+        child: TextButton(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
+            ),
+            backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
           ),
-          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
+          onPressed: onPressed,
+          child: child == null ? Text(
+            '$n',
+            style: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              color: isDarkMode ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ) : child!,
         ),
-        onPressed: onPressed,
-        child: child == null ? Text(
-          '$n',
-          style: TextStyle(
-            fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-            color: isDarkMode ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ) : child!,
       )
     );
   }

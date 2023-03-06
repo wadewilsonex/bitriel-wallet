@@ -22,7 +22,7 @@ class BackUpKeyBody extends StatelessWidget{
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
-            size: 18.sp,
+            size: 30,
           ),
           onPressed: (){
             Navigator.pop(context);
@@ -30,7 +30,7 @@ class BackUpKeyBody extends StatelessWidget{
         ),
         elevation: 0,
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 18, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        title: MyText(text: 'Export Wallet', fontSize: 20, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -85,13 +85,14 @@ class BackUpKeyBody extends StatelessWidget{
                             child: MyText(
                               text: backupSection(context: context)[index].title,
                               fontWeight: FontWeight.bold,
+                              fontSize: 17,
                             ),
                           ),
                         ],
                       ),
                     ),
                     
-                    Icon(backupSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 17,),
+                    Icon(backupSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
 
                   ],
                 ),

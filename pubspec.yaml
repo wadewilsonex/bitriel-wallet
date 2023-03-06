@@ -103,7 +103,7 @@ dependencies:
   pinput: ^2.2.12
   date_format: ^2.0.6
 
-  share_plus: ^4.1.0
+  share_plus: ^6.3.1
 
   vibration: ^1.7.6
  

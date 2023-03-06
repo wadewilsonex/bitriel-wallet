@@ -29,7 +29,7 @@ class WalletConnectBody extends StatelessWidget {
               icon: Icon(
                 Iconsax.arrow_left_2,
                 color: isDarkMode ? Colors.white : Colors.black,
-                size: 18.sp,
+                size: 30,
               ),
               onPressed: (){
                 Navigator.pop(context);
@@ -37,7 +37,7 @@ class WalletConnectBody extends StatelessWidget {
             ),
             elevation: 0,
             backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-            title: MyText(text: 'WalletConnect', fontSize: 18, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+            title: MyText(text: 'WalletConnect', fontSize: 20, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
           ),
           body: SingleChildScrollView(
             child: Padding(

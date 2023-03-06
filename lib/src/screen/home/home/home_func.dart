@@ -1,6 +1,5 @@
 import 'package:awesome_select/awesome_select.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
 import '../../../../../index.dart';
 
 class HomeFunctional {
@@ -22,7 +21,7 @@ class HomeFunctional {
               onPressed: (){
                 Navigator.pop(context);
               }, 
-              icon: Icon(Iconsax.close_circle, color: isDarkMode ? Colors.white : Colors.black,),
+              icon: Icon(Iconsax.close_circle, color: isDarkMode ? Colors.white : Colors.black, size: 30,),
             ), 
   
             title: const MyText(text: "Change Network", fontWeight: FontWeight.bold, fontSize: 18,)
@@ -52,17 +51,16 @@ class HomeFunctional {
                       await provider.connectSELNode(context: context, endpoint: selected.value);
                       
                     },
-                    choiceType: S2ChoiceType.radios,
                     choiceItems: sldNetworkList,
                     choiceStyle: S2ChoiceStyle(titleStyle: TextStyle(color: hexaCodeToColor(AppColors.blackColor))),
-                    modalType: S2ModalType.popupDialog,
+                    modalType: S2ModalType.bottomSheet,
                     modalHeader: false,
                     modalConfig: const S2ModalConfig(
                       style: S2ModalStyle(
-                        backgroundColor: Colors.white70,
+                        backgroundColor: Colors.white,
                         elevation: 1,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
                         ),
                       ),
                     ),

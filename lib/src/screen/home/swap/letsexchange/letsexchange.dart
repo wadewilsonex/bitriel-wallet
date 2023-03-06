@@ -51,13 +51,13 @@ class LetsExchangeState extends State<LetsExchange> {
         backgroundColor: hexaCodeToColor(AppColors.whiteHexaColor),
         title: MyText(
           text: "Let's Exchange",
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
       ),
       body: Stack(

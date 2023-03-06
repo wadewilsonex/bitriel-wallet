@@ -565,12 +565,12 @@ class SubmitTrxState extends State<SubmitTrx> {
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: const MyText(
           text: "Send",
-          fontSize: 17,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
       ),
       body: Stack(

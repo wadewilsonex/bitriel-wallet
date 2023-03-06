@@ -37,13 +37,13 @@ class _PaymentOptionsState extends State<PaymentOptions> {
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Payment Methods",
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
       ),
       body: Column(

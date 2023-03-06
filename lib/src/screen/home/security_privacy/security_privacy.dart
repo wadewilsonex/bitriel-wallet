@@ -11,11 +11,17 @@ class SecurityPrivacy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
         elevation: 0,
+        bottomOpacity: 0,
         title: const MyText(
           text: "Security & Privacy",
-          fontSize: 18,
-          fontWeight: FontWeight.w600
+          hexaColor: AppColors.blackColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
         leading: IconButton(
           onPressed: () {
@@ -24,7 +30,7 @@ class SecurityPrivacy extends StatelessWidget {
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
-            size: 18.sp,
+            size: 30,
           ),
         ),
       ),

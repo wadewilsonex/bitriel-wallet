@@ -40,7 +40,7 @@ class WalletConnectMenuItem extends StatelessWidget {
                 color: hexaCodeToColor(AppColors.warningColor),
                 borderRadius: BorderRadius.circular(10)
               ),
-              child: const MyText(text: "Disconnect", hexaColor: AppColors.whiteColorHexa, fontSize: 14,)
+              child: const MyText(text: "Disconnect", hexaColor: AppColors.whiteColorHexa)
             ),
           ),
         ),

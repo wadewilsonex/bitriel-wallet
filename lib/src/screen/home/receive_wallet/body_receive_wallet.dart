@@ -31,7 +31,7 @@ class ReceiveWalletBody extends StatelessWidget {
                 const MyText(
                   text: "Receive",
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 20,
                 ),
 
                 Expanded(
@@ -57,7 +57,7 @@ class ReceiveWalletBody extends StatelessWidget {
               icon: Icon(
                 Iconsax.arrow_left_2,
                 color: isDarkMode ? Colors.white : Colors.black,
-                size: 18.sp,
+                size: 30,
               ),
             ),
           ),

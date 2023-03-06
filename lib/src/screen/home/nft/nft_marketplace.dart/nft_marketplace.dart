@@ -41,7 +41,7 @@ class NFTMarketPlace extends StatelessWidget {
             },
             icon: const Icon(
               Iconsax.close_circle,
-              size: 28,
+              size: 30,
             ),
           ),
         ],

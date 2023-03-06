@@ -25,7 +25,7 @@ class SelectSwapTokenBody extends StatelessWidget {
           IconButton(
             icon: Icon(
               Iconsax.close_circle,
-              size: 25,
+              size: 30,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
             ),
             onPressed: () {

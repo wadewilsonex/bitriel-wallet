@@ -201,6 +201,7 @@ class MyFlatButton extends StatelessWidget {
               text: textButton!,
               hexaColor: textColor!,
               fontWeight: fontWeight!,
+              fontSize: fontSize,
             ),
             
             subChild ?? Container()
@@ -289,7 +290,7 @@ class MyGradientButton extends StatelessWidget {
           hexaColor: textColor!,
           fontWeight: fontWeight!,
           // width: 100,
-          fontSize: 18,
+          fontSize: fontSize,
           overflow: TextOverflow.ellipsis,
         ),
       ),
