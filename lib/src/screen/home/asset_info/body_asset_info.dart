@@ -1,4 +1,3 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/trx_history_c.dart';
@@ -20,7 +19,7 @@ class AssetInfoBody extends StatelessWidget {
     required this.onPageChange
   }) : super(key: key);
 
-  final double logoSize = 15.w;
+  final double logoSize = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +66,13 @@ class AssetInfoBody extends StatelessWidget {
                                   child: Icon(
                                     Iconsax.arrow_left_2,
                                     color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,),
-                                    size: 22.5.sp
+                                    size: 22.5
                                   )
                                 )
                               ),
 
                               MyText(
-                                left: 2.w,
+                                left: 2,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 hexaColor: AppColors.textColor,
@@ -173,7 +172,7 @@ class AssetInfoBody extends StatelessWidget {
                                 //   right: 0,
                                 //   child: Icon(
                                 //     Icons.edit,
-                                //     size: 18.sp,
+                                //     size: 18,
                                 //     color: hexaCodeToColor(
                                 //       // isDarkMode
                                 //       // ? AppColors.greyCode
@@ -308,8 +307,8 @@ class AssetInfoBody extends StatelessWidget {
                     child: Center(
                       child: SvgPicture.asset(
                         '${AppConfig.iconsPath}no_data.svg',
-                        width: 15.w,
-                        height: 15.h,
+                        width: 15,
+                        height: 15,
                       )
                     ),
                   )

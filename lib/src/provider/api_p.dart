@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
-import 'package:defichaindart/defichaindart.dart';
+import 'package:flutter_bitcoin/flutter_bitcoin.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
 import 'package:polkawallet_sdk/polkawallet_sdk.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
@@ -188,7 +188,7 @@ class ApiProvider with ChangeNotifier {
       
       final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
-      final bech32Address = P2WPKH(data: PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
+      final bech32Address = P2WPKH(data: PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data.address;
       await StorageServices.storeData(bech32Address, DbKey.bech32);
       await StorageServices.storeData(hdWallet.address, DbKey.hdWallet);
 
@@ -247,7 +247,7 @@ class ApiProvider with ChangeNotifier {
     if (res.length != 0) {
       for (final i in res) {
         if (i['status']['confirmed'] == true) {
-          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null, p2wpkh!.output);
+          txb.addInput(i['txid'], int.parse(i['vout'].toString()), null, p2wpkh.output);
           totalSatoshi += int.parse(i['value'].toString());
           input++;
         }

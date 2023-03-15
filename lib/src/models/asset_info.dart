@@ -10,7 +10,7 @@ class AssetInfoModel {
   // From Widget Index
   int? index;
 
-  double logoSize = 8.w;
+  double logoSize = 8;
 
   GlobalKey<ScaffoldState>? globalKey;
 

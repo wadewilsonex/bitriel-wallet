@@ -72,7 +72,7 @@ class WalletConnectComponent with ChangeNotifier {
     for (int i = 0; i < l.length; i++ ){
       _internetAddress = l[0].addresses;
       ip = _internetAddress![0].address;
-      break;
+      // break;
     }
 
     notifyListeners();
@@ -118,11 +118,11 @@ class WalletConnectComponent with ChangeNotifier {
 
       final session = WCSession.from(value);
       final peerMeta = WCPeerMeta(
-        name: "Example Wallet",
+        name: "WalletConnect",
         url: session.bridge,
-        description: "Example Wallet",
+        description: "WalletConnect Developer App",
         icons: [
-          // "https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png"
+          'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
         ],
       );
       // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
@@ -201,7 +201,7 @@ class WalletConnectComponent with ChangeNotifier {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   
-                  SizedBox(height: 10.h,),
+                  SizedBox(height: 10,),
 
                   CircleAvatar(
                     radius: 30.0,
@@ -209,11 +209,11 @@ class WalletConnectComponent with ChangeNotifier {
                     backgroundColor: Colors.transparent,
                   ),
 
-                  SizedBox(width: 2.w,),
+                  SizedBox(width: 2,),
 
                   Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor), size: 50,),
 
-                  SizedBox(width: 2.w,),
+                  SizedBox(width: 2,),
 
                   Image.asset("assets/logo/bitriel-logo-v2.png", height: 55, width: 55),
                 ],
@@ -225,26 +225,26 @@ class WalletConnectComponent with ChangeNotifier {
               child: MyText(text: "${peerMeta.name} would like to connect to you wallet", fontWeight: FontWeight.w700, hexaColor: AppColors.textColor, fontSize: 17,),
             ),
 
-            SizedBox(height: 2.h,),
+            SizedBox(height: 2,),
             if (peerMeta.url.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor, fontSize: 14),
+                child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor),
               ),
 
-            SizedBox(height: 2.h,),
+            SizedBox(height: 2,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Column(
                 children: [
-                  const MyText(text: 'View you wallet balance and activity', hexaColor: AppColors.textColor, fontSize: 14,),
+                  const MyText(text: 'View you wallet balance and activity', hexaColor: AppColors.textColor),
                   SizedBox(height: .5.h,),
-                  const MyText(text: 'Request approval for transactions', hexaColor: AppColors.textColor, fontSize: 14,),
+                  const MyText(text: 'Request approval for transactions', hexaColor: AppColors.textColor),
                 ],
               ),
             ),
 
-            SizedBox(height: 2.5.h,),
+            SizedBox(height: 2.5,),
             Row(
               children: [
 
@@ -741,10 +741,8 @@ class WalletConnectComponent with ChangeNotifier {
                         );
                       } else {
                         final creds = EthPrivateKey.fromHex(privateKey);
-                        final encodedMessage =
-                            hexToBytes(ethereumSignMessage.data!);
-                        final signedData =
-                            await creds.signPersonalMessage(encodedMessage);
+                        final encodedMessage = hexToBytes(ethereumSignMessage.data!);
+                        final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
                         signedDataHex = bytesToHex(signedData, include0x: true);
                       }
                       wcClient.approveRequest<String>(

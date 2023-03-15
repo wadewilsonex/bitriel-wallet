@@ -117,7 +117,7 @@ class TrxActivityState extends State<TrxActivity> {
         appBar: AppBar(
           title: const MyText(
             text: 'Transaction History',
-            fontSize: 22.0,
+            fontSize: 20,
             hexaColor: "#FFFFFF",
           ),
           bottom: TabBar(

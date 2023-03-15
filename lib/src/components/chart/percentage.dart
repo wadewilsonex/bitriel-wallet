@@ -9,7 +9,7 @@
 //       borderRadius: BorderRadius.circular(20),
 //     ),
 //     child: Padding(
-//       padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.5.h),
+//       padding: EdgeInsets.symmetric(horizontal: 3, vertical: 0.5),
 //       child: Row(
 //         children: [
 //           Text(
@@ -18,7 +18,7 @@
 //               color: Colors.white,
 //               letterSpacing: 0.5,
 //               fontWeight: FontWeight.bold,
-//               fontSize: 14.sp,
+//               fontSize: 14,
 //             ),
 //             maxLines: 1,
 //             overflow: TextOverflow.ellipsis,
@@ -28,7 +28,7 @@
 //                 ? UniconsLine.arrow_growth
 //                 : UniconsLine.chart_down,
 //             color: Colors.white,
-//             size: 18.sp,
+//             size: 18,
 //           ),
 //         ],
 //       ),

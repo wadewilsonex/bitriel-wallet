@@ -20,8 +20,8 @@ class _QrScannerState extends State<QrScanner> with SingleTickerProviderStateMix
   @override
   void dispose() {
     scanController.pause();
-    controller.dispose();
     controller.stop();
+    controller.dispose();
     super.dispose();
   }
 

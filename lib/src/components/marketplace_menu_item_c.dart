@@ -21,7 +21,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
         action!();
       },
       child: Container(
-        height: 15.h,
+        height: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
@@ -31,12 +31,14 @@ class SelEcoSysMenuItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
+            const Spacer(),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: image!,
             ),
 
-            // const Spacer(),
+            const Spacer(),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -45,6 +47,7 @@ class SelEcoSysMenuItem extends StatelessWidget {
                 hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
+                bottom: 10,
               ),
             ),
 

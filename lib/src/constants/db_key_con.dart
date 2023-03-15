@@ -27,6 +27,7 @@ class DbKey{
   static String token = "token_key";
   static String event = "event_key";
   static String coinData = "coinData";
+  static String coinMarketData = "coinMarketData";
 
   static String wcSession = "session";
 

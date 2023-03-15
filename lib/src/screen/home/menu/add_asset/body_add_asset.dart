@@ -48,7 +48,7 @@ class AddAssetBody extends StatelessWidget {
               children: [
 
                 SizedBox(
-                  height: 2.h,
+                  height: 2,
                 ),
                 
                 Form(
@@ -100,8 +100,8 @@ class AddAssetBody extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 // provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                                // ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,) 
-                                // : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,),
+                                // ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,) 
+                                // : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,),
 
                                 Expanded(
                                   child: MyText(
@@ -120,9 +120,9 @@ class AddAssetBody extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22.sp, width: 22.sp,),
+                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22, width: 22,),
 
-                                    SizedBox(width: 2.5.w,),
+                                    SizedBox(width: 2.5,),
 
                                     MyText(
                                       text: "${networkSymbol![initialValue!]["symbol"]}",
@@ -130,7 +130,7 @@ class AddAssetBody extends StatelessWidget {
                                       fontSize: 17,
                                     ),
 
-                                    SizedBox(width: 5.w,),
+                                    SizedBox(width: 5,),
 
                                     Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),),
                                   ],
@@ -262,8 +262,8 @@ class AddAssetBody extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: 9.w,
-            width: 9.w,
+            height: 9,
+            width: 9,
             padding: const EdgeInsets.all(6),
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(40)),
@@ -348,7 +348,7 @@ class AddAssetBody extends StatelessWidget {
             Icon(
               Icons.remove,
               color: Colors.grey[600],
-              size: 25.sp,
+              size: 25,
             ),
 
             Expanded(
@@ -369,10 +369,10 @@ class AddAssetBody extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27.sp, width: 27.sp,)
+                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27, width: 27,)
                               ),
                                           
-                              SizedBox(width: 2.w,),
+                              SizedBox(width: 2,),
                                           
                               MyText(text: listNetwork[index]["symbol"], fontSize: 18, fontWeight: FontWeight.bold,),
                                           

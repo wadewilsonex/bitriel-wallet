@@ -16,14 +16,14 @@ class KeyStoreJson extends StatelessWidget{
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
-            size: 22.5.sp,
+            size: 30,
           ),
           onPressed: (){
             Navigator.pop(context);
           },
         ),
         elevation: 0,
-        title: const MyText(text: 'Keystore (Json)', fontWeight: FontWeight.bold),
+        title: const MyText(text: 'Keystore (Json)', fontSize: 20, fontWeight: FontWeight.bold),
       ),
       body: Column(
         children: [

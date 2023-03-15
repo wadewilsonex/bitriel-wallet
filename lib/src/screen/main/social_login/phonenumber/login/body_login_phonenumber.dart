@@ -80,7 +80,7 @@ class LoginSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   searchBoxDecoration: InputDecoration(
                     hintText: 'Search by country name or dial code',
-                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 15.sp),
+                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 15),
                     // alignLabelWithHint: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),

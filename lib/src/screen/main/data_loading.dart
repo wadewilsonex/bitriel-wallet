@@ -4,12 +4,12 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
-class ImportJson extends StatefulWidget {
+class DataLoading extends StatefulWidget {
 
   final ImportAccountModel? importAccountModel;
   final Function? initStateData;
 
-  const ImportJson({
+  const DataLoading({
     Key? key, 
     this.importAccountModel,
     this.initStateData,
@@ -17,11 +17,11 @@ class ImportJson extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return ImportJsonState();
+    return DataLoadingState();
   }
 }
 
-class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
+class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin {
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class ImportJsonState extends State<ImportJson> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
     
-                Lottie.asset("${AppConfig.animationPath}data_center_loading.json", width: 70.w, height: 70.w),
+                Lottie.asset("${AppConfig.animationPath}data_center_loading.json", width: 70.w, height: 70.h),
     
                 AnimatedTextKit(
                   repeatForever: true,

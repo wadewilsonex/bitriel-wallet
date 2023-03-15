@@ -1,3 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
+
 class ListMetketCoinModel {
     ListMetketCoinModel({
         this.id,
@@ -25,6 +27,7 @@ class ListMetketCoinModel {
         this.atlChangePercentage,
         this.atlDate,
         this.lastUpdated,
+        this.chart,
     });
 
     String? id;
@@ -52,6 +55,7 @@ class ListMetketCoinModel {
     dynamic atlChangePercentage;
     dynamic atlDate;
     dynamic lastUpdated;
+    List<FlSpot>? chart;
 
     ListMetketCoinModel fromJson(Map<String, dynamic> json){
       id = json['id'];
@@ -79,6 +83,7 @@ class ListMetketCoinModel {
       atlChangePercentage = json['atl_change_percentage'];
       atlDate = json['atl_date'];
       lastUpdated = json['last_updated'];
+      
       return this;
     }   
 }

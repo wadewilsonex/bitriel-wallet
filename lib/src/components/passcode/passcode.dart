@@ -12,7 +12,8 @@ enum PassCodeLabel {
   fromSendTx,
   fromMenu,
   fromChangePin,
-  fromBackUp
+  fromBackUp,
+  fromAccount
 }
 
 class Passcode extends StatefulWidget {
@@ -165,7 +166,7 @@ class PasscodeState extends State<Passcode> {
         isFirst = false;
       });
 
-      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp){
+      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromAccount){
         Navigator.pop(context, pin);
       }
       if (widget.label == PassCodeLabel.fromMenu) {
@@ -193,7 +194,7 @@ class PasscodeState extends State<Passcode> {
           Navigator.push(
             context, 
             Transition(
-              child: const CreateSeeds(),
+              child: CreateSeeds(),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
@@ -226,6 +227,7 @@ class PasscodeState extends State<Passcode> {
   }
 
   Future<void> authToHome() async {
+    
     if (widget.label.toString() == "fromSplash") {
       final bio = await StorageServices.readSaveBio();
       if (bio) {
@@ -235,6 +237,7 @@ class PasscodeState extends State<Passcode> {
   }
 
   Future<void> readBackUpKey(String pin) async {
+
     final res = await StorageServices().readSecure(DbKey.passcode);
 
     if(widget.label.toString() == "backup"){
@@ -251,13 +254,14 @@ class PasscodeState extends State<Passcode> {
 
   // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
+
     final res = await StorageServices().readSecure(DbKey.passcode);
 
     if (res == pin) {
       if(!mounted) return;
       Navigator.pushAndRemoveUntil(
         context, 
-        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT),
         ModalRoute.withName('/')
       );
     } else {
@@ -267,6 +271,7 @@ class PasscodeState extends State<Passcode> {
   }
 
   Future<void> authenticate() async {
+
     bool authenticate = false;
 
     try {

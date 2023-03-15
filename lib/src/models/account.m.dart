@@ -25,3 +25,10 @@ class AccountM {
   AccountM({this.name, this.address, this.pubKey, this.addressIcon});
 }
 
+class NewAccount {
+
+  bool? isBackBtn = false;
+  bool? isAddNew = false;
+  String? passCode;
+}
+

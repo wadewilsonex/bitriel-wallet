@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 8.0.1+102
+version: 8.0.2+103
 
 #6 feature
 #8 debug
@@ -95,7 +95,7 @@ dependencies:
   # Chart
   fl_chart: ^0.46.0
   pie_chart: ^5.3.2
-  coupon_uikit: ^0.0.1+2
+  coupon_uikit: ^0.2.0
 
   # Icons
   crypto_font_icons: ^1.0.1
@@ -103,7 +103,7 @@ dependencies:
   pinput: ^2.2.12
   date_format: ^2.0.6
 
-  share_plus: ^4.1.0
+  share_plus: ^6.3.1
 
   vibration: ^1.7.6
  
@@ -121,11 +121,11 @@ dependencies:
 
   animations: ^2.0.7
   provider: ^6.0.3
-  web3dart:
-  bip39: ^1.0.6
+  web3dart: ^2.6.1
+  # bip39: ^1.0.6
 
   dart_ecpair: ^1.0.2
-  defichaindart: ^3.8.7+3
+  flutter_bitcoin: ^1.0.1
 
   flutter_secure_storage: ^6.0.0
   # flutter_screenshot_switcher: ^2.1.0
@@ -152,11 +152,10 @@ dependencies:
   action_slider: ^0.6.0
 
   # Third-party
-  walletconnect_dart: ^0.0.11
   wallet_connect: ^1.0.2
+  wallet_connect_dart_v2: ^0.0.1
   eth_sig_util: ^0.0.9
   flutter_stripe: ^7.0.0
-
   flutter_native_splash: ^2.2.8
   random_avatar: ^0.0.7
 
@@ -172,7 +171,8 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   animated_text_kit: ^4.2.2
   flutter_inappwebview: ^5.7.2+3
-  event_crew: ^0.0.3
+  event_crew:
+  device_preview: ^1.1.0
   # flutter_html: ^2.2.1
 
 
@@ -182,9 +182,21 @@ dependency_overrides:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
 
-  polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
+  # polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
   # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
+
+  polkawallet_sdk:
+    git:
+      url: https://github.com/DaveatCor/sdk.git
+      ref: master  
+
   lottie: ^1.4.2
+  event_crew:
+    git: 
+      url: https://github.com/selendra/event_crew_package.git
+      ref: main
+      
+  # polkawallet_sdk: 0.5.1
 
 dev_dependencies:
   flutter_lints: ^2.0.1
@@ -236,6 +248,7 @@ flutter:
     - assets/illustration/
     - assets/payment/
     - assets/nfts/
+    - assets/nfts/rieltiger/
     - .env
 
     # - ../assets/

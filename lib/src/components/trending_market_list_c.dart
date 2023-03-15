@@ -1,7 +1,11 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/api/api_chart.dart';
+import 'package:wallet_apps/src/components/chart/chart_m.dart';
 import 'package:wallet_apps/src/models/trendingcoin_m.dart';
 
-class TrendMarketList extends StatelessWidget {
+class TrendMarketList extends StatefulWidget {
 
   final List<CoinsModel>? trendingCoin;
   final int? index;
@@ -11,148 +15,189 @@ class TrendMarketList extends StatelessWidget {
     @required this.index,
   }) : super(key: key);
 
+  final logoSize = 50.0;
+
+  @override
+  State<TrendMarketList> createState() => _TrendMarketListState();
+}
+
+class _TrendMarketListState extends State<TrendMarketList> {
+
+  String periodID = '1DAY';
+
+  Future<void> queryAssetChart(int index, StateSetter modalSetState) async {
+    await ApiCalls().getChart(
+      widget.trendingCoin![index].item.symbol!, 
+      'usd', periodID, 
+      DateTime.now().subtract(const Duration(days: 6)), 
+      DateTime.now()
+    ).then((value) {
+      setState(() {
+        widget.trendingCoin![index].item.chart = value;
+      });
+
+      modalSetState( () {});
+      
+    });
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: <Widget>[
-      
-          // Asset Logo
-          trendingCoin![index!].item.large != null ? SizedBox(
-            height: 10.w,
-            width: 10.w,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.network(trendingCoin![index!].item.large!)
-            ),
-          ) 
-          : ClipRRect(
-            child: SizedBox(
-              height: 10.w,
-              width: 10.w,
+    
+    return InkWell(
+      onTap: () {
+
+        showModalBottomSheet(
+          backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical( 
+              top: Radius.circular(25.0),
             ),
           ),
-      
-          // Asset Name
-          SizedBox(width: 2.w),
-          SizedBox(
-            width: 30.w,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-          
-                Row( 
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    
-                    MyText(
-                      text: trendingCoin![index!].item.symbol != null ? '${trendingCoin![index!].item.symbol!.toUpperCase()} ' : '',
-                      fontSize: 15.5,
-                      fontWeight: FontWeight.bold,
-                      hexaColor: isDarkMode
-                        ? AppColors.whiteColorHexa
-                        : AppColors.textColor,
-                      textAlign: TextAlign.start,
-                    ),
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (context, modalSetState){
 
-                  ],
-                ),
-          
-                MyText(
-                  top: 4.0,
-                  text: trendingCoin![index!].item.name ?? '',
-                  fontSize: 14,
-                  hexaColor: AppColors.tokenNameColor
-                )
-              ],
-            ),
-          ),
-          
-          // Market Price
-          // Expanded(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-      
-          //       trendingCoin![index!].item.priceBtc != null ?
-          //       MyText(
-          //         text: '\$ ${trendingCoin![index!].item.priceBtc}',
-          //         fontSize: 15,
-          //         fontWeight: FontWeight.w600,
-          //         hexaColor: AppColors.textColor
-          //       )
-          //       : const MyText(
-          //         text: '...',
-          //         fontSize: 15,
-          //         fontWeight: FontWeight.w600,
-          //         hexaColor: AppColors.textColor
-          //       ),
-      
-          //       // scModel!.change24h != null ? Container(
-          //       //   margin: const EdgeInsets.only(top: 4),
-          //       //   child: Row(
-          //       //     crossAxisAlignment: CrossAxisAlignment.center,
-          //       //     children: [
-          //       //       scModel!.change24h != null && scModel!.change24h != ''
-          //       //       ? Flexible(
-          //       //         child: Row(
-          //       //           children: [
+                widget.trendingCoin![widget.index!].item.chart == null ? queryAssetChart(widget.index!, modalSetState) : null;
 
-          //       //             if (scModel!.change24h != "0")
-          //       //             MyText(
-          //       //               text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
-          //       //               fontSize: 14,
-          //       //               fontWeight: FontWeight.w500,
-          //       //               hexaColor: double.parse(scModel!.change24h!).isNegative
-          //       //                 ? '#FF0000'
-          //       //                 : isDarkMode ? '#00FF00' : '#66CD00',
-          //       //             )
-                            
-          //       //             else MyText(
-          //       //               text: '(${scModel!.change24h}%)',
-          //       //               fontSize: 14,
-          //       //               fontWeight: FontWeight.w500,
-          //       //               hexaColor: AppColors.greyCode
-          //       //               // double.parse(scModel!.change24h!).isNegative
-          //       //               //   ? AppColors.greyCode
-          //       //               //   : isDarkMode ? '#00FF00' : '#66CD00',
-          //       //             ),
+                return Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
 
-          //       //             if (scModel!.change24h != "0")
-          //       //             double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
-          //       //           ],
-          //       //         ),
-          //       //       )
-          //       //       : Container(),
+                      if (widget.trendingCoin![widget.index!].item.chart == null)
+                      const CircularProgressIndicator()
                       
-          //       //       // double.parse(scModel!.change24h!).isNegative
-          //       //     ],
-          //       //   ),
-          //       // )
-          //       // : Container(),
-          //     ],
-          //   ),
-          // ),
+                      else if (widget.trendingCoin![widget.index!].item.chart!.isNotEmpty)
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(
+                          child: chartAsset(
+                            Image.network(
+                              widget.trendingCoin![widget.index!].item.large!,
+                              fit: BoxFit.fill,
+                            ),
+                            widget.trendingCoin![widget.index!].item.name!,
+                            widget.trendingCoin![widget.index!].item.symbol!,
+                            'USD',
+                            double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5),
+                            widget.trendingCoin![widget.index!].item.chart!,
+                          ),
+                        ),
+                      )
+                      else Center(
+                        child: Column(
+                          children: [
 
-          const Spacer(),
+                            Lottie.asset(
+                              "assets/animation/search_empty.json",
+                              repeat: true,
+                              reverse: true,
+                              width: 70.w,
+                            ),
 
-          // Total Amount
-          MyText(
-            fontSize: 15,
-            // width: double.infinity,
-            text: "\$${double.parse("${trendingCoin![index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
-            textAlign: TextAlign.right,
-            fontWeight: FontWeight.w600,
-            hexaColor: isDarkMode
-              ? AppColors.whiteColorHexa
-              : AppColors.textColor,
-            overflow: TextOverflow.fade,
-          ),
-        ],
+                            const Padding(
+                              padding: EdgeInsets.all(paddingSize),
+                              child: MyText(text: "Sorry, there are no results for this coin!", fontSize: 18, fontWeight: FontWeight.w600,),
+                            )
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                );
+              }
+            );
+          }
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: <Widget>[
+        
+            // Asset Logo
+            widget.trendingCoin![widget.index!].item.large != null ? SizedBox(
+              height: 45,
+              width: 45,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Container(color: Colors.white, child: Image.network(widget.trendingCoin![widget.index!].item.large!, fit: BoxFit.fill,))
+              ),
+            ) 
+            : const ClipRRect(
+              child: SizedBox(
+                height: 45,
+                width: 45,
+              ),
+            ),
+        
+            // Asset Name
+            SizedBox(width: 2.w),
+            SizedBox(
+              width: 30.w,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+            
+                  Row( 
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      
+                      MyText(
+                        text: widget.trendingCoin![widget.index!].item.symbol != null ? '${widget.trendingCoin![widget.index!].item.symbol!.toUpperCase()} ' : '',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        hexaColor: isDarkMode
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                        textAlign: TextAlign.start,
+                      ),
+    
+                    ],
+                  ),
+            
+                  MyText(
+                    top: 4.0,
+                    text: widget.trendingCoin![widget.index!].item.name ?? '',
+                    fontSize: 15,
+                    hexaColor: AppColors.tokenNameColor
+                  )
+                ],
+              ),
+            ),
+            
+            const Spacer(),
+    
+            // Total Amount
+            MyText(
+              fontSize: 17,
+              // width: double.infinity,
+              text: "\$${double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+              textAlign: TextAlign.right,
+              fontWeight: FontWeight.w600,
+              hexaColor: isDarkMode
+                ? AppColors.whiteColorHexa
+                : AppColors.textColor,
+              overflow: TextOverflow.fade,
+            ),
+          ],
+        ),
       ),
     );
   }

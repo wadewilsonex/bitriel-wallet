@@ -1,44 +1,60 @@
-import 'package:wallet_apps/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/about/about_bitriel.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
+import 'package:wallet_apps/src/screen/home/menu/multiple_wallet/multiple_wallet.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/screen/home/security_privacy/security_privacy.dart';
+import 'package:wallet_apps/src/screen/home/webview/ads_webview.dart';
+import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
 
 class CardSection {
   final String? title;
+  final String? subtittle;
   final String? trailingTitle;
   final Widget? leadingIcon;
   final IconData? trailingIcon;
   final Function? action;
 
-  CardSection({this.title, this.trailingTitle, this.leadingIcon, this.trailingIcon, this.action});
+  CardSection({this.title, this.subtittle, this.trailingTitle, this.leadingIcon, this.trailingIcon, this.action});
 }
 
 
-List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packageInfo}) {
+List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? packageInfo}) {
   return [
+
     CardSection(
-      title:'Account',
-      leadingIcon: Icon(Iconsax.user, color: hexaCodeToColor(AppColors.primaryColor)),
+      title:'Multiple Wallets',
+      subtittle: "Create, Import and Manage Wallets",
+      leadingIcon: Icon(Iconsax.user, color: hexaCodeToColor(AppColors.primaryColor), size: 30),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
+        
         Navigator.push(
           context!, 
-          Transition(
-            child: const Account(),
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          MaterialPageRoute(
+            settings: const RouteSettings(name: "/multipleWallets"),
+            builder: (context) => const MultipleWallets()
           )
         );
+
+
+          // Transition(
+          //   arguments: "/multipleWallets",
+          //   child: const MultipleWallets(),
+          //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          // )
       }
     ),
     
     CardSection(
       title: 'WalletConnect',
-      leadingIcon: SvgPicture.asset("assets/icons/walletconnect.svg", color: hexaCodeToColor(AppColors.primaryColor),),
+      subtittle: "Manage you DApp connections",
+      leadingIcon: SvgPicture.asset(
+        "assets/icons/walletconnect.svg", 
+        color: hexaCodeToColor(AppColors.primaryColor),
+      ),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(
@@ -51,9 +67,16 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
       }
     ),
 
+  ];
+}
+
+List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packageInfo}) {
+  return [
+
     CardSection(
       title: 'Security & Privacy',
-      leadingIcon: Icon(Iconsax.security_user, color: hexaCodeToColor(AppColors.primaryColor)),
+      subtittle: "Change PIN number, Auto lock, Biometric",
+      leadingIcon: Icon(Iconsax.security_user, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(
@@ -67,8 +90,9 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
     ),
 
     CardSection(
-      title: 'About Bitriel',
-      leadingIcon: Icon(Iconsax.info_circle, color: hexaCodeToColor(AppColors.primaryColor)),
+      title: 'About Us',
+      subtittle: "Term of Use, Contact Us",
+      leadingIcon: Icon(Iconsax.info_circle, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
         Navigator.push(
@@ -87,16 +111,16 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
 List<CardSection> infoSection({BuildContext? context}) {
   return [
     CardSection(
-      title: 'Privacy Policy',
+      title: 'Privacy Policy (Terms of Use)',
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
-        // Navigator.push(
-        //   context!, 
-        //   Transition(
-        //     child: const BackUpKey(),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
+        Navigator.push(
+          context!, 
+          Transition(
+            child: const AdsWebView(url: "https://bitriel.com/legal/privacy-policy", title: "Privacy Policy",),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
       }
     ),
 
@@ -104,31 +128,16 @@ List<CardSection> infoSection({BuildContext? context}) {
       title: 'Visit Our Website',
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
-        // Navigator.push(
-        //   context!,
-        //   Transition(
-        //     child: const Account(),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
+        Navigator.push(
+          context!, 
+          Transition(
+            child: const MarketPlaceWebView(url: "https://bitriel.com/", title: "BITRIEL",),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
       }
     ),
-
-    CardSection(
-      title: 'Contact us',
-      trailingIcon: Iconsax.arrow_right_3,
-      action: () {
-        // Navigator.push(
-        //   context!,
-        //   Transition(
-        //     child: const Account(),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
-      }
-    ),
-
-
+    
   ];
 }
 

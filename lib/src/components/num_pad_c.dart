@@ -23,7 +23,7 @@ class NumPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+      padding: const EdgeInsets.all(paddingSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,6 +45,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("1");
                 },
               ),
+              
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "2",
                 size: buttonSize,
@@ -55,6 +58,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("2");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "3",
                 size: buttonSize,
@@ -81,6 +87,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("4");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "5",
                 size: buttonSize,
@@ -91,6 +100,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("5");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "6",
                 size: buttonSize,
@@ -117,6 +129,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("7");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "8",
                 size: buttonSize,
@@ -127,6 +142,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("8");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "9",
                 size: buttonSize,
@@ -153,6 +171,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!(".");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 number: "0",
                 size: buttonSize,
@@ -162,6 +183,9 @@ class NumPad extends StatelessWidget {
                   onTabNum!("0");
                 },
               ),
+                            
+              const SizedBox(width: 10),
+
               NumberButton(
                 onLongPressed: () async {
                   while(controller.text.isNotEmpty){
@@ -176,7 +200,7 @@ class NumPad extends StatelessWidget {
                 },
                 icon: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.textColor), size: 21.5.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(AppColors.textColor), size: 30 * MediaQuery.of(context).textScaleFactor),
                 ),
                 size: buttonSize,
                 color: buttonColor,
@@ -214,9 +238,7 @@ class NumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 4,
-      height: size,
+    return Expanded(
       child: TextButton(
         onLongPress: onLongPressed,
         style: ButtonStyle(
@@ -234,7 +256,7 @@ class NumberButton extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold, 
               color: hexaCodeToColor(AppColors.textColor), 
-              fontSize: 16
+              fontSize: 23 * MediaQuery.of(context).textScaleFactor,
             ),
           ),
         ),

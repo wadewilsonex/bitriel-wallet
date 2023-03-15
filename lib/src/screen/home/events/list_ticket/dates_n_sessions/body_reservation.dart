@@ -131,7 +131,7 @@ class ReservationBody extends StatelessWidget {
           child: Row(
             children: [
     
-              SvgPicture.asset('${AppConfig.iconsPath}quantity.svg', width: 25.sp,),
+              SvgPicture.asset('${AppConfig.iconsPath}quantity.svg', width: 25,),
               // Icon(Iconsax.quant)
               Expanded(child: Container()),
 

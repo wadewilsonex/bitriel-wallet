@@ -36,13 +36,13 @@ class PasscodeBody extends StatelessWidget{
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Passcode",
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Iconsax.arrow_left_2),
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
         ),
 
         actions: [
@@ -75,15 +75,15 @@ class PasscodeBody extends StatelessWidget{
             SizedBox(height: 10.h),
 
             if (titleStatus == null ) MyText(
-              text: isFirst! ? 'Set up PIN' : 'Verify PIN',
-              fontSize: 22,
+              text: isFirst! ? 'Enter PIN' : 'Verify PIN',
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
             else MyText(
               text: titleStatus,
               hexaColor: titleStatus == "Invalid PIN" ? AppColors.redColor : isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
-              fontSize: 22,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
 
@@ -105,6 +105,7 @@ class PasscodeBody extends StatelessWidget{
               text: subStatus,
               hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
               fontWeight: FontWeight.bold,
+              fontSize: 19,
             ), 
 
             SizedBox(height: 5.h),
@@ -136,7 +137,7 @@ class PasscodeBody extends StatelessWidget{
 
             ReuseNumPad(pinIndexSetup!, clearPin!),
             
-            SizedBox(height: 10.h),
+            SizedBox(height: 10),
           ],
         ),
       )
@@ -152,14 +153,14 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Assign a security ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'PIN ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               fontWeight: FontWeight.bold,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
@@ -167,7 +168,7 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'that will be required when opening in the future', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -182,21 +183,21 @@ class PasscodeBody extends StatelessWidget{
           TextSpan(
             text: 'Enter ', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'pin ',
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
           TextSpan(
             text: 'code', 
             style: TextStyle(
-              fontSize: 17.sp,
+              fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
             )
           ),
@@ -217,10 +218,11 @@ class ReusePinNum extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final defaultPinTheme = PinTheme(
-      width: 50,
-      height: 50,
+      width: 56,
+      height: 56,
+
       textStyle: TextStyle(
-        fontSize: 30.sp,
+        fontSize: 50,
         color: hexaCodeToColor(AppColors.primaryColor),
       ),
       decoration: const BoxDecoration(),
@@ -251,60 +253,6 @@ class ReusePinNum extends StatelessWidget {
       useNativeKeyboard: false,
     );
 
-    // return Flexible(
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: TextField(
-    //       controller: textEditingController,
-    //       enabled: false,
-    //       obscureText: true,
-    //       textAlign: TextAlign.center,
-    //       maxLines: 1,
-    //       minLines: 1,
-    //       decoration: InputDecoration(
-    //         isDense: true,
-    //         // contentPadding: EdgeInsets.only(bottom: 53.sp, left: 7.sp),
-    //         // border: InputBorder.none,
-    //         border: OutlineInputBorder(
-    //           borderRadius: BorderRadius.circular(8),
-    //           gapPadding: 0
-    //         ),
-    //         filled: true,
-    //         // border: OutlineInputBorder(),
-    //         fillColor: Colors.white30
-    //       ),
-    //       style: TextStyle(
-    //         fontWeight: FontWeight.bold,
-    //         fontSize: 30.sp,
-    //         color: hexaCodeToColor(AppColors.secondary)
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // return SizedBox(
-    //   width: 20.0,
-    //   height: 20.0,
-    //   child: TextField(
-    //     controller: textEditingController,
-    //     enabled: false,
-    //     obscureText: true,
-    //     textAlign: TextAlign.center,
-    //     decoration: InputDecoration(
-    //       contentPadding: EdgeInsets.only(bottom: -50.sp, left: -7.sp),
-    //       border: outlineInputBorder,
-    //       filled: true,
-    //       fillColor: hexaCodeToColor(AppColors.passcodeColor),
-    //     ),
-    //     style: TextStyle(
-    //       fontWeight: FontWeight.bold,
-    //       fontSize: 40.sp,
-    //       color: hexaCodeToColor(
-    //         AppColors.secondary,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -394,7 +342,7 @@ class ReuseNumPad extends StatelessWidget {
                 },
                 child: Transform.rotate(
                   angle: 70.6858347058,
-                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 20.sp),
+                  child: Icon(Iconsax.shield_cross, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.lightGreyColor), size: 30 * MediaQuery.of(context).textScaleFactor),
                 ),
               )
             ],
@@ -414,22 +362,26 @@ class ReuseKeyBoardNum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: TextButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
+      child: SizedBox(
+        height: 55,
+        width: MediaQuery.of(context).size.width,
+        child: TextButton(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
+            ),
+            backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
           ),
-          backgroundColor: MaterialStateProperty.all(isDarkMode ? Colors.white.withOpacity(0.06) : hexaCodeToColor(AppColors.whiteColorHexa))
+          onPressed: onPressed,
+          child: child == null ? Text(
+            '$n',
+            style: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              color: isDarkMode ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ) : child!,
         ),
-        onPressed: onPressed,
-        child: child == null ? Text(
-          '$n',
-          style: TextStyle(
-            fontSize: 16.sp * MediaQuery.of(context).textScaleFactor,
-            color: isDarkMode ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ) : child!,
       )
     );
   }

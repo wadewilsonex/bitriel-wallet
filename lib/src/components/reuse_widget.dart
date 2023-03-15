@@ -252,7 +252,7 @@ Future<void> successDialog(
             child: Column(
               children: [
 
-                Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+                Icon(Icons.check_circle_outline_rounded, size: 20, color: Colors.green,),
                 const MyText(
                   text: 'SUCCESS!',
                   fontSize: 20,
@@ -616,7 +616,7 @@ Widget progress({bool isTicket = false, String? content}) {
               isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
-              width: 75.w,
+              width: 75,
             ),
             // CircularProgressIndicator(
             //   backgroundColor: Colors.transparent,
@@ -818,15 +818,15 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45}) {
+Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45, bool embeddedImage = true}) {
   return SizedBox(
-    width: width.w,
+    width: width,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-      embeddedImage: const AssetImage('assets/logo/bitirel-logo-circle.png'),
+      embeddedImage: embeddedImage == true ? const AssetImage('assets/logo/bitirel-logo-circle.png') : null,
       embeddedImageStyle: QrEmbeddedImageStyle(
-        size: Size(25.sp, 25.sp),
+        size: Size(25, 25),
       ),
       eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
       dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
@@ -1115,12 +1115,12 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
     contentPadding: EdgeInsets.zero,
     contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    // image: Image.asset("assets/icons/success.png", width: 20, height: 10),
     lottie: Lottie.asset(
       "assets/animation/under-construction.json",
       repeat: true,
       reverse: true,
-      height: 25.h,
+      height: 25,
     ),
     btn2: MyGradientButton(
       textButton: "OK",
@@ -1155,10 +1155,10 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
     context: context,
     contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
+    // image: Image.asset("assets/icons/success.png", width: 20, height: 10),
     lottie: Lottie.asset(
       "assets/animation/under-construction.json",
-      width: 75.w, 
+      width: 75, 
       repeat: true,
 
     ),
@@ -1189,7 +1189,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
           ),
         ),
 
-        // SizedBox(width: 20.w,),
+        // SizedBox(width: 20,),
         // Expanded(child: Container()),
         Expanded(
           child: MyText(
@@ -1289,7 +1289,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                                   hexaColor: AppColors.blackColor,
                                 ),
 
-                                SizedBox(height: 2.h),
+                                SizedBox(height: 2),
                                 
                                 qrCodeProfile(
                                   value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',

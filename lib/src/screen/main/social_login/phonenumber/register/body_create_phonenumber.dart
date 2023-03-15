@@ -26,7 +26,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
             children: [
               _headerTitle(),
       
-              SizedBox(height: 10.h),
+              SizedBox(height: 10),
               _inputField(context),
       
             ],
@@ -127,15 +127,15 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
           ),
         ),
 
-        // SizedBox(height: 1.h),
+        // SizedBox(height: 1),
 
         // tfPasswordWidget(password!, "Password"),
 
-        // SizedBox(height: 1.h),
+        // SizedBox(height: 1),
 
         // tfPasswordWidget(confirmPassword!, "Confirm Password"),
 
-        SizedBox(height: 10.h),
+        SizedBox(height: 10),
         MyGradientButton(
           textButton: "Register",
           begin: Alignment.bottomLeft,

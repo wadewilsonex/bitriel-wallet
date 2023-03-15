@@ -6,7 +6,7 @@ class SeedsCompoent {
 
   List<Widget> getColumn(BuildContext context, String seed, int pos, {double? moreSize = 0}) {
     
-    _seedHeight = (_seedHeight+moreSize!).sp;
+    _seedHeight = (_seedHeight+moreSize!);
     var list = <Widget>[];
     var se = seed.split(' ');
     var colSize = se.length ~/ 3;
@@ -51,14 +51,14 @@ class SeedsCompoent {
                   MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
                     hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-                    fontSize: 15,
+                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
                     fontWeight: FontWeight.bold
                   )
 
                   else MyText(
                     text: '${i * 3 + pos + 1}. ${se[i * 3 + pos]}',
                     hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
-                    fontSize: 15,
+                    fontSize: 17 * MediaQuery.of(context).textScaleFactor,
                     fontWeight: FontWeight.bold
                   ),
                 ]
@@ -89,7 +89,7 @@ class SeedsCompoent {
         // color: grey,
         child: MyText(
           text: txt,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor, fontSize: 15, fontWeight: FontWeight.bold
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor, fontSize: 17 * MediaQuery.of(context).textScaleFactor, fontWeight: FontWeight.bold
         ),
       )
     );
@@ -113,16 +113,17 @@ class SeedContents extends StatelessWidget{
         const SizedBox(height: 50),
         MyText(
           text: title,
-          fontSize: 18,
+          fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
 
-        SizedBox(height: 2.2.h),
+        SizedBox(height: 2.2),
         MyText(
           text: subTitle,
           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.start,
+          fontSize: 18,
         ),
       ],
     );

@@ -25,7 +25,7 @@ class PortraitCardItem extends StatelessWidget {
         action();
       },
       child: Container(
-        height: 30.h,
+        height: 30,
         // width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

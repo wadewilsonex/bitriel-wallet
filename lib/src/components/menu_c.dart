@@ -15,8 +15,8 @@ class MenuHeader extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
-      margin:  EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+      margin:  EdgeInsets.symmetric(horizontal: 3, vertical: 2),
       decoration: BoxDecoration(
         gradient: isDarkMode ? null : LinearGradient(
           colors: [hexaCodeToColor(AppColors.primaryColor).withOpacity(0.2), hexaCodeToColor(AppColors.primaryColor).withOpacity(0.2)],
@@ -44,10 +44,10 @@ class MenuHeader extends StatelessWidget {
                 },
                 child: AvatarShimmer(
                   txt: value.accountM.addressIcon,
-                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0.w, height: 5.0.w)
+                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0, height: 5.0)
                   // SvgPicture.string(
                   //   value.accountM.addressIcon ?? '',
-                  //   width: 5.0.w,
+                  //   width: 5.0,
                   //   // height: 8.0,
                   // )
                 )
@@ -86,8 +86,8 @@ class MenuHeader extends StatelessWidget {
                           }, 
                           child: SvgPicture.asset(
                             '${AppConfig.iconsPath}qr_code.svg',
-                            width: 5.w,
-                            height: 5.w,
+                            width: 5,
+                            height: 5,
                             color: hexaCodeToColor(AppColors.secondary),
                           )
                         )
@@ -117,7 +117,7 @@ class MenuSubTitle extends StatelessWidget {
       // color: isDarkMode
       //   ? hexaCodeToColor(AppColors.whiteColorHexa).withOpacity(0.06)
       //   : Colors.grey[200],
-      height: 55,
+      // height: 100,
       width: double.infinity,
       alignment: Alignment.centerLeft,
       child: Column(
@@ -176,8 +176,8 @@ class MyListTile extends StatelessWidget {
       leading: icon ?? Image.asset(
         MenuModel.listTile[index!]['sub'][subIndex]['icon'].toString(),
         color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey),
-        width: 22.5.sp,
-        height: 22.5.sp
+        width: 22.5,
+        height: 22.5
       ),
       title: MyText(
         text: MenuModel.listTile[index!]['sub'][subIndex]['subTitle'].toString(),

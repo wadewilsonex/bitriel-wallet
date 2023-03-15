@@ -56,14 +56,14 @@ class ImageListViewState extends State<ImageListView> {
     return Transform.rotate(
       angle: 1.94 * pi,
       child: SizedBox(
-        height: 20.vmax,
+        height: 20,
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: _scrollController,
-          itemCount: 10,
+          itemCount: 9,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return _ImageTile(image: 'assets/nfts/${widget.startIndex + index}.png');
+            return _ImageTile(image: 'assets/nfts/rieltiger/${widget.startIndex + index}.png');
           },
         ),
       ),

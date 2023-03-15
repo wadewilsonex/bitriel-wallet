@@ -20,7 +20,7 @@ class ListTileComponent extends StatelessWidget{
           borderRadius: BorderRadius.circular(8),
           color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
         ),
-        height: 8.h,
+        height: 8,
         child: Padding(
           padding: const EdgeInsets.all(paddingSize),
           child: Row(
@@ -33,7 +33,7 @@ class ListTileComponent extends StatelessWidget{
 
               Icon(
                 Icons.arrow_forward_ios, 
-                size: 18.5.sp,
+                size: 18.5,
                 color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
               )
             ],

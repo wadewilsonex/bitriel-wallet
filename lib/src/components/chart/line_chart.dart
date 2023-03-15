@@ -30,7 +30,7 @@ LineChartData chart(
               TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
+                fontSize: 16,
               ),
             );
           }).toList();

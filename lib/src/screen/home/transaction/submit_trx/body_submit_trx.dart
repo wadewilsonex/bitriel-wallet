@@ -63,6 +63,7 @@ class SubmitTrxBody extends StatelessWidget {
         onChanged: onChanged,
         onSubmit: () {}
       ),
+      
       MyInputField(
         pBottom: 16,
         hintText: "Amount",
@@ -97,13 +98,14 @@ class SubmitTrxBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   
-                  SizedBox(height: 2.h,),
+                  SizedBox(height: 2,),
     
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                     child: MyText(
                       text: "Available balance",
                       hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                      fontSize: 18,
                     ),
                   ),
                   
@@ -124,10 +126,11 @@ class SubmitTrxBody extends StatelessWidget {
                       text: "Please, enter the receiver’s address with the amount of transfer ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol} in below field.",
                       hexaColor: "#878787",
                       textAlign: TextAlign.start,
+                      fontSize: 17,
                     ),
                   ),
     
-                  SizedBox(height: 2.h,),
+                  SizedBox(height: 2,),
           
                   listInput[0],
                   
@@ -177,8 +180,8 @@ class SubmitTrxBody extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                            ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,) 
-                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,),
+                            ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,) 
+                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,),
 
                             Expanded(
                               child: MyText(
@@ -204,16 +207,16 @@ class SubmitTrxBody extends StatelessWidget {
     
                   Container(
                     margin: EdgeInsets.only(
-                      top: 10.sp,
-                      bottom: 15.sp,
+                      top: 10,
+                      bottom: 15,
                       left: paddingSize,
                       right: paddingSize,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18.sp),
-                        SizedBox(width: 1.w,),
+                        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18),
+                        SizedBox(width: 1,),
                         MyText(
                           text: "Select the right network, or assets may be lost.",
                           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
@@ -260,7 +263,7 @@ class SubmitTrxBody extends StatelessWidget {
             Icon(
               Icons.remove,
               color: Colors.grey[600],
-              size: 25.sp,
+              size: 25,
             ),
 
             Expanded(
@@ -282,14 +285,14 @@ class SubmitTrxBody extends StatelessWidget {
                               listContract[index]["logo"].toString().contains("http") 
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.network("${listContract[index]["logo"]}", height: 27.sp, width: 27.sp,)
+                                child: Image.network("${listContract[index]["logo"]}", height: 27, width: 27,)
                               ) 
                               : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listContract[index]["logo"]}", height: 27.sp, width: 27.sp,)
+                                child: Image.asset("${listContract[index]["logo"]}", height: 27, width: 27,)
                               ),
                                           
-                              SizedBox(width: 2.w,),
+                              SizedBox(width: 2,),
                                           
                               MyText(text: listContract[index]["symbol"], fontSize: 18, fontWeight: FontWeight.bold,),
                                           

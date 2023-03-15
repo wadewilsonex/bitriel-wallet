@@ -17,48 +17,33 @@ class WalletConnectMenuItem extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(image!),
+        ),
+        title: MyText(
+          text: title,
+          fontWeight: FontWeight.w700,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.start,
+        ),
+        trailing: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () async{
+              action!();
+            },
             child: Container(
-              width: 50.0,
-              height: 50.0,
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(image!),
-                )
-              )
-            ),
-          ),
-
-          MyText(
-            text: title,
-            fontWeight: FontWeight.w700,
-          ),
-
-          const Spacer(),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                action!();
-              },
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: hexaCodeToColor(AppColors.warningColor),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: const MyText(text: "Disconnect", hexaColor: AppColors.whiteColorHexa, fontSize: 14,)
+                color: hexaCodeToColor(AppColors.warningColor),
+                borderRadius: BorderRadius.circular(10)
               ),
+              child: const MyText(text: "Disconnect", hexaColor: AppColors.whiteColorHexa)
             ),
           ),
-        ],
+        ),
       ),
     );
   }

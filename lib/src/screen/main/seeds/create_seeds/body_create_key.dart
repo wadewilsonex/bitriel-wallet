@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/verify_seeds.dart';
 
@@ -7,9 +8,10 @@ import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/verify_seeds.dart
 class CreateSeedsBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
+  final NewAccount? newAcc;
   final Function() generateKey;
 
-  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey}) : super(key: key);
+  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey, @required this.newAcc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +37,12 @@ class CreateSeedsBody extends StatelessWidget {
                   text: "After writing and securing your 12 words, click continue to proceed",
                   hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                   textAlign: TextAlign.start,
+                  fontSize: 18,
                 ),
                 
                 SizedBox(height: 7.h),
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: isDarkMode ? Colors.black.withOpacity(0.06) : hexaCodeToColor("#E8E8E8"),
@@ -51,15 +54,15 @@ class CreateSeedsBody extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 0),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 0, moreSize: 2.5),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 1),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 1, moreSize: 2.5),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 2),
+                            children: SeedsCompoent().getColumn(context, createKeyModel!.seed!, 2, moreSize: 2.5),
                           ),
                         ],
                       ),
@@ -83,8 +86,8 @@ class CreateSeedsBody extends StatelessWidget {
                               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
                               const MyText(
-                                text: "Generate new seed",
-                                fontSize: 14,
+                                text: "Generate seed",
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -107,7 +110,7 @@ class CreateSeedsBody extends StatelessWidget {
                               const SizedBox(width: 9),
                               const MyText(
                                 text: "Copy",
-                                fontSize: 14,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
                             ],
@@ -138,7 +141,7 @@ class CreateSeedsBody extends StatelessWidget {
                   action: () async {
                     // Generate Random Three Number Before Navigate
                     createKeyModel!.threeNum = AppUtils().randomThreeEachNumber();
-                    Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!, newAcc: newAcc),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                   },
                 ),
               ],

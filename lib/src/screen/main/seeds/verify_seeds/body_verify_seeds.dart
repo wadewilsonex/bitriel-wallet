@@ -71,7 +71,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: Container(
                     alignment: Alignment.center,
-                    height: 50,
+                    height: 5.8.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
@@ -84,7 +84,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   ),
                 ),
   
-                SizedBox(height: 3.h),
+                SizedBox(height: 3),
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.isEmpty)
                 Align(
@@ -101,7 +101,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                           const SizedBox(width: 9),
                           const MyText(
                             text: "Try Again",
-                            fontSize: 14,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,  
                           ),
                         ],

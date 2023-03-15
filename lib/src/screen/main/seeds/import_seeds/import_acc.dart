@@ -9,8 +9,13 @@ import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
 class ImportAcc extends StatefulWidget {
 
+  /// isBackBtn and isAddNew is from add new or create wallet
   final String? reimport;
-  const ImportAcc({Key? key, this.reimport}) : super(key: key);
+  final bool? isBackBtn;
+  final bool? isAddNew;
+  final String? passCode;
+  // ignore: invalid_required_named_param
+  const ImportAcc({Key? key, this.reimport, @required this.isBackBtn = false, @required this.isAddNew = false, @required this.passCode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +43,13 @@ class ImportAccState extends State<ImportAcc> {
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
     AppServices.noInternetConnection(context: context);
-    StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
+
+    /// Create Or Add New Account in Accont Screen
+    if (widget.passCode != null) {
+      _importAccModel.pwCon.text = widget.passCode!;
+    } {
+      StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
+    }
     super.initState();
   }
 
@@ -73,13 +84,28 @@ class ImportAccState extends State<ImportAcc> {
 
   void onSubmit() async {
     if (enable == true){
-      Navigator.push(
-        context, 
-        Transition(
-          child: ImportJson(initStateData: initStateData, importAccountModel: _importAccountModel,),
-          transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        )
-      );
+
+      if (widget.isAddNew == true){
+
+        dialogLoading(context);
+        await addNewAcc().then((value) {
+          
+          // Close Dialog Loading
+          Navigator.pop(context);
+
+          Navigator.pop(context, value);
+        });
+      } else {
+
+        Navigator.push(
+          context, 
+          Transition(
+            child: DataLoading(initStateData: initStateData, importAccountModel: _importAccountModel,),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
+      }
+
     } else {
       await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
     }
@@ -225,6 +251,39 @@ class ImportAccState extends State<ImportAcc> {
 
   }
 
+  /// Return Boolean Value
+  Future<bool> addNewAcc() async {
+    print("_importAccModel.pwCon.text ${_importAccModel.pwCon.text}");
+    print("_importAccModel.mnemonicCon.text ${_importAccModel.mnemonicCon.text}");
+    print("addNewAcc");
+    try {
+
+      final jsn = await _apiProvider!.apiKeyring.importAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.mnemonic, 
+        key: _importAccModel.mnemonicCon.text,   
+        name: 'User', 
+        password: _importAccModel.pwCon.text
+      );
+
+      print("jsn $jsn");
+
+      await _apiProvider!.apiKeyring.addAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.mnemonic, 
+        acc: jsn!,
+        password: _importAccModel.pwCon.text
+      );
+
+      print("added");
+      return true;
+
+    } catch (e){
+      print("Error addNewAcc $e");
+      return false;
+    }
+  }
+
   Future<void> connectNetwork(String mnemonic) async {
     
     final resPk = await _apiProvider!.getPrivateKey(mnemonic);
@@ -285,6 +344,15 @@ class ImportAccState extends State<ImportAcc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.isBackBtn! ? AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          }, 
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black,)
+        ),
+        elevation: 0,
+      ) : null,
       key: globalKey,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

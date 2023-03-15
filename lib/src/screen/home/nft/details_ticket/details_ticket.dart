@@ -84,7 +84,8 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                           context,
                           MaterialPageRoute(builder: (context) => FullScreenImageViewer(
                             // "https://images.all-free-download.com/images/graphiclarge/beach_cloud_dawn_horizon_horizontal_landscape_ocean_601821.jpg"
-                            "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}"
+                            "${dotenv.get("IPFS_API")}${widget.ticketNFTModel!.ticketType!.image}",
+                            true
                             )
                           ),
                         );
@@ -199,14 +200,14 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                   fontWeight: FontWeight.w600,
                 ),
           
-                SizedBox(height: 2.h,),
+                SizedBox(height: 2,),
           
                 const MyText(
                   text: "Get Ready for the best music festival.",
                   hexaColor: AppColors.textColor,
                 ),
           
-                SizedBox(height: 3.h,),
+                SizedBox(height: 3,),
                 
                 Container(
                   margin: const EdgeInsets.only(bottom: 20),
@@ -247,7 +248,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                               hexaColor: AppColors.lightGreyColor,
                             ),
                             
-                            SizedBox(height: 1.h,),
+                            SizedBox(height: 1,),
           
                             MyText(
                               hexaColor: AppColors.textColor,
@@ -268,7 +269,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                               hexaColor: AppColors.lightGreyColor,
                             ),
                             
-                            SizedBox(height: 1.h,),
+                            SizedBox(height: 1,),
                               
                             MyText(
                               textAlign: TextAlign.start,
@@ -334,7 +335,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                   ),
                 ),
           
-                SizedBox(height: 5.5.h,),
+                SizedBox(height: 5.5,),
           
                 Center(
                   child: Column(
@@ -347,7 +348,7 @@ class _DetailsTicketingState extends State<DetailsTicketing> {
                         fontWeight: FontWeight.w600,
                       ),
           
-                      SizedBox(height: 2.5.h,),
+                      SizedBox(height: 2.5,),
           
                       InkWell(
                         onTap: () {

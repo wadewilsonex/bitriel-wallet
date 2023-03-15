@@ -2,6 +2,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 
 class ImportAccBody extends StatelessWidget {
+
   final bool? enable;
   final String? reImport;
   final ImportAccModel? importAccModel;
@@ -31,7 +32,7 @@ class ImportAccBody extends StatelessWidget {
         key: importAccModel!.formKey,
         child: Column(
           children: [
-
+            
             const Align(
               alignment: Alignment.centerLeft,
               child: SeedContents(

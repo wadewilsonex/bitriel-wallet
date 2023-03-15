@@ -220,6 +220,7 @@ class AddAssetState extends State<AddAsset> {
         });
         
       } else {
+        if(!mounted) return;
         DialogComponents().dialogCustom(
           context: context,
           titles: "Opps",
@@ -324,12 +325,12 @@ class AddAssetState extends State<AddAsset> {
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.w,
+        leadingWidth: 7,
         title: MyText(
           text: "Add Custom Token",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 20,
         ),
         leading: IconButton(
           onPressed: () {
@@ -338,6 +339,7 @@ class AddAssetState extends State<AddAsset> {
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
+            size: 30,
           ),
         ),
       ),
@@ -375,7 +377,7 @@ class AddAssetState extends State<AddAsset> {
                       child: Lottie.asset(
                         "assets/animation/check.json",
                         alignment: Alignment.center,
-                        width: 60.w,
+                        width: 60,
                       )
                     ),
                   ],

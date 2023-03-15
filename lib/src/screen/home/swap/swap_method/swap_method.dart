@@ -35,7 +35,7 @@ class SwapMethod extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.all(10),
-            height: 7.h,
+            height: 7,
             decoration: BoxDecoration(
               border: Border.all(color: hexaCodeToColor(AppColors.primaryColor)),
               borderRadius: BorderRadius.circular(10)
@@ -72,7 +72,7 @@ class SwapMethod extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.only(top: paddingSize / 2, left: 10, right: 10),
-            height: 7.h,
+            height: 7,
             decoration: BoxDecoration(
               border: Border.all(color: hexaCodeToColor(AppColors.primaryColor)),
               borderRadius: BorderRadius.circular(10)

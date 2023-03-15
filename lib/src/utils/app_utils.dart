@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:date_format/date_format.dart';
+import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -35,7 +36,7 @@ class AppUtils {
     return dateTime.millisecondsSinceEpoch;
   }
 
-  static String timeStampToDateTime(String timeStamp) {
+  static String timeStampToDateTime(String timeStamp, {String middleStyle = "   "}) {
     /* Convert Time Stamp To Date time ( Format yyyy-MM-ddTHH:mm:ssZ ) */
     final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */
     return formatDate(parse, [
@@ -44,7 +45,7 @@ class AppUtils {
       mm,
       '-',
       dd,
-      '   ',
+      middleStyle,
       hh,
       ':',
       nn,
@@ -235,6 +236,75 @@ class AppUtils {
 
   static Color backgroundTheme(){
     return hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightBg);
+  }
+
+  static Widget discliamerShortText(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.all(paddingSize),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(
+            color: hexaCodeToColor(AppColors.greyCode),
+            fontSize: 16,
+            fontFamily: "NotoSans"
+          ),
+          children: <TextSpan>[
+            const TextSpan(text: '''IMPORTANT DISCLAIMER: All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms ("Site") is for your general information only, procured from third party sources. ''',),
+            TextSpan(
+              text: 'Read More',
+              style: TextStyle(
+                color: hexaCodeToColor(AppColors.primaryColor),
+                fontSize: 16,
+                fontFamily: "NotoSans"
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                    ),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return discliamerLongText();
+                    }
+                  );
+              }
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget discliamerLongText(){
+    return Padding(
+      padding: const EdgeInsets.all(paddingSize),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Center(
+            child: MyText(
+              text: "IMPORTANT DISCLAIMER",
+              hexaColor: AppColors.blackColor,
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              pBottom: 10,
+              pTop: 10,
+            ),
+          ),
+
+          MyText(
+            text: '''All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms ("Site") is for your general information only, procured from third party sources. We make no warranties of any kind in relation to our content, including but not limited to accuracy and updates. No part of the content that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyses and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.''',
+            hexaColor: AppColors.greyCode,
+            textAlign: TextAlign.start,
+            fontSize: 17,
+            pBottom: 10,
+            pTop: 10,
+          ),
+        ],
+      ),
+    );
   }
 }
 

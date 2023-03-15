@@ -12,7 +12,9 @@ class AppConfig {
   static const spreedSheetId = '1hFKqaUe1q_6A-b-_ZnEAC574d51fCi1bTWQKCluHF2E';
 
   /*Coingecko api url fetch asset price */
-  static const coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
+  static String coingeckoBaseUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=';
+   //'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=
+    // ''';
 
   static const erc20Abi = 'assets/abi/erc20.json';
 

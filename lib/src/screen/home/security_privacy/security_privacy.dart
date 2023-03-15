@@ -11,11 +11,17 @@ class SecurityPrivacy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.lightColorBg),
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
         elevation: 0,
+        bottomOpacity: 0,
         title: const MyText(
           text: "Security & Privacy",
-          fontSize: 17,
-          fontWeight: FontWeight.w600
+          hexaColor: AppColors.blackColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
         leading: IconButton(
           onPressed: () {
@@ -24,6 +30,7 @@ class SecurityPrivacy extends StatelessWidget {
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
+            size: 30,
           ),
         ),
       ),
@@ -58,7 +65,7 @@ class SecurityPrivacy extends StatelessWidget {
             top: 10,
           ),
 
-          SizedBox(height: 2.h,),
+          SizedBox(height: 2,),
 
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -104,7 +111,7 @@ class SecurityPrivacy extends StatelessWidget {
             top: 10,
           ),
 
-          SizedBox(height: 2.h,),
+          SizedBox(height: 2,),
 
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -139,7 +146,7 @@ class SecurityPrivacy extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: Icon(Iconsax.finger_scan, color: hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          leading: Icon(Iconsax.finger_scan, color: hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           title: const MyText(text: "Unlock with Biometric", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
           minLeadingWidth: 0,
           horizontalTitleGap: 5,
@@ -155,7 +162,7 @@ class SecurityPrivacy extends StatelessWidget {
         ),
 
         ListTile(
-          leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5.sp, width: 22.5.sp,),
+          leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5, width: 22.5,),
           title: const MyText(text: "Unlock with Face ID", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
           minLeadingWidth: 0,
           horizontalTitleGap: 5,

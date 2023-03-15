@@ -42,14 +42,14 @@ class About extends StatelessWidget {
               },
             ),
             SizedBox(
-              height: 5.h,
+              height: 5,
             ),
             InkWell(
               onTap: () {
                 _launchInBrowser('https://bitriel.com/privacy');
               },
               child: Container(
-                height: 10.h,
+                height: 10,
                 margin: const EdgeInsets.symmetric(horizontal: paddingSize),
                 width: double.infinity,
                 child: Column(
@@ -80,7 +80,7 @@ class About extends StatelessWidget {
                 _launchInBrowser('https://bitriel.com/termofuse');
               },
               child: Container(
-                height: 10.h,
+                height: 10,
                 margin: const EdgeInsets.symmetric(horizontal: paddingSize),
                 width: double.infinity,
                 child: Column(
@@ -154,7 +154,7 @@ class About extends StatelessWidget {
                           icon: Icon(
                             Iconsax.copy,
                             color: isDarkMode ? Colors.white : Colors.black,
-                            size: 18.sp,
+                            size: 18,
                           ),
                         )
                       ],

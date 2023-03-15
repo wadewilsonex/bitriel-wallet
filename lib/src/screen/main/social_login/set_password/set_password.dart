@@ -43,7 +43,7 @@ class _SetPasswordState extends State<SetPassword> {
       Navigator.push(
         context, 
         Transition(
-          child: ImportJson(
+          child: DataLoading(
             importAccountModel: _importAccountModel,
             initStateData: initStateData,
           ), 

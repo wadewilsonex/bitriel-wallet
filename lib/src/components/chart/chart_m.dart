@@ -32,28 +32,31 @@ Padding chartAsset(
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: 2.h,
-            horizontal: 2.w,
+            vertical: 2,
+            horizontal: 2,
           ),
           child: Column(
             children: [
-              // MyText(
-              //   text: "\$$marketPrice",
-              //   hexaColor: AppColors.textColor,
-              //   fontSize: 25,
-              //   fontWeight: FontWeight.w700,
-              // ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   SizedBox(
-                    width: 30.sp,
-                    child: logo!,
+                    height: 55,
+                    width: 55,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(color: Colors.white, child: logo),
+                    ),
                   ),
+                  // SizedBox(
+                  //   width: 30.sp,
+                  //   child: logo!,
+                  // ),
 
                   Padding(
-                    padding: EdgeInsets.only(left: 1.w),
+                    padding: EdgeInsets.only(left: 1),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +64,7 @@ Padding chartAsset(
                         Text(
                           '$crypto ($cryptoCode) - $exchangeCurrency',
                           style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 16,
                             color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                           ),
                           maxLines: 2,
@@ -71,7 +74,7 @@ Padding chartAsset(
                         MyText(
                           text: "\$$marketPrice",
                           hexaColor: isDarkMode ? AppColors.greyColor : AppColors.textColor,
-                          fontSize: 19.sp,
+                          fontSize: 19,
                           fontWeight: FontWeight.w700,
                         ),
 
@@ -85,10 +88,10 @@ Padding chartAsset(
               ),
 
               Padding(
-                padding: EdgeInsets.only(top: 5.h),
+                padding: EdgeInsets.only(top: 5),
                 child: SizedBox(
                   width: double.infinity,
-                  height: 20.h,
+                  height: 20,
                   child: Obx(
                     () => LineChart(chart(spots, minY.value, maxY.value,)
                     ),

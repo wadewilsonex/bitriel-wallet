@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 
 class Fmt {
+  
   static String doubleFormat(
     double? value, 
     {

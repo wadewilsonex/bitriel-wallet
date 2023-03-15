@@ -84,7 +84,7 @@ class SuccessTransferBody extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: paddingSize + 50),
-              child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40.sp,),
+              child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40,),
             ),
             const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
@@ -157,7 +157,7 @@ class SuccessTransferBody extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: paddingSize + 50),
-              child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40.sp,),
+              child: Icon(Iconsax.tick_circle, color: Colors.lightGreen, size: 40,),
             ),
             const MyText(text: "Success" ,fontSize: 18, fontWeight: FontWeight.w600,)
           ],
@@ -220,7 +220,7 @@ class SuccessTransferBody extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 1.h,),
+                    SizedBox(height: 1,),
 
                     Padding(
                       padding: const EdgeInsets.all(paddingSize + 5),

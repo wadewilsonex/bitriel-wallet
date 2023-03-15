@@ -10,7 +10,7 @@ class ReceiveWalletBody extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
-  final double? logoSize = 12.w;
+  final double? logoSize = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class ReceiveWalletBody extends StatelessWidget {
                 const MyText(
                   text: "Receive",
                   fontWeight: FontWeight.bold,
-                  fontSize: 17,
+                  fontSize: 20,
                 ),
 
                 Expanded(
@@ -57,6 +57,7 @@ class ReceiveWalletBody extends StatelessWidget {
               icon: Icon(
                 Iconsax.arrow_left_2,
                 color: isDarkMode ? Colors.white : Colors.black,
+                size: 30,
               ),
             ),
           ),
@@ -73,7 +74,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           
                           Container(
                             margin: EdgeInsets.only(
-                              bottom: 2.5.h,
+                              bottom: 2.5,
                               left: paddingSize,
                               right: paddingSize,
                               top: 16.0
@@ -124,7 +125,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           hexaColor: AppColors.textColor,
                                           text: conProvider.sortListContract[provider.assetsIndex].symbol,
-                                          bottom: 2.5.h,
+                                          bottom: 2.5,
                                         ),
                                   
                                         // Qr View
@@ -135,7 +136,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                         ),
                                   
                                         MyText(
-                                          top: 2.5.h,
+                                          top: 2.5,
                                           text: provider.accountM!.address ?? '',
                                           hexaColor: AppColors.darkBgd,
                                           fontSize: 16,
@@ -155,10 +156,10 @@ class ReceiveWalletBody extends StatelessWidget {
                                 //       onChanged: onChanged,
                                 //     );
                                 //   },
-                                // ) else SizedBox(height: 2.h,),
+                                // ) else SizedBox(height: 2,),
               
                                 // MyText(
-                                //   bottom: 2.5.h,
+                                //   bottom: 2.5,
                                 //   text: "Scan the QR code to pay me",
                                 //   fontSize: 16,
                                 //   color: AppColors.darkBgd

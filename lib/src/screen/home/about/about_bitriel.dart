@@ -17,12 +17,11 @@ class AboutBitriel extends StatelessWidget {
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.w,
-        title: MyText(
-          text: "About Bitriel",
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+        title: const MyText(
+          text: "About Us",
+          hexaColor: AppColors.blackColor,
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 20,
         ),
         leading: IconButton(
           onPressed: () {
@@ -31,6 +30,7 @@ class AboutBitriel extends StatelessWidget {
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
+            size: 30,
           ),
         ),
       ),
@@ -61,7 +61,7 @@ class AboutBitriel extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(paddingSize),
-            child: Image.asset("assets/logo/bitriel-logo-v2.png", height: 40.sp, width: 40.sp,),
+            child: Image.asset("assets/logo/bitriel-logo-v2.png", height: 40, width: 40,),
           ),
           MyText(
             text: "${packageInfo!.appName}: ${packageInfo!.version}",
@@ -110,14 +110,15 @@ class AboutBitriel extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: paddingSize / 2),
                             child: MyText(
                               text: infoSection(context: context)[index].title,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
                             ),
                           ),
                         ],
                       ),
                     ),
                     
-                    Icon(infoSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 17,),
+                    Icon(infoSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30),
 
                   ],
                 ),

@@ -289,7 +289,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
                         "assets/animation/check.json",
                         alignment: Alignment.center,
                         repeat: false,
-                        width: 60.w,
+                        width: 60,
                       )
                     ),
                   ],

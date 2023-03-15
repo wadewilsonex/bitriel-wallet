@@ -22,7 +22,7 @@ class BackUpKeyBody extends StatelessWidget{
           icon: Icon(
             Iconsax.arrow_left_2,
             color: isDarkMode ? Colors.white : Colors.black,
-            size: 22.5.sp,
+            size: 30,
           ),
           onPressed: (){
             Navigator.pop(context);
@@ -30,7 +30,7 @@ class BackUpKeyBody extends StatelessWidget{
         ),
         elevation: 0,
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkCard : AppColors.whiteHexaColor).withOpacity(0),
-        title: MyText(text: 'Export Account', fontSize: 16, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
+        title: MyText(text: 'Export Wallet', fontSize: 20, hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontWeight: FontWeight.bold,),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -38,52 +38,9 @@ class BackUpKeyBody extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            SizedBox(height: 2.5.h),
+            SizedBox(height: 2.5),
 
             _backupSection(context),
-
-            // ListTileComponent(
-            //   text: "Keystore (json)",
-            //   action: () async {
-            //     // await getKeyStoreJson!();
-            //     ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-            //     Map<String, dynamic> jsons = {
-            //       "address": Provider.of<ContractProvider>(context, listen: false).listContract[apiProvider.selNativeIndex].address,
-            //       "encoded": apiProvider.getKeyring.current.encoded,
-            //       "encoding": apiProvider.getKeyring.current.encoding,
-            //       "pubKey": apiProvider.getKeyring.current.pubKey,
-            //       "meta": apiProvider.getKeyring.current.meta,
-            //       "memo": apiProvider.getKeyring.current.memo,
-            //       "observation": apiProvider.getKeyring.current.observation,
-            //       "indexInfo": apiProvider.getKeyring.current.indexInfo
-            //     };
-
-            //     Navigator.push(
-            //       context, 
-            //       MaterialPageRoute(builder: (context) => KeyStoreJson(keystore: jsons,))
-            //     );
-            //   },
-            // ),
-
-            // SizedBox(height: 2.5.h),
-            
-            // ListTileComponent(
-            //   text: "Mnemonic",
-            //   action: () async {
-            //     await Navigator.push(context, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
-            //       // await disableScreenShot!();
-            //       ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-            //       await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
-            //         if (res!.seed != null){
-            //           await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
-            //         } else {
-            //           await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
-            //         }
-            //       });
-            //     });
-                
-            //   },
-            // )
           ]
         ),
       )
@@ -128,13 +85,14 @@ class BackUpKeyBody extends StatelessWidget{
                             child: MyText(
                               text: backupSection(context: context)[index].title,
                               fontWeight: FontWeight.bold,
+                              fontSize: 17,
                             ),
                           ),
                         ],
                       ),
                     ),
                     
-                    Icon(backupSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 17,),
+                    Icon(backupSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
 
                   ],
                 ),

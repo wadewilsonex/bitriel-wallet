@@ -345,9 +345,9 @@ class MyBottomAppBar extends StatelessWidget {
   final Function? contactPiker;
   final void Function()? openDrawer;
   final void Function(int index)? onIndexChanged;
-  final double iconSize = 7.w;
+  final double iconSize = 24;
 
-  MyBottomAppBar({
+  const MyBottomAppBar({
     Key? key, 
     required this.index,
     this.apiStatus,
@@ -368,6 +368,7 @@ class MyBottomAppBar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         child: BottomAppBar(
+          height: 80,
           color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.whiteHexaColor),
           // isDarkMode
           //   ? hexaCodeToColor(AppColors.darkBgd)
@@ -380,9 +381,8 @@ class MyBottomAppBar extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
             ),
-            padding: const EdgeInsets.symmetric(vertical: 5),
             child: SizedBox(
-              height: 7.h,
+              height: 10.h,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -400,7 +400,7 @@ class MyBottomAppBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: MyIconButton(
-                      title: "Asset",
+                      title: "Wallet",
                       txtColor: index == 1 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
                       isActive: index == 1 ? true : false,
                       onPressed: () {

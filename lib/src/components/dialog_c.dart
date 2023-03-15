@@ -74,12 +74,12 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20,),
                           
-                          SizedBox(width: 2.w,),
+                          SizedBox(width: 2,),
                           MyText(
                             text: "Copy",
-                            top: 5,
+                            fontSize: 19,
                             hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
@@ -110,10 +110,10 @@ class DialogComponents {
   Future dialogCustom({ 
     required BuildContext? context, 
     String? titles, 
-    double? titlesFontSize = 15,
-    EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0) , 
+    double? titlesFontSize = 18,
+    EdgeInsetsGeometry? contentPadding = const EdgeInsets.fromLTRB(30.0, 25.0, 35.0, 35.0) , 
     String? contents, 
-    double? contentsFontSize = 15,
+    double? contentsFontSize = 18,
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
@@ -142,11 +142,11 @@ class DialogComponents {
         
                 lottie ?? Container(),
                 
-                // lottie != null ? SizedBox(height: 3.h) : Container(),
+                // lottie != null ? SizedBox(height: 3) : Container(),
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3.h) : Container(),
+                image != null ? SizedBox(height: 3) : Container(),
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,

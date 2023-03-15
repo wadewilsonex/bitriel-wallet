@@ -10,7 +10,7 @@ class BodyTransactionDetail extends StatelessWidget {
     this.assetInfoModel,
   }) : super(key: key);
 
-  final double logoSize = 10.w;
+  final double logoSize = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,12 @@ class BodyTransactionDetail extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.w,
+        leadingWidth: 7,
         centerTitle: true,
         title: const MyText(
           text: "SEL Transfer",
           fontWeight: FontWeight.bold,
-          fontSize: 17,
+          fontSize: 20,
         ),
       ),
       body: Column(
@@ -93,7 +93,7 @@ class BodyTransactionDetail extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        height: 10.h,
+        height: 10,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -130,7 +130,7 @@ class BodyTransactionDetail extends StatelessWidget {
                 ),
 
                 MyText(
-                  left: 2.5.w,
+                  left: 2.5,
                   text: "-1 SEL",
                   hexaColor: AppColors.whiteColorHexa,
                   fontWeight: FontWeight.w600,

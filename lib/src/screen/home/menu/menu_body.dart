@@ -31,7 +31,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 1),
 
         MyListTile(
-          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 1,
           subIndex: 0,
           onTap: () {
@@ -40,7 +40,7 @@ class MenuBody extends StatelessWidget {
         ),
 
         MyListTile(
-          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 1,
           subIndex: 1,
           onTap: () {
@@ -48,7 +48,7 @@ class MenuBody extends StatelessWidget {
             Navigator.push(context, Transition(child: const AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
-        
+
         MyListTile(
           index: 1,
           subIndex: 2,
@@ -82,7 +82,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 3),
 
         MyListTile(
-          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -97,7 +97,7 @@ class MenuBody extends StatelessWidget {
 
         // const MenuSubTitle(index: 4),
         // MyListTile(
-        //   icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+        //   icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
         //   enable: false,
         //   index: 4,
         //   subIndex: 0,
@@ -115,7 +115,7 @@ class MenuBody extends StatelessWidget {
 
 
         // MyListTile(
-        //   icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+        //   icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
         //   index: 5,
         //   subIndex: 1,
         //   onTap: () async {
@@ -125,7 +125,7 @@ class MenuBody extends StatelessWidget {
         // ),
 
         MyListTile(
-          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 5,
           subIndex: 2,
           onTap: () async {
@@ -133,9 +133,9 @@ class MenuBody extends StatelessWidget {
             //_launchInBrowser('https://selendra.com/privacy');
           },
         ),
-
+        
         MyListTile(
-          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5.sp),
+          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 5,
           subIndex: 0,
           onTap: () async {

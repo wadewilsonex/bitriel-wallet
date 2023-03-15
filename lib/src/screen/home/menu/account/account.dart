@@ -1,13 +1,14 @@
 import 'package:polkawallet_sdk/storage/keyring.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/account/body_acc.dart';
 import '../../../../../index.dart';
 
 class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
 
-  //static const route = '/account';
+  static const route = '/account';
+  final dynamic argument;
+  final String? walletName;
+  const Account({Key? key, this.argument, this.walletName}) : super(key: key);
   @override
   AccountState createState() => AccountState();
 }
@@ -129,7 +130,7 @@ class AccountState extends State<Account> {
   }
 
   Future<void> _changeName() async {
-    dialogLoading(context);
+    // dialogLoading(context);
     if (_accountModel.editNameController.text.isNotEmpty){
       // dialogLoading(context);
       final api = Provider.of<ApiProvider>(context, listen: false);
@@ -154,6 +155,7 @@ class AccountState extends State<Account> {
         Navigator.pop(context);
         await customDialog(context, 'Oops', 'Change Failed!!!');
       }
+      
 
       // _accountModel.editNameController.text = '';
       // Close Dialog
@@ -213,15 +215,20 @@ class AccountState extends State<Account> {
 
   @override
   void initState() {
-
     _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
     _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
     super.initState();
   }
 
   @override
+  void dispose(){
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AccountBody(
+      walletName: widget.walletName,
       accountModel: _accountModel,
       onSubmitName: onSubmitName,
       onChangeName: onChangeName,
