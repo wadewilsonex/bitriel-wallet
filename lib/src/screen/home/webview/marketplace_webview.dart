@@ -148,6 +148,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                     if (url != null) {
                       setState(() {
                         getUrl = url.toString();
+                        isSecure = urlIsSecure(url);
                       });
                     }
           
@@ -181,20 +182,79 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                       useShouldOverrideUrlLoading: true,
                     ),
                   ),
+                  
                   shouldOverrideUrlLoading: (controller, navAction) async {
-                    final uri = navAction.request.url;
-                    final url = uri.toString();
+                    final url = navAction.request.url.toString();
                     debugPrint('URL $url');
-                    if (url.startsWith('wc:')) {
-                      if (url.contains('bridge') && url.contains('key')) {
-                        _wConnectC!.qrScanHandler(url);
-                      }
+                    if (url.contains('wc?uri=')) {
+                      final wcUri = Uri.parse(Uri.decodeFull(Uri.parse(url).queryParameters['uri']!));
+                      _wConnectC!.qrScanHandler(wcUri.toString());
+                      return NavigationActionPolicy.CANCEL;
+                    } else if (url.startsWith('wc:')) {
+                      _wConnectC!.qrScanHandler(url);
                       return NavigationActionPolicy.CANCEL;
                     } else {
                       return NavigationActionPolicy.ALLOW;
                     }
                   },
+                  // shouldOverrideUrlLoading: (controller, navAction) async {
+                  //   final uri = navAction.request.url;
+                  //   final url = uri.toString();
+                  //   debugPrint('URL $url');
+                  //   if (url.startsWith('wc:')) {
+                  //     if (url.contains('bridge') && url.contains('key')) {
+                  //       _wConnectC!.qrScanHandler(url);
+                  //     }
+                  //     return NavigationActionPolicy.CANCEL;
+                  //   } else {
+                  //     return NavigationActionPolicy.ALLOW;
+                  //   }
+                  // },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print("consoleMessage $consoleMessage");
+                  },
+                  onLoadError: (controller, url, code, message) async {
+
+                    if (Platform.isIOS && code == -999) {
+                      // NSURLErrorDomain
+                      return;
+                    }
+
+                    url = (url ?? 'about:blank') as Uri?;
+
+                    webViewController?.loadData(data: """
+                      <!DOCTYPE html>
+                      <html lang="en">
+                      <head>
+                          <meta charset="UTF-8">
+                          <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+                          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                          <style>
+                          ${await webViewController?.getTRexRunnerCss()}
+                          </style>
+                          <style>
+                          .interstitial-wrapper {
+                              box-sizing: border-box;
+                              font-size: 1em;
+                              line-height: 1.6em;
+                              margin: 0 auto 0;
+                              max-width: 600px;
+                              width: 100%;
+                          }
+                          </style>
+                      </head>
+                      <body>
+                          ${await webViewController?.getTRexRunnerHtml()}
+                          <div class="interstitial-wrapper">
+                            <h1>Website not available</h1>
+                            <p>Could not load web pages at <strong>$url</strong> because:</p>
+                            <p>$message</p>
+                          </div>
+                      </body>
+                      """, baseUrl: url, historyUrl: url);
+                  },
                 ),
+                
                 _progress < 1 ? SizedBox(
                   height: 3,
                   child: LinearProgressIndicator(
@@ -263,16 +323,17 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
     }
   }
 
-  static bool urlIsSecure(Uri url) {
+  bool urlIsSecure(Uri url) {
     return (url.scheme == "https") || isLocalizedContent(url);
   }
 
-  static bool isLocalizedContent(Uri url) {
+  bool isLocalizedContent(Uri url) {
     return (url.scheme == "file" ||
-        url.scheme == "chrome" ||
-        url.scheme == "data" ||
-        url.scheme == "javascript" ||
-        url.scheme == "about");
+      url.scheme == "chrome" ||
+      url.scheme == "data" ||
+      url.scheme == "javascript" ||
+      url.scheme == "about"
+    );
   }
 
 }

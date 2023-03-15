@@ -161,27 +161,27 @@ class AccountBody extends StatelessWidget{
                             label: const MyText(
                               text: "Edit Account Name", 
                               fontSize: 17,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               hexaColor: AppColors.blackColor,
                             ),
                           ),
                         ),
 
-                        // SizedBox(
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: TextButton.icon(
-                        //     onPressed: () {
-                        //       print("tab");
-                        //     }, 
-                        //     icon: const Icon(Iconsax.edit_2, color: Colors.black, size: 22,), 
-                        //     label: const MyText(
-                        //       text: "Edit account name", 
-                        //       fontSize: 17,
-                        //       fontWeight: FontWeight.w500,
-                        //       hexaColor: AppColors.blackColor,
-                        //     ),
-                        //   ),
-                        // ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: TextButton.icon(
+                            onPressed: () {
+                              _editAccountNameDialog(context);
+                            }, 
+                            icon: Icon(Iconsax.export_1, color: hexaCodeToColor(AppColors.primaryColor), size: 22,), 
+                            label: const MyText(
+                              text: "Export Private Key", 
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                              hexaColor: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
 
                       ],
                     ),
@@ -391,7 +391,7 @@ class AccountBody extends StatelessWidget{
                 label: const MyText(
                   text: "Edit Wallet Name", 
                   fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   hexaColor: AppColors.blackColor,
                 ),
               ),
@@ -415,8 +415,32 @@ class AccountBody extends StatelessWidget{
                 label: const MyText(
                   text: "Export Wallet",
                   fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   hexaColor: AppColors.primaryColor,
+                ),
+              ),
+            ),
+
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                    Navigator.push(
+                    context, 
+                    Transition(
+                      child: const BackUpKey(),
+                      transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    )
+                  );
+
+                }, 
+                icon: Icon(Iconsax.trash, color: hexaCodeToColor(AppColors.redColor), size: 25,), 
+                label: const MyText(
+                  text: "Remove Wallet",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  hexaColor: AppColors.redColor,
                 ),
               ),
             ),

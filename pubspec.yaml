@@ -153,7 +153,7 @@ dependencies:
   action_slider: ^0.6.0
 
   # Third-party
-  wallet_connect: ^1.0.2
+  wallet_connect: ^1.0.4
   wallet_connect_dart_v2: ^0.0.1
   eth_sig_util: ^0.0.9
   flutter_stripe: ^7.0.0

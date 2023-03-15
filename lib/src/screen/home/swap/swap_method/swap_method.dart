@@ -1,3 +1,4 @@
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/letsexchange/letsexchange.dart';
@@ -48,7 +49,7 @@ class SwapMethod extends StatelessWidget {
                       padding: const EdgeInsets.all(paddingSize - 5),
                       child: Image.asset('assets/logo/bitriel-logo-v2.png'),
                     ),
-                    const MyText(text: "Bitriel Swap", fontWeight: FontWeight.bold,)
+                    const MyText(text: "Bitriel Swap", fontSize: 18, fontWeight: FontWeight.bold,)
                   ],
                 ),
         
@@ -64,11 +65,23 @@ class SwapMethod extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              Transition(child: const LetsExchange(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+          onTap: () async{
+            Navigator.pop(context);
+            
+            await showBarModalBottomSheet(
+              context: context,
+              backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25.0),
+                ),
+              ),
+              builder: (context) => const LetsExchange(),
             );
+            // Navigator.push(
+            //   context,
+            //   Transition(child: const LetsExchange(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+            // );
           },
           child: Container(
             margin: const EdgeInsets.only(top: paddingSize / 2, left: 10, right: 10),
@@ -85,7 +98,7 @@ class SwapMethod extends StatelessWidget {
                       padding: const EdgeInsets.all(paddingSize - 5),
                       child: Image.asset('assets/logo/let_exchange.png'),
                     ),
-                    const MyText(text: "LetsExchange", fontWeight: FontWeight.bold)
+                    const MyText(text: "LetsExchange", fontSize: 18, fontWeight: FontWeight.bold)
                   ],
                 ),
         
@@ -99,6 +112,8 @@ class SwapMethod extends StatelessWidget {
             ),
           ),
         ),
+
+        const SizedBox(height: 25,),
 
       ],
     );

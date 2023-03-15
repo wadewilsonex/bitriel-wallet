@@ -3,7 +3,6 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
-// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class SetPassword extends StatefulWidget {
 
