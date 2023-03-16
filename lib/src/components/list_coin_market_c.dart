@@ -147,7 +147,7 @@ class _CoinMarketListState extends State<CoinMarketList> {
             // Asset Name
             SizedBox(width: 2.w),
             SizedBox(
-              width: 30.w,
+              width: MediaQuery.of(context).size.width / 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +175,8 @@ class _CoinMarketListState extends State<CoinMarketList> {
                     top: 4.0,
                     text: widget.listCoinMarket![widget.index!].name ?? '',
                     fontSize: 14,
-                    hexaColor: AppColors.tokenNameColor
+                    hexaColor: AppColors.tokenNameColor,
+                    textAlign: TextAlign.start,
                   )
                 ],
               ),

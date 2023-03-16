@@ -6,7 +6,7 @@ class SeedsCompoent {
 
   List<Widget> getColumn(BuildContext context, String seed, int pos, {double? moreSize = 0}) {
     
-    _seedHeight = (_seedHeight+moreSize!).sp;
+    _seedHeight = (_seedHeight+moreSize!);
     var list = <Widget>[];
     var se = seed.split(' ');
     var colSize = se.length ~/ 3;
@@ -117,7 +117,7 @@ class SeedContents extends StatelessWidget{
           fontWeight: FontWeight.bold,
         ),
 
-        SizedBox(height: 2.2.h),
+        const SizedBox(height: 2.2),
         MyText(
           text: subTitle,
           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,

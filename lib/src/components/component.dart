@@ -351,7 +351,7 @@ class MyText extends StatelessWidget {
           style: TextStyle(
             fontWeight: fontWeight,
             color: AppUtils.colorSelector(isDark: isDarkMode, hexaColor: hexaColor, enumColor: color2),
-            fontSize: fontSize!.sp
+            fontSize: fontSize!
           ),
           textAlign: textAlign,
           overflow: overflow,

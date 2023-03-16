@@ -235,7 +235,7 @@ Future<void> successDialog(
   BuildContext context, String operationText, {
     Widget? route = const HomePage()
 }) async {
-  await Future.delayed(const Duration(milliseconds: 30), (){});
+  // await Future.delayed(const Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -252,7 +252,7 @@ Future<void> successDialog(
             child: Column(
               children: [
 
-                Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+                const Icon(Icons.check_circle_outline_rounded, size: 20, color: Colors.green,),
                 const MyText(
                   text: 'SUCCESS!',
                   fontSize: 20,
@@ -616,7 +616,7 @@ Widget progress({bool isTicket = false, String? content}) {
               isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
-              width: 75.w,
+              width: 75,
             ),
             // CircularProgressIndicator(
             //   backgroundColor: Colors.transparent,
@@ -1189,7 +1189,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
           ),
         ),
 
-        // SizedBox(width: 20.w,),
+        // SizedBox(width: 20,),
         // Expanded(child: Container()),
         Expanded(
           child: MyText(
@@ -1289,7 +1289,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                                   hexaColor: AppColors.blackColor,
                                 ),
 
-                                SizedBox(height: 2.h),
+                                const SizedBox(height: 2),
                                 
                                 qrCodeProfile(
                                   value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',

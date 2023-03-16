@@ -32,6 +32,7 @@ class MyMenuItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               Container(
                 margin: const EdgeInsets.only(left: 10, top: 5),
                 child: MyText(
@@ -64,7 +65,6 @@ class MyMenuItem extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }

@@ -614,7 +614,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       "assets/animation/check.json",
                       alignment: Alignment.center,
                       repeat: false,
-                      width: 60.w,
+                      width: 60,
                     )
                   ),
                 ],

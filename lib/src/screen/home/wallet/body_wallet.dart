@@ -332,6 +332,7 @@ class WalletPageBody extends StatelessWidget {
                         ),
                       ),
                       builder: (context) => Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: const [
                           SwapMethod(),
                         ],  

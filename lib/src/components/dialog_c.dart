@@ -74,9 +74,9 @@ class DialogComponents {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20.sp,),
+                          Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20,),
                           
-                          SizedBox(width: 2.w,),
+                          const SizedBox(width: 2,),
                           MyText(
                             text: "Copy",
                             fontSize: 19,
@@ -142,11 +142,11 @@ class DialogComponents {
         
                 lottie ?? Container(),
                 
-                // lottie != null ? SizedBox(height: 3.h) : Container(),
+                // lottie != null ? SizedBox(height: 3) : Container(),
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3.h) : Container(),
+                image != null ? const SizedBox(height: 3) : Container(),
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,

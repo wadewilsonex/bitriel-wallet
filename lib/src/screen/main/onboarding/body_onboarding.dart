@@ -1,4 +1,3 @@
-import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/welcome_item_c.dart';
@@ -9,6 +8,7 @@ class OnboardignBody extends StatelessWidget {
   final InputController? inputController = InputController();
   final bool? selected;
   final Function? tabGoogle;
+  final double? logoSize = 100;
 
   OnboardignBody({Key? key, this.selected, this.tabGoogle}) : super(key: key);
 
@@ -16,11 +16,7 @@ class OnboardignBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
-        // SizedBox(
-        //   height: 5.h,
-        // ),
-    
+
         Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -56,6 +52,7 @@ class OnboardignBody extends StatelessWidget {
     
             Row(
               children: [
+                
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20 / 2),

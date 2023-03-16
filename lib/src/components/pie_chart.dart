@@ -23,15 +23,15 @@ class Indicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: size.w,
-            height: size.w,
+            width: size,
+            height: size,
             decoration: BoxDecoration(
               shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
               color: color,
             ),
           ),
-          SizedBox(
-            width: 2.w,
+          const SizedBox(
+            width: 2,
           ),
           MyText(
             text: text,
@@ -62,7 +62,7 @@ class ChartDataState extends State {
           children: <Widget>[
 
             Container(
-              height: 10.h,
+              height: 10,
               decoration: BoxDecoration(
                 color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
                 shape: BoxShape.circle,
@@ -91,8 +91,8 @@ class ChartDataState extends State {
               ),
             ),
 
-            SizedBox(
-              height: 5.h,
+            const SizedBox(
+              height: 5,
             ),
       
             Column(

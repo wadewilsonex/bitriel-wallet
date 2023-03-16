@@ -148,7 +148,6 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                     if (url != null) {
                       setState(() {
                         getUrl = url.toString();
-                        isSecure = urlIsSecure(url);
                       });
                     }
           
@@ -323,17 +322,16 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
     }
   }
 
-  bool urlIsSecure(Uri url) {
+  static bool urlIsSecure(Uri url) {
     return (url.scheme == "https") || isLocalizedContent(url);
   }
 
-  bool isLocalizedContent(Uri url) {
+  static bool isLocalizedContent(Uri url) {
     return (url.scheme == "file" ||
-      url.scheme == "chrome" ||
-      url.scheme == "data" ||
-      url.scheme == "javascript" ||
-      url.scheme == "about"
-    );
+        url.scheme == "chrome" ||
+        url.scheme == "data" ||
+        url.scheme == "javascript" ||
+        url.scheme == "about");
   }
 
 }

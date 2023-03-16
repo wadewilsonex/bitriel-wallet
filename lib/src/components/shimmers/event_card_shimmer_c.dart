@@ -22,7 +22,7 @@ class EventCardShimmerComponent extends StatelessWidget {
               baseColor: Colors.red.withOpacity(0.5),
               highlightColor: Colors.red,
               child: Container(
-                width: 15.w,
+                width: 15,
                 color: Colors.white,
                 child: const MyText(
                   text: "",
@@ -74,7 +74,7 @@ class EventCardShimmerComponent extends StatelessWidget {
                                     // border: Border.all(color: hexaCodeToColor("#383838"))
                                   ),
                                   // width: MediaQuery.of(context).size.width - 60,
-                                  height: 8.h,
+                                  height: 8,
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -123,10 +123,10 @@ class EventCardShimmerComponent extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30)
                             ),
                             // width: MediaQuery.of(context).size.width - 60,
-                            height: 5.h,
-                            width: 5.h,
+                            height: 5,
+                            width: 5,
                             padding: const EdgeInsets.all(10),
-                            child: Icon(Iconsax.heart, color: Colors.white, size: 4.w,),
+                            child: const Icon(Iconsax.heart, color: Colors.white, size: 4,),
                           ),
                         ),
                       ],

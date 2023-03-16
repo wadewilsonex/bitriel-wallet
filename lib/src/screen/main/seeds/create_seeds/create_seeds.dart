@@ -1,12 +1,16 @@
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/body_create_key.dart';
 
 class CreateSeeds extends StatefulWidget {
 
-  const CreateSeeds({Key? key}): super(key: key);
+  final NewAccount? newAcc;
+  final String? passCode;
+
+  CreateSeeds({Key? key, @required this.newAcc, @required this.passCode}): super(key: key);
 
   @override
   CreateWalletPagetScreenState createState() => CreateWalletPagetScreenState();
@@ -114,7 +118,13 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
   @override
   void initState() {
     _model.initial = true;
-    StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
+
+    // Wiget.passCode is from add new account
+    if (widget.passCode == null) {
+      StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
+    } else {
+      _model.passCode = widget.passCode!;
+    }
     _generateKey();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showWarning(context);
@@ -123,12 +133,11 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
     super.initState();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return CreateSeedsBody(
       createKeyModel: _model,
+      newAcc: widget.newAcc,
       generateKey: _generateKey,
     );
   }

@@ -8,8 +8,8 @@ PreferredSizeWidget eventAppBar({
     foregroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg).withOpacity(0),
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg).withOpacity(0),
     elevation: 0,
-    toolbarHeight: 7.h,
-    // leadingWidth: 15.w,
+    toolbarHeight: 7,
+    // leadingWidth: 15,
     automaticallyImplyLeading: false,
     titleSpacing: 0,
     // centerTitle: true,
@@ -32,7 +32,7 @@ PreferredSizeWidget eventAppBar({
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.arrow_back_ios_new, color: hexaCodeToColor(AppColors.whiteHexaColor), size: 4.w,),
+              Icon(Icons.arrow_back_ios_new, color: hexaCodeToColor(AppColors.whiteHexaColor), size: 4,),
               MyText(left: 10, text: title, color2: Colors.white, fontWeight: FontWeight.w700,)
             ],
           ),

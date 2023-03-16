@@ -101,9 +101,13 @@ class OnboardingState extends State<Onboarding> {
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: OnboardignBody(tabGoogle: tabGoogle, selected: selected,)
+          ),
         ),
       ),
     );

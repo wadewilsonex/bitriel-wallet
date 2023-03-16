@@ -146,7 +146,7 @@ class _TrendMarketListState extends State<TrendMarketList> {
             // Asset Name
             SizedBox(width: 2.w),
             SizedBox(
-              width: 30.w,
+              width: MediaQuery.of(context).size.width / 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +174,8 @@ class _TrendMarketListState extends State<TrendMarketList> {
                     top: 4.0,
                     text: widget.trendingCoin![widget.index!].item.name ?? '',
                     fontSize: 15,
-                    hexaColor: AppColors.tokenNameColor
+                    hexaColor: AppColors.tokenNameColor,
+                    textAlign: TextAlign.start,
                   )
                 ],
               ),

@@ -145,3 +145,16 @@ class PostRequest {
   }
   
 }
+
+class EventCrewRestApi{
+
+  Future<http.Response> bookTicket(String body) async {
+
+    return await http.post(
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}payments/stripe/pay"),
+      body: body,
+      headers: conceteHeader()
+    );
+  }  
+}

@@ -171,7 +171,7 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   animated_text_kit: ^4.2.2
   flutter_inappwebview: ^5.7.2+3
-  event_crew: ^0.0.3
+  device_preview: ^1.1.0
   # flutter_html: ^2.2.1
 
 
@@ -181,9 +181,21 @@ dependency_overrides:
     #   url: https://github.com/polkawallet-io/ui.git
     #   ref: 485a9cde97f2446d74a1aeb6d8d63e33683461a5
 
-  polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
+  # polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
   # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
-  lottie: ^2.3.0
+
+  polkawallet_sdk:
+    git:
+      url: https://github.com/DaveatCor/sdk.git
+      ref: master  
+
+  lottie: ^1.4.2
+  event_crew:
+    git: 
+      url: https://github.com/selendra/event_crew_package.git
+      ref: main
+      
+  # polkawallet_sdk: 0.5.1
 
 dev_dependencies:
   flutter_lints: ^2.0.1

@@ -240,7 +240,7 @@
 //             // SizedBox(
 //             //   height: MediaQuery.of(context).size.width * 0.08,
 //             // ),
-//             Icon(Icons.check_circle_outline_rounded, size: 20.w, color: Colors.green,),
+//             Icon(Icons.check_circle_outline_rounded, size: 20, color: Colors.green,),
 //             MyText(
 //               text: 'SUCCESS!',
 //               fontSize: 20,
@@ -315,8 +315,8 @@
 //               ),
 //               SvgPicture.asset(
 //                 AppConfig.iconsPath+'arrow.svg',
-//                 height: 15.w,
-//                 width: 15.w,
+//                 height: 15,
+//                 width: 15,
 //                 color: hexaCodeToColor(AppColors.secondary),
 //               ),
 //               MyText(
@@ -335,7 +335,7 @@
 //         ),
 //       ),
 //       btn2: SizedBox(
-//         height: 7.h,
+//         height: 7,
 //         width: MediaQuery.of(context).size.width / 1.5,
 //         child: MyGradientButton(
 //           textButton: "CONFIRM",

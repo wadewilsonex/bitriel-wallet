@@ -84,7 +84,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   ),
                 ),
   
-                SizedBox(height: 3.h),
+                SizedBox(height: 3),
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.isEmpty)
                 Align(

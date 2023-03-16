@@ -72,7 +72,7 @@ class FingerPrintState extends State<FingerPrint> {
         if(!mounted) return;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ImportJson(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
+          MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
         );
         // Navigator.pushAndRemoveUntil(
         //   context, 
@@ -132,9 +132,9 @@ class FingerPrintState extends State<FingerPrint> {
           children: <Widget>[
 
             SizedBox(
-              height: 10.0.h,
+              height: 10.0,
             ),
-            Image.asset("assets/logo/fingerprint.png", width: 30.w,),
+            Image.asset("assets/logo/fingerprint.png", width: 30,),
             const SizedBox(
               height: 20.0,
             ),
@@ -143,7 +143,7 @@ class FingerPrintState extends State<FingerPrint> {
               width: 275,
               top: 19.0,
               text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
-              fontSize: 20.sp,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
@@ -155,7 +155,7 @@ class FingerPrintState extends State<FingerPrint> {
 
             MyText(
               top: 20.0,
-              width: 80.w,
+              width: 80,
               text: widget.isEnable == true ? '' : 'Activate biometrics for your wallet to make it even more secure.',
               hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
@@ -187,7 +187,7 @@ class FingerPrintState extends State<FingerPrint> {
                   action: () async {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ImportJson(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
+                      MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
                     );
                   },
                 )

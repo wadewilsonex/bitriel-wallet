@@ -1,4 +1,6 @@
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/list_market_coin_m.dart';
 import 'package:wallet_apps/src/models/trendingcoin_m.dart';
 
@@ -18,12 +20,16 @@ class MarketProvider with ChangeNotifier {
   Map<String, dynamic>? queried;
 
   List<String> id = [
-    'kiwigo',
-    'ethereum',
-    'binancecoin',
-    'polkadot',
-    'bitcoin',
-    'selendra'
+    'selendra', //1
+    'selendra_v1', //2
+    'selendra_v2', //3
+    'kiwigo', //3
+    'ethereum', //4
+    'binancecoin', //5
+    'polkadot', //6
+    'bitcoin', //7
+    'reakreay', //8
+    'att', //9
   ];
 
   List<Map<String, dynamic>> sortDataMarket = [];
@@ -59,9 +65,13 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
+    
+    print("fetchTokenMarketPrice");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
+    
     sortDataMarket.clear();
 
     final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
@@ -191,6 +201,9 @@ class MarketProvider with ChangeNotifier {
   }
   
   Future<void> fetchTrendingCoin() async {
+
+    if(kDebugMode) print("fetchTrendingCoin");
+    
     try {
       
       final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
@@ -243,6 +256,8 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<ListMetketCoinModel>> listMarketCoin() async{
 
+    if(kDebugMode) print("listMarketCoin");
+
     try {
 
       final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'));
@@ -271,6 +286,16 @@ class MarketProvider with ChangeNotifier {
 
     return [];
 
+  }
+
+  String conceteApi(){
+    
+    for(String id in id){
+      AppConfig.coingeckoBaseUrl = "${AppConfig.coingeckoBaseUrl}$id%2C%20";
+    }
+
+    return "${AppConfig.coingeckoBaseUrl}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h";
+    
   }
 
 }

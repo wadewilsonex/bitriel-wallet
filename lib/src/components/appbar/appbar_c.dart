@@ -9,14 +9,18 @@ PreferredSizeWidget defaultAppBar({
   required HomePageModel? homePageModel,
   required bool? pushReplacement
 }) {
+
+  const appBarHeight = 80.0;
+
   return AppBar(
     backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
     elevation: 0,
-    toolbarHeight: 10.h,
-    leadingWidth: 15.w,
+    toolbarHeight: appBarHeight,
+    // leadingWidth: 30,
     centerTitle: true,
     flexibleSpace: SafeArea(
       child: Container(
+        width: MediaQuery.of(context!).size.width,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
@@ -129,7 +133,7 @@ PreferredSizeWidget defaultAppBar({
                 // }
 
                 await TrxOptionMethod.scanQR(
-                  context!,
+                  context,
                   [],
                   pushReplacement!,
                 );
@@ -322,7 +326,7 @@ class MyAppBar extends StatelessWidget {
                   icon: Icon(
                     Iconsax.arrow_left_2,
                     color: isDarkMode ? Colors.white : Colors.black,
-                    size: 22.5.sp,
+                    size: 22.5,
                   ),
                   onPressed: (){
                     onPressed!();

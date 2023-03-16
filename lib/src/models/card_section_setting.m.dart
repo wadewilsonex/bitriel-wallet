@@ -30,13 +30,21 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
       leadingIcon: Icon(Iconsax.user, color: hexaCodeToColor(AppColors.primaryColor), size: 30),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
+        
         Navigator.push(
           context!, 
-          Transition(
-            child: const MultipleWallets(),
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          MaterialPageRoute(
+            settings: const RouteSettings(name: "/multipleWallets"),
+            builder: (context) => const MultipleWallets()
           )
         );
+
+
+          // Transition(
+          //   arguments: "/multipleWallets",
+          //   child: const MultipleWallets(),
+          //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          // )
       }
     ),
     

@@ -10,6 +10,9 @@ import '../../index.dart';
 
 class ContractProvider with ChangeNotifier {
 
+  // Get From App.dart global context
+  BuildContext? context;
+
   Client? _httpClient;
   Web3Client? _bscClient, _etherClient;
 
@@ -87,11 +90,12 @@ class ContractProvider with ChangeNotifier {
     initJson();
   }
 
-
   /// Fetch Support Contract From Json Inside Asset
   /// 
   /// Run First 
   Future<void> initJson() async {
+
+    print("initJson");
     try {
       
       // True In Case First Time Initialize
@@ -103,32 +107,43 @@ class ContractProvider with ChangeNotifier {
 
         sortListContract.clear();
         listContract.clear();
-        
-        decode.forEach((value){
-          // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
-            listContract.add(
-              SmartContractModel(
-                id: value['id'],
-                name: value["name"],
-                logo: value["logo"],
-                address: value['address'],
-                contract: value['contract'],
-                contractTest: value['contract_test'],
-                symbol: value["symbol"],
-                org: value["org"],
-                orgTest: value["org_test"],
-                isContain: value["isContain"],
-                balance: value["balance"],
-                show: value["show"],
-                maxSupply: value["max_supply"],
-                description: value["description"],
-                listActivity: [],
-                lineChartList: value['lineChartData'],
-                lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
-              )
-            );
-          // }
-        });
+      
+
+        for (int i = 0 ; i < decode.length; i++){
+
+          print("$i sortDataMarket ${Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']}\n\n");
+          
+          listContract.add(
+            SmartContractModel(
+              id: decode[i]['id'],
+              name: decode[i]["name"],
+              logo: decode[i]["logo"],
+              address: decode[i]['address'],
+              contract: decode[i]['contract'],
+              contractTest: decode[i]['contract_test'],
+              symbol: decode[i]["symbol"],
+              org: decode[i]["org"],
+              orgTest: decode[i]["org_test"],
+              isContain: decode[i]["isContain"],
+              balance: decode[i]["balance"],
+              show: decode[i]["show"],
+              maxSupply: decode[i]["max_supply"],
+              description: decode[i]["description"],
+              lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
+              // lineChartList: decode[i]['lineChartData'],
+              listActivity: [],
+              lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
+            )
+          );
+
+          // decode.forEach((value){
+          //   // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
+              
+          //   // }
+          // });
+        }
+
+        print("listContract ${listContract.length}");
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
         
@@ -185,6 +200,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> initBscClient() async {
+
     try {
 
       _httpClient = Client();
@@ -198,6 +214,7 @@ class ContractProvider with ChangeNotifier {
         }
       }
     }
+
   }
 
   Future<void> initEtherClient() async {
@@ -931,8 +948,7 @@ class ContractProvider with ChangeNotifier {
       Transaction(
         maxGas: maxGas.toInt(),
         to: EthereumAddress.fromHex(reciever),
-        value:
-            EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+        value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
       ),
       chainId: null,
       fetchChainIdFromNetworkId: true,
@@ -985,6 +1001,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> addToken(String symbol, BuildContext context, {String? contractAddr, String? network}) async {
+
     _marketProvider ??= Provider.of<MarketProvider>(context, listen: false);
     try {
         
@@ -1083,6 +1100,15 @@ class ContractProvider with ChangeNotifier {
     );
 
     return item.address!;
+  }
+
+  void setMarket(Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h, int index) {
+    listContract[index].marketData = market;
+    listContract[index].lineChartList = lineChart;
+    listContract[index].marketPrice = currentPrice;
+    listContract[index].change24h = priceChange24h;
+
+    notifyListeners();
   }
 
   void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {

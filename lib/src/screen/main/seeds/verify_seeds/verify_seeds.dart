@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
@@ -12,8 +13,9 @@ import 'package:polkawallet_sdk/api/apiKeyring.dart';
 class VerifyPassphrase extends StatefulWidget {
 
   final CreateKeyModel? createKeyModel;
+  final NewAccount? newAcc;
   
-  const VerifyPassphrase({Key? key, this.createKeyModel}) : super(key: key);
+  const VerifyPassphrase({Key? key, this.createKeyModel, @required this.newAcc}) : super(key: key);
 
   @override
   State<VerifyPassphrase> createState() => VerifyPassphraseState();
@@ -64,12 +66,12 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     
     widget.createKeyModel!.missingSeeds = [];
     widget.createKeyModel!.tmpThreeNum = [];
-    // widget.createKeyModel!.empty();
 
     super.dispose();
   }
 
   void onTap(index, rmIndex){
+    
     for(int i = 0; i < widget.createKeyModel!.missingSeeds.length; i++){
       if (widget.createKeyModel!.missingSeeds[i] == ""){
         widget.createKeyModel!.missingSeeds[i] = widget.createKeyModel!.lsSeeds![index];
@@ -79,6 +81,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     widget.createKeyModel!.tmpSeed = widget.createKeyModel!.missingSeeds.join(" ");
     widget.createKeyModel!.tmpThreeNum!.removeAt(rmIndex);
     setState(() { });
+
   }
   void initStateData(TickerProvider tickerProvider, Function mySetState){
 
@@ -123,13 +126,13 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   Future<void> importAcc() async {
 
-    changeStatus("IMPORTING ACCOUNT", avg: "2/4");
+    changeStatus("IMPORTING ACCOUNT", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
     
     final jsn = await _apiProvider!.apiKeyring.importAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
-      key: widget.createKeyModel!.lsSeeds!.join(" "),   
+      key: widget.createKeyModel!.lsSeeds!.join(" "),
       name: 'User', 
       password: widget.createKeyModel!.passCode
     );
@@ -147,6 +150,38 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     await connectNetwork(widget.createKeyModel!.lsSeeds!.join(" "));
     
   }
+
+  /// Return Boolean Value
+  Future<bool> addNewAcc() async {
+    print("addNewAcc");
+    try {
+
+      final jsn = await _apiProvider!.apiKeyring.importAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.mnemonic, 
+        key: widget.createKeyModel!.lsSeeds!.join(" "),
+        name: 'User', 
+        password: widget.createKeyModel!.passCode
+      );
+
+      print("jsn $jsn");
+
+      await _apiProvider!.apiKeyring.addAccount(
+        _apiProvider!.getKeyring, 
+        keyType: KeyType.mnemonic, 
+        acc: jsn!,
+        password: widget.createKeyModel!.passCode
+      );
+
+      print("added");
+      return true;
+
+    } catch (e){
+      print("Error addNewAcc $e");
+      return false;
+    }
+  }
+
 
   Future<void> connectNetwork(String mnemonic) async {
     
@@ -210,6 +245,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   }
   
   Future<void> verifySeeds() async {
+
     dynamic res;
     ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
     try {
@@ -217,13 +253,30 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       if (res == true){ 
 
         if(!mounted) return;
-        Navigator.push(
-          context, 
-          Transition(
-            child: ImportJson(initStateData: initStateData, importAccountModel: _importAccountModel,),
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          )
-        );
+
+        if (widget.newAcc != null){
+          print("widget.newAcc != null");
+          await addNewAcc().then((value) async {
+            if (value == true){
+
+              Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+              
+              Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+              
+            } else {
+              await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
+            }
+          });
+        } else {
+
+          Navigator.push(
+            context, 
+            Transition(
+              child: DataLoading(initStateData: initStateData, importAccountModel: _importAccountModel,),
+              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            )
+          );
+        }
 
         // await Navigator.push(
         //   context, 

@@ -345,9 +345,9 @@ class MyBottomAppBar extends StatelessWidget {
   final Function? contactPiker;
   final void Function()? openDrawer;
   final void Function(int index)? onIndexChanged;
-  final double iconSize = 7.w;
+  final double iconSize = 24;
 
-  MyBottomAppBar({
+  const MyBottomAppBar({
     Key? key, 
     required this.index,
     this.apiStatus,
@@ -368,6 +368,7 @@ class MyBottomAppBar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         child: BottomAppBar(
+          height: 80,
           color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.whiteHexaColor),
           // isDarkMode
           //   ? hexaCodeToColor(AppColors.darkBgd)

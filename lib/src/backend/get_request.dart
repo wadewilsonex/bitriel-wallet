@@ -11,6 +11,11 @@ Future<http.Response> getDeepLinkRoutes() async {
   return await http.get(Uri.parse(dotenv.get('SELENDRA_API_DEEPLINK')));
 }
 
+Future<http.Response> getEventJSON() async {
+  print("getEventJSON");
+  return await http.get(Uri.parse(dotenv.get('EVENT')));
+}
+
 /* MetaDoers World */
 
 Future<http.Response> getAllEvent() async {

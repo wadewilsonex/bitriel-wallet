@@ -28,7 +28,7 @@ class CategoryCard extends StatelessWidget {
 
       child: Row(
         children: [
-          SizedBox(width: 2.w,),
+          const SizedBox(width: 2,),
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,7 +41,7 @@ class CategoryCard extends StatelessWidget {
                 hexaColor: (index == selectedIndex) ? (isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : AppColors.greyColor,
               ),
               
-              SizedBox(height: 0.65.h,),
+              const SizedBox(height: 0.65,),
 
               (index == selectedIndex) ?
               Container(
@@ -53,7 +53,7 @@ class CategoryCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(width: 7.w,),
+          const SizedBox(width: 7,),
         ],
       ),
     );

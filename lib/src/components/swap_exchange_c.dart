@@ -27,7 +27,7 @@ class SwapExchange extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

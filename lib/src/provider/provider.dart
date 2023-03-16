@@ -7,12 +7,18 @@ class ContractsBalance extends ChangeNotifier {
 
   static BuildContext? _context;
 
+  /// This Setter is define in initState function at App.dart
+  /// 
+  /// Line 82
   set setContext(BuildContext ctx){
     _context = ctx;
   }
   
   /// The function get all asset information 
   Future<void> getAllAssetBalance({bool? isRefresh}) async {
+
+    print("getAllAssetBalance");
+
     try {
 
       final contractProvider = Provider.of<ContractProvider>(_context!, listen: false);
@@ -40,9 +46,6 @@ class ContractsBalance extends ChangeNotifier {
         await apiProvider.getBtcBalance(context: _context);
 
         await apiProvider.connectPolNon(context: _context);
-        
-        /// Fetch and Fill Market Price Into Asset
-        await Provider.of<MarketProvider>(_context!, listen: false).fetchTokenMarketPrice(_context!);
         
         /// Fetch main balance
         await apiProvider.totalBalance(context: _context!);

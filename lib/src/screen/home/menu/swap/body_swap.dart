@@ -79,7 +79,7 @@
 //                               : AppColors.textColor,
 //                             textAlign: TextAlign.left,
 //                             overflow: TextOverflow.ellipsis,
-//                             bottom: 1.5.h,
+//                             bottom: 1.5,
 //                           ),
 
 //                           Container(
@@ -111,7 +111,7 @@
 //                                       color: isDarkMode
 //                                         ? hexaCodeToColor(AppColors.whiteColorHexa)
 //                                         : hexaCodeToColor(AppColors.textColor),
-//                                       fontSize: 15.sp
+//                                       fontSize: 15
 //                                     ),
 //                                     decoration: InputDecoration(
                                       
@@ -122,7 +122,7 @@
 //                                       border: InputBorder.none,
 //                                       hintText: '0.00',
 //                                       hintStyle: TextStyle(
-//                                         fontSize: 15.sp,
+//                                         fontSize: 15,
 //                                         color: isDarkMode
 //                                           ? hexaCodeToColor(AppColors.darkSecondaryText)
 //                                           : hexaCodeToColor(AppColors.textColor).withOpacity(0.3),

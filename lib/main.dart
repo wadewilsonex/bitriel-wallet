@@ -5,6 +5,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
+import 'package:wallet_apps/src/provider/event_p.dart';
 import 'package:wallet_apps/src/provider/headless_webview_p.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
@@ -87,6 +88,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<HeadlessWebView>(
           create: (context) => HeadlessWebView(),
+        ),
+        ChangeNotifierProvider<EventProvider>(
+          create: (context) => EventProvider(),
         ),
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),

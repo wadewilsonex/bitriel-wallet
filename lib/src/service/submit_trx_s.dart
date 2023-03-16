@@ -21,6 +21,7 @@ class SubmitTrxService {
       final txInfoData = TxInfoData('balances', 'transfer', sender);
 
       final chainDecimal = contract.sortListContract[scanPay.assetValue].chainDecimal;
+      
       if (contract.sortListContract[scanPay.assetValue].symbol == "SEL"){
         return await api.connectSELNode(context: context).then((value) async {
           fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
@@ -41,6 +42,7 @@ class SubmitTrxService {
         });
         
       } else {
+
         return await api.connectPolNon(context: context).then((value) async {
           fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
             txInfoData,
@@ -53,7 +55,6 @@ class SubmitTrxService {
             ],
           );
           await sendTx(api, scanPay, password, context, txInfoData, chainDecimal);
-
           await api.subscribeDotBalance(context: context);
           return true;
         });
