@@ -718,6 +718,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.9"
+  flutter_ringtone_player:
+    dependency: transitive
+    description:
+      name: flutter_ringtone_player
+      sha256: "0b036416fda0654da52221989bd1a8ccd2876cea57f61ecc3a4fc272bd738c67"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   flutter_screen_lock:
     dependency: "direct main"
     description:
@@ -1240,14 +1248,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  lottie:
-    dependency: "direct main"
-    description:
-      name: lottie
-      sha256: "893da7a0022ec2fcaa616f34529a081f617e86cc501105b856e5a3184c58c7c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
   matcher:
     dependency: transitive
     description:

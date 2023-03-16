@@ -10,6 +10,7 @@ import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'src/route/router.dart' as router;
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
 
