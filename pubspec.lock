@@ -513,6 +513,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.9"
+  event_crew:
+    dependency: "direct main"
+    description:
+      name: event_crew
+      sha256: bc0b90dff80bb6a04f768113fd6209084a01d5ae3bbb815e7c60c0d71b66d5cb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   external_app_launcher:
     dependency: "direct main"
     description:
@@ -1248,6 +1256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  lottie:
+    dependency: "direct overridden"
+    description:
+      name: lottie
+      sha256: "0cf78e7a3dd3431523a7debcf33ce4c41ecbfa113e2d10c24c3fe6667d55b556"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   matcher:
     dependency: transitive
     description:
@@ -1593,6 +1609,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  qr_code_scanner:
+    dependency: transitive
+    description:
+      name: qr_code_scanner
+      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -1774,6 +1798,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  socket_io_client:
+    dependency: transitive
+    description:
+      name: socket_io_client
+      sha256: a9c589d3fe2658506be38ddb36f23348daab73a00ff1645533669d07a5111cfc
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  socket_io_common:
+    dependency: transitive
+    description:
+      name: socket_io_common
+      sha256: "5a218a784df4d1927ae713e17af619caa736cb2ebac287c59e4e24228b22da29"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   source_span:
     dependency: transitive
     description:
