@@ -76,7 +76,7 @@ class PasscodeBody extends StatelessWidget{
 
             if (titleStatus == null ) MyText(
               text: isFirst! ? 'Enter PIN' : 'Verify PIN',
-              fontSize: 25,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
             ) 
             // For Change PIN
@@ -346,7 +346,9 @@ class ReuseNumPad extends StatelessWidget {
                 ),
               )
             ],
-          )
+          ),
+
+          const SizedBox(height: 50),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
@@ -31,14 +32,131 @@ class AddAssetState extends State<AddAsset> {
     {"symbol":"Ethereum", "index": 1, "logo": "assets/token_logo/eth.png"}
   ];
 
+  List searchResults = [];
+
+  List<Map<String, dynamic>>? getContractData = [];
+  List<Map<String, dynamic>>? initContractData = [];
+  String query = '';
+
+  void onChangedQuery(dynamic v) { 
+    setState(() {
+      query = v;
+      setResults(query);
+    });
+  }
+
+  void setResults(String query) {
+    searchResults = getContractData!
+      .where((elem) =>
+          elem['symbol']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()) ||
+          elem['name']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()))
+      .toList();
+  }
+
+  void onTapRows(int index) {
+    setState(() {
+      _modelAsset.controllerAssetCode.text = getContractData![index]['symbol'];
+      query = getContractData![index]['name'];
+      setResults(query);
+    });
+  }
+
+  void onTapResult(int index) {
+    setState(() {
+      _modelAsset.controllerAssetCode.text = searchResults[index]['symbol'];
+      query = searchResults[index]['name'];
+      setResults(query);
+    });
+  }
+  
   @override
   void initState() {
+
+    // defaultData = [
+    //   {
+    //     "id": "1617-s-avers",
+    //     "symbol": "realt-s-1617-s.avers-ave-chicago-il",
+    //     "name": "RealT - 1617 S Avers Ave, Chicago, IL 60623",
+    //     "platforms": { "ethereum": "0xf4657ab08681214bcb1893aa8e9c7613459250ec" }
+    //   },
+    //   {
+    //     "id": "1815-s-avers",
+    //     "symbol": "realt-s-1815-s.avers-ave-chicago-il",
+    //     "name": "RealT - 1815 S Avers Ave, Chicago, IL 60623",
+    //     "platforms": { "ethereum": "0x8fcb39a25e639c8fbd28e8a018227d6570e02352" }
+    //   },
+    //   {
+    //     "id": "1art",
+    //     "symbol": "1art",
+    //     "name": "OneArt",
+    //     "platforms": {
+    //       "ethereum": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
+    //       "binance_smart_chain": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e"
+    //     }
+    //   },
+    //   {
+    //     "id": "1617-s-avers",
+    //     "symbol": "realt-s-1617-s.avers-ave-chicago-il",
+    //     "name": "RealT - 1617 S Avers Ave, Chicago, IL 60623",
+    //     "platforms": { "ethereum": "0xf4657ab08681214bcb1893aa8e9c7613459250ec" }
+    //   },
+    //   {
+    //     "id": "1815-s-avers",
+    //     "symbol": "realt-s-1815-s.avers-ave-chicago-il",
+    //     "name": "RealT - 1815 S Avers Ave, Chicago, IL 60623",
+    //     "platforms": { "ethereum": "0x8fcb39a25e639c8fbd28e8a018227d6570e02352" }
+    //   },
+    //   {
+    //     "id": "1art",
+    //     "symbol": "1art",
+    //     "name": "OneArt",
+    //     "platforms": {
+    //       "ethereum": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
+    //       "binance_smart_chain": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e"
+    //     }
+    //   }
+    // ];
+    getContractAddress().then((value) => {
+      initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
+    });
+
     _modelAsset.result = {};
     _modelAsset.match = false;
     initialValue = widget.network;
+    
+    Future.delayed(const Duration(seconds: 1), (){
+      filterByChain();
+    });
+    
     AppServices.noInternetConnection(context: context);
 
     super.initState();
+  }
+
+  void filterByChain() {
+
+    if(initialValue == 0) {
+      getContractData = initContractData!.where( (element) {
+        if (element['platforms'].containsKey('binance_smart_chain')) return true;
+        return false;
+      }).toList();
+    }
+    else if(initialValue == 1){
+      getContractData = initContractData!.where( (element) {
+        if (element['platforms'].containsKey('ethereum')) return true;
+        return false;
+      }).toList();
+    }
+
+    setState(() {
+      
+    });
   }
 
   Future<bool> validateEtherAddress(String address) async {
@@ -282,9 +400,8 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void onChangeNetwork(String network) {
-    setState(() {
-      initialValue = int.parse(network);
-    });
+    initialValue = int.parse(network);
+    filterByChain();
   }
 
   void qrRes(String value) {
@@ -357,6 +474,13 @@ class AddAssetState extends State<AddAsset> {
             onSubmit: onSubmit,
             networkSymbol: networkSymbol,
             submitAsset: submitAsset,
+            onChangedQuery: onChangedQuery,
+            setResults: setResults,
+            onTapResult: onTapResult,
+            onTapRows: onTapRows,
+            getContractData: getContractData,
+            query: query,
+            searchResultsData: searchResults
           ),
           (_modelAsset.added == false)
           ? Container()

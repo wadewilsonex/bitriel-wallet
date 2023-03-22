@@ -481,6 +481,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: "3e5c4a94d112540d0c9a6b7f3969832e1604eb8cde0f88d0808382f9f632100b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -489,6 +497,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.4"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "55106e8290acaa97ed15bea1fdad82c3cf0c248dd410e651f5a8ac6870f783ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.6"
   ed25519_edwards:
     dependency: transitive
     description:
@@ -703,6 +719,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.2"
+  flutter_expanded_tile:
+    dependency: "direct main"
+    description:
+      name: flutter_expanded_tile
+      sha256: "106e992ca20e168adc18ffeac8fbbc7ee84db62b670cc288d67132153114e035"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.7"
   flutter_inappwebview:
     dependency: "direct main"
     description:

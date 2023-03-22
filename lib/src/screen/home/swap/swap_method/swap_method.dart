@@ -70,6 +70,8 @@ class SwapMethod extends StatelessWidget {
             
             await showBarModalBottomSheet(
               context: context,
+              isDismissible: false,
+              enableDrag: false,
               backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
@@ -78,10 +80,6 @@ class SwapMethod extends StatelessWidget {
               ),
               builder: (context) => const LetsExchange(),
             );
-            // Navigator.push(
-            //   context,
-            //   Transition(child: const LetsExchange(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-            // );
           },
           child: Container(
             margin: const EdgeInsets.only(top: paddingSize / 2, left: 10, right: 10),

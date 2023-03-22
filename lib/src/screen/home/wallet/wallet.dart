@@ -14,6 +14,9 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateMixin {
 
+
+  final TextEditingController? searchController = TextEditingController();
+
   int changeVertical = 0;
 
   final AssetPageModel _model = AssetPageModel();
@@ -83,6 +86,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
         // onTapCategories: _onTapCategories,
         // onHorizontalChanged: _onHorizontalChanged,
         // onVerticalUpdate: _onVerticalUpdate,
+        searchController: searchController,
       )
     );
   }

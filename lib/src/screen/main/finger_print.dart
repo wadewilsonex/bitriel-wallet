@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
-import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
 class FingerPrint extends StatefulWidget {

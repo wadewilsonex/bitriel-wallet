@@ -70,7 +70,7 @@ class AppState extends State<App> {
     // readTheme();
 
     getEventJSON().then((value) {
-      print("getEventJSON value ${(json.decode(value.body))[0]['type']}");
+      debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
     });
 
     // Query Selendra Endpoint

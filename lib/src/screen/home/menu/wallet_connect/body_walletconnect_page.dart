@@ -57,11 +57,12 @@ class WalletConnectBody extends StatelessWidget {
                     onTap: () async{
                       WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 
-                      String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner()));
+                      String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: true)));
                         
                       if (value != null){
                         wConnectC.qrScanHandler(value);
                       }
+                      
                     },
                     child: Container(
                       padding: const EdgeInsets.all(paddingSize),

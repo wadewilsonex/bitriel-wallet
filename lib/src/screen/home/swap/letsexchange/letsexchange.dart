@@ -95,6 +95,31 @@ class LetsExchangeState extends State<LetsExchange> {
     //   },
     // );
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor)
+        ),
+        backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+        title: MyText(
+          text: "Let's Exchange",
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+        ),
+        // leading: IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   icon: const Icon(Iconsax.arrow_left_2, size: 30,),
+        // ),
+        automaticallyImplyLeading: false,    
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Iconsax.close_circle, size: 30,),
+          ),
+        ],
+
+      ),
       body: Stack(
         children: [
           InAppWebView(

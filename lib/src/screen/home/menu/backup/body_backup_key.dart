@@ -1,8 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/acc_c.dart';
-import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
-import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
 
 class BackUpKeyBody extends StatelessWidget{
 

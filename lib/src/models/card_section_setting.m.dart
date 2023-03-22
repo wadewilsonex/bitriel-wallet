@@ -3,7 +3,6 @@ import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/about/about_bitriel.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/keystore_json.dart';
-import 'package:wallet_apps/src/screen/home/menu/multiple_wallet/multiple_wallet.dart';
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
 import 'package:wallet_apps/src/screen/home/security_privacy/security_privacy.dart';
 import 'package:wallet_apps/src/screen/home/webview/ads_webview.dart';
@@ -35,7 +34,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
           context!, 
           MaterialPageRoute(
             settings: const RouteSettings(name: "/multipleWallets"),
-            builder: (context) => const MultipleWallets()
+            builder: (context) => const Account()
           )
         );
 

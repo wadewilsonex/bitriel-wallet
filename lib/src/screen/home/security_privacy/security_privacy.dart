@@ -1,7 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
-import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
 import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
 
 class SecurityPrivacy extends StatelessWidget {

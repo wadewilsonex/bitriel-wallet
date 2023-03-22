@@ -2,6 +2,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({
@@ -127,15 +128,17 @@ PreferredSizeWidget defaultAppBar({
                     : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
               ),
               onPressed: () async {
+
                 // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                 // if (value != null){
                 //   getReward!(value);
                 // }
 
+                filterListWcSession(context);
+                
                 await TrxOptionMethod.scanQR(
                   context,
                   [],
-                  pushReplacement!,
                 );
               },
             ),
@@ -144,6 +147,19 @@ PreferredSizeWidget defaultAppBar({
       ],
     ),
   );
+}
+
+void filterListWcSession(BuildContext context) async {
+
+    WalletConnectComponent? wConnectC;
+
+    wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    wConnectC.setBuildContext = context;
+    await StorageServices.fetchData("session").then((value) {
+      
+      wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+    });
+    
 }
 
 void bottomSheetAddAccount(BuildContext context) async{

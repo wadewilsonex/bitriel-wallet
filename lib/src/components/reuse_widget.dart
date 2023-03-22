@@ -616,7 +616,6 @@ Widget progress({bool isTicket = false, String? content}) {
               isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
-              width: 75,
             ),
             // CircularProgressIndicator(
             //   backgroundColor: Colors.transparent,

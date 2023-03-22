@@ -60,7 +60,7 @@ class MenuBody extends StatelessWidget {
 
               if (value == null){
 
-                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner()));
+                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: true)));
                 
                 if (value != null){
                   

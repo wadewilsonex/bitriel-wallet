@@ -198,6 +198,7 @@ class WalletConnectComponent with ChangeNotifier {
 
   // After Scan QR
   onSessionRequest(int id, WCPeerMeta peerMeta) async {
+    print("id onSessionRequest $id");
     await showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context!,
@@ -681,17 +682,14 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
 
+
   onSign(
     int id,
     WCEthereumSignMessage ethereumSignMessage,
-  ) async {
-    final decoded = (ethereumSignMessage.type == WCSignType.TYPED_MESSAGE)
-        ? ethereumSignMessage.data!
-        : ascii.decode(hexToBytes(ethereumSignMessage.data!));
-    await showDialog(
+  ) {
+    showDialog(
       context: context!,
       builder: (_) {
-        print("onSign decoded $decoded");
         return SimpleDialog(
           title: Column(
             children: [
@@ -740,7 +738,7 @@ class WalletConnectComponent with ChangeNotifier {
                   ),
                   children: [
                     Text(
-                      decoded,
+                      ethereumSignMessage.data!,
                       style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
@@ -771,6 +769,7 @@ class WalletConnectComponent with ChangeNotifier {
                         signedDataHex = bytesToHex(signedData, include0x: true);
                       }
                       debugPrint('SIGNED $signedDataHex');
+                      debugPrint('ID SIGNED $id');
                       wcClient.approveRequest<String>(
                         id: id,
                         result: signedDataHex,

@@ -34,7 +34,7 @@ class SwapPageBody extends StatelessWidget {
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
           text: "Bitriel Swap",
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
         ),
@@ -108,7 +108,7 @@ class SwapPageBody extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30)
                               ),
                               padding: const EdgeInsets.all(5),
-                              child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 22.sp,),
+                              child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
                             )
                           ),
           
@@ -369,8 +369,8 @@ class SwapPageBody extends StatelessWidget {
             children: [
           
               SizedBox(
-                height: 6.w,
-                width: 6.w,
+                height: 8.h,
+                width: 8.w,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: (i == 0 ? provider.logo1 : provider.logo2).contains('http') 
@@ -381,8 +381,8 @@ class SwapPageBody extends StatelessWidget {
                   )
                   : Image.asset(
                     i == 0 ? provider.logo1 : provider.logo2,
-                    height: 6.h,
-                    width: 6.w,
+                    height: 8.h,
+                    width: 8.w,
                   )
                 ),
               ),
@@ -392,7 +392,7 @@ class SwapPageBody extends StatelessWidget {
                 right: 10.sp,
                 text: i == 0 ? provider.name1 : provider.name2,
                 fontWeight: FontWeight.w700,
-                fontSize: 17,
+                fontSize: 18,
                 hexaColor: AppColors.textColor,
               ),
 
