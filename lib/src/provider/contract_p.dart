@@ -129,7 +129,7 @@ class ContractProvider with ChangeNotifier {
               show: decode[i]["show"],
               maxSupply: decode[i]["max_supply"],
               description: decode[i]["description"],
-              lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
+              // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
               // lineChartList: decode[i]['lineChartData'],
               listActivity: [],
               lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
