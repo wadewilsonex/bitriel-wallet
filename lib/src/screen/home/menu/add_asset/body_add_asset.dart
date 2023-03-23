@@ -17,10 +17,10 @@ class AddAssetBody extends StatelessWidget {
   final Function? onChangeNetwork;
   final Function? onChangedQuery;
   final Function? setResults;
-  final Function? onTapResult;
-  final Function? onTapRows;
+  final Function? onTapGetResult;
+  final Function? onTapGetContractData;
   final List<dynamic>? getContractData;
-  final String? query;
+  final String? queryContractAddress;
   final List<dynamic>? searchResultsData;
 
   const AddAssetBody({
@@ -40,10 +40,10 @@ class AddAssetBody extends StatelessWidget {
     this.onChangeNetwork,
     this.onChangedQuery,
     this.setResults,
-    this.onTapResult,
-    this.onTapRows,
+    this.onTapGetResult,
+    this.onTapGetContractData,
     this.getContractData,
-    this.query,
+    this.queryContractAddress,
     this.searchResultsData
   }) : super(key: key);
 
@@ -198,16 +198,26 @@ class AddAssetBody extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 
-                                child: query!.isEmpty
+                                child: queryContractAddress!.isEmpty
                                     ? ListView.builder(
                                         shrinkWrap: true,
                                         itemCount: getContractData!.length < 6 ? getContractData!.length : 6,
                                         itemBuilder: (con, index) {
                                           return ListTile(
-                                            title: Text(getContractData![index]['symbol']),
-                                            subtitle: Text(getContractData![index]['name']),
+                                            title: MyText(
+                                              text: "${getContractData![index]['name']} (${getContractData![index]['symbol']})",
+                                              textAlign: TextAlign.start,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            subtitle: MyText(
+                                              text: initialValue == 0 ? getContractData![index]['platforms']["binance_smart_chain"] : getContractData![index]['platforms']["ethereum"],
+                                              textAlign: TextAlign.start,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                             onTap: () {
-                                              onTapRows!(index);
+                                              onTapGetContractData!(index);
                                             },
                                           );
                                         },
@@ -217,10 +227,20 @@ class AddAssetBody extends StatelessWidget {
                                         itemCount: searchResultsData!.length < 6 ? searchResultsData!.length : 6,
                                         itemBuilder: (con, index) {
                                           return ListTile(
-                                            title: Text(searchResultsData![index]['symbol']),
-                                            subtitle: Text(searchResultsData![index]['name']),
+                                            title: MyText(
+                                              text: "${searchResultsData![index]['name']} (${searchResultsData![index]['symbol']})",
+                                              textAlign: TextAlign.start,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            subtitle: MyText(
+                                              text: initialValue == 0 ? searchResultsData![index]['platforms']["binance_smart_chain"] : searchResultsData![index]['platforms']["ethereum"],
+                                              textAlign: TextAlign.start,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                             onTap: () {
-                                              onTapResult!(index);
+                                              onTapGetResult!(index);
                                             },
                                           );
                                         },
@@ -265,7 +285,8 @@ class AddAssetBody extends StatelessWidget {
                   textButton: "Add",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  action: !assetM!.enable ? null : () async {
+                  action: () async {
+                    // addAsset!();
                     await submitAsset!();
                   }
                 ),
@@ -301,7 +322,6 @@ class AddAssetBody extends StatelessWidget {
                     text: tokenSymbol,
                     fontWeight: FontWeight.bold,
                   ),
-                  //MyText(text: org, fontSize: 15),
                 ],
               ),
             ),
@@ -319,7 +339,7 @@ class AddAssetBody extends StatelessWidget {
                   children: const [
                     MyText(
                       width: double.infinity,
-                      text: 'Add', //portfolioData[0]["data"]['balance'],
+                      text: 'Add',
                       hexaColor: AppColors.secondary,
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,

@@ -36,12 +36,12 @@ class AddAssetState extends State<AddAsset> {
 
   List<Map<String, dynamic>>? getContractData = [];
   List<Map<String, dynamic>>? initContractData = [];
-  String query = '';
+  String queryContractAddress = '';
 
   void onChangedQuery(dynamic v) { 
     setState(() {
-      query = v;
-      setResults(query);
+      queryContractAddress = v;
+      setResults(queryContractAddress);
     });
   }
 
@@ -55,73 +55,36 @@ class AddAssetState extends State<AddAsset> {
           elem['name']
               .toString()
               .toLowerCase()
-              .contains(query.toLowerCase()))
+              .contains(query.toLowerCase()) ||
+          elem['platforms']["binance_smart_chain"]
+          .toString()
+          .toLowerCase()
+          .contains(query.toLowerCase()) || 
+          elem['platforms']["ethereum"]
+          .toString()
+          .toLowerCase()
+          .contains(query.toLowerCase()))
       .toList();
   }
 
-  void onTapRows(int index) {
+  void onTapGetContractData(int index) {
     setState(() {
-      _modelAsset.controllerAssetCode.text = getContractData![index]['symbol'];
-      query = getContractData![index]['name'];
-      setResults(query);
+      _modelAsset.controllerAssetCode.text = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      queryContractAddress = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      setResults(queryContractAddress);
     });
   }
 
-  void onTapResult(int index) {
+  void onTapGetResult(int index) {
     setState(() {
-      _modelAsset.controllerAssetCode.text = searchResults[index]['symbol'];
-      query = searchResults[index]['name'];
-      setResults(query);
+      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      queryContractAddress = searchResults[index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      setResults(queryContractAddress);
     });
   }
   
   @override
   void initState() {
-
-    // defaultData = [
-    //   {
-    //     "id": "1617-s-avers",
-    //     "symbol": "realt-s-1617-s.avers-ave-chicago-il",
-    //     "name": "RealT - 1617 S Avers Ave, Chicago, IL 60623",
-    //     "platforms": { "ethereum": "0xf4657ab08681214bcb1893aa8e9c7613459250ec" }
-    //   },
-    //   {
-    //     "id": "1815-s-avers",
-    //     "symbol": "realt-s-1815-s.avers-ave-chicago-il",
-    //     "name": "RealT - 1815 S Avers Ave, Chicago, IL 60623",
-    //     "platforms": { "ethereum": "0x8fcb39a25e639c8fbd28e8a018227d6570e02352" }
-    //   },
-    //   {
-    //     "id": "1art",
-    //     "symbol": "1art",
-    //     "name": "OneArt",
-    //     "platforms": {
-    //       "ethereum": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
-    //       "binance_smart_chain": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e"
-    //     }
-    //   },
-    //   {
-    //     "id": "1617-s-avers",
-    //     "symbol": "realt-s-1617-s.avers-ave-chicago-il",
-    //     "name": "RealT - 1617 S Avers Ave, Chicago, IL 60623",
-    //     "platforms": { "ethereum": "0xf4657ab08681214bcb1893aa8e9c7613459250ec" }
-    //   },
-    //   {
-    //     "id": "1815-s-avers",
-    //     "symbol": "realt-s-1815-s.avers-ave-chicago-il",
-    //     "name": "RealT - 1815 S Avers Ave, Chicago, IL 60623",
-    //     "platforms": { "ethereum": "0x8fcb39a25e639c8fbd28e8a018227d6570e02352" }
-    //   },
-    //   {
-    //     "id": "1art",
-    //     "symbol": "1art",
-    //     "name": "OneArt",
-    //     "platforms": {
-    //       "ethereum": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e",
-    //       "binance_smart_chain": "0xd3c325848d7c6e29b574cb0789998b2ff901f17e"
-    //     }
-    //   }
-    // ];
     getContractAddress().then((value) => {
       initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
     });
@@ -476,10 +439,10 @@ class AddAssetState extends State<AddAsset> {
             submitAsset: submitAsset,
             onChangedQuery: onChangedQuery,
             setResults: setResults,
-            onTapResult: onTapResult,
-            onTapRows: onTapRows,
+            onTapGetResult: onTapGetResult,
+            onTapGetContractData: onTapGetContractData,
             getContractData: getContractData,
-            query: query,
+            queryContractAddress: queryContractAddress,
             searchResultsData: searchResults
           ),
           (_modelAsset.added == false)

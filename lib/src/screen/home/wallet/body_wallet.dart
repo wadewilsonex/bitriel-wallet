@@ -449,46 +449,46 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget _searchToken(BuildContext context, TextEditingController controller){
+  // Widget _searchToken(BuildContext context, TextEditingController controller){
     
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: TextFormField(
-        controller: controller,
-        style: TextStyle(
-          fontSize: 20,
-          color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
-        ),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-          ),
-          hintText: "Search token name",
-          hintStyle: TextStyle(
-            fontSize: 20,
-            color: hexaCodeToColor("#AAAAAA"),
-          ),
-          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 20.0),
-          /* Prefix Text */
-          filled: true,
-          fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
-          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
-        ),
-        onChanged: (String value){
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+  //     child: TextFormField(
+  //       controller: controller,
+  //       style: TextStyle(
+  //         fontSize: 20,
+  //         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
+  //       ),
+  //       decoration: InputDecoration(
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(8.0),
+  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+  //         ),
+  //         enabledBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(8.0),
+  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+  //         ),
+  //         focusedBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(8.0),
+  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
+  //         ),
+  //         hintText: "Search token name",
+  //         hintStyle: TextStyle(
+  //           fontSize: 20,
+  //           color: hexaCodeToColor("#AAAAAA"),
+  //         ),
+  //         prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 20.0),
+  //         /* Prefix Text */
+  //         filled: true,
+  //         fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
+  //         suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
+  //       ),
+  //       onChanged: (String value){
 
-        },
-      ),
-    );
-  }
+  //       },
+  //     ),
+  //   );
+  // }
 
   Widget _nftAndTicket(BuildContext context) {
     return Column(

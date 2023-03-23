@@ -93,10 +93,10 @@ class AssetsItemComponent extends StatelessWidget {
                     ),
               
                     MyText(
-                      top: 4.0,
                       text: scModel!.name ?? '',
-                      fontSize: 14,
-                      hexaColor: AppColors.tokenNameColor
+                      fontSize: 15,
+                      hexaColor: AppColors.tokenNameColor,
+                      textAlign: TextAlign.start,
                     )
                   ],
                 ),
@@ -435,8 +435,7 @@ class AssetsItemComponent extends StatelessWidget {
   Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16, Color? color}) {
     return Container(
       // margin: EdgeInsets.only(top: mTop, bottom: 2),
-      // padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-      height: 8.h,
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       color: color ?? hexaCodeToColor(AppColors.whiteHexaColor),
       child: child
     );
