@@ -90,7 +90,9 @@ class _TrendMarketListState extends State<TrendMarketList> {
                             widget.trendingCoin![widget.index!].item.name!,
                             widget.trendingCoin![widget.index!].item.symbol!,
                             'USD',
-                            double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5),
+                            widget.trendingCoin![widget.index!].item.priceBtc != null ?
+                            double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)
+                            : "0.00",
                             widget.trendingCoin![widget.index!].item.chart!,
                           ),
                         ),
@@ -184,10 +186,22 @@ class _TrendMarketListState extends State<TrendMarketList> {
             const Spacer(),
     
             // Total Amount
+            
+            widget.trendingCoin![widget.index!].item.priceBtc != null ?
             MyText(
               fontSize: 17,
-              // width: double.infinity,
-              text: "\$${double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+              text: "\$${double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",
+              textAlign: TextAlign.right,
+              fontWeight: FontWeight.w600,
+              hexaColor: isDarkMode
+                ? AppColors.whiteColorHexa
+                : AppColors.textColor,
+              overflow: TextOverflow.fade,
+            )
+            :
+            MyText(
+              fontSize: 17,
+              text: "\$0.00",
               textAlign: TextAlign.right,
               fontWeight: FontWeight.w600,
               hexaColor: isDarkMode

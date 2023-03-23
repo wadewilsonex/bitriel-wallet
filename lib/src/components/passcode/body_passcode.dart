@@ -94,7 +94,13 @@ class PasscodeBody extends StatelessWidget{
             if (subStatus == null) Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (label == PassCodeLabel.fromSplash)
+                if (
+                  label == PassCodeLabel.fromSplash || 
+                  label == PassCodeLabel.fromSendTx || 
+                  label == PassCodeLabel.fromBackUp || 
+                  label == PassCodeLabel.fromAccount ||
+                  label == PassCodeLabel.fromSignMessage
+                )
                 passCodeContents[1]
                 else 
                 passCodeContents[0]
@@ -181,21 +187,7 @@ class PasscodeBody extends StatelessWidget{
       text: TextSpan(
         children: <TextSpan>[
           TextSpan(
-            text: 'Enter ', 
-            style: TextStyle(
-              fontSize: 19.sp,
-              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
-            )
-          ),
-          TextSpan(
-            text: 'pin ',
-            style: TextStyle(
-              fontSize: 19.sp,
-              color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
-            )
-          ),
-          TextSpan(
-            text: 'code', 
+            text: 'Verify PIN code to continue', 
             style: TextStyle(
               fontSize: 19.sp,
               color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
