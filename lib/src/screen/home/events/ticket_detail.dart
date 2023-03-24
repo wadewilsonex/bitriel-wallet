@@ -1,7 +1,6 @@
 import 'package:wallet_apps/index.dart';
 
 class TicketDetail extends StatelessWidget {
-  
   final String price;
   final String creator;
   final ImageProvider<Object> image;
@@ -28,7 +27,6 @@ class TicketDetail extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            
             appbar(context),
             SliverToBoxAdapter(
               child: Padding(

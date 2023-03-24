@@ -33,9 +33,9 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
         
         Navigator.push(
           context!, 
-          MaterialPageRoute(
-            settings: const RouteSettings(name: "/multipleWallets"),
-            builder: (context) => const MultipleWallets()
+          Transition(
+            child: const MultipleWallets(),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
 

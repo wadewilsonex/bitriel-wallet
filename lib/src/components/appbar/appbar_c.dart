@@ -79,9 +79,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.getKeyring.current.address,
+                          txt: provider.getKeyring == null ? '' : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.getKeyring.current.address == null ? "" : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                            text: provider.getKeyring == null ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
