@@ -165,7 +165,7 @@ class ChangePinState extends State<ChangePin> {
 
   Future<void> setVerifyPin(String pin) async {
     if (oldPass == null) {
-      await Provider.of<ApiProvider>(context, listen: false).apiKeyring.checkPassword(Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0], pin).then((bool? value) {
+      await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.checkPassword(Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0], pin).then((bool? value) {
         Navigator.pop(context);
         if (value == true){
 
@@ -244,7 +244,7 @@ class ChangePinState extends State<ChangePin> {
     // });
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
-    await res.apiKeyring.changePassword(res.getKeyring, oldPass!, newPass);
+    await res.getSdk.api.keyring.changePassword(res.getKeyring, oldPass!, newPass);
 
     await _updatePkWithNewPass();
 

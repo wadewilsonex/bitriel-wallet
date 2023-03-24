@@ -13,12 +13,12 @@ class ReceiveWalletProvider with ChangeNotifier {
   List<Map<String, dynamic>>? lsContractSymbol;
   AccountM? accountM = AccountM();
 
-  void getAccount(AccountM account){
-    if (accountM != null){
-      accountM!.name = account.name;
-      accountM!.address = account.address;
-      accountM!.pubKey = account.pubKey;
-      accountM!.addressIcon = account.addressIcon;
-    }
-  }
+  // void getAccount(AccountM account){
+  //   if (accountM != null){
+  //     accountM!.name = account.name;
+  //     accountM!.address = account.address;
+  //     accountM!.pubKey = account.pubKey;
+  //     accountM!.addressIcon = account.addressIcon;
+  //   }
+  // }
 }

@@ -136,7 +136,7 @@ class AppState extends State<App> {
 
           // Get From Keyring js
           // ignore: use_build_context_synchronously
-          await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
+          // await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance();
 

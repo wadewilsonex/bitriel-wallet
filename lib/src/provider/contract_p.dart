@@ -102,16 +102,15 @@ class ContractProvider with ChangeNotifier {
       await setSavedList().then((value) async {
 
         final json = await rootBundle.loadString(AssetPath.contractJson);
-
+        print("json $json");
         final decode = jsonDecode(json);
 
         sortListContract.clear();
         listContract.clear();
+
+        print("decode.length ${decode.length}");
       
-
         for (int i = 0 ; i < decode.length; i++){
-
-          print("$i sortDataMarket ${Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']}\n\n");
           
           listContract.add(
             SmartContractModel(
@@ -129,7 +128,7 @@ class ContractProvider with ChangeNotifier {
               show: decode[i]["show"],
               maxSupply: decode[i]["max_supply"],
               description: decode[i]["description"],
-              lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
+              // lineChartList: Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data'] != null ? List<List<double>>.from(Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']) : null, //decode[i]['lineChartData'],
               // lineChartList: decode[i]['lineChartData'],
               listActivity: [],
               lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),

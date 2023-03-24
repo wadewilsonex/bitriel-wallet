@@ -38,7 +38,7 @@ class MyInputField extends StatelessWidget {
       this.maxLine = 1,
       this.onTap,
       @required this.controller,
-      this.focusNode,
+      required this.focusNode,
       this.suffixIcon,
       this.textColor = "#FFFFFF",
       this.autoFocus,

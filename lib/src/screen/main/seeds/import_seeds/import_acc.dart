@@ -29,7 +29,7 @@ class ImportAccState extends State<ImportAcc> {
 
   final ImportAccModel _importAccModel = ImportAccModel();
 
-  final ImportAccountModel _importAccountModel = ImportAccountModel();
+  final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
   ApiProvider? _apiProvider;
 
   bool? status;
@@ -40,15 +40,17 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
 
+    print("widget.passCode ${widget.passCode}");
+
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
 
     AppServices.noInternetConnection(context: context);
 
     /// Create Or Add New Account in Accont Screen
     if (widget.passCode != null) {
-      _importAccModel.pwCon.text = widget.passCode!;
+      _importAccModel.pwCon!.text = widget.passCode!;
     } {
-      StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon.text = value );
+      StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon!.text = value );
     }
     super.initState();
   }
@@ -62,7 +64,7 @@ class ImportAccState extends State<ImportAcc> {
     dynamic res;
     try {
       
-      res = Provider.of<ApiProvider>(context, listen: false).apiKeyring;
+      res = Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring;
       enable = res;
       
       setState((){});
@@ -76,7 +78,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   void clearInput() {
-    _importAccModel.mnemonicCon.clear();
+    _importAccModel.key!.clear();
     setState(() {
       enable = false;
     });
@@ -100,7 +102,7 @@ class ImportAccState extends State<ImportAcc> {
         Navigator.push(
           context, 
           Transition(
-            child: DataLoading(initStateData: initStateData, importAccountModel: _importAccountModel,),
+            child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );
@@ -112,34 +114,35 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> onSubmitIm() async {
-    if(_importAccModel.formKey.currentState!.validate()){
-      Navigator.push(
-        context,
-        Transition(
-          child: FingerPrint(
-            initStateData: initStateData,
-            importAccountModel: _importAccountModel,
-          )
+    // if(_importAccModel.formKey.currentState!.validate()){
+      
+    // }
+    Navigator.push(
+      context,
+      Transition(
+        child: FingerPrint(
+          initStateData: initStateData,
+          importAccountModel: _importAccountModel,
         )
-      );
-    }
+      )
+    );
   }
 
   Future<void> isDotContain() async {
     // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
     // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-    await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
+    // await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
   }
 
   Future<bool> checkPassword(String pin) async {
     final res = Provider.of<ApiProvider>(context, listen: false);
-    bool checkPass = await res.apiKeyring.checkPassword(res.getKeyring.current, pin);
+    bool checkPass = await res.getSdk.api.keyring.checkPassword(res.getKeyring.current, pin);
     return checkPass;
   }
   
   Future<void> verifySeeds() async {
     try {
-      enable = await _apiProvider!.validateMnemonic(_importAccModel.mnemonicCon.text)!;
+      enable = await _apiProvider!.validateMnemonic(_importAccModel.key!.text)!;
       setState(() { });
     } catch (e) {
       if (ApiProvider().isDebug == true) {
@@ -195,25 +198,25 @@ class ImportAccState extends State<ImportAcc> {
     
     changeStatus("IMPORTING ACCOUNT", avg: "1/3");
     
-    final jsn = await _apiProvider!.apiKeyring.importAccount(
+    final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
-      key: _importAccModel.mnemonicCon.text,   
+      key: _importAccModel.key!.text,   
       name: 'User', 
-      password: _importAccModel.pwCon.text
+      password: _importAccModel.pwCon!.text
     );
 
-    await _apiProvider!.apiKeyring.addAccount(
+    await _apiProvider!.getSdk.api.keyring.addAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
       acc: jsn!,
-      password: _importAccModel.pwCon.text
+      password: _importAccModel.pwCon!.text
     );
 
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
     
-    await connectNetwork(_importAccModel.mnemonicCon.text);
+    await connectNetwork(_importAccModel.key!.text);
 
   }
 
@@ -222,21 +225,21 @@ class ImportAccState extends State<ImportAcc> {
     try {
       changeStatus("IMPORTING ACCOUNT", avg: "1/3");
     
-      final jsn = await _apiProvider!.apiKeyring.importAccount(
+      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.keystore, 
-        key: _importAccModel.mnemonicCon.text,   
+        key: _importAccModel.key!.text,   
         name: 'User', 
-        password: _importAccModel.pwCon.text
+        password: _importAccModel.pwCon!.text
       );
 
       print("jsn $jsn");
 
-      await _apiProvider!.apiKeyring.addAccount(
+      await _apiProvider!.getSdk.api.keyring.addAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.keystore, 
         acc: jsn!,
-        password: _importAccModel.pwCon.text
+        password: _importAccModel.pwCon!.text
       );
 
       changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
@@ -247,32 +250,32 @@ class ImportAccState extends State<ImportAcc> {
       }
     }
     
-    await connectNetwork(_importAccModel.mnemonicCon.text);
+    await connectNetwork(_importAccModel.key!.text);
 
   }
 
   /// Return Boolean Value
   Future<bool> addNewAcc() async {
-    print("_importAccModel.pwCon.text ${_importAccModel.pwCon.text}");
-    print("_importAccModel.mnemonicCon.text ${_importAccModel.mnemonicCon.text}");
+    print("_importAccModel.pwCon!.text ${_importAccModel.pwCon!.text}");
+    print("_importAccModel.key!.text ${_importAccModel.key!.text}");
     print("addNewAcc");
     try {
 
-      final jsn = await _apiProvider!.apiKeyring.importAccount(
+      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
-        key: _importAccModel.mnemonicCon.text,   
+        key: _importAccModel.key!.text,   
         name: 'User', 
-        password: _importAccModel.pwCon.text
+        password: _importAccModel.pwCon!.text
       );
 
       print("jsn $jsn");
 
-      await _apiProvider!.apiKeyring.addAccount(
+      await _apiProvider!.getSdk.api.keyring.addAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
         acc: jsn!,
-        password: _importAccModel.pwCon.text
+        password: _importAccModel.pwCon!.text
       );
 
       print("added");
@@ -298,16 +301,16 @@ class ImportAccState extends State<ImportAcc> {
 
       await _apiProvider!.getAddressIcon();
       // Get From Account js
-      await _apiProvider!.getCurrentAccount(context: context);
+      // await _apiProvider!.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(resPk);
 
-      final res = await _apiProvider!.encryptPrivateKey(resPk, _importAccModel.pwCon.text);
+      final res = await _apiProvider!.encryptPrivateKey(resPk, _importAccModel.pwCon!.text);
       
       await StorageServices().writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
-      // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
+      // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
       changeStatus("GETTING READY", avg: "2/3");
       _importAccountModel.animationController!.forward(from: 0.5);
@@ -316,7 +319,7 @@ class ImportAccState extends State<ImportAcc> {
       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
       if(!mounted) return;
-      await _apiProvider!.queryBtcData(context, mnemonic, _importAccModel.pwCon.text);
+      await _apiProvider!.queryBtcData(context, mnemonic, _importAccModel.pwCon!.text);
 
       _importAccountModel.animationController!.forward(from: 8);
       changeStatus("DONE", avg: "3/3");

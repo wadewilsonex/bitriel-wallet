@@ -22,7 +22,7 @@ class ApiProvider with ChangeNotifier {
 
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
-  MyApiKeyring get apiKeyring => _apiKeyring!;
+  // MyApiKeyring get apiKeyring => _apiKeyring!;
 
   static const int bitcoinDigit = 8;
 
@@ -35,8 +35,6 @@ class ApiProvider with ChangeNotifier {
   String btcAdd = '';
 
   ContractProvider? contractProvider;
-
-  AccountM accountM = AccountM();
 
   String? _jsCode;
 
@@ -57,14 +55,6 @@ class ApiProvider with ChangeNotifier {
   String? selNetwork;
 
   bool get isConnected => _isConnected;
-
-  void setAccount(AccountM acc){
-    accountM = acc;
-
-    notifyListeners();
-  }
-  
-  AccountM get getAccount => accountM;
 
   Future<void> initSelendraEndpoint(Map<String, dynamic> json) async {
     try {
@@ -510,6 +500,7 @@ class ApiProvider with ChangeNotifier {
   /// 
   /// Inside This Chain Decimal Also Call Get Balance
   Future<void> getSelNativeChainDecimal({@required BuildContext? context, String? funcName = 'keyring'}) async {
+    print("getSelNativeChainDecimal");
     try {
       dynamic res;
       
@@ -651,7 +642,7 @@ class ApiProvider with ChangeNotifier {
         [_keyring.keyPairs[0].pubKey!],
       );
 
-      accountM.addressIcon = res.toString();
+      _keyring.current.icon = res.toString();
       notifyListeners();
     } catch (e) {
       if (ApiProvider().isDebug == true) {
@@ -662,46 +653,44 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getCurrentAccount({required BuildContext? context, String funcName = 'account'}) async {
-    try {
+  // Future<void> getCurrentAccount({required BuildContext? context, String funcName = 'account'}) async {
+  //   try {
 
-      accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
-      accountM.name = _keyring.current.name;
-      accountM.pubKey = _keyring.current.pubKey;
+  //     accountM.address = await _sdk.webView!.evalJavascript('$funcName.getSELAddr()');
+  //     accountM.name = _keyring.current.name;
+  //     accountM.pubKey = _keyring.current.pubKey;
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
+  //     Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
       
-      contractProvider!.setSELNativeAddr(accountM.address!);
-    } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error getCurrentAccount $e");
-        }
-      }
-    }
+  //     contractProvider!.setSELNativeAddr(accountM.address!);
 
-    notifyListeners();
-  }
+  //   } catch (e){
+  //     if (ApiProvider().isDebug == true) {
+  //       if (kDebugMode) {
+  //         print("Error getCurrentAccount $e");
+  //       }
+  //     }
+  //   }
 
-  Future<void> checkPassword({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
-    try {
+  //   notifyListeners();
+  // }
 
-      accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
-      accountM.name = _keyring.current.name;
+  // Future<void> checkPassword({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
+  //   try {
 
-      Provider.of<ReceiveWalletProvider>( context!, listen: false).getAccount(accountM);
+  //     accountM.address = await _sdk.webView!.evalJavascript('keyring.checkPassword()');
       
-      contractProvider!.setSELNativeAddr(accountM.address!);
-    } catch (e){
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error getCurrentAccount $e");
-        }
-      }
-    }
+  //     contractProvider!.setSELNativeAddr(_keyring.current.address!);
+  //   } catch (e){
+  //     if (ApiProvider().isDebug == true) {
+  //       if (kDebugMode) {
+  //         print("Error getCurrentAccount $e");
+  //       }
+  //     }
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   Future<void> changePin({required BuildContext? context, String? pubKey, String? passOld, String? passNew}) async {
     try {

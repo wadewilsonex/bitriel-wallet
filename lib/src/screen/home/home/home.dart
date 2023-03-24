@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(Duration(seconds: randomNum!), () async {
 
       try {
-        await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).accountM.address!).then((value) async {
+        await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
         
           // Close Dialog
           Navigator.pop(context);

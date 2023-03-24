@@ -25,7 +25,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   
   ApiProvider? _apiProvider;
 
-  final ImportAccountModel _importAccountModel = ImportAccountModel();
+  final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
 
   void remove3Seeds() {
 
@@ -129,7 +129,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     changeStatus("IMPORTING ACCOUNT", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
     
-    final jsn = await _apiProvider!.apiKeyring.importAccount(
+    final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
       key: widget.createKeyModel!.lsSeeds!.join(" "),
@@ -137,7 +137,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       password: widget.createKeyModel!.passCode
     );
 
-    await _apiProvider!.apiKeyring.addAccount(
+    await _apiProvider!.getSdk.api.keyring.addAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
       acc: jsn!,
@@ -156,7 +156,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     print("addNewAcc");
     try {
 
-      final jsn = await _apiProvider!.apiKeyring.importAccount(
+      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
         key: widget.createKeyModel!.lsSeeds!.join(" "),
@@ -166,7 +166,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
       print("jsn $jsn");
 
-      await _apiProvider!.apiKeyring.addAccount(
+      await _apiProvider!.getSdk.api.keyring.addAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
         acc: jsn!,
@@ -197,7 +197,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await _apiProvider!.getAddressIcon();
       // Get From Account js
-      await _apiProvider!.getCurrentAccount(context: context);
+      // await _apiProvider!.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(resPk);
 
@@ -272,7 +272,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
           Navigator.push(
             context, 
             Transition(
-              child: DataLoading(initStateData: initStateData, importAccountModel: _importAccountModel,),
+              child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );

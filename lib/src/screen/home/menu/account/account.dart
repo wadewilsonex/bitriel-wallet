@@ -38,7 +38,6 @@ class AccountState extends State<Account> {
     }
   }
 
-
   Future<void> submitBackUpKey() async {
     if (_accountModel.pinController.text.isNotEmpty) {
       await getBackupKey(_accountModel.pinController.text);
@@ -134,17 +133,17 @@ class AccountState extends State<Account> {
     if (_accountModel.editNameController.text.isNotEmpty){
       // dialogLoading(context);
       final api = Provider.of<ApiProvider>(context, listen: false);
-      final changePass = await api.apiKeyring.changeName(api.getKeyring, _accountModel.editNameController.text);
+      final changePass = await api.getSdk.api.keyring.changeName(api.getKeyring, _accountModel.editNameController.text);
       String funcName = "account";
       await api.getAddressIcon();
-      while(true){
-        await api.getCurrentAccount(context: context, funcName: funcName);
-        if (api.accountM.address != null) {
-          break;
-        } else {
-          funcName = 'keyring';
-        }
-      }
+      // while(true){
+      //   await api.getCurrentAccount(context: context, funcName: funcName);
+      //   if (api.accountM.address != null) {
+      //     break;
+      //   } else {
+      //     funcName = 'keyring';
+      //   }
+      // }
 
       if(!mounted) return;
       // Navigator.pop(context);
@@ -197,8 +196,8 @@ class AccountState extends State<Account> {
 
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
-    await res.apiKeyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
-    final changePass = await res.apiKeyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
+    await res.getSdk.api.keyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
+    final changePass = await res.getSdk.api.keyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
     if (changePass != null) {
       if(!mounted) return;
       await customDialog(context, 'Change Pin', 'You pin has changed!!!');
@@ -215,8 +214,8 @@ class AccountState extends State<Account> {
 
   @override
   void initState() {
-    _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0];
-    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).accountM.name!;
+    _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.current;
+    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).getKeyring.current.name!;
     super.initState();
   }
 

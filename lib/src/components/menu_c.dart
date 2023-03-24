@@ -33,7 +33,7 @@ class MenuHeader extends StatelessWidget {
             children: [
               
               InkWell(
-                onTap: value.accountM.address == null ? null : () {
+                onTap: value.getKeyring.current.address == null ? null : () {
                   Navigator.push(
                     context,
                     Transition(
@@ -43,10 +43,10 @@ class MenuHeader extends StatelessWidget {
                   );
                 },
                 child: AvatarShimmer(
-                  txt: value.accountM.addressIcon,
-                  child: randomAvatar(value.accountM.addressIcon ?? '', width: 5.0, height: 5.0)
+                  txt: value.getKeyring.current.icon,
+                  child: randomAvatar(value.getKeyring.current.icon ?? '', width: 5.0, height: 5.0)
                   // SvgPicture.string(
-                  //   value.accountM.addressIcon ?? '',
+                  //   value.getKeyring.current.addressIcon ?? '',
                   //   width: 5.0,
                   //   // height: 8.0,
                   // )
@@ -59,16 +59,16 @@ class MenuHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   
-                  TextShimmer(txt: value.accountM.name),
+                  TextShimmer(txt: value.getKeyring.current.name),
                   
                   WidgetShimmer(
-                    txt: value.accountM.address, 
+                    txt: value.getKeyring.current.address, 
                     child: Row(
                       children: [
                         
                         MyText(
                           right: 5,
-                          text: value.accountM.address == null ? "" : value.accountM.address!.replaceRange(8, value.accountM.address!.length - 8, "........"),
+                          text: value.getKeyring.current.address == null ? "" : value.getKeyring.current.address!.replaceRange(8, value.getKeyring.current.address!.length - 8, "........"),
                           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
                           fontSize: 13,
                           textAlign: TextAlign.left
@@ -76,7 +76,7 @@ class MenuHeader extends StatelessWidget {
                         InkWell(
                           onTap: () async {
                             await Clipboard.setData(
-                              ClipboardData(text: value.accountM.address ??''),
+                              ClipboardData(text: value.getKeyring.current.address ??''),
                             );
                             Fluttertoast.showToast(
                               msg: "Copied address",

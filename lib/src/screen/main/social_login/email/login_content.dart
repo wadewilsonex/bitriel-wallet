@@ -28,7 +28,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
   late final List<Widget> loginContent;
   late final List<Widget> createAccountContent;
 
-  final ImportAccountModel _importAccountModel = ImportAccountModel();
+  final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
   ApiProvider? _apiProvider;
   
   final EmailModel _model = EmailModel();
@@ -394,7 +394,7 @@ class _LoginContentState extends State<LoginContent> with TickerProviderStateMix
 
       await _apiProvider!.getAddressIcon();
       // Get From Account js
-      await _apiProvider!.getCurrentAccount(context: context);
+      // await _apiProvider!.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(resPk);
 
