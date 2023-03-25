@@ -56,8 +56,6 @@ class AppState extends State<App> {
     
     super.initState();
 
-    Provider.of<ContractProvider>(context, listen: false).context = context;
-
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
     Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
@@ -136,7 +134,7 @@ class AppState extends State<App> {
 
           // Get From Keyring js
           // ignore: use_build_context_synchronously
-          await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
+          // await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
           await ContractsBalance().getAllAssetBalance();
 

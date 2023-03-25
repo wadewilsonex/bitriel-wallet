@@ -144,30 +144,30 @@ class AirDropProvider with ChangeNotifier {
 
 
   Future<void> signUp() async {
-    try {
-      await http.post(
-        Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
-        headers: {"Content-Type": "application/json; charset=utf-8"},
-        body: json.encode({
-          "email": "${_apiProvider!.accountM.address}@gmail.com",
-          "password": '123456',
-          "wallet": "${_apiProvider!.accountM.address}"
-        })
-      ).then((value) async {
-        final res = json.decode(value.body);
-        if (res['success']){
-          await signIn();
-        }
+    // try {
+    //   await http.post(
+    //     Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
+    //     headers: {"Content-Type": "application/json; charset=utf-8"},
+    //     body: json.encode({
+    //       "email": "${_apiProvider!.accountM.address}@gmail.com",
+    //       "password": '123456',
+    //       "wallet": "${_apiProvider!.accountM.address}"
+    //     })
+    //   ).then((value) async {
+    //     final res = json.decode(value.body);
+    //     if (res['success']){
+    //       await signIn();
+    //     }
 
-      });
+    //   });
 
-    } catch (e) {
-      if (ApiProvider().isDebug == true) {
-        if (kDebugMode) {
-          print("Error signUp $e");
-        }
-      }
-    }
+    // } catch (e) {
+    //   if (ApiProvider().isDebug == true) {
+    //     if (kDebugMode) {
+    //       print("Error signUp $e");
+    //     }
+    //   }
+    // }
   }
 
   Future<void> signIn() async {
@@ -226,15 +226,15 @@ class AirDropProvider with ChangeNotifier {
         // );
 
         // For Events Mainnet
-        final res2 = await http.post(
-          Uri.parse('https://airdrop.selendra.org/api/submit'),
-          headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
-          body: json.encode({
-            "wallet": "${_apiProvider!.accountM.address}",
-          })
-        );
+        // final res2 = await http.post(
+        //   Uri.parse('https://airdrop.selendra.org/api/submit'),
+        //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+        //   body: json.encode({
+        //     "wallet": "${_apiProvider!.accountM.address}",
+        //   })
+        // );
 
-        return await json.decode(res2.body);
+        // return await json.decode(res2.body);
         
         // if (res2.statusCode == 200){
         //   // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));

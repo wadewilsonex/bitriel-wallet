@@ -98,13 +98,13 @@ class AccountBody extends StatelessWidget{
                         decoration: BoxDecoration(
                           borderRadius:BorderRadius.circular(5),
                         ),
-                        child: randomAvatar(provider.accountM.addressIcon ?? '')
+                        child: randomAvatar(provider.getKeyring.current.icon ?? '')
                       ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           MyText(
-                            text: provider.accountM.name ?? '',
+                            text: provider.getKeyring.current.name ?? '',
                             hexaColor: AppColors.blackColor,
                             fontSize: 19,
                             fontWeight: FontWeight.w600,
@@ -118,7 +118,7 @@ class AccountBody extends StatelessWidget{
                               Padding(
                                 padding: const EdgeInsets.only(right: paddingSize / 2),
                                 child: MyText(
-                                  text: provider.accountM.address!.replaceRange(8, provider.accountM.address!.length - 8, "........"),
+                                  text: provider.getKeyring.current.address!.replaceRange(8, provider.getKeyring.current.address!.length - 8, "........"),
                                   hexaColor: AppColors.greyCode,
                                   fontSize: 16,
                                 ),
@@ -127,7 +127,7 @@ class AccountBody extends StatelessWidget{
                               InkWell(
                                 onTap: () async {
                                   await Clipboard.setData(
-                                    ClipboardData(text: provider.accountM.address ??''),
+                                    ClipboardData(text: provider.getKeyring.current.address ??''),
                                   );
                                   Fluttertoast.showToast(
                                     msg: "Copied address",

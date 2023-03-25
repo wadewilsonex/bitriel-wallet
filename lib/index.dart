@@ -61,8 +61,6 @@ export 'package:wallet_apps/src/models/home_m.dart';
 export 'package:wallet_apps/src/models/menu_m.dart';
 
 export 'package:wallet_apps/src/models/token.m.dart';
-
-export 'package:wallet_apps/src/models/m_import_acc.dart';
 // Dashboard
 
 export 'package:wallet_apps/src/models/smart_contract.m.dart';

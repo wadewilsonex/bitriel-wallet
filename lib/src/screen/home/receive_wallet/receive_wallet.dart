@@ -39,7 +39,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     ethAddr = Provider.of<ContractProvider>(context, listen: false).getEtherAddress;
     symbol = ApiProvider().isMainnet ? 'SEL (Selendra Chain)': 'SEL (Testnet)';
 
-    provider!.getAccount(Provider.of<ApiProvider>(context, listen: false).getAccount);
+    // provider!.getAccount(Provider.of<ApiProvider>(context, listen: false).getAccount);
 
     if (widget.assetIndex == null) {
       findAsset();
@@ -80,7 +80,7 @@ class ReceiveWalletState extends State<ReceiveWallet> {
     if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'BTC') {
       provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().btcIndex].address;
     } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == symbol){
-      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).getAccount.address!;
+      provider!.accountM!.address = Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!;
     } else if (provider!.lsContractSymbol![int.parse(value)]['symbol'] == 'DOT'){
       provider!.accountM!.address = Provider.of<ContractProvider>(context, listen: false).listContract[ApiProvider().dotIndex].address;
     } 

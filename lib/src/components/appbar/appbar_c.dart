@@ -51,8 +51,8 @@ PreferredSizeWidget defaultAppBar({
                     child: AvatarShimmer(
                       height: 45,
                       width: 45,
-                      txt: provider.accountM.addressIcon,
-                      child: randomAvatar(provider.accountM.addressIcon ?? ''),
+                      txt: provider.getKeyring.current.icon,
+                      child: randomAvatar(provider.getKeyring.current.icon ?? ''),
                     ),
                   )
               );
@@ -79,9 +79,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.accountM.address,
+                          txt: provider.getKeyring == null ? '' : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                            text: provider.getKeyring == null ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -156,59 +156,82 @@ void bottomSheetAddAccount(BuildContext context) async{
     ),
     context: context,
     builder: (BuildContext context) {
-      return ListView.builder(
-        itemCount: 15,
-        itemBuilder: (BuildContext context, int index) {
+
+      return StatefulBuilder(
+        builder: (context, mySetState) {
           return Consumer<ApiProvider>(
-            builder: (context, provider, child) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  index == 0 ? const SizedBox(height: 25,) : Container(),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    child: MyText(
-                      text: "Wallet $index",
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color2: Colors.black,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(paddingSize),
-                    child: Row(
+            builder: (context, provider, wg) {
+              return ListView.builder(
+                itemCount: provider.getKeyring.allAccounts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: (){
+                      provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
+                      provider.notifyListeners();
+                      mySetState( () {});
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AvatarShimmer(
-                          txt: provider.accountM.addressIcon,
-                          child: randomAvatar(provider.accountM.addressIcon ?? '',),
-                        ),
-
-                        const SizedBox(width: 10),
+                        index == 0 ? const SizedBox(height: 25,) : Container(),
                   
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            MyText(
-                              text: provider.accountM.name,
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              textAlign: TextAlign.start,
-                            ),
-
-                            MyText(
-                              text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              textAlign: TextAlign.start,
-                              hexaColor: AppColors.greyCode,
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                          child: MyText(
+                            text: "Wallet $index",
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color2: Colors.black,
+                          ),
+                        ),
+                  
+                        Padding(
+                          padding: const EdgeInsets.all(paddingSize),
+                          child: Row(
+                            children: [
+                  
+                              AvatarShimmer(
+                                txt: provider.getKeyring.current.icon,
+                                child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '',),
+                              ),
+                  
+                              const SizedBox(width: 10),
+                        
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyText(
+                                    text: provider.getKeyring.current.name,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                    textAlign: TextAlign.start,
+                                  ),
+                              
+                                  MyText(
+                                    text: provider.getKeyring.allAccounts[index].address == null ? "" : provider.getKeyring.allAccounts[index].address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    textAlign: TextAlign.start,
+                                    hexaColor: AppColors.greyCode,
+                                  ),
+                                ],
+                              ),
+                  
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
+                                  ? Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
+                                  : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  );
+                }
               );
             }
           );

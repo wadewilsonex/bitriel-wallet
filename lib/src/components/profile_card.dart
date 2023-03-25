@@ -36,7 +36,7 @@ class ProfileCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: value.accountM.addressIcon == null
+                      child: value.getKeyring.current.icon == null
                           ? Shimmer.fromColors(
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[100]!,
@@ -52,14 +52,14 @@ class ProfileCard extends StatelessWidget {
                               ),
                             )
                           : SvgPicture.string(
-                              value.accountM.addressIcon!,
+                              value.getKeyring.current.icon!,
                             ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MyText(
-                          text: value.accountM.name ?? 'Username',
+                          text: value.getKeyring.current.name ?? 'Username',
                           hexaColor: "#FFFFFF",
                           fontSize: 20,
                         ),
@@ -98,7 +98,7 @@ class ProfileCard extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Clipboard.setData(
-                      ClipboardData(text: value.accountM.address),
+                      ClipboardData(text: value.getKeyring.current.address),
                     ).then(
                       (value) => {
                         snackBar(context, "Copied to Clipboard")
@@ -108,7 +108,7 @@ class ProfileCard extends StatelessWidget {
                   child: MyText(
                     top: 16,
                     width: 300,
-                    text: value.accountM.address ?? "",
+                    text: value.getKeyring.current.address ?? "",
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                   ),

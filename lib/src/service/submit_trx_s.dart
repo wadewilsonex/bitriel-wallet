@@ -41,24 +41,25 @@ class SubmitTrxService {
           return true;
         });
         
-      } else {
-
-        return await api.connectPolNon(context: context).then((value) async {
-          fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
-            txInfoData,
-            [
-              scanPay.controlReceiverAddress.text,
-              Fmt.tokenInt(
-                scanPay.controlAmount.text,
-                chainDecimal!,
-              ).toString(),
-            ],
-          );
-          await sendTx(api, scanPay, password, context, txInfoData, chainDecimal);
-          await api.subscribeDotBalance(context: context);
-          return true;
-        });
       }
+      //  else {
+
+      //   return await api.connectPolNon(context: context).then((value) async {
+      //     fee = await SendTrx(api.getSdk.api, api.getSdk.api.service.tx).estimateFees(
+      //       txInfoData,
+      //       [
+      //         scanPay.controlReceiverAddress.text,
+      //         Fmt.tokenInt(
+      //           scanPay.controlAmount.text,
+      //           chainDecimal!,
+      //         ).toString(),
+      //       ],
+      //     );
+      //     await sendTx(api, scanPay, password, context, txInfoData, chainDecimal);
+      //     await api.subscribeDotBalance(context: context);
+      //     return true;
+      //   });
+      // }
 
 
         // if (hash != null) {

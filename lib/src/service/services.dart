@@ -192,6 +192,7 @@ class AppServices {
     String privateKey = '';
     try {
       final encrytKey = await StorageServices().readSecure(DbKey.private);
+      // ignore: use_build_context_synchronously
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
       await customDialog(context, 'Opps', 'PIN verification failed');

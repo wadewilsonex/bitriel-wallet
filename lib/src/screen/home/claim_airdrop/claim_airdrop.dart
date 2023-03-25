@@ -304,10 +304,10 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
 
                                         Consumer<ApiProvider>(
                                           builder: (context, provider, widget){
-                                            return provider.accountM.address != null 
+                                            return provider.getKeyring.current.address != null 
                                             ? MyText(
                                               width: double.infinity,
-                                              text: provider.accountM.address,
+                                              text: provider.getKeyring.current.address,
                                               fontWeight: FontWeight.bold,
                                               hexaColor: isDarkMode
                                                 ? AppColors.darkSecondaryText
@@ -333,7 +333,7 @@ class ClaimAirDropState extends State<ClaimAirDrop> {
                                           padding: MaterialStateProperty.all(EdgeInsets.zero),
                                           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))
                                         ),
-                                        onPressed: provider.accountM.address != null ? submitForm : null,
+                                        onPressed: provider.getKeyring.current.address != null ? submitForm : null,
                                         child: Stack(
                                           alignment: Alignment.center,
                                           children: [

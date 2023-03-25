@@ -27,7 +27,7 @@ class _SetPasswordState extends State<SetPassword> {
   
   ApiProvider? _apiProvider;
 
-  final ImportAccountModel _importAccountModel = ImportAccountModel();
+  final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
 
   @override
   initState(){
@@ -44,7 +44,7 @@ class _SetPasswordState extends State<SetPassword> {
         context, 
         Transition(
           child: DataLoading(
-            importAccountModel: _importAccountModel,
+            importAnimationAccModel: _importAccountModel,
             initStateData: initStateData,
           ), 
           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
@@ -207,7 +207,7 @@ class _SetPasswordState extends State<SetPassword> {
 
       await _apiProvider!.getAddressIcon();
       // Get From Account js
-      await _apiProvider!.getCurrentAccount(context: context);
+      // await _apiProvider!.getCurrentAccount(context: context);
 
       await ContractProvider().extractAddress(resPk);
 
