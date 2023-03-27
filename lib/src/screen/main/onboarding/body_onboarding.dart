@@ -2,6 +2,7 @@ import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/welcome_item_c.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
+import 'package:wallet_apps/src/screen/main/json/json.dart';
 
 class OnboardignBody extends StatelessWidget {
 
@@ -118,7 +119,12 @@ class OnboardignBody extends StatelessWidget {
                       icon: SvgPicture.asset("assets/icons/json-file.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                       itemColor: "#0D6BA6",
                       action: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImportJson()
+                          )
+                        );
                       },
                     ),
                   ),

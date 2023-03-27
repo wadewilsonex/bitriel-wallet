@@ -1282,7 +1282,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
 
                                 MyText(
                                   top: 50,
-                                  text: value.accountM.name,
+                                  text: value.getKeyring.current.name,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   hexaColor: AppColors.blackColor,
@@ -1313,7 +1313,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                       radius: Constants.avatarRadius,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                          child: randomAvatar(value.accountM.addressIcon ?? '')
+                          child: randomAvatar(value.getKeyring.current.icon ?? '')
                       ),
                     ),
                   ),

@@ -7,7 +7,7 @@ class FingerPrint extends StatefulWidget {
   final String localAuth = "/localAuth";
   final bool? isEnable;
 
-  final ImportAccountModel? importAccountModel;
+  final ImportAccAnimationModel? importAccountModel;
 
   final Function? initStateData;
 
@@ -71,7 +71,7 @@ class FingerPrintState extends State<FingerPrint> {
         if(!mounted) return;
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
+          MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
         );
         // Navigator.pushAndRemoveUntil(
         //   context, 
@@ -186,7 +186,7 @@ class FingerPrintState extends State<FingerPrint> {
                   action: () async {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAccountModel: widget.importAccountModel,))
+                      MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
                     );
                   },
                 )

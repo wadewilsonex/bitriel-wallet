@@ -96,7 +96,6 @@ class AssetDetailState extends State<AssetDetail> {
               ),
             ),
 
-
             SizedBox(height: 2.h),
             
             widget.scModel.marketData == null

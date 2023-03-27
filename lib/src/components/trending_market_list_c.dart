@@ -20,7 +20,7 @@ class TrendMarketList extends StatefulWidget {
 }
 
 class _TrendMarketListState extends State<TrendMarketList> {
-
+  
   String periodID = '1DAY';
 
   Future<void> queryAssetChart(int index, StateSetter modalSetState) async {
@@ -48,7 +48,6 @@ class _TrendMarketListState extends State<TrendMarketList> {
   void dispose() {
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     

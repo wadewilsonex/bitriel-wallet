@@ -27,6 +27,7 @@ class BodySettingPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: paddingSize),
           child: Column(
             children: [
+              
               walletSection(context),
 
               SizedBox(height: 4.h),

@@ -6,12 +6,12 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class DataLoading extends StatefulWidget {
 
-  final ImportAccountModel? importAccountModel;
+  final ImportAccAnimationModel? importAnimationAccModel;
   final Function? initStateData;
 
   const DataLoading({
     Key? key, 
-    this.importAccountModel,
+    this.importAnimationAccModel,
     this.initStateData,
   }) : super(key: key);
 
@@ -42,27 +42,27 @@ class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin 
 
   @override
   dispose(){
-    widget.importAccountModel!.animationController!.dispose();
+    widget.importAnimationAccModel!.animationController!.dispose();
     super.dispose();
   }
 
-  Future<bool>? validateJson(String mnemonic) async {
+  // Future<bool>? validateJson(String mnemonic) async {
     
-    dynamic res;
-    try {
+  //   dynamic res;
+  //   try {
       
-      res = Provider.of<ApiProvider>(context, listen: false).apiKeyring;
-      widget.importAccountModel!.enable = res;
+  //     res = Provider.of<ApiProvider>(context, listen: false).apiKeyring;
+  //     widget.importAnimationAccModel!.enable = res;
       
-      setState((){});
-    } catch (e) {
+  //     setState((){});
+  //   } catch (e) {
 
-      if (kDebugMode) {
-        print("Error validateMnemonic $e");
-      }
-    }
-    return res;
-  }
+  //     if (kDebugMode) {
+  //       print("Error validateMnemonic $e");
+  //     }
+  //   }
+  //   return res;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin 
                   animatedTexts: [
       
                     TypewriterAnimatedText(
-                      widget.importAccountModel!.loadingMgs!,
+                      widget.importAnimationAccModel!.loadingMgs!,
                       textAlign: TextAlign.center,
                       textStyle: const TextStyle(
                         fontSize: 22,
@@ -106,7 +106,7 @@ class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin 
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                   child: LiquidLinearProgressIndicator(
                     borderRadius: 16,
-                    value: widget.importAccountModel!.animation!.value.toDouble(), // Defaults to 0.5.
+                    value: widget.importAnimationAccModel!.animation!.value.toDouble(), // Defaults to 0.5.
                     valueColor: AlwaysStoppedAnimation(hexaCodeToColor(AppColors.primaryColor)), // Defaults to the current Theme's accentColor.
                     backgroundColor: Colors.grey, // Defaults to the current Theme's backgroundColor.
                     borderColor: Colors.white,
@@ -114,7 +114,7 @@ class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin 
                     direction: Axis.horizontal, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
                     center: MyText(
                       fontSize: 15,
-                      text: widget.importAccountModel!.average ?? '..',
+                      text: widget.importAnimationAccModel!.average ?? '..',
                       color2: Colors.white,
                     ),
                   ),

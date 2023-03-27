@@ -27,7 +27,7 @@ class _BackUpKeyState extends State<BackUpKey> {
   }
 
   Future<void> getKeyStoreJson(String pass) async {
-    await _apiProvider!.apiKeyring.getDecryptedSeed(_apiProvider!.getKeyring, "1234");
+    await _apiProvider!.getSdk.api.keyring.getDecryptedSeed(_apiProvider!.getKeyring, "1234");
     
   }
 

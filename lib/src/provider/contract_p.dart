@@ -102,17 +102,16 @@ class ContractProvider with ChangeNotifier {
       await setSavedList().then((value) async {
 
         final json = await rootBundle.loadString(AssetPath.contractJson);
-
+        print("json $json");
         final decode = jsonDecode(json);
 
         sortListContract.clear();
         listContract.clear();
-      
 
+        print("decode.length ${decode.length}");
+      
         for (int i = 0 ; i < decode.length; i++){
 
-          print("$i sortDataMarket ${Provider.of<MarketProvider>(context!, listen: false).sortDataMarket[i]['chart_data']}\n\n");
-          
           listContract.add(
             SmartContractModel(
               id: decode[i]['id'],
@@ -135,15 +134,7 @@ class ContractProvider with ChangeNotifier {
               lineChartModel: LineChartModel(values: List<FlSpot>.empty(growable: true)),
             )
           );
-
-          // decode.forEach((value){
-          //   // if (value['symbol'] != "SEL (v1)" && value['symbol'] != "SEL (v2)"){
-              
-          //   // }
-          // });
         }
-
-        print("listContract ${listContract.length}");
 
         await StorageServices.storeData(SmartContractModel.encode(listContract), DbKey.listContract);
         
@@ -417,7 +408,7 @@ class ContractProvider with ChangeNotifier {
       
       // 1. Add Default Asset First
       for (var element in listContract) {
-        if (element.show!){
+        if (element.show! && element.id != "polkadot"){
           
           if (element.marketPrice!.isNotEmpty) {
             element.money = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);

@@ -136,7 +136,7 @@ class SuccessTransferBody extends StatelessWidget {
 
                   textRowWidget("Hash:", hash!),
                   textRowWidget("Transaction Date:", trxDate!),
-                  textRowWidget("From:", Provider.of<ApiProvider>(context).accountM.address!),
+                  textRowWidget("From:", Provider.of<ApiProvider>(context).getKeyring.current.address!),
                   textRowWidget("To Address:", toAddress!),
                   textRowWidget("Fee:", fee!),
 

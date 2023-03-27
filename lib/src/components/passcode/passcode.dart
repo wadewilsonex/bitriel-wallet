@@ -200,7 +200,7 @@ class PasscodeState extends State<Passcode> {
           Navigator.push(
             context, 
             Transition(
-              child: CreateSeeds(),
+              child: CreateSeeds(passCode: pin,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
@@ -210,7 +210,7 @@ class PasscodeState extends State<Passcode> {
           Navigator.push(
             context, 
             Transition(
-              child: const ImportAcc(),
+              child: ImportAcc(passCode: pin,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );

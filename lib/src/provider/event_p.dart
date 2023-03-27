@@ -13,13 +13,13 @@ class EventProvider with ChangeNotifier {
   get getIsValidQr => _isValidQr;
 
   Web3Client? _web3client;
-  Client? _client = Client();
+  final Client _client = Client();
   DeployedContract? deployedContract;
 
   initEventContract() async {
     
     print("initEventContract");
-    _web3client = Web3Client('https://rpc0-indranet.selendra.org/evm', _client!);
+    _web3client = Web3Client('https://rpc0-indranet.selendra.org/evm', _client);
     deployedContract = await getContract();
 
     notifyListeners();

@@ -39,7 +39,6 @@ class AccountBody extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-     
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -61,241 +60,227 @@ class AccountBody extends StatelessWidget{
         ),
       ),
       body: Consumer<ApiProvider>(
-        builder: (context, provider, widget){
-          return ExpandedTileList.builder(
+        builder: (context, provider, wg){
+          return ListView.builder(
             itemCount: provider.getKeyring.allAccounts.length,
-            maxOpened: 1,
-            reverse: true,
-            padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize / 2),
-            itemBuilder: (context, index, controller) {
-              return ExpandedTile(
-                theme: const ExpandedTileThemeData(
-                  headerColor: Colors.white,
-                  headerRadius: 10.0,
-                  contentBackgroundColor: Colors.white,
-                  contentRadius: 10.0,
-                ),
-                controller: index == 2 ? controller.copyWith(isExpanded: true) : controller,
-                leading: Container(
-                  alignment: Alignment.centerLeft,
-                  width: 50,
-                  height: 50,
-                  child: randomAvatar(provider.accountM.addressIcon ?? '')
-                ),
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText(
-                      text: provider.accountM.name ?? '',
-                      hexaColor: AppColors.blackColor,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600,
-                      textAlign: TextAlign.start,
-                    ),
-          
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
+            itemBuilder:(context, index) {
+                 return InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    
-                        Padding(
-                          padding: const EdgeInsets.only(right: paddingSize / 2),
-                          child: MyText(
-                            text: provider.accountM.address!.replaceRange(8, provider.accountM.address!.length - 8, "........"),
-                            hexaColor: AppColors.greyCode,
-                            fontSize: 16,
+                        const SizedBox(height: 10),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          width: 50,
+                                          height: 50,
+                                          child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '')
+                                        ),
+
+                                        const SizedBox(width: 10),
+
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            MyText(
+                                              text: provider.getKeyring.allAccounts[index].name ?? '',
+                                              hexaColor: AppColors.blackColor,
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.w600,
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: paddingSize / 2),
+                                                  child: MyText(
+                                                    text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
+                                                    hexaColor: AppColors.greyCode,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                            
+                                                InkWell(
+                                                  onTap: () async {
+                                                    await Clipboard.setData(
+                                                      ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
+                                                    );
+                                                    Fluttertoast.showToast(
+                                                      msg: "Copied address",
+                                                      toastLength: Toast.LENGTH_SHORT,
+                                                      gravity: ToastGravity.CENTER,
+                                                    );
+                                                  }, 
+                                                  child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ]
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                                    child: const Icon(
+                                      Iconsax.arrow_right_3
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                    
-                        InkWell(
-                          onTap: () async {
-                            await Clipboard.setData(
-                              ClipboardData(text: provider.accountM.address ??''),
-                            );
-                            Fluttertoast.showToast(
-                              msg: "Copied address",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                            );
-                          }, 
-                          child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-                        )
+                        const SizedBox(height: 10),
                       ],
-                    )
-                  ],
-                ),
-                content: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () => _editAccountNameDialog(context),
-                        child: _itemButton(
-                          icon: Iconsax.edit, 
-                          title: "Edit Wallet Name", 
-                          iconColor: AppColors.darkGrey,
-                        ),
-                      ),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context, 
-                            Transition(
-                              child: const BackUpKey(),
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                            )
-                          );
-                        },
-                        child: _itemButton(
-                          icon: Iconsax.export_1, 
-                          title: "Export Wallet",
-                          iconColor: AppColors.primaryColor, 
-                          titleColor: AppColors.primaryColor
-                        ),
-                      ),
-
-                      GestureDetector(
-                        // onTap: () => _editAccountNameDialog(context),
-                        child: _itemButton(
-                          icon: Iconsax.trash, 
-                          title: "Delete Wallet", 
-                          titleColor: AppColors.redColor,
-                          iconColor: AppColors.redColor,
-                        ),
-                      ),
-                      
-                    ],
-                  ),
-                ),
-                // onTap: () {
-                //   debugPrint("tapped!!");
-                // },
-              );
+                    ),
+                  );
             },
           );
-          // return ListView.builder(
-          //   itemCount: provider.getKeyring.allAccounts.length,
-          //   itemBuilder: (context, index) {
-          //     return Column(
-          //       children: [
-                  
-
-          //         // Container(
-          //         //   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
-          //         //   child: Card(
-          //         //     semanticContainer: true,
-          //         //     clipBehavior: Clip.antiAliasWithSaveLayer,
-          //         //     shape: const RoundedRectangleBorder(
-          //         //       borderRadius: BorderRadius.all(Radius.circular(10))
-          //         //     ),
-          //         //     child: ExpansionTile(
-          //         //       collapsedIconColor: Colors.black,
-          //         //       iconColor: Colors.black,
-          //         //       leading: Container(
-          //         //         alignment: Alignment.centerLeft,
-          //         //         width: 40,
-          //         //         height: 40,
-          //         //         decoration: BoxDecoration(
-          //         //           borderRadius:BorderRadius.circular(5),
-          //         //         ),
-          //         //         child: randomAvatar(provider.accountM.addressIcon ?? '')
-          //         //       ),
-          //         //       title: Column(
-          //         //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         //         children: [
-          //         //           MyText(
-          //         //             text: provider.accountM.name ?? '',
-          //         //             hexaColor: AppColors.blackColor,
-          //         //             fontSize: 19,
-          //         //             fontWeight: FontWeight.w600,
-          //         //             textAlign: TextAlign.start,
-          //         //           ),
-            
-          //         //           Row(
-          //         //             mainAxisSize: MainAxisSize.min,
-          //         //             children: [
-                            
-          //         //               Padding(
-          //         //                 padding: const EdgeInsets.only(right: paddingSize / 2),
-          //         //                 child: MyText(
-          //         //                   text: provider.accountM.address!.replaceRange(8, provider.accountM.address!.length - 8, "........"),
-          //         //                   hexaColor: AppColors.greyCode,
-          //         //                   fontSize: 16,
-          //         //                 ),
-          //         //               ),
-                            
-          //         //               InkWell(
-          //         //                 onTap: () async {
-          //         //                   await Clipboard.setData(
-          //         //                     ClipboardData(text: provider.accountM.address ??''),
-          //         //                   );
-          //         //                   Fluttertoast.showToast(
-          //         //                     msg: "Copied address",
-          //         //                     toastLength: Toast.LENGTH_SHORT,
-          //         //                     gravity: ToastGravity.CENTER,
-          //         //                   );
-          //         //                 }, 
-          //         //                 child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-          //         //               )
-          //         //             ],
-          //         //           )
-          //         //         ],
-          //         //       ),
-          //         //       children: <Widget>[
-
-          //         //         Padding(
-          //         //           padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
-          //         //           child: Divider(
-          //         //             thickness: 0.5,
-          //         //             color: hexaCodeToColor(AppColors.darkGrey),
-          //         //           ),
-          //         //         ),
-
-          //         //         SizedBox(
-          //         //           width: MediaQuery.of(context).size.width,
-          //         //           child: TextButton.icon(
-          //         //             onPressed: () {
-          //         //               _editAccountNameDialog(context);
-          //         //             }, 
-          //         //             icon: const Icon(Iconsax.edit_2, color: Colors.black, size: 22,), 
-          //         //             label: const MyText(
-          //         //               text: "Edit Account Name", 
-          //         //               fontSize: 17,
-          //         //               fontWeight: FontWeight.w500,
-          //         //               hexaColor: AppColors.blackColor,
-          //         //             ),
-          //         //           ),
-          //         //         ),
-
-          //         //         SizedBox(
-          //         //           width: MediaQuery.of(context).size.width,
-          //         //           child: TextButton.icon(
-          //         //             onPressed: () {
-          //         //               Navigator.push(
-          //         //                 context, 
-          //         //                 Transition(
-          //         //                   child: const BackUpKey(),
-          //         //                   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          //         //                 )
-          //         //               );
-          //         //             }, 
-          //         //             icon: const Icon(Iconsax.edit_2, color: Colors.black, size: 22,), 
-          //         //             label: const MyText(
-          //         //               text: "Export Wallet", 
-          //         //               fontSize: 17,
-          //         //               fontWeight: FontWeight.w500,
-          //         //               hexaColor: AppColors.blackColor,
-          //         //             ),
-          //         //           ),
-          //         //         ),
-
-          //         //       ],
-          //         //     ),
-          //         //   ),
-          //         // ),
-          //       ],
+          // return ExpandedTileList.separated(
+          //   separatorBuilder:(context, index) {
+          //     return SizedBox(
+          //       height: 10,
+          //       width: MediaQuery.of(context).size.width,
+          //       child: Container(
+          //         color: hexaCodeToColor(AppColors.lightColorBg),
+          //       ),
           //     );
-          //   }
+          //   },
+          //   itemCount: provider.getKeyring.allAccounts.length,
+          //   maxOpened: 1,
+          //   reverse: false,
+          //   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize / 2),
+          //   itemBuilder: (context, index, controller) {
+          //     return ExpandedTile(
+          //       theme: const ExpandedTileThemeData(
+          //         headerColor: Colors.white,
+          //         headerRadius: 10.0,
+          //         contentBackgroundColor: Colors.white,
+          //         contentRadius: 10.0,
+          //       ),
+          //       // controller: index == 2 ? controller.copyWith(isExpanded: true) : controller,
+          //       controller: controller,
+          //       leading: Container(
+          //         alignment: Alignment.centerLeft,
+          //         width: 50,
+          //         height: 50,
+          //         child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '')
+          //       ),
+          //       title: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           MyText(
+          //             text: provider.getKeyring.allAccounts[index].name ?? '',
+          //             hexaColor: AppColors.blackColor,
+          //             fontSize: 19,
+          //             fontWeight: FontWeight.w600,
+          //             textAlign: TextAlign.start,
+          //           ),
+                    
+          //           Row(
+          //             children: [
+          //               Padding(
+          //                 padding: const EdgeInsets.only(right: paddingSize / 2),
+          //                 child: MyText(
+          //                   text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
+          //                   hexaColor: AppColors.greyCode,
+          //                   fontSize: 16,
+          //                 ),
+          //               ),
+                    
+          //               InkWell(
+          //                 onTap: () async {
+          //                   await Clipboard.setData(
+          //                     ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
+          //                   );
+          //                   Fluttertoast.showToast(
+          //                     msg: "Copied address",
+          //                     toastLength: Toast.LENGTH_SHORT,
+          //                     gravity: ToastGravity.CENTER,
+          //                   );
+          //                 }, 
+          //                 child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
+          //               )
+          //             ],
+          //           )
+          //         ],
+          //       ),
+          //       content: Container(
+          //         color: Colors.white,
+          //         child: Column(
+          //           children: [
+          //             GestureDetector(
+          //               onTap: () => _editAccountNameDialog(context),
+          //               child: _itemButton(
+          //                 icon: Iconsax.edit, 
+          //                 title: "Edit Wallet Name", 
+          //                 iconColor: AppColors.darkGrey,
+          //               ),
+          //             ),
+
+          //             GestureDetector(
+          //               onTap: () {
+          //                 Navigator.push(
+          //                   context, 
+          //                   Transition(
+          //                     child: const BackUpKey(),
+          //                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          //                   )
+          //                 );
+          //               },
+          //               child: _itemButton(
+          //                 icon: Iconsax.export_1, 
+          //                 title: "Export Wallet",
+          //                 iconColor: AppColors.primaryColor, 
+          //                 titleColor: AppColors.primaryColor
+          //               ),
+          //             ),
+
+          //             GestureDetector(
+          //               // onTap: () => _editAccountNameDialog(context),
+          //               child: _itemButton(
+          //                 icon: Iconsax.trash, 
+          //                 title: "Delete Wallet", 
+          //                 titleColor: AppColors.redColor,
+          //                 iconColor: AppColors.redColor,
+          //               ),
+          //             ),
+                      
+          //           ],
+          //         ),
+          //       ),
+          //       // onTap: () {
+          //       //   debugPrint("tapped!!");
+          //       // },
+          //     );
+          //   },
           // );
         }
       ),
@@ -362,20 +347,19 @@ class AccountBody extends StatelessWidget{
                       //   isBackBtn: true,
                       // )
                     )
-                  ).then((value) async {
-                    if (value != null){
+                  ).then((pinValue) async {
+                    if (pinValue != null){
 
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: value,)
+                          builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: pinValue,)
                           // const ImportAcc(
                           //   isBackBtn: true,
                           // )
                         )
-                      ).then((value) {
-                        if (value != null && value == true){
-                          
+                      ).then((accValue) {
+                        if (accValue != null && accValue == true){
                           // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                           Provider.of<ApiProvider>(context, listen: false).notifyListeners();
                         }

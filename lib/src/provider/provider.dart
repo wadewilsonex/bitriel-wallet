@@ -45,7 +45,7 @@ class ContractsBalance extends ChangeNotifier {
         // This Method Is Also Requeste Polkadot Contract
         await apiProvider.getBtcBalance(context: _context);
 
-        await apiProvider.connectPolNon(context: _context);
+        // await apiProvider.connectPolNon(context: _context);
         
         /// Fetch main balance
         await apiProvider.totalBalance(context: _context!);

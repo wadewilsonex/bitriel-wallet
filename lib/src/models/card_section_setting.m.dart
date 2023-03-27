@@ -171,7 +171,7 @@ List<CardSection> backupSection({BuildContext? context}) {
       action: () async {
         await Navigator.push(context!, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
           ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-          await apiProvider.apiKeyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
+          await apiProvider.getSdk.api.keyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
             if (res!.seed != null){
               await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
             } else {
@@ -221,13 +221,16 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     
     try {
 
-      await api.apiKeyring.deleteAccount(
+      await api.getSdk.api.keyring.deleteAccount(
         api.getKeyring,
-        api.accountM.currentAcc,
+        api.getKeyring.current,
       );
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+
+      print(mode);
+      print(sldNW);
       // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();

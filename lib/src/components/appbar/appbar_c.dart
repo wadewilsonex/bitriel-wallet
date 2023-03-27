@@ -52,8 +52,8 @@ PreferredSizeWidget defaultAppBar({
                     child: AvatarShimmer(
                       height: 45,
                       width: 45,
-                      txt: provider.accountM.addressIcon,
-                      child: randomAvatar(provider.accountM.addressIcon ?? ''),
+                      txt: provider.getKeyring.current.icon,
+                      child: randomAvatar(provider.getKeyring.current.icon ?? ''),
                     ),
                   )
               );
@@ -80,9 +80,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.accountM.address,
+                          txt: provider.getKeyring == null ? '' : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.accountM.address == null ? "" : provider.accountM.address!.replaceRange(6, provider.accountM.address!.length - 6, "......."),
+                            text: provider.getKeyring == null ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -188,17 +188,6 @@ void bottomSheetAddAccount(BuildContext context) async{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        index == 0 ? const SizedBox(height: 25,) : Container(),
-                  
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                          child: MyText(
-                            text: "Wallet $index",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color2: Colors.black,
-                          ),
-                        ),
                   
                         Padding(
                           padding: const EdgeInsets.all(paddingSize),
