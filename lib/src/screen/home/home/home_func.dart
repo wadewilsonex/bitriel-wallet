@@ -3,20 +3,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../index.dart';
 
 class HomeFunctional {
-
-  
     
   /// Change SELENDRA Network
-  Future changeNetwork({required BuildContext? context, required StateSetter setState}) async {
-    
-    int selection = 0;
-    
-    // selectNetwork(int networkSelected) {
-    //   setState(() {
-    //     selection = networkSelected;
-    //   });
-    // }
-    
+  Future changeNetwork({required BuildContext? context, required StateSetter setState}) async {    
     return showBarModalBottomSheet(
       context: context!,
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
@@ -87,7 +76,6 @@ class HomeFunctional {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              
                                 
                               InkWell(
                                 onTap: () async{

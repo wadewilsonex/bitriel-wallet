@@ -1,4 +1,3 @@
-import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
@@ -64,224 +63,175 @@ class AccountBody extends StatelessWidget{
           return ListView.builder(
             itemCount: provider.getKeyring.allAccounts.length,
             itemBuilder:(context, index) {
-                 return InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 10),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.centerLeft,
-                                          width: 50,
-                                          height: 50,
-                                          child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '')
-                                        ),
-
-                                        const SizedBox(width: 10),
-
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            MyText(
-                                              text: provider.getKeyring.allAccounts[index].name ?? '',
-                                              hexaColor: AppColors.blackColor,
-                                              fontSize: 19,
-                                              fontWeight: FontWeight.w600,
-                                              textAlign: TextAlign.start,
-                                            ),
-                                            
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: paddingSize / 2),
-                                                  child: MyText(
-                                                    text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
-                                                    hexaColor: AppColors.greyCode,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                            
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await Clipboard.setData(
-                                                      ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
-                                                    );
-                                                    Fluttertoast.showToast(
-                                                      msg: "Copied address",
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.CENTER,
-                                                    );
-                                                  }, 
-                                                  child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ]
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                                    child: const Icon(
-                                      Iconsax.arrow_right_3
-                                    ),
-                                  ),
-                                ),
-                              ],
+              return InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () {
+                  showModalBottomSheet(
+                    backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical( 
+                        top: Radius.circular(25.0),
+                      ),
+                    ),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          
+                          Padding(
+                            padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
+                            child: MyText(
+                              text: provider.getKeyring.allAccounts[index].name ?? '',
+                              hexaColor: AppColors.blackColor,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              textAlign: TextAlign.start,
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ),
+
+                          const Divider(),
+                        
+                          GestureDetector(
+                            onTap: () => _editAccountNameDialog(context),
+                            child: _itemButton(
+                              icon: Iconsax.edit, 
+                              title: "Edit Wallet Name", 
+                              iconColor: AppColors.darkGrey,
+                            ),
+                          ),
+
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context, 
+                                Transition(
+                                  child: const BackUpKey(),
+                                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                                )
+                              );
+                            },
+                            child: _itemButton(
+                              icon: Iconsax.export_1, 
+                              title: "Export Wallet",
+                              iconColor: AppColors.primaryColor, 
+                              titleColor: AppColors.primaryColor
+                            ),
+                          ),
+
+                          GestureDetector(
+                            // onTap: () => _editAccountNameDialog(context),
+                            child: _itemButton(
+                              icon: Iconsax.trash, 
+                              title: "Delete Wallet", 
+                              titleColor: AppColors.redColor,
+                              iconColor: AppColors.redColor,
+                            ),
+                          ),
+
+                          const SizedBox(height: 10),
+                          
+                        ],
+                      );
+                    }
                   );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 5),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      width: 50,
+                                      height: 50,
+                                      child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '')
+                                    ),
+
+                                    const SizedBox(width: 10),
+
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        MyText(
+                                          text: provider.getKeyring.allAccounts[index].name ?? '',
+                                          hexaColor: AppColors.blackColor,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w600,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: paddingSize / 2),
+                                              child: MyText(
+                                                text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
+                                                hexaColor: AppColors.greyCode,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                        
+                                            InkWell(
+                                              onTap: () async {
+                                                await Clipboard.setData(
+                                                  ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
+                                                );
+                                                Fluttertoast.showToast(
+                                                  msg: "Copied address",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.CENTER,
+                                                );
+                                              }, 
+                                              child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ]
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 0,
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                                child: const Icon(
+                                  Iconsax.arrow_right_3
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                  ],
+                ),
+              );
             },
           );
-          // return ExpandedTileList.separated(
-          //   separatorBuilder:(context, index) {
-          //     return SizedBox(
-          //       height: 10,
-          //       width: MediaQuery.of(context).size.width,
-          //       child: Container(
-          //         color: hexaCodeToColor(AppColors.lightColorBg),
-          //       ),
-          //     );
-          //   },
-          //   itemCount: provider.getKeyring.allAccounts.length,
-          //   maxOpened: 1,
-          //   reverse: false,
-          //   padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize / 2),
-          //   itemBuilder: (context, index, controller) {
-          //     return ExpandedTile(
-          //       theme: const ExpandedTileThemeData(
-          //         headerColor: Colors.white,
-          //         headerRadius: 10.0,
-          //         contentBackgroundColor: Colors.white,
-          //         contentRadius: 10.0,
-          //       ),
-          //       // controller: index == 2 ? controller.copyWith(isExpanded: true) : controller,
-          //       controller: controller,
-          //       leading: Container(
-          //         alignment: Alignment.centerLeft,
-          //         width: 50,
-          //         height: 50,
-          //         child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '')
-          //       ),
-          //       title: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           MyText(
-          //             text: provider.getKeyring.allAccounts[index].name ?? '',
-          //             hexaColor: AppColors.blackColor,
-          //             fontSize: 19,
-          //             fontWeight: FontWeight.w600,
-          //             textAlign: TextAlign.start,
-          //           ),
-                    
-          //           Row(
-          //             children: [
-          //               Padding(
-          //                 padding: const EdgeInsets.only(right: paddingSize / 2),
-          //                 child: MyText(
-          //                   text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
-          //                   hexaColor: AppColors.greyCode,
-          //                   fontSize: 16,
-          //                 ),
-          //               ),
-                    
-          //               InkWell(
-          //                 onTap: () async {
-          //                   await Clipboard.setData(
-          //                     ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
-          //                   );
-          //                   Fluttertoast.showToast(
-          //                     msg: "Copied address",
-          //                     toastLength: Toast.LENGTH_SHORT,
-          //                     gravity: ToastGravity.CENTER,
-          //                   );
-          //                 }, 
-          //                 child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-          //               )
-          //             ],
-          //           )
-          //         ],
-          //       ),
-          //       content: Container(
-          //         color: Colors.white,
-          //         child: Column(
-          //           children: [
-          //             GestureDetector(
-          //               onTap: () => _editAccountNameDialog(context),
-          //               child: _itemButton(
-          //                 icon: Iconsax.edit, 
-          //                 title: "Edit Wallet Name", 
-          //                 iconColor: AppColors.darkGrey,
-          //               ),
-          //             ),
-
-          //             GestureDetector(
-          //               onTap: () {
-          //                 Navigator.push(
-          //                   context, 
-          //                   Transition(
-          //                     child: const BackUpKey(),
-          //                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          //                   )
-          //                 );
-          //               },
-          //               child: _itemButton(
-          //                 icon: Iconsax.export_1, 
-          //                 title: "Export Wallet",
-          //                 iconColor: AppColors.primaryColor, 
-          //                 titleColor: AppColors.primaryColor
-          //               ),
-          //             ),
-
-          //             GestureDetector(
-          //               // onTap: () => _editAccountNameDialog(context),
-          //               child: _itemButton(
-          //                 icon: Iconsax.trash, 
-          //                 title: "Delete Wallet", 
-          //                 titleColor: AppColors.redColor,
-          //                 iconColor: AppColors.redColor,
-          //               ),
-          //             ),
-                      
-          //           ],
-          //         ),
-          //       ),
-          //       // onTap: () {
-          //       //   debugPrint("tapped!!");
-          //       // },
-          //     );
-          //   },
-          // );
         }
       ),
       bottomNavigationBar: SizedBox(
@@ -380,13 +330,13 @@ class AccountBody extends StatelessWidget{
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: paddingSize / 2),
       child: Container(
-        height: 50,
+        height: 40,
         decoration: BoxDecoration(
           color: hexaCodeToColor(AppColors.lightColorBg),
           borderRadius: BorderRadius.circular(10)
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
           child: Row(
             children: [
               
