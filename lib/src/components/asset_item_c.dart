@@ -80,6 +80,7 @@ class AssetsItemComponent extends StatelessWidget {
                       children: [
                         
                         MyText(
+                          width: 100,
                           text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -93,6 +94,7 @@ class AssetsItemComponent extends StatelessWidget {
                     ),
               
                     MyText(
+                      width: 100,
                       text: scModel!.name ?? '',
                       fontSize: 15,
                       hexaColor: AppColors.tokenNameColor,
@@ -111,6 +113,7 @@ class AssetsItemComponent extends StatelessWidget {
         
                     scModel!.marketPrice != null ?
                     MyText(
+                      
                       text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 17,
                       fontWeight: FontWeight.w500,

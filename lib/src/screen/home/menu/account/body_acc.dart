@@ -186,7 +186,7 @@ class AccountBody extends StatelessWidget{
                                             Padding(
                                               padding: const EdgeInsets.only(right: paddingSize / 2),
                                               child: MyText(
-                                                text: provider.getKeyring.allAccounts[index].address!.replaceRange(8, provider.getKeyring.allAccounts[index].address!.length - 8, "........"),
+                                                text: provider.getKeyring.allAccounts[index].address!.replaceRange(10, provider.getKeyring.allAccounts[index].address!.length - 10, "........"),
                                                 hexaColor: AppColors.greyCode,
                                                 fontSize: 16,
                                               ),
@@ -346,7 +346,7 @@ class AccountBody extends StatelessWidget{
                 left: 10,
                 text: title,
                 fontSize: 18,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 hexaColor: titleColor ?? AppColors.blackColor,
               )
             ],

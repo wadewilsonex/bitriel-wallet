@@ -77,8 +77,8 @@ class AddAssetState extends State<AddAsset> {
 
   void onTapGetResult(int index) {
     setState(() {
-      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
-      queryContractAddress = searchResults[index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
+      queryContractAddress = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
       setResults(queryContractAddress);
     });
   }
@@ -87,19 +87,22 @@ class AddAssetState extends State<AddAsset> {
   void initState() {
     getContractAddress().then((value) => {
       initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
+    }).then((value) => {
+      filterByChain(),
     });
 
     _modelAsset.result = {};
     _modelAsset.match = false;
     initialValue = widget.network;
     
-    Future.delayed(const Duration(seconds: 1), (){
-      filterByChain();
-    });
-    
     AppServices.noInternetConnection(context: context);
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void filterByChain() {
@@ -182,8 +185,6 @@ class AddAssetState extends State<AddAsset> {
     
     try {
 
-      dialogLoading(context);
-
       final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
       for (var element in lsContract) {
         if (_modelAsset.controllerAssetCode.text == (ApiProvider().isMainnet ? element.contract : element.contractTest)){
@@ -256,6 +257,8 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> submitAsset() async {
     try {
+
+      dialogLoading(context);
     
       setState(() {
         _tokenSymbol = "";
@@ -299,6 +302,8 @@ class AddAssetState extends State<AddAsset> {
           
           _modelAsset.loading = false;
         });
+
+        await addAsset();
         
       } else {
         if(!mounted) return;
@@ -405,7 +410,6 @@ class AddAssetState extends State<AddAsset> {
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7.w,
         title: MyText(
           text: "Add Custom Token",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,

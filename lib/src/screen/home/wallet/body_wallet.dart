@@ -391,46 +391,6 @@ class WalletPageBody extends StatelessWidget {
         
             GestureDetector(
               onTap: (){
-                // showModalBottomSheet(
-                //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                //   shape: const RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.vertical( 
-                //       top: Radius.circular(25.0),
-                //     ),
-                //   ),
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return Column(
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             IconButton(
-                //               onPressed: (){
-                //                 Navigator.push(
-                //                   context, 
-                //                   MaterialPageRoute(builder: (context) => const AddAsset())
-                //                 );
-                //               }, 
-                //               icon: const Icon(Iconsax.add_circle, color: Colors.black, size: 25,)
-                //             ),
-                
-                //             const MyText(text: "Tokens", fontWeight: FontWeight.bold, fontSize: 20, color2: Colors.black),
-                            
-                //             TextButton(
-                //               child: const MyText(text: "Done", fontWeight: FontWeight.w600, fontSize: 20,),
-                //               onPressed: () {
-                //                 Navigator.pop(context);
-                //               },
-                //             )
-                //           ],
-                //         ),
-                        
-                //         _searchToken(context, searchController!),
-                //       ],
-                //     );
-                //   }
-                // );
                 Navigator.push(
                   context, 
                   MaterialPageRoute(builder: (context) => const AddAsset())
@@ -448,47 +408,6 @@ class WalletPageBody extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _searchToken(BuildContext context, TextEditingController controller){
-    
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-  //     child: TextFormField(
-  //       controller: controller,
-  //       style: TextStyle(
-  //         fontSize: 20,
-  //         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
-  //       ),
-  //       decoration: InputDecoration(
-  //         border: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         enabledBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         hintText: "Search token name",
-  //         hintStyle: TextStyle(
-  //           fontSize: 20,
-  //           color: hexaCodeToColor("#AAAAAA"),
-  //         ),
-  //         prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 20.0),
-  //         /* Prefix Text */
-  //         filled: true,
-  //         fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
-  //         suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
-  //       ),
-  //       onChanged: (String value){
-
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget _nftAndTicket(BuildContext context) {
     return Column(
