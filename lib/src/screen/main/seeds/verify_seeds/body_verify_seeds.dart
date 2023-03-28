@@ -84,7 +84,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   ),
                 ),
   
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.isEmpty)
                 Align(
@@ -112,6 +112,19 @@ class VerifyPassphraseBody extends StatelessWidget {
                 ),
   
                 Flexible(child: Container()),
+                MyFlatButton(
+                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  isTransparent: true,
+                  buttonColor: AppColors.whiteHexaColor,
+                  textColor: AppColors.primaryColor,
+                  textButton: "Verify Later",
+                  action: () {
+                    seedVerifyLaterDialog(context,"HI");
+                  },
+                ),
+
+                const SizedBox(height: 10,),
+
                 MyGradientButton(
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,

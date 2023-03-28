@@ -288,6 +288,128 @@ Future<void> successDialog(
   );
 }
 
+Future<void> seedVerifyLaterDialog(
+  BuildContext context, String operationText) async {
+
+  bool isCheck = false;
+  
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setStateWidget) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+            content: SizedBox(
+              // height: MediaQuery.of(context).size.height / 2.6,
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+
+                    SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Lottie.asset(
+                        "assets/animation/warning-shield.json",
+                        repeat: true,
+                      ),
+                    ),
+                    const MyText(
+                      text: 'Verify you Seed Phrase later?',
+                      fontSize: 20,
+                      top: 10,
+                      bottom: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+  
+                    Theme(
+                      data: ThemeData(),
+                      child: CheckboxListTile(
+                        title: const MyText(
+                          text: "I understand that if I lose my Secret Seed Phrase I will not be able to access my wallet",
+                          textAlign: TextAlign.start,
+                        ),
+                        activeColor: hexaCodeToColor(AppColors.primaryColor),
+                        value: isCheck,
+                        onChanged: (newValue) {
+                          setStateWidget(() {
+                            isCheck = newValue!;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+
+                    // Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       width: 20,
+                    //       height: 20,
+                    //       child: Transform.scale(
+                    //         scale: 1.5,
+                    //         child: Checkbox(
+                    //           value: isCheck,
+                    //           checkColor: Colors.green,
+                    //           activeColor: hexaCodeToColor(AppColors.primaryColor),
+                    //           onChanged: (bool? value) {
+                    //             setStateWidget(() {
+                    //               isCheck = value!;
+                    //             });
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ),
+
+                    //     const MyText(
+                    //       pLeft: 20,
+                    //       width: 280,
+                    //       text: "I understand that if I lose my Secret Seed Phrase I will not be able to access my wallet",
+                    //       textAlign: TextAlign.start,
+                    //     )
+                    //   ],
+                    // ),
+
+
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.1,
+                    ),
+
+                    MyFlatButton(
+                      isTransparent: true,
+                      buttonColor: AppColors.greenColor,
+                      textColor: isCheck == false ? AppColors.greyCode : AppColors.primaryColor,
+                      textButton: "Yes, Verify Later",
+                      action: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    MyGradientButton(
+                      textButton: "No, Verify Now",
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: (){
+                        Navigator.pop(context);
+                      }
+                    )
+
+                  ],
+                ),
+              ),
+            )
+          );
+        }
+      );
+    },
+  );
+}
+
 // Future<void> dialog(BuildContext context, Widget text, Widget title,
 //     {Widget action, Color bgColor}) async {
 //   await showDialog(

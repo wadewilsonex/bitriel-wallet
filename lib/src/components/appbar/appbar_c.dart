@@ -80,9 +80,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.getKeyring == null ? '' : provider.getKeyring.current.address,
+                          txt: provider.getKeyring.current.address!.isEmpty ? '' : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.getKeyring == null ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                            text: provider.getKeyring.current.address!.isEmpty ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -225,7 +225,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
-                                  ? Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
+                                  ? const Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
                                   : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
                                 ),
                               )

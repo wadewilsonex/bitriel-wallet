@@ -1,3 +1,4 @@
+import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
 
 class AddAssetBody extends StatelessWidget {
@@ -49,8 +50,6 @@ class AddAssetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     
-    final api = Provider.of<ApiProvider>(context);
     return Column(
       children: [
         Expanded(
@@ -111,16 +110,11 @@ class AddAssetBody extends StatelessWidget {
                             ),
                             child: Row(
                               children: <Widget>[
-                                // provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                                // ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,) 
-                                // : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25.sp, width: 25.sp,),
-
                                 Expanded(
                                   child: MyText(
                                     pTop: paddingSize,
                                     pBottom: paddingSize,
                                     text: "Network",
-                                    // text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,
                                     textAlign: TextAlign.left,
@@ -172,22 +166,40 @@ class AddAssetBody extends StatelessWidget {
                                   onChangedQuery!(v);
                                 },
                                 onSubmit: onSubmit,
-                                suffixIcon: GestureDetector(
-                                  onTap: () async {
-                                    final response = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: false)
-                                      )
-                                    );
-                                    
-                                    if (response != null) {
-                                      qrRes!(response.toString());
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.primaryColor), size: 20),
-                                  ),
+                                
+                                suffixIcon: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    assetM!.controllerAssetCode.length >= 1 ? GestureDetector(
+                                      onTap: () async {
+                                        assetM!.controllerAssetCode.clear();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: Icon(Iconsax.close_circle, color: hexaCodeToColor(AppColors.iconGreyColor)),
+                                      ),
+                                    )
+                                    : Container(),
+
+                                    GestureDetector(
+                                      onTap: () async {
+                                        final response = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: false)
+                                          )
+                                        );
+                                        
+                                        if (response != null) {
+                                          qrRes!(response.toString());
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.primaryColor)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
 
