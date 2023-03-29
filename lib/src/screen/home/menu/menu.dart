@@ -74,7 +74,6 @@ class MenuState extends State<Menu> {
     });
   }
 
-  // ignore: avoid_positional_boolean_parameters
   Future<void> switchBiometric(BuildContext context, bool switchValue) async {
     
     final canCheck = await AppServices().checkBiometrics(context);

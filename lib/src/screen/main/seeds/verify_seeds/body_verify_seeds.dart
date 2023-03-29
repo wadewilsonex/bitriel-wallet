@@ -6,6 +6,7 @@ class VerifyPassphraseBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
   final Function? submit;
+  final Function? submitUnverify;
   final Function? onTap;
   final Function? remove3Seeds;
 
@@ -14,6 +15,7 @@ class VerifyPassphraseBody extends StatelessWidget {
     this.createKeyModel,
     this.submit,
     this.onTap,
+    this.submitUnverify,
     this.remove3Seeds
   }) : super(key: key);
 
@@ -119,7 +121,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   textColor: AppColors.primaryColor,
                   textButton: "Verify Later",
                   action: () {
-                    seedVerifyLaterDialog(context,"HI");
+                    seedVerifyLaterDialog(context, submitUnverify);
                   },
                 ),
 

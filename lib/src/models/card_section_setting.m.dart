@@ -69,7 +69,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
   ];
 }
 
-List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packageInfo}) {
+List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packageInfo, MenuModel? model, Function? switchBio}) {
   return [
 
     CardSection(
@@ -81,7 +81,7 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
         Navigator.push(
           context!,
           Transition(
-            child: const SecurityPrivacy(),
+            child: SecurityPrivacy(model: model, switchBio: switchBio,),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );

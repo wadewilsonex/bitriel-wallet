@@ -3,8 +3,10 @@ import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
 
 class SecurityPrivacy extends StatelessWidget {
-  const SecurityPrivacy({Key? key}) : super(key: key);
-
+  final MenuModel? model;
+  final Function? switchBio;
+  const SecurityPrivacy({Key? key, this.model, this.switchBio}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,18 +34,22 @@ class SecurityPrivacy extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            _backupSeed(context),
+      body: StatefulBuilder(
+        builder: (context, setStateWidget) {
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                // _backupSeed(context),
 
-            _changePinCode(context),
+                _changePinCode(context),
 
-            _securityLayer(),
+                _securityLayer(context, setStateWidget),
 
-          ],
-        ),
+              ],
+            ),
+          );
+        }
       ),
     );
   }
@@ -140,7 +146,8 @@ class SecurityPrivacy extends StatelessWidget {
     );
   }
 
-  Widget _securityLayer() {
+  Widget _securityLayer(BuildContext context, StateSetter setStateWidget) {
+    
     return Column(
       children: [
         ListTile(
@@ -150,30 +157,32 @@ class SecurityPrivacy extends StatelessWidget {
           horizontalTitleGap: 5,
           trailing: Switch(
             activeColor: hexaCodeToColor(AppColors.primaryColor),
-            // value: model!.switchBio,
-            value: true,
+            value: model!.switchBio,
             onChanged: (value) {
-              // switchBio!(context, value);
+              setStateWidget(() {
+                model!.switchBio = value;
+                switchBio!(context, value);      
+              });
             },
           ),
-          onTap: null,
+          onTap: null
         ),
 
-        ListTile(
-          leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5.sp, width: 22.5.sp,),
-          title: const MyText(text: "Unlock with Face ID", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
-          minLeadingWidth: 0,
-          horizontalTitleGap: 5,
-          trailing: Switch(
-            activeColor: hexaCodeToColor(AppColors.primaryColor),
-            // value: model!.switchBio,
-            value: true,
-            onChanged: (value) {
-              // switchBio!(context, value);
-            },
-          ),
-          onTap: null,
-        ),
+        // ListTile(
+        //   leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5.sp, width: 22.5.sp,),
+        //   title: const MyText(text: "Unlock with Face ID", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
+        //   minLeadingWidth: 0,
+        //   horizontalTitleGap: 5,
+        //   trailing: Switch(
+        //     activeColor: hexaCodeToColor(AppColors.primaryColor),
+        //     // value: model!.switchBio,
+        //     value: true,
+        //     onChanged: (value) {
+        //       // switchBio!(context, value);
+        //     },
+        //   ),
+        //   onTap: null,
+        // ),
 
       ],
     );

@@ -289,7 +289,7 @@ Future<void> successDialog(
 }
 
 Future<void> seedVerifyLaterDialog(
-  BuildContext context, String operationText) async {
+  BuildContext context, Function? submit) async {
 
   bool isCheck = false;
   
@@ -344,36 +344,6 @@ Future<void> seedVerifyLaterDialog(
                       ),
                     ),
 
-                    // Row(
-                    //   children: [
-                    //     SizedBox(
-                    //       width: 20,
-                    //       height: 20,
-                    //       child: Transform.scale(
-                    //         scale: 1.5,
-                    //         child: Checkbox(
-                    //           value: isCheck,
-                    //           checkColor: Colors.green,
-                    //           activeColor: hexaCodeToColor(AppColors.primaryColor),
-                    //           onChanged: (bool? value) {
-                    //             setStateWidget(() {
-                    //               isCheck = value!;
-                    //             });
-                    //           },
-                    //         ),
-                    //       ),
-                    //     ),
-
-                    //     const MyText(
-                    //       pLeft: 20,
-                    //       width: 280,
-                    //       text: "I understand that if I lose my Secret Seed Phrase I will not be able to access my wallet",
-                    //       textAlign: TextAlign.start,
-                    //     )
-                    //   ],
-                    // ),
-
-
                     SizedBox(
                       height: MediaQuery.of(context).size.width * 0.1,
                     ),
@@ -384,7 +354,7 @@ Future<void> seedVerifyLaterDialog(
                       textColor: isCheck == false ? AppColors.greyCode : AppColors.primaryColor,
                       textButton: "Yes, Verify Later",
                       action: () {
-                        Navigator.pop(context);
+                        isCheck == false ? null : submit!();
                       },
                     ),
 

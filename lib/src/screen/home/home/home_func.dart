@@ -94,18 +94,18 @@ class HomeFunctional {
                                     onTap: () async{
                                       selectedIndex = index;
 
-                                        print(selectedIndex);
+                                      print(selectedIndex);
 
-                                        dialogLoading(context);
+                                      dialogLoading(context);
 
-                                        AppConfig.networkList[0].wsUrlMN = sldNetworkList[index];
+                                      AppConfig.networkList[0].wsUrlMN = sldNetworkList[index];
 
-                                        setState(() => provider.selNetwork = sldNetworkList[index]);
-                                        await provider.connectSELNode(context: context, endpoint: sldNetworkList[index]).then((value) => {
-                                          Navigator.pop(context),
-                                        });
+                                      setState(() => provider.selNetwork = sldNetworkList[index]);
+                                      await provider.connectSELNode(context: context, endpoint: sldNetworkList[index]).then((value) => {
+                                        Navigator.pop(context),
+                                      });
 
-                                        setStateWidget(() {});
+                                      setStateWidget(() {});
 
                                     },
                                   );

@@ -38,7 +38,7 @@ class WalletPageBody extends StatelessWidget {
               sliver: SliverSafeArea(
                 top: false,
                 sliver: SliverAppBar(
-                  toolbarHeight: 250,
+                  toolbarHeight: 260,
                   pinned: true,
                   floating: true,
                   snap: true,
@@ -106,62 +106,104 @@ class WalletPageBody extends StatelessWidget {
 
   Widget _userWallet(BuildContext context) {
 
-    return Consumer<ApiProvider>(
-      builder: (context, apiProvider, widget){
-
-        return Container(
+    return Column(
+      children: [
+        Container(
+          height: 50,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteColorHexa),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            image: const DecorationImage(
-              image: AssetImage('assets/bg-glass.jpg'),
-              fit: BoxFit.cover
-            ),
+            color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
+            borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
-          width: MediaQuery.of(context).size.width,
-          
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Column(
+          child: Row(
+            children: [
+              Row(
                 children: [
-                  
-                  SizedBox(height: 2.5.h),
-                  
-                  Consumer<ContractProvider>(
-                    builder: (context, provider, widget){
-                      return MyText(
-                        text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
-                        hexaColor: AppColors.whiteColorHexa,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22,
-                      );
-                    }
-                  ),
-                  
-                  // SizedBox(height: 0.5.h),
-                  Consumer<ContractProvider>(
-                    builder: (context, provider, widget){
-                      return MyText(
-                        text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                        hexaColor: AppColors.whiteColorHexa,
-                        fontSize: 18,
-                      );
-                    }
-                  ),
-                      
-                  SizedBox(height: 2.5.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
-                    child: _operationRequest(context),
+                  const SizedBox(width: 10,),
+                  Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
+                  const MyText(
+                    pLeft: 10,
+                    text: "Verify your Seed Phrase",
+                    fontWeight: FontWeight.w600,
+                    hexaColor: AppColors.redColor,
                   ),
                 ],
               ),
-            ),
-          ),
-        );
-      } 
+
+              const Spacer(),
+
+              const TextButton(
+                onPressed: null, 
+                child: MyText(
+                  pLeft: 10,
+                  text: "Verify Now",
+                  fontWeight: FontWeight.w700,
+                  hexaColor: AppColors.primaryColor,
+                ),
+              )
+            ],
+          )
+        ),
+
+        const SizedBox(height: 5,),
+
+        Consumer<ApiProvider>(
+          builder: (context, apiProvider, widget){
+
+            return Container(
+              decoration: BoxDecoration(
+                color: hexaCodeToColor(AppColors.whiteColorHexa),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                image: const DecorationImage(
+                  image: AssetImage('assets/bg-glass.jpg'),
+                  fit: BoxFit.cover
+                ),
+              ),
+              width: MediaQuery.of(context).size.width,
+              
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Column(
+                    children: [
+                      
+                      SizedBox(height: 2.5.h),
+                      
+                      Consumer<ContractProvider>(
+                        builder: (context, provider, widget){
+                          return MyText(
+                            text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 22,
+                          );
+                        }
+                      ),
+                      
+                      // SizedBox(height: 0.5.h),
+                      Consumer<ContractProvider>(
+                        builder: (context, provider, widget){
+                          return MyText(
+                            text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontSize: 18,
+                          );
+                        }
+                      ),
+                          
+                      SizedBox(height: 2.5.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
+                        child: _operationRequest(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } 
+        ),
+      ],
     );
   }
 

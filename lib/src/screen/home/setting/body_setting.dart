@@ -5,8 +5,10 @@ import '../../../../../index.dart';
 class BodySettingPage extends StatelessWidget {
 
   final PackageInfo? packageInfo;
+  final MenuModel? model;
+  final Function? switchBio;
 
-  const BodySettingPage({Key? key, this.packageInfo}) : super(key: key);
+  const BodySettingPage({Key? key, this.packageInfo, this.model, this.switchBio}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +142,12 @@ class BodySettingPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: (){
-              settingsAccSection(context: context, packageInfo: packageInfo)[index].action!();
+              settingsAccSection(
+                context: context, 
+                packageInfo: packageInfo, 
+                model: model, 
+                switchBio: switchBio
+              )[index].action!();
             },
             child: Column(
               children: [
