@@ -55,9 +55,14 @@ class ApiProvider with ChangeNotifier {
     try {
 
       sldNetworkList = [
-        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0'),
-        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1')
+        json[ isMainnet ? 'mainnet' : 'testnet' ][0],
+        json[ isMainnet ? 'mainnet' : 'testnet' ][1]
       ];
+
+      // sldNetworkList = [
+      //   S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0', subtitle: json[ isMainnet ? 'mainnet' : 'testnet' ][0]),
+      //   S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1', subtitle: json[ isMainnet ? 'mainnet' : 'testnet' ][0]Z)
+      // ];
       
       AppConfig.networkList[0].wsUrlMN = json['mainnet'][0];
 
