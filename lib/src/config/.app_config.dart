@@ -73,18 +73,6 @@ class AppConfig {
       ss58MN: 204
     ),
     
-    // NetworkParams(
-    //   httpUrlTN: 'https://rpc1.testnet.selendra.org/',
-    //   httpUrlMN: 'https://app.selendra.org/',
-    //   wsUrlTN: 'wss://rpc1-testnet.selendra.org', // TheNatte (1)
-    //   // wsUrlTN: 'wss://rpc-sabay-testnet.selendra.org', // Sabay (2)
-    //   // wsUrlMN: 'wss://rpc-mainnet2.selendra.org', // Ocean (2)
-    //   // wsUrlMN: 'wss://rpc-mainnet.selendra.org', // Sabay (1)
-    //   wsUrlMN: 'wss://rpc1.selendra.org', // ReleayChain (1)
-    //   ss58: 204,
-    //   ss58MN: 204
-    // ),
-    
     NetworkParams(
       wsUrlMN: 'wss://rpc.polkadot.io',
       wsUrlTN: 'wss://westend-rpc.polkadot.io',
