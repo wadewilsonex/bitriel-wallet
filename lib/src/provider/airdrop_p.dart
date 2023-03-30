@@ -61,11 +61,11 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error initContract $e");
         }
-      }
+      
     }
 
     return _deployedContract!;
@@ -84,11 +84,11 @@ class AirDropProvider with ChangeNotifier {
       );
       res = (res / BigInt.from(pow(10, 9)));
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getTrxFee $e");
         }
-      }
+      
     }
     return '';
   }
@@ -162,11 +162,11 @@ class AirDropProvider with ChangeNotifier {
     //   });
 
     // } catch (e) {
-    //   if (ApiProvider().isDebug == true) {
+    //   
     //     if (kDebugMode) {
     //       print("Error signUp $e");
     //     }
-    //   }
+    //   
     // }
   }
 

@@ -38,6 +38,7 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       key: homePageModel!.globalKey,
       // extendBody: true,
@@ -63,12 +64,12 @@ class HomePageBody extends StatelessWidget {
 
           WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
-          
           DefaultTabController(
             length: 2,
             child: NestedScrollView(
               floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                
                 SliverOverlapAbsorber(
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                   sliver: SliverSafeArea(
@@ -289,6 +290,7 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _coinMenuCategory() {
+
     return TabBarView(
       children: [
 

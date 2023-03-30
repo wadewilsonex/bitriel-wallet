@@ -18,6 +18,8 @@ class ApiProvider with ChangeNotifier {
   final WalletSDK _sdk = WalletSDK();
   final Keyring _keyring = Keyring();
 
+  NetworkParams node = NetworkParams();
+
   Keyring get getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
 
@@ -27,8 +29,6 @@ class ApiProvider with ChangeNotifier {
 
   double amount = 0.0008;
 
-  final bool _isConnected = false;
-
   String btcAdd = '';
 
   ContractProvider? contractProvider;
@@ -36,7 +36,6 @@ class ApiProvider with ChangeNotifier {
   String? _jsCode;
 
   bool isMainnet = true;
-  bool isDebug = true;
   
   int selNativeIndex = 0;
   int kgoIndex = 3;
@@ -49,7 +48,7 @@ class ApiProvider with ChangeNotifier {
   /// Selendra Endpoint
   String? selNetwork;
 
-  bool get isConnected => _isConnected;
+  bool? netWorkConnected = false;
 
   Future<void> initSelendraEndpoint(Map<String, dynamic> json) async {
     try {
@@ -93,13 +92,15 @@ class ApiProvider with ChangeNotifier {
       }
 
       await StorageServices.storeData(selNetwork, DbKey.sldNetwork);
+      
       notifyListeners();
     });
 
     contractProvider = Provider.of<ContractProvider>(context!, listen: false);
+
     try {
 
-      await rootBundle.loadString('lib/src/js_api/dist/main.js').then((String js) {
+      await rootBundle.loadString('assets/js/main.js').then((String js) {
         _jsCode = js;
       });
     
@@ -110,10 +111,8 @@ class ApiProvider with ChangeNotifier {
       notifyListeners();
 
     } catch (e) {
-      if (ApiProvider().isDebug) {
-        if (kDebugMode) {
-          print("Error initApi $e");
-        }
+      if (kDebugMode) {
+        print("Error initApi $e");
       }
     }
   }
@@ -144,11 +143,11 @@ class ApiProvider with ChangeNotifier {
 
   //     notifyListeners();
   //   } catch (e) {
-  //     if (ApiProvider().isDebug == true) {
+  //     
   //       if (kDebugMode) {
   //         print("Error connectPolNon $e");
   //       }
-  //     }
+  //     
   //   }
 
   //   return res ?? NetworkParams();
@@ -314,13 +313,15 @@ class ApiProvider with ChangeNotifier {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));
 
-      return jsonDecode(res.body);
+      print("res.body ${res.body}");
+
+      return json.decode(res.body);
     } catch (e){
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err getAddressUxto $e");
         }
-      }
+      
     }
   }
 
@@ -366,11 +367,11 @@ class ApiProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err getBtcBalance $e");
         }
-      }
+      
     }
   }
 
@@ -404,11 +405,11 @@ class ApiProvider with ChangeNotifier {
       res = await _sdk.api.service.webView!.evalJavascript('keyring.validateMnemonic("$mnemonic")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }
-      }
+      
     }
     return res;
   }
@@ -419,11 +420,11 @@ class ApiProvider with ChangeNotifier {
       dynamic res = await _sdk.api.service.webView!.evalJavascript('wallets.validateEtherAddr("$address")');
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateEther $e");
         }
-      }
+      
     }
     return false;
   }
@@ -434,11 +435,11 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("wallets.getPrivateKey('$mnemonic')");//ApiProvider._sdk.api.getPrivateKey(mnemonic);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getPrivateKey $e");
         }
-      }
+      
     }
     return '';
   }
@@ -449,27 +450,30 @@ class ApiProvider with ChangeNotifier {
       final res = await _sdk.api.service.webView!.evalJavascript("keyring.validateAddress('$address')");
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateAddress $e");
         }
-      }
+      
     }
     return false;
   }
 
-  Future<NetworkParams?> connectSELNode({@required BuildContext? context, String? funcName = 'keyring', String? endpoint}) async {
+  Future<void> connectSELNode({@required BuildContext? context, String? funcName = 'keyring', String? endpoint}) async {
 
     try {
-
-      NetworkParams node = NetworkParams();
-      NetworkParams? res = NetworkParams();
 
       node.name = 'Selendra';
       node.endpoint = isMainnet ? AppConfig.networkList[0].wsUrlMN : AppConfig.networkList[0].wsUrlTN;//endpoint ?? network;
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
-      res = await _sdk.api.connectNode(_keyring, [node]);
+      await _sdk.api.connectNode(_keyring, [node]).then((value) async {
+        print("connectNode");
+        print("value $value");
+        netWorkConnected = await _sdk.webView!.evalJavascript("settings.getIsConnected()");
+
+        notifyListeners();
+      });
 
       if (getKeyring.keyPairs.isNotEmpty) await getSelNativeChainDecimal(context: context, funcName: funcName);
       
@@ -483,13 +487,11 @@ class ApiProvider with ChangeNotifier {
         );
       }
 
-      return res;
     } catch (e) {
       if (kDebugMode) {
         print("Error connectSELNode $e");
       }
     }
-    return null;
   }
 
   /// Connect SEL Chain
@@ -513,11 +515,11 @@ class ApiProvider with ChangeNotifier {
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getChainDecimal $e");
         }
-      }
+      
     }
   }
 
@@ -594,11 +596,11 @@ class ApiProvider with ChangeNotifier {
         await subscribeDotBalance(context: context);
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err getDotChainDecimal $e");
         }
-      }
+      
     }
   }
 
@@ -622,11 +624,11 @@ class ApiProvider with ChangeNotifier {
       // await connectSELNode(context: context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error subscribeDotBalance $e");
         }
-      }
+      
     }
   }
 
@@ -641,11 +643,11 @@ class ApiProvider with ChangeNotifier {
       _keyring.current.icon = res.toString();
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error get icon from address $e");
         }
-      }
+      
     }
   }
 
@@ -661,11 +663,11 @@ class ApiProvider with ChangeNotifier {
   //     contractProvider!.setSELNativeAddr(accountM.address!);
 
   //   } catch (e){
-  //     if (ApiProvider().isDebug == true) {
+  //     
   //       if (kDebugMode) {
   //         print("Error getCurrentAccount $e");
   //       }
-  //     }
+  //     
   //   }
 
   //   notifyListeners();
@@ -678,11 +680,11 @@ class ApiProvider with ChangeNotifier {
       
   //     contractProvider!.setSELNativeAddr(_keyring.current.address!);
   //   } catch (e){
-  //     if (ApiProvider().isDebug == true) {
+  //     
   //       if (kDebugMode) {
   //         print("Error getCurrentAccount $e");
   //       }
-  //     }
+  //     
   //   }
 
   //   notifyListeners();
@@ -694,11 +696,11 @@ class ApiProvider with ChangeNotifier {
       await _sdk.webView!.evalJavascript("keyring.changePassword('$pubKey', '$passOld', '$passNew')");
       
     } catch (e){
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getCurrentAccount $e");
         }
-      }
+      
     }
 
     notifyListeners();

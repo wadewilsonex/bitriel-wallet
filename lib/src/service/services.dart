@@ -177,11 +177,9 @@ class AppServices {
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error checkBiometrics $e");
         }
-      }
       // canCheckBiometrics = false;
     }
 

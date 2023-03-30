@@ -292,11 +292,10 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }
-      }
+      
     }
     return res;
   }

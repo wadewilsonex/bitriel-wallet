@@ -68,11 +68,11 @@ class TrxFunctional {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey!, pin);
     } catch (e) {
       // Navigator.pop(context);
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print('Error getPrivateKey $e');
         }
-      }
+      
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -190,11 +190,11 @@ class TrxFunctional {
         // }
         return hash;
       } catch (e) {
-        if (ApiProvider().isDebug == true) {
+        
           if (kDebugMode) {
             print('Err sendTxEvm $e');
           }
-        }
+        
         if (e.toString().contains('insufficient funds for gas * price + value')) {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
@@ -219,11 +219,11 @@ class TrxFunctional {
         return hash;
       } catch (e) {
         // Navigator.pop(context);
-        if (ApiProvider().isDebug == true) {
+        
           if (kDebugMode) {
             print('Error sendTxBep20 $e');
           }
-        }
+        
         if (e.toString().contains('insufficient funds for gas * price + value')) {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
@@ -249,11 +249,11 @@ class TrxFunctional {
         return hash;
       } catch (e) {
         // Navigator.pop(context);
-        if (ApiProvider().isDebug == true) {
+        
           if (kDebugMode) {
             print('Error sendTxBep20 $e');
           }
-        }
+        
         if (e.toString().contains('insufficient funds for gas * price + value')) {
           await customDialog('Opps', 'Insufficient funds for gas');
         } else {
@@ -650,11 +650,11 @@ class TrxFunctional {
           bool res = false;
           
           if (org == 'BEP-20'){
-            if (ApiProvider().isDebug == true) {
+            
               if (kDebugMode) {
                 print("Evm addr");
               }
-            }
+            
             res = await conPro.validateEvmAddr(address);
           }
           isValid = res;
@@ -712,11 +712,11 @@ class TrxFunctional {
       // }
 
     } catch (e){
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getNetworkGasPrice $e");
         }
-      }
+      
     }
 
     return gasPrice!;
@@ -753,11 +753,11 @@ class TrxFunctional {
 
       return estGasFeePrice;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error estGasFeePrice $e");
         }
-      }
+      
     }
     return marketPrice!;
   }

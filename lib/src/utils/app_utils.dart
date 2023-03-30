@@ -306,6 +306,13 @@ class AppUtils {
       ),
     );
   }
+
+  static double toBTC(double bl, double btcMarket){
+    if (btcMarket != 0){
+      return bl / btcMarket;
+    }
+    return bl;
+  }
 }
 
 double offsetToOpacity({

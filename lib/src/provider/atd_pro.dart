@@ -27,11 +27,11 @@ class Attendance extends ChangeNotifier {
       notifyListeners();
       return contract;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error initAttContract $e");
         }
-      }
+      
     }
     return null;
   }
@@ -43,11 +43,11 @@ class Attendance extends ChangeNotifier {
       BigInt decimal = await contractService!.getChainDecimal();
       _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal = decimal.toInt();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getChainDecimal $e");
         }
-      }
+      
     }
   }
 
@@ -73,11 +73,11 @@ class Attendance extends ChangeNotifier {
         return Fmt.bigIntToDouble(balance[0] as BigInt, _contractProvider!.listContract[_apiProvider!.attIndex].chainDecimal!);
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err checkBalanceAdd $e");
         }
-      }
+      
     }
     return null;
   }

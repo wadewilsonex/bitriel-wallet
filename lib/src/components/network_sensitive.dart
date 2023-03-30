@@ -34,11 +34,9 @@ class NetworkSensitiveState extends State<NetworkSensitive> {
 
       _updateConnectionStatus(_result!);
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error initConnectivity ${e.toString()}");
         }
-      }
     }
 
     // If the widget was removed from the tree while the asynchronous platform

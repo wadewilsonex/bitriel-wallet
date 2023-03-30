@@ -34,40 +34,36 @@ PreferredSizeWidget defaultAppBar({
 
     automaticallyImplyLeading: false,
     
-    title: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+    title: Consumer<ApiProvider>(
 
-        Consumer<ApiProvider>(
+      builder: (context, provider, child) {
 
-            builder: (context, provider, child) {
-              return GestureDetector(
-                  onTap: () async {
-                    // homePageModel!.globalKey!.currentState!.openDrawer();
-                    bottomSheetAddAccount(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: AvatarShimmer(
-                      height: 45,
-                      width: 45,
-                      txt: provider.getKeyring.current.icon,
-                      child: randomAvatar(provider.getKeyring.current.icon ?? ''),
-                    ),
-                  )
-              );
-            }
-        ),
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            
+            GestureDetector(
+              onTap: () async {
+                // homePageModel!.globalKey!.currentState!.openDrawer();
+                bottomSheetAddAccount(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: AvatarShimmer(
+                  height: 45,
+                  width: 45,
+                  txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
+                  child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
+                ),
+              )
+            ),
 
-        const Spacer(),
-        
-        StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+            const Spacer(),
+            
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
 
-            return Consumer<ApiProvider>(
-
-              builder: (context, provider, child) {
                 return GestureDetector(
                   onTap: () async {
                     await HomeFunctional().changeNetwork(context: context, setState: setState);
@@ -80,9 +76,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.getKeyring.current.address!.isEmpty ? '' : provider.getKeyring.current.address,
+                          txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.getKeyring.current.address!.isEmpty ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                            text: provider.netWorkConnected == false ? null : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -107,58 +103,59 @@ PreferredSizeWidget defaultAppBar({
                     ],
                   )
                 );
-              }
-            );
 
-          },
-        ),
-
-        const Spacer(),
-
-        Expanded(
-          flex: 0,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: IconButton(
-              iconSize: 22.sp,
-              icon: Icon(
-                Iconsax.scan,
-                color: isDarkMode
-                    ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-              ),
-              onPressed: () async {
-
-                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                // if (value != null){
-                //   getReward!(value);
-                // }
-
-                filterListWcSession(context);
-                
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                );
               },
             ),
-          ),
-        ),
-      ],
+
+            const Spacer(),
+
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: IconButton(
+                  iconSize: 22.sp,
+                  icon: Icon(
+                    Iconsax.scan,
+                    color: isDarkMode
+                        ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+                        : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+                  ),
+                  onPressed: () async {
+
+                    // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    // if (value != null){
+                    //   getReward!(value);
+                    // }
+
+                    await filterListWcSession(context);
+                    
+                    await TrxOptionMethod.scanQR(
+                      context,
+                      [],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      }
     ),
   );
 }
 
-void filterListWcSession(BuildContext context) async {
+Future<void> filterListWcSession(BuildContext context) async {
 
-    WalletConnectComponent? wConnectC;
+  WalletConnectComponent? wConnectC;
 
-    wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
-    wConnectC.setBuildContext = context;
-    await StorageServices.fetchData("session").then((value) {
+  wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+  wConnectC.setBuildContext = context;
+  await StorageServices.fetchData("session").then((value) {
       
       wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
-    });
+    }
+  );
     
 }
 

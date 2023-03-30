@@ -221,24 +221,21 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     
     try {
 
-      await api.getSdk.api.keyring.deleteAccount(
-        api.getKeyring,
-        api.getKeyring.current,
-      );
+      for (int i = 0; i < api.getKeyring.allAccounts.length; i++){
+        await api.getSdk.api.keyring.deleteAccount(
+          api.getKeyring,
+          api.getKeyring.allAccounts[i],
+        );
+      }
 
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
-
-      print(mode);
-      print(sldNW);
-      // final event = await StorageServices.fetchData(DbKey.event);
 
       await StorageServices().clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
       await StorageServices.storeData(sldNW, DbKey.sldNetwork);
-      // await StorageServices.storeData(event, DbKey.event);
 
       await StorageServices().clearSecure();
       

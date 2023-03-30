@@ -134,11 +134,11 @@ class MarketProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error fetchTokenMarketPrice $e");
         }
-      }
+      
       return;
     }
     
@@ -172,11 +172,11 @@ class MarketProvider with ChangeNotifier {
       }).toList();
       return lsCoin!;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error searchCoinFromMarket $e");
         }
-      }
+      
     }
     return lsCoin!;
   }

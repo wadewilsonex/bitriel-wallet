@@ -60,11 +60,11 @@ class ContractsBalance extends ChangeNotifier {
         
       // });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("error getAllAssetBalance $e");
         }
-      }
+      
     }
   }
 
@@ -145,11 +145,10 @@ class ContractsBalance extends ChangeNotifier {
       await StorageServices.storeAssetData(context);
       
     } catch (e) {
-      if (ApiProvider().isDebug == true){
         if (kDebugMode) {
           print("error refetchContractBalance $e ");
         }
-      }
+      
     }
 
   }

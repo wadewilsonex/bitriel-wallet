@@ -408,11 +408,11 @@ class WalletConnectComponent with ChangeNotifier {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey, pin);
     } catch (e) {
       // Navigator.pop(context);
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print('Error getPrivateKey $e');
         }
-      }
+      
       // await customDialog('Opps', 'PIN verification failed');
     }
 
@@ -510,7 +510,6 @@ class WalletConnectComponent with ChangeNotifier {
         gasPrice = await web3client.estimateGas();
       }
     } catch (e, trace) {
-      if (ApiProvider().isDebug == true) debugPrint("failed to decode\n$e\n$trace");
     }
     await showDialog(
       context: context!,

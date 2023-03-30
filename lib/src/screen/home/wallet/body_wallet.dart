@@ -184,7 +184,7 @@ class WalletPageBody extends StatelessWidget {
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
                           return MyText(
-                            text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                             hexaColor: AppColors.whiteColorHexa,
                             fontSize: 18,
                           );
@@ -246,6 +246,7 @@ class WalletPageBody extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+
             Expanded( 
               flex: 3,
               child: InkWell(
