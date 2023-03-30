@@ -52,8 +52,8 @@ class HeadlessWebView with ChangeNotifier {
         
         // webViewController = controller;
         
-        // await webViewController!.injectJavascriptFileFromAsset(assetFilePath: "lib/src/js_api/dist/main.js");
-        await headlessWebView!.webViewController.injectJavascriptFileFromAsset(assetFilePath: "lib/src/js_api/dist/main.js");
+        // await webViewController!.injectJavascriptFileFromAsset(assetFilePath: "assets/js/main.js");
+        await headlessWebView!.webViewController.injectJavascriptFileFromAsset(assetFilePath: "assets/js/main.js");
       },
       
       onConsoleMessage: (controller, consoleMessage) {
@@ -110,7 +110,7 @@ class HeadlessWebView with ChangeNotifier {
             
 //             webViewController = controller;
             
-//             await webViewController!.injectJavascriptFileFromAsset(assetFilePath: "lib/src/js_api/dist/main.js");
+//             await webViewController!.injectJavascriptFileFromAsset(assetFilePath: "assets/js/main.js");
 //           },
           
 //           onConsoleMessage: (controller, consoleMessage) {

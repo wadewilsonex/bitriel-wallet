@@ -76,11 +76,9 @@ class WalletProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error fillWithMarketData $e");
         }
-      }
     }
     return null;
   }

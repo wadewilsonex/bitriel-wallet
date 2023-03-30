@@ -128,7 +128,7 @@ dependencies:
   dart_ecpair: ^1.0.2
   flutter_bitcoin: ^1.0.1
 
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage:
   # flutter_screenshot_switcher: ^2.1.0
 
   #Contact
@@ -261,8 +261,7 @@ flutter:
     
     # Animation Flare
     - assets/animation/
-    - lib/src/js_api/
-    - lib/src/js_api/dist/main.js
+    - assets/js/main.js
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

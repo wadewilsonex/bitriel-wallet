@@ -124,39 +124,34 @@ class WalletPageBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Column(
-                children: [
-                  
-                  SizedBox(height: 2.5.h),
-                  
-                  Consumer<ContractProvider>(
-                    builder: (context, provider, widget){
-                      return MyText(
+              child: Consumer<ContractProvider>(
+                builder: (context, provider, widget){
+                  return Column(
+                    children: [
+                      
+                      SizedBox(height: 2.5.h),
+                      MyText(
                         text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
                         hexaColor: AppColors.whiteColorHexa,
                         fontWeight: FontWeight.w700,
                         fontSize: 22,
-                      );
-                    }
-                  ),
-                  
-                  // SizedBox(height: 0.5.h),
-                  Consumer<ContractProvider>(
-                    builder: (context, provider, widget){
-                      return MyText(
-                        text: provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                      ),
+                      
+                      MyText(
+                        // (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0'))
+                        text: provider.listContract.isEmpty ? '' : """≈ ${ AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)) } BTC""",
                         hexaColor: AppColors.whiteColorHexa,
                         fontSize: 18,
-                      );
-                    }
-                  ),
-                      
-                  SizedBox(height: 2.5.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
-                    child: _operationRequest(context),
-                  ),
-                ],
+                      ),
+                          
+                      SizedBox(height: 2.5.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
+                        child: _operationRequest(context),
+                      ),
+                    ],
+                  );
+                }
               ),
             ),
           ),
@@ -204,6 +199,7 @@ class WalletPageBody extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+
             Expanded( 
               flex: 3,
               child: InkWell(

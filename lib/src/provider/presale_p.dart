@@ -102,11 +102,11 @@ class PresaleProvider with ChangeNotifier {
 
       hash = orderHash;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error orderUsingBnb $e");
         }
-      }
+      
     }
 
     return hash;
@@ -197,11 +197,11 @@ class PresaleProvider with ChangeNotifier {
 
       return approve;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error approvePresale $e");
         }
-      }
+      
     }
     return '';
   }
@@ -212,11 +212,11 @@ class PresaleProvider with ChangeNotifier {
   ///
   /// Use Inside app.dart
   Future<DeployedContract?> initPresaleContract() async {
-    if (ApiProvider().isDebug == true) {
+    
       if (kDebugMode) {
         print("initPresaleContract");
       }
-    }
+    
     try {
       final String abiCode = await rootBundle.loadString('${AppConfig.abiPath}presale1.json');
       _deployedContract = DeployedContract(
@@ -227,11 +227,11 @@ class PresaleProvider with ChangeNotifier {
       notifyListeners();
       return _deployedContract;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error initPresaleContract $e");
         }
-      }
+      
     }
     return null;
   }
@@ -248,11 +248,11 @@ class PresaleProvider with ChangeNotifier {
 
       return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error checkTokenBalance $e");
         }
-      }
+      
     }
     return 0.0;
   }
@@ -272,11 +272,11 @@ class PresaleProvider with ChangeNotifier {
 
       if (res.isNotEmpty) idRes = List.from(res.first);
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getInvestorOrderIds $e");
         }
-      }
+      
     }
 
     return idRes;
@@ -295,11 +295,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getOrder $e");
         }
-      }
+      
     }
   }
 
@@ -316,11 +316,11 @@ class PresaleProvider with ChangeNotifier {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getPriceToken $e");
         }
-      }
+      
     }
   }
 
@@ -333,11 +333,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err getBNBToken $e");
         }
-      }
+      
     }
   }
 
@@ -350,11 +350,11 @@ class PresaleProvider with ChangeNotifier {
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error minInvestment $e");
         }
-      }
+      
     }
   }
 
@@ -377,11 +377,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error fetchAndFillPrice $e");
         }
-      }
+      
     }
     return supportTokenList;
   }
@@ -407,11 +407,11 @@ class PresaleProvider with ChangeNotifier {
   /* --------------------------Helper Function--------------------- */
 
   Future<void> setListOrder() async {
-    if (ApiProvider().isDebug == true) {
+    
       if (kDebugMode) {
         print("setListOrder");
       }
-    }
+    
     try {
 
       presaleOrderInfo.clear();
@@ -439,11 +439,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error setListOrder $e");
         }
-      }
+      
     }
   }
 

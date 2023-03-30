@@ -146,11 +146,9 @@ class ImportAccState extends State<ImportAcc> {
       enable = await _apiProvider!.validateMnemonic(_importAccModel.key!.text)!;
       setState(() { });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }
-      }
     }
   }
 

@@ -127,11 +127,11 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err sendToken $e");
         }
-      }
+      
       throw Exception(e);
     }
 
@@ -150,11 +150,9 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _decimalFunction(), []);
       return res.first;
     } catch (e){
-      if (ApiProvider().isDebug) {
         if (kDebugMode) {
           print("err getChainDecimal $e");
         }
-      }
     }
     return 0 as BigInt;
   }

@@ -128,11 +128,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateEtherAddress $e");
         }
-      }
+      
     }
     return false;
   }
@@ -143,11 +143,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateAddress $e");
         }
-      }
+      
     }
     return false;
   }
@@ -240,11 +240,11 @@ class AddAssetState extends State<AddAsset> {
 
       // Close Dialog Loading
       Navigator.pop(context);
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error addAsset $e");
         }
-      }
+      
 
       DialogComponents().dialogCustom(
         context: context,
@@ -321,11 +321,11 @@ class AddAssetState extends State<AddAsset> {
         contents: "$e",
       );
 
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error submitAsset $e");
         }
-      }
+      
     }
   }
 
@@ -339,11 +339,11 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error searchEtherContract $e");
         }
-      }
+      
       throw Exception(e);
     }
   }
