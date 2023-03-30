@@ -117,7 +117,7 @@ class SeedContents extends StatelessWidget{
           fontWeight: FontWeight.bold,
         ),
 
-        SizedBox(height: 2.2),
+        const SizedBox(height: 2.2),
         MyText(
           text: subTitle,
           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,

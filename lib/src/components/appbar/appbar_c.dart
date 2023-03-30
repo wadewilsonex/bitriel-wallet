@@ -2,6 +2,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({
@@ -33,40 +34,36 @@ PreferredSizeWidget defaultAppBar({
 
     automaticallyImplyLeading: false,
     
-    title: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+    title: Consumer<ApiProvider>(
 
-        Consumer<ApiProvider>(
+      builder: (context, provider, child) {
 
-            builder: (context, provider, child) {
-              return GestureDetector(
-                  onTap: () async {
-                    // homePageModel!.globalKey!.currentState!.openDrawer();
-                    bottomSheetAddAccount(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: AvatarShimmer(
-                      height: 45,
-                      width: 45,
-                      txt: provider.getKeyring.current.icon,
-                      child: randomAvatar(provider.getKeyring.current.icon ?? ''),
-                    ),
-                  )
-              );
-            }
-        ),
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            
+            GestureDetector(
+              onTap: () async {
+                // homePageModel!.globalKey!.currentState!.openDrawer();
+                bottomSheetAddAccount(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: AvatarShimmer(
+                  height: 45,
+                  width: 45,
+                  txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
+                  child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
+                ),
+              )
+            ),
 
-        const Spacer(),
-        
-        StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+            const Spacer(),
+            
+            StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
 
-            return Consumer<ApiProvider>(
-
-              builder: (context, provider, child) {
                 return GestureDetector(
                   onTap: () async {
                     await HomeFunctional().changeNetwork(context: context, setState: setState);
@@ -79,9 +76,9 @@ PreferredSizeWidget defaultAppBar({
                       Container(
                         margin: const EdgeInsets.only(top: 10),
                         child: WidgetShimmer(
-                          txt: provider.getKeyring == null ? '' : provider.getKeyring.current.address,
+                          txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.address,
                           child: MyText(
-                            text: provider.getKeyring == null ? '' : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                            text: provider.netWorkConnected == false ? null : provider.getKeyring.current.address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
                             fontWeight: FontWeight.bold,
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -106,44 +103,60 @@ PreferredSizeWidget defaultAppBar({
                     ],
                   )
                 );
-              }
-            );
 
-          },
-        ),
-
-        const Spacer(),
-
-        Expanded(
-          flex: 0,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: IconButton(
-              iconSize: 22.sp,
-              icon: Icon(
-                Iconsax.scan,
-                color: isDarkMode
-                    ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
-                    : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
-              ),
-              onPressed: () async {
-                // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                // if (value != null){
-                //   getReward!(value);
-                // }
-
-                await TrxOptionMethod.scanQR(
-                  context,
-                  [],
-                  pushReplacement!,
-                );
               },
             ),
-          ),
-        ),
-      ],
+
+            const Spacer(),
+
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: IconButton(
+                  iconSize: 22.sp,
+                  icon: Icon(
+                    Iconsax.scan,
+                    color: isDarkMode
+                        ? hexaCodeToColor(homePageModel!.activeIndex == 1 ? AppColors.whiteColorHexa : AppColors.whiteColorHexa)
+                        : hexaCodeToColor(homePageModel!.activeIndex == 1 ? "#6C6565" : "#6C6565"),
+                  ),
+                  onPressed: () async {
+
+                    // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                    // if (value != null){
+                    //   getReward!(value);
+                    // }
+
+                    await filterListWcSession(context);
+                    
+                    await TrxOptionMethod.scanQR(
+                      context,
+                      [],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      }
     ),
   );
+}
+
+Future<void> filterListWcSession(BuildContext context) async {
+
+  WalletConnectComponent? wConnectC;
+
+  wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+  wConnectC.setBuildContext = context;
+  await StorageServices.fetchData("session").then((value) {
+      
+      wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+    }
+  );
+    
 }
 
 void bottomSheetAddAccount(BuildContext context) async{
@@ -156,7 +169,6 @@ void bottomSheetAddAccount(BuildContext context) async{
     ),
     context: context,
     builder: (BuildContext context) {
-
       return StatefulBuilder(
         builder: (context, mySetState) {
           return Consumer<ApiProvider>(
@@ -173,17 +185,6 @@ void bottomSheetAddAccount(BuildContext context) async{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        index == 0 ? const SizedBox(height: 25,) : Container(),
-                  
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                          child: MyText(
-                            text: "Wallet $index",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color2: Colors.black,
-                          ),
-                        ),
                   
                         Padding(
                           padding: const EdgeInsets.all(paddingSize),
@@ -221,7 +222,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
-                                  ? Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
+                                  ? const Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
                                   : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
                                 ),
                               )

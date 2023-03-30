@@ -46,6 +46,7 @@ class WalletConnectComponent with ChangeNotifier {
       onEthSignTransaction: onSignTransaction,
       onEthSendTransaction: onSendTransaction,
       onCustomRequest: (_, __) {},
+      onWalletSwitchNetwork: onSwitchNetwork,
       onConnect: onConnect,
     );
     // getIP();
@@ -113,27 +114,43 @@ class WalletConnectComponent with ChangeNotifier {
   }
 
   qrScanHandler(String value) {
-    
-    try {
-
+    if (value.contains('bridge') && value.contains('key')) {
       final session = WCSession.from(value);
+      debugPrint('session $session');
       final peerMeta = WCPeerMeta(
-        name: "WalletConnect",
-        url: session.bridge,
-        description: "WalletConnect Developer App",
+        name: "Bitriel",
+        url: "https://bitriel.com/",
+        description: "Bitriel is a self-custody digital wallet that supports cross-chain multi-assets; crypto assets and NFTs.",
         icons: [
-          'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          "https://bitriel.com/static/media/bitriel-logo.bf35b690f5b262d75ab9.png"
         ],
       );
-      // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
       wcClient.connectNewSession(session: session, peerMeta: peerMeta);
-    } catch (e){
-      
-      if (kDebugMode) {
-        print("error qrScanHandler $e");
-      }
     }
   }
+  
+  // qrScanHandler(String value) {
+    
+  //   try {
+
+  //     final session = WCSession.from(value);
+  //     final peerMeta = WCPeerMeta(
+  //       name: "WalletConnect",
+  //       url: session.bridge,
+  //       description: "WalletConnect Developer App",
+  //       icons: [
+  //         'https://gblobscdn.gitbook.com/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+  //       ],
+  //     );
+  //     // walletAddress = Provider.of<ApiProvider>(context!, listen: false).accountM.address!;
+  //     wcClient.connectNewSession(session: session, peerMeta: peerMeta);
+  //   } catch (e){
+      
+  //     if (kDebugMode) {
+  //       print("error qrScanHandler $e");
+  //     }
+  //   }
+  // }
 
   connectToPreviousSession(WCSessionStore session, {bool? autoKill = false}) async {
     if (kDebugMode) {
@@ -201,7 +218,7 @@ class WalletConnectComponent with ChangeNotifier {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10.h,),
 
                   CircleAvatar(
                     radius: 30.0,
@@ -209,11 +226,11 @@ class WalletConnectComponent with ChangeNotifier {
                     backgroundColor: Colors.transparent,
                   ),
 
-                  SizedBox(width: 2,),
+                  SizedBox(width: 2.w,),
 
                   Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor), size: 50,),
 
-                  SizedBox(width: 2,),
+                  SizedBox(width: 2.w,),
 
                   Image.asset("assets/logo/bitriel-logo-v2.png", height: 55, width: 55),
                 ],
@@ -225,14 +242,14 @@ class WalletConnectComponent with ChangeNotifier {
               child: MyText(text: "${peerMeta.name} would like to connect to you wallet", fontWeight: FontWeight.w700, hexaColor: AppColors.textColor, fontSize: 17,),
             ),
 
-            SizedBox(height: 2,),
+            SizedBox(height: 2.h,),
             if (peerMeta.url.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                 child: MyText(text: peerMeta.url, hexaColor: AppColors.iconGreyColor),
               ),
 
-            SizedBox(height: 2,),
+            SizedBox(height: 2.h,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize),
               child: Column(
@@ -244,7 +261,7 @@ class WalletConnectComponent with ChangeNotifier {
               ),
             ),
 
-            SizedBox(height: 2.5,),
+            SizedBox(height: 2.5.h,),
             Row(
               children: [
 
@@ -350,8 +367,8 @@ class WalletConnectComponent with ChangeNotifier {
       context: context!,
       builder: (_) {
         return SimpleDialog(
-          backgroundColor: hexaCodeToColor(AppColors.darkBgd),
-          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.lowWhite, fontSize: 17,),
+          backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+          title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.blackColor, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
 
@@ -359,11 +376,11 @@ class WalletConnectComponent with ChangeNotifier {
             //   padding: const EdgeInsets.only(bottom: 8.0),
             //   child: MyText(text: "Some Error Occured. ERROR CODE: $code", color: AppColors.lowWhite,),
             // ),
-            if (reason != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyText(text: "Failure Reason: $reason", hexaColor: AppColors.lowWhite,),
-              ),
+            // if (reason != null)
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom: 8.0),
+            //   child: MyText(text: "Failure Reason: $reason", hexaColor: AppColors.lowWhite,),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -375,10 +392,8 @@ class WalletConnectComponent with ChangeNotifier {
                   onPressed: () {
                     // Close Dialog
                     Navigator.pop(context!);
-                    // Close Wallet Connect Page
-                    Navigator.pop(context!);
                   },
-                  child: const Text('CLOSE'),
+                  child: const MyText(text: 'CLOSE', hexaColor: AppColors.primaryColor,),
                 ),
               ],
             ),
@@ -386,6 +401,22 @@ class WalletConnectComponent with ChangeNotifier {
         );
       },
     );
+  }
+
+  Future<dynamic>? getPrivateKey(String encryptKey, String pin, {@required BuildContext? context}) async {
+    try {
+      privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey, pin);
+    } catch (e) {
+      // Navigator.pop(context);
+      
+        if (kDebugMode) {
+          print('Error getPrivateKey $e');
+        }
+      
+      // await customDialog('Opps', 'PIN verification failed');
+    }
+
+    return privateKey;
   }
 
   onSignTransaction(
@@ -479,7 +510,6 @@ class WalletConnectComponent with ChangeNotifier {
         gasPrice = await web3client.estimateGas();
       }
     } catch (e, trace) {
-      if (ApiProvider().isDebug == true) debugPrint("failed to decode\n$e\n$trace");
     }
     await showDialog(
       context: context!,
@@ -657,125 +687,404 @@ class WalletConnectComponent with ChangeNotifier {
     );
   }
 
+  onSwitchNetwork(int id, int chainId) async {
+    await wcClient.updateSession(chainId: chainId);
+    wcClient.approveRequest<void>(id: id, result: null);
+    ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+      content: Text('Changed network to $chainId.'),
+    ));
+  }
+
+
+
   onSign(
     int id,
     WCEthereumSignMessage ethereumSignMessage,
-  ) async {
-    final decoded = (ethereumSignMessage.type == WCSignType.TYPED_MESSAGE)
-        ? ethereumSignMessage.data!
-        : ascii.decode(hexToBytes(ethereumSignMessage.data!));
-    await showDialog(
+  ) {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
       context: context!,
-      builder: (_) {
-        return SimpleDialog(
-          title: Column(
-            children: [
-              if (wcClient.remotePeerMeta!.icons.isNotEmpty)
-                Container(
-                  height: 100.0,
-                  width: 100.0,
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Image.network(wcClient.remotePeerMeta!.icons.first),
-                ),
-              Text(
-                wcClient.remotePeerMeta!.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
-                ),
+      shape: const RoundedRectangleBorder( // <-- SEE HERE
+        borderRadius: BorderRadius.vertical( 
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (wcClient.remotePeerMeta!.icons.isNotEmpty)
+                  Container(
+                    height: 100.0,
+                    width: 100.0,
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Image.network(wcClient.remotePeerMeta!.icons.first),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10,),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: ExpansionTile(
+                      expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                      initiallyExpanded: true,
+                      tilePadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Message',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      children: [
+                        MyText(
+                          text: "Welcome to ${wcClient.remotePeerMeta!.name}!",
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+
+                        const SizedBox(height: 10,),
+
+                        MyText(
+                          text: "Chain ID: ${wcClient.chainId}",
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+
+                        const SizedBox(height: 10,),
+
+                        MyText(
+                          text: "Wallet address:\n${ethereumSignMessage.raw[1]}",
+                          fontWeight: FontWeight.w600,
+                          textAlign: TextAlign.start,
+                        ),
+                        
+                        const SizedBox(height: 10,),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              
+              Row(
+                children: [
+
+                  Expanded(
+                    child: MyGradientButton(
+                      edgeMargin: const EdgeInsets.all(paddingSize),
+                      lsColor: const [AppColors.primaryColor, AppColors.primaryColor],
+                      lsColorOpacity: const [0.2, 0.2],
+                      textButton: "Cancel",
+                      textColor: AppColors.textColor,
+                      fontWeight: FontWeight.w400,
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: () async {
+                        wcClient.rejectRequest(id: id);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+
+                  Expanded(
+                    child: MyGradientButton(
+                      edgeMargin: const EdgeInsets.all(paddingSize),
+                      textButton: "Sign Message",
+                      fontWeight: FontWeight.w400,
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: () async {
+                        
+                        String encryptKey = await StorageServices().readSecure(DbKey.private)!;
+
+                        String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+
+                        privateKey = await getPrivateKey(encryptKey, resPin, context: context);
+                        
+                        String signedDataHex;
+                        if (ethereumSignMessage.type ==
+                            WCSignType.TYPED_MESSAGE) {
+                          signedDataHex = EthSigUtil.signTypedData(
+                            privateKey: privateKey,
+                            jsonData: ethereumSignMessage.data!,
+                            version: TypedDataVersion.V4,
+                          );
+                        } else {
+                          final creds = EthPrivateKey.fromHex(privateKey);
+                          final encodedMessage = hexToBytes(ethereumSignMessage.data!);
+                          final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
+                          signedDataHex = bytesToHex(signedData, include0x: true);
+                        }
+                        
+                        wcClient.approveRequest<String>(
+                          id: id,
+                          result: signedDataHex,
+                        );
+                        
+                        Navigator.pop(context);
+
+                      },
+                    ),
+                
+                  ),
+
+                ],
               ),
             ],
           ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
-          children: [
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: const Text(
-                'Sign Message',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            Theme(
-              data:
-                  Theme.of(context!).copyWith(dividerColor: Colors.transparent),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: ExpansionTile(
-                  tilePadding: EdgeInsets.zero,
-                  title: const Text(
-                    'Message',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  children: [
-                    Text(
-                      decoded,
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Theme.of(context!).colorScheme.secondary,
-                    ),
-                    onPressed: () async {
-                      String signedDataHex;
-                      if (ethereumSignMessage.type ==
-                          WCSignType.TYPED_MESSAGE) {
-                        signedDataHex = EthSigUtil.signTypedData(
-                          privateKey: privateKey,
-                          jsonData: ethereumSignMessage.data!,
-                          version: TypedDataVersion.V4,
-                        );
-                      } else {
-                        final creds = EthPrivateKey.fromHex(privateKey);
-                        final encodedMessage = hexToBytes(ethereumSignMessage.data!);
-                        final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
-                        signedDataHex = bytesToHex(signedData, include0x: true);
-                      }
-                      wcClient.approveRequest<String>(
-                        id: id,
-                        result: signedDataHex,
-                      );
-                      Navigator.pop(context!);
-                    },
-                    child: const Text('SIGN'),
-                  ),
-                ),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Theme.of(context!).colorScheme.secondary,
-                    ),
-                    onPressed: () {
-                      wcClient.rejectRequest(id: id);
-                      Navigator.pop(context!);
-                    },
-                    child: const Text('REJECT'),
-                  ),
-                ),
-              ],
-            ),
-          ],
         );
-      },
+      }
     );
     
+    // showDialog(
+    //   context: context!,
+    //   builder: (_) {
+    //     return SimpleDialog(
+    //       title: Column(
+    //         children: [
+    //           if (wcClient.remotePeerMeta!.icons.isNotEmpty)
+    //             Container(
+    //               height: 100.0,
+    //               width: 100.0,
+    //               padding: const EdgeInsets.only(bottom: 8.0),
+    //               child: Image.network(wcClient.remotePeerMeta!.icons.first),
+    //             ),
+    //           Text(
+    //             wcClient.remotePeerMeta!.name,
+    //             style: const TextStyle(
+    //               fontWeight: FontWeight.normal,
+    //               fontSize: 20.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+    //       children: [
+    //         Container(
+    //           alignment: Alignment.center,
+    //           padding: const EdgeInsets.only(bottom: 8.0),
+    //           child: const Text(
+    //             'Sign Message',
+    //             style: TextStyle(
+    //               fontWeight: FontWeight.bold,
+    //               fontSize: 18.0,
+    //             ),
+    //           ),
+    //         ),
+    //         Theme(
+    //           data: Theme.of(context!).copyWith(dividerColor: Colors.transparent),
+    //           child: Padding(
+    //             padding: const EdgeInsets.only(bottom: 8.0),
+    //             child: ExpansionTile(
+    //               tilePadding: EdgeInsets.zero,
+    //               title: const Text(
+    //                 'Message',
+    //                 style: TextStyle(
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 16.0,
+    //                 ),
+    //               ),
+    //               children: [
+    //                 Text(
+    //                   ethereumSignMessage.data!,
+    //                   style: const TextStyle(fontSize: 16.0),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Row(
+    //           children: [
+    //             Expanded(
+    //               child: TextButton(
+    //                 style: TextButton.styleFrom(
+    //                   foregroundColor: Colors.white,
+    //                   backgroundColor: Theme.of(context!).colorScheme.secondary,
+    //                 ),
+    //                 onPressed: () async {
+
+    //                   String encryptKey = await StorageServices().readSecure(DbKey.private)!;
+
+    //                   String resPin = await Navigator.push(context!, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+
+    //                   privateKey = await getPrivateKey(encryptKey, resPin, context: context);
+                      
+    //                   String signedDataHex;
+    //                   if (ethereumSignMessage.type ==
+    //                       WCSignType.TYPED_MESSAGE) {
+    //                     signedDataHex = EthSigUtil.signTypedData(
+    //                       privateKey: privateKey,
+    //                       jsonData: ethereumSignMessage.data!,
+    //                       version: TypedDataVersion.V4,
+    //                     );
+    //                   } else {
+    //                     final creds = EthPrivateKey.fromHex(privateKey);
+    //                     final encodedMessage = hexToBytes(ethereumSignMessage.data!);
+    //                     final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
+    //                     signedDataHex = bytesToHex(signedData, include0x: true);
+    //                   }
+                      
+    //                   wcClient.approveRequest<String>(
+    //                     id: id,
+    //                     result: signedDataHex,
+    //                   );
+    //                   Navigator.pop(context!);
+    //                 },
+    //                 child: const Text('SIGN'),
+    //               ),
+    //             ),
+    //             const SizedBox(width: 16.0),
+    //             Expanded(
+    //               child: TextButton(
+    //                 style: TextButton.styleFrom(
+    //                   foregroundColor: Colors.white,
+    //                   backgroundColor: Theme.of(context!).colorScheme.secondary,
+    //                 ),
+    //                 onPressed: () {
+    //                   wcClient.rejectRequest(id: id);
+    //                   Navigator.pop(context!);
+    //                 },
+    //                 child: const Text('REJECT'),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
+
+  // onSign(
+  //   int id,
+  //   WCEthereumSignMessage ethereumSignMessage,
+  // ) async {
+  //   final decoded = (ethereumSignMessage.type == WCSignType.TYPED_MESSAGE)
+  //       ? ethereumSignMessage.data!
+  //       : ascii.decode(hexToBytes(ethereumSignMessage.data!));
+  //   await showDialog(
+  //     context: context!,
+  //     builder: (_) {
+  //       return SimpleDialog(
+  //         title: Column(
+  //           children: [
+  //             if (wcClient.remotePeerMeta!.icons.isNotEmpty)
+  //               Container(
+  //                 height: 100.0,
+  //                 width: 100.0,
+  //                 padding: const EdgeInsets.only(bottom: 8.0),
+  //                 child: Image.network(wcClient.remotePeerMeta!.icons.first),
+  //               ),
+  //             Text(
+  //               wcClient.remotePeerMeta!.name,
+  //               style: const TextStyle(
+  //                 fontWeight: FontWeight.normal,
+  //                 fontSize: 20.0,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+  //         children: [
+  //           Container(
+  //             alignment: Alignment.center,
+  //             padding: const EdgeInsets.only(bottom: 8.0),
+  //             child: const Text(
+  //               'Sign Message',
+  //               style: TextStyle(
+  //                 fontWeight: FontWeight.bold,
+  //                 fontSize: 18.0,
+  //               ),
+  //             ),
+  //           ),
+  //           Theme(
+  //             data:
+  //                 Theme.of(context!).copyWith(dividerColor: Colors.transparent),
+  //             child: Padding(
+  //               padding: const EdgeInsets.only(bottom: 8.0),
+  //               child: ExpansionTile(
+  //                 tilePadding: EdgeInsets.zero,
+  //                 title: const Text(
+  //                   'Message',
+  //                   style: TextStyle(
+  //                     fontWeight: FontWeight.bold,
+  //                     fontSize: 16.0,
+  //                   ),
+  //                 ),
+  //                 children: [
+  //                   Text(
+  //                     decoded,
+  //                     style: const TextStyle(fontSize: 16.0),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //           Row(
+  //             children: [
+  //               Expanded(
+  //                 child: TextButton(
+  //                   style: TextButton.styleFrom(
+  //                     foregroundColor: Colors.white,
+  //                     backgroundColor: Theme.of(context!).colorScheme.secondary,
+  //                   ),
+  //                   onPressed: () async {
+  //                     String signedDataHex;
+  //                     if (ethereumSignMessage.type ==
+  //                         WCSignType.TYPED_MESSAGE) {
+  //                       signedDataHex = EthSigUtil.signTypedData(
+  //                         privateKey: privateKey,
+  //                         jsonData: ethereumSignMessage.data!,
+  //                         version: TypedDataVersion.V4,
+  //                       );
+  //                     } else {
+  //                       final creds = EthPrivateKey.fromHex(privateKey);
+  //                       final encodedMessage = hexToBytes(ethereumSignMessage.data!);
+  //                       final signedData = creds.signPersonalMessageToUint8List(encodedMessage);
+  //                       signedDataHex = bytesToHex(signedData, include0x: true);
+  //                     }
+  //                     wcClient.approveRequest<String>(
+  //                       id: id,
+  //                       result: signedDataHex,
+  //                     );
+  //                     Navigator.pop(context!);
+  //                   },
+  //                   child: const Text('SIGN'),
+  //                 ),
+  //               ),
+  //               const SizedBox(width: 16.0),
+  //               Expanded(
+  //                 child: TextButton(
+  //                   style: TextButton.styleFrom(
+  //                     foregroundColor: Colors.white,
+  //                     backgroundColor: Theme.of(context!).colorScheme.secondary,
+  //                   ),
+  //                   onPressed: () {
+  //                     wcClient.rejectRequest(id: id);
+  //                     Navigator.pop(context!);
+  //                   },
+  //                   child: const Text('REJECT'),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+    
+  // }
 
   Transaction _wcEthTxToWeb3Tx(WCEthereumTransaction ethereumTransaction) {
     return Transaction(

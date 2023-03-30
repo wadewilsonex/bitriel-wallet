@@ -64,7 +64,7 @@ class DiscoverPageBody extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
               child: SizedBox(
-                height: 20,
+                height: 20.h,
                 width: MediaQuery.of(context).size.width,
                 child: _marketPlaceMenu(context)
               ),
@@ -208,8 +208,8 @@ class DiscoverPageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               marketPlaceList[index]['asset'],
-              width: 10,
-              height: 10,
+              width: 10.w,
+              height: 10.h,
             ),
             title: marketPlaceList[index]['title'],
             subtitle: marketPlaceList[index]['subtitle'],
@@ -242,8 +242,8 @@ class DiscoverPageBody extends StatelessWidget {
           child: DefiMenuItem(
             image: Image.asset(
               defiList[index]['asset'],
-              width: 10,
-              height: 10,
+              width: 10.w,
+              height: 10.h,
             ),
             title: defiList[index]['title'],
             subtitle: defiList[index]['subtitle'],

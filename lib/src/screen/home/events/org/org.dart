@@ -34,7 +34,7 @@ class _OrganizationState extends State<Organization> {
     ]
   };
   
-  event_c.HomeModel _homeModel = event_c.HomeModel();
+  final event_c.HomeModel _homeModel = event_c.HomeModel();
   
   void onPageChange(int value){
 

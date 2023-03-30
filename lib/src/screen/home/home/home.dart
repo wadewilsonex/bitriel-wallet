@@ -2,12 +2,8 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
-import 'package:wallet_apps/src/provider/event_p.dart';
-import 'package:wallet_apps/src/screen/home/events/events.dart';
-import 'package:wallet_apps/src/screen/home/events/org/org.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:event_crew/event_crew.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -70,33 +66,39 @@ class _HomePageState extends State<HomePage> {
 
   void onPageChanged(int index){
     
-    if (index == 3){
+    // if (index == 3){
 
-      if (Provider.of<EventProvider>(context, listen: false).getIsAdmin == true ){
+    //   if (Provider.of<EventProvider>(context, listen: false).getIsAdmin == true ){
 
-        Navigator.push(
-          context, 
-          Transition(
-            child: Organization(title: 'ISI DSC Crew', logo: "https://dangkorsenchey.com/images/isi-dsc-logo.png",),
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          )
-        );
-      } else {
+    //     Navigator.push(
+    //       context, 
+    //       Transition(
+    //         child: Organization(title: 'ISI DSC Crew', logo: "https://dangkorsenchey.com/images/isi-dsc-logo.png",),
+    //         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+    //       )
+    //     );
+    //   } else {
 
-        setState(() {
+    //     setState(() {
 
-          _model.activeIndex = index;
-          _model.pageController!.jumpToPage(index);
-        });
-      }
-    } else {
+    //       _model.activeIndex = index;
+    //       _model.pageController!.jumpToPage(index);
+    //     });
+    //   }
+    // } else {
 
-      setState(() {
+    //   setState(() {
+
+    //     _model.activeIndex = index;
+    //     _model.pageController!.jumpToPage(index);
+    //   });
+    // }
+
+    setState(() {
 
         _model.activeIndex = index;
         _model.pageController!.jumpToPage(index);
       });
-    }
     // _model.pageController.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 

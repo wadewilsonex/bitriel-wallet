@@ -89,11 +89,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         });
       });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error Splash screen $e");
         }
-      }
+      
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Onboarding() ), (route) => false);
     }
   }
@@ -172,11 +172,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       }
 
     } catch (e) {
-      if(ApiProvider().isDebug) {
         if (kDebugMode) {
           print("Error readTheme $e");
         }
-      }
     }
   }
 

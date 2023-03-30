@@ -13,7 +13,8 @@ enum PassCodeLabel {
   fromMenu,
   fromChangePin,
   fromBackUp,
-  fromAccount
+  fromAccount,
+  fromSignMessage
 }
 
 class Passcode extends StatefulWidget {
@@ -166,7 +167,12 @@ class PasscodeState extends State<Passcode> {
         isFirst = false;
       });
 
-      if (widget.label == PassCodeLabel.fromSendTx || widget.label == PassCodeLabel.fromBackUp || widget.label == PassCodeLabel.fromAccount){
+      if (
+        widget.label == PassCodeLabel.fromSendTx || 
+        widget.label == PassCodeLabel.fromBackUp || 
+        widget.label == PassCodeLabel.fromAccount ||
+        widget.label == PassCodeLabel.fromSignMessage
+        ){
         Navigator.pop(context, pin);
       }
       if (widget.label == PassCodeLabel.fromMenu) {

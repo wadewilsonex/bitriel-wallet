@@ -19,7 +19,7 @@ class AssetInfoBody extends StatelessWidget {
     required this.onPageChange
   }) : super(key: key);
 
-  final double logoSize = 15;
+  final double logoSize = 15.w;
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +66,13 @@ class AssetInfoBody extends StatelessWidget {
                                   child: Icon(
                                     Iconsax.arrow_left_2,
                                     color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,),
-                                    size: 22.5
+                                    size: 22.5.sp
                                   )
                                 )
                               ),
 
                               MyText(
-                                left: 2,
+                                left: 2.w,
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
                                 hexaColor: AppColors.textColor,
@@ -172,7 +172,7 @@ class AssetInfoBody extends StatelessWidget {
                                 //   right: 0,
                                 //   child: Icon(
                                 //     Icons.edit,
-                                //     size: 18,
+                                //     size: 18.sp,
                                 //     color: hexaCodeToColor(
                                 //       // isDarkMode
                                 //       // ? AppColors.greyCode
@@ -307,8 +307,8 @@ class AssetInfoBody extends StatelessWidget {
                     child: Center(
                       child: SvgPicture.asset(
                         '${AppConfig.iconsPath}no_data.svg',
-                        width: 15,
-                        height: 15,
+                        width: 15.w,
+                        height: 15.h,
                       )
                     ),
                   )

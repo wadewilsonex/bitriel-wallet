@@ -15,14 +15,12 @@ class TrendMarketList extends StatefulWidget {
     @required this.index,
   }) : super(key: key);
 
-  final logoSize = 50.0;
-
   @override
   State<TrendMarketList> createState() => _TrendMarketListState();
 }
 
 class _TrendMarketListState extends State<TrendMarketList> {
-
+  
   String periodID = '1DAY';
 
   Future<void> queryAssetChart(int index, StateSetter modalSetState) async {
@@ -50,7 +48,6 @@ class _TrendMarketListState extends State<TrendMarketList> {
   void dispose() {
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     
@@ -92,7 +89,9 @@ class _TrendMarketListState extends State<TrendMarketList> {
                             widget.trendingCoin![widget.index!].item.name!,
                             widget.trendingCoin![widget.index!].item.symbol!,
                             'USD',
-                            double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5),
+                            widget.trendingCoin![widget.index!].item.priceBtc != null ?
+                            double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)
+                            : "0.00",
                             widget.trendingCoin![widget.index!].item.chart!,
                           ),
                         ),
@@ -148,7 +147,7 @@ class _TrendMarketListState extends State<TrendMarketList> {
             // Asset Name
             SizedBox(width: 2.w),
             SizedBox(
-              width: 30.w,
+              width: MediaQuery.of(context).size.width / 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +175,8 @@ class _TrendMarketListState extends State<TrendMarketList> {
                     top: 4.0,
                     text: widget.trendingCoin![widget.index!].item.name ?? '',
                     fontSize: 15,
-                    hexaColor: AppColors.tokenNameColor
+                    hexaColor: AppColors.tokenNameColor,
+                    textAlign: TextAlign.start,
                   )
                 ],
               ),
@@ -185,10 +185,22 @@ class _TrendMarketListState extends State<TrendMarketList> {
             const Spacer(),
     
             // Total Amount
+            
+            widget.trendingCoin![widget.index!].item.priceBtc != null ?
             MyText(
               fontSize: 17,
-              // width: double.infinity,
-              text: "\$${double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+              text: "\$${double.parse("${widget.trendingCoin![widget.index!].item.priceBtc}".replaceAll(",", "")).toStringAsFixed(5)}",
+              textAlign: TextAlign.right,
+              fontWeight: FontWeight.w600,
+              hexaColor: isDarkMode
+                ? AppColors.whiteColorHexa
+                : AppColors.textColor,
+              overflow: TextOverflow.fade,
+            )
+            :
+            MyText(
+              fontSize: 17,
+              text: "\$0.00",
               textAlign: TextAlign.right,
               fontWeight: FontWeight.w600,
               hexaColor: isDarkMode

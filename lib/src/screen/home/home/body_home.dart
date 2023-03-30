@@ -38,6 +38,7 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       key: homePageModel!.globalKey,
       // extendBody: true,
@@ -63,12 +64,12 @@ class HomePageBody extends StatelessWidget {
 
           WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
-          
           DefaultTabController(
             length: 2,
             child: NestedScrollView(
               floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                
                 SliverOverlapAbsorber(
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                   sliver: SliverSafeArea(
@@ -104,17 +105,15 @@ class HomePageBody extends StatelessWidget {
               
               body: _coinMenuCategory(),
             ),
-      
           ),
 
-          // // SwapPage(),
+          // SwapPage(),
           const FindEvent(),
-    
+
           const SettingPage(),
           // const NFT(),
-        ]
+        ],
       ),
-      
       bottomNavigationBar: MyBottomAppBar(
         index: homePageModel!.activeIndex,
         onIndexChanged: onPageChanged,
@@ -186,8 +185,8 @@ class HomePageBody extends StatelessWidget {
             count: imgList.length,
             effect: SlideEffect(
               radius: 5.0,
-              dotWidth: 20.0,
-              dotHeight: 7.0,
+              dotWidth: 20.0.sp,
+              dotHeight: 7.0.sp,
               paintStyle: PaintingStyle.fill,
               dotColor: hexaCodeToColor(AppColors.greyColor).withOpacity(0.36),
               activeDotColor: hexaCodeToColor(AppColors.secondary),
@@ -222,6 +221,7 @@ class HomePageBody extends StatelessWidget {
                         ),
                       ),
                       builder: (context) => Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: const [
                           SwapMethod(),
                         ],
@@ -290,6 +290,7 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _coinMenuCategory() {
+
     return TabBarView(
       children: [
 

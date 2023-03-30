@@ -1,6 +1,5 @@
+import 'package:pinput/pinput.dart';
 import 'package:wallet_apps/index.dart';
-
-import '../../receive_wallet/appbar_wallet.dart';
 
 class AddAssetBody extends StatelessWidget {
 
@@ -17,6 +16,13 @@ class AddAssetBody extends StatelessWidget {
   final Function? addAsset;
   final Function? qrRes;
   final Function? onChangeNetwork;
+  final Function? onChangedQuery;
+  final Function? setResults;
+  final Function? onTapGetResult;
+  final Function? onTapGetContractData;
+  final List<dynamic>? getContractData;
+  final String? queryContractAddress;
+  final List<dynamic>? searchResultsData;
 
   const AddAssetBody({
     Key? key, 
@@ -33,12 +39,17 @@ class AddAssetBody extends StatelessWidget {
     this.addAsset,
     this.qrRes,
     this.onChangeNetwork,
+    this.onChangedQuery,
+    this.setResults,
+    this.onTapGetResult,
+    this.onTapGetContractData,
+    this.getContractData,
+    this.queryContractAddress,
+    this.searchResultsData
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     
-    final api = Provider.of<ApiProvider>(context);
     return Column(
       children: [
         Expanded(
@@ -48,7 +59,7 @@ class AddAssetBody extends StatelessWidget {
               children: [
 
                 SizedBox(
-                  height: 2,
+                  height: 2.h,
                 ),
                 
                 Form(
@@ -99,16 +110,11 @@ class AddAssetBody extends StatelessWidget {
                             ),
                             child: Row(
                               children: <Widget>[
-                                // provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                                // ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,) 
-                                // : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,),
-
                                 Expanded(
                                   child: MyText(
                                     pTop: paddingSize,
                                     pBottom: paddingSize,
                                     text: "Network",
-                                    // text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,
                                     textAlign: TextAlign.left,
@@ -120,9 +126,9 @@ class AddAssetBody extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22, width: 22,),
+                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22.sp, width: 22.sp,),
 
-                                    SizedBox(width: 2.5,),
+                                    SizedBox(width: 2.5.w,),
 
                                     MyText(
                                       text: "${networkSymbol![initialValue!]["symbol"]}",
@@ -130,7 +136,7 @@ class AddAssetBody extends StatelessWidget {
                                       fontSize: 17,
                                     ),
 
-                                    SizedBox(width: 5,),
+                                    SizedBox(width: 5.w,),
 
                                     Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),),
                                   ],
@@ -141,110 +147,173 @@ class AddAssetBody extends StatelessWidget {
                         ),
                       ),
 
-                      // Container(
-                      //   margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      //   // height: 65,
-                      //   width: double.infinity,
-                      //   decoration: BoxDecoration(
-                      //     color: isDarkMode ? Colors.white.withOpacity(0.06) : Colors.white,
-                      //     borderRadius: BorderRadius.circular(8.0),
-                      //   ),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
+                      Stack(
+                        children: [
+                          Column(
+                            children: [
+                              MyInputField(
+                                pBottom: 16.0,
+                                hintText: "Token Contract Address",
+                                textInputFormatter: [
+                                  LengthLimitingTextInputFormatter(TextField.noMaxLength)
+                                ],
+                                controller: assetM!.controllerAssetCode,
+                                focusNode: assetM!.nodeAssetCode,
+                                validateField: (value) => value.isEmpty
+                                  ? 'Please fill in token contract address'
+                                  : null,
+                                onChanged: (v) {
+                                  onChangedQuery!(v);
+                                },
+                                onSubmit: onSubmit,
+                                
+                                suffixIcon: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    assetM!.controllerAssetCode.length >= 1 ? GestureDetector(
+                                      onTap: () async {
+                                        assetM!.controllerAssetCode.clear();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: Icon(Iconsax.close_circle, color: hexaCodeToColor(AppColors.iconGreyColor)),
+                                      ),
+                                    )
+                                    : Container(),
 
-                      //       const MyText(
-                      //         left: 16.0,
-                      //         text: 'Network',
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        final response = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: false)
+                                          )
+                                        );
+                                        
+                                        if (response != null) {
+                                          qrRes!(response.toString());
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(right: 16.0),
+                                        child: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.primaryColor)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
 
-                      //       Expanded(child: Container()),
-
-                      //       Flexible(
-                      //         child:  DropdownList(
-                      //           isValue: true,
-                      //           // assetInfo: provider.assetInfo,
-                      //           listContract: networkSymbol,
-                      //           initialValue: initialValue,
-                      //           onChanged: (value) {
-                      //             onChangeNetwork!(value);
-                      //           },
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
-                      MyInputField(
-                        pBottom: 16.0,
-                        hintText: "Token Contract Address",
-                        textInputFormatter: [
-                          LengthLimitingTextInputFormatter(TextField.noMaxLength)
-                        ],
-                        controller: assetM!.controllerAssetCode,
-                        focusNode: assetM!.nodeAssetCode,
-                        validateField: (value) => value.isEmpty
-                          ? 'Please fill in token contract address'
-                          : null,
-                        onChanged: onChanged,
-                        onSubmit: onSubmit,
-                        suffixIcon: GestureDetector(
-                          onTap: () async {
-                            final response = await Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const QrScanner()
-                              )
-                            );
-                            
-                            if (response != null) {
-                              qrRes!(response.toString());
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Icon(Iconsax.scan, color: hexaCodeToColor(AppColors.primaryColor), size: 20),
+                              Container(
+                                margin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: Colors.white,
+                                ),
+                                
+                                child: queryContractAddress!.isEmpty
+                                    ? ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: getContractData!.length < 6 ? getContractData!.length : 6,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            leading: CircleAvatar(
+                                              maxRadius: 25,
+                                              backgroundColor: Colors.grey,
+                                              child: MyText(text: initialValue == 0 ? "BEP20" : "ERC20", fontSize: 14,),
+                                            ),
+                                            title: MyText(
+                                              text: "${getContractData![index]['name']} (${getContractData![index]['symbol']})",
+                                              textAlign: TextAlign.start,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            subtitle: MyText(
+                                              text: initialValue == 0 ? 
+                                              getContractData![index]['platforms']["binance_smart_chain"].replaceRange(10, getContractData![index]['platforms']["binance_smart_chain"].length - 10, "........") 
+                                              : getContractData![index]['platforms']["ethereum"].replaceRange(10, getContractData![index]['platforms']["ethereum"].length - 10, "........"),
+                                              textAlign: TextAlign.start,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            onTap: () {
+                                              onTapGetContractData!(index);
+                                            },
+                                          );
+                                        },
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: searchResultsData!.length < 6 ? searchResultsData!.length : 6,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            leading: CircleAvatar(
+                                              maxRadius: 25,
+                                              backgroundColor: Colors.grey,
+                                              child: MyText(text: initialValue == 0 ? "BEP20" : "ERC20", fontSize: 14,),
+                                            ),
+                                            title: MyText(
+                                              text: "${searchResultsData![index]['name']} (${searchResultsData![index]['symbol']})",
+                                              textAlign: TextAlign.start,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            subtitle: MyText(
+                                              text: 
+                                              initialValue == 0 ? 
+                                              searchResultsData![index]['platforms']["binance_smart_chain"].replaceRange(10, searchResultsData![index]['platforms']["binance_smart_chain"].length - 10, "........") 
+                                              : searchResultsData![index]['platforms']["ethereum"].replaceRange(10, searchResultsData![index]['platforms']["ethereum"].length - 10, "........"),
+                                              textAlign: TextAlign.start,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            onTap: () {
+                                              onTapGetResult!(index);
+                                            },
+                                          );
+                                        },
+                                      ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
 
-                      if (tokenSymbol == 'KGO')
-                        portFolioItemRow(
-                          context,
-                          isDarkMode,
-                          ContractProvider().listContract[api.kgoIndex].logo!,
-                          tokenSymbol!,
-                          Colors.black,
-                          addAsset!,
-                        )
-                      else if (tokenSymbol != '')
-                        portFolioItemRow(
-                          context,
-                          isDarkMode,
-                          assetM!.logo ?? '${AppConfig.assetsPath}circle.png',
-                          tokenSymbol!,
-                          Colors.white,
-                          addAsset!,
-                        )
-                      else
-                        Container(),
-                      if (assetM!.loading)
-                        const CircularProgressIndicator()
-                      else
-                        Container(),
+                      // if (tokenSymbol == 'KGO')
+                      //   portFolioItemRow(
+                      //     context,
+                      //     isDarkMode,
+                      //     ContractProvider().listContract[api.kgoIndex].logo!,
+                      //     tokenSymbol!,
+                      //     Colors.black,
+                      //     addAsset!,
+                      //   )
+                      // else if (tokenSymbol != '')
+                      //   portFolioItemRow(
+                      //     context,
+                      //     isDarkMode,
+                      //     assetM!.logo ?? '${AppConfig.assetsPath}circle.png',
+                      //     tokenSymbol!,
+                      //     Colors.white,
+                      //     addAsset!,
+                      //   )
+                      // else
+                      //   Container(),
+                      // if (assetM!.loading)
+                      //   const CircularProgressIndicator()
+                      // else
+                      //   Container(),
 
                     ],
                   ),
                 ),
 
-                // const SizedBox(height: 40.0),
-
                 MyGradientButton(
                   edgeMargin: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
-                  textButton: "Search",
+                  textButton: "Add",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  action: !assetM!.enable ? null : () async {
+                  action: () async {
+                    // addAsset!();
                     await submitAsset!();
                   }
                 ),
@@ -262,8 +331,8 @@ class AddAssetBody extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            height: 9,
-            width: 9,
+            height: 9.w,
+            width: 9.w,
             padding: const EdgeInsets.all(6),
             margin: const EdgeInsets.only(right: 20),
             decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(40)),
@@ -280,7 +349,6 @@ class AddAssetBody extends StatelessWidget {
                     text: tokenSymbol,
                     fontWeight: FontWeight.bold,
                   ),
-                  //MyText(text: org, fontSize: 15),
                 ],
               ),
             ),
@@ -298,7 +366,7 @@ class AddAssetBody extends StatelessWidget {
                   children: const [
                     MyText(
                       width: double.infinity,
-                      text: 'Add', //portfolioData[0]["data"]['balance'],
+                      text: 'Add',
                       hexaColor: AppColors.secondary,
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
@@ -348,7 +416,7 @@ class AddAssetBody extends StatelessWidget {
             Icon(
               Icons.remove,
               color: Colors.grey[600],
-              size: 25,
+              size: 25.sp,
             ),
 
             Expanded(
@@ -369,10 +437,10 @@ class AddAssetBody extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27, width: 27,)
+                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27.sp, width: 27.sp,)
                               ),
                                           
-                              SizedBox(width: 2,),
+                              SizedBox(width: 2.w,),
                                           
                               MyText(text: listNetwork[index]["symbol"], fontSize: 18, fontWeight: FontWeight.bold,),
                                           
@@ -398,5 +466,4 @@ class AddAssetBody extends StatelessWidget {
       }
     );
   }
-
 }

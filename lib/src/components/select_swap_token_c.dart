@@ -31,15 +31,19 @@ class SwapTokenList extends StatelessWidget {
         child: Row(
           children: [
       
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: isActive == false 
-                ? image 
-                : ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
-                  child: image,
+            SizedBox(
+              height: 65,
+              width: 65,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: isActive == false 
+                  ? image 
+                  : ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+                    child: image,
+                  ),
                 ),
               ),
             ),
@@ -51,14 +55,14 @@ class SwapTokenList extends StatelessWidget {
                 
                 MyText(
                   text: title,
-                  // fontSize: 18,
+                  fontSize: 22,
                   color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.start,
                 ),
                 MyText(
                   text: subtitle,
-                  fontSize: 13,
+                  fontSize: 16,
                   color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,

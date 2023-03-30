@@ -95,20 +95,17 @@ class ContractProvider with ChangeNotifier {
   /// Run First 
   Future<void> initJson() async {
 
-    print("initJson");
     try {
       
       // True In Case First Time Initialize
       await setSavedList().then((value) async {
 
         final json = await rootBundle.loadString(AssetPath.contractJson);
-        print("json $json");
+        
         final decode = jsonDecode(json);
 
         sortListContract.clear();
         listContract.clear();
-
-        print("decode.length ${decode.length}");
       
         for (int i = 0 ; i < decode.length; i++){
 
@@ -181,11 +178,11 @@ class ContractProvider with ChangeNotifier {
           
       return listContract.isNotEmpty ? true : false;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error setSavedList $e");
         }
-      }
+      
     }
     return false;
   }
@@ -199,11 +196,11 @@ class ContractProvider with ChangeNotifier {
         return IOWebSocketChannel.connect(AppConfig.networkList[3].wsUrlMN!).cast<String>();
       });
     } catch (e){
-      if (ApiProvider().isDebug) {
+      
         if (kDebugMode) {
           print("Error initBscClient $e");
         }
-      }
+      
     }
 
   }
@@ -237,11 +234,11 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err addListActivity $e");
         }
-      }
+      
     }
   }
 
@@ -255,11 +252,11 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err updateNativeTxStt $e");
         }
-      }
+      
     }
   }
 
@@ -273,11 +270,11 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err updateTxStt $e");
         }
-      }
+      
     }
   }
 
@@ -309,11 +306,11 @@ class ContractProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == true) {
+        
           if (kDebugMode) {
             print("Err kgoTokenWallet $e");
           }
-        }
+        
       }
     }
   }
@@ -340,23 +337,28 @@ class ContractProvider with ChangeNotifier {
 
         notifyListeners();
       } catch (e) {
-        if (ApiProvider().isDebug == true) {
+        
           if (kDebugMode) {
             print("Err getBep20Balance $e");
           }
-        }
+        
       }
     }
   }
 
   Future<void> ethWallet() async {
-    
+    print("ethWallet");
     try {
 
       await initEtherClient();
+      print("finish initEtherClient");
       _eth = NativeService(_etherClient!);
 
+      print("ethAdd $ethAdd");
+
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
+      
+      print("balance $balance");
 
       listContract[apiProvider.ethIndex].balance = balance.toString();
       listContract[apiProvider.ethIndex].chainDecimal = 18;
@@ -365,11 +367,11 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err ethWallet $e");
         }
-      }
+      
     }
   }
 
@@ -387,11 +389,11 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.bnbIndex].address = ethAdd;
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error bnbWallet $e");
         }
-      }
+      
     }
   }
 
@@ -415,6 +417,7 @@ class ContractProvider with ChangeNotifier {
           } else {
             element.money = 0.0;
           }
+
           mainBalance = mainBalance + element.money!;//double.parse(element.balance!.replaceAll(",", ""));
           sortListContract.addAll({element});
         } 
@@ -451,11 +454,11 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
       
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error sortAsset $e");
         }
-      }
+      
     }
     
     return null;
@@ -591,11 +594,11 @@ class ContractProvider with ChangeNotifier {
     } on ArgumentError {
       // Not valid
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err validateEvmAddr $e");
         }
-      }
+      
     }
     return isValid;
   }
@@ -610,11 +613,11 @@ class ContractProvider with ChangeNotifier {
       gasPrice = await _etherClient!.getGasPrice();
     } catch (e){
 
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getEthGasPrice $e");
         }
-      }
+      
     }
     return gasPrice;
   }
@@ -698,11 +701,11 @@ class ContractProvider with ChangeNotifier {
       gasPrice = await _etherClient!.getGasPrice();
     } catch (e){
 
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getErc20GasPrice $e");
         }
-      }
+      
     }
 
     return gasPrice;
@@ -715,11 +718,11 @@ class ContractProvider with ChangeNotifier {
       await initBscClient();
       gasPrice = await _bscClient!.getGasPrice();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error getBscGasPrice $e");
         }
-      }
+      
     }
 
     return gasPrice;
@@ -761,11 +764,11 @@ class ContractProvider with ChangeNotifier {
 
       return swap;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error swap $e");
         }
-      }
+      
       throw Exception(e);
     }
   }
@@ -820,11 +823,11 @@ class ContractProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug) {
+      
         if (kDebugMode) {
           print("Error getEtherAddr $e");
         }
-      }
+      
     }
   }
   Future<void> getBtcAddr() async {
@@ -834,11 +837,11 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug) {
+      
         if (kDebugMode) {
           print("Error getEtherAddr $e");
         }
-      }
+      
     }
   }
 
@@ -1056,11 +1059,11 @@ class ContractProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Err addAsset $e");
         }
-      }
+      
       rethrow;  
     }
   }

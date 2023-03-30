@@ -1,6 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/list_market_coin_m.dart';
 import 'package:wallet_apps/src/models/trendingcoin_m.dart';
 
@@ -66,8 +64,7 @@ class MarketProvider with ChangeNotifier {
 
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
     
-    print("fetchTokenMarketPrice");
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    debugPrint("fetchTokenMarketPrice");
 
     final contract = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
@@ -137,11 +134,11 @@ class MarketProvider with ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error fetchTokenMarketPrice $e");
         }
-      }
+      
       return;
     }
     
@@ -175,11 +172,11 @@ class MarketProvider with ChangeNotifier {
       }).toList();
       return lsCoin!;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error searchCoinFromMarket $e");
         }
-      }
+      
     }
     return lsCoin!;
   }

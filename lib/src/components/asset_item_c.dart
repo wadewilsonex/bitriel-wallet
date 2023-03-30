@@ -7,8 +7,6 @@ class AssetsItemComponent extends StatelessWidget {
 
   final SmartContractModel? scModel;
 
-  final double logoSize = 24;
-
   const AssetsItemComponent({Key? key, 
     @required this.scModel,
   }) : super(key: key);
@@ -82,6 +80,7 @@ class AssetsItemComponent extends StatelessWidget {
                       children: [
                         
                         MyText(
+                          width: 100,
                           text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -95,10 +94,11 @@ class AssetsItemComponent extends StatelessWidget {
                     ),
               
                     MyText(
-                      top: 4.0,
+                      width: 100,
                       text: scModel!.name ?? '',
-                      fontSize: 14,
-                      hexaColor: AppColors.tokenNameColor
+                      fontSize: 15,
+                      hexaColor: AppColors.tokenNameColor,
+                      textAlign: TextAlign.start,
                     )
                   ],
                 ),
@@ -113,6 +113,7 @@ class AssetsItemComponent extends StatelessWidget {
         
                     scModel!.marketPrice != null ?
                     MyText(
+                      
                       text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -155,7 +156,7 @@ class AssetsItemComponent extends StatelessWidget {
                                 ),
 
                                 if (scModel!.change24h != "0")
-                                double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18),
+                                double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
                               ],
                             ),
                           )
@@ -437,8 +438,7 @@ class AssetsItemComponent extends StatelessWidget {
   Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16, Color? color}) {
     return Container(
       // margin: EdgeInsets.only(top: mTop, bottom: 2),
-      // padding: const EdgeInsets.fromLTRB(15, 9, 15, 9),
-      // height: 8,
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       color: color ?? hexaCodeToColor(AppColors.whiteHexaColor),
       child: child
     );

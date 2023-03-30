@@ -30,7 +30,7 @@ class Indicator extends StatelessWidget {
               color: color,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 2,
           ),
           MyText(
@@ -91,7 +91,7 @@ class ChartDataState extends State {
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
       

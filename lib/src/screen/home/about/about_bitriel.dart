@@ -61,7 +61,7 @@ class AboutBitriel extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(paddingSize),
-            child: Image.asset("assets/logo/bitriel-logo-v2.png", height: 40, width: 40,),
+            child: Image.asset("assets/logo/bitriel-logo-v2.png", height: 40.sp, width: 40.sp,),
           ),
           MyText(
             text: "${packageInfo!.appName}: ${packageInfo!.version}",

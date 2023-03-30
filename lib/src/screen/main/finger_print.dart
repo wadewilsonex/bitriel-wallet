@@ -70,15 +70,15 @@ class FingerPrintState extends State<FingerPrint> {
         }
 
         if(!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
-        );
-        // Navigator.pushAndRemoveUntil(
-        //   context, 
-        //   Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-        //   ModalRoute.withName('/')
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
         // );
+        Navigator.pushAndRemoveUntil(
+          context, 
+          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          ModalRoute.withName('/')
+        );
       }
     } on SocketException catch (e) {
 
@@ -131,19 +131,18 @@ class FingerPrintState extends State<FingerPrint> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
 
-            SizedBox(
-              height: 10.0,
+            const SizedBox(
+              height: 100.0,
             ),
-            Image.asset("assets/logo/fingerprint.png", width: 30,),
+            Image.asset("assets/logo/fingerprint.png",),
             const SizedBox(
               height: 20.0,
             ),
             
             MyText(
-              width: 275,
-              top: 19.0,
-              text: widget.isEnable == true ? 'Finger Print authentication' : 'Increase your \nsecurity!',
-              fontSize: 20,
+              top: 20.0,
+              text: widget.isEnable == true ? 'Finger Print Authentication' : 'Increase your \nsecurity!',
+              fontSize: 25,
               fontWeight: FontWeight.bold,
               hexaColor: isDarkMode
                 ? AppColors.whiteColorHexa
@@ -170,7 +169,7 @@ class FingerPrintState extends State<FingerPrint> {
               children: [
                 MyGradientButton(
                   edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                  textButton: widget.isEnable == true ? "Process biometry now" : "Enable biometry now",
+                  textButton: widget.isEnable == true ? "Unlock with biometry" : "Enable biometry now",
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   action: () async {

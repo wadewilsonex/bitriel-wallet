@@ -36,7 +36,7 @@ ios/Runner.xcworkspace/contents.xcworkspacedata
 
 # Android related
 **/android/**/gradle-wrapper.jar
-.gradle/
+/android/.gradle/
 **/android/captures/
 **/android/gradlew
 **/android/gradlew.bat

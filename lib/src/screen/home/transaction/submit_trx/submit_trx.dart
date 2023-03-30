@@ -530,7 +530,7 @@ class SubmitTrxState extends State<SubmitTrx> {
 
   void scanQR() async {
    
-    await Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
+    await Navigator.push(context, Transition(child: const QrScanner(isShowSendFund: true, isShowWC: false), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)).then((value) async {
       if (value != null){
         setState(() {
           _scanPayM.controlReceiverAddress.text = value;

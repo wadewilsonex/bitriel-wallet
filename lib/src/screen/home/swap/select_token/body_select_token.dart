@@ -20,7 +20,7 @@ class SelectSwapTokenBody extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const MyText(text: "Select Token", fontWeight: FontWeight.bold, fontSize: 20,),
+        title: const MyText(text: "Select Token", fontWeight: FontWeight.bold, fontSize: 22,),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -73,7 +73,7 @@ class SelectSwapTokenBody extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 20,
           color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
         ),
         decoration: InputDecoration(
@@ -91,10 +91,10 @@ class SelectSwapTokenBody extends StatelessWidget {
           ),
           hintText: "Search token name",
           hintStyle: TextStyle(
-            fontSize: 14,
+            fontSize: 20,
             color: hexaCodeToColor("#AAAAAA"),
           ),
-          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+          prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 20.0),
           /* Prefix Text */
           filled: true,
           fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),

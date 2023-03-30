@@ -83,6 +83,7 @@ dependencies:
   firebase_core: ^1.10.6
   firebase_dynamic_links: ^4.0.3
   google_sign_in: ^5.4.2
+  dio: ^5.0.3
 
   # Image service
   intl: ^0.17.0
@@ -127,7 +128,7 @@ dependencies:
   dart_ecpair: ^1.0.2
   flutter_bitcoin: ^1.0.1
 
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage:
   # flutter_screenshot_switcher: ^2.1.0
 
   #Contact
@@ -152,18 +153,20 @@ dependencies:
   action_slider: ^0.6.0
 
   # Third-party
-  wallet_connect: ^1.0.2
+  wallet_connect: ^1.0.4
   wallet_connect_dart_v2: ^0.0.1
   eth_sig_util: ^0.0.9
   flutter_stripe: ^7.0.0
   flutter_native_splash: ^2.2.8
   random_avatar: ^0.0.7
+  flutter_expanded_tile: ^0.3.7
 
   # Download
   path_provider:
 
   external_app_launcher: ^3.1.0
 
+  
   dropdown_button2: ^1.7.2
   form_validation: ^2.1.0+22
   flutter_multi_formatter: ^2.9.11
@@ -258,8 +261,7 @@ flutter:
     
     # Animation Flare
     - assets/animation/
-    - lib/src/js_api/
-    - lib/src/js_api/dist/main.js
+    - assets/js/main.js
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

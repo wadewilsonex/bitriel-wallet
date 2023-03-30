@@ -279,7 +279,7 @@ class MySeedField extends StatelessWidget {
                 ? hexaCodeToColor("#ffffff")
                 : hexaCodeToColor(AppColors.textColor),
             /* Border Color When Focusing */
-            contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 1),
+            contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 1),
             suffixIcon: suffixIcon,
             suffixIconConstraints: const BoxConstraints(
               minWidth: 0,

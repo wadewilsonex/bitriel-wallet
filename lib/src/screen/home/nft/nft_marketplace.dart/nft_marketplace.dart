@@ -19,9 +19,9 @@ class NFTMarketPlace extends StatelessWidget {
         title: Row(
           children: [
             
-            Image.asset("assets/logo/bitriel-logo-gold.png", height: 40, width: 40,),
+            Image.asset("assets/logo/bitriel-logo-gold.png", height: 40.sp, width: 40.sp,),
 
-            SizedBox(width: 1.5,),
+            SizedBox(width: 1.5.w,),
 
             const MyText(
               text: "NFT",
@@ -52,11 +52,11 @@ class NFTMarketPlace extends StatelessWidget {
           children: [
             Container(
               color: const Color(0xff010101),
-              height: 30,
+              height: 30.h,
               child: Stack(
                 children: [
                   Positioned.fill(
-                    top: -40,
+                    top: -40.vmax,
                     child: ShaderMask(
                       blendMode: BlendMode.dstOut,
                       shaderCallback: (rect) {

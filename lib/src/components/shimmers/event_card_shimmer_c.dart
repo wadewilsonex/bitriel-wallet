@@ -126,7 +126,7 @@ class EventCardShimmerComponent extends StatelessWidget {
                             height: 5,
                             width: 5,
                             padding: const EdgeInsets.all(10),
-                            child: Icon(Iconsax.heart, color: Colors.white, size: 4,),
+                            child: const Icon(Iconsax.heart, color: Colors.white, size: 4,),
                           ),
                         ),
                       ],

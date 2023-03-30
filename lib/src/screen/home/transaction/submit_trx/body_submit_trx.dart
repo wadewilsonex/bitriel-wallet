@@ -1,4 +1,7 @@
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 
 class SubmitTrxBody extends StatelessWidget {
@@ -98,14 +101,14 @@ class SubmitTrxBody extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   
-                  SizedBox(height: 2,),
+                  const SizedBox(height: 5,),
     
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                     child: MyText(
                       text: "Available balance",
                       hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
-                      fontSize: 18,
+                      fontSize: 20,
                     ),
                   ),
                   
@@ -116,7 +119,7 @@ class SubmitTrxBody extends StatelessWidget {
                       hexaColor: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.start,
-                      fontSize: 22,
+                      fontSize: 25,
                     ),
                   ),
     
@@ -130,7 +133,11 @@ class SubmitTrxBody extends StatelessWidget {
                     ),
                   ),
     
-                  SizedBox(height: 2,),
+                  const SizedBox(height: 2,),
+
+                  _listSenderWallet(context),
+
+                  const SizedBox(height: 5,),
           
                   listInput[0],
                   
@@ -180,8 +187,8 @@ class SubmitTrxBody extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                            ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,) 
-                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 25, width: 25,),
+                            ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,) 
+                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,),
 
                             Expanded(
                               child: MyText(
@@ -190,7 +197,7 @@ class SubmitTrxBody extends StatelessWidget {
                                 pLeft: paddingSize,
                                 text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 20,
                                 textAlign: TextAlign.left,
                                 hexaColor: isDarkMode
                                   ? AppColors.darkSecondaryText
@@ -206,9 +213,8 @@ class SubmitTrxBody extends StatelessWidget {
                   ),
     
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       top: 10,
-                      bottom: 15,
                       left: paddingSize,
                       right: paddingSize,
                     ),
@@ -216,9 +222,10 @@ class SubmitTrxBody extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18),
-                        SizedBox(width: 1,),
+                        const SizedBox(width: 1,),
                         MyText(
-                          text: "Select the right network, or assets may be lost.",
+                          pLeft: 5,
+                          text: "Select the right network and asset, or assets may be lost.",
                           hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
                           fontSize: 15,
                         ),
@@ -241,6 +248,176 @@ class SubmitTrxBody extends StatelessWidget {
           );
         }
       ),
+    );
+  }
+
+  Widget _listSenderWallet(BuildContext context) {
+    return Consumer<ApiProvider>(
+      builder: (context, provider, widget) {
+        return InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: () {
+            bottomSheetSelectAccount(context);
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 5),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.fromLTRB(paddingSize, 0, paddingSize, 0),
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AvatarShimmer(
+                                height: 50,
+                                width: 50,
+                                txt: provider.getKeyring.current.icon,
+                                child: randomAvatar(provider.getKeyring.current.icon ?? ''),
+                              ),
+
+                              const SizedBox(width: 10),
+
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyText(
+                                    text: provider.getKeyring.current.name,
+                                    hexaColor: AppColors.blackColor,
+                                    fontSize: 19,
+                                    textAlign: TextAlign.start,
+                                  ),
+
+                                  MyText(
+                                    text: provider.getKeyring.current.address!.replaceRange(8, provider.getKeyring.current.address!.length - 8, "......."),
+                                    hexaColor: AppColors.blackColor,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w600,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  
+                                ],
+                              ),
+                            ]
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 0,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                          child: const Icon(
+                            Iconsax.arrow_down_1
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+  void bottomSheetSelectAccount(BuildContext context) async{
+    return showBarModalBottomSheet(
+      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical( 
+          top: Radius.circular(25.0),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, mySetState) {
+            return Consumer<ApiProvider>(
+              builder: (context, provider, wg) {
+                return ListView.builder(
+                  itemCount: provider.getKeyring.allAccounts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){
+                        provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
+                        provider.notifyListeners();
+                        mySetState( () {});
+
+                        scanPayM!.controlAmount.clear();
+                        Navigator.pop(context);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                    
+                          Padding(
+                            padding: const EdgeInsets.all(paddingSize),
+                            child: Row(
+                              children: [
+                    
+                                AvatarShimmer(
+                                  txt: provider.getKeyring.current.icon,
+                                  child: randomAvatar(provider.getKeyring.allAccounts[index].icon ?? '',),
+                                ),
+                    
+                                const SizedBox(width: 10),
+                          
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    MyText(
+                                      text: provider.getKeyring.current.name,
+                                      fontSize: 19,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                
+                                    MyText(
+                                      text: provider.getKeyring.allAccounts[index].address == null ? "" : provider.getKeyring.allAccounts[index].address!.replaceRange(6, provider.getKeyring.current.address!.length - 6, "......."),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 22,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                    
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
+                                    ? const Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
+                                    : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                );
+              }
+            );
+          }
+        );
+      }
     );
   }
 
@@ -276,6 +453,9 @@ class SubmitTrxBody extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           onChanged!(index.toString());
+
+                          scanPayM!.controlAmount.clear();
+                          
                           Navigator.pop(context, listContract[index]);
                         },
                         child: Padding(
@@ -285,16 +465,16 @@ class SubmitTrxBody extends StatelessWidget {
                               listContract[index]["logo"].toString().contains("http") 
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.network("${listContract[index]["logo"]}", height: 27, width: 27,)
+                                child: Image.network("${listContract[index]["logo"]}", height: 40, width: 40,)
                               ) 
                               : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listContract[index]["logo"]}", height: 27, width: 27,)
+                                child: Image.asset("${listContract[index]["logo"]}", height: 40, width: 40,)
                               ),
                                           
-                              SizedBox(width: 2,),
+                              const SizedBox(width: 10,),
                                           
-                              MyText(text: listContract[index]["symbol"], fontSize: 18, fontWeight: FontWeight.bold,),
+                              MyText(text: listContract[index]["symbol"], fontSize: 20, fontWeight: FontWeight.bold,),
                                           
                             ],
                           ),

@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:path_provider/path_provider.dart';

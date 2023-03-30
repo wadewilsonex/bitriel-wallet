@@ -1,5 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
 
 class MyBottomSheetItem extends StatelessWidget {
   
@@ -110,23 +111,24 @@ class TrxOptionMethod {
   static Future scanQR(
     BuildContext context,
     List<dynamic> portfolioList,
-    bool pushReplacement,
   ) async {
-    final value = await Navigator.push(context, Transition(child: const QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
+    WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    
+    final value = await Navigator.push(context, Transition(child: const QrScanner(isShowSendFund: true, isShowWC: true), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+    
     if (value != null){
-      pushReplacement == true ?
-      await Navigator.push(
-        context,
-        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        // MaterialPageRoute(builder: (context) => )
-      )
-      :
-      await Navigator.pushReplacement(
-        context,
-        Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        // MaterialPageRoute(builder: (context) => )
-      );
+      
+      if(value.toString().contains("wc:")){
+        wConnectC.qrScanHandler(value);
+      }
+
+      else if(value.toString().contains("0x") || value.toString().contains("se")){
+        Navigator.push(
+          context,
+          Transition(child: SubmitTrx(value, false, portfolioList), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        );
+      }
       
     }
   }

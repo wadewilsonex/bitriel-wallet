@@ -235,7 +235,7 @@ Future<void> successDialog(
   BuildContext context, String operationText, {
     Widget? route = const HomePage()
 }) async {
-  await Future.delayed(const Duration(milliseconds: 30), (){});
+  // await Future.delayed(const Duration(milliseconds: 30), (){});
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -252,7 +252,7 @@ Future<void> successDialog(
             child: Column(
               children: [
 
-                Icon(Icons.check_circle_outline_rounded, size: 20, color: Colors.green,),
+                const Icon(Icons.check_circle_outline_rounded, size: 20, color: Colors.green,),
                 const MyText(
                   text: 'SUCCESS!',
                   fontSize: 20,
@@ -283,6 +283,98 @@ Future<void> successDialog(
             ),
           ),
         )
+      );
+    },
+  );
+}
+
+Future<void> seedVerifyLaterDialog(
+  BuildContext context, Function? submit) async {
+
+  bool isCheck = false;
+  
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setStateWidget) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: hexaCodeToColor(AppColors.whiteColorHexa),
+            content: SizedBox(
+              // height: MediaQuery.of(context).size.height / 2.6,
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+
+                    SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Lottie.asset(
+                        "assets/animation/warning-shield.json",
+                        repeat: true,
+                      ),
+                    ),
+                    const MyText(
+                      text: 'Verify you Seed Phrase later?',
+                      fontSize: 20,
+                      top: 10,
+                      bottom: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+  
+                    Theme(
+                      data: ThemeData(),
+                      child: CheckboxListTile(
+                        title: const MyText(
+                          text: "I understand that if I lose my Secret Seed Phrase I will not be able to access my wallet",
+                          textAlign: TextAlign.start,
+                        ),
+                        activeColor: hexaCodeToColor(AppColors.primaryColor),
+                        value: isCheck,
+                        onChanged: (newValue) {
+                          setStateWidget(() {
+                            isCheck = newValue!;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.1,
+                    ),
+
+                    MyFlatButton(
+                      isTransparent: true,
+                      buttonColor: AppColors.greenColor,
+                      textColor: isCheck == false ? AppColors.greyCode : AppColors.primaryColor,
+                      textButton: "Yes, Verify Later",
+                      action: () {
+                        isCheck == false ? null : submit!();
+                      },
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    MyGradientButton(
+                      textButton: "No, Verify Now",
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: (){
+                        Navigator.pop(context);
+                      }
+                    )
+
+                  ],
+                ),
+              ),
+            )
+          );
+        }
       );
     },
   );
@@ -616,7 +708,6 @@ Widget progress({bool isTicket = false, String? content}) {
               isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
-              width: 75,
             ),
             // CircularProgressIndicator(
             //   backgroundColor: Colors.transparent,
@@ -820,13 +911,13 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* QR Code Generate Function */
 Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45, bool embeddedImage = true}) {
   return SizedBox(
-    width: width,
+    width: width.w,
     child: QrImage(
       padding: EdgeInsets.zero,
       backgroundColor: Colors.white,
       embeddedImage: embeddedImage == true ? const AssetImage('assets/logo/bitirel-logo-circle.png') : null,
       embeddedImageStyle: QrEmbeddedImageStyle(
-        size: Size(25, 25),
+        size: Size(25.sp, 25.sp),
       ),
       eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
       dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
@@ -1115,12 +1206,12 @@ Future<void> underContstuctionAnimationDailog({required BuildContext? context}){
     contentPadding: EdgeInsets.zero,
     contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20, height: 10),
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
     lottie: Lottie.asset(
       "assets/animation/under-construction.json",
       repeat: true,
       reverse: true,
-      height: 25,
+      height: 25.h,
     ),
     btn2: MyGradientButton(
       textButton: "OK",
@@ -1155,10 +1246,10 @@ Future<void> fetchWalletAnimationDailog({required BuildContext? context}){
     context: context,
     contents: "Under Construction",
     textButton: "OK",
-    // image: Image.asset("assets/icons/success.png", width: 20, height: 10),
+    // image: Image.asset("assets/icons/success.png", width: 20.w, height: 10.h),
     lottie: Lottie.asset(
       "assets/animation/under-construction.json",
-      width: 75, 
+      width: 75.w, 
       repeat: true,
 
     ),
@@ -1289,7 +1380,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
                                   hexaColor: AppColors.blackColor,
                                 ),
 
-                                SizedBox(height: 2),
+                                const SizedBox(height: 2),
                                 
                                 qrCodeProfile(
                                   value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',

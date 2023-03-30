@@ -76,7 +76,7 @@ class DialogComponents {
                         children: [
                           Icon(Iconsax.copy, color: hexaCodeToColor(isDarkMode ? AppColors.lowWhite : AppColors.blackColor), size: 20,),
                           
-                          SizedBox(width: 2,),
+                          const SizedBox(width: 2,),
                           MyText(
                             text: "Copy",
                             fontSize: 19,
@@ -146,7 +146,7 @@ class DialogComponents {
                 
                 image ?? Container(),
                 
-                image != null ? SizedBox(height: 3) : Container(),
+                image != null ? const SizedBox(height: 3) : Container(),
                 MyText(
                   text: contents,
                   fontSize: titlesFontSize,

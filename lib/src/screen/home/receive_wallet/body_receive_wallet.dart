@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/screen/home/receive_wallet/appbar_wallet.dart';
 
 class ReceiveWalletBody extends StatelessWidget {
   
@@ -10,7 +9,7 @@ class ReceiveWalletBody extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
-  final double? logoSize = 12;
+  final double? logoSize = 12.w;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +73,7 @@ class ReceiveWalletBody extends StatelessWidget {
                           
                           Container(
                             margin: EdgeInsets.only(
-                              bottom: 2.5,
+                              bottom: 2.5.h,
                               left: paddingSize,
                               right: paddingSize,
                               top: 16.0
@@ -125,7 +124,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                           hexaColor: AppColors.textColor,
                                           text: conProvider.sortListContract[provider.assetsIndex].symbol,
-                                          bottom: 2.5,
+                                          bottom: 2.5.h,
                                         ),
                                   
                                         // Qr View
@@ -136,7 +135,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                         ),
                                   
                                         MyText(
-                                          top: 2.5,
+                                          top: 2.5.h,
                                           text: provider.accountM!.address ?? '',
                                           hexaColor: AppColors.darkBgd,
                                           fontSize: 16,
@@ -146,6 +145,33 @@ class ReceiveWalletBody extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+        
+                                // if (assetIndex == null) Consumer<ReceiveWalletProvider>(
+                                //   builder: (context, value, widget){
+                                //     return QrViewTitle(
+                                //       // assetInfo: provider.assetInfo,
+                                //       listContract: value.lsContractSymbol,
+                                //       initialValue: provider.initialValue.toString(),
+                                //       onChanged: onChanged,
+                                //     );
+                                //   },
+                                // ) else SizedBox(height: 2.h,),
+              
+                                // MyText(
+                                //   bottom: 2.5.h,
+                                //   text: "Scan the QR code to pay me",
+                                //   fontSize: 16,
+                                //   color: AppColors.darkBgd
+                                // ),
+              
+                                // Padding(
+                                //   padding: EdgeInsets.only(top: 16, bottom: 16),
+                                //   child: TextShimmer(
+                                //     width: 300,
+                                //     txt: wallet,
+                                //     highlightColor: Colors.white,
+                                //   )
+                                // ),
         
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: paddingSize + 10),

@@ -288,24 +288,34 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         
       }
       else{
+        if(!mounted) return;
         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }
-      }
+      
     }
     return res;
   }
 
+  Future<void> unVerifySeed(){
+    return Navigator.push(
+      context, 
+      Transition(
+        child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return VerifyPassphraseBody(
       createKeyModel: widget.createKeyModel,
       submit: verifySeeds,
+      submitUnverify: unVerifySeed,
       onTap: onTap,
       remove3Seeds: remove3Seeds
     );

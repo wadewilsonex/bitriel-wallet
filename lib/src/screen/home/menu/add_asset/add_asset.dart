@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:lottie/lottie.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 
@@ -31,14 +32,97 @@ class AddAssetState extends State<AddAsset> {
     {"symbol":"Ethereum", "index": 1, "logo": "assets/token_logo/eth.png"}
   ];
 
+  List searchResults = [];
+
+  List<Map<String, dynamic>>? getContractData = [];
+  List<Map<String, dynamic>>? initContractData = [];
+  String queryContractAddress = '';
+
+  void onChangedQuery(dynamic v) { 
+    setState(() {
+      queryContractAddress = v;
+      setResults(queryContractAddress);
+    });
+  }
+
+  void setResults(String query) {
+    searchResults = getContractData!
+      .where((elem) =>
+          elem['symbol']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()) ||
+          elem['name']
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase()) ||
+          elem['platforms']["binance_smart_chain"]
+          .toString()
+          .toLowerCase()
+          .contains(query.toLowerCase()) || 
+          elem['platforms']["ethereum"]
+          .toString()
+          .toLowerCase()
+          .contains(query.toLowerCase()))
+      .toList();
+  }
+
+  void onTapGetContractData(int index) {
+    setState(() {
+      _modelAsset.controllerAssetCode.text = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      queryContractAddress = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      setResults(queryContractAddress);
+    });
+  }
+
+  void onTapGetResult(int index) {
+    setState(() {
+      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
+      queryContractAddress = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
+      setResults(queryContractAddress);
+    });
+  }
+  
   @override
   void initState() {
+    getContractAddress().then((value) => {
+      initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
+    }).then((value) => {
+      filterByChain(),
+    });
+
     _modelAsset.result = {};
     _modelAsset.match = false;
     initialValue = widget.network;
+    
     AppServices.noInternetConnection(context: context);
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void filterByChain() {
+
+    if(initialValue == 0) {
+      getContractData = initContractData!.where( (element) {
+        if (element['platforms'].containsKey('binance_smart_chain')) return true;
+        return false;
+      }).toList();
+    }
+    else if(initialValue == 1){
+      getContractData = initContractData!.where( (element) {
+        if (element['platforms'].containsKey('ethereum')) return true;
+        return false;
+      }).toList();
+    }
+
+    setState(() {
+      
+    });
   }
 
   Future<bool> validateEtherAddress(String address) async {
@@ -47,11 +131,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateEther(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateEtherAddress $e");
         }
-      }
+      
     }
     return false;
   }
@@ -62,11 +146,11 @@ class AddAssetState extends State<AddAsset> {
       final res = await Provider.of<ApiProvider>(context, listen: false).validateAddress(address);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error validateAddress $e");
         }
-      }
+      
     }
     return false;
   }
@@ -100,8 +184,6 @@ class AddAssetState extends State<AddAsset> {
     FocusScope.of(context).unfocus();
     
     try {
-
-      dialogLoading(context);
 
       final lsContract = Provider.of<ContractProvider>(context, listen: false).sortListContract;
       for (var element in lsContract) {
@@ -159,11 +241,11 @@ class AddAssetState extends State<AddAsset> {
 
       // Close Dialog Loading
       Navigator.pop(context);
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error addAsset $e");
         }
-      }
+      
 
       DialogComponents().dialogCustom(
         context: context,
@@ -175,6 +257,8 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> submitAsset() async {
     try {
+
+      dialogLoading(context);
     
       setState(() {
         _tokenSymbol = "";
@@ -218,6 +302,8 @@ class AddAssetState extends State<AddAsset> {
           
           _modelAsset.loading = false;
         });
+
+        await addAsset();
         
       } else {
         if(!mounted) return;
@@ -240,11 +326,11 @@ class AddAssetState extends State<AddAsset> {
         contents: "$e",
       );
 
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error submitAsset $e");
         }
-      }
+      
     }
   }
 
@@ -258,11 +344,11 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
+      
         if (kDebugMode) {
           print("Error searchEtherContract $e");
         }
-      }
+      
       throw Exception(e);
     }
   }
@@ -282,9 +368,8 @@ class AddAssetState extends State<AddAsset> {
   }
 
   void onChangeNetwork(String network) {
-    setState(() {
-      initialValue = int.parse(network);
-    });
+    initialValue = int.parse(network);
+    filterByChain();
   }
 
   void qrRes(String value) {
@@ -325,7 +410,6 @@ class AddAssetState extends State<AddAsset> {
         ),
         elevation: 0,
         bottomOpacity: 0,
-        leadingWidth: 7,
         title: MyText(
           text: "Add Custom Token",
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
@@ -357,6 +441,13 @@ class AddAssetState extends State<AddAsset> {
             onSubmit: onSubmit,
             networkSymbol: networkSymbol,
             submitAsset: submitAsset,
+            onChangedQuery: onChangedQuery,
+            setResults: setResults,
+            onTapGetResult: onTapGetResult,
+            onTapGetContractData: onTapGetContractData,
+            getContractData: getContractData,
+            queryContractAddress: queryContractAddress,
+            searchResultsData: searchResults
           ),
           (_modelAsset.added == false)
           ? Container()
@@ -377,7 +468,7 @@ class AddAssetState extends State<AddAsset> {
                       child: Lottie.asset(
                         "assets/animation/check.json",
                         alignment: Alignment.center,
-                        width: 60,
+                        width: 60.w,
                       )
                     ),
                   ],

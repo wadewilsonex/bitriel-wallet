@@ -51,17 +51,18 @@ class WalletConnectBody extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
 
-                  SizedBox(height: 2.5),
+                  SizedBox(height: 2.5.h),
 
                   InkWell(
                     onTap: () async{
                       WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
 
-                      String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner()));
+                      String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: true)));
                         
                       if (value != null){
                         wConnectC.qrScanHandler(value);
                       }
+                      
                     },
                     child: Container(
                       padding: const EdgeInsets.all(paddingSize),
@@ -76,7 +77,7 @@ class WalletConnectBody extends StatelessWidget {
 
                           const Icon(Iconsax.scan_barcode, color: Colors.white),
 
-                          SizedBox(width: 2,),
+                          SizedBox(width: 2.w,),
 
                           const MyText(text: "Connect", hexaColor: AppColors.whiteColorHexa,)
 
@@ -85,11 +86,11 @@ class WalletConnectBody extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 2,),
+                  SizedBox(height: 2.h,),
 
                   const MyText(text: "Active connections", hexaColor: AppColors.textColor, fontSize: 17, fontWeight: FontWeight.w700,),
 
-                  SizedBox(height: 2,),
+                  SizedBox(height: 2.h,),
                   
                   Consumer<WalletConnectComponent>(
                     builder: (context, provider, widget) {
@@ -120,7 +121,7 @@ class WalletConnectBody extends StatelessWidget {
                             Lottie.asset(
                               "assets/animation/no-results.json",
                               repeat: false,
-                              height: 30,
+                              height: 30.h,
                             ),
 
                             MyText(

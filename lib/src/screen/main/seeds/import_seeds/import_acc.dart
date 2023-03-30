@@ -96,6 +96,7 @@ class ImportAccState extends State<ImportAcc> {
           Navigator.pop(context);
 
           Navigator.pop(context, value);
+
         });
       } else {
 
@@ -145,11 +146,9 @@ class ImportAccState extends State<ImportAcc> {
       enable = await _apiProvider!.validateMnemonic(_importAccModel.key!.text)!;
       setState(() { });
     } catch (e) {
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }
-      }
     }
   }
 

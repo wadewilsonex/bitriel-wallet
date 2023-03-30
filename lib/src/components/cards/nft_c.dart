@@ -1,7 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/nfts/ticket_nft_m.dart';
-import 'package:wallet_apps/src/screen/home/nft/details_ticket/details_ticket.dart';
 
 class NFTCardComponent extends StatelessWidget{
 
@@ -18,10 +17,10 @@ class NFTCardComponent extends StatelessWidget{
     return InkWell(
       onTap: (){
 
-        Navigator.push(
-          context, 
-          Transition(child: DetailsTicketing(ticketNFTModel: ticketNFTModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-        );
+        // Navigator.push(
+        //   context, 
+        //   Transition(child: DetailsTicketing(ticketNFTModel: ticketNFTModel,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+        // );
 
       },
       child: Container(

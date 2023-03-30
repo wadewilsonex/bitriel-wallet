@@ -68,7 +68,7 @@ class AppState extends State<App> {
     // readTheme();
 
     getEventJSON().then((value) {
-      print("getEventJSON value ${(json.decode(value.body))[0]['type']}");
+      debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
     });
 
     // Query Selendra Endpoint
@@ -157,11 +157,9 @@ class AppState extends State<App> {
         await Provider.of<ThemeProvider>(context, listen: false).changeMode();
       }
     } catch (e){
-      if (ApiProvider().isDebug == true) {
         if (kDebugMode) {
           print("Error readTheme $e");
         }
-      }
     }
   }
 

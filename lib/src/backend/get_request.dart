@@ -7,12 +7,16 @@ Future<http.Response> getSelendraEndpoint() async {
   return await http.get(Uri.parse(dotenv.get('SELENDRA_API_BITRIEL')));
 }
 
+Future<http.Response> getContractAddress() async {
+  return await http.get(Uri.parse(dotenv.get('SELENDRA_API_CONTRACT_ADDRESS')));
+}
+
 Future<http.Response> getDeepLinkRoutes() async {
   return await http.get(Uri.parse(dotenv.get('SELENDRA_API_DEEPLINK')));
 }
 
 Future<http.Response> getEventJSON() async {
-  print("getEventJSON");
+  debugPrint("getEventJSON");
   return await http.get(Uri.parse(dotenv.get('EVENT')));
 }
 
@@ -23,23 +27,19 @@ Future<http.Response> getAllEvent() async {
 }
 
 Future<http.Response> getTickets(String tk) async {
-  
   // String js = await rootBundle.loadString('assets/json/tickets.json');
   // print(js);
   // return http.Response(js, 200);
 
   return await http.get(
-    // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
-    Uri.parse("${dotenv.get('DOERS_API')}tickets"),
-    headers: conceteHeader(key: "Authorization", value: tk)
-  );
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}tickets"),
+      headers: conceteHeader(key: "Authorization", value: tk));
 }
 
 Future<http.Response> queryEventById(String evntId) async {
-
   return await http.get(
-    // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
-    Uri.parse("${dotenv.get('DOERS_API')}events/$evntId"),
-    headers: conceteHeader()
-  );
+      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+      Uri.parse("${dotenv.get('DOERS_API')}events/$evntId"),
+      headers: conceteHeader());
 }

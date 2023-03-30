@@ -96,7 +96,7 @@ class AssetDetailState extends State<AssetDetail> {
               ),
             ),
 
-            SizedBox(height: 2),
+            SizedBox(height: 2.h),
             
             widget.scModel.marketData == null
             ? FadeInUp(
@@ -201,7 +201,7 @@ class AssetDetailState extends State<AssetDetail> {
           ],
         ),
 
-        SizedBox(height: 2,),
+        SizedBox(height: 2.h,),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -241,11 +241,11 @@ class AssetDetailState extends State<AssetDetail> {
           ],
         ),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
         line(),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
         const MyText(
           text: 'Description',
@@ -253,7 +253,7 @@ class AssetDetailState extends State<AssetDetail> {
           textAlign: TextAlign.left,
         ),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
 
         MyText(
@@ -268,9 +268,9 @@ class AssetDetailState extends State<AssetDetail> {
       return SizedBox(
       height: 60.sp,
       child: OverflowBox(
-        minHeight: 60,
-        maxHeight: 60,
-        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60, height: 60, repeat: false),
+        minHeight: 60.h,
+        maxHeight: 60.h,
+        child: Lottie.asset("${AppConfig.animationPath}no-data.json", width: 60.w, height: 60.w, repeat: false),
       )
     );
     }
@@ -319,7 +319,7 @@ class AssetDetailState extends State<AssetDetail> {
           ],
         ),
 
-        SizedBox(height: 2,),
+        SizedBox(height: 2.h,),
 
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -359,11 +359,11 @@ class AssetDetailState extends State<AssetDetail> {
           ],
         ),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
         line(),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
         const MyText(
           text: 'Description',
@@ -371,7 +371,7 @@ class AssetDetailState extends State<AssetDetail> {
           textAlign: TextAlign.left,
         ),
 
-        SizedBox(height: 1.5),
+        SizedBox(height: 1.5.h),
 
         widget.scModel.marketData!.description == null ?
         MyText(
