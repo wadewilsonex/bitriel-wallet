@@ -158,10 +158,10 @@ class SecurityPrivacy extends StatelessWidget {
           trailing: Switch(
             activeColor: hexaCodeToColor(AppColors.primaryColor),
             value: model!.switchBio,
-            onChanged: (value) {
+            onChanged: (value) async {
+              await switchBio!(context, value);  
               setStateWidget(() {
-                model!.switchBio = value;
-                switchBio!(context, value);      
+                value;
               });
             },
           ),
