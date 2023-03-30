@@ -33,15 +33,15 @@ Widget buildListBody(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         /* Asset Icons */
-                        Container(
-                          margin: const EdgeInsets.only(right: 9.5),
-                          width: 31.0,
-                          height: 31.0,
-                          child: CircleAvatar(
-                              backgroundImage: AssetImage(
-                            AppConfig.logoTrxActivity,
-                          )),
-                        ),
+                        // Container(
+                        //   margin: const EdgeInsets.only(right: 9.5),
+                        //   width: 31.0,
+                        //   height: 31.0,
+                        //   child: CircleAvatar(
+                        //       backgroundImage: AssetImage(
+                        //     AppConfig.logoTrxActivity,
+                        //   )),
+                        // ),
                         Expanded(
                           flex: 2,
                           child: Column(

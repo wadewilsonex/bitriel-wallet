@@ -54,9 +54,14 @@ class ApiProvider with ChangeNotifier {
     try {
 
       sldNetworkList = [
-        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0'),
-        S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1')
+        json[ isMainnet ? 'mainnet' : 'testnet' ][0],
+        json[ isMainnet ? 'mainnet' : 'testnet' ][1]
       ];
+
+      // sldNetworkList = [
+      //   S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][0], title: 'SELENDRA RPC 0', subtitle: json[ isMainnet ? 'mainnet' : 'testnet' ][0]),
+      //   S2Choice(value: json[ isMainnet ? 'mainnet' : 'testnet' ][1], title: 'SELENDRA RPC 1', subtitle: json[ isMainnet ? 'mainnet' : 'testnet' ][0]Z)
+      // ];
       
       AppConfig.networkList[0].wsUrlMN = json['mainnet'][0];
 
@@ -308,7 +313,9 @@ class ApiProvider with ChangeNotifier {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));
 
-      return jsonDecode(res.body);
+      print("res.body ${res.body}");
+
+      return json.decode(res.body);
     } catch (e){
       
         if (kDebugMode) {

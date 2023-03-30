@@ -54,7 +54,7 @@ PreferredSizeWidget defaultAppBar({
                   height: 45,
                   width: 45,
                   txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
-                  child: randomAvatar(provider.getKeyring.current.icon ?? ''),
+                  child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
                 ),
               )
             ),
@@ -128,7 +128,7 @@ PreferredSizeWidget defaultAppBar({
                     //   getReward!(value);
                     // }
 
-                    filterListWcSession(context);
+                    await filterListWcSession(context);
                     
                     await TrxOptionMethod.scanQR(
                       context,
@@ -145,16 +145,17 @@ PreferredSizeWidget defaultAppBar({
   );
 }
 
-void filterListWcSession(BuildContext context) async {
+Future<void> filterListWcSession(BuildContext context) async {
 
-    WalletConnectComponent? wConnectC;
+  WalletConnectComponent? wConnectC;
 
-    wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
-    wConnectC.setBuildContext = context;
-    await StorageServices.fetchData("session").then((value) {
+  wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+  wConnectC.setBuildContext = context;
+  await StorageServices.fetchData("session").then((value) {
       
       wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
-    });
+    }
+  );
     
 }
 
@@ -221,7 +222,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
-                                  ? Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
+                                  ? const Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
                                   : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
                                 ),
                               )

@@ -1,4 +1,6 @@
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/setting/body_setting.dart';
+import 'package:wallet_apps/src/service/authen_s.dart';
 
 import '../../../../../index.dart';
 
@@ -11,9 +13,9 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
 
-  // final MenuModel _menuModel = MenuModel();
+  final MenuModel _menuModel = MenuModel();
 
-  // final LocalAuthentication _localAuth = LocalAuthentication();
+  final LocalAuthentication _localAuth = LocalAuthentication();
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -39,55 +41,55 @@ class _SettingPageState extends State<SettingPage> {
   //   }
   // }
 
-  // Future<void> checkAvailableBio() async {
-  //   await StorageServices.fetchData(DbKey.biometric).then(
-  //     (value) {
-  //       if (value != null) {
-  //         if (value['bio'] == true) {
-  //           setState(() {
-  //             _menuModel.switchBio = value['bio'] as bool;
-  //           });
-  //         }
-  //       }
-  //     },
-  //   );
-  // }
+  Future<void> checkAvailableBio() async {
+    await StorageServices.fetchData(DbKey.biometric).then(
+      (value) {
+        if (value != null) {
+          if (value['bio'] == true) {
+            setState(() {
+              _menuModel.switchBio = value['bio'] as bool;
+            });
+          }
+        }
+      },
+    );
+  }
 
-  // Future<void> readBio() async {
-  //   await StorageServices.readSaveBio().then((value) {
-  //     setState(() {
-  //       _menuModel.switchBio = value;
-  //     });
-  //   });
-  // }
+  Future<void> readBio() async {
+    await StorageServices.readSaveBio().then((value) {
+      setState(() {
+        _menuModel.switchBio = value;
+      });
+    });
+  }
 
-  // Future<void> switchBiometric(BuildContext context, bool switchValue) async {
+  Future<void> switchBiometric(BuildContext context, bool switchValue) async {
     
-  //   final canCheck = await AppServices().checkBiometrics(context);
-  //   try {
-  //     // Avaible To
-  //     if (canCheck) {
-  //       await BioAuth().authenticateBiometric(_localAuth).then((values) async {
+    final canCheck = await AppServices().checkBiometrics(context);
+    try {
+      // Avaible To
+      if (canCheck) {
+        await BioAuth().authenticateBiometric(_localAuth).then((values) async {
           
-  //         _menuModel.authenticated = values;
-  //         if (_menuModel.authenticated!) {
-  //           _menuModel.switchBio = switchValue;
-  //           await StorageServices.saveBio(_menuModel.switchBio);
-  //         } else if (_menuModel.authenticated!) {
-  //           _menuModel.switchBio = switchValue;
-  //           await StorageServices.removeKey(DbKey.bio);
-  //         }
-  //         setState(() { });
-  //       });
-  //     } else {
-  //       if(!mounted) return;
-  //       snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
-  //     }
-  //   } catch (e) {
-  //     if(!mounted) return;
-  //     await customDialog(context, 'Oops', e.toString());
-  //   }
-  // }
+          _menuModel.authenticated = values;
+          if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.saveBio(_menuModel.switchBio);
+          } else if (_menuModel.authenticated!) {
+            _menuModel.switchBio = switchValue;
+            await StorageServices.removeKey(DbKey.bio);
+          }
+          setState(() { });
+        });
+      } else {
+        if(!mounted) return;
+        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+      }
+    } catch (e) {
+      if(!mounted) return;
+      await customDialog(context, 'Oops', e.toString());
+    }
+  }
 
   // void enablePassword(bool value, {String? data}) async {
     
@@ -110,8 +112,8 @@ class _SettingPageState extends State<SettingPage> {
 
     _initPackageInfo();
 
-    // readBio();
-    // checkAvailableBio();
+    readBio();
+    checkAvailableBio();
     // checkPasscode();
 
   }
@@ -124,7 +126,9 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return BodySettingPage(
-      packageInfo: _packageInfo
+      packageInfo: _packageInfo,
+      model: _menuModel,
+      switchBio: switchBiometric,
     );
   }
 }

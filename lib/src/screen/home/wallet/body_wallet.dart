@@ -38,7 +38,7 @@ class WalletPageBody extends StatelessWidget {
               sliver: SliverSafeArea(
                 top: false,
                 sliver: SliverAppBar(
-                  toolbarHeight: 250,
+                  toolbarHeight: 260,
                   pinned: true,
                   floating: true,
                   snap: true,
@@ -106,42 +106,89 @@ class WalletPageBody extends StatelessWidget {
 
   Widget _userWallet(BuildContext context) {
 
-    return Consumer<ApiProvider>(
-      builder: (context, apiProvider, widget){
-
-        return Container(
+    return Column(
+      children: [
+        Container(
+          height: 50,
           decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteColorHexa),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            image: const DecorationImage(
-              image: AssetImage('assets/bg-glass.jpg'),
-              fit: BoxFit.cover
-            ),
+            color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
+            borderRadius: const BorderRadius.all(Radius.circular(16))
           ),
-          width: MediaQuery.of(context).size.width,
-          
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Consumer<ContractProvider>(
-                builder: (context, provider, widget){
-                  return Column(
+          child: Row(
+            children: [
+              Row(
+                children: [
+                  const SizedBox(width: 10,),
+                  Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
+                  const MyText(
+                    pLeft: 10,
+                    text: "Verify your Seed Phrase",
+                    fontWeight: FontWeight.w600,
+                    hexaColor: AppColors.redColor,
+                  ),
+                ],
+              ),
+
+              const Spacer(),
+
+              const TextButton(
+                onPressed: null, 
+                child: MyText(
+                  pLeft: 10,
+                  text: "Verify Now",
+                  fontWeight: FontWeight.w700,
+                  hexaColor: AppColors.primaryColor,
+                ),
+              )
+            ],
+          )
+        ),
+
+        const SizedBox(height: 5,),
+
+        Consumer<ApiProvider>(
+          builder: (context, apiProvider, widget){
+
+            return Container(
+              decoration: BoxDecoration(
+                color: hexaCodeToColor(AppColors.whiteColorHexa),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                image: const DecorationImage(
+                  image: AssetImage('assets/bg-glass.jpg'),
+                  fit: BoxFit.cover
+                ),
+              ),
+              width: MediaQuery.of(context).size.width,
+              
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Column(
                     children: [
                       
                       SizedBox(height: 2.5.h),
-                      MyText(
-                        text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
-                        hexaColor: AppColors.whiteColorHexa,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22,
+                      
+                      Consumer<ContractProvider>(
+                        builder: (context, provider, widget){
+                          return MyText(
+                            text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 22,
+                          );
+                        }
                       ),
                       
-                      MyText(
-                        // (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0'))
-                        text: provider.listContract.isEmpty ? '' : """≈ ${ AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)) } BTC""",
-                        hexaColor: AppColors.whiteColorHexa,
-                        fontSize: 18,
+                      // SizedBox(height: 0.5.h),
+                      Consumer<ContractProvider>(
+                        builder: (context, provider, widget){
+                          return MyText(
+                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontSize: 18,
+                          );
+                        }
                       ),
                           
                       SizedBox(height: 2.5.h),
@@ -150,13 +197,13 @@ class WalletPageBody extends StatelessWidget {
                         child: _operationRequest(context),
                       ),
                     ],
-                  );
-                }
+                  ),
+                ),
               ),
-            ),
-          ),
-        );
-      } 
+            );
+          } 
+        ),
+      ],
     );
   }
 
@@ -387,46 +434,6 @@ class WalletPageBody extends StatelessWidget {
         
             GestureDetector(
               onTap: (){
-                // showModalBottomSheet(
-                //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                //   shape: const RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.vertical( 
-                //       top: Radius.circular(25.0),
-                //     ),
-                //   ),
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return Column(
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             IconButton(
-                //               onPressed: (){
-                //                 Navigator.push(
-                //                   context, 
-                //                   MaterialPageRoute(builder: (context) => const AddAsset())
-                //                 );
-                //               }, 
-                //               icon: const Icon(Iconsax.add_circle, color: Colors.black, size: 25,)
-                //             ),
-                
-                //             const MyText(text: "Tokens", fontWeight: FontWeight.bold, fontSize: 20, color2: Colors.black),
-                            
-                //             TextButton(
-                //               child: const MyText(text: "Done", fontWeight: FontWeight.w600, fontSize: 20,),
-                //               onPressed: () {
-                //                 Navigator.pop(context);
-                //               },
-                //             )
-                //           ],
-                //         ),
-                        
-                //         _searchToken(context, searchController!),
-                //       ],
-                //     );
-                //   }
-                // );
                 Navigator.push(
                   context, 
                   MaterialPageRoute(builder: (context) => const AddAsset())
@@ -444,47 +451,6 @@ class WalletPageBody extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _searchToken(BuildContext context, TextEditingController controller){
-    
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-  //     child: TextFormField(
-  //       controller: controller,
-  //       style: TextStyle(
-  //         fontSize: 20,
-  //         color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,),
-  //       ),
-  //       decoration: InputDecoration(
-  //         border: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         enabledBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.circular(8.0),
-  //           borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
-  //         ),
-  //         hintText: "Search token name",
-  //         hintStyle: TextStyle(
-  //           fontSize: 20,
-  //           color: hexaCodeToColor("#AAAAAA"),
-  //         ),
-  //         prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 20.0),
-  //         /* Prefix Text */
-  //         filled: true,
-  //         fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
-  //         suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
-  //       ),
-  //       onChanged: (String value){
-
-  //       },
-  //     ),
-  //   );
-  // }
 
   Widget _nftAndTicket(BuildContext context) {
     return Column(

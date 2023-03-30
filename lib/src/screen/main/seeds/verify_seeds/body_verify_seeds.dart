@@ -6,6 +6,7 @@ class VerifyPassphraseBody extends StatelessWidget {
 
   final CreateKeyModel? createKeyModel;
   final Function? submit;
+  final Function? submitUnverify;
   final Function? onTap;
   final Function? remove3Seeds;
 
@@ -14,6 +15,7 @@ class VerifyPassphraseBody extends StatelessWidget {
     this.createKeyModel,
     this.submit,
     this.onTap,
+    this.submitUnverify,
     this.remove3Seeds
   }) : super(key: key);
 
@@ -84,7 +86,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   ),
                 ),
   
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 // Display Refresh Button When User Fill Out All
                 if (createKeyModel!.tmpThreeNum!.isEmpty)
                 Align(
@@ -112,6 +114,19 @@ class VerifyPassphraseBody extends StatelessWidget {
                 ),
   
                 Flexible(child: Container()),
+                MyFlatButton(
+                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  isTransparent: true,
+                  buttonColor: AppColors.whiteHexaColor,
+                  textColor: AppColors.primaryColor,
+                  textButton: "Verify Later",
+                  action: () {
+                    seedVerifyLaterDialog(context, submitUnverify);
+                  },
+                ),
+
+                const SizedBox(height: 10,),
+
                 MyGradientButton(
                   textButton: "Continue",
                   begin: Alignment.bottomLeft,
