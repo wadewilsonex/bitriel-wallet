@@ -8,6 +8,7 @@ class CreateKeyModel {
   List<String> missingSeeds = [];
   List<String>? threeNum = [];
   List<String>? tmpThreeNum = [];
+  List<SeedStore> seedList = [];
 
   void emptyData(){
     initial = false;
@@ -19,4 +20,21 @@ class CreateKeyModel {
     threeNum = [];
     tmpThreeNum = [];
   }
+
+  List<SeedStore> fromJsonDb(List<Map<String, dynamic>> lst) {
+    return lst.map((e) => SeedStore(seed: e['seed'], status: e['status'])).toList();
+  } 
+
+  List<Map<String, dynamic>> seedListToJson(){
+    return seedList.map((e) => {"seed": e.seed, "status": e.status}).toList();
+  }
+}
+
+class SeedStore {
+
+  String? seed;
+  bool? status;
+
+  SeedStore({this.seed, this.status});
+
 }

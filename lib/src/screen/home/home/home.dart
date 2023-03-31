@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -51,6 +52,11 @@ class _HomePageState extends State<HomePage> {
         _model.adsCarouselActiveIndex = index;
       });
     };
+
+    StorageServices().readSecure(DbKey.privateList)!.then((value) => {
+      print("initState read list secure $value"),
+    });
+    
     
     AppServices.noInternetConnection(context: context);
     

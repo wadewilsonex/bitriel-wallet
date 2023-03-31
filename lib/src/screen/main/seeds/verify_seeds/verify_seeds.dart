@@ -300,14 +300,36 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     return res;
   }
 
-  Future<void> unVerifySeed(){
-    return Navigator.push(
-      context, 
-      Transition(
-        child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-      )
-    );
+  Future<void> unVerifySeed() async {
+
+    dialogLoading(context);
+
+    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+      /// From Multi Account
+      if(value.isNotEmpty){
+        widget.createKeyModel!.seedList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+      }
+
+      /// From Welcome, Or From Multi Account
+      widget.createKeyModel!.seedList.add(SeedStore(seed: widget.createKeyModel!.seed, status: false));
+
+      await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.seedListToJson()));
+
+    });
+    
+    await addNewAcc().then((value) async {
+      if (value == true){
+
+        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+        
+        Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+        
+      } else {
+        await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
+      }
+    });
+
   }
 
   @override

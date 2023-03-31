@@ -10,7 +10,7 @@ class CreateSeeds extends StatefulWidget {
   final NewAccount? newAcc;
   final String? passCode;
 
-  CreateSeeds({Key? key, @required this.newAcc, @required this.passCode}): super(key: key);
+  const CreateSeeds({Key? key, @required this.newAcc, @required this.passCode}): super(key: key);
 
   @override
   CreateWalletPagetScreenState createState() => CreateWalletPagetScreenState();
