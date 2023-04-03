@@ -152,26 +152,38 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   }
 
   /// Return Boolean Value
-  Future<bool> addNewAcc() async {
+  Future<bool> addNewAcc({required bool status}) async {
     print("addNewAcc");
     try {
 
-      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        key: widget.createKeyModel!.lsSeeds!.join(" "),
-        name: 'User', 
-        password: widget.createKeyModel!.passCode
-      );
+      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+        if(value.isNotEmpty){
+          widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+        }
 
-      print("jsn $jsn");
+        final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
+          _apiProvider!.getKeyring, 
+          keyType: KeyType.mnemonic, 
+          key: widget.createKeyModel!.lsSeeds!.join(" "),
+          name: 'User', 
+          password: widget.createKeyModel!.passCode
+        );
 
-      await _apiProvider!.getSdk.api.keyring.addAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        acc: jsn!,
-        password: widget.createKeyModel!.passCode
-      );
+        widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: status));
+
+        await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+        
+        print("jsn $jsn");
+
+        await _apiProvider!.getSdk.api.keyring.addAccount(
+          _apiProvider!.getKeyring, 
+          keyType: KeyType.mnemonic, 
+          acc: jsn,
+          password: widget.createKeyModel!.passCode
+        );
+
+      });
+      
 
       print("added");
       return true;
@@ -254,9 +266,11 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
         if(!mounted) return;
 
+        dialogLoading(context);
+
         if (widget.newAcc != null){
           print("widget.newAcc != null");
-          await addNewAcc().then((value) async {
+          await addNewAcc(status: true).then((value) async {
             if (value == true){
 
               Provider.of<ApiProvider>(context, listen: false).notifyListeners();
@@ -269,6 +283,31 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
           });
         } else {
 
+            await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+            /// From Multi Account
+            if(value.isNotEmpty){
+              widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+            }
+
+
+            final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
+              _apiProvider!.getKeyring, 
+              keyType: KeyType.mnemonic, 
+              key: widget.createKeyModel!.lsSeeds!.join(" "),
+              name: 'User', 
+              password: widget.createKeyModel!.passCode
+            );
+
+            /// From Welcome, Or From Multi Account
+            widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
+
+            await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+
+          });
+
+          if(!mounted) return;
+
           Navigator.push(
             context, 
             Transition(
@@ -277,15 +316,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
             )
           );
         }
-
-        // await Navigator.push(
-        //   context, 
-        //   Transition(
-        //     child: FingerPrint(initStateData: initStateData, importAccountModel: _importAccountModel,),
-        //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        //   )
-        // );
-        
       }
       else{
         if(!mounted) return;
@@ -302,33 +332,60 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   Future<void> unVerifySeed() async {
 
-    dialogLoading(context);
+    if (widget.newAcc != null){
 
-    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+      dialogLoading(context);
+      
+      await addNewAcc(status: false).then((value) async {
 
-      /// From Multi Account
-      if(value.isNotEmpty){
-        widget.createKeyModel!.seedList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-      }
+        if (value == true){
 
-      /// From Welcome, Or From Multi Account
-      widget.createKeyModel!.seedList.add(SeedStore(seed: widget.createKeyModel!.seed, status: false));
+          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+          
+          Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+          
+        } else {
+          await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
+        }
 
-      await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.seedListToJson()));
-
-    });
-    
-    await addNewAcc().then((value) async {
-      if (value == true){
-
-        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+      });
+    } else {
+      
+      dialogLoading(context);
         
-        Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
-        
-      } else {
-        await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
-      }
-    });
+      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+        /// From Multi Account
+        if(value.isNotEmpty){
+          widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+        }
+
+
+        final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
+          _apiProvider!.getKeyring, 
+          keyType: KeyType.mnemonic, 
+          key: widget.createKeyModel!.lsSeeds!.join(" "),
+          name: 'User', 
+          password: widget.createKeyModel!.passCode
+        );
+
+        /// From Welcome, Or From Multi Account
+        widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: false));
+
+        await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+
+      });
+
+      if(!mounted) return;
+      
+      Navigator.push(
+        context, 
+        Transition(
+          child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+          transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+        )
+      );
+    }
 
   }
 

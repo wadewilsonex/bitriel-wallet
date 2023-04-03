@@ -53,9 +53,7 @@ class _HomePageState extends State<HomePage> {
       });
     };
 
-    StorageServices().readSecure(DbKey.privateList)!.then((value) => {
-      print("initState read list secure $value"),
-    });
+    StorageServices().readSecure(DbKey.privateList)!;
     
     
     AppServices.noInternetConnection(context: context);

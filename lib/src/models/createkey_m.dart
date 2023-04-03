@@ -8,7 +8,7 @@ class CreateKeyModel {
   List<String> missingSeeds = [];
   List<String>? threeNum = [];
   List<String>? tmpThreeNum = [];
-  List<SeedStore> seedList = [];
+  List<UnverifySeed> unverifyList = [];
 
   void emptyData(){
     initial = false;
@@ -21,20 +21,20 @@ class CreateKeyModel {
     tmpThreeNum = [];
   }
 
-  List<SeedStore> fromJsonDb(List<Map<String, dynamic>> lst) {
-    return lst.map((e) => SeedStore(seed: e['seed'], status: e['status'])).toList();
+  List<UnverifySeed> fromJsonDb(List<Map<String, dynamic>> lst) {
+    return lst.map((e) => UnverifySeed(address: e['address'], status: e['status'])).toList();
   } 
 
-  List<Map<String, dynamic>> seedListToJson(){
-    return seedList.map((e) => {"seed": e.seed, "status": e.status}).toList();
+  List<Map<String, dynamic>> unverifyListToJson(){
+    return unverifyList.map((e) => {"address": e.address, "status": e.status}).toList();
   }
 }
 
-class SeedStore {
+class UnverifySeed {
 
-  String? seed;
+  String? address;
   bool? status;
 
-  SeedStore({this.seed, this.status});
+  UnverifySeed({this.address, this.status});
 
 }
