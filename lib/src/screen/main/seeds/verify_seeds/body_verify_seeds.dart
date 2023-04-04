@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 
 class VerifyPassphraseBody extends StatelessWidget {
 
@@ -24,6 +25,17 @@ class VerifyPassphraseBody extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -114,15 +126,21 @@ class VerifyPassphraseBody extends StatelessWidget {
                 ),
   
                 Flexible(child: Container()),
-                MyFlatButton(
-                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                  isTransparent: true,
-                  buttonColor: AppColors.whiteHexaColor,
-                  textColor: AppColors.primaryColor,
-                  textButton: "Verify Later",
-                  action: () {
-                    seedVerifyLaterDialog(context, submitUnverify);
-                  },
+                
+                Consumer<VerifySeedsProvider>(
+                  builder: (context, pro, wg){
+                    return pro.isVerifying == false ? MyFlatButton(
+                      edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                      isTransparent: true,
+                      buttonColor: AppColors.whiteHexaColor,
+                      textColor: AppColors.primaryColor,
+                      textButton: "Verify Later",
+                      action: () {
+                        seedVerifyLaterDialog(context, submitUnverify);
+                      },
+                    ) 
+                    : Container();
+                  }
                 ),
 
                 const SizedBox(height: 10,),

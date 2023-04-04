@@ -1,4 +1,5 @@
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/setting/body_setting.dart';
 import 'package:wallet_apps/src/service/authen_s.dart';
 
@@ -106,6 +107,8 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void initState() {
+    // Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = false;
+    
     super.initState();
     
     // _menuModel.globalKey = GlobalKey<ScaffoldState>();

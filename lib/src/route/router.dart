@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -34,6 +35,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     // case AppString.inviteFriendView:
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;
+    case AppString.homeView:
+      return RouteAnimation(enterPage: const HomePage());
     default:
       return RouteAnimation(enterPage: const MySplashScreen());
   }

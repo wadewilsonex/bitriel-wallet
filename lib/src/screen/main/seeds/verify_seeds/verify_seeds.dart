@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/body_verify_seeds.dart';
@@ -153,6 +154,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   /// Return Boolean Value
   Future<bool> addNewAcc({required bool status}) async {
+
     print("addNewAcc");
     try {
 
@@ -269,8 +271,10 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         dialogLoading(context);
 
         if (widget.newAcc != null){
+
           print("widget.newAcc != null");
           await addNewAcc(status: true).then((value) async {
+
             if (value == true){
 
               Provider.of<ApiProvider>(context, listen: false).notifyListeners();
@@ -281,47 +285,99 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
             }
           });
+
         } else {
+
+          print("Provider.of<VerifySeedsProvider>(context).isVerifying == true ${Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true}");
+
+          if (Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true){
+
+            
 
             await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
 
-            /// From Multi Account
-            if(value.isNotEmpty){
-              widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-            }
+              /// From Multi Account
+              if(value.isNotEmpty){
+                widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+              }
+              
+              List<UnverifySeed> tmp = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
 
+              List<UnverifySeed> obj = tmp.where((element) {
+                if (element.address == api.getKeyring.current.address) return true; 
+                return false;
+              }).toList();
 
-            final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-              _apiProvider!.getKeyring, 
-              keyType: KeyType.mnemonic, 
-              key: widget.createKeyModel!.lsSeeds!.join(" "),
-              name: 'User', 
-              password: widget.createKeyModel!.passCode
+              // print("Obj found ${obj[0].address}");
+              // int indexOfVerifyingSeed = tmp.indexOf(obj[0]);
+
+              /// From Welcome, Or From Multi Account
+              widget.createKeyModel!.unverifyList[tmp.indexOf(obj[0])] = UnverifySeed(address: api.getKeyring.current.address, status: true);
+
+              await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+
+              Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(address: api.getKeyring.current.address, status: true).toMap();
+
+              Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(address: api.getKeyring.current.address, status: true).toMap();
+              
+              Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = false;
+              
+              Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
+
+              print("Finish");
+              
+              Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
+
+            });
+            
+          }
+
+          // For Create New Account From Welcome
+          else {
+
+            await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+              /// From Multi Account
+              if(value.isNotEmpty){
+                widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+              }
+              
+              final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
+                _apiProvider!.getKeyring, 
+                keyType: KeyType.mnemonic, 
+                key: widget.createKeyModel!.lsSeeds!.join(" "),
+                name: 'User', 
+                password: widget.createKeyModel!.passCode
+              );
+
+              /// From Welcome, Or From Multi Account
+              widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
+
+              await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+
+            });
+
+            if(!mounted) return;
+
+            Navigator.push(
+              context, 
+              Transition(
+                child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+              )
             );
 
-            /// From Welcome, Or From Multi Account
-            widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
-
-            await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
-
-          });
-
-          if(!mounted) return;
-
-          Navigator.push(
-            context, 
-            Transition(
-              child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-            )
-          );
+          }
         }
       }
       else{
+
         if(!mounted) return;
         await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
+
       }
     } catch (e) {
+      
         if (kDebugMode) {
           print("Error validateMnemonic $e");
         }

@@ -131,9 +131,9 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
       
       else {
         if(!mounted) return;
-        Navigator.pushAndRemoveUntil(
+        Navigator.pushNamedAndRemoveUntil(
           context, 
-          Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+          AppString.homeView, 
           ModalRoute.withName('/')
         );
       }

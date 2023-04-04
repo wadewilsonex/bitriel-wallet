@@ -37,4 +37,8 @@ class UnverifySeed {
 
   UnverifySeed({this.address, this.status});
 
+  Map<String, dynamic> toMap(){
+    return {"address": address, "status": status};
+  }
+
 }

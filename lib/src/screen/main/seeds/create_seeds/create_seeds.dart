@@ -3,6 +3,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/body_create_key.dart';
 
 class CreateSeeds extends StatefulWidget {
@@ -17,17 +18,27 @@ class CreateSeeds extends StatefulWidget {
 }
 
 class CreateWalletPagetScreenState extends State<CreateSeeds> {
+
+  VerifySeedsProvider? _verify;
   
   final CreateKeyModel _model = CreateKeyModel();
 
   void _generateKey() async {
+
+    if(_verify!.mnemonic == null) {
       _model.seed = await Provider.of<ApiProvider>(context, listen: false).generateMnemonic();
+    }
+    else{
+      _model.seed = _verify!.mnemonic;
+    }
+      
       // Split Seed to list
       _model.lsSeeds = _model.seed!.split(" ");
       setState(() { });
   }
 
   void _showWarning(BuildContext context) {
+    
     showModalBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -119,6 +130,8 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
   void initState() {
     _model.initial = true;
 
+    _verify = Provider.of<VerifySeedsProvider>(context, listen: false);
+
     // Wiget.passCode is from add new account
     if (widget.passCode == null) {
       StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
@@ -134,11 +147,17 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
   }
 
   @override
+  void dispose() {
+    _verify!.mnemonic = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CreateSeedsBody(
       createKeyModel: _model,
       newAcc: widget.newAcc,
-      generateKey: _generateKey,
+      generateKey: _generateKey
     );
   }
 }

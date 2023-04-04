@@ -15,6 +15,7 @@ import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 
 Future<void> main() async {
   
@@ -91,6 +92,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<EventProvider>(
           create: (context) => EventProvider(),
+        ),
+        ChangeNotifierProvider<VerifySeedsProvider>(
+          create: (context) => VerifySeedsProvider(),
         ),
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),

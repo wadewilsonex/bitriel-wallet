@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/wallet/body_wallet.dart';
 
 class WalletPage extends StatefulWidget {
@@ -50,14 +51,10 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
     // To Disable Asset Loading
     contract.setReady();
-  } 
-
-  List? getPrivateList;
+  }
 
   @override
   void initState() {
-
-    getPrivateList = [];
     
     _model.tabController = TabController(initialIndex: 1, length: 4, vsync: this);
     _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
@@ -72,7 +69,15 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
     StorageServices().readSecure(DbKey.privateList)!.then((value) => {
       setState(() {
-        getPrivateList = jsonDecode(value);
+        Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
+
+        // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
+        //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
+        //   return false;
+        // }).toList().isNotEmpty){
+        //   Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true; 
+        // }
+
       })
     });
 
@@ -94,7 +99,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
       child: WalletPageBody(
         homePageModel: widget.homePageModel!,
         model: _model,
-        getPrivateList: getPrivateList,
         // onTapCategories: _onTapCategories,
         // onHorizontalChanged: _onHorizontalChanged,
         // onVerticalUpdate: _onVerticalUpdate,

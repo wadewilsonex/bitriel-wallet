@@ -4,14 +4,16 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
+import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final TextEditingController? searchController;
-  final List? getPrivateList;
   // final Function? onTapCategories;
   // final Function? onHorizontalChanged;
   // final Function? onVerticalUpdate;
@@ -21,7 +23,6 @@ class WalletPageBody extends StatelessWidget {
     this.homePageModel,
     this.model,
     this.searchController,
-    this.getPrivateList,
     // this.onTapCategories,
     // this.onHorizontalChanged,
     // this.onVerticalUpdate
@@ -108,21 +109,26 @@ class WalletPageBody extends StatelessWidget {
   }
 
   Widget _userWallet(BuildContext context) {
-    
+
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
 
     return Column(
       children: [
-        
 
-        Consumer<ApiProvider>(
-          builder: (context, apiProvider, widget) {
+        Consumer<VerifySeedsProvider>(
+          builder: (context, verifyingP, wg) {
+
+            print("verifyingP ${verifyingP.getPrivateList}");
+
+            print("unverifyAcc ${verifyingP.unverifyAcc}");
+            print("verifyingP.unverifyAcc![status] == false ${verifyingP.unverifyAcc!["status"] == false}");
           
-            List<dynamic> getAddressKey = getPrivateList!.where((e) {
-              if (e['address'] == apiProvider.getKeyring.current.address) return true;
+            Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
+              if (e['address'] == api.getKeyring.current.address) return true;
               return false;
-            }).toList(); 
+            }).toList()[0];
 
-            return getAddressKey[0]["status"] == false ? Container(
+            return verifyingP.unverifyAcc!["status"] == false ? Container(
               height: 50,
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
@@ -146,11 +152,62 @@ class WalletPageBody extends StatelessWidget {
                   const Spacer(),
 
                   TextButton(
-                    onPressed: (){
+                    onPressed: () async{
+
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                          // const ImportAcc(
+                          //   isBackBtn: true,
+                          // )
+                        )
+                      ).then((passCodeValue) async {
+                        if (passCodeValue != null){
+                          
+                          await api.getKeyring.store.getDecryptedSeed(api.getKeyring.current.pubKey, passCodeValue).then((getMnemonic) async{
+                            try {
+
+                              if(getMnemonic!.containsKey("seed")){
+
+
+                                // Verifying Account To Get Mnemonic
+                                Provider.of<VerifySeedsProvider>(context, listen: false).mnemonic = getMnemonic["seed"];
+                                Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true;
+
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CreateSeeds(passCode: passCodeValue,)
+                                    // const ImportAcc(
+                                    //   isBackBtn: true,
+                                    // )
+                                  )
+                                ).then((value) {
+                                  print("verifyingSeed $value");
+                                  if (value != null && value == true){
+                                    
+                                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                    Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                                  }
+                                });
+                              }
+                              else{
+                                throw Exception("wrong mnemonic");
+                                
+                              }
+                              
+                            } catch (e) {
+                              print("error mnemonic $e");
+                            }
+
+                          });
+
+                        }
+                      });
                       
                     }, 
                     child: const MyText(
-                      pLeft: 10,
                       text: "Verify Now",
                       fontWeight: FontWeight.w700,
                       hexaColor: AppColors.primaryColor,

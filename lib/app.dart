@@ -188,10 +188,11 @@ class AppState extends State<App> {
                     theme: AppStyle.myTheme(context),
                     onGenerateRoute: router.generateRoute,
                     routes: {
-                      HomePage.route: (_) => GoogleAuthService().handleAuthState(),
+                      // HomePage.route: (_) => GoogleAuthService().handleAuthState(),
                       AppString.accountView: (_) => Account(
                         argument: ModalRoute.of(context)?.settings.arguments,
                       ),
+                      AppString.homeView: (_) => const HomePage()
                     },
                     initialRoute: AppString.splashScreenView,
                     builder: (context, child) => ResponsiveWrapper.builder(

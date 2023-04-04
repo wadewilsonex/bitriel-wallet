@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
+    print("initState");
+
 
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
@@ -65,6 +67,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose(){
     // _videoController!.dispose();
+    print("Why");
     super.dispose();
   }
 

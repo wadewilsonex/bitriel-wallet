@@ -10,14 +10,26 @@ class CreateSeedsBody extends StatelessWidget {
   final CreateKeyModel? createKeyModel;
   final NewAccount? newAcc;
   final Function() generateKey;
+  final String? oldMnemonic;
 
-  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey, @required this.newAcc}) : super(key: key);
+  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey, @required this.newAcc, this.oldMnemonic}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -72,9 +84,9 @@ class CreateSeedsBody extends StatelessWidget {
 
                 SizedBox(height: 3.h),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
+                    oldMnemonic == null ? Align(
                       alignment: Alignment.center,
                       child: InkWell(
                         child: Padding(
@@ -86,7 +98,7 @@ class CreateSeedsBody extends StatelessWidget {
                               Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
                               const SizedBox(width: 9),
                               const MyText(
-                                text: "Generate seed",
+                                text: "Change Seed",
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,  
                               ),
@@ -95,7 +107,7 @@ class CreateSeedsBody extends StatelessWidget {
                         ),
                         onTap: () => generateKey()
                       ),
-                    ),
+                    ) : Container(),
 
                     Align(
                       alignment: Alignment.center,
