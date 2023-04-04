@@ -149,6 +149,9 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
   @override
   void dispose() {
     _verify!.mnemonic = null;
+
+    _verify!.isVerifying = false;
+
     super.dispose();
   }
 

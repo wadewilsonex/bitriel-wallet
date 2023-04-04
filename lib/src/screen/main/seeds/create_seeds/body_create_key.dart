@@ -2,6 +2,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/verify_seeds.dart';
 
 
@@ -10,9 +11,8 @@ class CreateSeedsBody extends StatelessWidget {
   final CreateKeyModel? createKeyModel;
   final NewAccount? newAcc;
   final Function() generateKey;
-  final String? oldMnemonic;
 
-  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey, @required this.newAcc, this.oldMnemonic}) : super(key: key);
+  const CreateSeedsBody({Key? key, required this.createKeyModel, required this.generateKey, @required this.newAcc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,28 +86,32 @@ class CreateSeedsBody extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    oldMnemonic == null ? Align(
-                      alignment: Alignment.center,
-                      child: InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
-                              const SizedBox(width: 9),
-                              const MyText(
-                                text: "Change Seed",
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,  
+                    Consumer<VerifySeedsProvider>(
+                      builder: (context, verifySeedP, wg) {
+                        return verifySeedP.isVerifying == false ? Align(
+                          alignment: Alignment.center,
+                          child: InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
+                                  const SizedBox(width: 9),
+                                  const MyText(
+                                    text: "Change Seed",
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,  
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                            onTap: () => generateKey()
                           ),
-                        ),
-                        onTap: () => generateKey()
-                      ),
-                    ) : Container(),
+                        ) : Container();
+                      }
+                    ),
 
                     Align(
                       alignment: Alignment.center,

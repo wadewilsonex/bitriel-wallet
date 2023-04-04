@@ -99,9 +99,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
       child: WalletPageBody(
         homePageModel: widget.homePageModel!,
         model: _model,
-        // onTapCategories: _onTapCategories,
-        // onHorizontalChanged: _onHorizontalChanged,
-        // onVerticalUpdate: _onVerticalUpdate,
         searchController: searchController,
       )
     );

@@ -272,7 +272,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
         if (widget.newAcc != null){
 
-          print("widget.newAcc != null");
           await addNewAcc(status: true).then((value) async {
 
             if (value == true){
@@ -287,8 +286,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
           });
 
         } else {
-
-          print("Provider.of<VerifySeedsProvider>(context).isVerifying == true ${Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true}");
 
           if (Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true){
 
@@ -327,6 +324,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               print("Finish");
               
               Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
+
 
             });
             

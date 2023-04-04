@@ -3,8 +3,6 @@ import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
@@ -14,18 +12,12 @@ class WalletPageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final TextEditingController? searchController;
-  // final Function? onTapCategories;
-  // final Function? onHorizontalChanged;
-  // final Function? onVerticalUpdate;
 
   const WalletPageBody({
     Key? key,
     this.homePageModel,
     this.model,
     this.searchController,
-    // this.onTapCategories,
-    // this.onHorizontalChanged,
-    // this.onVerticalUpdate
   }) : super(key: key);
 
   @override
@@ -118,10 +110,7 @@ class WalletPageBody extends StatelessWidget {
         Consumer<VerifySeedsProvider>(
           builder: (context, verifyingP, wg) {
 
-            print("verifyingP ${verifyingP.getPrivateList}");
-
-            print("unverifyAcc ${verifyingP.unverifyAcc}");
-            print("verifyingP.unverifyAcc![status] == false ${verifyingP.unverifyAcc!["status"] == false}");
+            print("verifySeedP.isVerifying ${verifyingP.isVerifying}");
           
             Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
               if (e['address'] == api.getKeyring.current.address) return true;
@@ -158,9 +147,6 @@ class WalletPageBody extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                          // const ImportAcc(
-                          //   isBackBtn: true,
-                          // )
                         )
                       ).then((passCodeValue) async {
                         if (passCodeValue != null){
@@ -172,19 +158,18 @@ class WalletPageBody extends StatelessWidget {
 
 
                                 // Verifying Account To Get Mnemonic
-                                Provider.of<VerifySeedsProvider>(context, listen: false).mnemonic = getMnemonic["seed"];
-                                Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true;
+                                verifyingP.mnemonic = getMnemonic["seed"];
+                                verifyingP.isVerifying = true;
 
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => CreateSeeds(passCode: passCodeValue,)
+                                    builder: (context) => CreateSeeds(passCode: passCodeValue, newAcc: null,)
                                     // const ImportAcc(
                                     //   isBackBtn: true,
                                     // )
                                   )
                                 ).then((value) {
-                                  print("verifyingSeed $value");
                                   if (value != null && value == true){
                                     
                                     // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
