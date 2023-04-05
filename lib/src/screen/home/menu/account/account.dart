@@ -56,10 +56,10 @@ class AccountState extends State<Account> {
       // ['seed']
       if (pairs!.seed != null) {
         if(!mounted) return;
-        await customDialog(context, 'Backup Key', pairs.seed.toString());
+        await customDialog(context, 'Backup Key', pairs.seed.toString(), txtButton: "Close",);
       } else {
         if(!mounted) return;
-        await customDialog(context, 'Backup Key', 'Incorrect Pin');
+        await customDialog(context, 'Backup Key', 'Incorrect Pin', txtButton: "Close",);
       }
     } catch (e) {
       
@@ -87,10 +87,10 @@ class AccountState extends State<Account> {
       // Navigator.pop(context);
       if (changePass.name!.isNotEmpty) {
         Navigator.pop(context);
-        await customDialog(context, 'Change Name', 'You name has changed!!!');
+        await customDialog(context, 'Change Name', 'You name has changed!!!', txtButton: "Close",);
       } else {
         Navigator.pop(context);
-        await customDialog(context, 'Oops', 'Change Failed!!!');
+        await customDialog(context, 'Oops', 'Change Failed!!!', txtButton: "Close",);
       }
       
     }
@@ -129,10 +129,10 @@ class AccountState extends State<Account> {
     final changePass = await _apiProvider!.getSdk.api.keyring.changePassword(_apiProvider!.getKeyring, _apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!], _accountModel.oldPinController.text, _accountModel.newPinController.text);
     if (changePass != null) {
       if(!mounted) return;
-      await customDialog(context, 'Change Pin', 'You pin has changed!!!');
+      await customDialog(context, 'Change Pin', 'You pin has changed!!!', txtButton: "Close",);
     } else {
       if(!mounted) return;
-      await customDialog(context, 'Opps', 'Change Failed!!!');
+      await customDialog(context, 'Opps', 'Change Failed!!!', txtButton: "Close",);
     }
 
     // Close Dialog

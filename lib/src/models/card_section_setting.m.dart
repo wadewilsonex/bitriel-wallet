@@ -174,7 +174,7 @@ List<CardSection> backupSection({BuildContext? context, required KeyPairData acc
             if (res!.seed != null){
               await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
             } else {
-              await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN");
+              await customDialog(context, "Oops", "Invalid PIN", txtButton: "Close");
             }
           });
         });
@@ -188,7 +188,7 @@ List<CardSection> backupSection({BuildContext? context, required KeyPairData acc
 List<CardSection> settingsLogoutSection({BuildContext? context}) {
   return [
     CardSection(
-      title: 'Delete Wallet',
+      title: 'Delete All Wallets',
       leadingIcon: Icon(Iconsax.logout, color: hexaCodeToColor(AppColors.whiteColorHexa)),
       action: () async {
         await deleteAccout(context: context!);
@@ -200,16 +200,26 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
   Future<void> deleteAccout({BuildContext? context}) async {
     await customDialog(
       context!, 
-      'Delete account', 
-      'Are you sure to delete your account?',
-      btn2: TextButton(
-        onPressed: () async => await _deleteAccount(context: context),
-        child: const MyText(
-          text: 'Delete',
-          hexaColor: AppColors.redColor,
-          fontWeight: FontWeight.w700
-        ),
-      ),
+      'Are you sure to delete all wallets?', 
+      'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',
+      txtButton: "Cancel",
+      btn2: MyFlatButton(
+        edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+        isTransparent: false,
+        buttonColor: AppColors.whiteHexaColor,
+        textColor: AppColors.redColor,
+        textButton: "Confirm",
+        isBorder: true,
+        action: () async => await _deleteAccount(context: context),
+      )
+      // btn2: TextButton(
+      //   onPressed: () async => await _deleteAccount(context: context),
+      //   child: const MyText(
+      //     text: 'Delete',
+      //     hexaColor: AppColors.redColor,
+      //     fontWeight: FontWeight.w700
+      //   ),
+      // ),
     );
   }
   

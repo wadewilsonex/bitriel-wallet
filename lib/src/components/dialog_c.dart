@@ -16,7 +16,7 @@ class DialogComponents {
           ),
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           title: const MyText(
-            fontSize: 20,
+            fontSize: 22,
             text: "Mnemonic",
             fontWeight: FontWeight.bold,
           ),
@@ -28,6 +28,7 @@ class DialogComponents {
                 textAlign: TextAlign.left,
                 text: AppString.screenshotNote,
                 bottom: paddingSize,
+                fontSize: 17,
               ),
 
               Card(
@@ -80,6 +81,7 @@ class DialogComponents {
                           MyText(
                             text: "Copy",
                             fontSize: 19,
+                            fontWeight: FontWeight.bold,
                             hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.blackColor,
                           )
                         ],
@@ -92,16 +94,15 @@ class DialogComponents {
             ],
           ),
           actions: [
-            TextButton(
-              onPressed: () async {
-                // await FlutterScreenshotSwitcher.enableScreenshots();
-                Navigator.pop(context);
-              },
-              child: MyText(
-                text: 'Close',
-                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: MyGradientButton(
+                textButton: "Close",
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                action: () => Navigator.pop(context),
               ),
-            )
+            ),
           ],
         );
     });

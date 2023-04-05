@@ -694,7 +694,7 @@ class MyTabBar extends StatelessWidget {
   }
 }
 
-Future<void> customDialog(BuildContext context, String title, String contents, {Widget? btn2}) async {
+Future<void> customDialog(BuildContext context, String title, String contents, {required String txtButton,Widget? btn2}) async {
   await showDialog(
     context: context,
     builder: (context) {
@@ -706,22 +706,29 @@ Future<void> customDialog(BuildContext context, String title, String contents, {
           title: Align(
             child: MyText(
               text: title,
-              fontWeight: FontWeight.w600,
-              fontSize: 18, 
+              fontWeight: FontWeight.w700,
+              fontSize: 20, 
             ),
           ),
           content: Padding(
             padding: const EdgeInsets.only(top: 15.0,),
             child: MyText(
               text: contents, 
-              textAlign: TextAlign.center
+              textAlign: TextAlign.center,
+              fontWeight: FontWeight.w600,
+              fontSize: 17,
             ),
           ),
           actions: <Widget>[
             btn2 ?? Container(),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const MyText(text: 'Close'),
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: MyGradientButton(
+                textButton: txtButton,
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                action: () => Navigator.pop(context),
+              ),
             ),
           ],
         ),

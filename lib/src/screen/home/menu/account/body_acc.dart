@@ -125,7 +125,15 @@ class AccountBody extends StatelessWidget{
                           ),
 
                           GestureDetector(
-                            // onTap: () => _editAccountNameDialog(context),
+                            onTap: () async{
+
+                              await provider.getSdk.api.keyring.deleteAccount(
+                                provider.getKeyring,
+                                provider.getKeyring.allAccounts[index],
+                              );
+
+                              provider.notifyListeners();
+                            },
                             child: _itemButton(
                               icon: Iconsax.trash, 
                               title: "Delete Wallet", 
@@ -396,10 +404,11 @@ class AccountBody extends StatelessWidget{
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: MyFlatButton(
                     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    isTransparent: true,
+                    isTransparent: false,
                     buttonColor: AppColors.whiteHexaColor,
-                    textColor: AppColors.blackColor,
+                    textColor: AppColors.redColor,
                     textButton: "Cancel",
+                    isBorder: true,
                     action: () {
                       _closeDialog(context);
                     },

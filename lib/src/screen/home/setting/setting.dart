@@ -88,7 +88,7 @@ class _SettingPageState extends State<SettingPage> {
       }
     } catch (e) {
       if(!mounted) return;
-      await customDialog(context, 'Oops', e.toString());
+      await customDialog(context, 'Oops', e.toString(), txtButton: "Close",);
     }
   }
 

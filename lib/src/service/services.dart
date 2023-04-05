@@ -146,6 +146,7 @@ class AppServices {
             context, 
             'Opps', 
             "Your device doesn't support finger print",
+            txtButton: "Close",
           );
         // await showDialog(
         //   context: context,
@@ -193,7 +194,7 @@ class AppServices {
       // ignore: use_build_context_synchronously
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
-      await customDialog(context, 'Opps', 'PIN verification failed');
+      await customDialog(context, 'Opps', 'PIN verification failed', txtButton: "Close",);
     }
     return privateKey;
   }

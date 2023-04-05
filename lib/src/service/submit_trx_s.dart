@@ -83,7 +83,7 @@ class SubmitTrxService {
         print("Error sendNative $e");
       }
       
-      await customDialog(context, 'Opps', e.toString());
+      await customDialog(context, 'Opps', e.toString(), txtButton: "Close",);
     }
 
     return false;
