@@ -89,9 +89,9 @@ abstract class AccountInterface {
 
     accModel!.apiProvider = Provider.of<ApiProvider>(accModel!.getBuildCt!, listen: false);
     
-    Provider.of<ApiProvider>(accModel!.getBuildCt!, listen: false).getKeyring.setCurrent(keyPairData!);
+    accModel!.apiProvider!.getKeyring.setCurrent(keyPairData!);
 
-    String mnemonic = (await accModel!.apiProvider!.getSdk.api.keyring.getDecryptedSeed(Provider.of<ApiProvider>(accModel!.getBuildCt!, listen: false).getKeyring, accModel!.pwCon!.text))!.seed!;
+    String mnemonic = (await accModel!.apiProvider!.getSdk.api.keyring.getDecryptedSeed(accModel!.apiProvider!.getKeyring, accModel!.apiProvider!.getKeyring.current, accModel!.pwCon!.text))!.seed!;
     print("mnemonic $mnemonic");
     // final resPk = await accModel!.apiProvider!.getPrivateKey(mnemonic);
     

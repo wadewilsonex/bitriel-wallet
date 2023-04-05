@@ -2,10 +2,13 @@
 import 'package:wallet_apps/index.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/body_backup_key.dart';
+import 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 
 class BackUpKey extends StatefulWidget{
-  const BackUpKey({Key? key}) : super(key: key);
 
+  final KeyPairData? acc;
+
+  const BackUpKey({Key? key, required this.acc}) : super(key: key);
 
   @override
   State<BackUpKey> createState() => _BackUpKeyState();
@@ -13,21 +16,19 @@ class BackUpKey extends StatefulWidget{
 
 class _BackUpKeyState extends State<BackUpKey> {
 
-  // KeyringStorage? _keyringStorage = KeyringStorage();
-
   ApiProvider? _apiProvider;
 
   Future getMnemonic() async {
     await Component().dialogBox(context).then((value) async {
       if (value != ''){
-        await KeyringPrivateStore([0, 42]).getDecryptedSeed(_apiProvider!.getKeyring.keyPairs[0].pubKey, value);
+        await _apiProvider!.getSdk.api.keyring.getDecryptedSeed(_apiProvider!.getKeyring, widget.acc!, value);
       }
     });
 
   }
 
   Future<void> getKeyStoreJson(String pass) async {
-    await _apiProvider!.getSdk.api.keyring.getDecryptedSeed(_apiProvider!.getKeyring, "1234");
+    // await _apiProvider!.getSdk.api.keyring.getDecryptedSeed(_apiProvider!.getKeyring, _apiProvider!.getKeyring.current, "1234");
     
   }
 
@@ -47,6 +48,8 @@ class _BackUpKeyState extends State<BackUpKey> {
   @override
   void initState(){
 
+    print("widget.acc!.address ${widget.acc!.address}");
+
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     super.initState();
   }
@@ -54,6 +57,7 @@ class _BackUpKeyState extends State<BackUpKey> {
   @override
   Widget build(BuildContext context){
     return BackUpKeyBody(
+      acc: widget.acc,
       getKeyStoreJson: getKeyStoreJson,
       getMnemonic: getMnemonic,
       // disableScreenShot: disableScreenShot

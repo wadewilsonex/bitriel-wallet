@@ -307,6 +307,7 @@ class BodySettingPage extends StatelessWidget {
   // }
 
   Widget logoutSection(BuildContext context) {
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
@@ -327,11 +328,12 @@ class BodySettingPage extends StatelessWidget {
         itemCount: settingsLogoutSection(context: context).length,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: (){
-              settingsLogoutSection(context: context)[index].action!();
+            onTap: () async {
+              await settingsLogoutSection(context: context)[index].action!();
             },
             child: Column(
               children: [
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

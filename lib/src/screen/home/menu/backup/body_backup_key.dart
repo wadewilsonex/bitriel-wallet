@@ -3,11 +3,15 @@ import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 
 class BackUpKeyBody extends StatelessWidget{
 
+  final KeyPairData? acc;
   final Function? getKeyStoreJson;
   final Function? getMnemonic;
   // final Function? disableScreenShot;
 
-  const BackUpKeyBody({Key? key, this.getKeyStoreJson, this.getMnemonic, /* this.disableScreenShot */ }) : super(key: key);
+  const BackUpKeyBody({
+    Key? key, this.getKeyStoreJson, this.getMnemonic, /* this.disableScreenShot */ 
+    required this.acc
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -62,11 +66,12 @@ class BackUpKeyBody extends StatelessWidget{
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         padding: const EdgeInsets.symmetric(vertical: 10),
-        itemCount: backupSection(context: context).length,
+        itemCount: backupSection(context: context, acc: acc!).length,
         itemBuilder: (context, index) {
+          
           return InkWell(
-            onTap: (){
-              backupSection(context: context)[index].action!();
+            onTap: () async {
+              await backupSection(context: context, acc: acc!)[index].action!();
             },
             child: Column(
               children: [
@@ -80,7 +85,7 @@ class BackUpKeyBody extends StatelessWidget{
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: paddingSize / 2),
                             child: MyText(
-                              text: backupSection(context: context)[index].title,
+                              text: backupSection(context: context, acc: acc!)[index].title,
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
                             ),
@@ -89,12 +94,13 @@ class BackUpKeyBody extends StatelessWidget{
                       ),
                     ),
                     
-                    Icon(backupSection(context: context)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
+                    Icon(backupSection(context: context, acc: acc!)[index].trailingIcon, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
 
                   ],
                 ),
 
-                backupSection(context: context).length - 1 == index ? Container() : Divider(thickness: 1, color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.5),),
+                backupSection(context: context, acc: acc!).length - 1 == index ? Container() : Divider(thickness: 1, color: hexaCodeToColor(AppColors.greyColor).withOpacity(0.5),),
+              
               ],
             ),
           );

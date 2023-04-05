@@ -160,6 +160,7 @@ Future<void> filterListWcSession(BuildContext context) async {
 }
 
 void bottomSheetAddAccount(BuildContext context) async{
+  
   return showBarModalBottomSheet(
     backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
     shape: const RoundedRectangleBorder(
@@ -173,6 +174,9 @@ void bottomSheetAddAccount(BuildContext context) async{
         builder: (context, mySetState) {
           return Consumer<ApiProvider>(
             builder: (context, provider, wg) {
+
+
+
               return ListView.builder(
                 itemCount: provider.getKeyring.allAccounts.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -202,7 +206,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   MyText(
-                                    text: provider.getKeyring.current.name,
+                                    text: provider.getKeyring.allAccounts[index].name,
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
                                     textAlign: TextAlign.start,

@@ -244,7 +244,7 @@ class ChangePinState extends State<ChangePin> {
     // });
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
-    await res.getSdk.api.keyring.changePassword(res.getKeyring, oldPass!, newPass);
+    await res.getSdk.api.keyring.changePassword(res.getKeyring, res.getKeyring.current, oldPass!, newPass);
 
     await _updatePkWithNewPass();
 

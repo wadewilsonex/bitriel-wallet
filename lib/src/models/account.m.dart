@@ -8,7 +8,13 @@ class AccountM {
   String? pubKey;
   String? addressIcon;
 
+  /// Store Selected Acc 
+  /// 
+  /// Purpose To Make CRUD.
+  int? accIndex;
+
   KeyPairData? currentAcc;
+
   TextEditingController pinController = TextEditingController();
   TextEditingController oldPinController = TextEditingController();
   TextEditingController newPinController = TextEditingController();

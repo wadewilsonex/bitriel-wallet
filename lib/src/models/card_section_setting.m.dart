@@ -19,7 +19,6 @@ class CardSection {
   CardSection({this.title, this.subtittle, this.trailingTitle, this.leadingIcon, this.trailingIcon, this.action});
 }
 
-
 List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? packageInfo}) {
   return [
 
@@ -37,13 +36,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
             builder: (context) => const Account()
           )
         );
-
-
-          // Transition(
-          //   arguments: "/multipleWallets",
-          //   child: const MultipleWallets(),
-          //   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          // )
+        
       }
     ),
     
@@ -56,6 +49,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
       ),
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
+        
         Navigator.push(
           context!,
           Transition(
@@ -140,28 +134,31 @@ List<CardSection> infoSection({BuildContext? context}) {
   ];
 }
 
-List<CardSection> backupSection({BuildContext? context}) {
+List<CardSection> backupSection({BuildContext? context, required KeyPairData acc}) {
   return [
+
     CardSection(
       title: 'Keystore (json)',
       trailingIcon: Iconsax.arrow_right_3,
       action: () {
-        ApiProvider apiProvider = Provider.of<ApiProvider>(context!, listen: false);
+        
+        // ApiProvider apiProvider = Provider.of<ApiProvider>(context!, listen: false);
         Map<String, dynamic> jsons = {
-          "address": Provider.of<ContractProvider>(context, listen: false).listContract[apiProvider.selNativeIndex].address,
-          "encoded": apiProvider.getKeyring.current.encoded,
-          "encoding": apiProvider.getKeyring.current.encoding,
-          "pubKey": apiProvider.getKeyring.current.pubKey,
-          "meta": apiProvider.getKeyring.current.meta,
-          "memo": apiProvider.getKeyring.current.memo,
-          "observation": apiProvider.getKeyring.current.observation,
-          "indexInfo": apiProvider.getKeyring.current.indexInfo
+          "address": acc.address,
+          "encoded": acc.encoded,
+          "encoding": acc.encoding,
+          "pubKey": acc.pubKey,
+          "meta": acc.meta,
+          "memo": acc.memo,
+          "observation": acc.observation,
+          "indexInfo": acc.indexInfo
         };
 
         Navigator.push(
-          context, 
+          context!, 
           MaterialPageRoute(builder: (context) => KeyStoreJson(keystore: jsons,))
         );
+
       }
     ),
 
@@ -169,9 +166,11 @@ List<CardSection> backupSection({BuildContext? context}) {
       title: 'Mnemonic',
       trailingIcon: Iconsax.arrow_right_3,
       action: () async {
+
         await Navigator.push(context!, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
+          
           ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
-          await apiProvider.getSdk.api.keyring.getDecryptedSeed(apiProvider.getKeyring, value).then((res) async {
+          await apiProvider.getSdk.api.keyring.getDecryptedSeed(apiProvider.getKeyring, acc, value).then((res) async {
             if (res!.seed != null){
               await DialogComponents().seedDialog(context: context, contents: res.seed.toString());
             } else {
@@ -179,6 +178,7 @@ List<CardSection> backupSection({BuildContext? context}) {
             }
           });
         });
+        
       }
     ),
 
@@ -221,10 +221,10 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     
     try {
 
-      for (int i = 0; i < api.getKeyring.allAccounts.length; i++){
+      for( KeyPairData e in api.getKeyring.allAccounts){
         await api.getSdk.api.keyring.deleteAccount(
           api.getKeyring,
-          api.getKeyring.allAccounts[i],
+          e,
         );
       }
 

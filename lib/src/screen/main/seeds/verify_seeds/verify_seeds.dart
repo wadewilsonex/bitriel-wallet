@@ -153,7 +153,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   /// Return Boolean Value
   Future<bool> addNewAcc() async {
-    print("addNewAcc");
+    
     try {
 
       final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
@@ -164,16 +164,13 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         password: widget.createKeyModel!.passCode
       );
 
-      print("jsn $jsn");
-
       await _apiProvider!.getSdk.api.keyring.addAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
         acc: jsn!,
         password: widget.createKeyModel!.passCode
       );
-
-      print("added");
+      
       return true;
 
     } catch (e){

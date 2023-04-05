@@ -66,8 +66,11 @@ class AccountBody extends StatelessWidget{
               return InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                onTap: () {
-                  showModalBottomSheet(
+                onTap: () async {
+                  
+                  accountModel!.accIndex = index;
+
+                  await showModalBottomSheet(
                     backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical( 
@@ -108,7 +111,7 @@ class AccountBody extends StatelessWidget{
                               Navigator.push(
                                 context, 
                                 Transition(
-                                  child: const BackUpKey(),
+                                  child: BackUpKey(acc: provider.getKeyring.allAccounts[index],),
                                   transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                                 )
                               );
@@ -155,12 +158,14 @@ class AccountBody extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
                                     Container(
                                       alignment: Alignment.centerLeft,
                                       width: 50,
@@ -173,6 +178,7 @@ class AccountBody extends StatelessWidget{
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+
                                         MyText(
                                           text: provider.getKeyring.allAccounts[index].name ?? '',
                                           hexaColor: AppColors.blackColor,
@@ -327,6 +333,7 @@ class AccountBody extends StatelessWidget{
   }
 
   Widget _itemButton({required String title, required IconData icon, String? titleColor, String? iconColor}){
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: paddingSize / 2),
       child: Container(
@@ -356,68 +363,72 @@ class AccountBody extends StatelessWidget{
     );
   }
 
-  Future<String?> _editAccountNameDialog(BuildContext context) => showDialog<String?>(
-    context: context,
-    builder: ((context) => AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      contentPadding: const EdgeInsets.symmetric(vertical: paddingSize),
-      title: const MyText(text: "Account Name", fontSize: 20, fontWeight: FontWeight.w500, textAlign: TextAlign.start, color2: Colors.black,),
-      content: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Form(
-          child: MyInputField(
-            autoFocus: true,
-            hintText: 'Enter Name',
-            controller: accountModel!.editNameController,
-            onSubmit: () async {
-              await changeName!();
-            }, 
-            focusNode: accountModel!.newNode,
+  Future<String?> _editAccountNameDialog(BuildContext context) {
+    
+    accountModel!.editNameController.text = Provider.of<ApiProvider>(context, listen: false).getKeyring.allAccounts[accountModel!.accIndex!].name!;
+    return showDialog<String?>(
+      context: context,
+      builder: ((context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        contentPadding: const EdgeInsets.symmetric(vertical: paddingSize),
+        title: const MyText(text: "Account Name", fontSize: 20, fontWeight: FontWeight.w500, textAlign: TextAlign.start, color2: Colors.black,),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Form(
+            child: MyInputField(
+              autoFocus: true,
+              hintText: 'Enter Name',
+              controller: accountModel!.editNameController,
+              onSubmit: () async {
+                await changeName!();
+              }, 
+              focusNode: accountModel!.newNode,
+            ),
           ),
         ),
-      ),
-      actions: [
+        actions: [
 
-        Row (
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyFlatButton(
-                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                  isTransparent: true,
-                  buttonColor: AppColors.whiteHexaColor,
-                  textColor: AppColors.blackColor,
-                  textButton: "Cancel",
-                  action: () {
-                    _closeDialog(context);
-                  },
-                )
-              ),
-            ),
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: MyGradientButton(
-                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                  textButton: "Update",
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  action: () async {
-                    await changeName!();
-                  },
+          Row (
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: MyFlatButton(
+                    edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    isTransparent: true,
+                    buttonColor: AppColors.whiteHexaColor,
+                    textColor: AppColors.blackColor,
+                    textButton: "Cancel",
+                    action: () {
+                      _closeDialog(context);
+                    },
+                  )
                 ),
               ),
-            ),
-          ]
-        )
 
-        
-      ],
-    )),
-  );
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: MyGradientButton(
+                    edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    textButton: "Update",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () async {
+                      await changeName!();
+                    },
+                  ),
+                ),
+              ),
+            ]
+          )
+
+          
+        ],
+      )),
+    );
+  }
 
   void _closeDialog(BuildContext context) {
     Navigator.of(context).pop(accountModel!.editNameController.text); // dialog returns true

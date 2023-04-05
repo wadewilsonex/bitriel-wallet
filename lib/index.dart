@@ -24,6 +24,7 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:transition/transition.dart';
 export 'package:responsive_sizer/responsive_sizer.dart';
 export 'package:shimmer/shimmer.dart';
+export 'package:polkawallet_sdk/storage/types/keyPairData.dart';
 
 //Component
 export 'package:wallet_apps/src/components/bottom_sheet/bottom_sheet.dart';

@@ -8,6 +8,7 @@ class Account extends StatefulWidget {
   static const route = '/account';
   final dynamic argument;
   final String? walletName;
+
   const Account({Key? key, this.argument, this.walletName}) : super(key: key);
   @override
   AccountState createState() => AccountState();
@@ -16,6 +17,8 @@ class Account extends StatefulWidget {
 class AccountState extends State<Account> {
 
   final AccountM _accountModel = AccountM();
+
+  ApiProvider? _apiProvider;
 
   String onChanged(String value) {
     _accountModel.backupKey.currentState!.validate();
@@ -43,78 +46,17 @@ class AccountState extends State<Account> {
       await getBackupKey(_accountModel.pinController.text);
     }
   }
-  
-
-  // Future<void> deleteAccout() async {
-  //   await customDialog(
-  //     context, 
-  //     'Delete wallet', 
-  //     'Are you sure to delete your account?',
-  //     btn2: TextButton(
-  //       onPressed: () async => await _deleteAccount(),
-  //       child: const MyText(
-  //         text: 'Delete',
-  //         hexaColor: AppColors.redColor,
-  //         fontWeight: FontWeight.w700
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Future<void> _deleteAccount() async {
-
-  //   dialogLoading(context);
-
-  //   final api = Provider.of<ApiProvider>(context, listen: false);
-    
-  //   try {
-  //     await api.apiKeyring.deleteAccount(
-  //       api.getKeyring,
-  //       _accountModel.currentAcc!,
-  //     );
-
-  //     final mode = await StorageServices.fetchData(DbKey.themeMode);
-  //     final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
-  //     // final event = await StorageServices.fetchData(DbKey.event);
-
-  //     await StorageServices().clearStorage();
-
-  //     // Re-Save Them Mode
-  //     await StorageServices.storeData(mode, DbKey.themeMode);
-  //     await StorageServices.storeData(sldNW, DbKey.sldNetwork);
-  //     // await StorageServices.storeData(event, DbKey.event);
-
-  //     await StorageServices().clearSecure();
-
-  //     if(!mounted) return;
-      
-  //     Provider.of<ContractProvider>(context, listen: false).resetConObject();
-      
-  //     await Future.delayed(const Duration(seconds: 2), () {});
-      
-  //     if(!mounted) return;
-  //     Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
-
-  //     Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
-  //   } catch (e) {
-
-  //     if (kDebugMode) {
-  //       print("_deleteAccount ${e.toString()}");
-  //     }
-  //     // await dialog(context, e.toString(), 'Opps');
-  //   }
-  // }
 
   Future<void> getBackupKey(String pass) async {
     
     Navigator.pop(context);
-    final api = Provider.of<ApiProvider>(context, listen: false);
     try {
       // final pairs = await KeyringPrivateStore([0, 42])// (_api.getKeyring.keyPairs[0].pubKey, pass);
-      final pairs = await KeyringPrivateStore([api.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(api.getKeyring.keyPairs[0].pubKey, pass);
-      if (pairs!['seed'] != null) {
+      final pairs = await _apiProvider!.getSdk.api.keyring.getDecryptedSeed(_apiProvider!.getKeyring, _apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!], pass);
+      // ['seed']
+      if (pairs!.seed != null) {
         if(!mounted) return;
-        await customDialog(context, 'Backup Key', pairs['seed'].toString());
+        await customDialog(context, 'Backup Key', pairs.seed.toString());
       } else {
         if(!mounted) return;
         await customDialog(context, 'Backup Key', 'Incorrect Pin');
@@ -129,21 +71,17 @@ class AccountState extends State<Account> {
   }
 
   Future<void> _changeName() async {
+
+    print("_accountModel.accIndex! ${_accountModel.accIndex!}");
+    
+    print(_apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!].toJson());
+
     // dialogLoading(context);
     if (_accountModel.editNameController.text.isNotEmpty){
-      // dialogLoading(context);
-      final api = Provider.of<ApiProvider>(context, listen: false);
-      final changePass = await api.getSdk.api.keyring.changeName(api.getKeyring, _accountModel.editNameController.text);
-      String funcName = "account";
-      await api.getAddressIcon();
-      // while(true){
-      //   await api.getCurrentAccount(context: context, funcName: funcName);
-      //   if (api.accountM.address != null) {
-      //     break;
-      //   } else {
-      //     funcName = 'keyring';
-      //   }
-      // }
+      
+      final changePass = await _apiProvider!.getSdk.api.keyring.changeName(_apiProvider!.getKeyring, _apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!], _accountModel.editNameController.text);
+      // String funcName = "account";
+      await _apiProvider!.getAddressIcon(accIndex: _accountModel.accIndex!);
 
       if(!mounted) return;
       // Navigator.pop(context);
@@ -155,14 +93,6 @@ class AccountState extends State<Account> {
         await customDialog(context, 'Oops', 'Change Failed!!!');
       }
       
-
-      // _accountModel.editNameController.text = '';
-      // Close Dialog
-      // if(!mounted) return;
-      // Navigator.pop(context);
-
-      // Close Bottom Sheet
-      // Navigator.pop(context);
     }
   }
 
@@ -195,9 +125,8 @@ class AccountState extends State<Account> {
   Future<void> _changePin() async {
 
     dialogLoading(context);
-    final res = Provider.of<ApiProvider>(context, listen: false);
-    await res.getSdk.api.keyring.checkPassword(res.getKeyring.keyPairs[0], _accountModel.oldPinController.text);
-    final changePass = await res.getSdk.api.keyring.changePassword(res.getKeyring, _accountModel.oldPinController.text, _accountModel.newPinController.text);
+    await _apiProvider!.getSdk.api.keyring.checkPassword(_apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!], _accountModel.oldPinController.text);
+    final changePass = await _apiProvider!.getSdk.api.keyring.changePassword(_apiProvider!.getKeyring, _apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!], _accountModel.oldPinController.text, _accountModel.newPinController.text);
     if (changePass != null) {
       if(!mounted) return;
       await customDialog(context, 'Change Pin', 'You pin has changed!!!');
@@ -214,8 +143,12 @@ class AccountState extends State<Account> {
 
   @override
   void initState() {
-    _accountModel.currentAcc = Provider.of<ApiProvider>(context, listen: false).getKeyring.current;
-    _accountModel.editNameController.text = Provider.of<ApiProvider>(context, listen: false).getKeyring.current.name!;
+
+    _apiProvider = Provider.of<ApiProvider>(context, listen: false);
+
+    _accountModel.currentAcc = _apiProvider!.getKeyring.current;
+    _accountModel.editNameController.text = _apiProvider!.getKeyring.current.name!;
+    
     super.initState();
   }
 

@@ -20,7 +20,7 @@ class ApiProvider with ChangeNotifier {
 
   NetworkParams node = NetworkParams();
 
-  Keyring get getKeyring => _keyring;
+  Keyring get  getKeyring => _keyring;
   WalletSDK get getSdk => _sdk;
 
   static const int bitcoinDigit = 8;
@@ -632,15 +632,16 @@ class ApiProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getAddressIcon() async {
+  Future<void> getAddressIcon({int accIndex = 0}) async {
 
     try {
 
       final res = await _sdk.api.account.getPubKeyIcons(
-        [_keyring.keyPairs[0].pubKey!],
+        [_keyring.keyPairs[accIndex].pubKey!],
       );
 
       _keyring.current.icon = res.toString();
+      
       notifyListeners();
     } catch (e) {
       

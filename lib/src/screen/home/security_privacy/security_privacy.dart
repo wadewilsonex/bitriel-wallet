@@ -83,13 +83,14 @@ class SecurityPrivacy extends StatelessWidget {
                 )
               ),
               onPressed: () {
-                Navigator.push(
-                  context, 
-                  Transition(
-                    child: const BackUpKey(),
-                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                  )
-                );
+
+                // Navigator.push(
+                //   context, 
+                //   Transition(
+                //     child: BackUpKey(),
+                //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                //   )
+                // );
               },
               child: const MyText(text: "Reveal Secret Recovery Phrase", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
             ),
