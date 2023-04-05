@@ -229,8 +229,7 @@ class _SetPasswordState extends State<SetPassword> {
       _importAccountModel.animationController!.forward(from: 0.9);
       changeStatus("GETTING READY", avg: "4/4");
 
-      ContractsBalance().getAllAssetBalance();
-
+      ContractsBalance.getAllAssetBalance();
       
     }); 
   }

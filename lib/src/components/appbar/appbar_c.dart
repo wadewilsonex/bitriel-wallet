@@ -3,6 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
@@ -176,18 +177,19 @@ void bottomSheetAddAccount(BuildContext context) async{
           return Consumer<ApiProvider>(
             builder: (context, provider, wg) {
 
-
-
               return ListView.builder(
                 itemCount: provider.getKeyring.allAccounts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: (){
+
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
                       provider.notifyListeners();
+                      ContractsBalance.getAllAssetBalance();
                       
                       Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
                       mySetState( () {});
+                      
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

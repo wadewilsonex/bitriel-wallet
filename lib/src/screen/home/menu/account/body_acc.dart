@@ -2,6 +2,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
@@ -125,7 +126,15 @@ class AccountBody extends StatelessWidget{
                           ),
 
                           GestureDetector(
-                            // onTap: () => _editAccountNameDialog(context),
+                            onTap: () async {
+                              
+                              await provider.getSdk.api.keyring.deleteAccount(
+                                provider.getKeyring,
+                                provider.getKeyring.allAccounts[index],
+                              );
+
+                              provider.notifyListeners();
+                            },
                             child: _itemButton(
                               icon: Iconsax.trash, 
                               title: "Delete Wallet", 

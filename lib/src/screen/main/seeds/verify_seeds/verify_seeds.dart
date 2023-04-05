@@ -236,7 +236,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       _importAccountModel.animationController!.forward(from: 8);
       changeStatus("DONE", avg: "3/3");
 
-      ContractsBalance().getAllAssetBalance();
+      ContractsBalance.getAllAssetBalance();
 
       await Future.delayed(const Duration(milliseconds: 3), (){});
 

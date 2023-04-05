@@ -541,9 +541,9 @@ class ApiProvider with ChangeNotifier {
     try {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
-      Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address ?? '');
-      // print("contract.listContract[selNativeIndex].address! ${contract.listContract[selNativeIndex].address!}");
-      await _sdk.webView!.evalJavascript("account.getBalance(api, '${contract.listContract[selNativeIndex].address}', 'Balance')").then((value) async {
+      // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address ?? '');
+      print("contract.listContract[selNativeIndex].address! ${_keyring.current.address}");
+      await _sdk.webView!.evalJavascript("account.getBalance(api, '${_keyring.current.address}', 'Balance')").then((value) async {
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
           contract.listContract[selNativeIndex].chainDecimal!,
