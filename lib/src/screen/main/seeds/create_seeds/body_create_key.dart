@@ -2,6 +2,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/seeds_c.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/createkey_m.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/main/seeds/verify_seeds/verify_seeds.dart';
 
 
@@ -18,6 +19,17 @@ class CreateSeedsBody extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left_2, size: 30,),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -72,29 +84,33 @@ class CreateSeedsBody extends StatelessWidget {
 
                 SizedBox(height: 3.h),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
-                              const SizedBox(width: 9),
-                              const MyText(
-                                text: "Generate seed",
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,  
+                    Consumer<VerifySeedsProvider>(
+                      builder: (context, verifySeedP, wg) {
+                        return verifySeedP.isVerifying == false ? Align(
+                          alignment: Alignment.center,
+                          child: InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Iconsax.refresh, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), size: 3.h),
+                                  const SizedBox(width: 9),
+                                  const MyText(
+                                    text: "Change Seed",
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,  
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                            onTap: () => generateKey()
                           ),
-                        ),
-                        onTap: () => generateKey()
-                      ),
+                        ) : Container();
+                      }
                     ),
 
                     Align(

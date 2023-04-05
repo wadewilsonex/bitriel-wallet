@@ -1,9 +1,11 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
@@ -28,6 +30,8 @@ class ImportAccState extends State<ImportAcc> {
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   final ImportAccModel _importAccModel = ImportAccModel();
+
+  final CreateKeyModel? createKeyModel = CreateKeyModel();
 
   final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
   ApiProvider? _apiProvider;
@@ -90,7 +94,7 @@ class ImportAccState extends State<ImportAcc> {
       if (widget.isAddNew == true){
 
         dialogLoading(context);
-        await addNewAcc().then((value) {
+        await addNewAcc(status: true).then((value) {
           
           // Close Dialog Loading
           Navigator.pop(context);
@@ -99,6 +103,31 @@ class ImportAccState extends State<ImportAcc> {
 
         });
       } else {
+
+        await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+          /// From Multi Account
+          if(value.isNotEmpty){
+            createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+          }
+
+
+          final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
+            _apiProvider!.getKeyring, 
+            keyType: KeyType.mnemonic, 
+            key: _importAccModel.key!.text,
+            name: 'User', 
+            password: createKeyModel!.passCode
+          );
+
+          /// From Welcome, Or From Multi Account
+          createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
+
+          await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
+
+        });
+
+        if(!mounted) return;
 
         Navigator.push(
           context, 
@@ -254,12 +283,18 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   /// Return Boolean Value
-  Future<bool> addNewAcc() async {
+  Future<bool> addNewAcc({required bool status}) async {
     print("_importAccModel.pwCon!.text ${_importAccModel.pwCon!.text}");
     print("_importAccModel.key!.text ${_importAccModel.key!.text}");
     print("addNewAcc");
     try {
 
+      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+        if(value.isNotEmpty){
+          createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+        }
+
+      });
       final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
@@ -268,12 +303,15 @@ class ImportAccState extends State<ImportAcc> {
         password: _importAccModel.pwCon!.text
       );
 
+      createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: status));
+
+      await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
       print("jsn $jsn");
 
       await _apiProvider!.getSdk.api.keyring.addAccount(
         _apiProvider!.getKeyring, 
         keyType: KeyType.mnemonic, 
-        acc: jsn!,
+        acc: jsn,
         password: _importAccModel.pwCon!.text
       );
 

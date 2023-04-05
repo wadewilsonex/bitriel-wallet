@@ -21,6 +21,10 @@ class StorageServices {
     await _storage.write(key: key, value: value);
   }
 
+  Future<void> writeSecureList(String key, String value) async {
+    await _storage.write(key: key, value: value);
+  }
+
   Future<void> clearKeySecure(String key) async {
     await _storage.delete(key: key);
   }

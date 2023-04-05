@@ -104,7 +104,7 @@ class DiscoverPageBody extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
           child: Padding(
             padding: const EdgeInsets.all(paddingSize),
             child: Column(

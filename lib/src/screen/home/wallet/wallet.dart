@@ -1,5 +1,7 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/wallet/body_wallet.dart';
 
 class WalletPage extends StatefulWidget {
@@ -49,7 +51,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
     // To Disable Asset Loading
     contract.setReady();
-  } 
+  }
 
   @override
   void initState() {
@@ -64,6 +66,14 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     }
     
     _model.assetFilter(context);
+
+    StorageServices().readSecure(DbKey.privateList)!.then((value) {
+      setState(() {
+        Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
+      });
+      
+      print("initState $Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList ${Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.length}");
+    });
 
     AppServices.noInternetConnection(context: context);
     super.initState();
@@ -83,9 +93,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
       child: WalletPageBody(
         homePageModel: widget.homePageModel!,
         model: _model,
-        // onTapCategories: _onTapCategories,
-        // onHorizontalChanged: _onHorizontalChanged,
-        // onVerticalUpdate: _onVerticalUpdate,
         searchController: searchController,
       )
     );

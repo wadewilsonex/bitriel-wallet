@@ -110,7 +110,7 @@ class SeedContents extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        const SizedBox(height: 50),
+        const SizedBox(height: 25),
         MyText(
           text: title,
           fontSize: 25,

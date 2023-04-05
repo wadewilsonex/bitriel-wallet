@@ -3,25 +3,21 @@ import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
+import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final TextEditingController? searchController;
-  // final Function? onTapCategories;
-  // final Function? onHorizontalChanged;
-  // final Function? onVerticalUpdate;
 
   const WalletPageBody({
     Key? key,
     this.homePageModel,
     this.model,
-    this.searchController
-    // this.onTapCategories,
-    // this.onHorizontalChanged,
-    // this.onVerticalUpdate
+    this.searchController,
   }) : super(key: key);
 
   @override
@@ -106,42 +102,113 @@ class WalletPageBody extends StatelessWidget {
 
   Widget _userWallet(BuildContext context) {
 
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
+
     return Column(
       children: [
-        Container(
-          height: 50,
-          decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
-            borderRadius: const BorderRadius.all(Radius.circular(16))
-          ),
-          child: Row(
-            children: [
-              Row(
-                children: [
-                  const SizedBox(width: 10,),
-                  Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
-                  const MyText(
-                    pLeft: 10,
-                    text: "Verify your Seed Phrase",
-                    fontWeight: FontWeight.w600,
-                    hexaColor: AppColors.redColor,
-                  ),
-                ],
+
+        Consumer<VerifySeedsProvider>(
+          builder: (context, verifyingP, wg) {
+            verifyingP.unverifyAcc = null;
+
+            // if (verifyingP.unverifyAcc != null){
+              List tmp = verifyingP.getPrivateList.where((e) {
+                if (e['address'] == api.getKeyring.current.address) return true;
+                return false;
+              }).toList();
+
+              if (tmp.isNotEmpty){
+                verifyingP.unverifyAcc = tmp[0];
+              }
+            // }
+
+            if (verifyingP.unverifyAcc == null) return Container();
+
+            return verifyingP.unverifyAcc!["status"] == false ? Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
+                borderRadius: const BorderRadius.all(Radius.circular(16))
               ),
+              child: Row(
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 10,),
+                      Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
+                      const MyText(
+                        pLeft: 10,
+                        text: "Verify your Seed Phrase",
+                        fontWeight: FontWeight.w600,
+                        hexaColor: AppColors.redColor,
+                      ),
+                    ],
+                  ),
 
-              const Spacer(),
+                  const Spacer(),
 
-              const TextButton(
-                onPressed: null, 
-                child: MyText(
-                  pLeft: 10,
-                  text: "Verify Now",
-                  fontWeight: FontWeight.w700,
-                  hexaColor: AppColors.primaryColor,
-                ),
+                  TextButton(
+                    onPressed: () async{
+
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                        )
+                      ).then((passCodeValue) async {
+                        if (passCodeValue != null){
+                          
+                          await api.getKeyring.store.getDecryptedSeed(api.getKeyring.current.pubKey, passCodeValue).then((getMnemonic) async{
+                            try {
+
+                              if(getMnemonic!.containsKey("seed")){
+
+
+                                // Verifying Account To Get Mnemonic
+                                verifyingP.mnemonic = getMnemonic["seed"];
+                                verifyingP.isVerifying = true;
+
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CreateSeeds(passCode: passCodeValue, newAcc: null,)
+                                    // const ImportAcc(
+                                    //   isBackBtn: true,
+                                    // )
+                                  )
+                                ).then((value) {
+                                  if (value != null && value == true){
+                                    
+                                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                    Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                                  }
+                                });
+                              }
+                              else{
+                                throw Exception("wrong mnemonic");
+                                
+                              }
+                              
+                            } catch (e) {
+                              print("error mnemonic $e");
+                            }
+
+                          });
+
+                        }
+                      });
+                      
+                    }, 
+                    child: const MyText(
+                      text: "Verify Now",
+                      fontWeight: FontWeight.w700,
+                      hexaColor: AppColors.primaryColor,
+                    ),
+                  )
+                ],
               )
-            ],
-          )
+            ) : Container();
+          }
         ),
 
         const SizedBox(height: 5,),
