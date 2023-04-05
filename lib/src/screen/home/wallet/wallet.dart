@@ -67,18 +67,12 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     
     _model.assetFilter(context);
 
-    StorageServices().readSecure(DbKey.privateList)!.then((value) => {
+    StorageServices().readSecure(DbKey.privateList)!.then((value) {
       setState(() {
         Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
-
-        // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
-        //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
-        //   return false;
-        // }).toList().isNotEmpty){
-        //   Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true; 
-        // }
-
-      })
+      });
+      
+      print("initState $Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList ${Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.length}");
     });
 
     AppServices.noInternetConnection(context: context);

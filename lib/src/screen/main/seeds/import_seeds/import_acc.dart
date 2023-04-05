@@ -5,6 +5,7 @@ import 'package:wallet_apps/src/models/createkey_m.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:polkawallet_sdk/api/apiKeyring.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 

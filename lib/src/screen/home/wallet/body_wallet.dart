@@ -109,13 +109,20 @@ class WalletPageBody extends StatelessWidget {
 
         Consumer<VerifySeedsProvider>(
           builder: (context, verifyingP, wg) {
+            verifyingP.unverifyAcc = null;
 
-            print("verifySeedP.isVerifying ${verifyingP.isVerifying}");
-          
-            Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
-              if (e['address'] == api.getKeyring.current.address) return true;
-              return false;
-            }).toList()[0];
+            // if (verifyingP.unverifyAcc != null){
+              List tmp = verifyingP.getPrivateList.where((e) {
+                if (e['address'] == api.getKeyring.current.address) return true;
+                return false;
+              }).toList();
+
+              if (tmp.isNotEmpty){
+                verifyingP.unverifyAcc = tmp[0];
+              }
+            // }
+
+            if (verifyingP.unverifyAcc == null) return Container();
 
             return verifyingP.unverifyAcc!["status"] == false ? Container(
               height: 50,

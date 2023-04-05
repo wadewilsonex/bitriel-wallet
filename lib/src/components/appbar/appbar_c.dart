@@ -3,6 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
 
 PreferredSizeWidget defaultAppBar({
@@ -44,7 +45,7 @@ PreferredSizeWidget defaultAppBar({
           children: [
             
             GestureDetector(
-              onTap: () async {
+              onTap: () {
                 // homePageModel!.globalKey!.currentState!.openDrawer();
                 bottomSheetAddAccount(context);
               },
@@ -180,6 +181,8 @@ void bottomSheetAddAccount(BuildContext context) async{
                     onTap: (){
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
                       provider.notifyListeners();
+                      
+                      Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
                       mySetState( () {});
                     },
                     child: Column(

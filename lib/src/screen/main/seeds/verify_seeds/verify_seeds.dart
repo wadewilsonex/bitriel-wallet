@@ -318,10 +318,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(address: api.getKeyring.current.address, status: true).toMap();
               
               Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = false;
-              
-              Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
 
-              print("Finish");
+              Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
               
               Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
 

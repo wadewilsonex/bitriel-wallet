@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 
@@ -55,7 +56,20 @@ class _HomePageState extends State<HomePage> {
       });
     };
 
-    StorageServices().readSecure(DbKey.privateList)!;
+    StorageServices().readSecure(DbKey.privateList)!.then((value) => {
+      setState(() {
+        Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
+
+        // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
+        //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
+        //   return false;
+        // }).toList().isNotEmpty){
+        //   Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = true; 
+        // }
+
+      })
+    });
+
     
     
     AppServices.noInternetConnection(context: context);
