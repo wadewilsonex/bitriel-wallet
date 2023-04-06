@@ -3,6 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
@@ -164,15 +165,14 @@ class AccountBody extends StatelessWidget{
                                             // ignore: invalid_use_of_protected_member
                                             provider.notifyListeners();
 
+                                            ContractsBalance.getAllAssetBalance();
+
                                             Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
                                           }
                                           else{
                                             await _deleteAccount(context: context);
                                           }
                                         });
-
-                                        
-
 
                                       }
                                     });
