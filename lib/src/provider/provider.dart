@@ -15,12 +15,12 @@ class ContractsBalance extends ChangeNotifier {
   }
   
   /// The function get all asset information 
-  Future<void> getAllAssetBalance({bool? isRefresh}) async {
+  static Future<void> getAllAssetBalance({bool? isRefresh}) async {
 
     print("getAllAssetBalance");
 
     try {
-
+      
       final contractProvider = Provider.of<ContractProvider>(_context!, listen: false);
       final apiProvider = Provider.of<ApiProvider>(_context!, listen: false);
       final btcAddr = await StorageServices.fetchData(DbKey.bech32);
@@ -34,6 +34,7 @@ class ContractsBalance extends ChangeNotifier {
 
         // await contractProvider.selTokenWallet(context);
         // await contractProvider.selv2TokenWallet(context);
+        await apiProvider.subSELNativeBalance(context: _context);
         await contractProvider.ethWallet();
         await contractProvider.bnbWallet();
         await contractProvider.kgoTokenWallet();
