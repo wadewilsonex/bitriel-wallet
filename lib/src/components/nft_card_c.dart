@@ -4,7 +4,9 @@ import 'fullscreen_img_c.dart';
 
 class NFTCard extends StatelessWidget {
   final String image;
-  const NFTCard({Key? key, required this.image}) : super(key: key);
+  final String title;
+  final String creator;
+  const NFTCard({Key? key, required this.image, required this.title, required this.creator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +49,32 @@ class NFTCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
-                  const MyText(
-                    text: "BAYC Honorary",
+                  MyText(
+                    text: creator,
                     hexaColor: AppColors.primaryColor,
                     fontSize: 15,
                     textAlign: TextAlign.start,
                   ),
 
-                  Row(
-                    children: const [
-                      Image(
-                        image: AssetImage("assets/SelendraCircle-Blue.png"),
-                        width: 2.5,
-                      ),
-                      MyText(
-                        text: " 1.25",
-                        fontWeight: FontWeight.w600,
-                      )
-                    ],
+                  SizedBox(
+                    height: 25,
+                    child: Row(
+                      children: const [
+                        Image(
+                          image: AssetImage("assets/SelendraCircle-Blue.png"),
+                        ),
+                        MyText(
+                          text: " 1.25",
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
+                    ),
                   ),
 
                 ]
               ),
-              const MyText(
-                  text: "Honorary Border APE #2",
+              MyText(
+                  text: title,
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
@@ -108,7 +112,7 @@ class NFTDetail extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             _appbar(context, image),
-            _creatorProfile(),
+            _creatorProfile(creatorImage),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -228,7 +232,7 @@ class NFTDetail extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter _creatorProfile() {
+  SliverToBoxAdapter _creatorProfile(String craetorImage) {
     return SliverToBoxAdapter(
       child: ListTile(
         title: MyText(
@@ -237,7 +241,7 @@ class NFTDetail extends StatelessWidget {
           textAlign: TextAlign.start,
           fontSize: 19,
         ),
-        leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/2.png')),
+        leading: CircleAvatar(backgroundImage: AssetImage(craetorImage)),
       ),
     );
   }

@@ -212,14 +212,6 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
         isBorder: true,
         action: () async => await _deleteAccount(context: context),
       )
-      // btn2: TextButton(
-      //   onPressed: () async => await _deleteAccount(context: context),
-      //   child: const MyText(
-      //     text: 'Delete',
-      //     hexaColor: AppColors.redColor,
-      //     fontWeight: FontWeight.w700
-      //   ),
-      // ),
     );
   }
   

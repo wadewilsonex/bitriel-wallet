@@ -279,6 +279,10 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> kgoTokenWallet() async {
+
+    print("kgoTokenWallet");
+
+    print(listContract[apiProvider.kgoIndex].address!);
     
     if (apiProvider.isMainnet){
       try {
@@ -292,7 +296,11 @@ class ContractProvider with ChangeNotifier {
 
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
 
+        print("kgo balance $balance");
+
         final chainDecimal = await _kgo!.getChainDecimal();
+
+        print("chainDecimal $chainDecimal");
 
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,

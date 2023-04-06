@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
@@ -126,13 +127,59 @@ class AccountBody extends StatelessWidget{
 
                           GestureDetector(
                             onTap: () async{
+                              print("provider.getKeyring.allAccounts ${provider.getKeyring.allAccounts.length}");
 
-                              await provider.getSdk.api.keyring.deleteAccount(
-                                provider.getKeyring,
-                                provider.getKeyring.allAccounts[index],
+                              customDialog(
+                                context, 
+                                'Are you sure to delete your wallets?', 
+                                'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',
+                                txtButton: "Cancel",
+                                btn2: MyFlatButton(
+                                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                                  isTransparent: false,
+                                  buttonColor: AppColors.whiteHexaColor,
+                                  textColor: AppColors.redColor,
+                                  textButton: "I understand, continue",
+                                  isBorder: true,
+                                  action: () async {
+
+                                    
+
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                                        // const ImportAcc(
+                                        //   isBackBtn: true,
+                                        // )
+                                      )
+                                    ).then((value) async {
+                                      if (value != null){
+                                        
+                                        await provider.getSdk.api.keyring.deleteAccount(
+                                          provider.getKeyring,
+                                          provider.getKeyring.allAccounts[index],
+                                        ).then((value) async {
+                                          if(provider.getKeyring.allAccounts.isNotEmpty){
+                                            // ignore: invalid_use_of_protected_member
+                                            provider.notifyListeners();
+
+                                            Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+                                          }
+                                          else{
+                                            await _deleteAccount(context: context);
+                                          }
+                                        });
+
+                                        
+
+
+                                      }
+                                    });
+                                  },
+                                )
                               );
-
-                              provider.notifyListeners();
+                              
                             },
                             child: _itemButton(
                               icon: Iconsax.trash, 
@@ -443,3 +490,45 @@ class AccountBody extends StatelessWidget{
     Navigator.of(context).pop(accountModel!.editNameController.text); // dialog returns true
   }
 }
+
+  Future<void> _deleteAccount({BuildContext? context}) async {
+
+    dialogLoading(context!);
+
+    final api = Provider.of<ApiProvider>(context, listen: false);
+    
+    try {
+
+      for( KeyPairData e in api.getKeyring.allAccounts){
+        await api.getSdk.api.keyring.deleteAccount(
+          api.getKeyring,
+          e,
+        );
+      }
+
+      final mode = await StorageServices.fetchData(DbKey.themeMode);
+      final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+
+      await StorageServices().clearStorage();
+
+      // Re-Save Them Mode
+      await StorageServices.storeData(mode, DbKey.themeMode);
+      await StorageServices.storeData(sldNW, DbKey.sldNetwork);
+
+      await StorageServices().clearSecure();
+      
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      
+      await Future.delayed(const Duration(seconds: 2), () {});
+      
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
+    } catch (e) {
+
+      if (kDebugMode) {
+        print("_deleteAccount ${e.toString()}");
+      }
+      // await dialog(context, e.toString(), 'Opps');
+    }
+  }

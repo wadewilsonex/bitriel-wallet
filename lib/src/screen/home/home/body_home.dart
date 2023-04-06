@@ -267,17 +267,34 @@ class HomePageBody extends StatelessWidget {
     
               Expanded(
                 child: MyMenuItem(
-                  title: "bitriel NFT",
+                  title: "Bitriel NFT",
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {
-                    Navigator.push(
+                    customDialog(
                       context, 
-                      Transition(
-                        child: const NFTMarketPlace(),
-                        transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                      'Access to Bitriel NFT?', 
+                      'Bitriel NFT is still in development!!!\n\n You can play around with Bitriel NFT page.',
+                      txtButton: "Cancel",
+                      btn2: MyFlatButton(
+                        edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                        isTransparent: false,
+                        buttonColor: AppColors.whiteHexaColor,
+                        textColor: AppColors.redColor,
+                        textButton: "Confirm",
+                        isBorder: true,
+                        action: () {
+                          Navigator.push(
+                            context, 
+                            Transition(
+                              child: const NFTMarketPlace(),
+                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                            )
+                          );
+                        }
                       )
                     );
+                    
                   },
                 ),
               ),
