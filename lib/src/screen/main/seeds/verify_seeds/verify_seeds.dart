@@ -204,6 +204,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       dialogLoading(context);
 
       await addAndImport();
+
+      await ContractsBalance.getAllAssetBalance();
       
       Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           
@@ -290,6 +292,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         if (widget.newAcc != null){
           
           await addAndImport();
+          
+          await ContractsBalance.getAllAssetBalance();
 
           Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           

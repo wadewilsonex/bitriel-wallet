@@ -18,13 +18,18 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
     
     if(_modelUserInfo.confirmPasswordCon.text.isEmpty || _modelUserInfo.confirmPasswordCon.text.isEmpty){
       customDialog(context, "Opps", "You must input password", txtButton: "OK");
+      print("Provider.of<PasswordProvider>(context).isPassword ${Provider.of<PasswordProvider>(context, listen: false).isPassword}");
     }
     else if(_modelUserInfo.passwordCon.text == _modelUserInfo.confirmPasswordCon.text) {
       dialogLoading(context);
 
       await StorageServices().writeSecure(DbKey.passcode, _modelUserInfo.confirmPasswordCon.value.text).then((value) {
         
-        Provider.of<PasswordProvider>(context).isPassword = true;
+        Provider.of<PasswordProvider>(context, listen: false).isPassword = true;
+
+        Provider.of<PasswordProvider>(context, listen: false).notifyListeners();
+
+        print("Provider.of<PasswordProvider>(context).isPassword ${Provider.of<PasswordProvider>(context, listen: false).isPassword}");
 
       });
     }

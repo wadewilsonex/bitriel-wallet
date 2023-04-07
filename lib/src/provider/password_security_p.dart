@@ -4,5 +4,7 @@ class PasswordProvider with ChangeNotifier {
 
   bool? isPassword = false;
   
+  @override
+  notifyListeners();
   
 }
