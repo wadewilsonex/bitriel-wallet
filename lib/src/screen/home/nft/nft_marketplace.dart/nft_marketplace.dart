@@ -103,8 +103,8 @@ class NFTMarketPlace extends StatelessWidget {
                   ),
                   Positioned(
                     bottom: 10,
-                    left: 24,
-                    right: 24,
+                    left: paddingSize,
+                    right: paddingSize,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const <Widget>[
@@ -146,7 +146,7 @@ class NFTMarketPlace extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(paddingSize),
           child: const MyText(
-            text: "Exclusive bitriel NFT",
+            text: "Exclusive Bitriel NFT",
             fontSize: 20,
             fontWeight: FontWeight.bold,
           )
@@ -164,17 +164,17 @@ class NFTMarketPlace extends StatelessWidget {
                     context,
                     Transition(
                       child: NFTDetail(
-                        creator: "BAYC Honoray",
-                        name: "Honorary Border APE #2",
+                        creator: "Riel Tiger",
+                        name: "Khmer Art #${1 + index}",
                         price: "1.25",
                         image: "assets/nfts/rieltiger/${1 + index}.png",
-                        creatorImage: "assets/nfts/1.png",
+                        creatorImage: "assets/nfts/rieltiger/riel-tiger.jpg",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
                 },
-                child: NFTCard(image: "assets/nfts/rieltiger/${1 + index}.png",)
+                child: NFTCard(image: "assets/nfts/rieltiger/${1 + index}.png", title: "Riel Tiger", creator: "Khmer Art #${1 + index}",)
               );
             },
           ),
@@ -231,18 +231,18 @@ class NFTMarketPlace extends StatelessWidget {
                   Navigator.push(
                     context, 
                     Transition(
-                      child: const NFTDetail(
-                        creator: "BAYC Honoray", 
-                        name: "Honorary Border APE #2",
+                      child: NFTDetail(
+                        creator: "Riel Tiger", 
+                        name: "Khmer Art #${1 + index}",
                         price: "1.25", 
-                        image: "assets/nfts/1.png",
-                        creatorImage: "assets/nfts/1.png",
+                        image: "assets/nfts/rieltiger/${1 + index}.png",
+                        creatorImage: "assets/nfts/rieltiger/riel-tiger.jpg",
                       ),
                       transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                     )
                   );
                 },
-                child: const NFTCard(image: "assets/nfts/1.png"),
+                child: NFTCard(image: "assets/nfts/rieltiger/${1 + index}.png", title: "Riel Tiger", creator: "Khmer Art #${1 + index}",)
               );
             },
           ),

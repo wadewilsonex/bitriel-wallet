@@ -23,7 +23,7 @@ class WalletPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
         body: NestedScrollView(
@@ -35,7 +35,7 @@ class WalletPageBody extends StatelessWidget {
               sliver: SliverSafeArea(
                 top: false,
                 sliver: SliverAppBar(
-                  toolbarHeight: 260,
+                  toolbarHeight: 270,
                   pinned: true,
                   floating: true,
                   snap: true,
@@ -53,9 +53,9 @@ class WalletPageBody extends StatelessWidget {
                         text: "Assets",
                       ),
                                   
-                      Tab(
-                        text: "NFTs",
-                      )
+                      // Tab(
+                      //   text: "NFTs",
+                      // )
                     ],
                   ),
                 ),
@@ -88,15 +88,15 @@ class WalletPageBody extends StatelessWidget {
           ),
         ),
           
-        ListView(
-          children: [
-            for (int i = 0; i < 10; i++)
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: _nftAndTicket(context)
-            ),
-          ],
-        ),
+        // ListView(
+        //   children: [
+        //     for (int i = 0; i < 10; i++)
+        //     Container(
+        //         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        //         child: _nftAndTicket(context)
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }
@@ -191,7 +191,9 @@ class WalletPageBody extends StatelessWidget {
                               }
                               
                             } catch (e) {
-                              print("error mnemonic $e");
+                              if (kDebugMode) {
+                                print("error mnemonic $e");
+                              }
                             }
 
                           });
@@ -208,7 +210,7 @@ class WalletPageBody extends StatelessWidget {
                   )
                 ],
               )
-            ) : Container();
+            ) : const SizedBox();
           }
         ),
 
@@ -243,7 +245,7 @@ class WalletPageBody extends StatelessWidget {
                             text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
                             hexaColor: AppColors.whiteColorHexa,
                             fontWeight: FontWeight.w700,
-                            fontSize: 22,
+                            fontSize: 23,
                           );
                         }
                       ),

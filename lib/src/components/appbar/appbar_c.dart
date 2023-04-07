@@ -192,6 +192,8 @@ void bottomSheetAddAccount(BuildContext context) async{
                   return InkWell(
                     onTap: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address ? null : () async {
 
+                      dialogLoading(context);
+
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
                       await StorageServices().readSecure(DbKey.privateList)!.then((value) {
@@ -205,8 +207,9 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                       });
                       provider.notifyListeners();
+                      await ContractsBalance.getAllAssetBalance();
 
-                      ContractsBalance.getAllAssetBalance();
+                      Navigator.pop(context);
                       
                       Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
                       mySetState( () {});

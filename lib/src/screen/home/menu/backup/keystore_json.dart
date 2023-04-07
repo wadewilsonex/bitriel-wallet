@@ -23,7 +23,7 @@ class KeyStoreJson extends StatelessWidget{
           },
         ),
         elevation: 0,
-        title: const MyText(text: 'Keystore (Json)', fontSize: 20, fontWeight: FontWeight.bold),
+        title: const MyText(text: 'Keystore (Json)', fontSize: 20, fontWeight: FontWeight.bold, hexaColor: AppColors.blackColor,),
       ),
       body: Column(
         children: [

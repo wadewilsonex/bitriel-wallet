@@ -85,7 +85,12 @@ class AddAssetBody extends StatelessWidget {
                               listNetwork: networkSymbol,
                               initialValue: initialValue,
                               onChanged: (value) {
+                                assetM!.controllerAssetCode.clear();
+                                
                                 onChangeNetwork!(value);
+
+                                onChangedQuery!(value);
+                                
                               },
                             ),
                           );

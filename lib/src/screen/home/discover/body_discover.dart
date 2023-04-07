@@ -42,7 +42,7 @@ class DiscoverPageBody extends StatelessWidget {
             ),
       
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: 5),
               child: SizedBox(
                 height: 20.h,
                 width: MediaQuery.of(context).size.width,
@@ -62,7 +62,7 @@ class DiscoverPageBody extends StatelessWidget {
             ),
       
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: 5),
+              padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: 5),
               child: SizedBox(
                 height: 20.h,
                 width: MediaQuery.of(context).size.width,
@@ -269,7 +269,6 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: 40.w,
                 ),
                 title: "Weteka",
                 action: () async {
@@ -287,7 +286,6 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: SvgPicture.asset(
                   "assets/logo/Koompi_wifi.svg",
-                  width: 20.w,
                   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
                 ),
                 title: "KOOMPI Fi-Fi",
@@ -301,41 +299,41 @@ class DiscoverPageBody extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        Row(
-          children: [
-            Expanded(
-              child: SelEcoSysMenuItem(
-                image: Image.asset(
-                  isDarkMode ?
-                  "assets/logo/selendra-logo.png" :
-                  "assets/logo/selendra.png",
-                  width: 12.w,
-                ),
-                title: "Funan DApp",
-                action: () {
-                  underContstuctionAnimationDailog(context: context);
-                },
-              ),
-            ),
+        // Row(
+        //   children: [
+        //     Expanded(
+        //       child: SelEcoSysMenuItem(
+        //         image: Image.asset(
+        //           isDarkMode ?
+        //           "assets/logo/selendra-logo.png" :
+        //           "assets/logo/selendra.png",
+        //           width: 12.w,
+        //         ),
+        //         title: "Funan DApp",
+        //         action: () {
+        //           underContstuctionAnimationDailog(context: context);
+        //         },
+        //       ),
+        //     ),
 
-            const SizedBox(width: 10,),
+        //     const SizedBox(width: 10,),
 
-            Expanded(
-              child: SelEcoSysMenuItem(
-                image: Image.asset(
-                  isDarkMode 
-                  ? "assets/logo/bitriel-light.png" 
-                  : "assets/logo/bitriel-logo-v2.png",
-                  width: 15.w,
-                ),
-                title: "Bitriel DEX",
-                action: () {
-                  underContstuctionAnimationDailog(context: context);
-                },
-              ),
-            )
-          ],
-        )
+        //     Expanded(
+        //       child: SelEcoSysMenuItem(
+        //         image: Image.asset(
+        //           isDarkMode 
+        //           ? "assets/logo/bitriel-light.png" 
+        //           : "assets/logo/bitriel-logo-v2.png",
+        //           width: 15.w,
+        //         ),
+        //         title: "Bitriel DEX",
+        //         action: () {
+        //           underContstuctionAnimationDailog(context: context);
+        //         },
+        //       ),
+        //     )
+        //   ],
+        // )
       ],
     );
   }

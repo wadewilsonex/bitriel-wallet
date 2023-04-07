@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
@@ -402,10 +403,11 @@ class AccountBody extends StatelessWidget{
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: MyFlatButton(
                     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    isTransparent: true,
+                    isTransparent: false,
                     buttonColor: AppColors.whiteHexaColor,
-                    textColor: AppColors.blackColor,
+                    textColor: AppColors.redColor,
                     textButton: "Cancel",
+                    isBorder: true,
                     action: () {
                       _closeDialog(context);
                     },
@@ -440,3 +442,45 @@ class AccountBody extends StatelessWidget{
     Navigator.of(context).pop(accountModel!.editNameController.text); // dialog returns true
   }
 }
+
+  Future<void> _deleteAccount({BuildContext? context}) async {
+
+    dialogLoading(context!);
+
+    final api = Provider.of<ApiProvider>(context, listen: false);
+    
+    try {
+
+      for( KeyPairData e in api.getKeyring.allAccounts){
+        await api.getSdk.api.keyring.deleteAccount(
+          api.getKeyring,
+          e,
+        );
+      }
+
+      final mode = await StorageServices.fetchData(DbKey.themeMode);
+      final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
+
+      await StorageServices().clearStorage();
+
+      // Re-Save Them Mode
+      await StorageServices.storeData(mode, DbKey.themeMode);
+      await StorageServices.storeData(sldNW, DbKey.sldNetwork);
+
+      await StorageServices().clearSecure();
+      
+      Provider.of<ContractProvider>(context, listen: false).resetConObject();
+      
+      await Future.delayed(const Duration(seconds: 2), () {});
+      
+      Provider.of<WalletProvider>(context, listen: false).clearPortfolio();
+
+      Navigator.pushAndRemoveUntil(context, RouteAnimation(enterPage: const Onboarding()), ModalRoute.withName('/'));
+    } catch (e) {
+
+      if (kDebugMode) {
+        print("_deleteAccount ${e.toString()}");
+      }
+      // await dialog(context, e.toString(), 'Opps');
+    }
+  }

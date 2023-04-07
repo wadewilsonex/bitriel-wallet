@@ -105,7 +105,7 @@ class LetsExchangeState extends State<LetsExchange> {
           text: "Let's Exchange",
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
         ),
         // leading: IconButton(
         //   onPressed: () => Navigator.pop(context),

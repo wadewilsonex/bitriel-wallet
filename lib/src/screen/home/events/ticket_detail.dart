@@ -268,27 +268,6 @@ class TicketDetail extends StatelessWidget {
       ),
       leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/2.png')),
     );
-    // return ListTile(
-    //   contentPadding: EdgeInsets.zero,
-    //   title: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       MyText(
-    //         text: creator,
-    //         fontWeight: FontWeight.w700,
-    //         textAlign: TextAlign.start,
-    //         fontSize: 19,
-    //       ),
-    //       const MyText(
-    //         text: "Organizer",
-    //         textAlign: TextAlign.start,
-    //         fontSize: 19,
-    //         hexaColor: AppColors.greyCode,
-    //       ),
-    //     ],
-    //   ),
-    //   leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/1.png')),
-    // );
   }
 
   SliverAppBar appbar(BuildContext context) {

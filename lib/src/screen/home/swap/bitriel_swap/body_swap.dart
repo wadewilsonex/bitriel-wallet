@@ -36,7 +36,7 @@ class SwapPageBody extends StatelessWidget {
           text: "Bitriel Swap",
           fontSize: 22,
           fontWeight: FontWeight.w600,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

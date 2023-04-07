@@ -34,7 +34,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
           text: "Checkout",
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

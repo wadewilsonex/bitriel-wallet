@@ -85,7 +85,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: Container(
                     alignment: Alignment.center,
-                    height: 5.8.h,
+                    height: 7.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
@@ -130,7 +130,6 @@ class VerifyPassphraseBody extends StatelessWidget {
                 Consumer<VerifySeedsProvider>(
                   builder: (context, pro, wg){
                     return pro.isVerifying == false ? MyFlatButton(
-                      edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                       isTransparent: true,
                       buttonColor: AppColors.whiteHexaColor,
                       textColor: AppColors.primaryColor,

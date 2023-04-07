@@ -397,7 +397,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       if(!mounted) return;
       String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
-        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Invalid PIN,\nPlease try again.");
+        await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         
       } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending
@@ -567,6 +567,7 @@ class SubmitTrxState extends State<SubmitTrx> {
           text: "Send",
           fontSize: 20,
           fontWeight: FontWeight.bold,
+          hexaColor: AppColors.blackColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -614,7 +615,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       "assets/animation/check.json",
                       alignment: Alignment.center,
                       repeat: false,
-                      width: 60,
+                      width: 60.w,
                     )
                   ),
                 ],

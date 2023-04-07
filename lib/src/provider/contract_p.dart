@@ -294,6 +294,8 @@ class ContractProvider with ChangeNotifier {
 
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
 
+        print("kgo balance $balance");
+
         final chainDecimal = await _kgo!.getChainDecimal();
 
         print("balance $balance");

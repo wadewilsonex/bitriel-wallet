@@ -20,7 +20,7 @@ class DetailsTicketingBody extends StatelessWidget {
           text: "Ticket Detail",
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
