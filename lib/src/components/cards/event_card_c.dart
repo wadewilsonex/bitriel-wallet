@@ -12,7 +12,8 @@ class EventCardComponents extends StatelessWidget {
   final String? eventDate;
   final List<Map<String, dynamic>>? listEvent;
 
-  const EventCardComponents({Key? key, 
+  const EventCardComponents({
+    Key? key, 
     this.ipfsAPI,
     this.title, 
     this.eventName, 

@@ -41,20 +41,28 @@ class ContractsBalance extends ChangeNotifier {
         await contractProvider!.bnbWallet();
         await contractProvider!.kgoTokenWallet();
 
+        print("finish 4 asset");
+
         // Attendance Token
-        if (apiProvider!.isMainnet) await contractProvider!.getBep20Balance(contractIndex: 8);
+        // if (apiProvider!.isMainnet) await contractProvider!.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
         await apiProvider!.getBtcBalance(context: _context);
+        
+        print("finish btc");
 
         // await apiProvider.connectPolNon(context: _context);
+
+        print("finish totalBalance");
+
+        // Sort After MarketPrice Filled Into Asset
+        await contractProvider!.sortAsset();
         
         /// Fetch main balance
         await apiProvider!.totalBalance(context: _context!);
 
-        // Sort After MarketPrice Filled Into Asset
-        await contractProvider!.sortAsset();
+        print("finish sort");
 
         contractProvider!.setReady();
         

@@ -3,7 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
-import 'package:wallet_apps/src/provider/provider.dart';
+import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
@@ -127,59 +127,14 @@ class AccountBody extends StatelessWidget{
                           ),
 
                           GestureDetector(
-                            onTap: () async{
-                              print("provider.getKeyring.allAccounts ${provider.getKeyring.allAccounts.length}");
-
-                              customDialog(
-                                context, 
-                                'Are you sure to delete your wallets?', 
-                                'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',
-                                txtButton: "Cancel",
-                                btn2: MyFlatButton(
-                                  edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                                  isTransparent: false,
-                                  buttonColor: AppColors.whiteHexaColor,
-                                  textColor: AppColors.redColor,
-                                  textButton: "I understand, continue",
-                                  isBorder: true,
-                                  action: () async {
-
-                                    
-
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                                        // const ImportAcc(
-                                        //   isBackBtn: true,
-                                        // )
-                                      )
-                                    ).then((value) async {
-                                      if (value != null){
-                                        
-                                        await provider.getSdk.api.keyring.deleteAccount(
-                                          provider.getKeyring,
-                                          provider.getKeyring.allAccounts[index],
-                                        ).then((value) async {
-                                          if(provider.getKeyring.allAccounts.isNotEmpty){
-                                            // ignore: invalid_use_of_protected_member
-                                            provider.notifyListeners();
-
-                                            ContractsBalance.getAllAssetBalance();
-
-                                            Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
-                                          }
-                                          else{
-                                            await _deleteAccount(context: context);
-                                          }
-                                        });
-
-                                      }
-                                    });
-                                  },
-                                )
-                              );
+                            onTap: () async {
                               
+                              await provider.getSdk.api.keyring.deleteAccount(
+                                provider.getKeyring,
+                                provider.getKeyring.allAccounts[index],
+                              );
+
+                              provider.notifyListeners();
                             },
                             child: _itemButton(
                               icon: Iconsax.trash, 
@@ -295,94 +250,91 @@ class AccountBody extends StatelessWidget{
           );
         }
       ),
-      bottomNavigationBar: SizedBox(
-        height: 70,
-        child: Row(
-          children: [
+      bottomNavigationBar: Row(
+        children: [
 
-            Expanded(
-              child: MyGradientButton(
-                edgeMargin: const EdgeInsets.all(paddingSize),
-                textButton: "Create Wallet",
-                fontWeight: FontWeight.w400,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
+          Expanded(
+            child: MyGradientButton(
+              edgeMargin: const EdgeInsets.all(paddingSize),
+              textButton: "Create Wallet",
+              fontWeight: FontWeight.w400,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
 
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                      // const ImportAcc(
-                      //   isBackBtn: true,
-                      // )
-                    )
-                  ).then((value) async {
-                    if (value != null){
-                      
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateSeeds(newAcc: NewAccount(), passCode: value,)
-                          // const ImportAcc(
-                          //   isBackBtn: true,
-                          // )
-                        )
-                      ).then((value) {
-                        if (value != null && value == true){
-                          
-                          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-                        }
-                      });
-                    }
-                  });
-                },
-              ),
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    // const ImportAcc(
+                    //   isBackBtn: true,
+                    // )
+                  )
+                ).then((value) async {
+                  if (value != null){
+                    
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateSeeds(newAcc: NewAccount(), passCode: value,)
+                        // const ImportAcc(
+                        //   isBackBtn: true,
+                        // )
+                      )
+                    ).then((value) {
+                      if (value != null && value == true){
+                        
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                      }
+                    });
+                  }
+                });
+              },
             ),
+          ),
       
-            Expanded(
-              child: MyGradientButton(
-                edgeMargin: const EdgeInsets.all(paddingSize),
-                textButton: "Import Wallet",
-                fontWeight: FontWeight.w400,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
+          Expanded(
+            child: MyGradientButton(
+              edgeMargin: const EdgeInsets.all(paddingSize),
+              textButton: "Import Wallet",
+              fontWeight: FontWeight.w400,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
 
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                      // const ImportAcc(
-                      //   isBackBtn: true,
-                      // )
-                    )
-                  ).then((pinValue) async {
-                    if (pinValue != null){
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    // const ImportAcc(
+                    //   isBackBtn: true,
+                    // )
+                  )
+                ).then((pinValue) async {
+                  if (pinValue != null){
 
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: pinValue,)
-                          // const ImportAcc(
-                          //   isBackBtn: true,
-                          // )
-                        )
-                      ).then((accValue) {
-                        if (accValue != null && accValue == true){
-                          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-                        }
-                      });
-                    }
-                  });
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: pinValue,)
+                        // const ImportAcc(
+                        //   isBackBtn: true,
+                        // )
+                      )
+                    ).then((accValue) {
+                      if (accValue != null && accValue == true){
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                      }
+                    });
+                  }
+                });
 
-                },
-              ),
-            )
-          ],
-        ),
+              },
+            ),
+          )
+        ],
       ),
     );
   }

@@ -147,33 +147,6 @@ class ReceiveWalletBody extends StatelessWidget {
                                   ),
                                 ),
         
-                                // if (assetIndex == null) Consumer<ReceiveWalletProvider>(
-                                //   builder: (context, value, widget){
-                                //     return QrViewTitle(
-                                //       // assetInfo: provider.assetInfo,
-                                //       listContract: value.lsContractSymbol,
-                                //       initialValue: provider.initialValue.toString(),
-                                //       onChanged: onChanged,
-                                //     );
-                                //   },
-                                // ) else SizedBox(height: 2.h,),
-              
-                                // MyText(
-                                //   bottom: 2.5.h,
-                                //   text: "Scan the QR code to pay me",
-                                //   fontSize: 16,
-                                //   color: AppColors.darkBgd
-                                // ),
-              
-                                // Padding(
-                                //   padding: EdgeInsets.only(top: 16, bottom: 16),
-                                //   child: TextShimmer(
-                                //     width: 300,
-                                //     txt: wallet,
-                                //     highlightColor: Colors.white,
-                                //   )
-                                // ),
-        
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: paddingSize + 10),
                                   child: Column(

@@ -32,9 +32,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
-    print("initState");
-
-
     _model.pageController!.addListener(() {
       if(_model.activeIndex != _model.pageController!.initialPage){
         setState(() {
@@ -59,6 +56,8 @@ class _HomePageState extends State<HomePage> {
     StorageServices().readSecure(DbKey.privateList)!.then((value) => {
       setState(() {
         Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
+
+        print(Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList);
 
         // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
         //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;

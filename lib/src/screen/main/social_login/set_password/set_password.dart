@@ -230,7 +230,6 @@ class _SetPasswordState extends State<SetPassword> {
       changeStatus("GETTING READY", avg: "4/4");
 
       ContractsBalance.getAllAssetBalance();
-
       
     }); 
   }

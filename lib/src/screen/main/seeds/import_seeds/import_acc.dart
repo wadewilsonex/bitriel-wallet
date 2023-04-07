@@ -35,6 +35,9 @@ class ImportAccState extends State<ImportAcc> {
 
   final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
   ApiProvider? _apiProvider;
+  ContractProvider? _contractProvider;
+  
+  String? _pk;
 
   bool? status;
   int? currentVersion;
@@ -47,6 +50,7 @@ class ImportAccState extends State<ImportAcc> {
     print("widget.passCode ${widget.passCode}");
 
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    _contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
     AppServices.noInternetConnection(context: context);
 
@@ -64,23 +68,6 @@ class ImportAccState extends State<ImportAcc> {
     return value;
   }
 
-  Future<bool>? validateJson(String mnemonic) async {
-    dynamic res;
-    try {
-      
-      res = Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring;
-      enable = res;
-      
-      setState((){});
-    } catch (e) {
-      
-      if (kDebugMode) {
-        print("Error validateMnemonic $e");
-      }
-    }
-    return res;
-  }
-
   void clearInput() {
     _importAccModel.key!.clear();
     setState(() {
@@ -91,10 +78,12 @@ class ImportAccState extends State<ImportAcc> {
   void onSubmit() async {
     if (enable == true){
 
+      // New Account From Multi Account
       if (widget.isAddNew == true){
 
         dialogLoading(context);
         await addNewAcc(status: true).then((value) {
+          ContractsBalance.getAllAssetBalance();
           
           // Close Dialog Loading
           Navigator.pop(context);
@@ -103,29 +92,8 @@ class ImportAccState extends State<ImportAcc> {
 
         });
       } else {
-
-        await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
-
-          /// From Multi Account
-          if(value.isNotEmpty){
-            createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-          }
-
-
-          final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-            _apiProvider!.getKeyring, 
-            keyType: KeyType.mnemonic, 
-            key: _importAccModel.key!.text,
-            name: 'User', 
-            password: createKeyModel!.passCode
-          );
-
-          /// From Welcome, Or From Multi Account
-          createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
-
-          await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
-
-        });
+        
+        // await addAndImport();
 
         if(!mounted) return;
 
@@ -144,9 +112,7 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> onSubmitIm() async {
-    // if(_importAccModel.formKey.currentState!.validate()){
-      
-    // }
+    
     Navigator.push(
       context,
       Transition(
@@ -156,12 +122,6 @@ class ImportAccState extends State<ImportAcc> {
         )
       )
     );
-  }
-
-  Future<void> isDotContain() async {
-    // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('DOT');
-    // Provider.of<ApiProvider>(context, listen: false).isDotContain();
-    // await Provider.of<ApiProvider>(context, listen: false).connectPolNon(context: context);
   }
 
   Future<bool> checkPassword(String pin) async {
@@ -226,6 +186,28 @@ class ImportAccState extends State<ImportAcc> {
     
     changeStatus("IMPORTING ACCOUNT", avg: "1/3");
     
+    await addAndImport();
+
+    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
+    _importAccountModel.animationController!.forward(from: 0.2);
+    
+    await connectNetwork();
+
+  }
+
+  Future<void> addAndImport() async {
+
+    print("addAndImport");
+    
+    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+      print("value.isNotEmpty ${value}");
+      if(value.isNotEmpty){
+        createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+      }
+
+    });
+
     final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
@@ -241,81 +223,39 @@ class ImportAccState extends State<ImportAcc> {
       password: _importAccModel.pwCon!.text
     );
 
-    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
-    _importAccountModel.animationController!.forward(from: 0.2);
+    print("finish addAccount");
+
+    _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
+    print("finish getPrivateKey");
     
-    await connectNetwork(_importAccModel.key!.text);
+    await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
+    print("finish extractAddress");
 
-  }
+    print('Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}');
 
-  Future<void> importJson() async { 
-    
-    try {
-      changeStatus("IMPORTING ACCOUNT", avg: "1/3");
-    
-      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.keystore, 
-        key: _importAccModel.key!.text,   
-        name: 'User', 
-        password: _importAccModel.pwCon!.text
-      );
+    // ignore: use_build_context_synchronously
+    await _apiProvider!.queryBtcData(context, _importAccModel.key!.text, _importAccModel.pwCon!.text);
 
-      print("jsn $jsn");
+    print("After query brc ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 
-      await _apiProvider!.getSdk.api.keyring.addAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.keystore, 
-        acc: jsn!,
-        password: _importAccModel.pwCon!.text
-      );
+    createKeyModel!.unverifyList.add(
+      UnverifySeed(
+        address: jsn["address"],
+        status: true,
+        ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd
+      )
+    );
 
-      changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
-      _importAccountModel.animationController!.forward(from: 0.2);
-    } catch (e) {
-      if (kDebugMode){
-        print("error importJson $e");
-      }
-    }
-    
-    await connectNetwork(_importAccModel.key!.text);
+    await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
 
   }
 
   /// Return Boolean Value
   Future<bool> addNewAcc({required bool status}) async {
-    print("_importAccModel.pwCon!.text ${_importAccModel.pwCon!.text}");
-    print("_importAccModel.key!.text ${_importAccModel.key!.text}");
-    print("addNewAcc");
+
     try {
+      await addAndImport();
 
-      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
-        if(value.isNotEmpty){
-          createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-        }
-
-      });
-      final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        key: _importAccModel.key!.text,   
-        name: 'User', 
-        password: _importAccModel.pwCon!.text
-      );
-
-      createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: status));
-
-      await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
-      print("jsn $jsn");
-
-      await _apiProvider!.getSdk.api.keyring.addAccount(
-        _apiProvider!.getKeyring, 
-        keyType: KeyType.mnemonic, 
-        acc: jsn,
-        password: _importAccModel.pwCon!.text
-      );
-
-      print("added");
       return true;
 
     } catch (e){
@@ -324,9 +264,7 @@ class ImportAccState extends State<ImportAcc> {
     }
   }
 
-  Future<void> connectNetwork(String mnemonic) async {
-    
-    final resPk = await _apiProvider!.getPrivateKey(mnemonic);
+  Future<void> connectNetwork() async {
     
     /// Cannot connect Both Network On the Same time
     /// 
@@ -334,44 +272,36 @@ class ImportAccState extends State<ImportAcc> {
     /// 
     /// This Function Connect Polkadot Network And then Connect Selendra Network
 
-    await _apiProvider!.connectSELNode(context: context, funcName: "account").then((value) async {
+    await _apiProvider!.getSelNativeChainDecimal(context: context); 
+    await _apiProvider!.subSELNativeBalance(context: context); 
+    await _apiProvider!.getAddressIcon();
+    // Get From Account js
+    // await _apiProvider!.getCurrentAccount(context: context);
 
-      await _apiProvider!.getAddressIcon();
-      // Get From Account js
-      // await _apiProvider!.getCurrentAccount(context: context);
+    final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
+    
+    await StorageServices().writeSecure(DbKey.private, res);
 
-      await ContractProvider().extractAddress(resPk);
+    // Store PIN 6 Digit
+    // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
-      final res = await _apiProvider!.encryptPrivateKey(resPk, _importAccModel.pwCon!.text);
-      
-      await StorageServices().writeSecure(DbKey.private, res);
+    changeStatus("GETTING READY", avg: "2/3");
+    _importAccountModel.animationController!.forward(from: 0.5);
 
-      // Store PIN 6 Digit
-      // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
+    if(!mounted) return;
+    await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
-      changeStatus("GETTING READY", avg: "2/3");
-      _importAccountModel.animationController!.forward(from: 0.5);
+    _importAccountModel.animationController!.forward(from: 8);
+    changeStatus("DONE", avg: "3/3");
 
-      if(!mounted) return;
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+    await ContractsBalance.getAllAssetBalance();
 
-      if(!mounted) return;
-      await _apiProvider!.queryBtcData(context, mnemonic, _importAccModel.pwCon!.text);
-
-      _importAccountModel.animationController!.forward(from: 8);
-      changeStatus("DONE", avg: "3/3");
-
-      ContractsBalance.getAllAssetBalance();
-
-      await Future.delayed(const Duration(milliseconds: 3), (){});
-
-      if(!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context, 
-        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-        ModalRoute.withName('/')
-      );
-    }); 
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context, 
+      Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+      ModalRoute.withName('/')
+    );
   }
 
   void changeStatus(String? status, {String? avg}){

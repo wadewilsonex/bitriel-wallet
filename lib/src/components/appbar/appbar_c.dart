@@ -3,6 +3,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
@@ -45,20 +46,32 @@ PreferredSizeWidget defaultAppBar({
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             
-            GestureDetector(
-              onTap: () {
-                // homePageModel!.globalKey!.currentState!.openDrawer();
-                bottomSheetAddAccount(context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: AvatarShimmer(
-                  height: 45,
-                  width: 45,
-                  txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
-                  child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
-                ),
-              )
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              child: GestureDetector(
+                onTap: () async {
+                  
+                  await StorageServices().readSecure(DbKey.privateList)!.then((value) {
+                    print("value $value");
+
+                    // Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
+
+                    print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
+
+                  });
+
+                  bottomSheetAddAccount(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: AvatarShimmer(
+                    height: 45,
+                    width: 45,
+                    txt: provider.netWorkConnected == false ? null : provider.getKeyring.current.icon,
+                    child: randomAvatar(provider.netWorkConnected == false ? '' : provider.getKeyring.current.icon!),
+                  ),
+                )
+              ),
             ),
 
             const Spacer(),
@@ -93,7 +106,7 @@ PreferredSizeWidget defaultAppBar({
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor, fontSize: 18,),
+                          MyText(text: "SELENDRA", hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.greyCode, fontSize: 16,),
 
                             Padding(
                             padding: const EdgeInsets.only(left: 4),
@@ -125,13 +138,9 @@ PreferredSizeWidget defaultAppBar({
                   ),
                   onPressed: () async {
 
-                    // final value = await Navigator.push(context, Transition(child: QrScanner(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-                    // if (value != null){
-                    //   getReward!(value);
-                    // }
-
                     await filterListWcSession(context);
                     
+                    // ignore: use_build_context_synchronously
                     await TrxOptionMethod.scanQR(
                       context,
                       [],
@@ -177,19 +186,34 @@ void bottomSheetAddAccount(BuildContext context) async{
           return Consumer<ApiProvider>(
             builder: (context, provider, wg) {
 
-
-
               return ListView.builder(
                 itemCount: provider.getKeyring.allAccounts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: (){
+                    onTap: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address ? null : () async {
+
+                      dialogLoading(context);
+
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
+
+                      await StorageServices().readSecure(DbKey.privateList)!.then((value) {
+                        print("value $value");
+
+                        print("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
+
+                        Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
+
+                        print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
+
+                      });
                       provider.notifyListeners();
-                      ContractsBalance.getAllAssetBalance();
+                      await ContractsBalance.getAllAssetBalance();
+
+                      Navigator.pop(context);
                       
                       Provider.of<VerifySeedsProvider>(context, listen: false).notifyListeners();
                       mySetState( () {});
+                      
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +256,7 @@ void bottomSheetAddAccount(BuildContext context) async{
                                   alignment: Alignment.centerRight,
                                   child: provider.getKeyring.allAccounts[index].address == provider.getKeyring.current.address 
                                   ? const Icon(Icons.check_circle_rounded, color: Colors.green, size: 30,) 
-                                  : Icon(Icons.circle, color: Colors.grey[600], size: 30,) 
+                                  : const Icon(Icons.circle, color: Color.fromARGB(255, 199, 199, 199), size: 30,) 
                                 ),
                               )
                             ],

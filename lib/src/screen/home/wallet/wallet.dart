@@ -72,7 +72,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
         Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
       });
       
-      print("initState $Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList ${Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.length}");
     });
 
     AppServices.noInternetConnection(context: context);
