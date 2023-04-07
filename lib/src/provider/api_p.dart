@@ -326,14 +326,18 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> totalBalance({@required BuildContext? context}) async {
+    print("totalBalance $context");
     final contract = Provider.of<ContractProvider>(context!, listen: false);
     
     double total = 0.0;
 
     var balanceList = [];
+
+    print("contract.sortListContract ${contract.sortListContract}");
     
     for (var element in contract.sortListContract) {
-      if(element.marketPrice!.isNotEmpty){
+      print(element.marketPrice ?? 'null veryyyy');
+      if(element.marketPrice != null && element.marketPrice!.isNotEmpty){
         total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         balanceList.add(total);
       }
@@ -544,6 +548,7 @@ class ApiProvider with ChangeNotifier {
       // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address ?? '');
       print("contract.listContract[selNativeIndex].address! ${_keyring.current.address}");
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${_keyring.current.address}', 'Balance')").then((value) async {
+        print("value $value");
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
           contract.listContract[selNativeIndex].chainDecimal!,

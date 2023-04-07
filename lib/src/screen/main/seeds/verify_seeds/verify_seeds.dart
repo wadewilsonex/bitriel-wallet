@@ -28,6 +28,10 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   final ImportAccAnimationModel _importAccountModel = ImportAccAnimationModel();
 
+  ContractProvider? conProvider;
+
+  String? _pk;
+
   void remove3Seeds() {
 
     widget.createKeyModel!.missingSeeds = [];
@@ -56,6 +60,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   void initState() {
 
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
+    conProvider = Provider.of<ContractProvider>(context, listen: false);
 
     AppServices.noInternetConnection(context: context);
     remove3Seeds();
@@ -127,13 +132,117 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
   Future<void> importAcc() async {
 
-    changeStatus("IMPORTING ACCOUNT", avg: "2/3");
+    changeStatus("IMPORTING ACCOUNT", avg: "1/3");
+    
+    await addAndImport();
+
+    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
     
+    await connectNetwork();
+  }
+
+  Future<void> connectNetwork() async {
+    
+    /// Cannot connect Both Network On the Same time
+    /// 
+    /// It will be wrong data of that each connection. 
+    /// 
+    /// This Function Connect Polkadot Network And then Connect Selendra Network
+
+    await _apiProvider!.getSelNativeChainDecimal(context: context); 
+    // ignore: use_build_context_synchronously
+    await _apiProvider!.subSELNativeBalance(context: context); 
+    await _apiProvider!.getAddressIcon();
+    // Get From Account js
+    // await _apiProvider!.getCurrentAccount(context: context);
+
+    final res = await _apiProvider!.encryptPrivateKey(_pk!, widget.createKeyModel!.lsSeeds!.join(" "));
+    
+    await StorageServices().writeSecure(DbKey.private, res);
+
+    // Store PIN 6 Digit
+    // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
+
+    changeStatus("GETTING READY", avg: "2/3");
+    _importAccountModel.animationController!.forward(from: 0.5);
+
+    if(!mounted) return;
+    await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
+
+    _importAccountModel.animationController!.forward(from: 8);
+    changeStatus("DONE", avg: "3/3");
+
+    await ContractsBalance.getAllAssetBalance();
+
+    if(!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context, 
+      Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
+      ModalRoute.withName('/')
+    );
+  }
+
+  void changeStatus(String? status, {String? avg}){
+    
+    _importAccountModel.average = avg;
+    _importAccountModel.value = _importAccountModel.value! + 0.333;
+    _importAccountModel.loadingMgs = status;
+  }
+
+  /// Condition Inside verifyLater Below
+  /// 
+  /// Is Use For Routing To Home Page Or Just Stay At Multi Account After Finish
+
+  Future<void> verifyLater() async {
+
+    _importAccountModel.status = false;
+
+    /// From Multi Account
+    if (widget.newAcc != null){
+
+      dialogLoading(context);
+
+      await addAndImport();
+      
+      Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+          
+      Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
+    }
+
+    /// From Onboading Page Create New
+    else {
+      
+      _importAccountModel.status = true;
+
+      if(!mounted) return;
+      
+      Navigator.push(
+        context, 
+        Transition(
+          child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+          transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+        )
+      );
+    }
+
+  }
+
+  
+  Future<void> addAndImport() async {
+
+    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+
+      if(value.isNotEmpty){
+        widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
+      }
+
+    });
+
     final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
       _apiProvider!.getKeyring, 
       keyType: KeyType.mnemonic, 
-      key: widget.createKeyModel!.lsSeeds!.join(" "),
+      key: widget.createKeyModel!.lsSeeds!.join(" "),   
       name: 'User', 
       password: widget.createKeyModel!.passCode
     );
@@ -145,124 +254,31 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       password: widget.createKeyModel!.passCode
     );
 
-    changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
-    _importAccountModel.animationController!.forward(from: 0.2);
+    _pk = await _apiProvider!.getPrivateKey(widget.createKeyModel!.lsSeeds!.join(" "));
+    await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
 
-    await connectNetwork(widget.createKeyModel!.lsSeeds!.join(" "));
-    
-  }
+    // ignore: use_build_context_synchronously
+    await _apiProvider!.queryBtcData(context, widget.createKeyModel!.lsSeeds!.join(" "), widget.createKeyModel!.passCode);
 
-  /// Return Boolean Value
-  Future<bool> addNewAcc({required bool status}) async {
+    widget.createKeyModel!.unverifyList.add(
+      UnverifySeed(address: jsn["address"],
+      status: _importAccountModel.status, 
+      ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd
+    ));
 
-    print("addNewAcc");
-    try {
+    await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
 
-      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
-        if(value.isNotEmpty){
-          widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-        }
-
-        final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-          _apiProvider!.getKeyring, 
-          keyType: KeyType.mnemonic, 
-          key: widget.createKeyModel!.lsSeeds!.join(" "),
-          name: 'User', 
-          password: widget.createKeyModel!.passCode
-        );
-
-        widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: status));
-
-        await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
-        
-        print("jsn $jsn");
-
-        await _apiProvider!.getSdk.api.keyring.addAccount(
-          _apiProvider!.getKeyring, 
-          keyType: KeyType.mnemonic, 
-          acc: jsn,
-          password: widget.createKeyModel!.passCode
-        );
-
-      });
-      
-
-      print("added");
-      return true;
-
-    } catch (e){
-      print("Error addNewAcc $e");
-      return false;
-    }
-  }
-
-
-  Future<void> connectNetwork(String mnemonic) async {
-    
-    final resPk = await _apiProvider!.getPrivateKey(mnemonic);
-    
-    /// Cannot connect Both Network On the Same time
-    /// 
-    /// It will be wrong data of that each connection. 
-    /// 
-    /// This Function Connect Polkadot Network And then Connect Selendra Network
-
-    await _apiProvider!.connectSELNode(context: context, funcName: "account").then((value) async {
-
-      await _apiProvider!.getAddressIcon();
-      // Get From Account js
-      // await _apiProvider!.getCurrentAccount(context: context);
-
-      await ContractProvider().extractAddress(resPk);
-
-      final res = await _apiProvider!.encryptPrivateKey(resPk, "123");
-      
-      await StorageServices().writeSecure(DbKey.private, res);
-
-      // Store PIN 6 Digit
-      // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
-
-      await Future.delayed(const Duration(seconds: 2));
-
-      changeStatus("GETTING READY", avg: "2/3");
-      _importAccountModel.animationController!.forward(from: 0.5);
-
-      if(!mounted) return;
-      await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
-
-      if(!mounted) return;
-      await _apiProvider!.queryBtcData(context, mnemonic, "123");
-
-      _importAccountModel.animationController!.forward(from: 8);
-      changeStatus("DONE", avg: "3/3");
-
-      ContractsBalance.getAllAssetBalance();
-
-      await Future.delayed(const Duration(milliseconds: 3), (){});
-
-      if(!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context, 
-        Transition(child: const HomePage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT), 
-        ModalRoute.withName('/')
-      );
-
-    }); 
-
-  }
-
-  void changeStatus(String? status, {String? avg}){
-    
-    _importAccountModel.average = avg;
-    _importAccountModel.value = _importAccountModel.value! + 0.333;
-    _importAccountModel.loadingMgs = status;
   }
   
   Future<void> verifySeeds() async {
 
     dynamic res;
     ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
+
+    conProvider = Provider.of<ContractProvider>(context, listen: false);
+
     try {
+
       res = await api.validateMnemonic(widget.createKeyModel!.missingSeeds.join(" "));
       if (res == true){ 
 
@@ -270,26 +286,22 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
         dialogLoading(context);
 
+        /// From Multiple Account
         if (widget.newAcc != null){
+          
+          await addAndImport();
 
-          await addNewAcc(status: true).then((value) async {
+          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+          
+          Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
 
-            if (value == true){
-
-              Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-              
-              Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
-              
-            } else {
-              await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
-            }
-          });
-
-        } else {
+        }
+        /// From Wallet Home Screen
+        /// 
+        /// User Attempting To Verify Account
+        else {
 
           if (Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true){
-
-            
 
             await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
 
@@ -309,13 +321,19 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               // int indexOfVerifyingSeed = tmp.indexOf(obj[0]);
 
               /// From Welcome, Or From Multi Account
-              widget.createKeyModel!.unverifyList[tmp.indexOf(obj[0])] = UnverifySeed(address: api.getKeyring.current.address, status: true);
+              widget.createKeyModel!.unverifyList[tmp.indexOf(obj[0])] = UnverifySeed(
+                address: api.getKeyring.current.address, 
+                status: true, 
+                ethAddress: conProvider!.ethAdd
+              );
+
+              // addAndImport
 
               await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
 
-              Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(address: api.getKeyring.current.address, status: true).toMap();
+              Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd).toMap();
 
-              Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(address: api.getKeyring.current.address, status: true).toMap();
+              Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd).toMap();
               
               Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = false;
 
@@ -323,37 +341,12 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               
               Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
 
-
             });
             
           }
 
           // For Create New Account From Welcome
           else {
-
-            await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
-
-              /// From Multi Account
-              if(value.isNotEmpty){
-                widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-              }
-              
-              final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-                _apiProvider!.getKeyring, 
-                keyType: KeyType.mnemonic, 
-                key: widget.createKeyModel!.lsSeeds!.join(" "),
-                name: 'User', 
-                password: widget.createKeyModel!.passCode
-              );
-
-              /// From Welcome, Or From Multi Account
-              widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: true));
-
-              await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
-
-            });
-
-            if(!mounted) return;
 
             Navigator.push(
               context, 
@@ -381,72 +374,12 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     }
     return res;
   }
-
-  Future<void> unVerifySeed() async {
-
-    if (widget.newAcc != null){
-
-      dialogLoading(context);
-      
-      await addNewAcc(status: false).then((value) async {
-
-        if (value == true){
-
-          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-          
-          Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
-          
-        } else {
-          await DialogComponents().dialogCustom(context: context, contents: "Something wrong");
-        }
-
-      });
-    } else {
-      
-      dialogLoading(context);
-        
-      await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
-
-        /// From Multi Account
-        if(value.isNotEmpty){
-          widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
-        }
-
-
-        final jsn = await _apiProvider!.getSdk.api.keyring.importAccount(
-          _apiProvider!.getKeyring, 
-          keyType: KeyType.mnemonic, 
-          key: widget.createKeyModel!.lsSeeds!.join(" "),
-          name: 'User', 
-          password: widget.createKeyModel!.passCode
-        );
-
-        /// From Welcome, Or From Multi Account
-        widget.createKeyModel!.unverifyList.add(UnverifySeed(address: jsn!["address"], status: false));
-
-        await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
-
-      });
-
-      if(!mounted) return;
-      
-      Navigator.push(
-        context, 
-        Transition(
-          child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-          transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-        )
-      );
-    }
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return VerifyPassphraseBody(
       createKeyModel: widget.createKeyModel,
       submit: verifySeeds,
-      submitUnverify: unVerifySeed,
+      submitUnverify: verifyLater,
       onTap: onTap,
       remove3Seeds: remove3Seeds
     );

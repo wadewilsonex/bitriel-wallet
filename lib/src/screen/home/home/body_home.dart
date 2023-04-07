@@ -267,7 +267,7 @@ class HomePageBody extends StatelessWidget {
     
               Expanded(
                 child: MyMenuItem(
-                  title: "bitriel NFT",
+                  title: "BTIRIEL NFT",
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {

@@ -11,7 +11,6 @@ import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
-import 'package:wallet_apps/src/provider/search_p.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/src/provider/ticket_p.dart';
@@ -62,9 +61,6 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<AirDropProvider>(
           create: (context) => AirDropProvider(),
-        ),
-        ChangeNotifierProvider<SearchProvider>(
-          create: (context) => SearchProvider(),
         ),
         ChangeNotifierProvider<SwapProvider>(
           create: (context) => SwapProvider(),

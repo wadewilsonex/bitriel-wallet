@@ -279,6 +279,8 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> kgoTokenWallet() async {
+
+    print("ethAdd $ethAdd");
     
     if (apiProvider.isMainnet){
       try {
@@ -293,6 +295,8 @@ class ContractProvider with ChangeNotifier {
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
 
         final chainDecimal = await _kgo!.getChainDecimal();
+
+        print("balance $balance");
 
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
@@ -803,22 +807,31 @@ class ContractProvider with ChangeNotifier {
     return res;
   }
 
+  /// Extract Address From PK and Assign to EthAdd Variable
   Future<void> extractAddress(String privateKey) async {
 
     await initBscClient();
     final EthPrivateKey? credentials = EthPrivateKey.fromHex(privateKey);
 
     if (credentials != null) {
-      final addr = await credentials.extractAddress();
-      ethAdd = addr.toString();
-      await StorageServices().writeSecure(DbKey.ethAddr, addr.toString());
+      print("credentials.address.toString() ${credentials.address.toString()}");
+      // final addr = await credentials.extractAddress();
+      ethAdd = credentials.address.toString();
+
+      notifyListeners();
+      
+      print("ethAdd $ethAdd");
+      await StorageServices().writeSecure(DbKey.ethAddr, credentials.address.toString());
+
     }
   }
 
   Future<void> getEtherAddr() async {
+    print("getEtherAddr");
     try {
 
       final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      print("ethAddr $ethAddr");
       ethAdd = ethAddr!;
 
       notifyListeners();

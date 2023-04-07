@@ -249,94 +249,91 @@ class AccountBody extends StatelessWidget{
           );
         }
       ),
-      bottomNavigationBar: SizedBox(
-        height: 70,
-        child: Row(
-          children: [
+      bottomNavigationBar: Row(
+        children: [
 
-            Expanded(
-              child: MyGradientButton(
-                edgeMargin: const EdgeInsets.all(paddingSize),
-                textButton: "Create Wallet",
-                fontWeight: FontWeight.w400,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
+          Expanded(
+            child: MyGradientButton(
+              edgeMargin: const EdgeInsets.all(paddingSize),
+              textButton: "Create Wallet",
+              fontWeight: FontWeight.w400,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
 
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                      // const ImportAcc(
-                      //   isBackBtn: true,
-                      // )
-                    )
-                  ).then((value) async {
-                    if (value != null){
-                      
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateSeeds(newAcc: NewAccount(), passCode: value,)
-                          // const ImportAcc(
-                          //   isBackBtn: true,
-                          // )
-                        )
-                      ).then((value) {
-                        if (value != null && value == true){
-                          
-                          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-                        }
-                      });
-                    }
-                  });
-                },
-              ),
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    // const ImportAcc(
+                    //   isBackBtn: true,
+                    // )
+                  )
+                ).then((value) async {
+                  if (value != null){
+                    
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateSeeds(newAcc: NewAccount(), passCode: value,)
+                        // const ImportAcc(
+                        //   isBackBtn: true,
+                        // )
+                      )
+                    ).then((value) {
+                      if (value != null && value == true){
+                        
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                      }
+                    });
+                  }
+                });
+              },
             ),
+          ),
       
-            Expanded(
-              child: MyGradientButton(
-                edgeMargin: const EdgeInsets.all(paddingSize),
-                textButton: "Import Wallet",
-                fontWeight: FontWeight.w400,
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
+          Expanded(
+            child: MyGradientButton(
+              edgeMargin: const EdgeInsets.all(paddingSize),
+              textButton: "Import Wallet",
+              fontWeight: FontWeight.w400,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
 
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
-                      // const ImportAcc(
-                      //   isBackBtn: true,
-                      // )
-                    )
-                  ).then((pinValue) async {
-                    if (pinValue != null){
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    // const ImportAcc(
+                    //   isBackBtn: true,
+                    // )
+                  )
+                ).then((pinValue) async {
+                  if (pinValue != null){
 
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: pinValue,)
-                          // const ImportAcc(
-                          //   isBackBtn: true,
-                          // )
-                        )
-                      ).then((accValue) {
-                        if (accValue != null && accValue == true){
-                          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                          Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-                        }
-                      });
-                    }
-                  });
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImportAcc(isBackBtn: true, isAddNew: true, passCode: pinValue,)
+                        // const ImportAcc(
+                        //   isBackBtn: true,
+                        // )
+                      )
+                    ).then((accValue) {
+                      if (accValue != null && accValue == true){
+                        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                        Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                      }
+                    });
+                  }
+                });
 
-                },
-              ),
-            )
-          ],
-        ),
+              },
+            ),
+          )
+        ],
       ),
     );
   }

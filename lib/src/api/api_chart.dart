@@ -16,30 +16,35 @@ class ApiCalls extends GetConnect {
     DateTime timeStart,
     DateTime timeEnd,
   ) async {
-    DateFormat format = DateFormat('yyyy-MM-dd HH:MM');
-    String timeStartStr =
-        format.format(timeStart).toString().replaceAll(' ', 'T');
-    String timeEndStr = format.format(timeEnd).toString().replaceAll(' ', 'T');
-    List<FlSpot> spots = [];
-    Response response = await get(
-      'https://rest.coinapi.io/v1/exchangerate/${cryptoBase.toUpperCase()}/${exchangeCurrency.toUpperCase()}/history?period_id=$periodID&time_start=$timeStartStr&time_end=$timeEndStr',
-      headers: headers,
-    );
-    List ratesCount = response.body;
+    try {
 
-    if (kDebugMode) {
-      print("ratesCount $ratesCount $cryptoBase");
-    }
-    //add spots
-    for (var i = 0; i < ratesCount.length; i++) {
-      spots.add(
-        FlSpot(
-          i.toDouble(),
-          double.parse(response.body[i]['rate_close'].toStringAsFixed(6)),
-        ),
+      DateFormat format = DateFormat('yyyy-MM-dd HH:MM');
+      String timeStartStr =
+          format.format(timeStart).toString().replaceAll(' ', 'T');
+      String timeEndStr = format.format(timeEnd).toString().replaceAll(' ', 'T');
+      List<FlSpot> spots = [];
+      Response response = await get(
+        'https://rest.coinapi.io/v1/exchangerate/${cryptoBase.toUpperCase()}/${exchangeCurrency.toUpperCase()}/history?period_id=$periodID&time_start=$timeStartStr&time_end=$timeEndStr',
+        headers: headers,
       );
+      List ratesCount = response.body;
+
+      if (kDebugMode) {
+        print("ratesCount $ratesCount $cryptoBase");
+      }
+      //add spots
+      for (var i = 0; i < ratesCount.length; i++) {
+        spots.add(
+          FlSpot(
+            i.toDouble(),
+            double.parse(response.body[i]['rate_close'].toStringAsFixed(6)),
+          ),
+        );
+      }
+      
+      return spots;
+    } catch (e) {
+      return List<FlSpot>.empty(growable: true);
     }
-    
-    return spots;
   }
 }

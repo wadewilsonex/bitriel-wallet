@@ -5,6 +5,10 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class ContractsBalance extends ChangeNotifier {
 
+  static ContractProvider? contractProvider;
+  static ApiProvider? apiProvider;
+  static String? btcAddr;
+
   static BuildContext? _context;
 
   /// This Setter is define in initState function at App.dart
@@ -17,44 +21,50 @@ class ContractsBalance extends ChangeNotifier {
   /// The function get all asset information 
   static Future<void> getAllAssetBalance({bool? isRefresh}) async {
 
-    print("getAllAssetBalance");
-
     try {
 
-      final contractProvider = Provider.of<ContractProvider>(_context!, listen: false);
-      final apiProvider = Provider.of<ApiProvider>(_context!, listen: false);
-      final btcAddr = await StorageServices.fetchData(DbKey.bech32);
+      contractProvider ??= Provider.of<ContractProvider>(_context!, listen: false);
+      apiProvider ??= Provider.of<ApiProvider>(_context!, listen: false);
+      btcAddr ??= await StorageServices.fetchData(DbKey.bech32);
 
       if (btcAddr != null) {
-        apiProvider.setBtcAddr(btcAddr.toString());
-        contractProvider.listContract[apiProvider.btcIndex].address = btcAddr;
+        apiProvider!.setBtcAddr(btcAddr.toString());
+        contractProvider!.listContract[apiProvider!.btcIndex].address = btcAddr;
       }
 
       // await contractProvider.setSavedList().then((value) async {
 
         // await contractProvider.selTokenWallet(context);
         // await contractProvider.selv2TokenWallet(context);
-        await apiProvider.subSELNativeBalance(context: _context);
-        await contractProvider.ethWallet();
-        await contractProvider.bnbWallet();
-        await contractProvider.kgoTokenWallet();
+        await apiProvider!.subSELNativeBalance(context: _context);
+        await contractProvider!.ethWallet();
+        await contractProvider!.bnbWallet();
+        await contractProvider!.kgoTokenWallet();
+
+        print("finish 4 asset");
 
         // Attendance Token
-        if (apiProvider.isMainnet) await contractProvider.getBep20Balance(contractIndex: 8);
+        // if (apiProvider!.isMainnet) await contractProvider!.getBep20Balance(contractIndex: 8);
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
-        await apiProvider.getBtcBalance(context: _context);
+        await apiProvider!.getBtcBalance(context: _context);
+        
+        print("finish btc");
 
         // await apiProvider.connectPolNon(context: _context);
-        
-        /// Fetch main balance
-        await apiProvider.totalBalance(context: _context!);
+
+        print("finish totalBalance");
 
         // Sort After MarketPrice Filled Into Asset
-        await contractProvider.sortAsset();
+        await contractProvider!.sortAsset();
+        
+        /// Fetch main balance
+        await apiProvider!.totalBalance(context: _context!);
 
-        contractProvider.setReady();
+        print("finish sort");
+
+        contractProvider!.setReady();
         
         /* --------------After Fetch Contract Balance Need To Save To Storage Again-------------- */
         await StorageServices.storeAssetData(_context!);

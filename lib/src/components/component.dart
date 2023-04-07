@@ -246,7 +246,7 @@ class MyGradientButton extends StatelessWidget {
     this.edgePadding = const EdgeInsets.fromLTRB(0, 0, 0, 0),
     this.hasShadow = false,
     this.width = double.infinity,
-    this.height = 50,
+    this.height = 60,
     this.isTransparent = false,
     required this.begin,
     required this.end,
