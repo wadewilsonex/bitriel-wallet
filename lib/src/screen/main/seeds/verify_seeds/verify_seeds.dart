@@ -205,6 +205,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await addAndImport();
       
+      await ContractsBalance.getAllAssetBalance();
+      
       Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           
       Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
@@ -290,6 +292,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
         if (widget.newAcc != null){
           
           await addAndImport();
+
+          await ContractsBalance.getAllAssetBalance();
 
           Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           
