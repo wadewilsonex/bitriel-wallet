@@ -1,6 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
 import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
+import 'package:wallet_apps/src/screen/home/security_privacy/password/password.dart';
 
 class SecurityPrivacy extends StatelessWidget {
   final MenuModel? model;
@@ -42,7 +43,7 @@ class SecurityPrivacy extends StatelessWidget {
               children: [
                 // _backupSeed(context),
 
-                _changePinCode(context),
+                _changePassword(context),
 
                 _securityLayer(context, setStateWidget),
 
@@ -101,16 +102,16 @@ class SecurityPrivacy extends StatelessWidget {
     );
   }
 
-  Widget _changePinCode(BuildContext context){
+  Widget _changePassword(BuildContext context){
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const MyText(text: "PIN Code", fontSize: 18, fontWeight: FontWeight.bold,),
+          const MyText(text: "Password", fontSize: 18, fontWeight: FontWeight.bold,),
 
           const MyText(
-            text: "Choose a strong PIN code to unlock Bitriel app on your devices. If you lose this PIN code, you will need your secret recovery phrase to re-import your wallet", 
+            text: "Choose a strong password to unlock Bitriel app on your devices. If you lost or forgot password, you will need your secret recovery phrase to re-import your wallet", 
             hexaColor: AppColors.greyCode,
             textAlign: TextAlign.start,
             top: 10,
@@ -133,12 +134,12 @@ class SecurityPrivacy extends StatelessWidget {
                 Navigator.push(
                   context, 
                   Transition(
-                    child: const ChangePin(),
+                    child: const PasswordSecurity(),
                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                   )
                 );
               },
-              child: const MyText(text: "Change PIN Code", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
+              child: const MyText(text: "Setup Password", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
             ),
           )
 

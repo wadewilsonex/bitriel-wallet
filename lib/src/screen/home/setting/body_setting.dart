@@ -21,6 +21,7 @@ class BodySettingPage extends StatelessWidget {
           text: "Settings",
           fontWeight: FontWeight.bold,
           fontSize: 22,
+          hexaColor: AppColors.blackColor,
         ),
       ),
       body: SingleChildScrollView(

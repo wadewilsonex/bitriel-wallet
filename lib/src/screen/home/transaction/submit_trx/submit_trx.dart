@@ -567,6 +567,7 @@ class SubmitTrxState extends State<SubmitTrx> {
           text: "Send",
           fontSize: 20,
           fontWeight: FontWeight.bold,
+          hexaColor: AppColors.blackColor,
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -614,7 +615,7 @@ class SubmitTrxState extends State<SubmitTrx> {
                       "assets/animation/check.json",
                       alignment: Alignment.center,
                       repeat: false,
-                      width: 60,
+                      width: 60.w,
                     )
                   ),
                 ],

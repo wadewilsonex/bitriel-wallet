@@ -41,7 +41,7 @@ class _AdsWebViewState extends State<AdsWebView> {
         title: MyText(
           text: widget.item != null ? widget.item!['title'] : widget.title!,
           fontWeight: FontWeight.bold,
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
           fontSize: 20,
         ),
         leading: IconButton(

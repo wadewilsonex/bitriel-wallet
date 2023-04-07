@@ -20,6 +20,7 @@ class DbKey{
   static String private = "private_key";
   static String btcwif = "btcwif_key";
   static String privateList = "private_key_list";
+  static String password = "password_key";
 
   static String txtHistory = "txthistory_key";
   

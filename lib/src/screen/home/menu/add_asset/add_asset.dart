@@ -258,7 +258,7 @@ class AddAssetState extends State<AddAsset> {
   Future<void> submitAsset() async {
     try {
 
-      dialogLoading(context);
+      dialogLoading(context, animationAsset: "assets/animation/loading-files.json");
     
       setState(() {
         _tokenSymbol = "";
@@ -412,7 +412,7 @@ class AddAssetState extends State<AddAsset> {
         bottomOpacity: 0,
         title: MyText(
           text: "Add Custom Token",
-          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,
+          hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),

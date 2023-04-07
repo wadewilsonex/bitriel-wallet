@@ -120,7 +120,7 @@ class _PaymentOptionsState extends State<PaymentOptions> {
 
           GestureDetector(
             onTap: () async {
-              dialogLoading(context, isTicket: true);
+              dialogLoading(context);
               // await controller.makePayment(context, );
             },
             child: Container(

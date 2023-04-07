@@ -33,21 +33,25 @@ class SelEcoSysMenuItem extends StatelessWidget {
 
             const Spacer(),
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            SizedBox(
+              height: 100,
+              width: 100,
               child: image!,
             ),
 
             const Spacer(),
 
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MyText(
-                text: title,
-                hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-                bottom: 10,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: MyText(
+                  text: title,
+                  hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.darkGrey,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  bottom: 10,
+                ),
               ),
             ),
 

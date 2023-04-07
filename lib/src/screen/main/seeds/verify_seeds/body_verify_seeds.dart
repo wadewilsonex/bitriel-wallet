@@ -85,7 +85,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20),
                   child: Container(
                     alignment: Alignment.center,
-                    height: 5.8.h,
+                    height: 7.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),

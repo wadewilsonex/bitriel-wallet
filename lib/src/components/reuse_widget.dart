@@ -695,7 +695,7 @@ Widget loading() {
 }
 
 /* Progress */
-Widget progress({bool isTicket = false, String? content}) {
+Widget progress({String? animationAsset, String? content}) {
   return Material(
     color: Colors.transparent,
     child: Stack(
@@ -705,7 +705,7 @@ Widget progress({bool isTicket = false, String? content}) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Lottie.asset(
-              isTicket == true ? "assets/animation/loading-ticket.json" : "assets/animation/blockchain-animation.json",
+              animationAsset ?? "assets/animation/blockchain-animation.json",
               repeat: true,
               reverse: true,
             ),
@@ -732,14 +732,14 @@ Widget progress({bool isTicket = false, String? content}) {
   );
 }
 
-dialogLoading(BuildContext context, {bool? isTicket = false, String? content}) {
+dialogLoading(BuildContext context, {String? animationAsset, String? content}) {
   return showDialog(
     barrierDismissible: true,
     context: context,
     builder: (context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-        child: progress(isTicket: isTicket!, content: content)
+        child: progress(animationAsset: animationAsset, content: content)
       );
       // WillPopScope(
       //   onWillPop: () => Future(() => false),
@@ -1323,7 +1323,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
 
       hintText: title,
       hintStyle: TextStyle(
-        fontSize: 14,
+        fontSize: 18,
         color: hexaCodeToColor("#AAAAAA"),
       ),
 

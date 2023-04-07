@@ -31,6 +31,7 @@ class ReceiveWalletBody extends StatelessWidget {
                   text: "Receive",
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
+                  hexaColor: AppColors.blackColor,
                 ),
 
                 Expanded(

@@ -269,7 +269,6 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: Image.asset(
                   "assets/logo/weteka.png",
-                  width: 40.w,
                 ),
                 title: "Weteka",
                 action: () async {
@@ -287,7 +286,6 @@ class DiscoverPageBody extends StatelessWidget {
               child: SelEcoSysMenuItem(
                 image: SvgPicture.asset(
                   "assets/logo/Koompi_wifi.svg",
-                  width: 20.w,
                   color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
                 ),
                 title: "KOOMPI Fi-Fi",
