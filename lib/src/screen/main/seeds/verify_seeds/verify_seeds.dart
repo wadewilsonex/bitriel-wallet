@@ -207,8 +207,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
       await ContractsBalance.getAllAssetBalance();
       
-      await ContractsBalance.getAllAssetBalance();
-      
       Provider.of<ApiProvider>(context, listen: false).notifyListeners();
           
       Navigator.popUntil(context, ModalRoute.withName('/multipleWallets'));
