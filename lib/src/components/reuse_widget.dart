@@ -707,7 +707,7 @@ Widget progress({String? animationAsset, String? content}) {
             Lottie.asset(
               animationAsset ?? "assets/animation/blockchain-animation.json",
               repeat: true,
-              reverse: true,
+              // reverse: true,
             ),
             // CircularProgressIndicator(
             //   backgroundColor: Colors.transparent,
