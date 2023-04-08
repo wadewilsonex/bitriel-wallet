@@ -50,15 +50,6 @@ PreferredSizeWidget defaultAppBar({
               margin: const EdgeInsets.only(left: 10),
               child: GestureDetector(
                 onTap: () async {
-                  
-                  await StorageServices().readSecure(DbKey.privateList)!.then((value) {
-                    print("value $value");
-
-                    // Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
-
-                    print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
-
-                  });
 
                   bottomSheetAddAccount(context);
                 },
