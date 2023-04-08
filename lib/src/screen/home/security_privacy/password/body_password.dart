@@ -66,7 +66,9 @@ class BodyPasswordSecurity extends StatelessWidget {
             ),
           ),
     
-          // const Spacer(),
+          // Expanded(
+          //   child: Container(),
+          // ),
     
           Padding(
             padding: const EdgeInsets.all(paddingSize),

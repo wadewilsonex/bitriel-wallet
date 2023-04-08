@@ -191,13 +191,13 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       title: 'Delete All Wallets',
       leadingIcon: Icon(Iconsax.logout, color: hexaCodeToColor(AppColors.whiteColorHexa)),
       action: () async {
-        await deleteAccout(context: context!);
+        await _deleteAccoutDialog(context: context!);
       }
     ),
   ];
 }
 
-  Future<void> deleteAccout({BuildContext? context}) async {
+  Future<void> _deleteAccoutDialog({BuildContext? context}) async {
     await customDialog(
       context!, 
       'Are you sure to delete all wallets?', 
