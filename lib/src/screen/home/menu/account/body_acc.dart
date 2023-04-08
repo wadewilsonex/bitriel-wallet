@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
@@ -73,6 +74,11 @@ class AccountBody extends StatelessWidget{
                   
                   accountModel!.accIndex = index;
 
+                  String? data = await StorageServices().readSecure(DbKey.privateList)!;
+
+                  List<dynamic>? decode = json.decode(data); 
+
+                  // ignore: use_build_context_synchronously
                   await showModalBottomSheet(
                     backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
                     shape: const RoundedRectangleBorder(
@@ -129,52 +135,95 @@ class AccountBody extends StatelessWidget{
 
                           GestureDetector(
                             onTap: () async {
-                              
+
+                              int value;
+
+                              /// If Delete Current Account
+                              if (provider.getKeyring.keyPairs[index].address == provider.getKeyring.current.address){
+                                value = await DialogComponents().dialogCustom(
+                                  context: context,
+                                  titles: "Please choose one for current account",
+                                  contents2: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: provider.getKeyring.keyPairs.length,
+                                      itemBuilder: (context, j){
+                                        return (provider.getKeyring.keyPairs[j].address != provider.getKeyring.keyPairs[index].address) 
+                                        ? ListTile(
+                                          onTap: (){
+                                            Navigator.pop(context, j);
+                                          },
+                                          selectedColor: Colors.blue,
+                                          leading: SizedBox(
+                                            width: 50,
+                                            child: randomAvatar(provider.getKeyring.allAccounts[j].icon ?? '',)
+                                          ),
+                                          title: MyText(text: provider.getKeyring.keyPairs[j].name, textAlign: TextAlign.left,), 
+                                          subtitle: MyText(text: provider.getKeyring.keyPairs[j].address!.replaceRange(10, provider.getKeyring.allAccounts[j].address!.length - 10, "........"), textAlign: TextAlign.left),
+                                        ) 
+                                        : Container();
+                                      },
+                                    )
+                                  )
+                                );
+                              } else {
+
+
+                                value = await DialogComponents().dialogCustom(
+                                  context: context,
+                                  titles: "Are you wanna delete account",
+                                  btn: TextButton(
+                                    onPressed: (){
+
+                                      List<dynamic> current = decode!.where((element) {
+                                        
+                                        if (element['address'] == provider.getKeyring.current.address){
+                                          return true;
+                                        }
+                                        return false;
+                                      }).toList();
+                                      Navigator.pop(context, decode.indexOf(current[0]));
+                                    }, child: const MyText(text: "Confirm")
+                                  ) 
+                                );
+                              }
+
                               await provider.getSdk.api.keyring.deleteAccount(
                                 provider.getKeyring,
                                 provider.getKeyring.allAccounts[index],
                               );
 
-                              String? data = await StorageServices().readSecure(DbKey.privateList)!;
-
-
-                              List<dynamic>? decode = json.decode(data); 
-                              print("decode $decode");
-
-                              print("decode ${decode![index]}");
-
-                              decode.removeAt(index);
+                              decode!.removeAt(index);
                               
+                              // await StorageServices().writeSecure(DbKey.privateList, json.encode(decode));
 
-                              await StorageServices().writeSecure(DbKey.privateList, json.encode(decode));
+                              // /// If Delete The Last Index Acc In List
+                              // /// 
+                              // /// And Then Set To Previous One
+                              // // ignore: unnecessary_null_comparison
+                              // if (provider.getKeyring.current == null){
 
-                              /// If Delete The Last Index Acc In List
-                              /// 
-                              /// And Then Set To Previous One
-                              // ignore: unnecessary_null_comparison
-                              if (provider.getKeyring.current == null){
+                              //   /// Account have multiple
+                              //   /// 
+                              //   /// But Select Not Index 0 And Not The Last Index Of Account
+                              //   if (index != 0){
 
-                                /// Account have multiple
-                                /// 
-                                /// But Select Not Index 0 And Not The Last Index Of Account
-                                if (index != 0){
+                              //     provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index-1]);
 
-                                  provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index-1]);
+                              //     // Set New ERC-20 
+                              //     Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[index-1]['eth_address'];
+                              //   }
+                              //   /// Account have multiple
+                              //   /// 
+                              //   /// But Select To Index 0 Account
+                              //   else {
 
-                                  // Set New ERC-20 
-                                  Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[index-1]['eth_address'];
-                                } 
-
-                                /// Account have multiple
-                                /// 
-                                /// But Select To Index 0 Account
-                                else {
-
-                                  provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index+1]);
-                                  // Set New ERC-20 
-                                  Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[index+1]['eth_address'];
-                                }
-                              }
+                              //     provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index+1]);
+                              //     // Set New ERC-20 
+                              //     Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[index+1]['eth_address'];
+                              //   }
+                              // }
                               /// Delete One Among Acc In List
                               /// 
                               /// But Not Current Account And Select Nothing
@@ -182,15 +231,18 @@ class AccountBody extends StatelessWidget{
                               /// This Else Use Because Current Account Will Set To Account Index 0
                               /// 
                               /// After Delete One Among In The List
-                              else {
-                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[provider.getKeyring.keyPairs.length-1]);
-                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[provider.getKeyring.keyPairs.length-1]['eth_address'];
-                              }
+                              // else {
+                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[value]);
+                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[value]['eth_address'];
+                              // }
 
+                              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                               provider.notifyListeners();
+                              // ignore: invalid_use_of_protected_member
                               Provider.of<ContractProvider>(context, listen: false).notifyListeners();
                               
                               ContractsBalance.getAllAssetBalance();
+
                             },
                             child: _itemButton(
                               icon: Iconsax.trash, 
