@@ -169,7 +169,6 @@ class AccountBody extends StatelessWidget{
                                 );
                               } else {
 
-
                                 value = await DialogComponents().dialogCustom(
                                   context: context,
                                   titles: "Are you wanna delete account",

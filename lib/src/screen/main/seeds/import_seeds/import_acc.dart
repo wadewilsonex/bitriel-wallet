@@ -76,39 +76,52 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   void onSubmit() async {
-    if (enable == true){
 
-      // New Account From Multi Account
-      if (widget.isAddNew == true){
+    await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.addressFromMnemonic(204, mnemonic: _importAccModel.key!.text).then((value) async {
 
-        dialogLoading(context);
-        await addNewAcc(status: true).then((value) {
-          ContractsBalance.getAllAssetBalance();
+      List account = _apiProvider!.getKeyring.keyPairs.where((element) {
+        if (value.address == element.address) return true;
+        return false;
+      }).toList();
+
+      if (account.isNotEmpty) {
+        enable = false;
+        setState(() { });
+        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Account already exist.\nPlease try again!");
+      } else if (enable == true){
+
+        // New Account From Multi Account
+        if (widget.isAddNew == true){
+
+          dialogLoading(context);
+          await addNewAcc(status: true).then((value) {
+            ContractsBalance.getAllAssetBalance();
+            
+            // Close Dialog Loading
+            Navigator.pop(context);
+
+            Navigator.pop(context, value);
+
+          });
+        } else {
           
-          // Close Dialog Loading
-          Navigator.pop(context);
+          // await addAndImport();
 
-          Navigator.pop(context, value);
+          if(!mounted) return;
 
-        });
+          Navigator.push(
+            context, 
+            Transition(
+              child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
+              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+            )
+          );
+        }
+
       } else {
-        
-        // await addAndImport();
-
-        if(!mounted) return;
-
-        Navigator.push(
-          context, 
-          Transition(
-            child: DataLoading(initStateData: initStateData, importAnimationAccModel: _importAccountModel,),
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-          )
-        );
+        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
       }
-
-    } else {
-      await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
-    }
+    });
   }
 
   Future<void> onSubmitIm() async {
