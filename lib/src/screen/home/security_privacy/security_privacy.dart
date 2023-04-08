@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
-import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/security_privacy/password/password.dart';
 
 class SecurityPrivacy extends StatelessWidget {
@@ -161,10 +160,19 @@ class SecurityPrivacy extends StatelessWidget {
             activeColor: hexaCodeToColor(AppColors.primaryColor),
             value: model!.switchBio,
             onChanged: (value) async {
-              await switchBio!(context, value);  
-              setStateWidget(() {
-                value;
+              await StorageServices().readSecure(DbKey.password)!.then((passwordValue) async {
+                print("value $passwordValue");
+                if(passwordValue.isNotEmpty) {
+                  await switchBio!(context, value);  
+                  setStateWidget(() {
+                    value;
+                  });
+                }
+                else{
+                  customDialog(context, "Opps", "Set up password to unlock with Biometric", txtButton: "OK");
+                }
               });
+              
             },
           ),
           onTap: null

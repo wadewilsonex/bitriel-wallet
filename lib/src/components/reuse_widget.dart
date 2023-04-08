@@ -1294,7 +1294,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
   );
 }
 
-Widget tfPasswordWidget(TextEditingController password, String title, {Function? onSubmit}) {
+Widget tfPasswordWidget(TextEditingController? password, String? title, {Function? onSubmit}) {
   return TextFormField(
     obscureText: true,
     controller: password,
@@ -1335,7 +1335,7 @@ Widget tfPasswordWidget(TextEditingController password, String title, {Function?
 
     ),
     validator: (val){
-      if(val != password.text) {
+      if(val != password!.text) {
         return 'Password not match';
       }
       return null;

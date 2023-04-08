@@ -176,7 +176,7 @@ class AddAssetBody extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    assetM!.controllerAssetCode.length >= 1 ? GestureDetector(
+                                    assetM!.controllerAssetCode.value.text.isNotEmpty ? GestureDetector(
                                       onTap: () async {
                                         assetM!.controllerAssetCode.clear();
                                       },

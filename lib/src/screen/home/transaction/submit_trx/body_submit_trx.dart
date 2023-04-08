@@ -133,9 +133,9 @@ class SubmitTrxBody extends StatelessWidget {
                     ),
                   ),
     
-                  const SizedBox(height: 2,),
+                  // const SizedBox(height: 2,),
 
-                  _listSenderWallet(context),
+                  // _listSenderWallet(context),
 
                   const SizedBox(height: 5,),
           
