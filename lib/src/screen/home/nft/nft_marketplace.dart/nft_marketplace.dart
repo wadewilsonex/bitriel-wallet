@@ -146,7 +146,7 @@ class NFTMarketPlace extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(paddingSize),
           child: const MyText(
-            text: "Exclusive Bitriel NFT",
+            text: "Exclusive Bitriel NFTs",
             fontSize: 20,
             fontWeight: FontWeight.bold,
           )
