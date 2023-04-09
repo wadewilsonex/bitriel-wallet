@@ -1,11 +1,13 @@
 import 'package:wallet_apps/index.dart';
 
 class BodyPasswordSecurity extends StatelessWidget {
+  final bool? isChangePwd;
   final ModelUserInfo? userInfo;
   final Function? onSubmit;
   
   const BodyPasswordSecurity({
     Key? key,
+    this.isChangePwd,
     this.userInfo,
     this.onSubmit,
   }) : super(key: key);
@@ -20,8 +22,8 @@ class BodyPasswordSecurity extends StatelessWidget {
         ),
         elevation: 0,
         bottomOpacity: 0,
-        title: const MyText(
-          text: "Set Up Password",
+        title: MyText(
+          text: isChangePwd! == false ? "Set Up Password" : "Change Password",
           hexaColor: AppColors.blackColor,
           fontWeight: FontWeight.bold,
           fontSize: 20,
@@ -52,6 +54,16 @@ class BodyPasswordSecurity extends StatelessWidget {
         children: [
     
           const SizedBox(height: 20),
+
+          if (isChangePwd == true)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+            child: tfPasswordWidget(userInfo!.oldPwdCon, "Old Password"),
+          )
+          else Container(),
+
+          if (isChangePwd == true)
+          const SizedBox(height: 20),
     
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -66,14 +78,10 @@ class BodyPasswordSecurity extends StatelessWidget {
             ),
           ),
     
-          // Expanded(
-          //   child: Container(),
-          // ),
-    
           Padding(
             padding: const EdgeInsets.all(paddingSize),
             child: MyGradientButton(
-              textButton: "Set Up",
+              textButton: "Submit",
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               action: (){

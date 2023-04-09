@@ -1,12 +1,37 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/screen/home/security_privacy/password/password.dart';
+import 'package:wallet_apps/src/screen/home/setting/security_privacy/password/password.dart';
 
-class SecurityPrivacy extends StatelessWidget {
+class SecurityPrivacy extends StatefulWidget {
   final MenuModel? model;
   final Function? switchBio;
   const SecurityPrivacy({Key? key, this.model, this.switchBio}) : super(key: key);
+
+  @override
+  State<SecurityPrivacy> createState() => _SecurityPrivacyState();
+}
+
+class _SecurityPrivacyState extends State<SecurityPrivacy> {
   
+  bool? isPassword = false;
+
+  Future<void> checkPassword() async {
+
+    await StorageServices.readSecure(DbKey.password)!.then((value) {
+      if (value.isNotEmpty){
+        setState(() {
+          isPassword = true;
+        });
+      }
+    });
+  }
+
+  @override
+  initState(){
+    checkPassword();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,15 +155,16 @@ class SecurityPrivacy extends StatelessWidget {
                 )
               ),
               onPressed: () {
+
                 Navigator.push(
                   context, 
                   Transition(
-                    child: const PasswordSecurity(),
+                    child: PasswordSecurity(isChangePwd: isPassword,),
                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                   )
                 );
               },
-              child: const MyText(text: "Setup Password", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
+              child: MyText(text: isPassword! == false ? "Setup Password" : "Change Password", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
             ),
           )
 
@@ -158,12 +184,12 @@ class SecurityPrivacy extends StatelessWidget {
           horizontalTitleGap: 5,
           trailing: Switch(
             activeColor: hexaCodeToColor(AppColors.primaryColor),
-            value: model!.switchBio,
+            value: widget.model!.switchBio,
             onChanged: (value) async {
               await StorageServices.readSecure(DbKey.password)!.then((passwordValue) async {
                 print("value $passwordValue");
                 if(passwordValue.isNotEmpty) {
-                  await switchBio!(context, value);  
+                  await widget.switchBio!(context, value);  
                   setStateWidget(() {
                     value;
                   });
@@ -197,5 +223,4 @@ class SecurityPrivacy extends StatelessWidget {
       ],
     );
   }
-
 }

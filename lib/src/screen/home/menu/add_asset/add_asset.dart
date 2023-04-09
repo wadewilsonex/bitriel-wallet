@@ -213,9 +213,14 @@ class AddAssetState extends State<AddAsset> {
                 ),
               ),
               actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
+                Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: MyGradientButton(
+                    textButton: "Close",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () => Navigator.pop(context),
+                  ),
                 ),
               ],
             );
@@ -251,6 +256,15 @@ class AddAssetState extends State<AddAsset> {
         context: context,
         titles: "Opps",
         contents: e.toString(),
+        btn2: MyGradientButton(
+          textButton: "Close",
+          textColor: AppColors.lowWhite,
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          action: () async {
+            Navigator.pop(context);
+          },
+        )
       );
     }
   }
@@ -311,6 +325,16 @@ class AddAssetState extends State<AddAsset> {
           context: context,
           titles: "Opps",
           contents: "Invalid token contract address!",
+          btn2: MyGradientButton(
+            textButton: "Close",
+            textColor: AppColors.lowWhite,
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          )
         );
         
         setState(() {
@@ -324,6 +348,16 @@ class AddAssetState extends State<AddAsset> {
         context: context,
         titles: "Opps",
         contents: "$e",
+        btn2: MyGradientButton(
+          textButton: "Close",
+          textColor: AppColors.lowWhite,
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          action: () async {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        )
       );
 
       

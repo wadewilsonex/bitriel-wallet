@@ -53,12 +53,12 @@ class EventCardComponents extends StatelessWidget {
                 child: InkWell(
                   onTap: (){
 
-                    Provider.of<TicketProvider>(context, listen: false).eventName = item['name']!;
+                    // Provider.of<TicketProvider>(context, listen: false).eventName = item['name']!;
 
-                    Navigator.push(
-                      context,
-                      Transition(child: ListTicketType(eventName: item['name']!, eventId: item['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   Transition(child: ListTicketType(eventName: item['name']!, eventId: item['_id']!), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                    // );
 
                   },
                   child: Stack(
@@ -66,7 +66,9 @@ class EventCardComponents extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
-                          child: Image.network("$ipfsAPI${item['image']}", fit: BoxFit.fill,),
+                          child: ipfsAPI != null ? 
+                            Image.network("$ipfsAPI${item['image']}", fit: BoxFit.fill,)
+                            : Image.network("https://scontent.fpnh24-1.fna.fbcdn.net/v/t39.30808-6/339333206_895335214912312_4599860087867644620_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeFExQUD41hruD3VhhVucJsszZlMxDRN73vNmUzENE3ve52cDQGYpnj7TzLG3CyuT2jczQKu-XiVjkf2Zz2laVhY&_nc_ohc=sZ3QMztusTcAX_UIcl2&_nc_ht=scontent.fpnh24-1.fna&oh=00_AfBnznIVLob09adhixE7Ps5sz7iIpbbyaf3FIvRcYZL01Q&oe=643650FB", fit: BoxFit.fill,),
                         ),
               
                         Align(
@@ -89,15 +91,15 @@ class EventCardComponents extends StatelessWidget {
                                     children: [
               
                                       MyText(
-                                        text: AppUtils.timeZoneToDateTime(item['startDate']),
+                                        text: listEvent!.isEmpty ? "sssss" : AppUtils.timeZoneToDateTime(item['startDate']),
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         bottom: 5,
-                                        hexaColor: "#878787",
+                                        hexaColor: AppColors.lowWhite,
                                       ),
               
                                       MyText(
-                                        text: item['name'], //"NIGHT MUSIC FESTIVAL",
+                                        text: listEvent == null ? eventName : item['name'],
                                         fontSize: 16,
                                         color2: Colors.white,
                                         fontWeight: FontWeight.w700,

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
@@ -35,6 +36,7 @@ class AuthenticationState extends State<Authentication> {
 
   @override
   void initState() {
+
     AppServices.noInternetConnection(context: context);
     if (widget.isEnable!) {
       Future.delayed(const Duration(milliseconds: 500), () async {
@@ -107,10 +109,9 @@ class AuthenticationState extends State<Authentication> {
   }
 
   Future<void> checkPassword() async {
-    print("checkPassword");
-    await StorageServices.readSecure(DbKey.password)!.then((value) {
-      print("value $value");
-      print("_pwdController.text ${_pwdController.text}");
+    
+    await StorageServices.readSecure(DbKey.password)!.then((value) async {
+
       print(value == _pwdController.text);
       if (value == _pwdController.text){
         Navigator.pushNamedAndRemoveUntil(
@@ -118,11 +119,19 @@ class AuthenticationState extends State<Authentication> {
           AppString.homeView,
           (route) => false
         );
+      } else {
+        await dialogSuccess(
+          context, 
+          MyText(text: 'Invalid password',), 
+          MyText(text: 'Oops',),
+          action: TextButton(onPressed: () => Navigator.pop(context), child: MyText(text: "Close", fontWeight: FontWeight.bold,))
+        );
       }
     });
   }
 
   Future<void> authenticate() async {
+
     bool authenticate = false;
     try {
 

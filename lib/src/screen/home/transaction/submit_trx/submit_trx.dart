@@ -242,7 +242,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     }
     else if ( double.parse(_scanPayM.controlAmount.text) > double.parse(_contractProvider!.sortListContract[_scanPayM.assetValue].balance!.replaceAll(",", "")) ){
 
-      await trxFunc!.customDialog('Message', 'Your input balance must less than available balances');
+      await trxFunc!.customDialog('Message', 'Your input balance is less than available balance');
     } else {
 
       _scanPayM.asset = _contractProvider!.sortListContract[_scanPayM.assetValue].symbol;
