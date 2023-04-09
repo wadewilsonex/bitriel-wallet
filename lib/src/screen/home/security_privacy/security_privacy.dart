@@ -160,8 +160,8 @@ class SecurityPrivacy extends StatelessWidget {
             activeColor: hexaCodeToColor(AppColors.primaryColor),
             value: model!.switchBio,
             onChanged: (value) async {
+              
               await StorageServices().readSecure(DbKey.password)!.then((passwordValue) async {
-                print("value $passwordValue");
                 if(passwordValue.isNotEmpty) {
                   await switchBio!(context, value);  
                   setStateWidget(() {
