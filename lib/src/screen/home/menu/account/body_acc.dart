@@ -71,12 +71,6 @@ class AccountBody extends StatelessWidget{
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onTap: () async {
-                  
-                  accountModel!.accIndex = index;
-
-                  String? data = await StorageServices().readSecure(DbKey.privateList)!;
-
-                  List<dynamic>? decode = json.decode(data); 
 
                   // ignore: use_build_context_synchronously
                   await showModalBottomSheet(
@@ -136,10 +130,17 @@ class AccountBody extends StatelessWidget{
                           GestureDetector(
                             onTap: () async {
 
-                              int? value;
+                              Map? value;
+                  
+                              accountModel!.accIndex = index;
+
+                              String? data = await StorageServices().readSecure(DbKey.privateList)!;
+
+                              List<dynamic>? decode = json.decode(data); 
 
                               /// If Delete Current Account
                               if (provider.getKeyring.keyPairs[index].address == provider.getKeyring.current.address){
+                                // ignore: use_build_context_synchronously
                                 value = await DialogComponents().dialogCustom(
                                   context: context,
                                   titles: "You are on current wallet! Are you sure to want delete this wallet?",
@@ -162,7 +163,7 @@ class AccountBody extends StatelessWidget{
                                             return (provider.getKeyring.keyPairs[j].address != provider.getKeyring.keyPairs[index].address) 
                                             ? ListTile(
                                               onTap: (){
-                                                Navigator.pop(context, j);
+                                                Navigator.pop(context, decode![j]);
                                               },
                                               selectedColor: Colors.blue,
                                               leading: SizedBox(
@@ -191,6 +192,7 @@ class AccountBody extends StatelessWidget{
                                 );
                               } else {
 
+                                // ignore: use_build_context_synchronously
                                 value = await DialogComponents().dialogCustom(
                                   context: context,
                                   titles: 'Are you sure to delete this wallet?',
@@ -204,6 +206,7 @@ class AccountBody extends StatelessWidget{
                                     textButton: "Confirm",
                                     isBorder: true,
                                     action: () {
+
                                       List<dynamic> current = decode!.where((element) {
                                         
                                         if (element['address'] == provider.getKeyring.current.address){
@@ -211,7 +214,7 @@ class AccountBody extends StatelessWidget{
                                         }
                                         return false;
                                       }).toList();
-                                      Navigator.pop(context, decode.indexOf(current[0]));
+                                      Navigator.pop(context, current[0]);
                                     },
                                   ),
 
@@ -227,20 +230,23 @@ class AccountBody extends StatelessWidget{
                                 );
                               }
 
-                              
+                              print("Value $value");
 
-                              if(value != null ) {
+                              if(value != null) {
+
                                 await provider.getSdk.api.keyring.deleteAccount(
                                   provider.getKeyring,
                                   provider.getKeyring.allAccounts[index],
                                 );
 
                                 decode!.removeAt(index);
+                                
+                                print(decode.indexOf(value));
 
-                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[value]);
-                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[value]['eth_address'];
+                                provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[decode.indexOf(value)]);
+                                Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[decode.indexOf(value)]['eth_address'];
                               
-
+                                await StorageServices().writeSecure(DbKey.privateList, json.encode(decode));
                                 // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 provider.notifyListeners();
                                 // ignore: invalid_use_of_protected_member

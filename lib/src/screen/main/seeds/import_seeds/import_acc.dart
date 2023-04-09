@@ -104,8 +104,6 @@ class ImportAccState extends State<ImportAcc> {
 
           });
         } else {
-          
-          // await addAndImport();
 
           if(!mounted) return;
 
@@ -209,12 +207,9 @@ class ImportAccState extends State<ImportAcc> {
   }
 
   Future<void> addAndImport() async {
-
-    print("addAndImport");
     
     await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
 
-      print("value.isNotEmpty ${value}");
       if(value.isNotEmpty){
         createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
       }
@@ -235,8 +230,6 @@ class ImportAccState extends State<ImportAcc> {
       acc: jsn!,
       password: _importAccModel.pwCon!.text
     );
-
-    print("finish addAccount");
 
     _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
     print("finish getPrivateKey");
