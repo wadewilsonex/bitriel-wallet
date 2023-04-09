@@ -98,7 +98,6 @@ class PasscodeBody extends StatelessWidget{
                   label == PassCodeLabel.fromSplash || 
                   label == PassCodeLabel.fromSendTx || 
                   label == PassCodeLabel.fromBackUp || 
-                  label == PassCodeLabel.fromAccount ||
                   label == PassCodeLabel.fromSignMessage
                 )
                 passCodeContents[1]

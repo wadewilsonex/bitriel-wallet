@@ -82,7 +82,7 @@ class PasscodeState extends State<Passcode> {
 
   @override
   void initState() {
-    StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
+    StorageServices().readSecure(DbKey.pin)!.then((value) => res = value);
     authToHome();
     isFirst = true;
     super.initState();
@@ -149,7 +149,7 @@ class PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
-        await StorageServices().clearKeySecure(DbKey.passcode);
+        await StorageServices().clearKeySecure(DbKey.pin);
         // Navigator.pop(context, false);
       } else {
         clearAll();
@@ -169,8 +169,7 @@ class PasscodeState extends State<Passcode> {
 
       if (
         widget.label == PassCodeLabel.fromSendTx || 
-        widget.label == PassCodeLabel.fromBackUp || 
-        widget.label == PassCodeLabel.fromAccount ||
+        widget.label == PassCodeLabel.fromBackUp ||
         widget.label == PassCodeLabel.fromSignMessage
         ){
         Navigator.pop(context, pin);
@@ -187,9 +186,9 @@ class PasscodeState extends State<Passcode> {
       
     } else {
       if (firstPin == pin) {
-        await StorageServices().readSecure(DbKey.passcode)!.then((value) async {
+        await StorageServices().readSecure(DbKey.pin)!.then((value) async {
           if (value == ""){
-            await StorageServices().writeSecure(DbKey.passcode, pin);
+            await StorageServices().writeSecure(DbKey.pin, pin);
           }
         });
 
@@ -214,7 +213,12 @@ class PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else {
+        } 
+        else if (widget.label == PassCodeLabel.fromAccount){
+
+          Navigator.pop(context, pin);
+        }
+        else {
           if(!mounted) return;
           Navigator.pop(context, true);
         }
@@ -244,7 +248,7 @@ class PasscodeState extends State<Passcode> {
 
   Future<void> readBackUpKey(String pin) async {
 
-    final res = await StorageServices().readSecure(DbKey.passcode);
+    final res = await StorageServices().readSecure(DbKey.pin);
 
     if(widget.label.toString() == "backup"){
       if (res == pin) {
@@ -261,7 +265,7 @@ class PasscodeState extends State<Passcode> {
   // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
 
-    final res = await StorageServices().readSecure(DbKey.passcode);
+    final res = await StorageServices().readSecure(DbKey.pin);
 
     if (res == pin) {
       if(!mounted) return;

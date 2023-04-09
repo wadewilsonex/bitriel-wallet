@@ -91,7 +91,7 @@ class EventCardComponents extends StatelessWidget {
                                     children: [
               
                                       MyText(
-                                        text: listEvent == null ? eventDate : AppUtils.timeZoneToDateTime(item['startDate']),
+                                        text: listEvent!.isEmpty ? "sssss" : AppUtils.timeZoneToDateTime(item['startDate']),
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                         bottom: 5,

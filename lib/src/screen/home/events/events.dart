@@ -108,7 +108,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
           EventCardComponents(
             // ipfsAPI: _ipfsAPI,
             title: "ISI Dangkor Senchey FC",
-            // listEvent: ,
+            listEvent: [],
             eventName: "DSC VS PKRR",
             eventDate: "2023-04-09 03:45:00 PM",
           ),

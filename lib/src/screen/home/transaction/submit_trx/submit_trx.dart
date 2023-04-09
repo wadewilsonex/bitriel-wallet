@@ -81,7 +81,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     _scanPayM.controlReceiverAddress.text = widget._walletKey!;
     _scanPayM.portfolio = widget._listPortfolio!;
 
-    StorageServices().readSecure(DbKey.passcode)!.then((value) {
+    StorageServices().readSecure(DbKey.pin)!.then((value) {
       _pin = value;
     });
 

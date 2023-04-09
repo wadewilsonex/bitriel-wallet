@@ -62,7 +62,7 @@ class ChangePinState extends State<ChangePin> {
     titleStatus = lsMessage[0];
     subStatus = lsMessage[4];
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
+    StorageServices().readSecure(DbKey.pin)!.then((value) => res = value);
     isFirst = true;
     super.initState();
   }
@@ -154,7 +154,7 @@ class ChangePinState extends State<ChangePin> {
       });
     } else {
       if (oldPass == pin) {
-        await StorageServices().clearKeySecure(DbKey.passcode);
+        await StorageServices().clearKeySecure(DbKey.pin);
         // Navigator.pop(context, false);
       } else {
         clearAll();
@@ -298,7 +298,7 @@ class ChangePinState extends State<ChangePin> {
       
       await StorageServices().writeSecure(DbKey.private, res);
 
-      await StorageServices().writeSecure(DbKey.passcode, newPass!);
+      await StorageServices().writeSecure(DbKey.pin, newPass!);
       // final _encrypt = await Provider.of<ApiProvider>(context, listen: false).getPrivateKey(seeds['seed']);
 
 

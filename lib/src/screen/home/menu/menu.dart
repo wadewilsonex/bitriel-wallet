@@ -44,7 +44,7 @@ class MenuState extends State<Menu> {
   }
 
   Future<void> checkPasscode() async {
-    final res = await StorageServices().readSecure(DbKey.passcode);
+    final res = await StorageServices().readSecure(DbKey.pin);
     if (res != '') {
       setState(() {
         _menuModel.switchPasscode = true;
@@ -106,9 +106,9 @@ class MenuState extends State<Menu> {
     
     _menuModel.switchPasscode = !_menuModel.switchPasscode;
     if (_menuModel.switchPasscode){
-      await StorageServices().writeSecure(DbKey.passcode, data!);
+      await StorageServices().writeSecure(DbKey.pin, data!);
     } else {
-      await StorageServices().clearKeySecure(DbKey.passcode);
+      await StorageServices().clearKeySecure(DbKey.pin);
     }
     // print("passcode: ${_menuModel.}")
 

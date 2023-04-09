@@ -14,7 +14,7 @@ class DbKey{
   static String bech32 = "bech32_key";
   static String hdWallet = "hdWallet_key";
   static String claim = "claim_key";
-  static String passcode = "passcode_key";
+  static String pin = "pin_key";
   static String biometric = "bimetic_key";
   static String bio = "bio_key";
   static String private = "private_key";

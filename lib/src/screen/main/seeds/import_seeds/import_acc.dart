@@ -58,7 +58,7 @@ class ImportAccState extends State<ImportAcc> {
     if (widget.passCode != null) {
       _importAccModel.pwCon!.text = widget.passCode!;
     } {
-      StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon!.text = value );
+      StorageServices().readSecure(DbKey.pin)!.then((value) => _importAccModel.pwCon!.text = value );
     }
     super.initState();
   }
@@ -132,7 +132,20 @@ class ImportAccState extends State<ImportAcc> {
         }
 
       } else {
-        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
+        await DialogComponents().dialogCustom(
+          context: context, 
+          titles: "Oops", 
+          contents: "Your seed is invalid.\nPlease try again!",
+          btn2: MyGradientButton(
+            textButton: "OK",
+            textColor: AppColors.lowWhite,
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {
+              Navigator.pop(context);
+            },
+          )
+        );
       }
     });
   }

@@ -114,7 +114,7 @@ abstract class AccountInterface {
       // await StorageServices().writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
-      await StorageServices().writeSecure(DbKey.passcode, accModel!.pwCon!.text);
+      await StorageServices().writeSecure(DbKey.pin, accModel!.pwCon!.text);
 
       changeStatus("GETTING READY", avg: "2/3");
       animationModel!.animationController!.forward(from: 0.5);
@@ -172,7 +172,20 @@ abstract class AccountInterface {
       }
 
     } else {
-      await DialogComponents().dialogCustom(context: accModel!.getBuildCt!, titles: "Oops", contents: "Your seeds is invalid.\nPlease try again!");
+      await DialogComponents().dialogCustom(
+        context: accModel!.getBuildCt!, 
+        titles: "Oops", 
+        contents: "Your seed is invalid.\nPlease try again!",
+        btn2: MyGradientButton(
+          textButton: "OK",
+          textColor: AppColors.lowWhite,
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          action: () async {
+            Navigator.pop(accModel!.getBuildCt!);
+          },
+        )
+      );
     }
   }
 

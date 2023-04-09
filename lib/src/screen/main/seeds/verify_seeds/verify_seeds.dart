@@ -368,7 +368,20 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       else{
 
         if(!mounted) return;
-        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Your seeds verify is wrong.\nPlease try again!");
+        await DialogComponents().dialogCustom(
+          context: context, 
+          titles: "Oops", 
+          contents: "Your seed verify is wrong.\nPlease try again!",
+          btn2: MyGradientButton(
+            textButton: "Close",
+            textColor: AppColors.lowWhite,
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            action: () async {
+              Navigator.pop(context);
+            },
+          )
+        );
 
       }
     } catch (e) {
