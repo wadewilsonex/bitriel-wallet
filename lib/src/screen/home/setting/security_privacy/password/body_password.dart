@@ -67,7 +67,7 @@ class BodyPasswordSecurity extends StatelessWidget {
     
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            child: tfPasswordWidget(userInfo!.passwordCon, "Password"),
+            child: tfPasswordWidget(userInfo!.passwordCon, isChangePwd! ? "New Password" : "Password"),
           ),
                 
           const SizedBox(height: 20),
