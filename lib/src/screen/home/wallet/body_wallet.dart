@@ -154,7 +154,7 @@ class WalletPageBody extends StatelessWidget {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                          builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
                         )
                       ).then((passCodeValue) async {
                         if (passCodeValue != null){

@@ -14,12 +14,12 @@ class ModelUserInfo {
   FocusNode nodeFirstName = FocusNode();
  
 
-
   TextEditingController userNameCon = TextEditingController();
+  TextEditingController oldPwdCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
   TextEditingController confirmPasswordCon = TextEditingController();
 
-
+  FocusNode oldPwdNode = FocusNode();
   FocusNode passwordNode = FocusNode();
   FocusNode confirmPasswordNode = FocusNode();
 

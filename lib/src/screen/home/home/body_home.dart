@@ -267,14 +267,14 @@ class HomePageBody extends StatelessWidget {
     
               Expanded(
                 child: MyMenuItem(
-                  title: "Bitriel NFT",
+                  title: "Bitriel NFTs",
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {
                     customDialog(
                       context, 
-                      'Access to Bitriel NFT?', 
-                      'Bitriel NFT is still in development!!!\n\n You can play around with Bitriel NFT page.',
+                      'Access to Bitriel NFTs?', 
+                      'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
                       txtButton: "Cancel",
                       btn2: MyFlatButton(
                         edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),

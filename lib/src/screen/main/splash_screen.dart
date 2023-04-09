@@ -39,21 +39,16 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   // First Check
   Future<void> getCurrentAccount() async {
-
-    // await Future.delayed(const Duration(seconds: 1), () async {
-    //   Navigator.pushReplacement(context, Transition(child: Passcode(label: 'fromImport',), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-
-    // });
     
     try {
       await Future.delayed(const Duration(seconds: 1), () async {
 
-        await StorageServices().readSecure(DbKey.private)!.then((String value) async {
+        await StorageServices.readSecure(DbKey.private)!.then((String value) async {
           if (value.isEmpty) {
             Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
           } else {
             
-            final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+            final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
             if (ethAddr == '') {
               if(!mounted) return;
@@ -99,45 +94,36 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
   }
   
   Future<void> checkBio() async {
+
     final bio = await StorageServices.readSaveBio();
 
-    // final passCode = await StorageServices().readSecure(DbKey.passcode);
+    print("bio $bio");
 
-    if (bio == true) {
+    final password = await StorageServices.readSecure(DbKey.password);
+
+    print("passCode $password");
+
+    if (bio || password!.isNotEmpty) {
       if(!mounted) return;
       Navigator.pushReplacement(
         context,
         Transition(
           transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
-          child: const FingerPrint(
-            isEnable: true,
+          child: Authentication(
+            isEnable: bio,
           ),
         ),
       );
-
-    } else {
-      if (bio) {
-        if(!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          Transition(
-            transitionEffect: TransitionEffect.RIGHT_TO_LEFT,
-            child: const FingerPrint(
-              isEnable: true,
-            ),
-          ),
-        );
-      } 
-      
-      else {
-        if(!mounted) return;
-        Navigator.pushNamedAndRemoveUntil(
-          context, 
-          AppString.homeView, 
-          ModalRoute.withName('/')
-        );
-      }
+    } 
+    else {
+      if(!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        AppString.homeView, 
+        ModalRoute.withName('/')
+      );
     }
+
   }
 
   Future<void> checkBiometric() async {
@@ -146,7 +132,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
         Navigator.pushReplacement(
           context,
           RouteAnimation(
-            enterPage: const FingerPrint(),
+            enterPage: const Authentication(),
           ),
         );
       } else {

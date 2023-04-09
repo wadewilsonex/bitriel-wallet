@@ -1,7 +1,7 @@
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
-import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
+import 'package:wallet_apps/src/components/pincode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 
@@ -62,7 +62,7 @@ class ChangePinState extends State<ChangePin> {
     titleStatus = lsMessage[0];
     subStatus = lsMessage[4];
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    StorageServices().readSecure(DbKey.pin)!.then((value) => res = value);
+    StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
     isFirst = true;
     super.initState();
   }
@@ -154,7 +154,7 @@ class ChangePinState extends State<ChangePin> {
       });
     } else {
       if (oldPass == pin) {
-        await StorageServices().clearKeySecure(DbKey.pin);
+        await StorageServices.clearKeySecure(DbKey.pin);
         // Navigator.pop(context, false);
       } else {
         clearAll();
@@ -194,7 +194,7 @@ class ChangePinState extends State<ChangePin> {
 
       // if (oldPass == newPass) {
 
-      //   // await StorageServices().writeSecure(DbKey.passcode, pin);
+      //   // await StorageServices.writeSecure(DbKey.passcode, pin);
 
       //   clearAll();
       //   // else if (widget.label == "fromMenu"){
@@ -202,7 +202,7 @@ class ChangePinState extends State<ChangePin> {
               
       //   //   }
       //   //   else{ 
-      //   //     await StorageServices().clearKeySecure(DbKey.passcode);
+      //   //     await StorageServices.clearKeySecure(DbKey.passcode);
       //   //     Navigator.pop(context, true);
       //   //   }
       //   // }
@@ -238,10 +238,7 @@ class ChangePinState extends State<ChangePin> {
   }
 
   Future<void> _changePin() async {
-
-    // setState(() {
-    //   _accountModel.loading = true;
-    // });
+    
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
     await res.getSdk.api.keyring.changePassword(res.getKeyring, res.getKeyring.current, oldPass!, newPass);
@@ -286,7 +283,7 @@ class ChangePinState extends State<ChangePin> {
   Future<void> _updatePkWithNewPass() async {
     try {
 
-      // await StorageServices().writeSecure(DbKey.passcode, newPass!);
+      // await StorageServices.writeSecure(DbKey.passcode, newPass!);
       // Get Seeds From Decrypt
       final seeds = await KeyringPrivateStore([_apiProvider!.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(_apiProvider!.getKeyring.keyPairs[0].pubKey, oldPass);
 
@@ -296,9 +293,9 @@ class ChangePinState extends State<ChangePin> {
       // Re-Encrypt Private Key
       final res = await _apiProvider!.encryptPrivateKey(resPk, newPass!);
       
-      await StorageServices().writeSecure(DbKey.private, res);
+      await StorageServices.writeSecure(DbKey.private, res);
 
-      await StorageServices().writeSecure(DbKey.pin, newPass!);
+      await StorageServices.writeSecure(DbKey.pin, newPass!);
       // final _encrypt = await Provider.of<ApiProvider>(context, listen: false).getPrivateKey(seeds['seed']);
 
 
@@ -312,10 +309,10 @@ class ChangePinState extends State<ChangePin> {
   
   @override
   Widget build(BuildContext context) {
-    return PasscodeBody(
+    return PincodeBody(
       titleStatus: titleStatus,
       subStatus: subStatus,
-      label: PassCodeLabel.fromChangePin, 
+      label: PinCodeLabel.fromChangePin, 
       isFirst: isFirst, 
       lsControl: lsControl, 
       pinIndexSetup: pinIndexSetup, 

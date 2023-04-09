@@ -159,10 +159,10 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
     final res = await _apiProvider!.encryptPrivateKey(_pk!, widget.createKeyModel!.lsSeeds!.join(" "));
     
-    await StorageServices().writeSecure(DbKey.private, res);
+    await StorageServices.writeSecure(DbKey.private, res);
 
     // Store PIN 6 Digit
-    // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
+    // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
     changeStatus("GETTING READY", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.5);
@@ -233,7 +233,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
   
   Future<void> addAndImport() async {
 
-    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+    await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
 
       if(value.isNotEmpty){
         widget.createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
@@ -268,7 +268,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
       ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd
     ));
 
-    await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+    await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
 
   }
   
@@ -309,7 +309,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
           if (Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying == true){
 
-            await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+            await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
 
               /// From Multi Account
               if(value.isNotEmpty){
@@ -335,7 +335,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
               // addAndImport
 
-              await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+              await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
 
               Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd).toMap();
 

@@ -9,31 +9,31 @@ class StorageServices {
   static String? _decode;
   static SharedPreferences? _preferences;
 
-  final _storage = const FlutterSecureStorage();
+  static const _storage = FlutterSecureStorage();
 
-  Future<String>? readSecure(String key) async {
+  static Future<String>? readSecure(String key) async {
 
     String? res = await _storage.read(key: key);
     return res ?? '';
   }
 
-  Future<void> writeSecure(String key, String value) async {
+  static Future<void> writeSecure(String key, String value) async {
     await _storage.write(key: key, value: value);
   }
 
-  Future<void> writeSecureList(String key, String value) async {
+  static Future<void> writeSecureList(String key, String value) async {
     await _storage.write(key: key, value: value);
   }
 
-  Future<void> clearKeySecure(String key) async {
+  static Future<void> clearKeySecure(String key) async {
     await _storage.delete(key: key);
   }
 
-  Future<void> clearSecure() async {
+  static Future<void> clearSecure() async {
     await _storage.deleteAll();
   }
 
-  Future<void> clearStorage() async {
+  static Future<void> clearStorage() async {
     _preferences = await SharedPreferences.getInstance();
     await _preferences!.clear();
   }
