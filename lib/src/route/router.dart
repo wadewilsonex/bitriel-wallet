@@ -8,7 +8,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case AppString.splashScreenView:
       return RouteAnimation(enterPage: const MySplashScreen());
     case AppString.localAuth:
-      return RouteAnimation(enterPage: const FingerPrint());
+      return RouteAnimation(enterPage: const Authentication());
     case AppString.accountView:
       // return RouteAnimation(enterPage: const Account());
       return MaterialPageRoute(

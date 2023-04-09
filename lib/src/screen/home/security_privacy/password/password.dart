@@ -11,18 +11,19 @@ class PasswordSecurity extends StatefulWidget {
 
 class _PasswordSecurityState extends State<PasswordSecurity> {
   
-  final ModelUserInfo _modelUserInfo = ModelUserInfo();
+  ModelUserInfo? _modelUserInfo = ModelUserInfo();
 
   Future<void> _onSubmit() async {
     
-    if(_modelUserInfo.confirmPasswordCon.text.isEmpty || _modelUserInfo.confirmPasswordCon.text.isEmpty){
+    if(_modelUserInfo!.confirmPasswordCon.text.isEmpty || _modelUserInfo!.confirmPasswordCon.text.isEmpty){
       customDialog(context, "Opps", "You must input password", txtButton: "OK");
     }
-    else if(_modelUserInfo.passwordCon.text == _modelUserInfo.confirmPasswordCon.text) {
+    else if(_modelUserInfo!.passwordCon.text == _modelUserInfo!.confirmPasswordCon.text) {
       dialogLoading(context);
 
-      await StorageServices().writeSecure(DbKey.password, _modelUserInfo.confirmPasswordCon.value.text).then((value) async{
-        await StorageServices().readSecure(DbKey.password)!.then((value) {
+      await StorageServices.writeSecure(DbKey.password, _modelUserInfo!.confirmPasswordCon.value.text).then((value) async{
+        
+        await StorageServices.readSecure(DbKey.password)!.then((value) {
           print("value $value");
           Navigator.pop(context);
         });
@@ -40,12 +41,13 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
 
   @override
   void initState(){
-
     super.initState();
   }
 
   @override
   void dispose(){
+    
+    _modelUserInfo = null;
     super.dispose();
   }
 

@@ -190,7 +190,7 @@ class AppServices {
   static Future<String>? getPrivateKey(String pin, BuildContext context) async {
     String privateKey = '';
     try {
-      final encrytKey = await StorageServices().readSecure(DbKey.private);
+      final encrytKey = await StorageServices.readSecure(DbKey.private);
       // ignore: use_build_context_synchronously
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {

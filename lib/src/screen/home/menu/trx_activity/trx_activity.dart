@@ -88,7 +88,7 @@ class TrxActivityState extends State<TrxActivity> {
   void logOut() async {
     /* Loading */
     dialogLoading(context);
-    await StorageServices().clearStorage();
+    await StorageServices.clearStorage();
     Timer(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, '/');
     });

@@ -1,11 +1,11 @@
 import 'package:wallet_apps/index.dart';
 import 'package:pinput/pinput.dart';
 
-class PasscodeBody extends StatelessWidget{
+class PincodeBody extends StatelessWidget{
   
   final String? titleStatus;
   final String? subStatus;
-  final PassCodeLabel? label;
+  final PinCodeLabel? label;
   final bool? isFirst;
   final List<TextEditingController>? lsControl;
   final Function? pinIndexSetup;
@@ -14,7 +14,7 @@ class PasscodeBody extends StatelessWidget{
   final bool? isNewPass;
   final Function? onPressedDigit;
 
-  PasscodeBody({
+  PincodeBody({
     Key? key, 
     this.titleStatus,
     this.subStatus,
@@ -67,11 +67,6 @@ class PasscodeBody extends StatelessWidget{
           mainAxisSize: MainAxisSize.max,
           children: [
 
-            // Show AppBar Only In Landing Pages
-
-            // if(label != null) Expanded(child: Container(),) 
-            // else Container(),
-
             SizedBox(height: 10.h),
 
             if (titleStatus == null ) MyText(
@@ -95,11 +90,10 @@ class PasscodeBody extends StatelessWidget{
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (
-                  label == PassCodeLabel.fromSplash || 
-                  label == PassCodeLabel.fromSendTx || 
-                  label == PassCodeLabel.fromBackUp || 
-                  label == PassCodeLabel.fromAccount ||
-                  label == PassCodeLabel.fromSignMessage
+                  label == PinCodeLabel.fromSplash || 
+                  label == PinCodeLabel.fromSendTx || 
+                  label == PinCodeLabel.fromBackUp ||
+                  label == PinCodeLabel.fromSignMessage
                 )
                 passCodeContents[1]
                 else 

@@ -64,7 +64,7 @@ class OnboardignBody extends StatelessWidget {
                       icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                       itemColor: "#263238",
                       action: () {
-                        Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                       },
                     ),
                   ),
@@ -80,7 +80,7 @@ class OnboardignBody extends StatelessWidget {
                       icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                       itemColor: "#F27649",
                       action: () {
-                        Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
                       },
                     ),
                   ),

@@ -72,6 +72,8 @@ class AccountBody extends StatelessWidget{
                 splashColor: Colors.transparent,
                 onTap: () async {
 
+                  accountModel!.accIndex = index;
+
                   // ignore: use_build_context_synchronously
                   await showModalBottomSheet(
                     backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
@@ -134,7 +136,7 @@ class AccountBody extends StatelessWidget{
                   
                               accountModel!.accIndex = index;
 
-                              String? data = await StorageServices().readSecure(DbKey.privateList)!;
+                              String? data = await StorageServices.readSecure(DbKey.privateList)!;
 
                               List<dynamic>? decode = json.decode(data); 
 
@@ -215,6 +217,7 @@ class AccountBody extends StatelessWidget{
                                         return false;
                                       }).toList();
                                       Navigator.pop(context, current[0]);
+                                      
                                     },
                                   ),
 
@@ -229,9 +232,7 @@ class AccountBody extends StatelessWidget{
                                   ),
                                 );
                               }
-
-                              print("Value $value");
-
+                              
                               if(value != null) {
 
                                 await provider.getSdk.api.keyring.deleteAccount(
@@ -246,7 +247,7 @@ class AccountBody extends StatelessWidget{
                                 provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[decode.indexOf(value)]);
                                 Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[decode.indexOf(value)]['eth_address'];
                               
-                                await StorageServices().writeSecure(DbKey.privateList, json.encode(decode));
+                                await StorageServices.writeSecure(DbKey.privateList, json.encode(decode));
                                 // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                                 provider.notifyListeners();
                                 // ignore: invalid_use_of_protected_member
@@ -385,7 +386,7 @@ class AccountBody extends StatelessWidget{
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
                     // const ImportAcc(
                     //   isBackBtn: true,
                     // )
@@ -426,7 +427,7 @@ class AccountBody extends StatelessWidget{
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                    builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
                     // const ImportAcc(
                     //   isBackBtn: true,
                     // )
@@ -581,13 +582,13 @@ class AccountBody extends StatelessWidget{
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
 
-      await StorageServices().clearStorage();
+      await StorageServices.clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
       await StorageServices.storeData(sldNW, DbKey.sldNetwork);
 
-      await StorageServices().clearSecure();
+      await StorageServices.clearSecure();
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
       

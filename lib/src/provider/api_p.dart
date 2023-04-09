@@ -179,7 +179,7 @@ class ApiProvider with ChangeNotifier {
 
       final res = await encryptPrivateKey(hdWallet.wif!, passCode);
 
-      await StorageServices().writeSecure(DbKey.btcwif, res);
+      await StorageServices.writeSecure(DbKey.btcwif, res);
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 

@@ -44,7 +44,7 @@ class PresaleProvider with ChangeNotifier {
       final contract = await initPresaleContract();
 
       final credentials = EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      // final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final redeemFunction = contract!.function('redeem');
       final redeemHash = await _contractP!.bscClient.sendTransaction(
@@ -83,7 +83,7 @@ class PresaleProvider with ChangeNotifier {
       final contract = await initPresaleContract();
 
       final credentials = EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      // final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final orderFunction = contract!.function('order');
       final orderHash = await _contractP!.bscClient.sendTransaction(
@@ -164,7 +164,7 @@ class PresaleProvider with ChangeNotifier {
 
       final credentials = EthPrivateKey.fromHex(privateKey);
 
-      final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final gasPrice = await _contractP!.bscClient.getGasPrice();
 
@@ -239,7 +239,7 @@ class PresaleProvider with ChangeNotifier {
   Future<double> checkTokenBalance(String tokenAddress, {@required BuildContext? context}) async {
     try {
 
-      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       final balance = await ContractProvider().query(
         tokenAddress,
         'balanceOf',
@@ -262,7 +262,7 @@ class PresaleProvider with ChangeNotifier {
     List<dynamic> idRes = [];
 
     try {
-      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       final preFunction = _deployedContract!.function('investorOrderIds');
       final List res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
@@ -394,7 +394,7 @@ class PresaleProvider with ChangeNotifier {
 
     final allowanceFunc = contract!.function('allowance');
 
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final res = await _contractP!.bscClient.call(contract: contract, function: allowanceFunc, params: [
       EthereumAddress.fromHex(ethAddr!),

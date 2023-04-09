@@ -167,7 +167,7 @@ List<CardSection> backupSection({BuildContext? context, required KeyPairData acc
       trailingIcon: Iconsax.arrow_right_3,
       action: () async {
 
-        await Navigator.push(context!, MaterialPageRoute(builder: (context) => const Passcode(label: PassCodeLabel.fromBackUp))).then((value) async {
+        await Navigator.push(context!, MaterialPageRoute(builder: (context) => const Pincode(label: PinCodeLabel.fromBackUp))).then((value) async {
           
           ApiProvider apiProvider = Provider.of<ApiProvider>(context, listen: false);
           await apiProvider.getSdk.api.keyring.getDecryptedSeed(apiProvider.getKeyring, acc, value).then((res) async {
@@ -233,13 +233,13 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
 
-      await StorageServices().clearStorage();
+      await StorageServices.clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
       await StorageServices.storeData(sldNW, DbKey.sldNetwork);
 
-      await StorageServices().clearSecure();
+      await StorageServices.clearSecure();
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
       

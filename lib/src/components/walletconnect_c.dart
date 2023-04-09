@@ -806,9 +806,9 @@ class WalletConnectComponent with ChangeNotifier {
                       end: Alignment.topRight,
                       action: () async {
                         
-                        String encryptKey = await StorageServices().readSecure(DbKey.private)!;
+                        String encryptKey = await StorageServices.readSecure(DbKey.private)!;
 
-                        String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                        String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 
                         privateKey = await getPrivateKey(encryptKey, resPin, context: context);
                         
@@ -914,7 +914,7 @@ class WalletConnectComponent with ChangeNotifier {
     //                 ),
     //                 onPressed: () async {
 
-    //                   String encryptKey = await StorageServices().readSecure(DbKey.private)!;
+    //                   String encryptKey = await StorageServices.readSecure(DbKey.private)!;
 
     //                   String resPin = await Navigator.push(context!, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
 

@@ -42,7 +42,7 @@ class SecurityPrivacy extends StatelessWidget {
               children: [
                 // _backupSeed(context),
 
-                _changePassword(context),
+                _password(context),
 
                 _securityLayer(context, setStateWidget),
 
@@ -101,7 +101,7 @@ class SecurityPrivacy extends StatelessWidget {
     );
   }
 
-  Widget _changePassword(BuildContext context){
+  Widget _password(BuildContext context){
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
       child: Column(
@@ -160,7 +160,7 @@ class SecurityPrivacy extends StatelessWidget {
             activeColor: hexaCodeToColor(AppColors.primaryColor),
             value: model!.switchBio,
             onChanged: (value) async {
-              await StorageServices().readSecure(DbKey.password)!.then((passwordValue) async {
+              await StorageServices.readSecure(DbKey.password)!.then((passwordValue) async {
                 print("value $passwordValue");
                 if(passwordValue.isNotEmpty) {
                   await switchBio!(context, value);  

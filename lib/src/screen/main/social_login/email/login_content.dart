@@ -400,13 +400,13 @@
 
 //       final res = await _apiProvider!.encryptPrivateKey(resPk, "123");
       
-//       await StorageServices().writeSecure(DbKey.private, res);
+//       await StorageServices.writeSecure(DbKey.private, res);
 
 //       _importAccountModel.animationController!.forward(from: 0.6);
 //       changeStatus("FETCHING ASSETS", avg: "3/4");
 
 //       // Store PIN 6 Digit
-//       // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
+//       // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon.text);
 
 //       if(!mounted) return;
 //       await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();

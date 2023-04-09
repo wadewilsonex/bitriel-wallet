@@ -58,7 +58,7 @@ class ImportAccState extends State<ImportAcc> {
     if (widget.passCode != null) {
       _importAccModel.pwCon!.text = widget.passCode!;
     } {
-      StorageServices().readSecure(DbKey.passcode)!.then((value) => _importAccModel.pwCon!.text = value );
+      StorageServices.readSecure(DbKey.pin)!.then((value) => _importAccModel.pwCon!.text = value );
     }
     super.initState();
   }
@@ -127,7 +127,7 @@ class ImportAccState extends State<ImportAcc> {
     Navigator.push(
       context,
       Transition(
-        child: FingerPrint(
+        child: Authentication(
           initStateData: initStateData,
           importAccountModel: _importAccountModel,
         )
@@ -208,7 +208,7 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> addAndImport() async {
     
-    await StorageServices().readSecure(DbKey.privateList)!.then((value) async {
+    await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
 
       if(value.isNotEmpty){
         createKeyModel!.unverifyList = CreateKeyModel().fromJsonDb(List<Map<String, dynamic>>.from(jsonDecode(value)));
@@ -232,17 +232,11 @@ class ImportAccState extends State<ImportAcc> {
     );
 
     _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
-    print("finish getPrivateKey");
     
     await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
-    print("finish extractAddress");
-
-    print('Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}');
 
     // ignore: use_build_context_synchronously
     await _apiProvider!.queryBtcData(context, _importAccModel.key!.text, _importAccModel.pwCon!.text);
-
-    print("After query brc ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 
     createKeyModel!.unverifyList.add(
       UnverifySeed(
@@ -252,7 +246,7 @@ class ImportAccState extends State<ImportAcc> {
       )
     );
 
-    await StorageServices().writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
+    await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
 
   }
 
@@ -286,10 +280,10 @@ class ImportAccState extends State<ImportAcc> {
 
     final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
     
-    await StorageServices().writeSecure(DbKey.private, res);
+    await StorageServices.writeSecure(DbKey.private, res);
 
     // Store PIN 6 Digit
-    // await StorageServices().writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
+    // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
     changeStatus("GETTING READY", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.5);

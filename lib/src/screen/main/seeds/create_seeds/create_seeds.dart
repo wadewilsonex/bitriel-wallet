@@ -134,7 +134,7 @@ class CreateWalletPagetScreenState extends State<CreateSeeds> {
 
     // Wiget.passCode is from add new account
     if (widget.passCode == null) {
-      StorageServices().readSecure(DbKey.passcode)!.then((value) => _model.passCode = value);
+      StorageServices.readSecure(DbKey.pin)!.then((value) => _model.passCode = value);
     } else {
       _model.passCode = widget.passCode!;
     }

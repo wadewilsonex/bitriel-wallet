@@ -1,11 +1,11 @@
 import 'package:wallet_apps/index.dart';
 import 'package:vibration/vibration.dart';
-import 'package:wallet_apps/src/components/passcode/body_passcode.dart';
+import 'package:wallet_apps/src/components/pincode/body_passcode.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
-enum PassCodeLabel {
+enum PinCodeLabel {
   fromSplash,
   fromCreateSeeds,
   fromImportSeeds,
@@ -17,11 +17,11 @@ enum PassCodeLabel {
   fromSignMessage
 }
 
-class Passcode extends StatefulWidget {
+class Pincode extends StatefulWidget {
 
-  final PassCodeLabel? label;
+  final PinCodeLabel? label;
   final bool? isAppBar;
-  const Passcode({
+  const Pincode({
     Key? key, 
     this.isAppBar = false, 
     this.label
@@ -29,10 +29,10 @@ class Passcode extends StatefulWidget {
   //static const route = '/passcode';
 
   @override
-  PasscodeState createState() => PasscodeState();
+  PincodeState createState() => PincodeState();
 }
 
-class PasscodeState extends State<Passcode> {
+class PincodeState extends State<Pincode> {
 
   dynamic res;
   List<TextEditingController> lsControl = [
@@ -41,7 +41,7 @@ class PasscodeState extends State<Passcode> {
     TextEditingController(),
     TextEditingController(),
     TextEditingController(),
-    TextEditingController(),
+    TextEditingController()
   ];
 
   final localAuth = LocalAuthentication();
@@ -82,7 +82,7 @@ class PasscodeState extends State<Passcode> {
 
   @override
   void initState() {
-    StorageServices().readSecure(DbKey.passcode)!.then((value) => res = value);
+    StorageServices.readSecure(DbKey.pin)!.then((value) => res = value);
     authToHome();
     isFirst = true;
     super.initState();
@@ -128,7 +128,7 @@ class PasscodeState extends State<Passcode> {
           strPin += lsControl[i].text;
         }
         
-        if (widget.label == PassCodeLabel.fromSplash) {
+        if (widget.label == PinCodeLabel.fromSplash) {
           dialogLoading(context);
           await passcodeAuth(strPin);
         } else {
@@ -149,7 +149,7 @@ class PasscodeState extends State<Passcode> {
       });
     } else {
       if (firstPin == pin) {
-        await StorageServices().clearKeySecure(DbKey.passcode);
+        await StorageServices.clearKeySecure(DbKey.pin);
         // Navigator.pop(context, false);
       } else {
         clearAll();
@@ -168,14 +168,13 @@ class PasscodeState extends State<Passcode> {
       });
 
       if (
-        widget.label == PassCodeLabel.fromSendTx || 
-        widget.label == PassCodeLabel.fromBackUp || 
-        widget.label == PassCodeLabel.fromAccount ||
-        widget.label == PassCodeLabel.fromSignMessage
+        widget.label == PinCodeLabel.fromSendTx || 
+        widget.label == PinCodeLabel.fromBackUp ||
+        widget.label == PinCodeLabel.fromSignMessage
         ){
         Navigator.pop(context, pin);
       }
-      if (widget.label == PassCodeLabel.fromMenu) {
+      if (widget.label == PinCodeLabel.fromMenu) {
         Navigator.pop(context, true);
       }
       
@@ -186,15 +185,16 @@ class PasscodeState extends State<Passcode> {
       }
       
     } else {
+      
       if (firstPin == pin) {
-        await StorageServices().readSecure(DbKey.passcode)!.then((value) async {
+        await StorageServices.readSecure(DbKey.pin)!.then((value) async {
           if (value == ""){
-            await StorageServices().writeSecure(DbKey.passcode, pin);
+            await StorageServices.writeSecure(DbKey.pin, pin);
           }
         });
 
         clearAll();
-        if (widget.label == PassCodeLabel.fromCreateSeeds){
+        if (widget.label == PinCodeLabel.fromCreateSeeds){
 
           if(!mounted) return;
           Navigator.push(
@@ -204,7 +204,7 @@ class PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else if (widget.label == PassCodeLabel.fromImportSeeds){
+        } else if (widget.label == PinCodeLabel.fromImportSeeds){
           
           if(!mounted) return;
           Navigator.push(
@@ -214,7 +214,12 @@ class PasscodeState extends State<Passcode> {
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
-        } else {
+        }
+        else if (widget.label == PinCodeLabel.fromAccount){
+
+          Navigator.pop(context, pin);
+        } 
+        else {
           if(!mounted) return;
           Navigator.pop(context, true);
         }
@@ -244,7 +249,7 @@ class PasscodeState extends State<Passcode> {
 
   Future<void> readBackUpKey(String pin) async {
 
-    final res = await StorageServices().readSecure(DbKey.passcode);
+    final res = await StorageServices.readSecure(DbKey.pin);
 
     if(widget.label.toString() == "backup"){
       if (res == pin) {
@@ -261,7 +266,7 @@ class PasscodeState extends State<Passcode> {
   // Check User Had Set PassCode
   Future<void> passcodeAuth(String pin) async {
 
-    final res = await StorageServices().readSecure(DbKey.passcode);
+    final res = await StorageServices.readSecure(DbKey.pin);
 
     if (res == pin) {
       if(!mounted) return;
@@ -328,7 +333,7 @@ class PasscodeState extends State<Passcode> {
 
   @override
   Widget build(BuildContext context) {
-    return PasscodeBody(
+    return PincodeBody(
       label: widget.label, 
       isFirst: isFirst, 
       lsControl: lsControl, 

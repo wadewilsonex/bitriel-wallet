@@ -5,7 +5,8 @@ import 'package:wallet_apps/src/models/import_acc_m.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/main/data_loading.dart';
 
-class FingerPrint extends StatefulWidget {
+/// User For Finger Print And Password
+class Authentication extends StatefulWidget {
 
   final String localAuth = "/localAuth";
   final bool? isEnable;
@@ -14,13 +15,13 @@ class FingerPrint extends StatefulWidget {
 
   final Function? initStateData;
 
-  const FingerPrint({Key? key, this.importAccountModel, this.initStateData, this.isEnable = false}) : super(key: key);
+  const Authentication({Key? key, this.importAccountModel, this.initStateData, this.isEnable = false}) : super(key: key);
   
   @override
-  FingerPrintState createState() => FingerPrintState();
+  AuthenticationState createState() => AuthenticationState();
 }
 
-class FingerPrintState extends State<FingerPrint> {
+class AuthenticationState extends State<Authentication> {
   
   final localAuth = LocalAuthentication();
 
@@ -29,6 +30,8 @@ class FingerPrintState extends State<FingerPrint> {
   String authorNot = 'Not Authenticate';
 
   GlobalKey<ScaffoldState>? globalkey;
+
+  TextEditingController _pwdController = TextEditingController();
 
   @override
   void initState() {
@@ -79,13 +82,13 @@ class FingerPrintState extends State<FingerPrint> {
       final mode = await StorageServices.fetchData(DbKey.themeMode);
       final sldNW = await StorageServices.fetchData(DbKey.sldNetwork);
 
-      await StorageServices().clearStorage();
+      await StorageServices.clearStorage();
 
       // Re-Save Them Mode
       await StorageServices.storeData(mode, DbKey.themeMode);
       await StorageServices.storeData(sldNW, DbKey.sldNetwork);
 
-      await StorageServices().clearSecure();
+      await StorageServices.clearSecure();
       
       Provider.of<ContractProvider>(context, listen: false).resetConObject();
       
@@ -102,7 +105,22 @@ class FingerPrintState extends State<FingerPrint> {
       // await dialog(context, e.toString(), 'Opps');
     }
   }
-  
+
+  Future<void> checkPassword() async {
+    print("checkPassword");
+    await StorageServices.readSecure(DbKey.password)!.then((value) {
+      print("value $value");
+      print("_pwdController.text ${_pwdController.text}");
+      print(value == _pwdController.text);
+      if (value == _pwdController.text){
+        Navigator.pushNamedAndRemoveUntil(
+          context, 
+          AppString.homeView,
+          (route) => false
+        );
+      }
+    });
+  }
 
   Future<void> authenticate() async {
     bool authenticate = false;
@@ -113,6 +131,7 @@ class FingerPrintState extends State<FingerPrint> {
         options: const AuthenticationOptions(biometricOnly: true)
       );
       if (authenticate) {
+
         if(!mounted) return;
         dialogLoading(context);
         await Future.delayed(const Duration(seconds: 1), (){});
@@ -127,7 +146,7 @@ class FingerPrintState extends State<FingerPrint> {
           Navigator.push(
             context,
             Transition(
-              child: FingerPrint(initStateData: widget.initStateData!,),
+              child: Authentication(initStateData: widget.initStateData!,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
@@ -179,7 +198,7 @@ class FingerPrintState extends State<FingerPrint> {
           );
         },
       );
-      //await dialog(e.message.toString(), "Message");
+      
     }
   }
 
@@ -215,7 +234,7 @@ class FingerPrintState extends State<FingerPrint> {
           
           Padding(
             padding: const EdgeInsets.all(paddingSize),
-            child: tfPasswordWidget(null, "Enter Password"),
+            child: tfPasswordWidget(_pwdController, "Enter Password"),
           ),
 
           Padding(
@@ -224,8 +243,8 @@ class FingerPrintState extends State<FingerPrint> {
               textButton: "Continue",
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
-              action: (){
-
+              action: () {
+                checkPassword();
               }
             ),
           ),
@@ -240,10 +259,9 @@ class FingerPrintState extends State<FingerPrint> {
               child: RichText(
                 text: TextSpan(
                     text: 'Forgot your password?',
-                    style: const TextStyle(
-                        color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+                    style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
                     children: <TextSpan>[
-                      TextSpan(text: ' Logout all Wallets',
+                      TextSpan(text: 'Logout all Wallets',
                           style: TextStyle(
                               color: hexaCodeToColor(AppColors.primaryColor), fontSize: 18, fontWeight: FontWeight.w600),
                           recognizer: TapGestureRecognizer()
@@ -262,6 +280,7 @@ class FingerPrintState extends State<FingerPrint> {
     );
   }
 
+  // ignore: unused_element
   Widget _bodyFingerPrintWidget(BuildContext context) {
     return BodyScaffold(
       isSafeArea: true,

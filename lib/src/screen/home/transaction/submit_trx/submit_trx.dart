@@ -81,7 +81,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     _scanPayM.controlReceiverAddress.text = widget._walletKey!;
     _scanPayM.portfolio = widget._listPortfolio!;
 
-    StorageServices().readSecure(DbKey.passcode)!.then((value) {
+    StorageServices.readSecure(DbKey.pin)!.then((value) {
       _pin = value;
     });
 
@@ -391,11 +391,11 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       trxFunc!.api = Provider.of<ApiProvider>(context!, listen: false);
 
-      trxFunc!.encryptKey = await StorageServices().readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
+      trxFunc!.encryptKey = await StorageServices.readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
       // Show Dialog Fill PIN
       if(!mounted) return;
-      String resPin = await Navigator.push(context, Transition(child: const Passcode(label: PassCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+      String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
         await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         

@@ -111,10 +111,10 @@ abstract class AccountInterface {
 
       // final res = await accModel!.apiProvider!.encryptPrivateKey(resPk, accModel!.pwCon!.text);
       
-      // await StorageServices().writeSecure(DbKey.private, res);
+      // await StorageServices.writeSecure(DbKey.private, res);
 
       // Store PIN 6 Digit
-      await StorageServices().writeSecure(DbKey.passcode, accModel!.pwCon!.text);
+      await StorageServices.writeSecure(DbKey.pin, accModel!.pwCon!.text);
 
       changeStatus("GETTING READY", avg: "2/3");
       animationModel!.animationController!.forward(from: 0.5);

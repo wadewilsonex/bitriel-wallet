@@ -58,7 +58,7 @@ class Attendance extends ChangeNotifier {
       attDeployContract = await initAttContract(context: context);
       await getChainDecimal(context: context, deployedContract: attDeployContract);
 
-      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       if (myAddr != ''){
         final balance = await ContractProvider().query(
           _atdContract,
