@@ -213,9 +213,14 @@ class AddAssetState extends State<AddAsset> {
                 ),
               ),
               actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
+                Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: MyGradientButton(
+                    textButton: "Close",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () => Navigator.pop(context),
+                  ),
                 ),
               ],
             );

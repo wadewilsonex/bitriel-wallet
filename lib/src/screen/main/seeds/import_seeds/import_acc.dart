@@ -87,7 +87,20 @@ class ImportAccState extends State<ImportAcc> {
       if (account.isNotEmpty) {
         enable = false;
         setState(() { });
-        await DialogComponents().dialogCustom(context: context, titles: "Oops", contents: "Account already exist.\nPlease try again!");
+        await DialogComponents().dialogCustom(
+          context: context, 
+          titles: "Oops", 
+          contents: "This wallet mnemonic already exist.\nPlease try another mnemonic!",
+          btn2: Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: MyGradientButton(
+              textButton: "Close",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () => Navigator.pop(context),
+            ),
+          ),
+        );
       } else if (enable == true){
 
         // New Account From Multi Account

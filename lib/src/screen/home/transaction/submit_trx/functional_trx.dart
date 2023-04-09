@@ -42,15 +42,15 @@ class TrxFunctional {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: const MyText(
-                text: 'Close',
-                fontWeight: FontWeight.bold,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: MyGradientButton(
+              textButton: "Close",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () => Navigator.pop(context),
             ),
+          ),
           ],
         );
       },

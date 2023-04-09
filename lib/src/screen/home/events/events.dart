@@ -90,31 +90,31 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: events!.isNotEmpty ? ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: events!.length,
-        itemBuilder: (context, index) {
-          
-          return Column(
-            children: [
-              
-              EventCardComponents(
+      body: Column(
+        children: [
+          events!.isNotEmpty ? ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: events!.length,
+            itemBuilder: (context, index) {
+              return EventCardComponents(
                 ipfsAPI: _ipfsAPI,
                 title: "Do For Metaverse",
                 listEvent: events,
-              ),
+              );
+            }
+          ) : loading(),
 
-              EventCardComponents(
-                ipfsAPI: _ipfsAPI,
-                title: "ISI Dangkor Sen Chey",
-                listEvent: events,
-              ),
-              
-            ],
-          );
-        }
-      ) : loading(),
+          EventCardComponents(
+            // ipfsAPI: _ipfsAPI,
+            title: "ISI Dangkor Senchey FC",
+            // listEvent: ,
+            eventName: "DSC VS PKRR",
+            eventDate: "2023-04-09 03:45:00 PM",
+          ),
+
+        ],
+      )
 
     );
   }
