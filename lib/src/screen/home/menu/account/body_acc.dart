@@ -373,7 +373,7 @@ class AccountBody extends StatelessWidget{
       ),
       bottomNavigationBar: Consumer<ApiProvider>(
         builder: (context, provider, wg){
-          return provider.getKeyring.keyPairs.length >= 3 ? Container() : Row(
+          return provider.getKeyring.keyPairs.length >= 3 ? const SizedBox() : Row(
             children: [
 
               Expanded(

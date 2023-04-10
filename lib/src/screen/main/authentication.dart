@@ -270,7 +270,7 @@ class AuthenticationState extends State<Authentication> {
                     text: 'Forgot your password?',
                     style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
                     children: <TextSpan>[
-                      TextSpan(text: 'Logout all Wallets',
+                      TextSpan(text: ' Logout all Wallets',
                           style: TextStyle(
                               color: hexaCodeToColor(AppColors.primaryColor), fontSize: 18, fontWeight: FontWeight.w600),
                           recognizer: TapGestureRecognizer()
