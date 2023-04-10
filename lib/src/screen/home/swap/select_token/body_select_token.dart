@@ -98,7 +98,25 @@ class SelectSwapTokenBody extends StatelessWidget {
           /* Prefix Text */
           filled: true,
           fillColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.lightColorBg),
-          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20),
+          // suffixIcon: Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     controller.value.text.isNotEmpty ? GestureDetector(
+          //       onTap: () async {
+          //         controller.clear();
+          //       },
+          //       child: Container(
+          //         padding: const EdgeInsets.only(right: 16.0),
+          //         child: Icon(Iconsax.close_circle, color: hexaCodeToColor(AppColors.iconGreyColor)),
+          //       ),
+          //     )
+          //     : Container(),
+
+          //     Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20)
+          //   ],
+          // ),
+          suffixIcon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.blackColor), size: 20)
         ),
         onChanged: (String value){
           query!(label, value);
