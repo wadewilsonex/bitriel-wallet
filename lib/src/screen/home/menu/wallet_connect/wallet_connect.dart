@@ -16,7 +16,7 @@ class WalletConnectPageState extends State<WalletConnectPage> {
   bool? isChecked = false;
   bool? checkLogin = true;
 
-  WalletConnectComponent? _wConnectC;
+  WalletConnectProvider? _wConnectC;
   
   final formKey = GlobalKey<FormState>();
 
@@ -34,7 +34,7 @@ class WalletConnectPageState extends State<WalletConnectPage> {
 
   void filterListWcSession() async {
 
-    _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    _wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
     _wConnectC!.setBuildContext = context;
     await StorageServices.fetchData("session").then((value) {
       

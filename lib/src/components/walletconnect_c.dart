@@ -1,7 +1,7 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_connect/wallet_connect.dart';
+import 'package:wallet_apps/src/screen/home/menu/wallet_connect/confirm_trx.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +17,7 @@ const maticRpcUri = 'https://rpc-mainnet.maticvigil.com/v1/140d92ff81094f0f3d7ba
 //   CLEAR_CACHE,
 // }
 
-class WalletConnectComponent with ChangeNotifier {
+class WalletConnectProvider with ChangeNotifier {
 
   List<WCSessionStore> lsWcClients = [];
   late WCClient wcClient;
@@ -38,7 +38,7 @@ class WalletConnectComponent with ChangeNotifier {
 
   Map<String, dynamic>? result = {};
 
-  WalletConnectComponent(){
+  WalletConnectProvider(){
     wcClient = WCClient(
       onSessionRequest: onSessionRequest,
       onFailure: onSessionError,
@@ -56,7 +56,6 @@ class WalletConnectComponent with ChangeNotifier {
 
   Future<void> killAllSession() async {
 
-    
     for(int i = 0; i < lsWcClients.length; i++) {
       await Future.delayed(const Duration(seconds: 1), (){ 
         connectToPreviousSession(lsWcClients[i], autoKill: true);
@@ -154,9 +153,7 @@ class WalletConnectComponent with ChangeNotifier {
   // }
 
   connectToPreviousSession(WCSessionStore session, {bool? autoKill = false}) async {
-    if (kDebugMode) {
-      print("connectToPreviousSession ");
-    }
+    
     // prefs = await SharedPreferences.getInstance();
     // final _sessionSaved = prefs.getString(DbKey.wcSession);
     // debugPrint("_sessionSaved ${jsonDecode(_sessionSaved!)['remotePeerMeta']}");
@@ -291,6 +288,7 @@ class WalletConnectComponent with ChangeNotifier {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     action: () async {
+
                       isApprove = true;
                       wcClient.approveSession(
                         accounts: [Provider.of<ContractProvider>(context, listen: false).ethAdd],
@@ -486,6 +484,7 @@ class WalletConnectComponent with ChangeNotifier {
     required VoidCallback onConfirm,
     required VoidCallback onReject,
   }) async {
+
     ContractFunction? contractFunction;
     BigInt gasPrice = BigInt.parse(ethereumTransaction.gasPrice ?? '0');
     try {
@@ -514,185 +513,201 @@ class WalletConnectComponent with ChangeNotifier {
       print(e);
       print(trace);
     }
-    await showDialog(
-      context: context!,
-      builder: (_) {
-        return SimpleDialog(
-          title: Column(
-            children: [
-              if (wcClient.remotePeerMeta!.icons.isNotEmpty)
-                Container(
-                  height: 100.0,
-                  width: 100.0,
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Image.network(wcClient.remotePeerMeta!.icons.first),
-                ),
-              Text(
-                wcClient.remotePeerMeta!.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
-                ),
-              ),
-            ],
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
-          children: [
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Receipient',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    ethereumTransaction.to!,
-                    style: const TextStyle(fontSize: 16.0),
-                  ),
-                ],
-              ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: Row(
-            //     children: const [
-            //       Expanded(
-            //         flex: 2,
-            //         child: Text(
-            //           'Transaction Fee',
-            //           style: TextStyle(
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: 16.0,
-            //           ),
-            //         ),
-            //       ),
-            //       // Expanded(
-            //       //   child: Text(
-            //       //     '${EthConver .weiToEthUnTrimmed(gasPrice * BigInt.parse(ethereumTransaction.gas ?? '0'), 18)} MATIC',
-            //       //     style: TextStyle(fontSize: 16.0),
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: Row(
-            //     children: const [
-            //       Expanded(
-            //         flex: 2,
-            //         child: Text(
-            //           'Transaction Amount',
-            //           style: TextStyle(
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: 16.0,
-            //           ),
-            //         ),
-            //       ),
-            //       // Expanded(
-            //       //   child: Text(
-            //       //     '${EthConversions.weiToEthUnTrimmed(BigInt.parse(ethereumTransaction.value ?? '0'), 18)} MATIC',
-            //       //     style: TextStyle(fontSize: 16.0),
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            if (contractFunction != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Function',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      contractFunction.name,
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-            Theme(
-              data:
-                  Theme.of(context!).copyWith(dividerColor: Colors.transparent),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: ExpansionTile(
-                  tilePadding: EdgeInsets.zero,
-                  title: const Text(
-                    'Data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  children: [
-                    Text(
-                      ethereumTransaction.data!,
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              children: [
 
-                Expanded(
-                  child: MyGradientButton(
-                    edgeMargin: const EdgeInsets.all(paddingSize),
-                    lsColor: const [AppColors.primaryColor, AppColors.primaryColor],
-                    lsColorOpacity: const [0.2, 0.2],
-                    textButton: "Reject",
-                    textColor: AppColors.textColor,
-                    fontWeight: FontWeight.w400,
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    action: onReject
-                  ),
-                ),
-
-                Expanded(
-                  child: MyGradientButton(
-                    edgeMargin: const EdgeInsets.all(paddingSize),
-                    textButton: "Confirm",
-                    fontWeight: FontWeight.w400,
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    action: onConfirm
-                  ),
-  
-                ),
-              ],
-            ),
-          ],
-        );
-      },
+    Navigator.push(
+      context!,
+      Transition(
+        child: ConfirmTrx(
+          id: id,
+          ethereumTransaction: ethereumTransaction,
+          title: title,
+          onConfirm: onConfirm,
+          onReject: onReject,
+          wcClient: wcClient,
+        )
+      )
     );
+
+    // await showDialog(
+    //   context: context!,
+    //   builder: (_) {
+    //     return SimpleDialog(
+    //       title: Column(
+    //         children: [
+    //           if (wcClient.remotePeerMeta!.icons.isNotEmpty)
+    //             Container(
+    //               height: 100.0,
+    //               width: 100.0,
+    //               padding: const EdgeInsets.only(bottom: 8.0),
+    //               child: Image.network(wcClient.remotePeerMeta!.icons.first),
+    //             ),
+    //           Text(
+    //             wcClient.remotePeerMeta!.name,
+    //             style: const TextStyle(
+    //               fontWeight: FontWeight.normal,
+    //               fontSize: 20.0,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+    //       children: [
+            
+    //         Container(
+    //           alignment: Alignment.center,
+    //           padding: const EdgeInsets.only(bottom: 8.0),
+    //           child: Text(
+    //             title,
+    //             style: const TextStyle(
+    //               fontWeight: FontWeight.bold,
+    //               fontSize: 18.0,
+    //             ),
+    //           ),
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.only(bottom: 8.0),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               const Text(
+    //                 'Receipient',
+    //                 style: TextStyle(
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 16.0,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 8.0),
+    //               Text(
+    //                 ethereumTransaction.to!,
+    //                 style: const TextStyle(fontSize: 16.0),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         // Padding(
+    //         //   padding: const EdgeInsets.only(bottom: 8.0),
+    //         //   child: Row(
+    //         //     children: const [
+    //         //       Expanded(
+    //         //         flex: 2,
+    //         //         child: Text(
+    //         //           'Transaction Fee',
+    //         //           style: TextStyle(
+    //         //             fontWeight: FontWeight.bold,
+    //         //             fontSize: 16.0,
+    //         //           ),
+    //         //         ),
+    //         //       ),
+    //         //       // Expanded(
+    //         //       //   child: Text(
+    //         //       //     '${EthConver .weiToEthUnTrimmed(gasPrice * BigInt.parse(ethereumTransaction.gas ?? '0'), 18)} MATIC',
+    //         //       //     style: TextStyle(fontSize: 16.0),
+    //         //       //   ),
+    //         //       // ),
+    //         //     ],
+    //         //   ),
+    //         // ),
+    //         // Padding(
+    //         //   padding: const EdgeInsets.only(bottom: 8.0),
+    //         //   child: Row(
+    //         //     children: const [
+    //         //       Expanded(
+    //         //         flex: 2,
+    //         //         child: Text(
+    //         //           'Transaction Amount',
+    //         //           style: TextStyle(
+    //         //             fontWeight: FontWeight.bold,
+    //         //             fontSize: 16.0,
+    //         //           ),
+    //         //         ),
+    //         //       ),
+    //         //       // Expanded(
+    //         //       //   child: Text(
+    //         //       //     '${EthConversions.weiToEthUnTrimmed(BigInt.parse(ethereumTransaction.value ?? '0'), 18)} MATIC',
+    //         //       //     style: TextStyle(fontSize: 16.0),
+    //         //       //   ),
+    //         //       // ),
+    //         //     ],
+    //         //   ),
+    //         // ),
+    //         if (contractFunction != null)
+    //           Padding(
+    //             padding: const EdgeInsets.only(bottom: 8.0),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 const Text(
+    //                   'Function',
+    //                   style: TextStyle(
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 16.0,
+    //                   ),
+    //                 ),
+    //                 const SizedBox(height: 8.0),
+    //                 Text(
+    //                   contractFunction.name,
+    //                   style: const TextStyle(fontSize: 16.0),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         Theme(
+    //           data:
+    //               Theme.of(context!).copyWith(dividerColor: Colors.transparent),
+    //           child: Padding(
+    //             padding: const EdgeInsets.only(bottom: 8.0),
+    //             child: ExpansionTile(
+    //               tilePadding: EdgeInsets.zero,
+    //               title: const Text(
+    //                 'Data',
+    //                 style: TextStyle(
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 16.0,
+    //                 ),
+    //               ),
+    //               children: [
+    //                 Text(
+    //                   ethereumTransaction.data!,
+    //                   style: const TextStyle(fontSize: 16.0),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Row(
+    //           children: [
+
+    //             Expanded(
+    //               child: MyGradientButton(
+    //                 edgeMargin: const EdgeInsets.all(paddingSize),
+    //                 lsColor: const [AppColors.primaryColor, AppColors.primaryColor],
+    //                 lsColorOpacity: const [0.2, 0.2],
+    //                 textButton: "Reject",
+    //                 textColor: AppColors.textColor,
+    //                 fontWeight: FontWeight.w400,
+    //                 begin: Alignment.bottomLeft,
+    //                 end: Alignment.topRight,
+    //                 action: onReject
+    //               ),
+    //             ),
+
+    //             Expanded(
+    //               child: MyGradientButton(
+    //                 edgeMargin: const EdgeInsets.all(paddingSize),
+    //                 textButton: "Confirm",
+    //                 fontWeight: FontWeight.w400,
+    //                 begin: Alignment.bottomLeft,
+    //                 end: Alignment.topRight,
+    //                 action: onConfirm
+    //               ),
+  
+    //             ),
+    //           ],
+    //         ),
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
   onSwitchNetwork(int id, int chainId) async {
@@ -703,12 +718,11 @@ class WalletConnectComponent with ChangeNotifier {
     ));
   }
 
-
-
   onSign(
     int id,
     WCEthereumSignMessage ethereumSignMessage,
   ) {
+    print("on sign");
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context!,

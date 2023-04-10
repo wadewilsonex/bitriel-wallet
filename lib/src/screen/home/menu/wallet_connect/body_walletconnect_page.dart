@@ -20,8 +20,10 @@ class WalletConnectBody extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Consumer<WalletConnectComponent>(
+
+    return Consumer<WalletConnectProvider>(
       builder: (context, wcComponent, widget){
+
         return Scaffold(
           backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
           appBar: AppBar(
@@ -45,6 +47,7 @@ class WalletConnectBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const MyText(
                     text: "Link your wallet with Decentralized Apps (DApps) that support WalletConnect to make transactions:",
                     fontWeight: FontWeight.w600,
@@ -55,7 +58,7 @@ class WalletConnectBody extends StatelessWidget {
 
                   InkWell(
                     onTap: () async{
-                      WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+                      WalletConnectProvider wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
 
                       String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: true)));
                         
@@ -92,7 +95,7 @@ class WalletConnectBody extends StatelessWidget {
 
                   SizedBox(height: 2.h,),
                   
-                  Consumer<WalletConnectComponent>(
+                  Consumer<WalletConnectProvider>(
                     builder: (context, provider, widget) {
                       return wcComponent.lsWcClients.isNotEmpty ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -113,7 +113,7 @@ class TrxOptionMethod {
     List<dynamic> portfolioList,
   ) async {
 
-    WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    WalletConnectProvider wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
     
     final value = await Navigator.push(context, Transition(child: const QrScanner(isShowSendFund: true, isShowWC: true), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
     

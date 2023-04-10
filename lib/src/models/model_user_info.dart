@@ -1,6 +1,10 @@
 import 'package:wallet_apps/index.dart';
 
 class ModelUserInfo {
+
+  /// msg: used for validate and show in dialog disable pwd
+  String? msg;
+  
   final formStateAddUserInfo = GlobalKey<FormState>();
 
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();

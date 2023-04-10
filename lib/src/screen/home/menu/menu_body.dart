@@ -54,7 +54,7 @@ class MenuBody extends StatelessWidget {
           subIndex: 2,
           onTap: () async {
             
-            WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+            WalletConnectProvider wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
             wConnectC.setBuildContext = context;
             await StorageServices.fetchData(DbKey.wcSession).then((value) async {
 

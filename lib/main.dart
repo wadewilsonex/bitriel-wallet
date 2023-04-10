@@ -68,8 +68,8 @@ Future<void> main() async {
         ChangeNotifierProvider<ReceiveWalletProvider>(
           create: (context) => ReceiveWalletProvider(),
         ),
-        ChangeNotifierProvider<WalletConnectComponent>(
-          create: (context) => WalletConnectComponent(),
+        ChangeNotifierProvider<WalletConnectProvider>(
+          create: (context) => WalletConnectProvider(),
         ),
         ChangeNotifierProvider<ContractsBalance>(
           create: (context) => ContractsBalance(),

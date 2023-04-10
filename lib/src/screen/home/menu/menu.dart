@@ -30,7 +30,7 @@ class MenuState extends State<Menu> {
     if (kDebugMode) {
       print(Provider.of<ApiProvider>(context, listen: false).selNetwork);
     }
-    Provider.of<WalletConnectComponent>(context, listen: false).setBuildContext = context;
+    Provider.of<WalletConnectProvider>(context, listen: false).setBuildContext = context;
 
     readBio();
     checkAvailableBio();
