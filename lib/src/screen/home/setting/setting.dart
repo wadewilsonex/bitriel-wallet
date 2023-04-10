@@ -34,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   // Future<void> checkPasscode() async {
-  //   final res = await StorageServices().readSecure(DbKey.passcode);
+  //   final res = await StorageServices.readSecure(DbKey.passcode);
   //   if (res != '') {
   //     setState(() {
   //       _menuModel.switchPasscode = true;
@@ -96,9 +96,9 @@ class _SettingPageState extends State<SettingPage> {
     
   //   _menuModel.switchPasscode = !_menuModel.switchPasscode;
   //   if (_menuModel.switchPasscode){
-  //     await StorageServices().writeSecure(DbKey.passcode, data!);
+  //     await StorageServices.writeSecure(DbKey.passcode, data!);
   //   } else {
-  //     await StorageServices().clearKeySecure(DbKey.passcode);
+  //     await StorageServices.clearKeySecure(DbKey.passcode);
   //   }
   //   // print("passcode: ${_menuModel.}")
 

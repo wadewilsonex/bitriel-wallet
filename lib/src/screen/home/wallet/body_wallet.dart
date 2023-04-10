@@ -5,6 +5,7 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/asset_item_c.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_ticket.dart';
+import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 class WalletPageBody extends StatelessWidget {
@@ -154,7 +155,7 @@ class WalletPageBody extends StatelessWidget {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Passcode(label: PassCodeLabel.fromAccount,)
+                          builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
                         )
                       ).then((passCodeValue) async {
                         if (passCodeValue != null){
@@ -438,21 +439,25 @@ class WalletPageBody extends StatelessWidget {
               flex: 3,
               child: InkWell(
                 onTap: () async {
-                  await showBarModalBottomSheet(
-                      context: context,
-                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical( 
-                          top: Radius.circular(25.0),
-                        ),
-                      ),
-                      builder: (context) => Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          SwapMethod(),
-                        ],  
-                      ),
-                    );
+                  Navigator.push(
+                    context,
+                    Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                  );
+                  // await showBarModalBottomSheet(
+                  //   context: context,
+                  //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                  //   shape: const RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.vertical( 
+                  //       top: Radius.circular(25.0),
+                  //     ),
+                  //   ),
+                  //   builder: (context) => Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: const [
+                  //       SwapMethod(),
+                  //     ],  
+                  //   ),
+                  // );
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

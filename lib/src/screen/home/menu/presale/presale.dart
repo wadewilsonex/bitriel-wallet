@@ -156,7 +156,7 @@
 //
 //   Future<String>? getPrivateKey(String pin) async {
 //     String? privateKey;
-//     final encryptKey = await StorageServices().readSecure(DbKey.private);
+//     final encryptKey = await StorageServices.readSecure(DbKey.private);
 //     try {
 //       if (encryptKey != ''){
 //         privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encryptKey!, pin);

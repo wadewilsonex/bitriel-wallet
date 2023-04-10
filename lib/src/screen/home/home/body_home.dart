@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
@@ -212,21 +213,25 @@ class HomePageBody extends StatelessWidget {
                   asset: "assets/icons/swap-coin.png",
                   colorHex: "#0D6BA6",
                   action: () async {
-                    await showBarModalBottomSheet(
-                      context: context,
-                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25.0),
-                        ),
-                      ),
-                      builder: (context) => Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          SwapMethod(),
-                        ],
-                      ),
+                    Navigator.push(
+                      context,
+                      Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
+                    // await showBarModalBottomSheet(
+                    //   context: context,
+                    //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                    //   shape: const RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.vertical(
+                    //       top: Radius.circular(25.0),
+                    //     ),
+                    //   ),
+                    //   builder: (context) => Column(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     children: const [
+                    //       SwapMethod(),
+                    //     ],
+                    //   ),
+                    // );
                   },
                 ),
               ),
@@ -267,14 +272,14 @@ class HomePageBody extends StatelessWidget {
     
               Expanded(
                 child: MyMenuItem(
-                  title: "BTIRIEL NFT",
+                  title: "Bitriel NFTs",
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {
                     customDialog(
                       context, 
-                      'Access to Bitriel NFT?', 
-                      'Bitriel NFT is still in development!!!\n\n You can play around with Bitriel NFT page.',
+                      'Access to Bitriel NFTs?', 
+                      'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
                       txtButton: "Cancel",
                       btn2: MyFlatButton(
                         edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -284,6 +289,9 @@ class HomePageBody extends StatelessWidget {
                         textButton: "Confirm",
                         isBorder: true,
                         action: () {
+                          // Close pop up dialog
+                          Navigator.pop(context);
+
                           Navigator.push(
                             context, 
                             Transition(

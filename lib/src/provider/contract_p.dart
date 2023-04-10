@@ -283,6 +283,7 @@ class ContractProvider with ChangeNotifier {
     print("ethAdd $ethAdd");
     
     if (apiProvider.isMainnet){
+      
       try {
 
         await initBscClient();
@@ -294,11 +295,7 @@ class ContractProvider with ChangeNotifier {
 
         dynamic balance = await _kgo!.getTokenBalance(getEthAddr(ethAdd));
 
-        print("kgo balance $balance");
-
         final chainDecimal = await _kgo!.getChainDecimal();
-
-        print("balance $balance");
 
         listContract[apiProvider.kgoIndex].balance = Fmt.bigIntToDouble(
           balance,
@@ -529,7 +526,7 @@ class ContractProvider with ChangeNotifier {
 
   //     final res = await ApiProvider().encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
 
-  //     await StorageServices().writeSecure('btcwif', res);
+  //     await StorageServices.writeSecure('btcwif', res);
 
   //     Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
@@ -630,7 +627,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getBnbMaxGas(String reciever, String amount) async {
     await initBscClient();
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -643,7 +640,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getEthMaxGas(String reciever, String amount) async {
     await initEtherClient();
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _etherClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -657,7 +654,7 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
 
     final erc20Contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddr);
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = erc20Contract.function('transfer');
 
     final maxGas = await _etherClient!.estimateGas(
@@ -680,7 +677,7 @@ class ContractProvider with ChangeNotifier {
     await initBscClient();
 
     final bep20Contract = await AppUtils.contractfromAssets(AppConfig.bep20Abi, contractAddr);
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = bep20Contract.function('transfer');
 
     final maxGas = await _bscClient!.estimateGas(
@@ -740,7 +737,7 @@ class ContractProvider with ChangeNotifier {
       await initBscClient();
       final contract = await initSwapSel(_appConfig.swapAddr);
 
-      final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final gasPrice = await _bscClient!.getGasPrice();
 
@@ -823,7 +820,7 @@ class ContractProvider with ChangeNotifier {
       notifyListeners();
       
       print("ethAdd $ethAdd");
-      await StorageServices().writeSecure(DbKey.ethAddr, credentials.address.toString());
+      await StorageServices.writeSecure(DbKey.ethAddr, credentials.address.toString());
 
     }
   }
@@ -832,7 +829,7 @@ class ContractProvider with ChangeNotifier {
     print("getEtherAddr");
     try {
 
-      final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
       print("ethAddr $ethAddr");
       ethAdd = ethAddr!;
 
@@ -848,7 +845,7 @@ class ContractProvider with ChangeNotifier {
   Future<void> getBtcAddr() async {
     try {
 
-      listContract[apiProvider.btcIndex].address = await StorageServices().readSecure(DbKey.bech32);
+      listContract[apiProvider.btcIndex].address = await StorageServices.readSecure(DbKey.bech32);
       
       notifyListeners();
     } catch (e) {
@@ -910,7 +907,7 @@ class ContractProvider with ChangeNotifier {
       privateKey.substring(2),
     );
 
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -944,7 +941,7 @@ class ContractProvider with ChangeNotifier {
       privateKey.substring(2),
     );
 
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _etherClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -978,7 +975,7 @@ class ContractProvider with ChangeNotifier {
     final txFunction = contract.function('transfer');
     final credentials = EthPrivateKey.fromHex(privateKey);
 
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _etherClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),

@@ -67,7 +67,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     
     _model.assetFilter(context);
 
-    StorageServices().readSecure(DbKey.privateList)!.then((value) {
+    StorageServices.readSecure(DbKey.privateList)!.then((value) {
       setState(() {
         Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
       });

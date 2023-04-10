@@ -46,7 +46,7 @@ export 'package:wallet_apps/src/config/.app_config.dart';
 export 'package:wallet_apps/src/config/size_config.dart';
 export 'package:wallet_apps/src/components/asset_item.dart';
 export 'package:wallet_apps/src/components/portfolio_cus.dart';
-export 'package:wallet_apps/src/components/passcode/passcode.dart';
+export 'package:wallet_apps/src/components/pincode/passcode.dart';
 export 'package:wallet_apps/src/components/appbar/appbar_c.dart';
 
 // Add Asset
@@ -123,7 +123,7 @@ export 'package:wallet_apps/src/screen/home/transaction/submit_trx/submit_trx.da
 export 'package:wallet_apps/src/screen/home/transaction/submit_trx/body_submit_trx.dart';
 export 'package:wallet_apps/src/screen/home/transaction/confirmation/confimation_tx.dart';
 export 'package:wallet_apps/src/screen/main/seeds/import_seeds/import_acc.dart';
-export 'package:wallet_apps/src/screen/main/finger_print.dart';
+export 'package:wallet_apps/src/screen/main/authentication.dart';
 // Finger Print
 export 'package:wallet_apps/src/screen/main/splash_screen.dart';
 

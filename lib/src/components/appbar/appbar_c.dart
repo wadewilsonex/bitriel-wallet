@@ -187,7 +187,7 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
-                      await StorageServices().readSecure(DbKey.privateList)!.then((value) {
+                      await StorageServices.readSecure(DbKey.privateList)!.then((value) {
                         print("value $value");
 
                         print("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
