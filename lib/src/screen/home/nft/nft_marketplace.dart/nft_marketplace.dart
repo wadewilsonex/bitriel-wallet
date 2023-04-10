@@ -21,12 +21,13 @@ class NFTMarketPlace extends StatelessWidget {
             
             Image.asset("assets/logo/bitriel-logo-gold.png", height: 40.sp, width: 40.sp,),
 
-            SizedBox(width: 1.5.w,),
+            const SizedBox(width: 2,),
 
             const MyText(
-              text: "NFT",
+              text: "NFTs",
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 22,
+              textAlign: TextAlign.start,
             ),
 
             Expanded(
