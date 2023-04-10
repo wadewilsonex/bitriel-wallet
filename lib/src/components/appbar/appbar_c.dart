@@ -149,9 +149,9 @@ PreferredSizeWidget defaultAppBar({
 
 Future<void> filterListWcSession(BuildContext context) async {
 
-  WalletConnectComponent? wConnectC;
+  WalletConnectProvider? wConnectC;
 
-  wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+  wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
   wConnectC.setBuildContext = context;
   await StorageServices.fetchData("session").then((value) {
       

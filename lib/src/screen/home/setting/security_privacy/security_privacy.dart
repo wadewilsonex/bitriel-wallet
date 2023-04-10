@@ -3,6 +3,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/setting/security_privacy/password/password.dart';
 
 class SecurityPrivacy extends StatefulWidget {
+  
   final MenuModel? model;
   final Function? switchBio;
   const SecurityPrivacy({Key? key, this.model, this.switchBio}) : super(key: key);
@@ -12,12 +13,13 @@ class SecurityPrivacy extends StatefulWidget {
 }
 
 class _SecurityPrivacyState extends State<SecurityPrivacy> {
-  
+
   bool? isPassword = false;
 
   Future<void> checkPassword() async {
 
     await StorageServices.readSecure(DbKey.password)!.then((value) {
+      print("value $value");
       if (value.isNotEmpty){
         setState(() {
           isPassword = true;
@@ -132,6 +134,7 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           const MyText(text: "Password", fontSize: 18, fontWeight: FontWeight.bold,),
 
           const MyText(
@@ -186,6 +189,7 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
             activeColor: hexaCodeToColor(AppColors.primaryColor),
             value: widget.model!.switchBio,
             onChanged: (value) async {
+              
               await StorageServices.readSecure(DbKey.password)!.then((passwordValue) async {
                 print("value $passwordValue");
                 if(passwordValue.isNotEmpty) {

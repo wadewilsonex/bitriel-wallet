@@ -288,8 +288,7 @@ Future<void> successDialog(
   );
 }
 
-Future<void> seedVerifyLaterDialog(
-  BuildContext context, Function? submit) async {
+Future<void> seedVerifyLaterDialog(BuildContext context, Function? submit) async {
 
   bool isCheck = false;
   
@@ -513,26 +512,26 @@ Future dialogEvent(
   return result;
 }
 
-Future dialogSuccess(BuildContext context, Widget text, Widget title,
-    {Widget? action, Color? bgColor}) async {
+Future dialogSuccess(BuildContext context, Widget text, Widget title, {Widget? action, Color? bgColor}) async {
   final result = await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: bgColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Align(
-            child: title,
-          ),
-          content: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-            child: text,
-          ),
-          actions: <Widget>[action ?? Container()],
-        );
-      });
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: bgColor,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: Align(
+          child: title,
+        ),
+        content: Padding(
+          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+          child: text,
+        ),
+        actions: <Widget>[action ?? Container()],
+      );
+    }
+  );
   return result;
 }
 

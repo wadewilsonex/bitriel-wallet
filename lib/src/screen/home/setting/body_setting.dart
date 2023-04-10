@@ -67,6 +67,7 @@ class BodySettingPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         itemCount: settingsAccSection(context: context).length,
         itemBuilder: (context, index) {
+          
           return InkWell(
             onTap: (){
               settingsWalletSection(context: context, packageInfo: packageInfo)[index].action!();

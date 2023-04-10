@@ -58,7 +58,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
           )
         );
       }
-    ),
+    )
 
   ];
 }

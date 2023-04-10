@@ -18,18 +18,18 @@ class LetsExchangeState extends State<LetsExchange> {
 
   void walletConnect() async{
 
-    WalletConnectComponent wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    WalletConnectProvider wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
     
     wConnectC.setBuildContext = context;
 
   }
 
-  WalletConnectComponent? _wConnectC;
+  WalletConnectProvider? _wConnectC;
 
   @override
   void initState() {
     super.initState();
-    _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    _wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
 
     _wConnectC!.setBuildContext = context;
     

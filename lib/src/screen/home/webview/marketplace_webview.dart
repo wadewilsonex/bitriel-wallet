@@ -24,13 +24,13 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
   
   String getUrl = "";
 
-  WalletConnectComponent? _wConnectC;
+  WalletConnectProvider? _wConnectC;
 
   @override
   void initState() {
     super.initState();
 
-    _wConnectC = Provider.of<WalletConnectComponent>(context, listen: false);
+    _wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
 
     _wConnectC!.setBuildContext = context;
 
