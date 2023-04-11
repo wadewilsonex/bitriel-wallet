@@ -19,6 +19,7 @@ const maticRpcUri = 'https://rpc-mainnet.maticvigil.com/v1/140d92ff81094f0f3d7ba
 
 class WalletConnectProvider with ChangeNotifier {
 
+  ContractProvider? contractPro;
   List<WCSessionStore> lsWcClients = [];
   late WCClient wcClient;
   late SharedPreferences prefs;
@@ -28,10 +29,6 @@ class WalletConnectProvider with ChangeNotifier {
   bool isApprove = false;
   WCSessionStore? sessionStore;
   BuildContext? context;
-  final web3client = Web3Client(
-    maticRpcUri,
-    http.Client(),
-  );
 
   String? ip;
   List<InternetAddress>? _internetAddress;
@@ -81,10 +78,11 @@ class WalletConnectProvider with ChangeNotifier {
 
   set setBuildContext(BuildContext context) {
     this.context = context;
+    contractPro = Provider.of<ContractProvider>(context, listen: false);
     // notifyListeners();
   }
   
-  initSession() async {
+    initSession() async {
     try {
       final pref = await SharedPreferences.getInstance();
       String? value = pref.getString("session");
@@ -178,20 +176,10 @@ class WalletConnectProvider with ChangeNotifier {
   }
 
   onConnect() {
-    // print(sessionStore!.session.toJson());
-
     // Close Dialog Approve
     if (isApprove) Navigator.pop(context!);
 
     isApprove = false;
-
-    // Navigator.push(
-    //   context!, 
-    //   Transition(child: WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-    // );
-    // setState(() {
-    //   connected = true;
-    // });
   }
 
   // After Scan QR
@@ -339,10 +327,6 @@ class WalletConnectProvider with ChangeNotifier {
             Row(
               children: [
                 TextButton(
-                  // style: TextButton.styleFrom(
-                  //   primary: Colors.white,
-                  //   backgroundColor: hexaCodeToColor(AppColors.orangeColor),
-                  // ),
                   onPressed: () {
                     Navigator.pop(context!);
                   },
@@ -359,7 +343,6 @@ class WalletConnectProvider with ChangeNotifier {
 
   onSessionClosed(int? code, String? reason) async {
     
-    // await StorageServices.removeKey(DbKey.wcSession);
     await wcClient.approveRequest(id: wcClient.chainId!, result: result);
 
     await showDialog(
@@ -370,24 +353,11 @@ class WalletConnectProvider with ChangeNotifier {
           title: const MyText(text: "Session Ended", fontWeight: FontWeight.w700, hexaColor: AppColors.blackColor, fontSize: 17,),
           contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
           children: [
-
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: MyText(text: "Some Error Occured. ERROR CODE: $code", color: AppColors.lowWhite,),
-            // ),
-            // if (reason != null)
-            // Padding(
-            //   padding: const EdgeInsets.only(bottom: 8.0),
-            //   child: MyText(text: "Failure Reason: $reason", hexaColor: AppColors.lowWhite,),
-            // ),
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  // style: TextButton.styleFrom(
-                  //   primary: Colors.white,
-                  //   backgroundColor: Theme.of(context!).colorScheme.secondary,
-                  // ),
                   onPressed: () {
                     // Close Dialog
                     Navigator.pop(context!);
@@ -406,13 +376,11 @@ class WalletConnectProvider with ChangeNotifier {
     try {
       privateKey = await Provider.of<ApiProvider>(context!, listen: false).decryptPrivateKey(encryptKey, pin);
     } catch (e) {
-      // Navigator.pop(context);
       
-        if (kDebugMode) {
-          print('Error getPrivateKey $e');
-        }
+      if (kDebugMode) {
+        print('Error getPrivateKey $e');
+      }
       
-      // await customDialog('Opps', 'PIN verification failed');
     }
 
     return privateKey;
@@ -422,19 +390,21 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumTransaction ethereumTransaction,
   ) async {
+    print("onSignTransaction");
+    print("ethereumTransaction ${ethereumTransaction.toJson()}");
+
     await onTransaction(
       id: id,
       ethereumTransaction: ethereumTransaction,
       title: 'Sign Transaction',
       onConfirm: () async {
         final creds = EthPrivateKey.fromHex(privateKey);
-        final tx = await web3client.signTransaction(
+        final tx = await contractPro!.bscClient.signTransaction(
           creds,
           _wcEthTxToWeb3Tx(ethereumTransaction),
           chainId: wcClient.chainId!,
         );
-        // final txhash = await web3client.sendRawTransaction(tx);
-        // debugPrint('txhash $txhash');
+        
         wcClient.approveRequest<String>(
           id: id,
           result: bytesToHex(tx),
@@ -452,6 +422,7 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumTransaction ethereumTransaction,
   ) async {
+
     await onTransaction(
       id: id,
       ethereumTransaction: ethereumTransaction,
@@ -459,7 +430,7 @@ class WalletConnectProvider with ChangeNotifier {
       onConfirm: () async {
         
         final creds = EthPrivateKey.fromHex(privateKey);
-        final txhash = await web3client.sendTransaction(
+        final txhash = await contractPro!.bscClient.sendTransaction(
           creds,
           _wcEthTxToWeb3Tx(ethereumTransaction),
           chainId: wcClient.chainId!,
@@ -475,6 +446,7 @@ class WalletConnectProvider with ChangeNotifier {
         Navigator.pop(context!);
       },
     );
+    
   }
 
   Future<void> onTransaction({
@@ -485,34 +457,52 @@ class WalletConnectProvider with ChangeNotifier {
     required VoidCallback onReject,
   }) async {
 
-    ContractFunction? contractFunction;
-    BigInt gasPrice = BigInt.parse(ethereumTransaction.gasPrice ?? '0');
-    try {
-      // final abiUrl =
-      //     'https://api.polygonscan.com/api?module=contract&action=getabi&address=${ethereumTransaction.to}&apikey=BCER1MXNFHP1TVE93CMNVKC5J4FV8R4CPR';
-      // final res = await http.get(Uri.parse(abiUrl));
-      // final Map<String, dynamic> resMap = jsonDecode(res.body);
-      // final abi = ContractAbi.fromJson(resMap['result'], '');
-      // final contract = DeployedContract(
-      //     abi, EthereumAddress.fromHex(ethereumTransaction.to!));
-      // final dataBytes = hexToBytes(ethereumTransaction.data!);
-      // final funcBytes = dataBytes.take(4).toList();
-      // final maibiFunctions = contract.functions
-      //     .where((element) => listEquals<int>(element.selector, funcBytes));
-      // if (maibiFunctions.isNotEmpty) {
-      //   // contractFunction.parameters.forEach((element) {
-      //   //   debugPrint("params ${element.name} ${element.type.name}");
-      //   // });
-      //   // final params = dataBytes.sublist(4).toList();
-      //   // debugPrint("params $params ${params.length}");
-      // }
-      if (gasPrice == BigInt.zero) {
-        gasPrice = await web3client.estimateGas();
-      }
-    } catch (e, trace) {
-      print(e);
-      print(trace);
-    }
+    print("onTransaction");
+
+    // try {
+    //   final maxGas = await contractPro!.bscClient.estimateGas(
+    //     sender: EthereumAddress.fromHex(ethereumTransaction.from),
+    //     to: EthereumAddress.fromHex(ethereumTransaction.to!),
+    //     data: _sendFunction().encodeCall(
+    //       [
+    //         trxInfo.receiver,
+    //         BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))
+    //       ],
+    //     ),
+    //   );
+    //   print("maxGas $maxGas");
+    // } catch (e) {
+    //   print("Error maxGas $e");
+    // }
+    
+    // getMax(sender, txInfo);
+    // BigInt gasPrice = BigInt.parse(ethereumTransaction.gasPrice ?? '0');
+    // try {
+    //   // final abiUrl =
+    //   //     'https://api.polygonscan.com/api?module=contract&action=getabi&address=${ethereumTransaction.to}&apikey=BCER1MXNFHP1TVE93CMNVKC5J4FV8R4CPR';
+    //   // final res = await http.get(Uri.parse(abiUrl));
+    //   // final Map<String, dynamic> resMap = jsonDecode(res.body);
+    //   // final abi = ContractAbi.fromJson(resMap['result'], '');
+    //   // final contract = DeployedContract(
+    //   //     abi, EthereumAddress.fromHex(ethereumTransaction.to!));
+    //   // final dataBytes = hexToBytes(ethereumTransaction.data!);
+    //   // final funcBytes = dataBytes.take(4).toList();
+    //   // final maibiFunctions = contract.functions
+    //   //     .where((element) => listEquals<int>(element.selector, funcBytes));
+    //   // if (maibiFunctions.isNotEmpty) {
+    //   //   // contractFunction.parameters.forEach((element) {
+    //   //   //   debugPrint("params ${element.name} ${element.type.name}");
+    //   //   // });
+    //   //   // final params = dataBytes.sublist(4).toList();
+    //   //   // debugPrint("params $params ${params.length}");
+    //   // }
+    //   if (gasPrice == BigInt.zero) {
+    //     gasPrice = await contractPro!.bscClient.estimateGas();
+    //   }
+    // } catch (e, trace) {
+    //   print(e);
+    //   print(trace);
+    // }
 
     Navigator.push(
       context!,
@@ -528,186 +518,6 @@ class WalletConnectProvider with ChangeNotifier {
       )
     );
 
-    // await showDialog(
-    //   context: context!,
-    //   builder: (_) {
-    //     return SimpleDialog(
-    //       title: Column(
-    //         children: [
-    //           if (wcClient.remotePeerMeta!.icons.isNotEmpty)
-    //             Container(
-    //               height: 100.0,
-    //               width: 100.0,
-    //               padding: const EdgeInsets.only(bottom: 8.0),
-    //               child: Image.network(wcClient.remotePeerMeta!.icons.first),
-    //             ),
-    //           Text(
-    //             wcClient.remotePeerMeta!.name,
-    //             style: const TextStyle(
-    //               fontWeight: FontWeight.normal,
-    //               fontSize: 20.0,
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       contentPadding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
-    //       children: [
-            
-    //         Container(
-    //           alignment: Alignment.center,
-    //           padding: const EdgeInsets.only(bottom: 8.0),
-    //           child: Text(
-    //             title,
-    //             style: const TextStyle(
-    //               fontWeight: FontWeight.bold,
-    //               fontSize: 18.0,
-    //             ),
-    //           ),
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.only(bottom: 8.0),
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               const Text(
-    //                 'Receipient',
-    //                 style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   fontSize: 16.0,
-    //                 ),
-    //               ),
-    //               const SizedBox(height: 8.0),
-    //               Text(
-    //                 ethereumTransaction.to!,
-    //                 style: const TextStyle(fontSize: 16.0),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.only(bottom: 8.0),
-    //         //   child: Row(
-    //         //     children: const [
-    //         //       Expanded(
-    //         //         flex: 2,
-    //         //         child: Text(
-    //         //           'Transaction Fee',
-    //         //           style: TextStyle(
-    //         //             fontWeight: FontWeight.bold,
-    //         //             fontSize: 16.0,
-    //         //           ),
-    //         //         ),
-    //         //       ),
-    //         //       // Expanded(
-    //         //       //   child: Text(
-    //         //       //     '${EthConver .weiToEthUnTrimmed(gasPrice * BigInt.parse(ethereumTransaction.gas ?? '0'), 18)} MATIC',
-    //         //       //     style: TextStyle(fontSize: 16.0),
-    //         //       //   ),
-    //         //       // ),
-    //         //     ],
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.only(bottom: 8.0),
-    //         //   child: Row(
-    //         //     children: const [
-    //         //       Expanded(
-    //         //         flex: 2,
-    //         //         child: Text(
-    //         //           'Transaction Amount',
-    //         //           style: TextStyle(
-    //         //             fontWeight: FontWeight.bold,
-    //         //             fontSize: 16.0,
-    //         //           ),
-    //         //         ),
-    //         //       ),
-    //         //       // Expanded(
-    //         //       //   child: Text(
-    //         //       //     '${EthConversions.weiToEthUnTrimmed(BigInt.parse(ethereumTransaction.value ?? '0'), 18)} MATIC',
-    //         //       //     style: TextStyle(fontSize: 16.0),
-    //         //       //   ),
-    //         //       // ),
-    //         //     ],
-    //         //   ),
-    //         // ),
-    //         if (contractFunction != null)
-    //           Padding(
-    //             padding: const EdgeInsets.only(bottom: 8.0),
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 const Text(
-    //                   'Function',
-    //                   style: TextStyle(
-    //                     fontWeight: FontWeight.bold,
-    //                     fontSize: 16.0,
-    //                   ),
-    //                 ),
-    //                 const SizedBox(height: 8.0),
-    //                 Text(
-    //                   contractFunction.name,
-    //                   style: const TextStyle(fontSize: 16.0),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         Theme(
-    //           data:
-    //               Theme.of(context!).copyWith(dividerColor: Colors.transparent),
-    //           child: Padding(
-    //             padding: const EdgeInsets.only(bottom: 8.0),
-    //             child: ExpansionTile(
-    //               tilePadding: EdgeInsets.zero,
-    //               title: const Text(
-    //                 'Data',
-    //                 style: TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   fontSize: 16.0,
-    //                 ),
-    //               ),
-    //               children: [
-    //                 Text(
-    //                   ethereumTransaction.data!,
-    //                   style: const TextStyle(fontSize: 16.0),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         Row(
-    //           children: [
-
-    //             Expanded(
-    //               child: MyGradientButton(
-    //                 edgeMargin: const EdgeInsets.all(paddingSize),
-    //                 lsColor: const [AppColors.primaryColor, AppColors.primaryColor],
-    //                 lsColorOpacity: const [0.2, 0.2],
-    //                 textButton: "Reject",
-    //                 textColor: AppColors.textColor,
-    //                 fontWeight: FontWeight.w400,
-    //                 begin: Alignment.bottomLeft,
-    //                 end: Alignment.topRight,
-    //                 action: onReject
-    //               ),
-    //             ),
-
-    //             Expanded(
-    //               child: MyGradientButton(
-    //                 edgeMargin: const EdgeInsets.all(paddingSize),
-    //                 textButton: "Confirm",
-    //                 fontWeight: FontWeight.w400,
-    //                 begin: Alignment.bottomLeft,
-    //                 end: Alignment.topRight,
-    //                 action: onConfirm
-    //               ),
-  
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
   }
 
   onSwitchNetwork(int id, int chainId) async {
@@ -870,23 +680,25 @@ class WalletConnectProvider with ChangeNotifier {
     );
     
   }
-
-
+  
+  // ContractFunction _sendFunction() => contractPro!.bscClient .function('transfer');
   Transaction _wcEthTxToWeb3Tx(WCEthereumTransaction ethereumTransaction) {
+    
     return Transaction(
       from: EthereumAddress.fromHex(ethereumTransaction.from),
       to: EthereumAddress.fromHex(ethereumTransaction.to!),
-      maxGas: ethereumTransaction.gasLimit != null
-          ? int.tryParse(ethereumTransaction.gasLimit!)
-          : null,
-      gasPrice: ethereumTransaction.gasPrice != null
-          ? EtherAmount.inWei(BigInt.parse(ethereumTransaction.gasPrice!))
-          : null,
-      value: EtherAmount.inWei(BigInt.parse(ethereumTransaction.value ?? '0')),
-      data: hexToBytes(ethereumTransaction.data!),
-      nonce: ethereumTransaction.nonce != null
-          ? int.tryParse(ethereumTransaction.nonce!)
-          : null,
+      // maxGas: getMaxGas
+      // ethereumTransaction.gasLimit != null
+      //     ? int.tryParse(ethereumTransaction.gasLimit!)
+      //     : null,
+      // gasPrice: ethereumTransaction.gasPrice != null
+      //     ? EtherAmount.inWei(BigInt.parse(ethereumTransaction.gasPrice!))
+      //     : null,
+      // value: EtherAmount.inWei(BigInt.parse(ethereumTransaction.value ?? '0')),
+      // data: hexToBytes(ethereumTransaction.data!),
+      // nonce: ethereumTransaction.nonce != null
+      //     ? int.tryParse(ethereumTransaction.nonce!)
+      //     : null,
     );
   }
 }

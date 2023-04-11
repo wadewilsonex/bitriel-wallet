@@ -107,9 +107,6 @@ class SubmitTrxState extends State<SubmitTrx> {
       chainDecimal: 0
     );
     
-    // _scanPayM.controlReceiverAddress.text = "0x6871EB5dB4554dB54276D5E5d24f17B9E9dF95F3";
-    // _scanPayM.controlAmount.text = "1";
-    // _scanPayM.enable= true;
 
     trxFunc!.contract = Provider.of<ContractProvider>(context, listen: false);
 

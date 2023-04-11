@@ -34,7 +34,7 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
   @override
   initState(){
     print("id: ${widget.id}");
-    print("ethereumTransaction: ${widget.ethereumTransaction!.value}");
+    print("ethereumTransaction: ${widget.ethereumTransaction!.toJson()}");
     print("title: ${widget.title}");
     print("onConfirm: ${widget.onConfirm}");
     print("onReject: ${widget.onReject}");
@@ -47,7 +47,7 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black,),
           onPressed: () => Navigator.pop(context),
         ),
         title: const MyText(text: "Confirm Transaction"),
@@ -56,7 +56,39 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
         builder: (context, walletConProvider, wg) {
           return Column(
             children: [
+              Row(
+                children: [
+
+                  Expanded(
+                    child: MyGradientButton(
+                      edgeMargin: const EdgeInsets.all(paddingSize),
+                      textButton: "Reject",
+                      fontWeight: FontWeight.w400,
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: () async {
+                        
+                        widget.onReject!();
+                      },
+                    ),
+                  ),
               
+                  Expanded(
+                    child: MyGradientButton(
+                      edgeMargin: const EdgeInsets.all(paddingSize),
+                      textButton: "Approve",
+                      fontWeight: FontWeight.w400,
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      action: () async {
+
+                        widget.onConfirm!();
+
+                      },
+                    ),
+                  )
+                ],
+              )
             ],
           );
         }
