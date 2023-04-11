@@ -120,12 +120,7 @@ class AuthenticationState extends State<Authentication> {
           (route) => false
         );
       } else {
-        await dialogSuccess(
-          context, 
-          MyText(text: 'Invalid password',), 
-          MyText(text: 'Oops',),
-          action: TextButton(onPressed: () => Navigator.pop(context), child: MyText(text: "Close", fontWeight: FontWeight.bold,))
-        );
+        customDialog(context, "Opps", "Invalid password", txtButton: "Close");
       }
     });
   }

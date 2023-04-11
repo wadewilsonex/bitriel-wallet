@@ -118,59 +118,67 @@ class DialogComponents {
     Widget? contents2, 
     LottieBuilder? lottie, 
     Image? image, 
-    String? textButton, btn, btn2
+    String? textButton, btn, btn2,
+    bool? barrierDismissible = true,
+    bool? onWillPop = true
   }) async {
     return await showDialog(
       context: context!, 
+      barrierDismissible: barrierDismissible!,
       builder: (BuildContext context){
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          child: AlertDialog(
-            contentPadding: contentPadding!,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
-            title: titles != null ? MyText(
-              text: titles,
-              fontWeight: FontWeight.bold,
-              fontSize: titlesFontSize,
-            ) : Container(),
-            buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
-            content: contents != null ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-        
-                lottie ?? Container(),
-                
-                // lottie != null ? SizedBox(height: 3) : Container(),
-                
-                image ?? Container(),
-                
-                image != null ? const SizedBox(height: 3) : Container(),
-                MyText(
-                  text: contents,
-                  fontSize: titlesFontSize,
+          child: WillPopScope(
+            onWillPop: () {
+              return Future.value(onWillPop);
+            },
+            child: AlertDialog(
+              contentPadding: contentPadding!,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
+              title: titles != null ? MyText(
+                text: titles,
+                fontWeight: FontWeight.bold,
+                fontSize: titlesFontSize,
+              ) : Container(),
+              buttonPadding: btn2 != null ? const EdgeInsets.only(left: 24, right: 24, bottom: 24) : EdgeInsets.zero,
+              content: contents != null ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+          
+                  lottie ?? Container(),
+                  
+                  // lottie != null ? SizedBox(height: 3) : Container(),
+                  
+                  image ?? Container(),
+                  
+                  image != null ? const SizedBox(height: 3) : Container(),
+                  MyText(
+                    text: contents,
+                    fontSize: titlesFontSize,
+                  )
+                ],
+              ) : contents2,
+              actions: [
+                btn ?? Container(),
+          
+                btn2 ?? TextButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(EdgeInsets.zero)
+                  ),
+                  onPressed: () async {
+                    // await FlutterScreenshotSwitcher.enableScreenshots();
+                    Navigator.pop(context);
+                  },
+                  child: MyText(
+                    text: "Close",
+                    hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor, 
+                  ),
                 )
               ],
-            ) : contents2,
-            actions: [
-              btn ?? Container(),
-        
-              btn2 ?? TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.zero)
-                ),
-                onPressed: () async {
-                  // await FlutterScreenshotSwitcher.enableScreenshots();
-                  Navigator.pop(context);
-                },
-                child: MyText(
-                  text: "Close",
-                  hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor, 
-                ),
-              )
-            ],
+            ),
           ),
         );
       }

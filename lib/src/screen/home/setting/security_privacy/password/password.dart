@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/setting/security_privacy/password/body_password.dart';
 
@@ -24,19 +25,27 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
       customDialog(context, "Opps", "You must input password", txtButton: "OK");
     }
     else if(_modelUserInfo!.passwordCon.text == _modelUserInfo!.confirmPasswordCon.text) {
-      dialogLoading(context);
 
       await StorageServices.writeSecure(DbKey.password, _modelUserInfo!.confirmPasswordCon.value.text).then((value) async{
         
         await StorageServices.readSecure(DbKey.password)!.then((value) {
-          print("value $value");
-          Navigator.pop(context);
+          DialogComponents().dialogCustom(
+            barrierDismissible: false,
+            onWillPop: false,
+            context: context,
+            titles: "Your password has been setup!",
+            btn2: MyGradientButton(
+              textButton: "Ok",
+              textColor: AppColors.lowWhite,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
+                Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
+              },
+            )
+          );
         });
       });
-
-      // // Close pop screen
-      if(!mounted) return;
-      Navigator.pop(context);
 
     }
     else{
@@ -69,19 +78,24 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
     });
 
     // ignore: use_build_context_synchronously
-    await dialogSuccess(
-      context, 
-      MyText(text: status == null ? "Your password is updated" : status ?? 'null',), 
-      MyText(text: status == null ? "Successfully" : "Oops",),
-      action: TextButton(
-        onPressed: (){
+    DialogComponents().dialogCustom(
+      barrierDismissible: false,
+      onWillPop: false,
+      context: context,
+      titles: status == null ? "Successfully" : "Oops",
+      contents: status == null ? "Your password is updated" : status ?? 'null',
+      btn2: MyGradientButton(
+        textButton: "Ok",
+        textColor: AppColors.lowWhite,
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
+        action: () {
           if (status == null){
             Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
           } else {
             Navigator.pop(context);
           }
         },
-        child: const MyText(text: "Close", fontWeight: FontWeight.bold,)
       )
     );
   }

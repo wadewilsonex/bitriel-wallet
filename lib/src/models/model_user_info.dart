@@ -22,6 +22,7 @@ class ModelUserInfo {
   TextEditingController oldPwdCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
   TextEditingController confirmPasswordCon = TextEditingController();
+  TextEditingController changePasswordCon = TextEditingController();
 
   FocusNode oldPwdNode = FocusNode();
   FocusNode passwordNode = FocusNode();

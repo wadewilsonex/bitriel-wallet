@@ -1293,7 +1293,7 @@ Widget textRowWidget(String leadingText, String trailingText) {
   );
 }
 
-Widget tfPasswordWidget(TextEditingController? password, String? title, {Function? onSubmit}) {
+Widget tfPasswordWidget(TextEditingController? password, String? title, {double? borderSize = 1, Function? onSubmit}) {
   return TextFormField(
     obscureText: true,
     controller: password,
@@ -1307,17 +1307,17 @@ Widget tfPasswordWidget(TextEditingController? password, String? title, {Functio
 
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+        borderSide: BorderSide(width: borderSize!, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor),),
       ),
 
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+        borderSide: BorderSide(width: borderSize, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor)),
       ),
 
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+        borderSide: BorderSide(width: borderSize, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor)),
       ),
 
       hintText: title,
