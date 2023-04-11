@@ -58,49 +58,50 @@ class BodyPasswordSecurity extends StatelessWidget {
                             text: "Fill Your Password",
                           ),
                         ),
-                        content: Padding(
-                          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextFormField(
-                                controller: userInfo!.passwordCon,
-                              ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            tfPasswordWidget(userInfo!.changePasswordCon, "Current Password",),
+                            // TextFormField(
+                            //   controller: userInfo!.passwordCon,
+                            // ),
 
-                              if (userInfo!.msg != null ) MyText(top: 5, text: userInfo!.msg, fontSize: 15, color2: Colors.red,)
-                            ],
-                          ),
+                            if (userInfo!.msg != null ) MyText(top: 5, text: userInfo!.msg, fontSize: 15, color2: Colors.red,)
+                          ],
                         ),
                         actions: <Widget>[
                           
-                          TextButton(
-                            onPressed: () async {
-
-                              await StorageServices.readSecure(DbKey.password)!.then((String? value) async {
-                                
-                                if (value == userInfo!.passwordCon.text){
-
-                                  mySetState(() {
-                                    userInfo!.msg = null;
-                                  });
-
-                                  if (value != null){
-                                    await StorageServices.clearKeySecure(DbKey.password);
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
+                          Padding(
+                            padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
+                            child: MyGradientButton(
+                              textButton: "Submit",
+                              begin: Alignment.bottomLeft,
+                              end: Alignment.topRight, 
+                              action: () async {
+                          
+                                await StorageServices.readSecure(DbKey.password)!.then((String? value) async {
+                                  
+                                  if (value == userInfo!.changePasswordCon.text){
+                          
+                                    mySetState(() {
+                                      userInfo!.msg = null;
+                                    });
+                          
+                                    if (value != null){
+                                      await StorageServices.clearKeySecure(DbKey.password);
+                                      // ignore: use_build_context_synchronously
+                                      Navigator.popUntil(context, ModalRoute.withName(AppString.homeView));
+                                    }
+                                  } else {
+                                    
+                                    mySetState( () {
+                                      userInfo!.msg = "Wrong Password";
+                                    });
                                   }
-                                } else {
-                                  print("Else");
-                                  mySetState( () {
-                                    userInfo!.msg = "Wrong Password";
-                                  });
-                                }
-                              });
-                            }, 
-                            child: MyText(
-                              text: "Submit"
-                            )
+                                });
+                              },
+                            ),
                           )
                         ]
                       );
@@ -109,7 +110,7 @@ class BodyPasswordSecurity extends StatelessWidget {
                 }
               );
             },
-            child: MyText(text: "Disable Password", fontWeight: FontWeight.bold, color2: Colors.red,),
+            child: const MyText(text: "Disable Password", fontWeight: FontWeight.bold, color2: Colors.red,),
           )
         ],
       ),
@@ -132,7 +133,7 @@ class BodyPasswordSecurity extends StatelessWidget {
           if (isChangePwd == true)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-            child: tfPasswordWidget(userInfo!.oldPwdCon, "Old Password"),
+            child: tfPasswordWidget(userInfo!.oldPwdCon, "Current Password",),
           )
           else Container(),
 
