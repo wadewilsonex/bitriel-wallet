@@ -4,9 +4,10 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/screen/home/setting/security_privacy/password/body_password.dart';
 
 class PasswordSecurity extends StatefulWidget {
+  final Function? switchBio;
+  final bool? isChangePwd;
 
-  bool? isChangePwd;
-  PasswordSecurity({Key? key, this.isChangePwd = false}) : super(key: key);
+  const PasswordSecurity({Key? key, this.isChangePwd = false, this.switchBio}) : super(key: key);
 
   @override
   State<PasswordSecurity> createState() => _PasswordSecurityState();
@@ -56,8 +57,6 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
   Future<void> checkOldPwd() async {
 
     await StorageServices.readSecure(DbKey.password)!.then((value) async {
-      print("Value $value");
-      print(value != _modelUserInfo!.oldPwdCon.text);
       if (value != _modelUserInfo!.oldPwdCon.text){
         status = "Invalid Old Password";
       } 
@@ -126,7 +125,8 @@ class _PasswordSecurityState extends State<PasswordSecurity> {
     return BodyPasswordSecurity(
       isChangePwd: widget.isChangePwd,
       userInfo: _modelUserInfo,
-      onSubmit: submit
+      onSubmit: submit,
+      switchBio: widget.switchBio,
     );
   }
 }

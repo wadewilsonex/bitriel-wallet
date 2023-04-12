@@ -7,6 +7,7 @@ import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:wallet_apps/src/models/card_section_setting.m.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/menu/backup/backup_key.dart';
+import 'package:wallet_apps/src/screen/home/menu/changePin/changepin.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
 
 class AccountBody extends StatelessWidget{
@@ -130,6 +131,24 @@ class AccountBody extends StatelessWidget{
                           ),
 
                           GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context, 
+                                Transition(
+                                  child: ChangePin(acc: provider.getKeyring.allAccounts[index],),
+                                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                                )
+                              );
+                            },
+                            child: _itemButton(
+                              icon: Iconsax.lock, 
+                              title: "Change PIN",
+                              iconColor: AppColors.warningColor, 
+                              titleColor: AppColors.warningColor
+                            ),
+                          ),
+
+                          GestureDetector(
                             onTap: () async {
 
                               Map? value;
@@ -201,6 +220,7 @@ class AccountBody extends StatelessWidget{
                                   contents: 'Your current wallet, and assets will be removed from this app permanently\n\n You can Only recover your wallet with your Secret Recovery Seed Phrases',
           
                                   btn: MyFlatButton(
+                                    height: 60,
                                     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                                     isTransparent: false,
                                     buttonColor: AppColors.whiteHexaColor,
@@ -527,6 +547,7 @@ class AccountBody extends StatelessWidget{
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: MyFlatButton(
+                    height: 60,
                     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                     isTransparent: false,
                     buttonColor: AppColors.whiteHexaColor,

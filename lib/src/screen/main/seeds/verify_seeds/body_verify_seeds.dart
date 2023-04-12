@@ -130,6 +130,7 @@ class VerifyPassphraseBody extends StatelessWidget {
                 Consumer<VerifySeedsProvider>(
                   builder: (context, pro, wg){
                     return pro.isVerifying == false ? MyFlatButton(
+                      height: 60,
                       isTransparent: true,
                       buttonColor: AppColors.whiteHexaColor,
                       textColor: AppColors.primaryColor,
