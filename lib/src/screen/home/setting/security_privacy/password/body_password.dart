@@ -5,12 +5,14 @@ class BodyPasswordSecurity extends StatelessWidget {
   final bool? isChangePwd;
   final ModelUserInfo? userInfo;
   final Function? onSubmit;
+  final Function? switchBio;
   
   const BodyPasswordSecurity({
     Key? key,
     this.isChangePwd,
     this.userInfo,
     this.onSubmit,
+    this.switchBio,
   }) : super(key: key);
 
   @override
@@ -83,10 +85,9 @@ class BodyPasswordSecurity extends StatelessWidget {
                                 await StorageServices.readSecure(DbKey.password)!.then((String? value) async {
                                   
                                   if (value == userInfo!.changePasswordCon.text){
+                                    await switchBio!(context, false);  
                           
-                                    mySetState(() {
-                                      userInfo!.msg = null;
-                                    });
+                                    userInfo!.msg = null;
                           
                                     if (value != null){
                                       await StorageServices.clearKeySecure(DbKey.password);

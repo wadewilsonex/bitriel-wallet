@@ -55,6 +55,7 @@ class AuthenticationState extends State<Authentication> {
       'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',
       txtButton: "Cancel",
       btn2: MyFlatButton(
+        height: 60,
         edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
         isTransparent: false,
         buttonColor: AppColors.whiteHexaColor,
@@ -341,6 +342,7 @@ class AuthenticationState extends State<Authentication> {
               widget.isEnable == true
               ? Container() 
               : MyFlatButton(
+                height: 60,
                 isTransparent: true,
                 textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
                 edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),

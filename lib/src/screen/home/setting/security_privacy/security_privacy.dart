@@ -19,7 +19,6 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
   Future<void> checkPassword() async {
 
     await StorageServices.readSecure(DbKey.password)!.then((value) {
-      print("value $value");
       if (value.isNotEmpty){
         setState(() {
           isPassword = true;
@@ -81,53 +80,6 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
     );
   }
 
-  Widget _backupSeed(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.all(paddingSize),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const MyText(text: "Reveal Secret Recovery Phrase", fontSize: 18, fontWeight: FontWeight.bold,),
-
-          const MyText(
-            text: "Protect your wallet by saving your secret recovery phrase in the saving & various place like on a piece or paper, password manager, and/or the cloud", 
-            hexaColor: AppColors.greyCode,
-            textAlign: TextAlign.start,
-            top: 10,
-          ),
-
-          SizedBox(height: 2.h,),
-
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: TextButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: hexaCodeToColor(AppColors.primaryColor))
-                  )
-                )
-              ),
-              onPressed: () {
-
-                // Navigator.push(
-                //   context, 
-                //   Transition(
-                //     child: BackUpKey(),
-                //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                //   )
-                // );
-              },
-              child: const MyText(text: "Reveal Secret Recovery Phrase", fontSize: 17, fontWeight: FontWeight.w600, hexaColor: AppColors.primaryColor,),
-            ),
-          )
-
-        ],
-      ),
-    );
-  }
-
   Widget _password(BuildContext context){
     return Padding(
       padding: const EdgeInsets.all(paddingSize),
@@ -162,7 +114,7 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
                 Navigator.push(
                   context, 
                   Transition(
-                    child: PasswordSecurity(isChangePwd: isPassword,),
+                    child: PasswordSecurity(isChangePwd: isPassword, switchBio: widget.switchBio,),
                     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                   )
                 );
@@ -191,7 +143,6 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
             onChanged: (value) async {
               
               await StorageServices.readSecure(DbKey.password)!.then((passwordValue) async {
-                print("value $passwordValue");
                 if(passwordValue.isNotEmpty) {
                   await widget.switchBio!(context, value);  
                   setStateWidget(() {

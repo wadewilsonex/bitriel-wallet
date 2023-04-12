@@ -504,6 +504,8 @@ class WalletConnectProvider with ChangeNotifier {
     //   print(trace);
     // }
 
+    print("lsWcClients $lsWcClients");
+
     Navigator.push(
       context!,
       Transition(
@@ -514,6 +516,7 @@ class WalletConnectProvider with ChangeNotifier {
           onConfirm: onConfirm,
           onReject: onReject,
           wcClient: wcClient,
+          // peerMeta: peer,
         )
       )
     );

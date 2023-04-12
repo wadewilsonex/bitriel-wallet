@@ -704,16 +704,10 @@ Widget progress({String? animationAsset, String? content}) {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Lottie.asset(
-              animationAsset ?? "assets/animation/blockchain-animation.json",
+              animationAsset ?? "assets/animation/loading-block.json",
               repeat: true,
               // reverse: true,
             ),
-            // CircularProgressIndicator(
-            //   backgroundColor: Colors.transparent,
-            //   valueColor: AlwaysStoppedAnimation(
-            //     hexaCodeToColor(AppColors.secondary)
-            //   )
-            // ),
             if (content == null)
             Container()
             else

@@ -282,6 +282,7 @@ class HomePageBody extends StatelessWidget {
                       'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
                       txtButton: "Cancel",
                       btn2: MyFlatButton(
+                        height: 60,
                         edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
                         isTransparent: false,
                         buttonColor: AppColors.whiteHexaColor,

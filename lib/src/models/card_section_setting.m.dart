@@ -204,6 +204,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
       'Your current wallets, and assets will be removed from this app permanently\n\n You can Only recover all wallets with all your Secret Recovery Seed Phrases',
       txtButton: "Cancel",
       btn2: MyFlatButton(
+        height: 60,
         edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
         isTransparent: false,
         buttonColor: AppColors.whiteHexaColor,

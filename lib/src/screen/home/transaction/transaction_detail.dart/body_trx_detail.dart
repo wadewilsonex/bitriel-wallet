@@ -76,6 +76,7 @@ class BodyTransactionDetail extends StatelessWidget {
           Expanded(child: Container()),
           Expanded(
             child: MyFlatButton(
+              height: 60,
               textButton: "Repeat",
               buttonColor: AppColors.bluebgColor,
               action: () {

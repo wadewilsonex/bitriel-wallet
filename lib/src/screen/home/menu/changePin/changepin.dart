@@ -6,7 +6,9 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:polkawallet_sdk/storage/keyring.dart';
 
 class ChangePin extends StatefulWidget {
-  const ChangePin({Key? key}) : super(key: key);
+  final KeyPairData? acc;
+
+  const ChangePin({Key? key, required this.acc}) : super(key: key);
 
   //static const route = '/passcode';
 
@@ -165,7 +167,7 @@ class ChangePinState extends State<ChangePin> {
 
   Future<void> setVerifyPin(String pin) async {
     if (oldPass == null) {
-      await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.checkPassword(Provider.of<ApiProvider>(context, listen: false).getKeyring.keyPairs[0], pin).then((bool? value) {
+      await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.checkPassword(widget.acc!, pin).then((bool? value) {
         Navigator.pop(context);
         if (value == true){
 
@@ -285,7 +287,7 @@ class ChangePinState extends State<ChangePin> {
 
       // await StorageServices.writeSecure(DbKey.passcode, newPass!);
       // Get Seeds From Decrypt
-      final seeds = await KeyringPrivateStore([_apiProvider!.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(_apiProvider!.getKeyring.keyPairs[0].pubKey, oldPass);
+      final seeds = await KeyringPrivateStore([_apiProvider!.isMainnet ? AppConfig.networkList[0].ss58MN! : AppConfig.networkList[0].ss58!]).getDecryptedSeed(widget.acc!.pubKey, oldPass);
 
       // Get Private Key _resPk
       final resPk = await _apiProvider!.getPrivateKey(seeds!['seed']);
