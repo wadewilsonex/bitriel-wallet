@@ -2,12 +2,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {
 
   http.Response? res;
   String? body;
+  static String? _api;
   PackageInfo? _info;
 
   Future<http.Response> requestReward(final String url, final String address) async {
@@ -142,6 +144,22 @@ class PostRequest {
       body: body,
       headers: conceteHeader()
     );
+  }
+
+  /// Swapping
+  /// 
+  static Future<http.Response> swap(Map<String, dynamic> obj) async {
+    print('swap');
+    _api ??= dotenv.get('LETS_EXCHANGE_API');
+
+    print(_api);
+
+    return await http.post(
+      Uri.parse(_api!),
+      body: json.encode(obj),
+      headers: conceteHeader()
+    );
+
   }
   
 }

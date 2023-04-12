@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
 
+String? _api;
+
 Future<http.Response> getSelendraEndpoint() async {
   return await http.get(Uri.parse(dotenv.get('SELENDRA_API_BITRIEL')));
 }
@@ -38,8 +40,20 @@ Future<http.Response> getTickets(String tk) async {
 }
 
 Future<http.Response> queryEventById(String evntId) async {
+
   return await http.get(
-      // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
-      Uri.parse("${dotenv.get('DOERS_API')}events/$evntId"),
-      headers: conceteHeader());
+    // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+    Uri.parse("${dotenv.get('DOERS_API')}events/$evntId"),
+    headers: conceteHeader()
+  );
+}
+
+Future<http.Response> queryTrxStatus(String id) async {
+
+  _api = dotenv.get('LETS_EXCHANGE_API');
+  return await http.get(
+    // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
+    Uri.parse("$_api/$id"),
+    headers: conceteHeader()
+  );
 }

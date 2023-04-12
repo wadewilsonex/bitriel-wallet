@@ -1,5 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 
 class SwapProvider extends ChangeNotifier{
   
@@ -20,6 +21,8 @@ class SwapProvider extends ChangeNotifier{
   List<SwapTokenListModel> ls = [];
   List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
+
+  SwapPageModel model = SwapPageModel();
 
   SwapTokenListModel swapTokenListModel = SwapTokenListModel();
   SwapTokenListModel swapTokenListModel2 = SwapTokenListModel();
@@ -98,6 +101,13 @@ class SwapProvider extends ChangeNotifier{
     label = "";
     
     notifyListeners();
+  }
+
+  Future<void> confirmSwapW3() async {
+    
+    // await contractProvider!.bscClient.sendTransaction(
+    //   cred, transaction
+    // );
   }
 
   void notifyDataChanged(){

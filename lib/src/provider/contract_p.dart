@@ -716,6 +716,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<EtherAmount?> getBscGasPrice() async {
+    
     EtherAmount? gasPrice;
     try {
 

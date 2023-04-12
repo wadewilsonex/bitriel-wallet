@@ -12,6 +12,7 @@ class SwapPageBody extends StatelessWidget {
   final Function(String)? onChanged;
   final Function? onTabNum;
   final Function? calculateAmount;
+  final Function? swapping;
 
   const SwapPageBody({ 
     Key? key,
@@ -20,6 +21,7 @@ class SwapPageBody extends StatelessWidget {
     this.onChanged,
     this.onDeleteTxt,
     this.calculateAmount,
+    this.swapping,
     required this.onTabNum
   }) : super(key: key);
 
@@ -33,7 +35,7 @@ class SwapPageBody extends StatelessWidget {
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
-          text: "Bitriel Swap",
+          text: "BITRIEL Swap",
           fontSize: 22,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
@@ -58,6 +60,7 @@ class SwapPageBody extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+
                     _payInput(context),
 
                     Padding(
@@ -139,12 +142,6 @@ class SwapPageBody extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
-      
-            // MyText(
-            //   text: 'Minimum value is 0.00058714 BTC',
-            //   fontWeight: FontWeight.w500,
-            //   color: AppColors.whiteColorHexa
-            // ),
     
             Expanded(
               child:  Center(
@@ -159,8 +156,8 @@ class SwapPageBody extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               action: () async {
-                underContstuctionAnimationDailog(context: context);
-                // Navigator.push(context, Transition(child: VerifyPassphrase(createKeyModel: createKeyModel!),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                // underContstuctionAnimationDailog(context: context);
+                swapping!();
               },
             ),
       
@@ -181,6 +178,7 @@ class SwapPageBody extends StatelessWidget {
             padding: const EdgeInsets.only(right: 5),
             child: Row(
               children: [
+                
                 const MyText(
                   text: 'You Send',
                   fontWeight: FontWeight.bold,
@@ -213,11 +211,11 @@ class SwapPageBody extends StatelessWidget {
                     );
                   }
                 ),
+
               ],
             ),
           ),
           
-
           Row(
             children: [
               Column(
@@ -276,9 +274,6 @@ class SwapPageBody extends StatelessWidget {
 
             ],
           ),
-
-           // SizedBox(width: 5.w),
-
           
         ],
       ),
