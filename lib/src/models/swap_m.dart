@@ -23,6 +23,7 @@ class SwapPageModel {
       "deposit_amount": myController!.text,
       "withdrawal": addr,
       "withdrawal_extra_id": null,
+      "affiliate_id": "DCNVjpI0Txr1Sw2w",
       "network_from": "BEP20",
       "network_to": "BEP20"
     }; 
@@ -40,6 +41,7 @@ class SwapResponseObj {
   String? withdrawal_extra_id;
   String? _return;
   String? return_extra_id;
+  String? final_amount;
   int? extra_fee_from;
   int? extra_fee_to;
   String? coin_from_network;
@@ -76,6 +78,7 @@ class SwapResponseObj {
     deposit_amount = jsn['deposit_amount'];
     withdrawal = jsn['withdrawal'];
     withdrawal_extra_id = jsn['withdrawal_extra_id'];
+    final_amount = jsn['final_amount'];
     _return = jsn['return'];
     return_extra_id = jsn['return_extra_id'];
     extra_fee_from = jsn['extra_fee_from'];

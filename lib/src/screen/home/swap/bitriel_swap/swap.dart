@@ -190,6 +190,9 @@ class _SwapPageState extends State<SwapPage> {
     }
     on Exception catch (ex){
       print("Exception");
+      // customDialog(context, "Error", "${ex}", txtButton: "Close").then((value) {
+       
+      // });
       // Close Dialog
       Navigator.pop(context);
       print(ex);
@@ -228,7 +231,7 @@ class _SwapPageState extends State<SwapPage> {
   }
 
   @override
-  void dispose() {  
+  void dispose() {
     super.dispose();
   }
   

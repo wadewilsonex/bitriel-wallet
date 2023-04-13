@@ -245,8 +245,8 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
                 const Divider(),
           
                 Row(
-                  children: [
-                    const MyText(
+                  children: const [
+                    MyText(
                       pTop: 5,
                       pBottom: 5,
                       text: "Max Total",
@@ -255,7 +255,7 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
                       hexaColor: AppColors.blackColor,
                     ),
           
-                    const Spacer(),
+                    Spacer(),
           
                     MyText(
                       pTop: 5,

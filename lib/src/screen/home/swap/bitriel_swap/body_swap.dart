@@ -35,7 +35,7 @@ class SwapPageBody extends StatelessWidget {
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
-          text: "BITRIEL Swap",
+          text: "Bitriel Swap",
           fontSize: 22,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
