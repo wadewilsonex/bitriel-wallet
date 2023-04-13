@@ -104,6 +104,8 @@ class SwapProvider extends ChangeNotifier{
   }
 
   Future<void> confirmSwapW3() async {
+
+    // final contractAddr = ApiProvider().isMainnet ?  contractProvider!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
     
     // await contractProvider!.bscClient.sendTransaction(
     //   cred, transaction

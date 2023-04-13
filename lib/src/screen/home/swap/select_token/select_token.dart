@@ -43,6 +43,8 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
         }
         return false;
       }).toList();
+
+      print("_swapProvider!.ls.indexOf(_swapProvider!.searched[0]) ${_swapProvider!.ls.indexOf(_swapProvider!.searched[0])}");
     } else {
       _swapProvider!.searched = _swapProvider!.ls2.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 

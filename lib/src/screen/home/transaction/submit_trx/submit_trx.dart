@@ -211,24 +211,6 @@ class SubmitTrxState extends State<SubmitTrx> {
   // First Execute
   Future<void> validateSubmit() async {
 
-    // Navigator.push(
-    //   context,
-    //   Transition(
-    //     child: SuccessTransfer(
-    //       fromAddress: "seYeRoPMUTEd5vvCiAUjweDrroTdvrfWLsmUQRtbJ4xbKByGM",
-    //       toAddress: _scanPayM.controlReceiverAddress.text,
-    //       amount: _scanPayM.controlAmount.text,
-    //       fee: "0.0001",
-    //       hash: "0x56c6e1c6ec896c7cfb6e2f5a4326e4fcc209848bd435acf2dc44398dd45a903a",
-    //       trxDate: DateTime.now().toLocal().toString(),
-    //       assetLogo: _scanPayM.logo,
-    //       assetSymbol: _scanPayM.asset,
-    //       scanPayM: _scanPayM,
-    //     ),
-    //     transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-    //   ),
-    // );
-
     unFocusAllField();
 
     if (double.parse(_scanPayM.controlAmount.text) == 0){
@@ -260,8 +242,10 @@ class SubmitTrxState extends State<SubmitTrx> {
               await enableAnimation();
             }
           });
+
         } 
         else {
+
           if (!isValid) {
             if(!mounted) return;
             Navigator.pop(context);
@@ -377,6 +361,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         // await trxFunc!.customDialog("Oops", e.toString());
       }
     }
+    
   }
 
   // Second Execute
@@ -394,6 +379,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       if(!mounted) return;
       String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
       if (resPin != _pin){
+        // ignore: use_build_context_synchronously
         await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         
       } else if (resPin.isNotEmpty) {
@@ -449,6 +435,7 @@ class SubmitTrxState extends State<SubmitTrx> {
               if (contractM.org == 'BEP-20'){
 
                 await trxFunc!.sendTxBep20(_contractProvider!.getSelToken, txInfo);
+
               } else {
                 //trxFunc!.sendTx(_scanPayM.controlReceiverAddress.text, _scanPayM.controlAmount.text);
               }
@@ -473,7 +460,9 @@ class SubmitTrxState extends State<SubmitTrx> {
               _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getKgo, txInfo);
             } 
             else {
+
               final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
+              
               if (contractM.org!.contains('ERC-20')) {
 
                 await _contractProvider!.initErc20Service(contractAddr!);
