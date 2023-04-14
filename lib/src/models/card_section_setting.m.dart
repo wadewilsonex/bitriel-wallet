@@ -1,3 +1,4 @@
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -131,6 +132,16 @@ List<CardSection> infoSection({BuildContext? context}) {
       }
     ),
     
+    CardSection(
+      title: 'Community',
+      trailingIcon: Iconsax.arrow_right_3,
+      action: () async {
+        await launchUrl(
+          Uri.parse("https://t.me/s/selendrachainofficial"),
+          mode: LaunchMode.externalApplication,
+        );
+      }
+    ),
   ];
 }
 

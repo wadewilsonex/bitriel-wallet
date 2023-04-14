@@ -31,6 +31,23 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       "eventLocation": "AIA Stadium",
       "eventCategory": "Sport",
     },
+        {
+      "eventOrganizer": "Do For Metaverse",
+      "eventName": "Vincent Van Gogh",
+      "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
+      "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
+      "eventLocation": "Malaysia",
+      "eventCategory": "Art",
+    },
+
+        {
+      "eventOrganizer": "ISI Dangkor Senchey FC",
+      "eventName": "Football Match",
+      "eventDate": "Sun, April 09, 2023 | 03:45 - 5:45 PM",
+      "eventImage": "https://pbs.twimg.com/media/FtOwQmVaUAADJBx.jpg",
+      "eventLocation": "AIA Stadium",
+      "eventCategory": "Sport",
+    },
     {
       "eventOrganizer": "Do For Metaverse",
       "eventName": "Vincent Van Gogh",
@@ -39,6 +56,24 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       "eventLocation": "Malaysia",
       "eventCategory": "Art",
     },
+
+   {
+      "eventOrganizer": "Do For Metaverse",
+      "eventName": "Vincent Van Gogh",
+      "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
+      "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
+      "eventLocation": "Malaysia",
+      "eventCategory": "Art",
+    },
+
+    {
+    "eventOrganizer": "Do For Metaverse",
+    "eventName": "Vincent Van Gogh",
+    "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
+    "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
+    "eventLocation": "Malaysia",
+    "eventCategory": "Art",
+  },
   ];
   List<String>? images = [];
 
@@ -113,7 +148,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-      
+            
             allEvents!.isNotEmpty ? EventCardComponents(
               title: "Featured",
               listEvent: allEvents,
@@ -128,9 +163,12 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
               hexaColor: AppColors.blackColor,
               fontWeight: FontWeight.w600,
             ),
-      
-            _categoryEvent(),
-      
+            
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: _categoryEvent()
+            ),
+            
           ],
         ),
       )
@@ -140,83 +178,78 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
   Widget _categoryEvent() {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: DefaultTabController(
-          length: 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 60,
-                padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
-                child: TabBar(
-                  isScrollable: true,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  unselectedLabelColor: hexaCodeToColor(AppColors.primaryColor),
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: hexaCodeToColor(AppColors.primaryColor)
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 60,
+              padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
+              child: TabBar(
+                isScrollable: true,
+                indicatorSize: TabBarIndicatorSize.label,
+                unselectedLabelColor: hexaCodeToColor(AppColors.primaryColor),
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: hexaCodeToColor(AppColors.primaryColor)
+                ),
+                tabs: [
+                  Tab(
+                    child: Container(
+                      height: 40,
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text('All')
+                      ),
+                    ),
                   ),
-                  tabs: [
-                    Tab(
-                      child: Container(
-                        height: 40,
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text('All')
-                        ),
+                  Tab(
+                    child: Container(
+                      height: 40,
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text('Art')
                       ),
                     ),
-                    Tab(
-                      child: Container(
-                        height: 40,
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text('Art')
-                        ),
+                  ),
+                  Tab(
+                    child: Container(
+                      height: 40,
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text('Sport')
                       ),
                     ),
-                    Tab(
-                      child: Container(
-                        height: 40,
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text('Sport')
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
       
-              Container(
-                //child: Container(
-                height: MediaQuery.of(context).size.height,
-                //color: Colors.blue,
-                child: TabBarView(
-                  children: [
-                    _allEvent(allEvents),
-                    _eachEvent(allEvents, "Art"),
-                    _eachEvent(allEvents, "Sport"),
-                  ],
-                ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _allEvent(allEvents),
+                  _eachEvent(allEvents, "Art"),
+                  _eachEvent(allEvents, "Sport"),
+                ],
               ),
-              //),
-              //Container(),
-            ],
-          ),
+            ),
+            //),
+            //Container(),
+          ],
         ),
       ),
     );
@@ -226,11 +259,11 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), ),
+      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       itemCount: item!.length,
-      physics: const BouncingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index){
         return _allEventList(item, index);
       }
@@ -241,8 +274,8 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), ),
-      shrinkWrap: true,
+      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize),
+      shrinkWrap: false,
       scrollDirection: Axis.vertical,
       itemCount: item!.where((eventCategory) => eventCategory["eventCategory"] == category).length,
       physics: const BouncingScrollPhysics(),
@@ -331,9 +364,14 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   }
 
   Widget _eachEventList(List<Map<String, dynamic>> item, int index, String category) {
+    final filterList = item.where((eventCategory) => eventCategory["eventCategory"] == category).toList();
+
     return InkWell(
       onTap: () {
+        print("${item[index]["eventCategory"] == category}");
+        print("index $index");
         print("category $category");
+        print("${item.where((eventCategory) => eventCategory["eventCategory"] == category).length}");
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -353,7 +391,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                 width: 250,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(16)) ,
-                  child: Image.network(item[index]["eventImage"], fit: BoxFit.cover,)
+                  child: Image.network(filterList[index]["eventImage"], fit: BoxFit.cover,)
                 ),
               ),
               
@@ -363,7 +401,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      text: item[index]['eventName'],
+                      text: filterList[index]['eventName'],
                       fontSize: 22,
                       hexaColor: AppColors.primaryColor,
                       fontWeight: FontWeight.w700,
@@ -373,7 +411,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
               
                     MyText(
                       pTop: 10,
-                      text: item[index]["eventDate"],
+                      text: filterList[index]["eventDate"],
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       hexaColor: AppColors.blackColor,
@@ -392,7 +430,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
               
                     MyText(
                       pLeft: 5,
-                      text: item[index]["eventLocation"],
+                      text: filterList[index]["eventLocation"],
                       fontSize: 18,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
@@ -406,5 +444,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
         ),
       ),
     );
+            
   }
 }
