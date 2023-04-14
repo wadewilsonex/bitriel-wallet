@@ -27,7 +27,7 @@ class EventCardComponents extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        MyText(
+        title != null ? MyText(
           top: 30,
           left: 22,
           bottom: 10,
@@ -35,7 +35,7 @@ class EventCardComponents extends StatelessWidget {
           fontSize: 22,
           hexaColor: AppColors.blackColor,
           fontWeight: FontWeight.w600,
-        ),
+        ) : Container(),
 
         CarouselSlider(
           options: CarouselOptions(

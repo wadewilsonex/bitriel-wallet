@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/cards/event_card_c.dart';
+import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 
 class FindEvent extends StatefulWidget {
   static const route = '/event';
@@ -21,20 +22,22 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   late AnimationController opacityController;
   late Animation<double> opacity;
 
-  List<Map<String, dynamic>>? events = [
+  List<Map<String, dynamic>>? allEvents = [
     {
       "eventOrganizer": "ISI Dangkor Senchey FC",
       "eventName": "Football Match",
       "eventDate": "Sun, April 09, 2023 | 03:45 - 5:45 PM",
       "eventImage": "https://pbs.twimg.com/media/FtOwQmVaUAADJBx.jpg",
-      "eventLocation": "AIA Stadium"
+      "eventLocation": "AIA Stadium",
+      "eventCategory": "Sport",
     },
     {
       "eventOrganizer": "Do For Metaverse",
       "eventName": "Vincent Van Gogh",
       "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
       "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
-      "eventLocation": "Malaysia"
+      "eventLocation": "Malaysia",
+      "eventCategory": "Art",
     },
   ];
   List<String>? images = [];
@@ -105,18 +108,303 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-
-          events!.isNotEmpty ? EventCardComponents(
-            title: "Featured",
-            listEvent: events,
-          ) : loading(),
-
-        ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+      
+            allEvents!.isNotEmpty ? EventCardComponents(
+              title: "Featured",
+              listEvent: allEvents,
+            ) : loading(),
+            
+            const MyText(
+              top: 15,
+              left: 22,
+              bottom: 10,
+              text: "Popular Event",
+              fontSize: 22,
+              hexaColor: AppColors.blackColor,
+              fontWeight: FontWeight.w600,
+            ),
+      
+            _categoryEvent(),
+      
+          ],
+        ),
       )
 
     );
   }
 
+  Widget _categoryEvent() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: DefaultTabController(
+          length: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 60,
+                padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
+                child: TabBar(
+                  isScrollable: true,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  unselectedLabelColor: hexaCodeToColor(AppColors.primaryColor),
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: hexaCodeToColor(AppColors.primaryColor)
+                  ),
+                  tabs: [
+                    Tab(
+                      child: Container(
+                        height: 40,
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text('All')
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                        height: 40,
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text('Art')
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                        height: 40,
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text('Sport')
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      
+              Container(
+                //child: Container(
+                height: MediaQuery.of(context).size.height,
+                //color: Colors.blue,
+                child: TabBarView(
+                  children: [
+                    _allEvent(allEvents),
+                    _eachEvent(allEvents, "Art"),
+                    _eachEvent(allEvents, "Sport"),
+                  ],
+                ),
+              ),
+              //),
+              //Container(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _allEvent(List<Map<String, dynamic>>? item) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), ),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: item!.length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index){
+        return _allEventList(item, index);
+      }
+    );
+  }
+
+  Widget _eachEvent(List<Map<String, dynamic>>? item, String category) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), ),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemCount: item!.where((eventCategory) => eventCategory["eventCategory"] == category).length,
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (context, index){
+        return _eachEventList(item, index, category);
+      }
+    );
+  }
+
+  Widget _allEventList(List<Map<String, dynamic>> item, int index) {
+    return InkWell(
+      onTap: () {
+
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16))
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              Container(
+                padding: const EdgeInsets.all(10),
+                height: 250,
+                width: 250,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(16)) ,
+                  child: Image.network(item[index]["eventImage"], fit: BoxFit.cover,)
+                ),
+              ),
+              
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyText(
+                      text: item[index]['eventName'],
+                      fontSize: 22,
+                      hexaColor: AppColors.primaryColor,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+              
+                    MyText(
+                      pTop: 10,
+                      text: item[index]["eventDate"],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      hexaColor: AppColors.blackColor,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              
+              Container(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Row(
+                  children: [
+                    Icon(Iconsax.location, color: hexaCodeToColor(AppColors.primaryColor),),
+              
+                    MyText(
+                      pLeft: 5,
+                      text: item[index]["eventLocation"],
+                      fontSize: 18,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              )
+              
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _eachEventList(List<Map<String, dynamic>> item, int index, String category) {
+    return InkWell(
+      onTap: () {
+        print("category $category");
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16))
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              Container(
+                padding: const EdgeInsets.all(10),
+                height: 250,
+                width: 250,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(16)) ,
+                  child: Image.network(item[index]["eventImage"], fit: BoxFit.cover,)
+                ),
+              ),
+              
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyText(
+                      text: item[index]['eventName'],
+                      fontSize: 22,
+                      hexaColor: AppColors.primaryColor,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+              
+                    MyText(
+                      pTop: 10,
+                      text: item[index]["eventDate"],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      hexaColor: AppColors.blackColor,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              
+              Container(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Row(
+                  children: [
+                    Icon(Iconsax.location, color: hexaCodeToColor(AppColors.primaryColor),),
+              
+                    MyText(
+                      pLeft: 5,
+                      text: item[index]["eventLocation"],
+                      fontSize: 18,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              )
+              
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

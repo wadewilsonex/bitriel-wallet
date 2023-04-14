@@ -232,6 +232,8 @@ class _SwapPageState extends State<SwapPage> {
 
   @override
   void dispose() {
+    // _swapProvider!.model.myController!.clear();
+    // _swapProvider!.dispose();
     super.dispose();
   }
   
