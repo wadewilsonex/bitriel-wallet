@@ -1,6 +1,6 @@
-import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../../../../index.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeFunctional {
     
@@ -32,48 +32,50 @@ class HomeFunctional {
               return Consumer<ApiProvider>(
                 builder: (context, provider, widget) {
                   
-                  return ExpandedTileList.builder(
-                    itemCount: 1,
-                    maxOpened: 1,
-                    reverse: true,
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSize, vertical: paddingSize / 2),
-                    itemBuilder: (context, index, controller) {
-                      return ExpandedTile(
-                        theme: const ExpandedTileThemeData(
-                          headerColor: Colors.white,
-                          headerRadius: 10.0,
-                          contentBackgroundColor: Colors.white,
-                          contentRadius: 10.0,
-                        ),
-                        controller: controller,
-                        leading: Container(
-                          alignment: Alignment.centerLeft,
-                          width: 50,
-                          height: 50,
-                          child: CircleAvatar(
-                            child: Image.asset(
-                              'assets/SelendraCircle-White.png',
-                            ),
+                  return provider.selNetwork != null ? Padding(
+                    padding: const EdgeInsets.all(paddingSize),
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.all(paddingSize),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      collapsedShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      backgroundColor: Colors.white,
+                      collapsedBackgroundColor: Colors.white,
+                      collapsedIconColor: hexaCodeToColor(AppColors.iconColor),
+                      iconColor: hexaCodeToColor(AppColors.primaryColor),
+                      clipBehavior: Clip.antiAlias,
+                      leading: Container(
+                        alignment: Alignment.centerLeft,
+                        width: 50,
+                        height: 50,
+                        child: CircleAvatar(
+                          child: Image.asset(
+                            'assets/SelendraCircle-White.png',
                           ),
                         ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const MyText(
-                              text: "SELENDRA",
-                              hexaColor: AppColors.blackColor,
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                              textAlign: TextAlign.start,
-                            ),
-                  
-                            MyText(
-                              text: provider.selNetwork!,
-                              textAlign: TextAlign.start,
-                            )
-                          ],
-                        ),
-                        content: Container(
+                      ),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const MyText(
+                            text: "SELENDRA",
+                            hexaColor: AppColors.blackColor,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            textAlign: TextAlign.start,
+                          ),
+                                
+                          MyText(
+                            text: provider.selNetwork!,
+                            textAlign: TextAlign.start,
+                          )
+                        ],
+                      ),
+                      children: [
+                        Container(
                           color: Colors.white,
                           child: Column(
                             children: [
@@ -93,20 +95,20 @@ class HomeFunctional {
                                                 : Icon(Icons.circle, color: Colors.grey[600], size: 30,),
                                     onTap: () async{
                                       selectedIndex = index;
-
+                                    
                                       print(selectedIndex);
-
+                                    
                                       dialogLoading(context);
-
+                                    
                                       AppConfig.networkList[0].wsUrlMN = sldNetworkList[index];
-
+                                    
                                       setState(() => provider.selNetwork = sldNetworkList[index]);
                                       await provider.connectSELNode(context: context, endpoint: sldNetworkList[index]).then((value) => {
                                         Navigator.pop(context),
                                       });
-
+                                    
                                       setStateWidget(() {});
-
+                                    
                                     },
                                   );
                                 },
@@ -114,8 +116,34 @@ class HomeFunctional {
                             ],
                           ),
                         ),
-                      );
-                    },
+                      ],
+                    ),
+                  )
+                  :
+                  Padding(
+                    padding: const EdgeInsets.all(paddingSize),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                                  
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
+                        ),
+                        
+                                  
+                        const MyText(
+                          text: "Opps, Something went wrong!\nLook like you have slow or lost connection, please Reconnect and try again", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )
+                                  
+                      ],
+                    ),
                   );
                 }
               );

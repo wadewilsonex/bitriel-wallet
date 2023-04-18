@@ -1,12 +1,14 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/shimmers/shimmer_c.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/provider/verify_seed_p.dart';
 import 'package:wallet_apps/src/screen/home/home/home_func.dart';
+import 'package:wallet_apps/src/service/exception_handler.dart';
 
 PreferredSizeWidget defaultAppBar({
   required BuildContext? context,
@@ -72,7 +74,24 @@ PreferredSizeWidget defaultAppBar({
 
                 return GestureDetector(
                   onTap: () async {
-                    await HomeFunctional().changeNetwork(context: context, setState: setState);
+                    
+                    try {
+                      dialogLoading(context);
+                      await getSelendraEndpoint().then((value) async {
+                        Navigator.pop(context);
+                        // Assign Data and Store Endpoint Into Local DB
+                        await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body)).then((value) async{
+                          await HomeFunctional().changeNetwork(context: context, setState: setState);
+                        });
+
+                      });
+                    }
+                    catch (e) {
+                      print("catch $e");
+                      Navigator.pop(context);
+                      customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
+                    }
+                    
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
