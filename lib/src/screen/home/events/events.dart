@@ -142,8 +142,9 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return DefaultTabController(
+      length: 3,
+      child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,102 +165,100 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
               fontWeight: FontWeight.w600,
             ),
             
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: _categoryEvent()
-            ),
             
-          ],
-        ),
-      )
-
-    );
-  }
-
-  Widget _categoryEvent() {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 3,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 60,
-              padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
-              child: TabBar(
-                isScrollable: true,
-                indicatorSize: TabBarIndicatorSize.label,
-                unselectedLabelColor: hexaCodeToColor(AppColors.primaryColor),
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: hexaCodeToColor(AppColors.primaryColor)
-                ),
-                tabs: [
-                  Tab(
-                    child: Container(
-                      height: 40,
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text('All')
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      height: 40,
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text('Art')
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      height: 40,
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text('Sport')
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-      
-            Expanded(
-              child: TabBarView(
-                children: [
-                  _allEvent(allEvents),
-                  _eachEvent(allEvents, "Art"),
-                  _eachEvent(allEvents, "Sport"),
-                ],
-              ),
-            ),
-            //),
-            //Container(),
+            _categoryEvent(),
+            
           ],
         ),
       ),
     );
   }
 
+  Widget _categoryEvent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 60,
+          padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
+          child: TabBar(
+            isScrollable: true,
+            indicatorSize: TabBarIndicatorSize.label,
+            unselectedLabelColor: hexaCodeToColor(AppColors.primaryColor),
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: hexaCodeToColor(AppColors.primaryColor)
+            ),
+            tabs: [
+              Tab(
+                child: Container(
+                  height: 40,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text('All')
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  height: 40,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text('Art')
+                  ),
+                ),
+              ),
+              Tab(
+                child: Container(
+                  height: 40,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: hexaCodeToColor(AppColors.primaryColor), width: 1)),
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: Text('Sport')
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+    
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: TabBarView(
+            children: [
+              _allEvent(allEvents),
+              _eachEvent(allEvents, "Art"),
+              _eachEvent(allEvents, "Sport"),
+            ],
+          ),
+        ),
+    
+      ],
+    );
+  }
+
   Widget _allEvent(List<Map<String, dynamic>>? item) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 40,
+        crossAxisSpacing: 24,
+        // width / height: fixed for *all* items
+        childAspectRatio: 0.75,
+      ),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       itemCount: item!.length,
@@ -273,8 +272,9 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   Widget _eachEvent(List<Map<String, dynamic>>? item, String category) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize),
+        crossAxisCount: 2,
+        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize
+      ),
       shrinkWrap: false,
       scrollDirection: Axis.vertical,
       itemCount: item!.where((eventCategory) => eventCategory["eventCategory"] == category).length,
@@ -288,7 +288,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   Widget _allEventList(List<Map<String, dynamic>> item, int index) {
     return InkWell(
       onTap: () {
-
+    
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),
@@ -364,14 +364,12 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   }
 
   Widget _eachEventList(List<Map<String, dynamic>> item, int index, String category) {
+
     final filterList = item.where((eventCategory) => eventCategory["eventCategory"] == category).toList();
 
     return InkWell(
       onTap: () {
-        print("${item[index]["eventCategory"] == category}");
-        print("index $index");
-        print("category $category");
-        print("${item.where((eventCategory) => eventCategory["eventCategory"] == category).length}");
+        
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: paddingSize),

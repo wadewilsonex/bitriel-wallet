@@ -28,7 +28,7 @@ class EventCardComponents extends StatelessWidget {
       children: [
 
         title != null ? MyText(
-          top: 30,
+          top: 15,
           left: 22,
           bottom: 10,
           text: title,
