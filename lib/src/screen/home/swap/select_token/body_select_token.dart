@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
@@ -43,6 +44,7 @@ class SelectSwapTokenBody extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
+                
                 _searchToken(provider.label, context, searchController!, query),
           
                 Expanded(
@@ -145,15 +147,31 @@ class SelectSwapTokenBody extends StatelessWidget {
                       title: ls[index].title,
                       subtitle: ls[index].subtitle,
                       isActive: ls[index].isActive,
+                      network: ls[index].network,
                       image: ls[index].image,
-                      action: (){
+                      action: () async {
+
                         if (provider.searched.isNotEmpty){
+
+                          print("provider.searched[index] ${provider.searched[index]}");
 
                           index = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
                         }
                         provider.setNewAsset(index);
-                        provider.searched = [];
+                        provider.searched.clear();
+
+                        print("index $index");
+                        print("Found search ${provider.ls[index]}");
+
+                        provider.twoCoinModel!.from = provider.name1;
+                        provider.twoCoinModel!.to = provider.name2;
+                        provider.twoCoinModel!.networkFrom = provider.network1;
+                        provider.twoCoinModel!.networkTo = provider.network2;
+                        provider.twoCoinModel!.amt = provider.balance1;
+                        provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
+
                         Navigator.pop(context);
+                        
                       },
                     ),
                   ),

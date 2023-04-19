@@ -84,7 +84,6 @@ class ContractProvider with ChangeNotifier {
   EthereumAddress getEthAddr(String address) => EthereumAddress.fromHex(address);
 
   ContractProvider(){
-
     sortListContract.clear();
     listContract.clear();
     initSwapContract();
@@ -369,6 +368,8 @@ class ContractProvider with ChangeNotifier {
       listContract[apiProvider.ethIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.ethIndex]);
       listContract[apiProvider.ethIndex].address = ethAdd;
 
+      print("listContract[apiProvider.ethIndex].address ${listContract[apiProvider.ethIndex].address}");
+
       notifyListeners();
     } catch (e) {
       
@@ -590,7 +591,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<bool> validateEvmAddr(String address) async {
-
+    print("validateEvmAddr $address");
     bool isValid = false;
     try {
       EthereumAddress.fromHex(address);
@@ -639,14 +640,18 @@ class ContractProvider with ChangeNotifier {
     return maxGas.toString();
   }
 
-  Future<String> getEthMaxGas(String reciever, String amount) async {
+  Future<String> getEthMaxGas(String reciever, String amount, {int chainID = 18}) async {
+
+    print("receiver $reciever");
+    print("amount $amount");
     await initEtherClient();
-    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+
+    // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final maxGas = await _etherClient!.estimateGas(
-      sender: EthereumAddress.fromHex(ethAddr!),
+      sender: EthereumAddress.fromHex(ethAdd),
       to: EthereumAddress.fromHex(reciever),
-      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, 18))),
+      value: EtherAmount.inWei(BigInt.from(double.parse(amount) * pow(10, chainID))),
     );
     return maxGas.toString();
   }
@@ -831,9 +836,10 @@ class ContractProvider with ChangeNotifier {
     print("getEtherAddr");
     try {
 
-      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+      final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
+      // await StorageServices.readSecure(DbKey.ethAddr);
       print("ethAddr $ethAddr");
-      ethAdd = ethAddr!;
+      ethAdd = ethAddr;
 
       notifyListeners();
     } catch (e) {

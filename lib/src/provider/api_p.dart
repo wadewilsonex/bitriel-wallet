@@ -44,6 +44,8 @@ class ApiProvider with ChangeNotifier {
   int dotIndex = 6;
   int btcIndex = 7;
   int attIndex = 8;
+  int pingshare = 9;
+  int tether = 10;
 
   /// Selendra Endpoint
   String? selNetwork;

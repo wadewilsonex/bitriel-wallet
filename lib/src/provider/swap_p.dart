@@ -10,10 +10,12 @@ class SwapProvider extends ChangeNotifier{
   int index2 = 1;
 
   String name1 = "";
-  String logo1 = "";
+  Widget? logo1;
+  String network1 = "";
 
   String name2 = "";
-  String logo2 = "";
+  Widget? logo2;
+  String network2 = "";
 
   String balance1 = "";
   String balance2 = "";
@@ -22,10 +24,15 @@ class SwapProvider extends ChangeNotifier{
   List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
 
+  /// From LetsExchange API
+  List<dynamic>? lstCoins = [];
+
   SwapPageModel model = SwapPageModel();
 
   SwapTokenListModel swapTokenListModel = SwapTokenListModel();
   SwapTokenListModel swapTokenListModel2 = SwapTokenListModel();
+  InfoTwoCoinModel? twoCoinModel;
+  ResInfoTwoCoinModel? resTwoCoinModel;
 
   ContractProvider? contractProvider;
   ApiProvider? apiProvider;
@@ -34,14 +41,34 @@ class SwapProvider extends ChangeNotifier{
     
     ls.clear();
     ls2.clear();
+    twoCoinModel = InfoTwoCoinModel();
+    resTwoCoinModel = ResInfoTwoCoinModel();
+
+    searched.clear();
+
+    List<SmartContractModel> found1 = contractProvider!.sortListContract.where((element) {
+      if (element.id == "tether") return true;
+      return false;
+    }).toList();
+
+    List<SmartContractModel> found2 = contractProvider!.sortListContract.where((element) {
+      if (element.id == "ethereum") return true;
+      return false;
+    }).toList();
+
+    print("found1[0].logo! ${found1[0].logo!}");
 
     // Init Token
-    name1 = contractProvider!.sortListContract[0].symbol!;
-    logo1 = contractProvider!.sortListContract[0].logo!;
-    name2 = contractProvider!.sortListContract[1].symbol!;
-    logo2 = contractProvider!.sortListContract[1].logo!;
-    balance1 = contractProvider!.sortListContract[0].balance!;
-    balance2 = contractProvider!.sortListContract[1].balance!;
+    name1 = found1[0].symbol!;
+    logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
+    network1 = found1[0].org!;
+
+    name2 = found2[0].symbol!;
+    logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
+    network2 = found2[0].org!;
+    
+    balance1 = "0";//found1[0].balance!;
+    balance2 = "0";//found2[0].balance!;
   }
 
   void setList(){
@@ -49,51 +76,94 @@ class SwapProvider extends ChangeNotifier{
     ls.clear();
     ls2.clear();
 
-    for(int i = 0; i < contractProvider!.sortListContract.length; i++){
+    for(int i = 0; i < lstCoins!.length; i++){
 
-      ls.add(
-        SwapTokenListModel(
-          title: contractProvider!.sortListContract[i].symbol,
-          subtitle: contractProvider!.sortListContract[i].name,
-          isActive: index2 == i ? true : false,
-          image: contractProvider!.sortListContract[i].logo!.contains('http') 
-          ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
-          : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
-          balance: contractProvider!.sortListContract[i].balance,
-          
-        )
-      );
-
-      ls2.add(
-        SwapTokenListModel(
-          title: contractProvider!.sortListContract[i].symbol,
-          subtitle: contractProvider!.sortListContract[i].name,
-          isActive: index1 == i ? true : false,
-          image: contractProvider!.sortListContract[i].logo!.contains('http') 
-          ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
-          : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
-          balance: contractProvider!.sortListContract[i].balance,
-        )
-      );
+      for (int j = 0; j < lstCoins![i]['networks'].length; j++){
+        addCoinByIndex(i, j);
+      }
 
     }
+    // for(int i = 0; i < contractProvider!.sortListContract.length; i++){
 
+    //   ls.add(
+    //     SwapTokenListModel(
+    //       title: contractProvider!.sortListContract[i].symbol,
+    //       subtitle: contractProvider!.sortListContract[i].name,
+    //       isActive: index2 == i ? true : false,
+    //       image: contractProvider!.sortListContract[i].logo!.contains('http') 
+    //       ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
+    //       : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
+    //       balance: contractProvider!.sortListContract[i].balance,
+          
+    //     )
+    //   );
+
+    //   ls2.add(
+    //     SwapTokenListModel(
+    //       title: contractProvider!.sortListContract[i].symbol,
+    //       subtitle: contractProvider!.sortListContract[i].name,
+    //       isActive: index1 == i ? true : false,
+    //       image: contractProvider!.sortListContract[i].logo!.contains('http') 
+    //       ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
+    //       : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
+    //       balance: contractProvider!.sortListContract[i].balance,
+    //     )
+    //   );
+
+    // }
+
+  }
+
+  void addCoinByIndex(int i, int j) {
+
+    ls.add(
+      SwapTokenListModel(
+        title: lstCoins![i]['code'],
+        subtitle: lstCoins![i]['name'],
+        isActive: index2 == i ? true : false,
+        image: lstCoins![i]['icon'] == null 
+        ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
+        : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+        network: lstCoins![i]['networks'][j]['name'],
+        // lstCoins![i]['icon'].contains('http') 
+        // ? Image.network(lstCoins![i]['icon'], width: 10)
+        // : Image.asset(lstCoins![i]['icon'], width: 10),
+        balance: "0"//contractProvider!.sortListContract[i].balance,
+        
+      )
+    );
+
+    ls2.add(
+      SwapTokenListModel(
+        title: lstCoins![i]['code'],
+        subtitle: lstCoins![i]['name'],
+        isActive: index2 == i ? true : false,
+        image: lstCoins![i]['icon'] == null 
+        ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
+        : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+        network: lstCoins![i]['networks'][j]['name'],
+        //lstCoins![i]['icon'].contains('http') 
+        // ? Image.network(lstCoins![i]['icon'], width: 10)
+        // : Image.asset(lstCoins![i]['icon'], width: 10),
+        balance: "0"//contractProvider!.sortListContract[i].balance,
+      )
+    );
   }
 
   void setNewAsset(int index){
     if (label == "first"){
 
-      name1 = contractProvider!.sortListContract[index].symbol!;
-      logo1 = contractProvider!.sortListContract[index].logo!;
+      name1 = ls[index].title!;
+      logo1 = ls[index].image!;
+      // balance1 = "0";
       index1 = index;
-      balance1 = contractProvider!.sortListContract[index].balance!;
 
     } else {
 
-      name2 = contractProvider!.sortListContract[index].symbol!;
-      logo2 = contractProvider!.sortListContract[index].logo!;
+      name2 = ls[index].title!;
+      logo2 = ls[index].image!;
+      // balance2 = "0";
       index2 = index;
-      balance2 = contractProvider!.sortListContract[index].balance!;
 
     }
 
@@ -104,6 +174,8 @@ class SwapProvider extends ChangeNotifier{
   }
 
   Future<void> confirmSwapW3() async {
+
+    // final contractAddr = ApiProvider().isMainnet ?  contractProvider!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
     
     // await contractProvider!.bscClient.sendTransaction(
     //   cred, transaction

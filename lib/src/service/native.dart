@@ -70,25 +70,34 @@ class NativeService implements INativeService {
 
   @override
   Future<String>? sendTx(TransactionInfo trxInfo) async {
+    print("sendTx native.dart");
     String? res;
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
+      print("await _client.getBalance(credentials.address) ${await _client.getBalance(credentials.address)}");
+      final maxGas = await getMaxGas(credentials.address, trxInfo);
 
-      final sender = await credentials.extractAddress();
-
-      final maxGas = await getMaxGas(sender, trxInfo);
-
+      print("credentials ${credentials.address}");
+      print("maxGas ${maxGas}");
+      print("trxInfo.receiver ${trxInfo.receiver}");
+      print("trxInfo.gasPrice ${trxInfo.gasPrice}");
+      print("EtherAmount.inWei(BigInt.one) ${EtherAmount.inWei(BigInt.one)}");
+      print("trxInfo.amount! ${trxInfo.amount!}");
+      print("EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))) ${EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!)))}");
+      print("trxInfo.chainDecimal! ${trxInfo.chainDecimal!}");
       res = await _client.sendTransaction(
         credentials,
         Transaction(
           maxGas: maxGas.toInt(),
           to: trxInfo.receiver,
-          value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
+          value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))),
         ),
-        chainId: null,
-        fetchChainIdFromNetworkId: true,
+        chainId: 1,
+        // fetchChainIdFromNetworkId: true,
       );
+
+      print("Res $res");
 
     } catch (e){
 
@@ -99,13 +108,15 @@ class NativeService implements INativeService {
 
     return res!;
   }
-
+  
   @override
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
+    print("sender ${sender.hex}");
+    print("_client.estimateGas ${await _client.getBalance(EthereumAddress.fromHex(sender.hex))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: trxInfo.receiver,
-      value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
+      value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))),
     );
 
     return maxGas;

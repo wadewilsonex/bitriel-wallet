@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/body_select_token.dart';
 
@@ -17,7 +18,6 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
   @override
   initState(){
-    
     Provider.of<SwapProvider>(context, listen: false).setList();
     super.initState();
   }
@@ -29,8 +29,10 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
   void query(String? label, String value){
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
+
     _swapProvider!.searched = [];
     if (label == "first"){
+
       _swapProvider!.searched = _swapProvider!.ls.where((element) {
         element.subtitle!.toLowerCase();
         if ( element.subtitle!.toLowerCase().contains(value.toLowerCase()) == true){
@@ -43,6 +45,8 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
         }
         return false;
       }).toList();
+
+      print("_swapProvider!.ls.indexOf(_swapProvider!.searched[0]) ${_swapProvider!.ls.indexOf(_swapProvider!.searched[0])}");
     } else {
       _swapProvider!.searched = _swapProvider!.ls2.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 

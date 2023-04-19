@@ -6,8 +6,8 @@ class SwapTokenListModel {
   String? title = '';
   String? subtitle = '';
   String? balance = '';
-  Image? image;
+  String? network = '';
+  Widget? image;
   
-  
-  SwapTokenListModel({this.image, this.title, this.subtitle, this.balance, this.isActive});
+  SwapTokenListModel({this.image, this.title, this.subtitle, this.balance, this.network, this.isActive});
 }

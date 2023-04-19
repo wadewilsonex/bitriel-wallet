@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 
 String? _api;
 
@@ -53,7 +54,23 @@ Future<http.Response> queryTrxStatus(String id) async {
   _api = dotenv.get('LETS_EXCHANGE_API');
   return await http.get(
     // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
-    Uri.parse("$_api/$id"),
+    Uri.parse("$_api/v1/transaction/$id"),
     headers: conceteHeader()
   );
+}
+
+
+/// Token Info
+/// 
+Future<http.Response> coins() async {
+  print('coins');
+  _api ??= dotenv.get('LETS_EXCHANGE_API');
+
+  print(_api);
+
+  return await http.get(
+    Uri.parse("$_api/v2/coins"),
+    headers: conceteHeader()
+  );
+
 }

@@ -3,6 +3,42 @@ import 'package:wallet_apps/src/models/list_market_coin_m.dart';
 import 'package:wallet_apps/src/models/trendingcoin_m.dart';
 
 import '../../index.dart';
+
+List<dynamic> mkData = [
+	{
+		"id": "ethereum",
+		"symbol": "eth",
+		"name": "Ethereum",
+		"image": "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+		"current_price": 2099.24,
+		"market_cap": 251309292714,
+		"market_cap_rank": 2,
+		"fully_diluted_valuation": 251309292714,
+		"total_volume": 8683050978,
+		"high_24h": 2110.22,
+		"low_24h": 2082.56,
+		"price_change_24h": 7.11,
+		"price_change_percentage_24h": 0.33973,
+		"market_cap_change_24h": 15677489,
+		"market_cap_change_percentage_24h": 0.00624,
+		"circulating_supply": 119716878.435074,
+		"total_supply": 119716878.435074,
+		"max_supply": null,
+		"ath": 4878.26,
+		"ath_change_percentage": -56.97937,
+		"ath_date": "2021-11-10T14:24:19.604Z",
+		"atl": 0.432979,
+		"atl_change_percentage": 484602.23113,
+		"atl_date": "2015-10-20T00:00:00.000Z",
+		"roi": {
+			"times": 91.4385425118268,
+			"currency": "btc",
+			"percentage": 9143.85425118268
+		},
+		"last_updated": "2023-04-16T05:32:56.472Z"
+	}
+];
+
 class MarketProvider with ChangeNotifier {
   
   http.Response? _res;
@@ -181,10 +217,22 @@ class MarketProvider with ChangeNotifier {
     return lsCoin!;
   }
 
-  Future<void> queryCoinFromMarket(String id) async {
+  Future<Map<String, dynamic>?> queryCoinFromMarket(String id) async {
+
+    print("queryCoinFromMarket");
     try {
 
-      queried = await json.decode((await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id'))).body)[0];
+      http.Response value = await http.Response(json.encode(mkData), 200);
+      // await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id')).then((value) async {
+
+        if (value.statusCode == 200 && json.decode(value.body).isNotEmpty){
+
+          queried = await json.decode(value.body)[0];
+        } else {
+          queried = {};
+        }
+
+      // });
 
       print("queried queryCoinFromMarket $queried");
       
@@ -193,8 +241,10 @@ class MarketProvider with ChangeNotifier {
       if (kDebugMode) {
         print("error queryCoinFromMarket $e");
       }
-      return;
+      return queried;
     }
+
+    return queried;
   }
   
   Future<void> fetchTrendingCoin() async {

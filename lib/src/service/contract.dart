@@ -172,18 +172,25 @@ class ContractService implements IContractService {
     return maxGas;
   }
 
-  static List<Map<String, dynamic>> getConSymbol(BuildContext context, List<SmartContractModel> ls){
+  static List<Map<String, dynamic>> getConSymbol(BuildContext context, List<SmartContractModel> ls, {bool? isOnlySymbol = false}){
     List<Map<String, dynamic>> tmp = [];
 
     if (ls.isNotEmpty){
       
       for (int i = 0; i < ls.length; i++){
         String org = _getOrg(i, ls);
-        tmp.add({
-          "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
-          "index": i,
-          "logo": "${ls[i].logo}"
-        });
+        if (isOnlySymbol == false){
+
+          tmp.add({
+            "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
+            "index": i,
+            "logo": "${ls[i].logo}"
+          });
+        } else {
+          tmp.add({
+            "symbol": "${ls[i].symbol}",
+          });
+        }
       }
     }
 
@@ -216,4 +223,26 @@ class ContractService implements IContractService {
   }
 
   static String _getOrg(int i, List<SmartContractModel> ls) => (ApiProvider().isMainnet ? ls[i].org : ls[i].orgTest)!;
+}
+
+class GetConByIndex {
+
+  String? symbol;
+
+  List<GetConByIndex> getConSymbol(List<SmartContractModel> ls, {bool? isOnlySymbol = false}){
+    List<GetConByIndex> tmp = [];
+
+    if (ls.isNotEmpty){
+      
+      for (int i = 0; i < ls.length; i++){
+        tmp.add(
+          GetConByIndex.init(ls[i].symbol!)
+        );
+      }
+    }
+
+    return tmp;
+  }
+  GetConByIndex();
+  GetConByIndex.init(this.symbol);
 }
