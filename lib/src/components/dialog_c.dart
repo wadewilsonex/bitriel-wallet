@@ -5,6 +5,43 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 
 class DialogComponents {
+
+  Future<void> customDialog(BuildContext context, String text1, String text2) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Align(
+            child: MyText(
+              fontSize: 20,
+              text: text1,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+            child: MyText(
+              text: text2,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          actions: <Widget>[
+            Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: MyGradientButton(
+              textButton: "Close",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () => Navigator.pop(context),
+            ),
+          ),
+          ],
+        );
+      },
+    );
+  }
   
   Future<void> seedDialog({BuildContext? context, String? contents, btn}) async {
     return await showDialog(

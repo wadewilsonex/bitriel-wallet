@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
@@ -83,106 +84,119 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
   }
 
   Future<void> initTrxInfo() async {
-    print("initTrxInfo");
 
-    String? gasPrice;
-    final isValid = await trxFunc!.validateAddr(
-      _scanPayM.asset!, _scanPayM.controlReceiverAddress.text, 
-      context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org
-    );
-    print("isValid $isValid");
-    final isEnough = await trxFunc!.checkBalanceofCoin(
-      _scanPayM.asset!,
-      _scanPayM.controlAmount.text,
-      _scanPayM.assetValue
-    );
+    dialogLoading(context);
 
-    print("isEnough $isEnough");
+    try {
 
-    if (!isEnough) {
-      if(!mounted) return;
-      Navigator.pop(context);
-      await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
-    }
-
-    // if (isValid) {
-      gasPrice = await trxFunc!.getNetworkGasPrice(
-        _scanPayM.asset!, 
-        contractPro: _contractProvider,
-        network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
+      String? gasPrice;
+      final isValid = await trxFunc!.validateAddr(
+        _scanPayM.asset!, _scanPayM.controlReceiverAddress.text, 
+        context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org
       );
-    // }
+      print("isValid $isValid");
+      final isEnough = await trxFunc!.checkBalanceofCoin(
+        _scanPayM.asset!,
+        _scanPayM.controlAmount.text,
+        _scanPayM.assetValue
+      );
 
-    print("gasPrice $gasPrice");
-    if (isEnough) {
+      print("isEnough $isEnough");
 
-      if (gasPrice != null) {
-        
-        final estAmtPrice = await trxFunc!.calPrice(
-          _scanPayM.asset!,
-          _scanPayM.controlAmount.text,
-          assetIndex: _scanPayM.assetValue
-        );
-
-        print("estAmtPrice $estAmtPrice");
-
-        // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
+      if (!isEnough) {
         if(!mounted) return;
-        final maxGas = await trxFunc!.estMaxGas(
-          context,
-          _scanPayM.asset!,
-          _scanPayM.controlReceiverAddress.text,
-          _scanPayM.controlAmount.text,
-          _scanPayM.assetValue, 
-          // network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
-        );
-        print("maxGas $maxGas");
-
-        decimal = 18;//_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
-        final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
-        var gasFeeToEther = (gasFee / pow(10, decimal)).toString();
-
-        print("gasFee $gasFee");
-        print("gasFeeToEther $gasFeeToEther");
-
-        // Check BNB balance for Fee
-        // if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
-        //   throw ExceptionHandler("You do not have sufficient fee for transaction.");
-        // }
-
-        print("Finish Check BNB Balnace For Fee");
-
-        final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
-        print("Finish estGasFeePrice");
-        final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, decimal)).toString());
-        print("Total amount $totalAmt");
-        final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
-        print("estToSendPrice $estToSendPrice");
-        final estTotalPrice = estGasFeePrice! + estToSendPrice;
-        print("estTotalPrice $estTotalPrice");
-        
-        trxFunc!.txInfo = TransactionInfo(
-          chainDecimal: decimal,
-          coinSymbol: _scanPayM.asset,
-          receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
-          amount: _scanPayM.controlAmount.text,
-          gasPrice: gasPrice,
-          feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
-            ? 'BNB'
-            : 'ETH',
-          gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
-          maxGas: maxGas,
-          gasFee: gasFee.toInt().toString(),
-          totalAmt: totalAmt.toString(),
-          estAmountPrice: estAmtPrice.first.toString(),
-          estTotalPrice: estTotalPrice.toStringAsFixed(2),
-          estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
-        );
-
-        // ignore: use_build_context_synchronously
-        await sendTrx(trxFunc!.txInfo!, context: context);
-
+        Navigator.pop(context);
+        await trxFunc!.customDialog('Insufficient Balance', 'You do not have sufficient funds for transaction.');
       }
+
+      // if (isValid) {
+        gasPrice = await trxFunc!.getNetworkGasPrice(
+          _scanPayM.asset!, 
+          contractPro: _contractProvider,
+          network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
+        );
+      // }
+
+      print("gasPrice $gasPrice");
+      if (isEnough) {
+
+        if (gasPrice != null) {
+          
+          final estAmtPrice = await trxFunc!.calPrice(
+            _scanPayM.asset!,
+            _scanPayM.controlAmount.text,
+            assetIndex: _scanPayM.assetValue
+          );
+
+          print("estAmtPrice $estAmtPrice");
+
+          // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
+          if(!mounted) return;
+          final maxGas = await trxFunc!.estMaxGas(
+            context,
+            _scanPayM.asset!,
+            _scanPayM.controlReceiverAddress.text,
+            _scanPayM.controlAmount.text,
+            _scanPayM.assetValue, 
+            // network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
+          );
+          print("maxGas $maxGas");
+
+          decimal = 18;//_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
+          final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
+          var gasFeeToEther = (gasFee / pow(10, decimal)).toString();
+
+          print("gasFee $gasFee");
+          print("gasFeeToEther $gasFeeToEther");
+
+          // Check BNB balance for Fee
+          // if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
+          //   throw ExceptionHandler("You do not have sufficient fee for transaction.");
+          // }
+
+          print("Finish Check BNB Balnace For Fee");
+
+          final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
+          print("Finish estGasFeePrice");
+          final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, decimal)).toString());
+          print("Total amount $totalAmt");
+          final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
+          print("estToSendPrice $estToSendPrice");
+          final estTotalPrice = estGasFeePrice! + estToSendPrice;
+          print("estTotalPrice $estTotalPrice");
+          
+          trxFunc!.txInfo = TransactionInfo(
+            chainDecimal: decimal,
+            coinSymbol: _scanPayM.asset,
+            receiver: AppUtils.getEthAddr(_scanPayM.controlReceiverAddress.text),
+            amount: _scanPayM.controlAmount.text,
+            gasPrice: gasPrice,
+            feeNetworkSymbol: _scanPayM.asset!.contains('BEP-20') || _scanPayM.asset == 'BNB'
+              ? 'BNB'
+              : 'ETH',
+            gasPriceUnit: _scanPayM.asset == 'BTC' ? 'Satoshi' : 'Gwei',
+            maxGas: maxGas,
+            gasFee: gasFee.toInt().toString(),
+            totalAmt: totalAmt.toString(),
+            estAmountPrice: estAmtPrice.first.toString(),
+            estTotalPrice: estTotalPrice.toStringAsFixed(2),
+            estGasFeePrice: estGasFeePrice.toStringAsFixed(2),
+          );
+
+          // ignore: use_build_context_synchronously
+          await sendTrx(trxFunc!.txInfo!, context: context);
+
+        }
+      }
+    } catch (e) {
+
+      await DialogComponents().customDialog(
+        context,
+        "Oops",
+        e.toString()
+        // btn2: Container(),
+        // btn: null
+      );
     }
   }
   

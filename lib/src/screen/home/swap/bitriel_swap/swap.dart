@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/body_swap.dart';
@@ -61,6 +62,8 @@ class SwapPage extends StatefulWidget {
 class _SwapPageState extends State<SwapPage> {
 
   int count = 2;
+
+  String? errorMsg;
 
   SwapProvider? _swapProvider;
 
@@ -229,13 +232,31 @@ class _SwapPageState extends State<SwapPage> {
 
       dialogLoading(context);
       // _http.Response value = _http.Response(json.encode(m), 200);
-      await PostRequest.swap(_swapProvider!.model.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) {
+      await PostRequest.swap(_swapProvider!.model.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) async {
+        print("value ${value.body}");
         if (value.statusCode == 200){
           // Close Dialog
           Navigator.pop(context);
           Navigator.push(context, Transition(child: ConfirmSwap(res: SwapResponseObj.fromJson(json.decode(value.body))),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         } else {
-          throw Exception(json.decode(value.body)['error']);
+          print("json.decode(value.body)['error'].runtimeType.toString() ${json.decode(value.body)['error'].runtimeType.toString()}");
+
+          if (json.decode(value.body)['error'].runtimeType.toString() != "String"){
+            errorMsg = json.decode(value.body)['error']['validation']["deposit_amount"][0];
+          } else {
+            errorMsg = json.decode(value.body)['error'];
+          }
+
+          await DialogComponents().customDialog(
+            context,
+            "Oops",
+            errorMsg!
+            // btn2: Container(),
+            // btn: null
+          );
+
+          Navigator.pop(context);
+          // throw Exception(json.decode(value.body)['error']);
         }
         
       });
@@ -243,12 +264,16 @@ class _SwapPageState extends State<SwapPage> {
     }
     on Exception catch (ex){
       print("Exception");
-      // customDialog(context, "Error", "${ex}", txtButton: "Close").then((value) {
-       
-      // });
+      await DialogComponents().customDialog(
+        context,
+        "Oops",
+        ex.toString()
+        // btn2: Container(),
+        // btn: null
+      );
+
       // Close Dialog
       Navigator.pop(context);
-      print(ex);
       
     } 
     catch (e) {
@@ -295,8 +320,6 @@ class _SwapPageState extends State<SwapPage> {
 
   @override
   void dispose() {
-    // _swapProvider!.model.myController!.clear();
-    // _swapProvider!.dispose();
     super.dispose();
   }
   
