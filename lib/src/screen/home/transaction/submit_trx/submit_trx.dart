@@ -38,7 +38,6 @@ class SubmitTrx extends StatefulWidget {
 class SubmitTrxState extends State<SubmitTrx> {
 
   TrxFunctional? trxFunc;
-  int decimal = 0;
 
   final ModelScanPay _scanPayM = ModelScanPay();
 
@@ -46,10 +45,9 @@ class SubmitTrxState extends State<SubmitTrx> {
   ApiProvider? _apiProvider;
 
   bool disable = false;
+  int decimal = 0;
   final bool _loading = false;
-  
   String? _pin;
-
   String? message;
 
   @override
@@ -228,8 +226,8 @@ class SubmitTrxState extends State<SubmitTrx> {
 
       try {
 
-        String? gasPrice;
         dialogLoading(context, content: "Estimating Fee...");
+        String? gasPrice;
         final isValid = await trxFunc!.validateAddr(_scanPayM.asset!, _scanPayM.controlReceiverAddress.text, context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org);
         
         if ( isNative() || _contractProvider!.sortListContract[_scanPayM.assetValue].symbol == "DOT"){
@@ -269,6 +267,7 @@ class SubmitTrxState extends State<SubmitTrx> {
             if (isValid) {
               gasPrice = await trxFunc!.getNetworkGasPrice(
                 _scanPayM.asset!, 
+                contractPro: _contractProvider,
                 network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest//"ERC-20"
               );
             }

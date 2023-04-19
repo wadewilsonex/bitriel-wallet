@@ -667,6 +667,7 @@ class TrxFunctional {
           break;
 
         default:
+          print("Default");
           final res = await conPro.validateEvmAddr(address);
           isValid = res;
           break;
@@ -682,20 +683,23 @@ class TrxFunctional {
     }
   }
 
-  Future<String>? getNetworkGasPrice(String asset, {String? network}) async {
-
+  Future<String>? getNetworkGasPrice(String asset, {required ContractProvider? contractPro, String? network}) async {
+    print("getNetworkGasPrice");
     String? gasPrice;
+    
+    print("asset $asset");
 
     try {
 
       // if (asset == 'SEL (BEP-20)' || asset == 'SEL v2 (BEP-20)' || asset == 'KGO (BEP-20)' || asset == 'BNB') {
       // } else 
       if (network != null && network == "ERC-20"){
-        final res = await ContractProvider().getErc20GasPrice();
+        final res = await contractPro!.getErc20GasPrice();
         gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       } 
       else if (asset == 'ETH') {
-        final res = await ContractProvider().getEthGasPrice();
+        print("Hello eth");
+        final res = await contractPro!.getEthGasPrice();
 
         gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       } 
@@ -703,7 +707,7 @@ class TrxFunctional {
         gasPrice = '88';
       } 
       else {
-        final res = await ContractProvider().getBscGasPrice();
+        final res = await contractPro!.getBscGasPrice();
         gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       }
       // else if (asset == 'SEL') {
@@ -732,14 +736,30 @@ class TrxFunctional {
       api = Provider.of<ApiProvider>(context!, listen: false);
       final contract = Provider.of<ContractProvider>(context!, listen: false);
 
-      await MarketProvider().fetchTokenMarketPrice(context!);
       switch (asset) {
         
         case 'BTC':
-          marketPrice = contract.listContract[api!.btcIndex].marketData!.currentPrice!;
+          marketPrice = contract.listContract[api!.btcIndex].marketPrice;
           break;
         case 'ETH':
-          marketPrice = contract.listContract[api!.ethIndex].marketData!.currentPrice!;
+          print("Hello eth");
+          print("contract.listContract[api!.ethIndex].id ${contract.listContract[api!.ethIndex].id}");
+          await MarketProvider().queryCoinFromMarket(contract.listContract[api!.ethIndex].id!.toLowerCase()).then((value) {
+
+            if (value!.isNotEmpty){
+
+              print("value['current_price'].toString() ${value['current_price'].toString()}");
+
+              contract.setEtherMarket(
+                Market(),
+                [],
+                value['current_price'].toString(),
+                value['price_change_percentage_24h'] == null ? "0" : value['price_change_percentage_24h'].toString(),
+              );
+            }
+          });
+
+          marketPrice = contract.listContract[api!.ethIndex].marketPrice;
           break;
         default:
           
@@ -764,13 +784,25 @@ class TrxFunctional {
 
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
 
+    print("asset $asset");
+    print("amount $amount");
+    print("assetIndex $assetIndex");
+
     String? marketPrice;
     String estPrice;
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    
+    print("amount $amount");
+    print("contract.sortListContract[assetIndex].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}");
+    print("contract.sortListContract[assetIndex].marketPrice == null ${contract.sortListContract[assetIndex].marketPrice == null}");
     // "0" For Contract That Has 0 Decimal
-    marketPrice = contract.sortListContract[assetIndex!].marketPrice == "0" ? "1" : contract.sortListContract[assetIndex].marketPrice;
+    if (contract.sortListContract[assetIndex].marketPrice == "0" || contract.sortListContract[assetIndex].marketPrice == "null"){
+
+      marketPrice = "1";
+    } else {
+      marketPrice = contract.sortListContract[assetIndex].marketPrice;
+    }
+    print("marketPrice $marketPrice");
     marketPrice = marketPrice!.isEmpty ? "0" : marketPrice;
     estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
@@ -783,6 +815,8 @@ class TrxFunctional {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
 
+    print("network $network");
+    print("asset $asset");
     try {
       
       if (network != null && network == "ERC-20"){
@@ -794,7 +828,7 @@ class TrxFunctional {
         );
       }
       else if (asset == 'ETH'){
-        maxGas = await contractProvider.getEthMaxGas(reciever, amount);
+        maxGas = await contractProvider.getEthMaxGas(reciever, amount, chainID: 1);
       }
       else if ( asset == 'BNB'){
         maxGas = await contractProvider.getBnbMaxGas(reciever, amount);

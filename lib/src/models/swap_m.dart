@@ -23,9 +23,64 @@ class SwapPageModel {
       "deposit_amount": myController!.text,
       "withdrawal": addr,
       "withdrawal_extra_id": null,
+      "affiliate_id": "DCNVjpI0Txr1Sw2w",
       "network_from": "BEP20",
       "network_to": "BEP20"
     }; 
+  }
+}
+
+class InfoTwoCoinModel{
+
+  String? from;
+  String? to;
+  String? networkFrom;
+  String? networkTo;
+  String? amt;
+  String? affiliateId;
+
+  toJson(){
+    return json.encode({
+      "from": from,
+      "to": to,
+      "network_from": networkFrom,
+      "network_to": networkTo,
+      "amount": amt,
+      "affiliate_id": affiliateId,
+    });
+  }
+}
+class ResInfoTwoCoinModel{
+  String? min_amount;
+  String? max_amount;
+  String? amount;
+  String? fee;
+  String? rate;
+  String? profit;
+  String? extra_fee_amount;
+  int? rate_id;
+  String? rate_id_expired_at;
+  String? applied_promo_code_id;
+  double? deposit_amount_usdt;
+  double? withdrawal_amount_usdt;
+  List<dynamic>? networks_from;
+  List<dynamic>? networks_to;
+
+  fromJson(Map<String, dynamic> jsn){
+    min_amount = jsn["min_amount"];
+    max_amount = jsn["max_amount"];
+    amount = jsn["amount"];
+    fee = jsn["fee"];
+    rate = jsn["rate"];
+    profit = jsn["profit"];
+    extra_fee_amount = jsn["extra_fee_amount"];
+    rate_id = jsn["rate_id"];
+    rate_id_expired_at = jsn["rate_id_expired_at"];
+    applied_promo_code_id = jsn["applied_promo_code_id"];
+    deposit_amount_usdt = jsn["deposit_amount_usdt"];
+    withdrawal_amount_usdt = jsn["withdrawal_amount_usdt"];
+    networks_from = jsn["networks_from"];
+    networks_to = jsn["networks_to"];
   }
 }
 
@@ -40,6 +95,7 @@ class SwapResponseObj {
   String? withdrawal_extra_id;
   String? _return;
   String? return_extra_id;
+  String? final_amount;
   int? extra_fee_from;
   int? extra_fee_to;
   String? coin_from_network;
@@ -76,6 +132,7 @@ class SwapResponseObj {
     deposit_amount = jsn['deposit_amount'];
     withdrawal = jsn['withdrawal'];
     withdrawal_extra_id = jsn['withdrawal_extra_id'];
+    final_amount = jsn['final_amount'];
     _return = jsn['return'];
     return_extra_id = jsn['return_extra_id'];
     extra_fee_from = jsn['extra_fee_from'];
@@ -106,4 +163,116 @@ class SwapResponseObj {
     email = jsn['email'];
     aml_error_signals = jsn['aml_error_signals'];
   }
+}
+
+class SwapTrxInfo {
+
+  String? created_at;
+  String? status;
+  String? transaction_id;
+  String? coin_from;
+  String? coin_to;
+  String? deposit_amount;
+  String? withdrawal_amount;
+  String? rate;
+  String? fee;
+  String? deposit;
+  String? deposit_extra_id;
+  String? withdrawal;
+  String? withdrawal_extra_id;
+  String? _return;
+  String? return_extra_id;
+  String? final_amount;
+  String? hash_in;
+  String? hash_out;
+  String? rating;
+  String? real_deposit_amount;
+  String? real_withdrawal_amount;
+  String? startedAt;
+  String? finishedAt;
+  int? is_float;
+  String? coin_from_network;
+  String? coin_to_network;
+  int? revert;
+  String? extra_fee_from;
+  String? extra_fee_to;
+  String? return_amount;
+  String? return_hash;
+  String? return_coin;
+  String? return_network;
+  int? confirmations;
+  int? expired_at;
+  List<dynamic>? aml_error_signals;
+  String? execution_time;
+  bool? is_available;
+  String? coin_from_explorer_url;
+  String? coin_to_explorer_url;
+  String? coin_from_icon;
+  String? coin_from_extra_name;
+  String? coin_to_icon;
+  String? coin_to_extra_name;
+  String? coin_from_name;
+  String? coin_to_name;
+  int? need_confirmations;
+  String? email;
+  bool? internal_transafer_refund;
+  String? return_network_code;
+  String? return_explorer_url;
+  String? profit;
+
+  SwapTrxInfo.fromJson(Map<String, dynamic> jsn){
+    created_at = jsn["created_at"];
+    status = jsn["status"];
+    transaction_id = jsn["transaction_id"];
+    coin_from = jsn["coin_from"];
+    coin_to = jsn["coin_to"];
+    deposit_amount = jsn["deposit_amount"];
+    withdrawal_amount = jsn["withdrawal_amount"];
+    rate = jsn["rate"];
+    fee = jsn["fee"];
+    deposit = jsn["deposit"];
+    deposit_extra_id = jsn["deposit_extra_id"];
+    withdrawal = jsn["withdrawal"];
+    withdrawal_extra_id = jsn["withdrawal_extra_id"];
+    _return = jsn["return"];
+    return_extra_id = jsn["return_extra_id"];
+    final_amount = jsn["final_amount"];
+    hash_in = jsn["hash_in"];
+    hash_out = jsn["hash_out"];
+    rating = jsn["rating"];
+    real_deposit_amount = jsn["real_deposit_amount"];
+    real_withdrawal_amount = jsn["real_withdrawal_amount"];
+    startedAt = jsn["startedAt"];
+    finishedAt = jsn["finishedAt"];
+    is_float = jsn["is_float"];
+    coin_from_network = jsn["coin_from_network"];
+    coin_to_network = jsn["coin_to_network"];
+    revert = jsn["revert"];
+    extra_fee_from = jsn["extra_fee_from"];
+    extra_fee_to = jsn["extra_fee_to"];
+    return_amount = jsn["return_amount"];
+    return_hash = jsn["return_hash"];
+    return_coin = jsn["return_coin"];
+    return_network = jsn["return_network"];
+    confirmations = jsn["confirmations"];
+    expired_at = jsn["expired_at"];
+    aml_error_signals = jsn["aml_error_signals"];
+    execution_time = jsn["execution_time"];
+    is_available = jsn["is_available"];
+    coin_from_explorer_url = jsn["coin_from_explorer_url"];
+    coin_to_explorer_url = jsn["coin_to_explorer_url"];
+    coin_from_icon = jsn["coin_from_icon"];
+    coin_from_extra_name = jsn["coin_from_extra_name"];
+    coin_to_icon = jsn["coin_to_icon"];
+    coin_to_extra_name = jsn["coin_to_extra_name"];
+    coin_from_name = jsn["coin_from_name"];
+    coin_to_name = jsn["coin_to_name"];
+    need_confirmations = jsn["need_confirmations"];
+    email = jsn["email"];
+    internal_transafer_refund = jsn["internal_transafer_refund"];
+    return_network_code = jsn["return_network_code"];
+    return_explorer_url = jsn["return_explorer_url"];
+    profit = jsn["profit"];
+  }
+
 }

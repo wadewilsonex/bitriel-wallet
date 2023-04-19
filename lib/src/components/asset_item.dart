@@ -17,8 +17,6 @@ class AssetItem extends StatelessWidget {
     //   scModel.lineChartModel.totalUsd = res.toStringAsFixed(2);
     // }
 
-     
-
     return rowDecorationStyle(
         color: isDarkMode
           ? hexaCodeToColor(AppColors.darkCard)
@@ -35,7 +33,12 @@ class AssetItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: Image.asset(
+              child: scModel!.logo!.contains('http') 
+              ? Image.network(
+                scModel!.logo!,
+                fit: BoxFit.contain,
+              )
+              : Image.asset(
                 scModel!.logo!,
                 fit: BoxFit.contain,
               ),

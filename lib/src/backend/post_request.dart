@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wallet_apps/src/models/swap_m.dart';
 
 /// Scan QR Get SEL 
 class PostRequest {
@@ -149,15 +150,30 @@ class PostRequest {
   /// Swapping
   /// 
   static Future<http.Response> swap(Map<String, dynamic> obj) async {
-    print('swap');
+    print('swap ${json.encode(obj)}');
     _api ??= dotenv.get('LETS_EXCHANGE_API');
 
     print(_api);
 
     return await http.post(
-      Uri.parse(_api!),
+      Uri.parse("$_api/v1/transaction"),
       body: json.encode(obj),
       headers: conceteHeader()
+    );
+
+  }
+
+  /// Information Between 2 coins
+  /// 
+  Future<http.Response> infoTwoCoin(InfoTwoCoinModel model) async {
+    print("infoTwoCoin");
+    print("model.toJson() ${model.toJson()}");
+    _api ??= dotenv.get('LETS_EXCHANGE_API');
+
+    return await http.post(
+      Uri.parse("$_api/v1/info"),
+      headers: conceteHeader(),
+      body: model.toJson()
     );
 
   }

@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/num_pad_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
@@ -35,7 +36,7 @@ class SwapPageBody extends StatelessWidget {
         ),
         backgroundColor: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
         title: MyText(
-          text: "BITRIEL Swap",
+          text: "Bitriel Swap",
           fontSize: 22,
           fontWeight: FontWeight.w600,
           hexaColor: isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor,
@@ -51,84 +52,103 @@ class SwapPageBody extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            Padding(
-              padding: const EdgeInsets.all(paddingSize),
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: Column(
-                  children: [
-
-                    _payInput(context),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-          
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor),
-                            ),
-                          ),
-          
-                          GestureDetector(
-                            onTap: (){
-                              swapPageModel!.myController!.clear();
-                              swapPageModel!.percentActive = 0;
-                              
-                              SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
-                              dynamic tmp = swap.index1;
-                              // dynamic tmp2 = swap.index2;
-          
-                              swap.index1 = swap.index2;
-                              swap.index2 = tmp;
-          
-                              tmp = swap.name1;
-                              swap.name1 = swap.name2;
-                              swap.name2 = tmp;
-          
-                              tmp = swap.logo1;
-                              swap.logo1 = swap.logo2;
-                              swap.logo2 = tmp;
-          
-                              tmp = swap.balance1;
-                              swap.balance1 = swap.balance2;
-                              swap.balance2 = tmp;
-          
-                              swap.setList();
-                              swap.notifyDataChanged();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor)),
-                                borderRadius: BorderRadius.circular(30)
-                              ),
-                              padding: const EdgeInsets.all(5),
-                              child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
-                            )
-                          ),
-          
-                          Expanded(
-                            child: Divider(
-                              thickness: 0.5,
-                              color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor),
-                            ),
-                          ),
-                        ],
-                      )
+            Consumer<SwapProvider>(
+              builder: (context, pro, wg) {
+                return Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
-                    
-                    _getDisplay(context),
-                  ],
-                ),
-              ),
+                    child: Column(
+                      children: [
+
+                        _payInput(context),
+
+                        TextButton(
+                          onPressed: ()async {
+                            
+                            await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
+                              print("value ${value.body}");
+                              if (value.statusCode == 200){
+                                pro.resTwoCoinModel!.fromJson(json.decode(value.body));
+                                pro.balance2 = pro.resTwoCoinModel!.amount.toString();
+                                pro.notifyDataChanged();
+                              }
+                            });
+                          }, 
+                          child: MyText(text: "Calculate",)
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+          
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor),
+                                ),
+                              ),
+          
+                              GestureDetector(
+                                onTap: (){
+                                  swapPageModel!.myController!.clear();
+                                  swapPageModel!.percentActive = 0;
+                                  
+                                  SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
+                                  dynamic tmp = swap.index1;
+                                  // dynamic tmp2 = swap.index2;
+          
+                                  swap.index1 = swap.index2;
+                                  swap.index2 = tmp;
+          
+                                  tmp = swap.name1;
+                                  swap.name1 = swap.name2;
+                                  swap.name2 = tmp;
+          
+                                  tmp = swap.logo1;
+                                  swap.logo1 = swap.logo2;
+                                  swap.logo2 = tmp;
+          
+                                  tmp = swap.balance1;
+                                  swap.balance1 = swap.balance2;
+                                  swap.balance2 = tmp;
+          
+                                  swap.setList();
+                                  swap.notifyDataChanged();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor)),
+                                    borderRadius: BorderRadius.circular(30)
+                                  ),
+                                  padding: const EdgeInsets.all(5),
+                                  child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
+                                )
+                              ),
+          
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.5,
+                                  color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor),
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                        
+                        _getDisplay(context),
+                      ],
+                    ),
+                  ),
+                );
+              }
             ),
 
             SizedBox(height: 2.h),
@@ -186,31 +206,31 @@ class SwapPageBody extends StatelessWidget {
                   fontSize: 18,
                 ),
                 
-                Expanded(child: Container()),
+                // Expanded(child: Container()),
           
-                const MyText( 
-                  text: 'Balance: ',
-                ),
+                // const MyText( 
+                //   text: 'Balance: ',
+                // ),
 
-                Consumer<SwapProvider>(
-                  builder: (context, provider, widget){
-                    return Row(
-                      children: [
-                        MyText(
-                          text: provider.balance1,
-                          fontWeight: FontWeight.w600,
+                // Consumer<SwapProvider>(
+                //   builder: (context, provider, widget){
+                //     return Row(
+                //       children: [
+                //         MyText(
+                //           text: provider.balance1,
+                //           fontWeight: FontWeight.w600,
                           
-                        ),
-                        SizedBox(width: 1.w),
-                        MyText(
-                          text: provider.name1,
-                          fontWeight: FontWeight.w600,
+                //         ),
+                //         SizedBox(width: 1.w),
+                //         MyText(
+                //           text: provider.name1,
+                //           fontWeight: FontWeight.w600,
                           
-                        ),
-                      ],
-                    );
-                  }
-                ),
+                //         ),
+                //       ],
+                //     );
+                //   }
+                // ),
 
               ],
             ),
@@ -221,9 +241,10 @@ class SwapPageBody extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
-                    child: TextField(
+                    child: TextFormField(
                       onChanged: onChanged,
                       focusNode: swapPageModel!.focusNode,
                       controller: swapPageModel!.myController,
@@ -258,17 +279,25 @@ class SwapPageBody extends StatelessWidget {
                 ],
               ),
 
-              Expanded(
-                child: _ddButton(
-                  context: context, 
-                  i: 0,
-                  onPressed: (){
-                    Provider.of<SwapProvider>(context, listen: false).label = "first";
-                    Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
-                    swapPageModel!.myController!.clear();
-                    swapPageModel!.percentActive = 0;
-                  }
-                ),
+              Consumer<SwapProvider>(
+                builder: (context, pro, wg) {
+                  return Expanded(
+                    child: _ddButton(
+                      context: context, 
+                      i: 0,
+                      onPressed: () async {
+
+                        pro.label = "first";
+                        pro.balance1 = swapPageModel!.myController!.text;
+
+                        await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                        // swapPageModel!.myController!.clear();
+                        swapPageModel!.percentActive = 0;
+                        
+                      }
+                    ),
+                  );
+                }
               ), 
 
 
@@ -281,92 +310,108 @@ class SwapPageBody extends StatelessWidget {
   }
 
   Widget _getDisplay(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Row(
-              children: [
-                const MyText(
-                  text: 'You Get',
-                  fontWeight: FontWeight.bold,
-                  hexaColor: AppColors.primaryColor,
-                  fontSize: 18,
-                ),
-
-                Expanded(child: Container()),
-
-                const MyText( 
-                  text: 'Balance: ',
-                ),
-
-                Consumer<SwapProvider>(
-                  builder: (context, provider, widget){
-                    return Row(
-                      children: [
-                        MyText(
-                          text: provider.balance2,
-                          fontWeight: FontWeight.w600,
-                          
-                        ),
-                        SizedBox(width: 1.w),
-                        MyText(
-                          text: provider.name2,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ],
-                    );
-                  }
-                ),
-              ],
-            ),
-          ),    
-          
-          Row(
+    return Consumer<SwapProvider>(
+      builder: (context, pro, wg) {
+        return Padding(
+          padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
-                    child: MyText(
-                      textAlign: TextAlign.start,
-                      text: '0',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
 
-                  MyText(
-                      textAlign: TextAlign.start,
-                      text: '≈\$0',
+              Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: Row(
+                  children: [
+                    const MyText(
+                      text: 'You Get',
+                      fontWeight: FontWeight.bold,
+                      hexaColor: AppColors.primaryColor,
                       fontSize: 18,
                     ),
+
+                    Expanded(child: Container()),
+
+                    // const MyText( 
+                    //   text: 'Balance: ',
+                    // ),
+
+                    // Consumer<SwapProvider>(
+                    //   builder: (context, provider, widget){
+                    //     return Row(
+                    //       children: [
+                    //         MyText(
+                    //           text: provider.balance2,
+                    //           fontWeight: FontWeight.w600,
+                              
+                    //         ),
+                    //         SizedBox(width: 1.w),
+                    //         MyText(
+                    //           text: provider.name2,
+                    //           fontWeight: FontWeight.w600,
+                    //         ),
+                    //       ],
+                    //     );
+                    //   }
+                    // ),
+                  ],
+                ),
+              ),    
+              
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+                        child: MyText(
+                          textAlign: TextAlign.start,
+                          text: pro.balance2,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
+                      ),
+
+                      MyText(
+                          textAlign: TextAlign.start,
+                          text: '≈\$0',
+                          fontSize: 18,
+                        ),
+                    ],
+                  ),
+
+                  Expanded(child: Container()),
+
+                  Expanded(
+                    child: _ddButton(
+                      context: context, 
+                      i: 1,
+                      onPressed:  () async {
+
+                        pro.label = "second";
+                        await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                        // swapPageModel!.myController!.clear();
+                        swapPageModel!.percentActive = 0;
+
+                        await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
+                          if (value.statusCode == 200){
+                            pro.resTwoCoinModel!.fromJson(json.decode(value.body));
+                            pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
+                            pro.notifyDataChanged();
+                          }
+                        });
+                      }
+                    ),
+                  )  
+
                 ],
               ),
-
-              Expanded(
-                child: _ddButton(
-                  context: context, 
-                  i: 1,
-                  onPressed:  (){
-                    Provider.of<SwapProvider>(context, listen: false).label = "second";
-                    Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
-                    swapPageModel!.myController!.clear();
-                    swapPageModel!.percentActive = 0;
-                  }
-                ),
-              ),            
             ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 
@@ -377,45 +422,69 @@ class SwapPageBody extends StatelessWidget {
       builder: (context, provider, widget){
         return GestureDetector(
           onTap: onPressed!,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-          
-              SizedBox(
-                height: 8.h,
-                width: 8.w,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: (i == 0 ? provider.logo1 : provider.logo2).contains('http') 
-                  ? Image.network(
-                    i == 0 ? provider.logo1 : provider.logo2,
-                    height: 6.h,
-                    width: 6.w,
-                  )
-                  : Image.asset(
-                    i == 0 ? provider.logo1 : provider.logo2,
-                    height: 8.h,
-                    width: 8.w,
-                  )
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.yellow.withOpacity(0.5),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+            
+                SizedBox(
+                  height: 8.h,
+                  width: 8.w,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: (i == 0 ? provider.logo1 : provider.logo2)
+                    // .contains('http') 
+                    // ? SvgPicture.network(
+                    //   i == 0 ? provider.logo1 : provider.logo2,
+                    //   height: 6.h,
+                    //   width: 6.w,
+                    // )
+                    // : Image.asset(
+                    //   i == 0 ? provider.logo1 : provider.logo2,
+                    //   height: 8.h,
+                    //   width: 8.w,
+                    // )
+                  ),
                 ),
-              ),
-              MyText(
-                textAlign: TextAlign.start,
-                left: 10.sp,
-                right: 10.sp,
-                text: i == 0 ? provider.name1 : provider.name2,
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
-                hexaColor: AppColors.textColor,
-              ),
+                
+                Column(
+                  children: [
 
-              Icon(
-                Iconsax.arrow_down_1,
-                color: hexaCodeToColor(AppColors.primaryColor),
-                size: 20.sp
-              ),
-            ],
+                    MyText(
+                      textAlign: TextAlign.start,
+                      left: 10.sp,
+                      right: 10.sp,
+                      text: i == 0 ? provider.name1 : provider.name2,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      hexaColor: AppColors.textColor,
+                    ),
+
+                    MyText(
+                      textAlign: TextAlign.start,
+                      left: 10.sp,
+                      right: 10.sp,
+                      text: i == 0 ? provider.network1 : provider.network2,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      hexaColor: AppColors.textColor,
+                    ),
+                  ],
+                ),
+          
+                Icon(
+                  Iconsax.arrow_down_1,
+                  color: hexaCodeToColor(AppColors.primaryColor),
+                  size: 20.sp
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -441,7 +510,6 @@ class SwapPageBody extends StatelessWidget {
       '75%',
       '100%',
     ];
-
 
     Consumer<SwapProvider>(
       builder: (context, provider, widget){

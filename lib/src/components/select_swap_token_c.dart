@@ -7,6 +7,7 @@ class SwapTokenList extends StatelessWidget {
   final bool? isActive;
   final String? title;
   final String? subtitle;
+  final String? network;
   final Widget? image;
   final Function? action;
   
@@ -14,6 +15,7 @@ class SwapTokenList extends StatelessWidget {
     Key? key, 
     this.isActive = false,
     this.title,
+    required this.network,
     this.subtitle,
     this.image,
     @required this.action,
@@ -53,18 +55,30 @@ class SwapTokenList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 
+                Row(
+                  children: [
+                    MyText(
+                      text: title,
+                      fontSize: 22,
+                      color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.start,
+                    ),
+                    MyText(
+                      text: subtitle,
+                      fontSize: 16,
+                      color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
+                      fontWeight: FontWeight.w400,
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+
                 MyText(
-                  text: title,
+                  text: network,
                   fontSize: 22,
                   color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
                   fontWeight: FontWeight.w700,
-                  textAlign: TextAlign.start,
-                ),
-                MyText(
-                  text: subtitle,
-                  fontSize: 16,
-                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
-                  fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,
                 ),
               ],
