@@ -105,6 +105,20 @@ List<CardSection> settingsAccSection({BuildContext? context, PackageInfo? packag
 List<CardSection> infoSection({BuildContext? context}) {
   return [
     CardSection(
+      title: 'Terms & Conditions',
+      trailingIcon: Iconsax.arrow_right_3,
+      action: () {
+        Navigator.push(
+          context!, 
+          Transition(
+            child: const AdsWebView(url: "https://www.bitriel.com/legal/terms-conditions", title: "Terms & Conditions",),
+            transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          )
+        );
+      }
+    ),
+
+    CardSection(
       title: 'Privacy Policy (Terms of Use)',
       trailingIcon: Iconsax.arrow_right_3,
       action: () {

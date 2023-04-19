@@ -110,3 +110,102 @@ class SwapResponseObj {
     aml_error_signals = jsn['aml_error_signals'];
   }
 }
+
+class SwapStatusResponseObj {
+
+  String? createdAt;
+  String? status;
+  String? transactionId;
+  String? coinFrom;
+  String? coinTo;
+  String? depositAmount;
+  String? withdrawalAmount;
+  String? rate;
+  String? fee;
+  String? deposit;
+  String? depositExtraId;
+  String? withdrawal;
+  String? withdrawalExtraId;
+  String? welcomeReturn;
+  String? returnExtraId;
+  String? finalAmount;
+  String? hashIn;
+  String? hashOut;
+  String? rating;
+  String? realDepositAmount;
+  String? realWithdrawalAmount;
+  String? startedAt;
+  String? finishedAt;
+  String? coinFromNetwork;
+  String? coinToNetwork;
+  String? extraFeeFrom;
+  String? extraFeeTo;
+  String? returnAmount;
+  String? returnHash;
+  String? returnCoin;
+  String? returnNetwork;
+  String? executionTime;
+  bool? isAvailable;
+  String? coinFromExplorerUrl;
+  String? coinToExplorerUrl;
+  String? coinFromIcon;
+  String? coinFromExtraName;
+  String? coinToIcon;
+  String? coinToExtraName;
+  String? coinFromName;
+  String? coinToName;
+  String? email;
+  bool? internalTransaferRefund;
+  String? returnNetworkCode;
+  String? returnExplorerUrl;
+  String? profit;
+
+  SwapStatusResponseObj.fromJson(Map<String, dynamic> jsn){
+    createdAt = jsn['created_at'];
+    status = jsn['status'];
+    transactionId = jsn['transaction_id'];
+    coinFrom = jsn['coin_from'];
+    coinTo = jsn['coin_to'];
+    depositAmount = jsn['deposit_amount'];
+    withdrawalAmount = jsn['withdrawal_amount'];
+    rate = jsn['rate'];
+    fee = jsn['fee'];
+    deposit = jsn['deposit'];
+    depositExtraId = jsn['deposit_extra_id'];
+    withdrawal = jsn['withdrawal'];
+    withdrawalExtraId = jsn['withdrawal_extra_id'];
+    welcomeReturn = jsn['return'];
+    returnExtraId = jsn['return_extra_id'];
+    finalAmount = jsn['final_amount'];
+    hashIn = jsn['hash_in'];
+    hashOut = jsn['hash_out'];
+    rating = jsn['rating'];
+    realDepositAmount = jsn['real_deposit_amount'];
+    realWithdrawalAmount = jsn['real_withdrawal_amount'];
+    startedAt = jsn['startedAt'];
+    finishedAt = jsn['finishedAt'];
+    coinFromNetwork = jsn['coin_from_network'];
+    coinToNetwork = jsn['coin_to_network'];
+    extraFeeFrom = jsn['extra_fee_from'];
+    extraFeeTo = jsn['extra_fee_to'];
+    returnAmount = jsn['return_amount'];
+    returnHash = jsn['return_hash'];
+    returnCoin = jsn['return_coin'];
+    returnNetwork = jsn['return_network'];
+    executionTime = jsn['execution_time'];
+    isAvailable = jsn['is_available'];
+    coinFromExplorerUrl = jsn['coin_from_explorer_url'];
+    coinToExplorerUrl = jsn['coin_to_explorer_url'];
+    coinFromIcon = jsn['coin_from_icon'];
+    coinFromExtraName = jsn['coin_from_extra_name'];
+    coinToIcon = jsn['coin_to_icon'];
+    coinToExtraName = jsn['coin_to_extra_name'];
+    coinFromName = jsn['coin_from_name'];
+    coinToName = jsn['coin_to_name'];
+    email = jsn['email'];
+    internalTransaferRefund = jsn['internal_transafer_refund'];
+    returnNetworkCode = jsn['return_network_code'];
+    returnExplorerUrl = jsn['return_explorer_url'];
+    profit = jsn['profit'];
+  }
+}

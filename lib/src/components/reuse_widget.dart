@@ -1287,9 +1287,9 @@ Widget textRowWidget(String leadingText, String trailingText) {
   );
 }
 
-Widget tfPasswordWidget(TextEditingController? password, String? title, {double? borderSize = 1, Function? onSubmit}) {
+Widget tfPasswordWidget(TextEditingController? password, String? title, {bool obscureText = true, double? borderSize = 1, Function? onSubmit}) {
   return TextFormField(
-    obscureText: true,
+    obscureText: obscureText,
     controller: password,
     onFieldSubmitted: (String value) {
       if (onSubmit != null) onSubmit();

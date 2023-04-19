@@ -39,41 +39,6 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       "eventLocation": "Malaysia",
       "eventCategory": "Art",
     },
-
-        {
-      "eventOrganizer": "ISI Dangkor Senchey FC",
-      "eventName": "Football Match",
-      "eventDate": "Sun, April 09, 2023 | 03:45 - 5:45 PM",
-      "eventImage": "https://pbs.twimg.com/media/FtOwQmVaUAADJBx.jpg",
-      "eventLocation": "AIA Stadium",
-      "eventCategory": "Sport",
-    },
-    {
-      "eventOrganizer": "Do For Metaverse",
-      "eventName": "Vincent Van Gogh",
-      "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
-      "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
-      "eventLocation": "Malaysia",
-      "eventCategory": "Art",
-    },
-
-   {
-      "eventOrganizer": "Do For Metaverse",
-      "eventName": "Vincent Van Gogh",
-      "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
-      "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
-      "eventLocation": "Malaysia",
-      "eventCategory": "Art",
-    },
-
-    {
-    "eventOrganizer": "Do For Metaverse",
-    "eventName": "Vincent Van Gogh",
-    "eventDate": "Mon, Dec 12, 2022 | 08:45 AM - 09:00 PM",
-    "eventImage": "https://res.klook.com/image/upload/fl_lossy.progressive,q_85/c_fill,w_680/v1675424665/blog/gywlaeqip9pjmev9rmjq.jpg",
-    "eventLocation": "Malaysia",
-    "eventCategory": "Art",
-  },
   ];
   List<String>? images = [];
 
@@ -142,12 +107,13 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: DefaultTabController(
+        length: 3,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             
             allEvents!.isNotEmpty ? EventCardComponents(
@@ -182,7 +148,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       children: [
         Container(
           height: 60,
-          padding: const EdgeInsets.only(left: paddingSize, bottom: 20, right: paddingSize),
+          padding: const EdgeInsets.only(left: paddingSize / 2, bottom: 20,),
           child: TabBar(
             isScrollable: true,
             indicatorSize: TabBarIndicatorSize.label,
@@ -252,12 +218,9 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
 
   Widget _allEvent(List<Map<String, dynamic>>? item) {
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 40,
-        crossAxisSpacing: 24,
-        // width / height: fixed for *all* items
-        childAspectRatio: 0.75,
+        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25),
       ),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
@@ -273,7 +236,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25), mainAxisSpacing: paddingSize
+        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.25),
       ),
       shrinkWrap: false,
       scrollDirection: Axis.vertical,
@@ -286,13 +249,10 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   }
 
   Widget _allEventList(List<Map<String, dynamic>> item, int index) {
-    return InkWell(
-      onTap: () {
-    
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-        child: Container(
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: paddingSize),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(16))
@@ -359,7 +319,7 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -371,75 +331,77 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
       onTap: () {
         
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(16))
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: paddingSize),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16))
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  height: 250,
+                  width: 250,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(16)) ,
+                    child: Image.network(filterList[index]["eventImage"], fit: BoxFit.cover,)
+                  ),
+                ),
+                
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyText(
+                        text: filterList[index]['eventName'],
+                        fontSize: 22,
+                        hexaColor: AppColors.primaryColor,
+                        fontWeight: FontWeight.w700,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                
+                      MyText(
+                        pTop: 10,
+                        text: filterList[index]["eventDate"],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        hexaColor: AppColors.blackColor,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                
+                Container(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: Row(
+                    children: [
+                      Icon(Iconsax.location, color: hexaCodeToColor(AppColors.primaryColor),),
+                
+                      MyText(
+                        pLeft: 5,
+                        text: filterList[index]["eventLocation"],
+                        fontSize: 18,
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                )
+                
+              ],
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              Container(
-                padding: const EdgeInsets.all(10),
-                height: 250,
-                width: 250,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)) ,
-                  child: Image.network(filterList[index]["eventImage"], fit: BoxFit.cover,)
-                ),
-              ),
-              
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText(
-                      text: filterList[index]['eventName'],
-                      fontSize: 22,
-                      hexaColor: AppColors.primaryColor,
-                      fontWeight: FontWeight.w700,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-              
-                    MyText(
-                      pTop: 10,
-                      text: filterList[index]["eventDate"],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      hexaColor: AppColors.blackColor,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              
-              Container(
-                padding: const EdgeInsets.all(paddingSize),
-                child: Row(
-                  children: [
-                    Icon(Iconsax.location, color: hexaCodeToColor(AppColors.primaryColor),),
-              
-                    MyText(
-                      pLeft: 5,
-                      text: filterList[index]["eventLocation"],
-                      fontSize: 18,
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              )
-              
-            ],
-          ),
-        ),
+        ],
       ),
     );
             

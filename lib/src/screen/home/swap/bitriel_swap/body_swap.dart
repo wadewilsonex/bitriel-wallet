@@ -3,6 +3,7 @@ import 'package:wallet_apps/src/components/num_pad_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
+import 'package:wallet_apps/src/screen/home/swap/status_swap.dart';
 
 class SwapPageBody extends StatelessWidget {
   
@@ -44,6 +45,17 @@ class SwapPageBody extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Iconsax.arrow_left_2, size: 30),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context, 
+                Transition(child: const SwapStatus(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+              );
+            },
+            icon: Icon(Iconsax.notification_status, color: hexaCodeToColor(AppColors.primaryColor), size: 30,),
+          ),
+        ],
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
