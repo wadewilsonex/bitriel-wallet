@@ -21,7 +21,7 @@ class _SwapStatusState extends State<SwapStatus> {
      
       await queryTrxStatus(_textController.text.toString()).then((value) {
 
-        final _res = SwapStatusResponseObj.fromJson(json.decode(value.body));
+        final res = SwapStatusResponseObj.fromJson(json.decode(value.body));
 
         if (value.statusCode == 200){
           // Close Dialog
@@ -29,7 +29,7 @@ class _SwapStatusState extends State<SwapStatus> {
           Navigator.push(
             context, 
             Transition(
-              child: SwapStatusProgress(res: _res, ticks: _res.status == "wait" ? 1 : 2,),
+              child: SwapStatusProgress(res: res, ticks: res.status == "wait" ? 1 : 2,),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );
