@@ -265,7 +265,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     widget.createKeyModel!.unverifyList.add(
       UnverifySeed(address: jsn["address"],
       status: _importAccountModel.status, 
-      ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd
+      ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd,
+      btcAddress: conProvider!.listContract[_apiProvider!.btcIndex].address
     ));
 
     await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
@@ -330,16 +331,21 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
               widget.createKeyModel!.unverifyList[tmp.indexOf(obj[0])] = UnverifySeed(
                 address: api.getKeyring.current.address, 
                 status: true, 
-                ethAddress: conProvider!.ethAdd
+                ethAddress: conProvider!.ethAdd,
+                btcAddress: conProvider!.listContract[_apiProvider!.btcIndex].address
               );
 
               // addAndImport
 
               await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
 
-              Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd).toMap();
+              Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList[ tmp.indexOf(obj[0]) ] = UnverifySeed(
+                address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd, btcAddress: conProvider!.listContract[_apiProvider!.btcIndex].address
+              ).toMap();
 
-              Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd).toMap();
+              Provider.of<VerifySeedsProvider>(context, listen: false).unverifyAcc = UnverifySeed(
+                address: api.getKeyring.current.address, status: true, ethAddress: conProvider!.ethAdd, btcAddress: conProvider!.listContract[_apiProvider!.btcIndex].address
+              ).toMap();
               
               Provider.of<VerifySeedsProvider>(context, listen: false).isVerifying = false;
 

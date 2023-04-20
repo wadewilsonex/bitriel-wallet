@@ -201,9 +201,8 @@ class MarketProvider with ChangeNotifier {
     try {
 
       _res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search?query=${id.toLowerCase()}'));
-
+      
       if (json.decode(_res!.body).isNotEmpty){
-
         lsCoin = List<Map<String, dynamic>>.from( (await json.decode(_res!.body))['coins'] );
         lsCoin = lsCoin!.where((element){
           if (element['symbol'].toLowerCase() == id.toLowerCase() && element['market_cap_rank'] != null){
@@ -211,13 +210,14 @@ class MarketProvider with ChangeNotifier {
           }
           return false;
         }).toList();
+        print(lsCoin);
       }
       return lsCoin!;
     } catch (e) {
       
-        if (kDebugMode) {
-          print("Error searchCoinFromMarket $e");
-        }
+      if (kDebugMode) {
+        print("Error searchCoinFromMarket $e");
+      }
       
     }
     return lsCoin!;
@@ -225,13 +225,12 @@ class MarketProvider with ChangeNotifier {
 
   Future<Map<String, dynamic>?> queryCoinFromMarket(String id) async {
 
-    print("queryCoinFromMarket $id");
-
     queried = {};
+
     try {
 
       // http.Response value = await http.Response(json.encode(mkData), 200);
-      await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id')).then((value) async {
+      await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en')).then((value) async {
 
         print(value.body);
 

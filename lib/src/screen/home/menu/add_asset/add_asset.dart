@@ -406,7 +406,7 @@ class AddAssetState extends State<AddAsset> {
     }
   }
 
-  void onSubmit() {
+  void onSubmit() async {
     submitAsset();
   }
 

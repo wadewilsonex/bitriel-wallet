@@ -268,7 +268,8 @@ class ImportAccState extends State<ImportAcc> {
       UnverifySeed(
         address: jsn["address"],
         status: true,
-        ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd
+        ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd,
+        btcAddress: _contractProvider!.listContract[_apiProvider!.btcIndex].address
       )
     );
 

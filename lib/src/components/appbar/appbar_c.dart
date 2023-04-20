@@ -206,13 +206,17 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
-                      await StorageServices.readSecure(DbKey.privateList)!.then((value) {
+                      await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
                         print("value $value");
 
                         print("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
 
                         Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
 
+                        print("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
+                        Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
+                        // await StorageServices.writeSecure(DbKey.btcwif, json.decode(value)[index]['btc_address']);
+                        provider.getBtcBalance(context: context);
                         print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 
                       });

@@ -409,9 +409,9 @@ class ContractProvider with ChangeNotifier {
       mainBalance = 0;
       sortListContract.clear();
       
-      await StorageServices.fetchData(DbKey.hdWallet).then((value) {
-        listContract[apiProvider.btcIndex].address = value;
-      });
+      // await StorageServices.fetchData(DbKey.hdWallet).then((value) {
+      //   listContract[apiProvider.btcIndex].address = value;
+      // });
       
       // 1. Add Default Asset First
       for (var element in listContract) {
@@ -509,7 +509,7 @@ class ContractProvider with ChangeNotifier {
     if (res != null) {
       apiPro.isBtcAvailable('contain', context: context);
 
-      apiPro.setBtcAddr(res.toString());
+      // apiPro.setBtcAddr(res.toString());
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await apiPro.getBtcBalance(res.toString(), context: context);
     }
