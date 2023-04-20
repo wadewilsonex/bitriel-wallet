@@ -784,6 +784,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<List?> queryEther(String contractAddress, String functionName, List args) async {
+    
     await initEtherClient();
     final contract = await AppUtils.contractfromAssets(AppConfig.erc20Abi, contractAddress);
     //final contract = await initEtherContract(contractAddress);

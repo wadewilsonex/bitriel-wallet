@@ -290,6 +290,9 @@ class AddAssetState extends State<AddAsset> {
         if (initialValue == 1) { // 1 = Ethereum
 
           await searchEtherContract();
+
+          if (!mounted) return;
+          await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
         } 
         else {
 
@@ -305,15 +308,17 @@ class AddAssetState extends State<AddAsset> {
 
           if (!mounted) return;
           if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
-                
-            print("Provider.of<MarketProvider>(context, listen: false).lsCoin! ${Provider.of<MarketProvider>(context, listen: false).lsCoin!}");
-            setState(() {
-              _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
-            });
-          
-            await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
+            
+          setState(() {
+            _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
+          });
         
           }
+        }
+        
+        if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty){
+
+          await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
         }
 
         setState(() {
@@ -324,6 +329,9 @@ class AddAssetState extends State<AddAsset> {
         await addAsset();
         
       } else {
+        
+        Navigator.pop(context);
+
         if(!mounted) return;
         DialogComponents().dialogCustom(
           context: context,
@@ -346,6 +354,8 @@ class AddAssetState extends State<AddAsset> {
         });
       }
     } catch (e) {
+
+      Navigator.pop(context);
       setState(() {_modelAsset.loading = false;});
 
       DialogComponents().dialogCustom(
@@ -374,7 +384,7 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> searchEtherContract() async {
 
-    print("searchEtherContract");
+    print("searchEtherContract ${_modelAsset.controllerAssetCode.text}");
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
       print("Res $res");
