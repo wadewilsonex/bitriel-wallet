@@ -338,141 +338,32 @@ class AccountBody extends StatelessWidget{
                                           textAlign: TextAlign.start,
                                         ),
 
-                                        const SizedBox(height: 10),
-                                        
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        Row(
                                           children: [
-
-                                            const Padding(
-                                              padding: EdgeInsets.only(right: paddingSize / 2),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: paddingSize / 2),
                                               child: MyText(
-                                                text: "Selendra:",
+                                                text: provider.getKeyring.allAccounts[index].address!.replaceRange(10, provider.getKeyring.allAccounts[index].address!.length - 10, "........"),
                                                 hexaColor: AppColors.greyCode,
-                                                fontWeight: FontWeight.w600,
                                                 fontSize: 16,
                                               ),
                                             ),
-                                            
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: paddingSize / 2),
-                                                  child: MyText(
-                                                    text: provider.getKeyring.allAccounts[index].address!.replaceRange(10, provider.getKeyring.allAccounts[index].address!.length - 10, "........"),
-                                                    hexaColor: AppColors.greyCode,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                            
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await Clipboard.setData(
-                                                      ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
-                                                    );
-                                                    Fluttertoast.showToast(
-                                                      msg: "Copied address",
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.CENTER,
-                                                    );
-                                                  }, 
-                                                  child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-                                                )
-                                              ],
-                                            ),
+                                        
+                                            InkWell(
+                                              onTap: () async {
+                                                await Clipboard.setData(
+                                                  ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
+                                                );
+                                                Fluttertoast.showToast(
+                                                  msg: "Copied address",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.CENTER,
+                                                );
+                                              }, 
+                                              child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
+                                            )
                                           ],
                                         ),
-
-                                        const SizedBox(height: 5),
-                                        
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-
-                                            const Padding(
-                                              padding: EdgeInsets.only(right: paddingSize / 2),
-                                              child: MyText(
-                                                text: "EVM:",
-                                                hexaColor: AppColors.greyCode,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: paddingSize / 2),
-                                                  child: MyText(
-                                                    text: Provider.of<ContractProvider>(context, listen: false).ethAdd.replaceRange(10, Provider.of<ContractProvider>(context, listen: false).ethAdd.length - 10, "........"),
-                                                    hexaColor: AppColors.greyCode,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                            
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await Clipboard.setData(
-                                                      ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
-                                                    );
-                                                    Fluttertoast.showToast(
-                                                      msg: "Copied address",
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.CENTER,
-                                                    );
-                                                  }, 
-                                                  child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-
-                                        const SizedBox(height: 5),
-                                        
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-
-                                            const Padding(
-                                              padding: EdgeInsets.only(right: paddingSize / 2),
-                                              child: MyText(
-                                                text: "Bitcoin:",
-                                                hexaColor: AppColors.greyCode,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(right: paddingSize / 2),
-                                                  child: MyText(
-                                                    text: provider.getKeyring.allAccounts[index].address!.replaceRange(10, provider.getKeyring.allAccounts[index].address!.length - 10, "........"),
-                                                    hexaColor: AppColors.greyCode,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                            
-                                                InkWell(
-                                                  onTap: () async {
-                                                    await Clipboard.setData(
-                                                      ClipboardData(text: provider.getKeyring.allAccounts[index].address ??''),
-                                                    );
-                                                    Fluttertoast.showToast(
-                                                      msg: "Copied address",
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.CENTER,
-                                                    );
-                                                  }, 
-                                                  child: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor), size: 20,)
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        
 
                                       ],
                                     ),

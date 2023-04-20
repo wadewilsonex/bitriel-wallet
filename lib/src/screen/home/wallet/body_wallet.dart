@@ -297,7 +297,25 @@ class WalletPageBody extends StatelessWidget {
 
               await dismiss(lsAsset, index);
             },
-            background: Container(color: Colors.red),
+            background: Container(
+              color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Icon(Iconsax.trash, color: Colors.white),
+
+                    SizedBox(width: 5),
+
+                    Text('Remove', style: TextStyle(color: Colors.white)),
+                  ],
+            
+                ),
+            
+              ),
+            
+            ),
             direction: DismissDirection.endToStart,
             child: GestureDetector(
               onTap: () {

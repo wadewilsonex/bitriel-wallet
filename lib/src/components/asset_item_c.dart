@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:unicons/unicons.dart';
 import 'package:wallet_apps/index.dart';
 
@@ -16,206 +15,188 @@ class AssetsItemComponent extends StatelessWidget {
 
     return rowDecorationStyle(
         color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-        child: Slidable(
-          enabled: false,
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                onPressed: (context) {
-
-                },
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                icon: Iconsax.trash,
-                label: 'Remove',
-              ),
-            ],
-          ),
-          
-          child: Row(
-            children: <Widget>[
+        child: Row(
+          children: <Widget>[
         
-              // Asset Logo
-              scModel!.logo != null ? SizedBox(
-                height: 50,
-                width: 50,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: scModel!.logo!.contains('http') 
-                  
-                  ? Image.network(
-                    scModel!.logo!,
-                    fit: BoxFit.contain,
-                    height: 50,
-                    width: 50,
-                  )
-                  : Image.asset(
-                    scModel!.logo!,
-                    fit: BoxFit.contain,
-                    height: 50,
-                    width: 50,
-                  )
-                ),
-              ) 
-              : const ClipRRect(
-                child: SizedBox(
+            // Asset Logo
+            scModel!.logo != null ? SizedBox(
+              height: 50,
+              width: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: scModel!.logo!.contains('http') 
+                
+                ? Image.network(
+                  scModel!.logo!,
+                  fit: BoxFit.contain,
                   height: 50,
                   width: 50,
-                ),
+                )
+                : Image.asset(
+                  scModel!.logo!,
+                  fit: BoxFit.contain,
+                  height: 50,
+                  width: 50,
+                )
               ),
-        
-              // Asset Name
-              SizedBox(width: 2.w),
-              SizedBox(
-                width: 33.w,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-              
-                    Row( 
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        
-                        MyText(
-                          width: 100,
-                          text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          hexaColor: isDarkMode
-                            ? AppColors.whiteColorHexa
-                            : AppColors.textColor,
-                          textAlign: TextAlign.start,
-                        ),
-
-                      ],
-                    ),
-              
-                    MyText(
-                      width: 100,
-                      text: scModel!.name ?? '',
-                      fontSize: 15,
-                      hexaColor: AppColors.tokenNameColor,
-                      textAlign: TextAlign.start,
-                    )
-                  ],
-                ),
+            ) 
+            : const ClipRRect(
+              child: SizedBox(
+                height: 50,
+                width: 50,
               ),
-              
-              // Market Price
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            ),
         
-                    scModel!.marketPrice != null ?
-                    MyText(
-                      
-                      text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    )
-                    : const MyText(
-                      text: '',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      hexaColor: AppColors.whiteColorHexa
-                    ),
-        
-                    scModel!.change24h != null ? Container(
-                      margin: const EdgeInsets.only(top: 4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          scModel!.change24h != null && scModel!.change24h != ''
-                          ? Flexible(
-                            child: Row(
-                              children: [
-
-                                if (scModel!.change24h != "0")
-                                MyText(
-                                  text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  hexaColor: double.parse(scModel!.change24h!).isNegative
-                                    ? '#FF0000'
-                                    : isDarkMode ? '#00FF00' : '#66CD00',
-                                )
-                                
-                                else MyText(
-                                  text: '(${scModel!.change24h}%)',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  hexaColor: AppColors.greyCode
-                                  // double.parse(scModel!.change24h!).isNegative
-                                  //   ? AppColors.greyCode
-                                  //   : isDarkMode ? '#00FF00' : '#66CD00',
-                                ),
-
-                                if (scModel!.change24h != "0")
-                                double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
-                              ],
-                            ),
-                          )
-                          : Container(),
-                          
-                          // double.parse(scModel!.change24h!).isNegative
-                        ],
-                      ),
-                    )
-                    : Container(),
-                  ],
-                ),
-              ),
-
-              // Total Amount
-              Column(
+            // Asset Name
+            SizedBox(width: 2.w),
+            SizedBox(
+              width: 33.w,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-        
-                  scModel!.balance != null ? 
+            
+                  Row( 
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      
+                      MyText(
+                        width: 100,
+                        text: scModel!.symbol != null ? '${scModel!.symbol} ' : '',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        hexaColor: isDarkMode
+                          ? AppColors.whiteColorHexa
+                          : AppColors.textColor,
+                        textAlign: TextAlign.start,
+                      ),
+
+                    ],
+                  ),
+            
                   MyText(
-                    // width: double.infinity,
-                    text: "${double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5)} ${scModel!.symbol!}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
-                    textAlign: TextAlign.right,
-                    fontWeight: FontWeight.w600,
-                    hexaColor: isDarkMode
-                      ? AppColors.whiteColorHexa
-                      : AppColors.textColor,
-                    bottom: 4.0,
-                    overflow: TextOverflow.fade,
-                  ) 
-                  : Container(),
-        
-                  scModel!.money != null ? 
-                  MyText(
-                    text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
+                    width: 100,
+                    text: scModel!.name ?? '',
                     fontSize: 15,
-                    hexaColor: AppColors.tokenNameColor
-                  ) 
-                  : Container()
+                    hexaColor: AppColors.tokenNameColor,
+                    textAlign: TextAlign.start,
+                  )
                 ],
               ),
+            ),
+            
+            // Market Price
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+        
+                  scModel!.marketPrice != null ?
+                  MyText(
+                    
+                    text: scModel!.marketPrice!.isNotEmpty ? '\$${scModel!.marketPrice}' : '\$0.0',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  )
+                  : const MyText(
+                    text: '',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    hexaColor: AppColors.whiteColorHexa
+                  ),
+        
+                  scModel!.change24h != null ? Container(
+                    margin: const EdgeInsets.only(top: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        scModel!.change24h != null && scModel!.change24h != ''
+                        ? Flexible(
+                          child: Row(
+                            children: [
 
-              // Graph Chart
-              // Expanded(
-              //   child: Container(
-              //   padding: EdgeInsets.only(left: 5, right: 10),
-              //   height: 50,
-              //   width: MediaQuery.of(context).size.width / 3.5,
-              //   child:
-              //   scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
-              //     ? LineChart(sampleLineChart(context))
-              //     : LineChart(mainData(context))
-              //   // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
+                              if (scModel!.change24h != "0")
+                              MyText(
+                                text: double.parse(scModel!.change24h!).isNegative ? '(${scModel!.change24h}%)' : '(+${scModel!.change24h!}%)',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                hexaColor: double.parse(scModel!.change24h!).isNegative
+                                  ? '#FF0000'
+                                  : isDarkMode ? '#00FF00' : '#66CD00',
+                              )
+                              
+                              else MyText(
+                                text: '(${scModel!.change24h}%)',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                hexaColor: AppColors.greyCode
+                                // double.parse(scModel!.change24h!).isNegative
+                                //   ? AppColors.greyCode
+                                //   : isDarkMode ? '#00FF00' : '#66CD00',
+                              ),
 
-              // )),
-            ],
-          ),
+                              if (scModel!.change24h != "0")
+                              double.parse(scModel!.change24h!).isNegative ? Icon(UniconsLine.chart_down, color: Colors.red, size: 18.sp) : Icon(UniconsLine.arrow_growth, color: Colors.green, size: 18.sp),
+                            ],
+                          ),
+                        )
+                        : Container(),
+                        
+                        // double.parse(scModel!.change24h!).isNegative
+                      ],
+                    ),
+                  )
+                  : Container(),
+                ],
+              ),
+            ),
+
+            // Total Amount
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+        
+                scModel!.balance != null ? 
+                MyText(
+                  // width: double.infinity,
+                  text: "${double.parse(scModel!.balance!.replaceAll(",", "")).toStringAsFixed(5)} ${scModel!.symbol!}",//!.length > 7 ? double.parse(scModel!.balance!).toStringAsFixed(4) : scModel!.balance,
+                  textAlign: TextAlign.right,
+                  fontWeight: FontWeight.w600,
+                  hexaColor: isDarkMode
+                    ? AppColors.whiteColorHexa
+                    : AppColors.textColor,
+                  bottom: 4.0,
+                  overflow: TextOverflow.fade,
+                ) 
+                : Container(),
+        
+                scModel!.money != null ? 
+                MyText(
+                  text: "≈ \$ ${scModel!.money!.toStringAsFixed(2)}",
+                  fontSize: 15,
+                  hexaColor: AppColors.tokenNameColor
+                ) 
+                : Container()
+              ],
+            ),
+
+            // Graph Chart
+            // Expanded(
+            //   child: Container(
+            //   padding: EdgeInsets.only(left: 5, right: 10),
+            //   height: 50,
+            //   width: MediaQuery.of(context).size.width / 3.5,
+            //   child:
+            //   scModel!.lineChartModel == null || scModel!.lineChartModel!.values!.isEmpty
+            //     ? LineChart(sampleLineChart(context))
+            //     : LineChart(mainData(context))
+            //   // Text("${scModel.lineChartModel == null} ${scModel.lineChartModel.values.toString()}")
+
+            // )),
+          ],
         ));
   }
 

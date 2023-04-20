@@ -227,7 +227,7 @@ class MarketProvider with ChangeNotifier {
 
     print("queryCoinFromMarket $id");
 
-    queried!.clear();
+    queried = {};
     try {
 
       // http.Response value = await http.Response(json.encode(mkData), 200);
