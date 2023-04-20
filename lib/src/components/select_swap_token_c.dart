@@ -24,6 +24,9 @@ class SwapTokenList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    String networkSplit = network!.replaceAll("(BEP20)", "");
+    String networkName = networkSplit.trimRight();
+
     return GestureDetector(
       onTap: action == null ? null : (){
         if (isActive == false) action!();
@@ -40,12 +43,7 @@ class SwapTokenList extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: isActive == false 
-                  ? image 
-                  : ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
-                    child: image,
-                  ),
+                  child: image 
                 ),
               ),
             ),
@@ -56,30 +54,64 @@ class SwapTokenList extends StatelessWidget {
               children: [
                 
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     MyText(
                       text: title,
                       fontSize: 22,
-                      color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
+                      color2: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor),
                       fontWeight: FontWeight.w700,
                       textAlign: TextAlign.start,
                     ),
                     MyText(
+                      pLeft: 7,
                       text: subtitle,
-                      fontSize: 16,
-                      color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.greyColor).withOpacity(0.5),
-                      fontWeight: FontWeight.w400,
+                      fontSize: 19,
+                      color2: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
                       textAlign: TextAlign.start,
                     ),
                   ],
                 ),
 
-                MyText(
-                  text: network,
-                  fontSize: 22,
-                  color2: isActive == false ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.blackColor) : hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.lightGreyColor).withOpacity(0.5),
-                  fontWeight: FontWeight.w700,
-                  textAlign: TextAlign.start,
+                Row(
+                  children: [
+                    
+                    networkName == "Binance Smart Chain" || networkName == "Ethereum Network" ? Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        color: networkName == "Binance Smart Chain" 
+                        ? hexaCodeToColor("#F3BA2F").withOpacity(0.8)
+                        :
+                        networkName == "Ethereum Network" 
+                        ? hexaCodeToColor("#444971").withOpacity(0.8)
+                        : null,
+                      ),
+                      child: MyText(
+                        text: networkName == "Binance Smart Chain" 
+                          ? "BEP20"
+                          :
+                          networkName == "Ethereum Network" 
+                          ? "ERC20"
+                          : "",
+                          
+                        color2: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.whiteHexaColor),
+                        textAlign: TextAlign.start,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                    
+                    : const SizedBox(),
+
+                    networkName == "Binance Smart Chain" || networkName == "Ethereum Network" ? const SizedBox(width: 5,) : const SizedBox(),
+
+                    MyText(
+                      text: networkName,
+                      color2: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor),
+                      textAlign: TextAlign.start,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ],
                 ),
               ],
             ),
