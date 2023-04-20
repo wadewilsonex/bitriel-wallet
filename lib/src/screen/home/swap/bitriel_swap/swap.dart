@@ -293,6 +293,8 @@ class _SwapPageState extends State<SwapPage> {
     
     _swapProvider!.initList(context: context);
 
+    _swapProvider!.initList(context: context);
+
     coins().then((value) {
       _swapProvider!.lstCoins = List.from(json.decode(value.body));
 

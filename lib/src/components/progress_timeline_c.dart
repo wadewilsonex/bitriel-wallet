@@ -44,6 +44,12 @@ class SwapStatusProgress extends StatelessWidget {
                   line(),
                   spacer(),
                   tick2(),
+                  line(),
+                  spacer(),
+                  tick3(),
+                  line(),
+                  spacer(),
+                  tick4(),
                 ],
               ),
             ),
@@ -73,7 +79,61 @@ class SwapStatusProgress extends StatelessWidget {
                 ],
               ),
             ),
+
             if(ticks == 2)
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: Column(
+                children: [
+      
+                  MyText(
+                    // pBottom: 20,
+                    text: res!.status!.toUpperCase(),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: Lottie.asset("assets/animation/confirmation.json",
+                      repeat: true,
+                      reverse: true,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            if(ticks == 3)
+            Padding(
+              padding: const EdgeInsets.all(paddingSize),
+              child: Column(
+                children: [
+      
+                  MyText(
+                    // pBottom: 20,
+                    text: res!.status!.toUpperCase(),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width,
+                    child: Lottie.asset(
+                      "assets/animation/exchange.json",
+                      repeat: true,
+                      reverse: true,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            if(ticks == 4)
             Padding(
               padding: const EdgeInsets.all(paddingSize),
               child: Column(
@@ -129,6 +189,12 @@ class SwapStatusProgress extends StatelessWidget {
   }
   Widget tick2() {
     return ticks>1?tick(true):tick(false);
+  }
+  Widget tick3() {
+    return ticks>2?tick(true):tick(false);
+  }
+  Widget tick4() {
+    return ticks>3?tick(true):tick(false);
   }
  
   Widget spacer() {
