@@ -7,7 +7,6 @@ class ContractsBalance extends ChangeNotifier {
 
   static ContractProvider? contractProvider;
   static ApiProvider? apiProvider;
-  static String? btcAddr;
 
   static BuildContext? _context;
 
@@ -25,12 +24,14 @@ class ContractsBalance extends ChangeNotifier {
 
       contractProvider ??= Provider.of<ContractProvider>(_context!, listen: false);
       apiProvider ??= Provider.of<ApiProvider>(_context!, listen: false);
-      btcAddr ??= await StorageServices.fetchData(DbKey.bech32);
 
-      if (btcAddr != null) {
-        apiProvider!.setBtcAddr(btcAddr.toString());
-        contractProvider!.listContract[apiProvider!.btcIndex].address = btcAddr;
-      }
+      // Set BTC address To Local
+      // btcAddr ??= await StorageServices.fetchData(DbKey.bech32);
+
+      // if (btcAddr != null) {
+      //   apiProvider!.setBtcAddr(btcAddr.toString());
+      //   contractProvider!.listContract[apiProvider!.btcIndex].address = btcAddr;
+      // }
 
       // await contractProvider.setSavedList().then((value) async {
 
@@ -49,7 +50,7 @@ class ContractsBalance extends ChangeNotifier {
 
         // if(apiProvider.isMainnet == false) await Attendance().getAttBalance(context: context); // Disable For Mainnet
         // This Method Is Also Requeste Polkadot Contract
-        await apiProvider!.getBtcBalance(context: _context);
+        // await apiProvider!.getBtcBalance(context: _context);
         
         print("finish btc");
 
@@ -87,7 +88,7 @@ class ContractsBalance extends ChangeNotifier {
     if (res != null) {
       Provider.of<ApiProvider>(context!, listen: false).isBtcAvailable('contain', context: context);
 
-      Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
+      // Provider.of<ApiProvider>(context, listen: false).setBtcAddr(res.toString());
       Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(res.toString(), context: context);
     }

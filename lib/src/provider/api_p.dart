@@ -159,10 +159,10 @@ class ApiProvider with ChangeNotifier {
   //   return Address.validateAddress(address, bitcoin);
   // }
 
-  void setBtcAddr(String btcAddress) {
-    btcAdd = btcAddress;
-    notifyListeners();
-  }
+  // void setBtcAddr(String btcAddress) {
+  //   btcAdd = btcAddress;
+  //   notifyListeners();
+  // }
 
   Future<void> queryBtcData(BuildContext context, String seeds, String passCode) async {
     final contractPro = Provider.of<ContractProvider>(context, listen: false);
@@ -185,7 +185,7 @@ class ApiProvider with ChangeNotifier {
 
       // Provider.of<ApiProvider>(context, listen: false).isBtcAvailable('contain', context: context);
 
-      setBtcAddr(bech32Address!);
+      // setBtcAddr(bech32Address!);
       // Provider.of<WalletProvider>(context, listen: false).addTokenSymbol('BTC');
       // await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(context: context);
 
@@ -352,7 +352,9 @@ class ApiProvider with ChangeNotifier {
   }
 
   Future<void> getBtcBalance({@required BuildContext? context}) async {
+    
     final contract = Provider.of<ContractProvider>(context!, listen: false);
+    print("contract.listContract[btcIndex].address! ${contract.listContract[btcIndex].address!}");
     try {
       int totalSatoshi = 0;
       final res = await getAddressUxto(contract.listContract[btcIndex].address!);
