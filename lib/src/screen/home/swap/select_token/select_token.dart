@@ -18,7 +18,6 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
   @override
   initState(){
-    Provider.of<SwapProvider>(context, listen: false).setList();
     super.initState();
   }
   
@@ -47,13 +46,10 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
         return false;
       }).toList();
 
-      print("_swapProvider!.ls.indexOf(_swapProvider!.searched[0]) ${_swapProvider!.ls.indexOf(_swapProvider!.searched[0])}");
     } else {
       _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 
     }
-
-    print("_swapProvider!.searched ${_swapProvider!.searched}");
 
     setState(() { });
     // mySetState(() { });

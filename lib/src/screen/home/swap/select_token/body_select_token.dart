@@ -51,11 +51,11 @@ class SelectSwapTokenBody extends StatelessWidget {
                   child: Stack(
                     children: [
                       
-                      provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls) : Container(),
+                      provider.searched.isEmpty ? _tokenList(context, provider.ls, provider) : Container(),
                       // List Asset
           
                       // Items Searched
-                      provider.searched.isNotEmpty ? _tokenList(context, provider.searched) : Container()
+                      provider.searched.isNotEmpty ? _tokenList(context, provider.searched, provider) : Container()
                     ],
                   )
               
@@ -127,67 +127,61 @@ class SelectSwapTokenBody extends StatelessWidget {
     );
   }
 
-  Widget _tokenList(BuildContext context, List<SwapTokenListModel> ls){
-    return Consumer<SwapProvider>(
-      builder: (context, provider, widget){
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
-          itemBuilder: (context, index){
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+  Widget _tokenList(BuildContext context, List<SwapTokenListModel> ls, SwapProvider provider){
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      itemCount: ls.length,//SwapTokenListModel().lsSwapToken.length,
+      itemBuilder: (context, index){
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SwapTokenList(
-                      title: ls[index].title,
-                      subtitle: ls[index].subtitle,
-                      isActive: ls[index].isActive,
-                      network: ls[index].network,
-                      image: ls[index].image,
-                      action: () async {
-                        int indexFound = index;
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SwapTokenList(
+                  title: ls[index].title,
+                  subtitle: ls[index].subtitle,
+                  isActive: ls[index].isActive,
+                  network: ls[index].network,
+                  image: ls[index].image,
+                  action: () async {
+                    int indexFound = index;
 
-                        print("provider.searched ${provider.searched[index].title}");
+                    if (provider.searched.isNotEmpty){
+                      print("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
 
-                        if (provider.searched.isNotEmpty){
-                          print("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
+                      // List<dynamic> found = Provider.of<SwapProvider>(context, listen: false).lstCoins!.where((element) {
 
-                          // List<dynamic> found = Provider.of<SwapProvider>(context, listen: false).lstCoins!.where((element) {
+                      // })
+                      indexFound = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
+                      print("indexFound $indexFound");
+                    }
 
-                          // })
-                          indexFound = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
-                          print("indexFound $indexFound");
-                        }
+                    provider.setNewAsset(indexFound);
+                    provider.searched.clear();
 
-                        provider.setNewAsset(indexFound);
-                        provider.searched.clear();
+                    print("index $index");
+                    print("Found search ${provider.ls[index]}");
 
-                        print("index $index");
-                        print("Found search ${provider.ls[index]}");
+                    provider.twoCoinModel!.from = provider.name1;
+                    provider.twoCoinModel!.to = provider.name2;
+                    provider.twoCoinModel!.networkFrom = provider.networkFrom;
+                    provider.twoCoinModel!.networkTo = provider.networkTo;
+                    provider.twoCoinModel!.amt = provider.balance1;
+                    provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
 
-                        provider.twoCoinModel!.from = provider.name1;
-                        provider.twoCoinModel!.to = provider.name2;
-                        provider.twoCoinModel!.networkFrom = provider.networkFrom;
-                        provider.twoCoinModel!.networkTo = provider.networkTo;
-                        provider.twoCoinModel!.amt = provider.balance1;
-                        provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
+                    print("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
 
-                        print("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
-
-                        Navigator.pop(context);
-                        
-                      },
-                    ),
-                  ),
-                ],
+                    Navigator.pop(context);
+                    
+                  },
+                ),
               ),
-            );
-          }
+            ],
+          ),
         );
       }
     );
