@@ -28,6 +28,7 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
   }
 
   void query(String? label, String value){
+    print("query ${query}");
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
 
     _swapProvider!.searched = [];
@@ -48,9 +49,11 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
 
       print("_swapProvider!.ls.indexOf(_swapProvider!.searched[0]) ${_swapProvider!.ls.indexOf(_swapProvider!.searched[0])}");
     } else {
-      _swapProvider!.searched = _swapProvider!.ls2.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+      _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 
     }
+
+    print("_swapProvider!.searched ${_swapProvider!.searched}");
 
     setState(() { });
     // mySetState(() { });

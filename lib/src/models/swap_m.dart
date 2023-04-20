@@ -24,8 +24,8 @@ class SwapPageModel {
       "withdrawal": addr,
       "withdrawal_extra_id": null,
       "affiliate_id": "DCNVjpI0Txr1Sw2w",
-      "network_from": "BEP20",
-      "network_to": "BEP20"
+      "network_from": provider.networkFrom,
+      "network_to": provider.networkTo
     }; 
   }
 }

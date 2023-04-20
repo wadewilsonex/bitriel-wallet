@@ -28,8 +28,11 @@ class SwapTokenList extends StatelessWidget {
     String networkName = networkSplit.trimRight();
 
     return GestureDetector(
-      onTap: action == null ? null : (){
-        if (isActive == false) action!();
+      onTap: 
+      // action == null ? null : 
+      (){
+        // if (isActive == false) 
+        action!();
       },
       child: Container(
         color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),

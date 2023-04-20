@@ -51,7 +51,7 @@ class SelectSwapTokenBody extends StatelessWidget {
                   child: Stack(
                     children: [
                       
-                      provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls2) : Container(),
+                      provider.searched.isEmpty ? _tokenList(context, provider.label == "first" ? provider.ls : provider.ls) : Container(),
                       // List Asset
           
                       // Items Searched
@@ -150,14 +150,21 @@ class SelectSwapTokenBody extends StatelessWidget {
                       network: ls[index].network,
                       image: ls[index].image,
                       action: () async {
+                        int indexFound = index;
+
+                        print("provider.searched ${provider.searched[index].title}");
 
                         if (provider.searched.isNotEmpty){
+                          print("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
 
-                          print("provider.searched[index] ${provider.searched[index]}");
+                          // List<dynamic> found = Provider.of<SwapProvider>(context, listen: false).lstCoins!.where((element) {
 
-                          index = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
+                          // })
+                          indexFound = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
+                          print("indexFound $indexFound");
                         }
-                        provider.setNewAsset(index);
+
+                        provider.setNewAsset(indexFound);
                         provider.searched.clear();
 
                         print("index $index");
@@ -165,10 +172,12 @@ class SelectSwapTokenBody extends StatelessWidget {
 
                         provider.twoCoinModel!.from = provider.name1;
                         provider.twoCoinModel!.to = provider.name2;
-                        provider.twoCoinModel!.networkFrom = provider.network1;
-                        provider.twoCoinModel!.networkTo = provider.network2;
+                        provider.twoCoinModel!.networkFrom = provider.networkFrom;
+                        provider.twoCoinModel!.networkTo = provider.networkTo;
                         provider.twoCoinModel!.amt = provider.balance1;
                         provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
+
+                        print("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
 
                         Navigator.pop(context);
                         

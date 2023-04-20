@@ -482,7 +482,7 @@ class SwapPageBody extends StatelessWidget {
                       textAlign: TextAlign.start,
                       left: 10.sp,
                       right: 10.sp,
-                      text: i == 0 ? provider.network1 : provider.network2,
+                      text: i == 0 ? provider.networkFrom : provider.networkTo,
                       fontWeight: FontWeight.w700,
                       hexaColor: AppColors.primaryColor,
                     ),

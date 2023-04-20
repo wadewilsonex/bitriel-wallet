@@ -4,10 +4,11 @@ class SwapTokenListModel {
 
   bool? isActive = false;
   String? title = '';
+  String? networkCode = '';
   String? subtitle = '';
   String? balance = '';
   String? network = '';
   Widget? image;
   
-  SwapTokenListModel({this.image, this.title, this.subtitle, this.balance, this.network, this.isActive});
+  SwapTokenListModel({this.networkCode, this.image, this.title, this.subtitle, this.balance, this.network, this.isActive});
 }

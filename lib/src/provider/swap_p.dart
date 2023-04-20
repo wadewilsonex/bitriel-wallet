@@ -12,16 +12,18 @@ class SwapProvider extends ChangeNotifier{
   String name1 = "";
   Widget? logo1;
   String network1 = "";
+  String networkFrom = "";
 
   String name2 = "";
   Widget? logo2;
   String network2 = "";
+  String networkTo = "";
 
   String balance1 = "";
   String balance2 = "";
 
   List<SwapTokenListModel> ls = [];
-  List<SwapTokenListModel> ls2 = [];
+  // List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
 
   /// From LetsExchange API
@@ -59,10 +61,12 @@ class SwapProvider extends ChangeNotifier{
     name1 = found1[0].symbol!;
     logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
     network1 = found1[0].org!;
+    networkFrom = found1[0].org!;
 
     name2 = found2[0].symbol!;
     logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
     network2 = found2[0].org!;
+    networkTo = found2[0].org!;
     
     balance1 = "0";//found1[0].balance!;
     balance2 = "0";//found2[0].balance!;
@@ -71,7 +75,6 @@ class SwapProvider extends ChangeNotifier{
   void setList(){
 
     ls.clear();
-    ls2.clear();
 
     for(int i = 0; i < lstCoins!.length; i++){
 
@@ -94,6 +97,7 @@ class SwapProvider extends ChangeNotifier{
         ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
         : SvgPicture.network(lstCoins![i]['icon'], width: 10),
         network: lstCoins![i]['networks'][j]['name'],
+        networkCode: lstCoins![i]['networks'][j]['code'],
         // lstCoins![i]['icon'].contains('http') 
         // ? Image.network(lstCoins![i]['icon'], width: 10)
         // : Image.asset(lstCoins![i]['icon'], width: 10),
@@ -102,28 +106,34 @@ class SwapProvider extends ChangeNotifier{
       )
     );
 
-    ls2.add(
-      SwapTokenListModel(
-        title: lstCoins![i]['code'],
-        subtitle: lstCoins![i]['name'],
-        isActive: index2 == i ? true : false,
-        image: lstCoins![i]['icon'] == null 
-        ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
-        : SvgPicture.network(lstCoins![i]['icon'], width: 10),
-        network: lstCoins![i]['networks'][j]['name'],
-        //lstCoins![i]['icon'].contains('http') 
-        // ? Image.network(lstCoins![i]['icon'], width: 10)
-        // : Image.asset(lstCoins![i]['icon'], width: 10),
-        balance: "0"//contractProvider!.sortListContract[i].balance,
-      )
-    );
+    // ls2.add(
+    //   SwapTokenListModel(
+    //     title: lstCoins![i]['code'],
+    //     subtitle: lstCoins![i]['name'],
+    //     isActive: index2 == i ? true : false,
+    //     image: lstCoins![i]['icon'] == null 
+    //     ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
+    //     : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+    //     network: lstCoins![i]['networks'][j]['name'],
+    //     //lstCoins![i]['icon'].contains('http') 
+    //     // ? Image.network(lstCoins![i]['icon'], width: 10)
+    //     // : Image.asset(lstCoins![i]['icon'], width: 10),
+    //     balance: "0"//contractProvider!.sortListContract[i].balance,
+    //   )
+    // );
   }
 
   void setNewAsset(int index){
+    print("setNewAsset $index");
+    print("ls[index].network! ${ls[index].network}");
+    print("ls[index].networkCode! ${ls[index].networkCode}");
+    print("label $label");
     if (label == "first"){
 
       name1 = ls[index].title!;
       logo1 = ls[index].image!;
+      network1 = ls[index].network!;
+      networkFrom = ls[index].networkCode!;
       // balance1 = "0";
       index1 = index;
 
@@ -131,6 +141,8 @@ class SwapProvider extends ChangeNotifier{
 
       name2 = ls[index].title!;
       logo2 = ls[index].image!;
+      network2 = ls[index].network!;
+      networkTo = ls[index].networkCode!;
       // balance2 = "0";
       index2 = index;
 
@@ -169,7 +181,6 @@ class SwapProvider extends ChangeNotifier{
     balance2 = "";
 
     ls = [];
-    ls2 = [];
     searched = [];
 
     /// From LetsExchange API
@@ -200,7 +211,6 @@ class SwapProvider extends ChangeNotifier{
     balance2 = "";
 
     ls = [];
-    ls2 = [];
     searched = [];
 
     /// From LetsExchange API
