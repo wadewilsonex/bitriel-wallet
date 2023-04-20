@@ -170,6 +170,8 @@ class SwapStatusProgress extends StatelessWidget {
                         ),
 
                         MyText(
+                          pTop: 5,
+                          pBottom: 5,
                           text: "Sent ${res.depositAmount} ${res.coinFrom}\n(${res.coinFromNetwork})",
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -191,6 +193,8 @@ class SwapStatusProgress extends StatelessWidget {
                         Row(
                           children: [
                             MyText(
+                              pTop: 5,
+                              pBottom: 5,
                               text: res.status != "success" 
                                 ? "Get ${res.withdrawalAmount} ${res.coinTo}\n(${res.coinToNetwork})" 
                                 : "Got ${res.withdrawalAmount} ${res.coinTo}\n(${res.coinToNetwork})",
@@ -235,10 +239,9 @@ class SwapStatusProgress extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                           child: MyText(
                             pTop: 10,
-                            text: "${res.hashIn}",
+                            text: res.hashIn!.replaceRange(12, res.hashIn!.length - 12, "....."),
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            hexaColor: AppColors.greyCode,
                           ),
                         )
                       ],
@@ -258,7 +261,7 @@ class SwapStatusProgress extends StatelessWidget {
                     ? Container()
                     
                     : MyText(
-                      text: res.deposit!.replaceRange(6, res.deposit!.length - 6, "..."),
+                      text: res.deposit!.replaceRange(6, res.deposit!.length - 6, "....."),
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       hexaColor: AppColors.blackColor,
@@ -268,13 +271,13 @@ class SwapStatusProgress extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.status != "success" ? res.hashIn : res.deposit),
+                          ClipboardData(text: res.status == "success" ? res.hashIn : res.deposit),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              res.status != "success" 
+                              res.status == "success" 
                               ? "Hash in is Copied to Clipboard"
                               : "Deposit Address is Copied to Clipboard"),
                           ),
@@ -314,10 +317,9 @@ class SwapStatusProgress extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: paddingSize),
                           child: MyText(
                             pTop: 10,
-                            text: "${res.hashOut}",
+                            text: res.hashOut!.replaceRange(12, res.hashOut!.length - 12, "....."),
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            hexaColor: AppColors.greyCode,
                           ),
                         )
                       ],
@@ -347,13 +349,13 @@ class SwapStatusProgress extends StatelessWidget {
                       icon: Icon(Iconsax.copy, color: hexaCodeToColor(AppColors.primaryColor)),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: res.status != "success" ? res.hashOut : res.deposit),
+                          ClipboardData(text: res.status == "success" ? res.hashOut : res.withdrawal),
                         );
                         /* Copy Text */
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              res.status != "success" 
+                              res.status == "success" 
                               ? "Hash out is Copied to Clipboard"
                               : "Recipient Address is Copied to Clipboard"),
                           ),

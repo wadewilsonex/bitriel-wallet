@@ -163,17 +163,17 @@ class SwapPageBody extends StatelessWidget {
               }
             ),
 
-            SizedBox(height: 2.h),
+            // SizedBox(height: 2.h),
       
-            _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
+            // _tapAutoAmount(context, swapPageModel!.percentActive!, percentTap!),
             
-            SizedBox(height: 2.h),
+            // SizedBox(height: 2.h),
 
-            const MyText(
-              text: 'Enter how much you want to swap',
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
-            ),
+            // const MyText(
+            //   text: 'Enter how much you want to swap',
+            //   fontWeight: FontWeight.bold,
+            //   fontSize: 17,
+            // ),
     
             Expanded(
               child:  Center(
@@ -291,23 +291,23 @@ class SwapPageBody extends StatelessWidget {
                 ],
               ),
 
+              Expanded(child: Container()),
+
               Consumer<SwapProvider>(
                 builder: (context, pro, wg) {
-                  return Expanded(
-                    child: _ddButton(
-                      context: context, 
-                      i: 0,
-                      onPressed: () async {
+                  return _ddButton(
+                    context: context, 
+                    i: 0,
+                    onPressed: () async {
 
-                        pro.label = "first";
-                        pro.balance1 = swapPageModel!.myController!.text;
+                      pro.label = "first";
+                      pro.balance1 = swapPageModel!.myController!.text;
 
-                        await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
-                        // swapPageModel!.myController!.clear();
-                        swapPageModel!.percentActive = 0;
-                        
-                      }
-                    ),
+                      await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                      // swapPageModel!.myController!.clear();
+                      swapPageModel!.percentActive = 0;
+                      
+                    }
                   );
                 }
               ), 
@@ -396,26 +396,25 @@ class SwapPageBody extends StatelessWidget {
 
                   Expanded(child: Container()),
 
-                  Expanded(
-                    child: _ddButton(
-                      context: context, 
-                      i: 1,
-                      onPressed:  () async {
 
-                        pro.label = "second";
-                        await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
-                        // swapPageModel!.myController!.clear();
-                        swapPageModel!.percentActive = 0;
+                  _ddButton(
+                    context: context, 
+                    i: 1,
+                    onPressed:  () async {
 
-                        await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
-                          if (value.statusCode == 200){
-                            pro.resTwoCoinModel!.fromJson(json.decode(value.body));
-                            pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
-                            pro.notifyDataChanged();
-                          }
-                        });
-                      }
-                    ),
+                      pro.label = "second";
+                      await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                      // swapPageModel!.myController!.clear();
+                      swapPageModel!.percentActive = 0;
+
+                      await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
+                        if (value.statusCode == 200){
+                          pro.resTwoCoinModel!.fromJson(json.decode(value.body));
+                          pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
+                          pro.notifyDataChanged();
+                        }
+                      });
+                    }
                   )  
 
                 ],
@@ -435,10 +434,10 @@ class SwapPageBody extends StatelessWidget {
         return GestureDetector(
           onTap: onPressed!,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.yellow.withOpacity(0.5),
+              color: hexaCodeToColor(AppColors.lightColorBg)
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -446,8 +445,8 @@ class SwapPageBody extends StatelessWidget {
               children: [
             
                 SizedBox(
-                  height: 8.h,
-                  width: 8.w,
+                  height: 5.h,
+                  width: 10.w,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: (i == 0 ? provider.logo1 : provider.logo2)
@@ -466,6 +465,7 @@ class SwapPageBody extends StatelessWidget {
                 ),
                 
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
                     MyText(
@@ -484,8 +484,7 @@ class SwapPageBody extends StatelessWidget {
                       right: 10.sp,
                       text: i == 0 ? provider.network1 : provider.network2,
                       fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      hexaColor: AppColors.textColor,
+                      hexaColor: AppColors.primaryColor,
                     ),
                   ],
                 ),

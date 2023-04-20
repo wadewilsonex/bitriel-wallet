@@ -58,9 +58,9 @@ class ResInfoTwoCoinModel{
   String? rate;
   String? profit;
   String? extra_fee_amount;
-  int? rate_id;
+  // int? rate_id;
   String? rate_id_expired_at;
-  String? applied_promo_code_id;
+  // String? applied_promo_code_id;
   double? deposit_amount_usdt;
   double? withdrawal_amount_usdt;
   List<dynamic>? networks_from;
@@ -74,9 +74,9 @@ class ResInfoTwoCoinModel{
     rate = jsn["rate"];
     profit = jsn["profit"];
     extra_fee_amount = jsn["extra_fee_amount"];
-    rate_id = jsn["rate_id"];
+    // rate_id = jsn["rate_id"];
     rate_id_expired_at = jsn["rate_id_expired_at"];
-    applied_promo_code_id = jsn["applied_promo_code_id"];
+    // applied_promo_code_id = jsn["applied_promo_code_id"];
     deposit_amount_usdt = jsn["deposit_amount_usdt"];
     withdrawal_amount_usdt = jsn["withdrawal_amount_usdt"];
     networks_from = jsn["networks_from"];
@@ -198,7 +198,6 @@ class SwapStatusResponseObj {
   String? returnHash;
   String? returnCoin;
   String? returnNetwork;
-  String? executionTime;
   bool? isAvailable;
   String? coinFromExplorerUrl;
   String? coinToExplorerUrl;
@@ -246,7 +245,6 @@ class SwapStatusResponseObj {
     returnHash = jsn['return_hash'];
     returnCoin = jsn['return_coin'];
     returnNetwork = jsn['return_network'];
-    executionTime = jsn['execution_time'];
     isAvailable = jsn['is_available'];
     coinFromExplorerUrl = jsn['coin_from_explorer_url'];
     coinToExplorerUrl = jsn['coin_to_explorer_url'];
