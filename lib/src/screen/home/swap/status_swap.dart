@@ -29,7 +29,10 @@ class _SwapStatusState extends State<SwapStatus> {
           Navigator.push(
             context, 
             Transition(
-              child: SwapStatusProgress(res: res, ticks: res.status == "wait" ? 1 : 2,),
+              child: SwapStatusProgress(
+                res: res, 
+                ticks: res.status == "wait" ? 1 : res.status == "confirmation" ? 2 : res.status == "exchanging" ? 3 : 4
+              ),
               transitionEffect: TransitionEffect.RIGHT_TO_LEFT
             )
           );

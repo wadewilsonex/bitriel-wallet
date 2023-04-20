@@ -196,7 +196,10 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         e.toString()
         // btn2: Container(),
         // btn: null
-      );
+      ).then((value) {
+        Navigator.pop(context);
+      });
+
     }
   }
   
@@ -557,31 +560,6 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                   ],
                 ),
 
-                const Divider(),
-          
-                Row(
-                  children: [
-                    const MyText(
-                      pTop: 5,
-                      pBottom: 5,
-                      text: "Network Fee",
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      hexaColor: AppColors.greyCode,
-                    ),
-          
-                    const Spacer(),
-          
-                    MyText(
-                      pTop: 5,
-                      pBottom: 5,
-                      text: res.fee!,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      hexaColor: AppColors.blackColor,
-                    )
-                  ],
-                )
               ],
             ),
           ),
@@ -655,47 +633,6 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
           ),
         ),
 
-        const SizedBox(height: 10),
-
-        Container(
-          decoration: BoxDecoration(
-            color: hexaCodeToColor(AppColors.whiteColorHexa),
-            borderRadius: const BorderRadius.all(Radius.circular(18),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Column(
-              children: [
-          
-                Row(
-                  children: const [
-                    MyText(
-                      pTop: 5,
-                      pBottom: 5,
-                      text: "Max Total",
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      hexaColor: AppColors.blackColor,
-                    ),
-          
-                    Spacer(),
-          
-                    MyText(
-                      pTop: 5,
-                      pBottom: 5,
-                      text: "Total",
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      hexaColor: AppColors.blackColor,
-                    )
-                  ],
-                ),
-
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }
