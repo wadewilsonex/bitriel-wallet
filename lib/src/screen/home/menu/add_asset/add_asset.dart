@@ -69,16 +69,16 @@ class AddAssetState extends State<AddAsset> {
 
   void onTapGetContractData(int index) {
     setState(() {
-      _modelAsset.controllerAssetCode.text = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
-      queryContractAddress = getContractData![index]['platforms']["binance_smart_chain"] ?? getContractData![index]['platforms']["ethereum"];
+      _modelAsset.controllerAssetCode.text = getContractData![index]['platforms'][ initialValue == 0 ? "binance_smart_chain" : "ethereum"];
+      queryContractAddress = getContractData![index]['platforms'][ initialValue == 0 ? "binance_smart_chain" : "ethereum"];
       setResults(queryContractAddress);
     });
   }
 
   void onTapGetResult(int index) {
     setState(() {
-      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
-      queryContractAddress = searchResults[index]['platforms']["binance_smart_chain"] ?? searchResults[index]['platforms']["ethereum"];
+      _modelAsset.controllerAssetCode.text = searchResults[index]['platforms'][ initialValue == 0 ? "binance_smart_chain" : "ethereum"];
+      queryContractAddress = searchResults[index]['platforms'][ initialValue == 0 ? "binance_smart_chain" : "ethereum"];
       setResults(queryContractAddress);
     });
   }
@@ -119,6 +119,8 @@ class AddAssetState extends State<AddAsset> {
         return false;
       }).toList();
     }
+
+    print(getContractData);
 
     setState(() {
       

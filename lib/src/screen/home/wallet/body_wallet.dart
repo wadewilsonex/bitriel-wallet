@@ -537,11 +537,10 @@ class WalletPageBody extends StatelessWidget {
             MyText(
               text: "Don't see your token?",
               color2: Colors.grey.shade400,
-              bottom: 10.sp,
             ),
         
-            GestureDetector(
-              onTap: (){
+            TextButton(
+              onPressed: (){
                 Navigator.push(
                   context, 
                   MaterialPageRoute(builder: (context) => const AddAsset())
