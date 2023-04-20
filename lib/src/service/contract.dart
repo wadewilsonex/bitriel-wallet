@@ -103,6 +103,7 @@ class ContractService implements IContractService {
 
   @override
   Future<String>? sendToken(TransactionInfo trxInfo) async {
+    
     String? res;
     try {
 
@@ -110,6 +111,11 @@ class ContractService implements IContractService {
       final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
       final sender = await credentials.extractAddress();
       final maxGas = await getMaxGas(sender, txInfo);
+
+      print("credentials ${credentials.address}");
+      print("txInfo ${txInfo}");
+      print("sender ${sender.hex}");
+      print("maxGas ${maxGas.toString()}");
 
       res = await _client.sendTransaction(
         credentials,

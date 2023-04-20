@@ -235,9 +235,10 @@ class TrxFunctional {
   }
 
   Future<dynamic> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-    
+    print("sendTxBep20");
     if (txInfo.privateKey != null) {
       try {
+        
         String? hash = await tokenService.sendToken(txInfo);
         // if (hash != null) {
         //   txInfo.hash = hash;
@@ -259,7 +260,7 @@ class TrxFunctional {
         } else {
           await customDialog('Opps', e.toString());
         }
-        throw Exception(e);
+        // throw Exception(e);
       }
     }
   }
@@ -618,7 +619,7 @@ class TrxFunctional {
   }
 
   Future<bool> checkBalanceofCoin(String asset, String amount, int index) async {
-
+    print("checkBalanceofCoin");
     bool enough = true;
     try {
 
@@ -835,11 +836,16 @@ class TrxFunctional {
       }
         
       else {
+        print("Bep20");
+        print("(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)! ${(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!}");
+        
+        print(reciever);
+        print(amount);
         maxGas = await contractProvider.getBep20MaxGas( 
           (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
           reciever, 
           amount, 
-          decimal: contractProvider.sortListContract[index].chainDecimal!
+          decimal: 18
         );
       }
 

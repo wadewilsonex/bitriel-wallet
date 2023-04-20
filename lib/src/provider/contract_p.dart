@@ -686,9 +686,11 @@ class ContractProvider with ChangeNotifier {
     final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = bep20Contract.function('transfer');
 
+    print("bep20Contract.address ${bep20Contract.address}");
+
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
-      to: bep20Contract.address,
+      to: EthereumAddress.fromHex(reciever),//bep20Contract.address,
       // maxPriorityFeePerGas: EtherAmount.inWei(BigInt.from(100)),
       //gasPrice: EtherAmount.inWei(BigInt.parse('20')),
       data: txFunction.encodeCall(

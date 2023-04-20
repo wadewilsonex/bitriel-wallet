@@ -95,6 +95,10 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org
       );
       print("isValid $isValid");
+
+      print("_scanPayM.asset!, ${_scanPayM.asset!}");
+      print("_scanPayM.controlAmount.text ${_scanPayM.controlAmount.text}");
+      print("_scanPayM.assetValue ${_scanPayM.assetValue}");
       final isEnough = await trxFunc!.checkBalanceofCoin(
         _scanPayM.asset!,
         _scanPayM.controlAmount.text,
@@ -189,6 +193,9 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         }
       }
     } catch (e) {
+      
+      // Close Dialog Loading
+      Navigator.pop(context);
 
       await DialogComponents().customDialog(
         context,
@@ -207,7 +214,11 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
   Future<dynamic> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
     print("sendTrx");
-    try {
+    // try {
+
+      await StorageServices.readSecure(DbKey.pin)!.then((value) {
+        _pin = value;
+      });
 
       trxFunc!.contract = _contractProvider;
 
@@ -220,13 +231,12 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       // Show Dialog Fill PIN
       if(!mounted) return;
       String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-      
-      // if (resPin != _pin){
-      //   // ignore: use_build_context_synchronously
-      //   await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
+      print("resPin $resPin");
+      if (resPin != _pin){
+        // ignore: use_build_context_synchronously
+        await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
         
-      // } else 
-      if (resPin.isNotEmpty) {
+      } else if (resPin.isNotEmpty) {
         // Second: Start Loading For Sending
         if(!mounted) return;
         dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
@@ -303,7 +313,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
             else if (contractM.symbol == "KGO"){
 
               _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getKgo, txInfo);
-            } 
+            }
             else {
 
               final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
@@ -318,18 +328,46 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                 await _contractProvider!.initBep20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
               }
+
+
+              // Close Dialog Loading Take Too Long
+              Navigator.pop(context);
+              
             }
           // }
+
+
+          if (_scanPayM.hash != null){
+            await enableAnimation();
+          }
         }
         
       }
-      if (resPin == _pin) return _scanPayM.hash;
-    } catch (e){
-      if (kDebugMode) {
-        print("Error $e");
-      }
-      throw Exception(e);
-    }
+      
+      // Close Dialog Loading
+      Navigator.pop(context);
+      // return _scanPayM.hash;
+    // } catch (e){
+    //   if (kDebugMode) {
+    //     print("Error $e");
+    //   }
+    //   throw Exception(e);
+    // }
+  }
+
+  Future enableAnimation() async {
+
+    Navigator.pop(context);
+    setState(() {
+      _scanPayM.isPay = true;
+      // disable = true;
+    });
+    // flareController.play('Checkmark');
+    await Future.delayed(const Duration(seconds: 1), (){});
+    
+    if(!mounted) return;
+    Navigator.pop(context);
+    // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
   @override
