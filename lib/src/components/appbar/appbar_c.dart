@@ -215,7 +215,7 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                         print("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
-                        // await StorageServices.writeSecure(DbKey.btcwif, json.decode(value)[index]['btc_address']);
+                        await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
                         provider.getBtcBalance(context: context);
                         print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 

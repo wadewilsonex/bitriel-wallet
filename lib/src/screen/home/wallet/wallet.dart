@@ -26,7 +26,6 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
   Future<void> scrollRefresh() async {
 
-
     contract!.isReady = false;
 
     setState(() {});
@@ -80,21 +79,27 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
   }
 
   Future<void> dismiss(List<SmartContractModel> lsAsset, index) async {
+    print("dismiss $index");
 
-    await Future.delayed(Duration(seconds: 1), (){});
     List found = contract!.addedContract.where((element) {
       if (element.contract == lsAsset[index].contract) return true;
       return false; 
     }).toList();
-    
-    print((contract!.addedContract.indexOf(found[0])));
 
-    contract!.addedContract.remove(found[0]);
-    contract!.sortListContract.remove(found[0]);
+    print("found $found");
+    if (found.isNotEmpty){
 
-    await StorageServices.storeAssetData(context);
-    
+      contract!.addedContract.remove(found[0]);
+      contract!.sortListContract.removeAt(index);
+
+      await StorageServices.storeAssetData(context);
+    }
+
+    await Future.delayed(Duration(seconds: 1), (){});
+
+    setState(() { });
     contract!.notifyListeners();
+    
   }
 
   @override
@@ -109,7 +114,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
       key: _model.indicator,
       onRefresh: () async => await scrollRefresh(),
       child: WalletPageBody(
-        homePageModel: widget.homePageModel!,
+        homePageModel: widget.homePageModel ?? HomePageModel(),
         model: _model,
         searchController: searchController,
         dismiss: dismiss

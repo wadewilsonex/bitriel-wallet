@@ -290,34 +290,7 @@ class WalletPageBody extends StatelessWidget {
       itemCount: lsAsset.length,
       shrinkWrap: true,
       itemBuilder: (context, index){
-        return lsAsset[index].isAdded == true
-          ? Dismissible(
-            key: Key(index.toString()),
-            onDismissed: (DismissDirection dismissDirection) async {
-
-              await dismiss(lsAsset, index);
-            },
-            background: Container(
-              color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Icon(Iconsax.trash, color: Colors.white),
-
-                    SizedBox(width: 5),
-
-                    Text('Remove', style: TextStyle(color: Colors.white)),
-                  ],
-            
-                ),
-            
-              ),
-            
-            ),
-            direction: DismissDirection.endToStart,
-            child: GestureDetector(
+        return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -333,25 +306,72 @@ class WalletPageBody extends StatelessWidget {
               child: AssetsItemComponent(
                 scModel: lsAsset[index]
               )
-            ),
-          ) 
-          : GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                Transition(
-                  child: AssetInfo(
-                    index: index,
-                    scModel: lsAsset[index]
-                  ),
-                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                ),
-              );
-            },
-            child: AssetsItemComponent(
-              scModel: lsAsset[index]
             )
-          );
+        // lsAsset[index].isAdded == true
+        //   ? 
+          // Dismissible(
+          //   key: Key(index.toString()),
+          //   onDismissed: (DismissDirection dismissDirection) async {
+
+          //     await dismiss(lsAsset, index);
+          //   },
+
+          //   background: Container(
+          //     color: Colors.red,
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(15),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.end,
+          //         children: const [
+          //           Icon(Iconsax.trash, color: Colors.white),
+
+          //           SizedBox(width: 5),
+
+          //           Text('Remove', style: TextStyle(color: Colors.white)),
+          //         ],
+            
+          //       ),
+            
+          //     ),
+            
+          //   ),
+          //   direction: DismissDirection.endToStart,
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       Navigator.push(
+          //         context,
+          //         Transition(
+          //           child: AssetInfo(
+          //             index: index,
+          //             scModel: lsAsset[index]
+          //           ),
+          //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          //         ),
+          //       );
+          //     },
+          //     child: AssetsItemComponent(
+          //       scModel: lsAsset[index]
+          //     )
+          //   ),
+          // ) 
+          // : GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       Transition(
+          //         child: AssetInfo(
+          //           index: index,
+          //           scModel: lsAsset[index]
+          //         ),
+          //         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+          //       ),
+          //     );
+          //   },
+          //   child: AssetsItemComponent(
+          //     scModel: lsAsset[index]
+          //   )
+          // )
+          ;
       }
     );
   }
