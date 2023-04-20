@@ -49,13 +49,12 @@ class SwapProvider extends ChangeNotifier{
       if (element.id == "tether") return true;
       return false;
     }).toList();
+    
 
     List<SmartContractModel> found2 = contractProvider!.sortListContract.where((element) {
       if (element.id == "ethereum") return true;
       return false;
     }).toList();
-
-    print("found1[0].logo! ${found1[0].logo!}");
 
     // Init Token
     name1 = found1[0].symbol!;
@@ -70,9 +69,11 @@ class SwapProvider extends ChangeNotifier{
     
     balance1 = "0";//found1[0].balance!;
     balance2 = "0";//found2[0].balance!;
+
+    print("finish initList");
   }
 
-  void setList(){
+  void setList() async {
 
     ls.clear();
 
@@ -83,6 +84,9 @@ class SwapProvider extends ChangeNotifier{
       }
 
     }
+
+    await Future.delayed(Duration(milliseconds: 200), (){});
+    notifyListeners();
 
   }
 
@@ -106,6 +110,8 @@ class SwapProvider extends ChangeNotifier{
       )
     );
 
+    print("ls.length ${ls.length}");
+
     // ls2.add(
     //   SwapTokenListModel(
     //     title: lstCoins![i]['code'],
@@ -124,10 +130,7 @@ class SwapProvider extends ChangeNotifier{
   }
 
   void setNewAsset(int index){
-    print("setNewAsset $index");
-    print("ls[index].network! ${ls[index].network}");
-    print("ls[index].networkCode! ${ls[index].networkCode}");
-    print("label $label");
+    
     if (label == "first"){
 
       name1 = ls[index].title!;
@@ -184,7 +187,7 @@ class SwapProvider extends ChangeNotifier{
     searched = [];
 
     /// From LetsExchange API
-    lstCoins = [];
+    // lstCoins = [];
 
     model = SwapPageModel();
 

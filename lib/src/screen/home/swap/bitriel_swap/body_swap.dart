@@ -82,7 +82,6 @@ class SwapPageBody extends StatelessWidget {
                           onPressed: ()async {
                             
                             await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
-                              print("value ${value.body}");
                               if (value.statusCode == 200){
                                 pro.resTwoCoinModel!.fromJson(json.decode(value.body));
                                 pro.balance2 = pro.resTwoCoinModel!.amount.toString();
@@ -439,7 +438,7 @@ class SwapPageBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: hexaCodeToColor(AppColors.lightColorBg)
             ),
-            child: Row(
+            child: provider.ls.isEmpty ? const MyText(text: ".....", pLeft: 20, pRight: 20, pTop: 5, pBottom: 5,) : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
