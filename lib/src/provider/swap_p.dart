@@ -27,10 +27,10 @@ class SwapProvider extends ChangeNotifier{
   /// From LetsExchange API
   List<dynamic>? lstCoins = [];
 
-  SwapPageModel model = SwapPageModel();
+  SwapPageModel? model = SwapPageModel();
 
-  SwapTokenListModel swapTokenListModel = SwapTokenListModel();
-  SwapTokenListModel swapTokenListModel2 = SwapTokenListModel();
+  SwapTokenListModel? swapTokenListModel = SwapTokenListModel();
+  SwapTokenListModel? swapTokenListModel2 = SwapTokenListModel();
   InfoTwoCoinModel? twoCoinModel;
   ResInfoTwoCoinModel? resTwoCoinModel;
 
@@ -38,11 +38,8 @@ class SwapProvider extends ChangeNotifier{
   ApiProvider? apiProvider;
 
   initList({required BuildContext? context}){
-    
-    ls.clear();
-    ls2.clear();
-    twoCoinModel = InfoTwoCoinModel();
-    resTwoCoinModel = ResInfoTwoCoinModel();
+
+    init();
 
     searched.clear();
 
@@ -83,34 +80,6 @@ class SwapProvider extends ChangeNotifier{
       }
 
     }
-    // for(int i = 0; i < contractProvider!.sortListContract.length; i++){
-
-    //   ls.add(
-    //     SwapTokenListModel(
-    //       title: contractProvider!.sortListContract[i].symbol,
-    //       subtitle: contractProvider!.sortListContract[i].name,
-    //       isActive: index2 == i ? true : false,
-    //       image: contractProvider!.sortListContract[i].logo!.contains('http') 
-    //       ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
-    //       : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
-    //       balance: contractProvider!.sortListContract[i].balance,
-          
-    //     )
-    //   );
-
-    //   ls2.add(
-    //     SwapTokenListModel(
-    //       title: contractProvider!.sortListContract[i].symbol,
-    //       subtitle: contractProvider!.sortListContract[i].name,
-    //       isActive: index1 == i ? true : false,
-    //       image: contractProvider!.sortListContract[i].logo!.contains('http') 
-    //       ? Image.network(contractProvider!.sortListContract[i].logo!, width: 10)
-    //       : Image.asset(contractProvider!.sortListContract[i].logo!, width: 10),
-    //       balance: contractProvider!.sortListContract[i].balance,
-    //     )
-    //   );
-
-    // }
 
   }
 
@@ -180,6 +149,72 @@ class SwapProvider extends ChangeNotifier{
     // await contractProvider!.bscClient.sendTransaction(
     //   cred, transaction
     // );
+  }
+
+  void init(){
+
+    label = "";
+    index1 = 0;
+    index2 = 1;
+
+    name1 = "";
+    logo1;
+    network1 = "";
+
+    name2 = "";
+    logo2;
+    network2 = "";
+
+    balance1 = "";
+    balance2 = "";
+
+    ls = [];
+    ls2 = [];
+    searched = [];
+
+    /// From LetsExchange API
+    lstCoins = [];
+
+    model = SwapPageModel();
+
+    swapTokenListModel = SwapTokenListModel();
+    swapTokenListModel2 = SwapTokenListModel();
+    twoCoinModel = InfoTwoCoinModel();
+    resTwoCoinModel = ResInfoTwoCoinModel();
+  }
+
+  void reset(){
+    label = "";
+    index1 = 0;
+    index2 = 1;
+
+    name1 = "";
+    logo1;
+    network1 = "";
+
+    name2 = "";
+    logo2;
+    network2 = "";
+
+    balance1 = "";
+    balance2 = "";
+
+    ls = [];
+    ls2 = [];
+    searched = [];
+
+    /// From LetsExchange API
+    lstCoins = [];
+
+    model = null;
+
+    swapTokenListModel = null;
+    swapTokenListModel2 = null;
+    twoCoinModel = null;
+    resTwoCoinModel = null;
+
+    contractProvider = null;
+    apiProvider = null;
   }
 
   void notifyDataChanged(){

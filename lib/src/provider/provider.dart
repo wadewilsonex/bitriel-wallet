@@ -39,6 +39,7 @@ class ContractsBalance extends ChangeNotifier {
         await apiProvider!.subSELNativeBalance(context: _context);
         await contractProvider!.ethWallet();
         await contractProvider!.bnbWallet();
+        await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tether);
         await contractProvider!.kgoTokenWallet();
 
         print("finish 4 asset");

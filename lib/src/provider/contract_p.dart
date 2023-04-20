@@ -1070,6 +1070,7 @@ class ContractProvider with ChangeNotifier {
           marketPrice: _marketProvider!.lsCoin!.isEmpty ? '' : _marketProvider!.queried!['current_price'].toString(),
           contract: apiProvider.isMainnet ? contractAddr: '',
           contractTest: apiProvider.isMainnet ? '' : contractAddr,
+          isAdded: true
         );
         
         newContract.money = ( double.parse(tmpBalance.replaceAll(",", "")) * (_marketProvider!.lsCoin!.isNotEmpty ? _marketProvider!.queried!['price_change_percentage_24h'] : 1.0) );

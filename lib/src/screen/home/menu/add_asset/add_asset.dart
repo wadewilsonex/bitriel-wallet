@@ -292,10 +292,13 @@ class AddAssetState extends State<AddAsset> {
           await searchEtherContract();
         } 
         else {
+
           if(!mounted) return;
           final res = await Provider.of<ContractProvider>(context, listen: false).query(_modelAsset.controllerAssetCode.text, 'symbol', []);
           
           _tokenSymbol = res[0].toString();
+
+          print("_tokenSymbol $_tokenSymbol");
 
           if (!mounted) return;
           await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
@@ -303,6 +306,7 @@ class AddAssetState extends State<AddAsset> {
           if (!mounted) return;
           if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
                 
+            print("Provider.of<MarketProvider>(context, listen: false).lsCoin! ${Provider.of<MarketProvider>(context, listen: false).lsCoin!}");
             setState(() {
               _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
             });
@@ -369,8 +373,11 @@ class AddAssetState extends State<AddAsset> {
   }
 
   Future<void> searchEtherContract() async {
+
+    print("searchEtherContract");
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
+      print("Res $res");
       if (res != null) {
         setState(() {
           _tokenSymbol = res[0].toString();
@@ -463,6 +470,7 @@ class AddAssetState extends State<AddAsset> {
       ),
       body: Stack(
         children: [
+
           AddAssetBody(
             assetM: _modelAsset,
             initialValue: initialValue,
@@ -483,6 +491,7 @@ class AddAssetState extends State<AddAsset> {
             queryContractAddress: queryContractAddress,
             searchResultsData: searchResults
           ),
+
           (_modelAsset.added == false)
           ? Container()
           : BackdropFilter(

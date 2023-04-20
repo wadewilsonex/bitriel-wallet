@@ -13,12 +13,14 @@ class WalletPageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final TextEditingController? searchController;
+  final Function? dismiss;
 
   const WalletPageBody({
     Key? key,
     this.homePageModel,
     this.model,
     this.searchController,
+    this.dismiss
   }) : super(key: key);
 
   @override
@@ -64,13 +66,13 @@ class WalletPageBody extends StatelessWidget {
             ),
           ],
           
-          body: _tabBarView(context),
+          body: _tabBarView(context, dismiss!),
         ),
       ),
     );
   }
 
-  Widget _tabBarView(BuildContext context) {
+  Widget _tabBarView(BuildContext context, Function dismiss) {
     return TabBarView(
       children: [
         
@@ -81,7 +83,11 @@ class WalletPageBody extends StatelessWidget {
               children: [
 
                 const SizedBox(height: 10),
-                _selendraNetworkList(context, Provider.of<ContractProvider>(context).sortListContract),
+                Consumer<ContractProvider>(
+                  builder: (context, pro, wg) {
+                    return _selendraNetworkList(context, pro.sortListContract, pro, dismiss);
+                  }
+                ),
 
                 _addMoreAsset(context),
               ],
@@ -278,29 +284,56 @@ class WalletPageBody extends StatelessWidget {
     );
   }
 
-  Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset){
+  Widget _selendraNetworkList(BuildContext context, List<SmartContractModel> lsAsset, ContractProvider pro, Function dismiss){
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: lsAsset.length,
       shrinkWrap: true,
       itemBuilder: (context, index){
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              Transition(
-                child: AssetInfo(
-                  index: index,
-                  scModel: lsAsset[index]
+        return lsAsset[index].isAdded == true
+          ? Dismissible(
+            key: Key(index.toString()),
+            onDismissed: (DismissDirection dismissDirection) async {
+
+              await dismiss(lsAsset, index);
+            },
+            background: Container(color: Colors.red),
+            direction: DismissDirection.endToStart,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  Transition(
+                    child: AssetInfo(
+                      index: index,
+                      scModel: lsAsset[index]
+                    ),
+                    transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                  ),
+                );
+              },
+              child: AssetsItemComponent(
+                scModel: lsAsset[index]
+              )
+            ),
+          ) 
+          : GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                Transition(
+                  child: AssetInfo(
+                    index: index,
+                    scModel: lsAsset[index]
+                  ),
+                  transitionEffect: TransitionEffect.RIGHT_TO_LEFT
                 ),
-                transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-              ),
-            );
-          },
-          child: AssetsItemComponent(
-            scModel: lsAsset[index]
-          )
-        );
+              );
+            },
+            child: AssetsItemComponent(
+              scModel: lsAsset[index]
+            )
+          );
       }
     );
   }

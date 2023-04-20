@@ -20,6 +20,7 @@ class SmartContractModel {
   int? chainDecimal;
   bool? isContain;
   bool? show;
+  bool? isAdded;
   String? maxSupply;
   String? description;
   List<TransactionInfo>? listActivity = [];
@@ -51,7 +52,8 @@ class SmartContractModel {
     this.lineChartModel,
     this.contract,
     this.contractTest,
-    this.chart
+    this.chart,
+    this.isAdded = false
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -78,6 +80,7 @@ class SmartContractModel {
       show: json['show'],
       maxSupply: json['max_supply'],
       description: json['description'],
+      isAdded: json['isAdded'] ?? false
     );
   }
 
@@ -101,7 +104,8 @@ class SmartContractModel {
     'lineChartModel': LineChartModel.toJson(asset.lineChartModel!),
     'show': asset.show,
     'max_supply': asset.maxSupply,
-    'description': asset.description
+    'description': asset.description,
+    'isAdded': asset.isAdded,
   };
 
   static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {

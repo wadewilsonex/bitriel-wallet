@@ -84,10 +84,10 @@ class _SwapPageState extends State<SwapPage> {
   void percentTap(int index){
 
     setState(() {
-      _swapProvider!.model.percentActive = index;
-      // _swapProvider!.model.myController!.text = calculateAmount(percentage, _swapProvider!.model.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(RegExp('[^A-Za-z0-9]'), ""))).toString();
-      _swapProvider!.model.myController!.text = calculateAmount(percentage, _swapProvider!.model.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(",", ""))).toStringAsFixed(5);
-      _swapProvider!.model.cursor = _swapProvider!.model.myController!.text.length;
+      _swapProvider!.model!.percentActive = index;
+      // _swapProvider!.model!.myController!.text = calculateAmount(percentage, _swapProvider!.model!.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(RegExp('[^A-Za-z0-9]'), ""))).toString();
+      _swapProvider!.model!.myController!.text = calculateAmount(percentage, _swapProvider!.model!.percentActive! - 1, double.parse(_swapProvider!.balance1.replaceAll(",", ""))).toStringAsFixed(5);
+      _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.text.length;
       setCursor();
     });
   }
@@ -105,85 +105,85 @@ class _SwapPageState extends State<SwapPage> {
 
   void onDeleteTxt() async {
     
-    _swapProvider!.model.cursor = _swapProvider!.model.myController!.selection.base.offset;
-    if (_swapProvider!.model.myController!.text.isNotEmpty){
+    _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.selection.base.offset;
+    if (_swapProvider!.model!.myController!.text.isNotEmpty){
 
-      if (_swapProvider!.model.myController!.text.contains("0.")){
-        if (_swapProvider!.model.myController!.text == "0."){
-          _swapProvider!.model.myController!.text = _swapProvider!.model.myController!.text.replaceRange(0, _swapProvider!.model.myController!.text.length, "");
-          _swapProvider!.model.cursor = _swapProvider!.model.cursor!-1;
+      if (_swapProvider!.model!.myController!.text.contains("0.")){
+        if (_swapProvider!.model!.myController!.text == "0."){
+          _swapProvider!.model!.myController!.text = _swapProvider!.model!.myController!.text.replaceRange(0, _swapProvider!.model!.myController!.text.length, "");
+          _swapProvider!.model!.cursor = _swapProvider!.model!.cursor!-1;
         }
         else {
-          _swapProvider!.model.myController!.text = _swapProvider!.model.myController!.text.replaceRange(_swapProvider!.model.cursor!-1, _swapProvider!.model.cursor!, "");
+          _swapProvider!.model!.myController!.text = _swapProvider!.model!.myController!.text.replaceRange(_swapProvider!.model!.cursor!-1, _swapProvider!.model!.cursor!, "");
         }
       }
       else if (isCursorMove()){
-        _swapProvider!.model.myController!.text = _swapProvider!.model.myController!.text.replaceRange(_swapProvider!.model.cursor!-1, _swapProvider!.model.cursor!, "");
+        _swapProvider!.model!.myController!.text = _swapProvider!.model!.myController!.text.replaceRange(_swapProvider!.model!.cursor!-1, _swapProvider!.model!.cursor!, "");
       } 
       else {
-        _swapProvider!.model.myController!.text = _swapProvider!.model.myController!.text.replaceRange(_swapProvider!.model.myController!.text.length-1, _swapProvider!.model.myController!.text.length, "");
+        _swapProvider!.model!.myController!.text = _swapProvider!.model!.myController!.text.replaceRange(_swapProvider!.model!.myController!.text.length-1, _swapProvider!.model!.myController!.text.length, "");
         // setCursor();
       }
-      _swapProvider!.model.cursor = _swapProvider!.model.cursor!-1;
-      setCursor(newPos: _swapProvider!.model.cursor);
+      _swapProvider!.model!.cursor = _swapProvider!.model!.cursor!-1;
+      setCursor(newPos: _swapProvider!.model!.cursor);
       
-      // if (_swapProvider!.model.cursor != -1){
-      //   _swapProvider!.model.myController!.selection = TextSelection.fromPosition(TextPosition(offset: _swapProvider!.model.cursor!-1));
+      // if (_swapProvider!.model!.cursor != -1){
+      //   _swapProvider!.model!.myController!.selection = TextSelection.fromPosition(TextPosition(offset: _swapProvider!.model!.cursor!-1));
       // }
 
     }
   }
 
   void onTabNum(String txt) async {
-    _swapProvider!.model.cursor = _swapProvider!.model.myController!.selection.base.offset;
+    _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.selection.base.offset;
 
     if (checkCommaLength() == false && isMultiComma(txt) == false){
-      if (_swapProvider!.model.myController!.text.isEmpty){
+      if (_swapProvider!.model!.myController!.text.isEmpty){
 
-        if ( _swapProvider!.model.myController!.text.isEmpty && txt == "."){
-          _swapProvider!.model.myController!.text += "0";
+        if ( _swapProvider!.model!.myController!.text.isEmpty && txt == "."){
+          _swapProvider!.model!.myController!.text += "0";
         }
-        _swapProvider!.model.myController!.text += txt;
-        _swapProvider!.model.cursor = _swapProvider!.model.myController!.text.length;
+        _swapProvider!.model!.myController!.text += txt;
+        _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.text.length;
 
       } else {
 
         if (isCursorMove()){
-          _swapProvider!.model.lsTmp = _swapProvider!.model.myController!.text.split("");
-          _swapProvider!.model.lsTmp.insert(_swapProvider!.model.cursor!, txt);
+          _swapProvider!.model!.lsTmp = _swapProvider!.model!.myController!.text.split("");
+          _swapProvider!.model!.lsTmp.insert(_swapProvider!.model!.cursor!, txt);
 
-          _swapProvider!.model.myController!.text = _swapProvider!.model.lsTmp.join();
+          _swapProvider!.model!.myController!.text = _swapProvider!.model!.lsTmp.join();
         } 
         else {
-          _swapProvider!.model.myController!.text += txt;
+          _swapProvider!.model!.myController!.text += txt;
         }
-        _swapProvider!.model.cursor = _swapProvider!.model.cursor!+1;
+        _swapProvider!.model!.cursor = _swapProvider!.model!.cursor!+1;
       }
     }
 
-    setCursor(newPos: _swapProvider!.model.cursor);
+    setCursor(newPos: _swapProvider!.model!.cursor);
   }
   
 
   void setCursor({ int? newPos}){
 
-    _swapProvider!.model.myController!.selection = TextSelection.fromPosition(TextPosition(offset: newPos ?? _swapProvider!.model.myController!.text.length));
-    _swapProvider!.model.cursor = _swapProvider!.model.myController!.text.length;
+    _swapProvider!.model!.myController!.selection = TextSelection.fromPosition(TextPosition(offset: newPos ?? _swapProvider!.model!.myController!.text.length));
+    _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.text.length;
     setState(() { });
   }
   
   /* -- Validation -- */
 
   bool isCursorMove(){
-    if (_swapProvider!.model.cursor == -1) return false;
-    return _swapProvider!.model.cursor != _swapProvider!.model.length;
+    if (_swapProvider!.model!.cursor == -1) return false;
+    return _swapProvider!.model!.cursor != _swapProvider!.model!.length;
   }
 
   bool isMultiComma(String txt){
     
-    for (int i = 0; i< _swapProvider!.model.myController!.text.length; i++){
+    for (int i = 0; i< _swapProvider!.model!.myController!.text.length; i++){
       if (txt != ".") break;
-      if (_swapProvider!.model.myController!.text[i] == "."){
+      if (_swapProvider!.model!.myController!.text[i] == "."){
         return true;
       }
     }
@@ -192,14 +192,14 @@ class _SwapPageState extends State<SwapPage> {
 
   bool checkCommaLength(){
 
-    int dotPosition = _swapProvider!.model.myController!.text.indexOf(".");
+    int dotPosition = _swapProvider!.model!.myController!.text.indexOf(".");
 
-    if (dotPosition != -1 && dotPosition != _swapProvider!.model.myController!.text.length) {
-      // print(int.parse((_swapProvider!.model.myController!.text[dotPosition])));
+    if (dotPosition != -1 && dotPosition != _swapProvider!.model!.myController!.text.length) {
+      // print(int.parse((_swapProvider!.model!.myController!.text[dotPosition])));
 
-      if ( (_swapProvider!.model.myController!.text.length - dotPosition) > 5){
+      if ( (_swapProvider!.model!.myController!.text.length - dotPosition) > 5){
 
-        _swapProvider!.model.myController!.text = double.parse(_swapProvider!.model.myController!.text).toStringAsFixed(5);
+        _swapProvider!.model!.myController!.text = double.parse(_swapProvider!.model!.myController!.text).toStringAsFixed(5);
 
         setState(() {});
       
@@ -212,15 +212,15 @@ class _SwapPageState extends State<SwapPage> {
   void resetCursor(){
 
     // When Input Over 2 number
-    // if (_swapProvider!.model.myController!.selection.base.offset != -1){
+    // if (_swapProvider!.model!.myController!.selection.base.offset != -1){
 
-    //   if( _swapProvider!.model.myController!.selection.base.offset != _swapProvider!.model.cursor){
-    //     _swapProvider!.model.cursor = _swapProvider!.model.myController!.selection.base.offset;
+    //   if( _swapProvider!.model!.myController!.selection.base.offset != _swapProvider!.model!.cursor){
+    //     _swapProvider!.model!.cursor = _swapProvider!.model!.myController!.selection.base.offset;
     //   }
     //   else {
-    //     _swapProvider!.model.cursor = _swapProvider!.model.cursor! - 1;
+    //     _swapProvider!.model!.cursor = _swapProvider!.model!.cursor! - 1;
     //   }
-    //   _swapProvider!.model.myController!.selection = TextSelection.fromPosition(TextPosition(offset: _swapProvider!.model.cursor!));
+    //   _swapProvider!.model!.myController!.selection = TextSelection.fromPosition(TextPosition(offset: _swapProvider!.model!.cursor!));
     // }
 
     // setState(() { });
@@ -232,7 +232,7 @@ class _SwapPageState extends State<SwapPage> {
 
       dialogLoading(context);
       // _http.Response value = _http.Response(json.encode(m), 200);
-      await PostRequest.swap(_swapProvider!.model.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) async {
+      await PostRequest.swap(_swapProvider!.model!.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) async {
         print("value ${value.body}");
         if (value.statusCode == 200){
           // Close Dialog
@@ -298,15 +298,16 @@ class _SwapPageState extends State<SwapPage> {
     _swapProvider!.initList(context: context);
     _swapProvider!.setList();
 
-    _swapProvider!.model.myController!.addListener(() {
-
-      print("fuck");
+    _swapProvider!.model!.myController!.addListener(() {
 
       // count = 0;
+      print("_swapProvider!.model!.myController!.text ${_swapProvider!.model!.myController!.text}");
+
+      _swapProvider!.balance1 = _swapProvider!.model!.myController!.text;
       
-      _swapProvider!.model.length = _swapProvider!.model.myController!.text.length;
-      if (_swapProvider!.model.focusNode!.hasFocus == false){
-        FocusScope.of(context).requestFocus(_swapProvider!.model.focusNode!);
+      _swapProvider!.model!.length = _swapProvider!.model!.myController!.text.length;
+      if (_swapProvider!.model!.focusNode!.hasFocus == false){
+        FocusScope.of(context).requestFocus(_swapProvider!.model!.focusNode!);
       }
 
       setState(() { });
@@ -320,6 +321,7 @@ class _SwapPageState extends State<SwapPage> {
 
   @override
   void dispose() {
+    _swapProvider!.reset();
     super.dispose();
   }
   
@@ -328,7 +330,7 @@ class _SwapPageState extends State<SwapPage> {
     return SwapPageBody(
       onChanged: onChanged,
       onDeleteTxt: onDeleteTxt,
-      swapPageModel: _swapProvider!.model,
+      swapPageModel: _swapProvider!.model!,
       percentTap: percentTap,
       onTabNum: onTabNum,
       calculateAmount: calculateAmount,

@@ -19,15 +19,15 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
   final TextEditingController? searchController = TextEditingController();
 
+  ContractProvider? contract;
   int changeVertical = 0;
 
   final AssetPageModel _model = AssetPageModel();
 
   Future<void> scrollRefresh() async {
 
-    final contract = Provider.of<ContractProvider>(context, listen: false);
 
-    contract.isReady = false;
+    contract!.isReady = false;
 
     setState(() {});
       _model.indicator!.currentState!.show();
@@ -50,7 +50,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     } 
 
     // To Disable Asset Loading
-    contract.setReady();
+    contract!.setReady();
   }
 
   @override
@@ -60,6 +60,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     _model.assetLength = Provider.of<ContractProvider>(context, listen: false).sortListContract.length;
     _model.indicator = GlobalKey<RefreshIndicatorState>();
     _model.scrollController = ScrollController();
+    contract = Provider.of<ContractProvider>(context, listen: false);
     /// If Do transaction We need to refetch All Asset's Data.
     if (widget.isTrx == true){
       Provider.of<ContractsBalance>(context, listen: false).refetchContractBalance(context: context);
@@ -78,6 +79,24 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
     super.initState();
   }
 
+  Future<void> dismiss(List<SmartContractModel> lsAsset, index) async {
+
+    await Future.delayed(Duration(seconds: 1), (){});
+    List found = contract!.addedContract.where((element) {
+      if (element.contract == lsAsset[index].contract) return true;
+      return false; 
+    }).toList();
+    
+    print((contract!.addedContract.indexOf(found[0])));
+
+    contract!.addedContract.remove(found[0]);
+    contract!.sortListContract.remove(found[0]);
+
+    await StorageServices.storeAssetData(context);
+    
+    contract!.notifyListeners();
+  }
+
   @override
   void dispose() {
     _model.scrollController!.dispose();
@@ -93,6 +112,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
         homePageModel: widget.homePageModel!,
         model: _model,
         searchController: searchController,
+        dismiss: dismiss
       )
     );
   }

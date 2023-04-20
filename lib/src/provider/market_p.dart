@@ -222,8 +222,8 @@ class MarketProvider with ChangeNotifier {
     print("queryCoinFromMarket");
     try {
 
-      http.Response value = await http.Response(json.encode(mkData), 200);
-      // await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id')).then((value) async {
+      // http.Response value = await http.Response(json.encode(mkData), 200);
+      await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id')).then((value) async {
 
         if (value.statusCode == 200 && json.decode(value.body).isNotEmpty){
 
@@ -232,7 +232,7 @@ class MarketProvider with ChangeNotifier {
           queried = {};
         }
 
-      // });
+      });
 
       print("queried queryCoinFromMarket $queried");
       
