@@ -26,7 +26,7 @@ class ContractService implements IContractService {
     } catch (e) {
 
       if (kDebugMode) {
-        print("Error _queryContract $e");
+        debugPrint("Error _queryContract $e");
       }
     }
     return [];
@@ -51,7 +51,7 @@ class ContractService implements IContractService {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error getTokenBalance $e");
+        debugPrint("Error getTokenBalance $e");
       }
     }
     return 0 as BigInt;
@@ -91,7 +91,7 @@ class ContractService implements IContractService {
           } catch (e) {
             
             if (kDebugMode) {
-              print("Error $e");
+              debugPrint("Error $e");
             }
           }
         })
@@ -112,10 +112,10 @@ class ContractService implements IContractService {
       final sender = await credentials.extractAddress();
       final maxGas = await getMaxGas(sender, txInfo);
 
-      print("credentials ${credentials.address}");
-      print("txInfo ${txInfo}");
-      print("sender ${sender.hex}");
-      print("maxGas ${maxGas.toString()}");
+      debugPrint("credentials ${credentials.address}");
+      debugPrint("txInfo ${txInfo}");
+      debugPrint("sender ${sender.hex}");
+      debugPrint("maxGas ${maxGas.toString()}");
 
       res = await _client.sendTransaction(
         credentials,
@@ -135,7 +135,7 @@ class ContractService implements IContractService {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err sendToken $e");
+          debugPrint("Err sendToken $e");
         }
       
       throw Exception(e);
@@ -157,7 +157,7 @@ class ContractService implements IContractService {
       return res.first;
     } catch (e){
         if (kDebugMode) {
-          print("err getChainDecimal $e");
+          debugPrint("err getChainDecimal $e");
         }
     }
     return 0 as BigInt;

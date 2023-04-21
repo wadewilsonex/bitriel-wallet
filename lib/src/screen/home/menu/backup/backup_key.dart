@@ -36,11 +36,11 @@ class _BackUpKeyState extends State<BackUpKey> {
   //   try {
   //     await FlutterScreenshotSwitcher.disableScreenshots();
   //     // await FlutterScreenshotSwitcher.enableScreenshots().then((value) {
-  //     //   print("Value $value");
+  //     //   debugPrint("Value $value");
   //     // });
   //   } catch (e) {
   //     if (kDebugMode) {
-  //       print("disableScreenShot $e");
+  //       debugPrint("disableScreenShot $e");
   //     }
   //   }
   // }
@@ -48,7 +48,7 @@ class _BackUpKeyState extends State<BackUpKey> {
   @override
   void initState(){
 
-    print("widget.acc!.address ${widget.acc!.address}");
+    debugPrint("widget.acc!.address ${widget.acc!.address}");
 
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     super.initState();

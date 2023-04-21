@@ -43,7 +43,7 @@ class ContractsBalance extends ChangeNotifier {
         await contractProvider!.getBep20Balance(contractIndex: apiProvider!.tether);
         await contractProvider!.kgoTokenWallet();
 
-        print("finish 4 asset");
+        debugPrint("finish 4 asset");
 
         // Attendance Token
         // if (apiProvider!.isMainnet) await contractProvider!.getBep20Balance(contractIndex: 8);
@@ -52,11 +52,11 @@ class ContractsBalance extends ChangeNotifier {
         // This Method Is Also Requeste Polkadot Contract
         // await apiProvider!.getBtcBalance(context: _context);
         
-        print("finish btc");
+        debugPrint("finish btc");
 
         // await apiProvider.connectPolNon(context: _context);
 
-        print("finish totalBalance");
+        debugPrint("finish totalBalance");
 
         // Sort After MarketPrice Filled Into Asset
         await contractProvider!.sortAsset();
@@ -64,7 +64,7 @@ class ContractsBalance extends ChangeNotifier {
         /// Fetch main balance
         await apiProvider!.totalBalance(context: _context!);
 
-        print("finish sort");
+        debugPrint("finish sort");
 
         contractProvider!.setReady();
         
@@ -75,7 +75,7 @@ class ContractsBalance extends ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("error getAllAssetBalance $e");
+          debugPrint("error getAllAssetBalance $e");
         }
       
     }
@@ -159,7 +159,7 @@ class ContractsBalance extends ChangeNotifier {
       
     } catch (e) {
         if (kDebugMode) {
-          print("error refetchContractBalance $e ");
+          debugPrint("error refetchContractBalance $e ");
         }
       
     }

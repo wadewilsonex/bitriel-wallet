@@ -182,11 +182,11 @@ class _TicketCardComponentState extends State<TicketCardComponent> {
     //             TicketItemComponent(
     //               label: "Select Joining Date",
     //               onTap: () async {
-    //                 print("dateTimePicker");
+    //                 debugPrint("dateTimePicker");
     //                 await dateTimePicker(
     //                   context: context
     //                 ).then((value) {
-    //                   print("Result ${value}");
+    //                   debugPrint("Result ${value}");
     //                   if (value != null){
 
     //                   }

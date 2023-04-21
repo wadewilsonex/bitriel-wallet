@@ -103,7 +103,7 @@ class AuthenticationState extends State<Authentication> {
     } catch (e) {
 
       if (kDebugMode) {
-        print("_deleteAccount ${e.toString()}");
+        debugPrint("_deleteAccount ${e.toString()}");
       }
       // await dialog(context, e.toString(), 'Opps');
     }
@@ -113,7 +113,6 @@ class AuthenticationState extends State<Authentication> {
     
     await StorageServices.readSecure(DbKey.password)!.then((value) async {
 
-      print(value == _pwdController.text);
       if (value == _pwdController.text){
         Navigator.pushNamedAndRemoveUntil(
           context, 
@@ -190,7 +189,7 @@ class AuthenticationState extends State<Authentication> {
             content: Padding(
               padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: MyText(
-                text: "Your device doesn't have finger print! Set up to enable this feature",
+                text: "Your device doesn't have finger debugPrint! Set up to enable this feature",
                 hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey
               ),
             ),
@@ -297,7 +296,7 @@ class AuthenticationState extends State<Authentication> {
           const SizedBox(
             height: 100.0,
           ),
-          Image.asset("assets/logo/fingerprint.png",),
+          Image.asset("assets/logo/fingerdebugPrint.png",),
           const SizedBox(
             height: 20.0,
           ),

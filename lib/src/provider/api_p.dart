@@ -73,7 +73,7 @@ class ApiProvider with ChangeNotifier {
       
     } catch (e) {
       if (kDebugMode) {
-        print("Error initSelendraEndpoint $e");
+        debugPrint("Error initSelendraEndpoint $e");
       }
     }
     
@@ -114,7 +114,7 @@ class ApiProvider with ChangeNotifier {
 
     } catch (e) {
       if (kDebugMode) {
-        print("Error initApi $e");
+        debugPrint("Error initApi $e");
       }
     }
   }
@@ -147,7 +147,7 @@ class ApiProvider with ChangeNotifier {
   //   } catch (e) {
   //     
   //       if (kDebugMode) {
-  //         print("Error connectPolNon $e");
+  //         debugPrint("Error connectPolNon $e");
   //       }
   //     
   //   }
@@ -309,36 +309,36 @@ class ApiProvider with ChangeNotifier {
 
   Future<dynamic> getAddressUxto(String address) async {
     if (kDebugMode) {
-      print("getAddressUxto $address");
+      debugPrint("getAddressUxto $address");
     }
     try {
 
       final res = await http.get(Uri.parse('https://blockstream.info/api/address/$address/utxo'));
 
-      print("res.body ${res.body}");
+      debugPrint("res.body ${res.body}");
 
       return json.decode(res.body);
     } catch (e){
       
         if (kDebugMode) {
-          print("Err getAddressUxto $e");
+          debugPrint("Err getAddressUxto $e");
         }
       
     }
   }
 
   Future<void> totalBalance({@required BuildContext? context}) async {
-    print("totalBalance $context");
+    debugPrint("totalBalance $context");
     final contract = Provider.of<ContractProvider>(context!, listen: false);
     
     double total = 0.0;
 
     var balanceList = [];
 
-    print("contract.sortListContract ${contract.sortListContract}");
+    debugPrint("contract.sortListContract ${contract.sortListContract}");
     
     for (var element in contract.sortListContract) {
-      print(element.marketPrice ?? 'null veryyyy');
+      debugPrint(element.marketPrice ?? 'null veryyyy');
       if(element.marketPrice != null && element.marketPrice!.isNotEmpty){
         total = double.parse(element.balance!.replaceAll(",", "")) * double.parse(element.marketPrice!);
         balanceList.add(total);
@@ -354,7 +354,7 @@ class ApiProvider with ChangeNotifier {
   Future<void> getBtcBalance({@required BuildContext? context}) async {
     
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    print("contract.listContract[btcIndex].address! ${contract.listContract[btcIndex].address!}");
+    debugPrint("contract.listContract[btcIndex].address! ${contract.listContract[btcIndex].address!}");
     try {
       int totalSatoshi = 0;
       final res = await getAddressUxto(contract.listContract[btcIndex].address!);
@@ -377,7 +377,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err getBtcBalance $e");
+          debugPrint("Err getBtcBalance $e");
         }
       
     }
@@ -415,7 +415,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateMnemonic $e");
+          debugPrint("Error validateMnemonic $e");
         }
       
     }
@@ -430,7 +430,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateEther $e");
+          debugPrint("Error validateEther $e");
         }
       
     }
@@ -445,7 +445,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getPrivateKey $e");
+          debugPrint("Error getPrivateKey $e");
         }
       
     }
@@ -460,7 +460,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateAddress $e");
+          debugPrint("Error validateAddress $e");
         }
       
     }
@@ -476,8 +476,8 @@ class ApiProvider with ChangeNotifier {
       node.ss58 = isMainnet ? AppConfig.networkList[0].ss58MN : AppConfig.networkList[0].ss58;
 
       await _sdk.api.connectNode(_keyring, [node]).then((value) async {
-        print("connectNode");
-        print("value $value");
+        debugPrint("connectNode");
+        debugPrint("value $value");
         netWorkConnected = await _sdk.webView!.evalJavascript("settings.getIsConnected()");
 
         notifyListeners();
@@ -497,7 +497,7 @@ class ApiProvider with ChangeNotifier {
 
     } catch (e) {
       if (kDebugMode) {
-        print("Error connectSELNode $e");
+        debugPrint("Error connectSELNode $e");
       }
     }
   }
@@ -506,7 +506,7 @@ class ApiProvider with ChangeNotifier {
   /// 
   /// Inside This Chain Decimal Also Call Get Balance
   Future<void> getSelNativeChainDecimal({@required BuildContext? context, String? funcName = 'keyring'}) async {
-    print("getSelNativeChainDecimal");
+    debugPrint("getSelNativeChainDecimal");
     try {
       dynamic res;
       
@@ -525,7 +525,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getChainDecimal $e");
+          debugPrint("Error getChainDecimal $e");
         }
       
     }
@@ -550,9 +550,9 @@ class ApiProvider with ChangeNotifier {
 
       final contract = Provider.of<ContractProvider>(context!, listen: false);
       // Provider.of<ContractProvider>(context, listen: false).setSELNativeAddr(contract.listContract[selNativeIndex].address ?? '');
-      print("contract.listContract[selNativeIndex].address! ${_keyring.current.address}");
+      debugPrint("contract.listContract[selNativeIndex].address! ${_keyring.current.address}");
       await _sdk.webView!.evalJavascript("account.getBalance(api, '${_keyring.current.address}', 'Balance')").then((value) async {
-        print("value $value");
+        debugPrint("value $value");
         contract.listContract[selNativeIndex].balance = Fmt.balance(
           value['freeBalance'].toString(),
           contract.listContract[selNativeIndex].chainDecimal!,
@@ -560,19 +560,19 @@ class ApiProvider with ChangeNotifier {
         await contract.sortAsset();
       });
       // await _sdk.api.account.subscribeBalance(contract.listContract[selNativeIndex].address, (res) async {
-      //   print("finish subscribeBalance ${res.freeBalance}");
+      //   debugPrint("finish subscribeBalance ${res.freeBalance}");
       //   contract.listContract[selNativeIndex].balance = Fmt.balance(
       //     res.freeBalance.toString(),
       //     int.parse(contract.listContract[selNativeIndex].chainDecimal!),
       //   );
-      //   print("my balance ${contract.listContract[selNativeIndex].balance}");
+      //   debugPrint("my balance ${contract.listContract[selNativeIndex].balance}");
       //   await contract.sortAsset();
       // });
 
     } catch (e) {
 
       if (kDebugMode) {
-        print("Error subscribeSELBalance $e");
+        debugPrint("Error subscribeSELBalance $e");
       }
     }
   }
@@ -607,7 +607,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err getDotChainDecimal $e");
+          debugPrint("Err getDotChainDecimal $e");
         }
       
     }
@@ -635,7 +635,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error subscribeDotBalance $e");
+          debugPrint("Error subscribeDotBalance $e");
         }
       
     }
@@ -655,7 +655,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error get icon from address $e");
+          debugPrint("Error get icon from address $e");
         }
       
     }
@@ -675,7 +675,7 @@ class ApiProvider with ChangeNotifier {
   //   } catch (e){
   //     
   //       if (kDebugMode) {
-  //         print("Error getCurrentAccount $e");
+  //         debugPrint("Error getCurrentAccount $e");
   //       }
   //     
   //   }
@@ -692,7 +692,7 @@ class ApiProvider with ChangeNotifier {
   //   } catch (e){
   //     
   //       if (kDebugMode) {
-  //         print("Error getCurrentAccount $e");
+  //         debugPrint("Error getCurrentAccount $e");
   //       }
   //     
   //   }
@@ -708,7 +708,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e){
       
         if (kDebugMode) {
-          print("Error getCurrentAccount $e");
+          debugPrint("Error getCurrentAccount $e");
         }
       
     }
@@ -741,7 +741,7 @@ class ApiProvider with ChangeNotifier {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error encryptPrivateKey $e");
+        debugPrint("Error encryptPrivateKey $e");
       }
     }
     return '';

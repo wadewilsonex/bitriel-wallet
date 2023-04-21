@@ -80,7 +80,7 @@ class AppUtils {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error timeStampToDate $e");
+        debugPrint("Error timeStampToDate $e");
       }
     }
     return '';
@@ -110,7 +110,7 @@ class AppUtils {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error timeStampToDate $e");
+        debugPrint("Error timeStampToDate $e");
       }
     }
     return '';
@@ -132,7 +132,7 @@ class AppUtils {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error timeStampToDate $e");
+        debugPrint("Error timeStampToDate $e");
       }
     }
     return '';

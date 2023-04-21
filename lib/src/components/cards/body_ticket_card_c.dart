@@ -23,7 +23,7 @@ class _TicketCardBodyState extends State<TicketCardBody> {
   //   _tkModel.scrollController = ScrollController();
 
   //   _tkModel.scrollController!.addListener(() {
-  //     print(" _tkModel.scrollController ${ _tkModel.scrollController!.initialScrollOffset}");
+  //     debugPrint(" _tkModel.scrollController ${ _tkModel.scrollController!.initialScrollOffset}");
   //     if (_tkModel.scrollController!.offset == 0.0){
   //       _tkModel.tkTypeIndex = 0;
   //     } else {
@@ -37,7 +37,7 @@ class _TicketCardBodyState extends State<TicketCardBody> {
 
   // void queryTicket() async {
 
-  //   print("queryTicket}");
+  //   debugPrint("queryTicket}");
   //   await PostRequest().getTicketsByEventId(widget.eventId!).then((value) async{
       
   //     _tkModel.ticketTypesFromApi = List<Map<String, dynamic>>.from(await json.decode(value.body));
@@ -50,7 +50,7 @@ class _TicketCardBodyState extends State<TicketCardBody> {
 
   //     });
 
-  //     print("_tkModel.lsTicketTypes ${_tkModel.lsTicketTypes}");
+  //     debugPrint("_tkModel.lsTicketTypes ${_tkModel.lsTicketTypes}");
   //     querySessionsByTicketTypeId();
   //   });
 
@@ -58,7 +58,7 @@ class _TicketCardBodyState extends State<TicketCardBody> {
 
   // void querySessionsByTicketTypeId() async {
     
-  //   print("querySessionsByTicketTypeId");
+  //   debugPrint("querySessionsByTicketTypeId");
   //   for (int i = 0; i < _tkModel.lsTicketTypes!.length; i++){
 
   //     // Initialize First List With Empty Data
@@ -84,10 +84,10 @@ class _TicketCardBodyState extends State<TicketCardBody> {
 
   // void onValueChange(String type, dynamic value) async {
     
-  //   print("onValueChange");
-  //   print("type $type");
-  //   print("value $value");
-  //   print("value.runtimeType ${value.runtimeType}");
+  //   debugPrint("onValueChange");
+  //   debugPrint("type $type");
+  //   debugPrint("value $value");
+  //   debugPrint("value.runtimeType ${value.runtimeType}");
     
   //   if (type == "join_date"){
 
@@ -117,7 +117,7 @@ class _TicketCardBodyState extends State<TicketCardBody> {
   // }
 
   // // void onChangeSession(int ticketTypeIndex, int sessionIndex, Map<String, dynamic> data){
-  // //   print("onChangeSession");
+  // //   debugPrint("onChangeSession");
   // //   // Update Session Select
   // //   _tkModel.lstMontYear![ _tkModel.lsTicketTypes![ ticketTypeIndex ].tkTypeIndex! ].initSession = sessionIndex;
 

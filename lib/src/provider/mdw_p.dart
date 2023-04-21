@@ -38,7 +38,7 @@ class MDWProvider extends ChangeNotifier {
       _mdwClient = Web3Client(ApiProvider().isMainnet ? AppConfig.networkList[4].httpUrlMN! : AppConfig.networkList[4].httpUrlTN!, Client());
     } catch (e) {
       if (kDebugMode) {
-        print("Err initNFTContract $e");
+        debugPrint("Err initNFTContract $e");
       }
     }
   }
@@ -65,7 +65,7 @@ class MDWProvider extends ChangeNotifier {
       });
     } catch (e) {
       if (kDebugMode) {
-        print("Err fetchItemsByAddress $e");
+        debugPrint("Err fetchItemsByAddress $e");
       }
     }
   }

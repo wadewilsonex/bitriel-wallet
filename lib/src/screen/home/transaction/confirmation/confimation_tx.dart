@@ -45,7 +45,7 @@ class _ConfirmationTxState extends State<ConfirmationTx> {
     if (widget.trxInfo!.receiver != null){
       addr = AppUtils.addrFmt(widget.trxInfo!.receiver.toString());
     }
-    // print("sendTrx ${sendTrx ?? 'sendTrx null'}");
+    // debugPrint("sendTrx ${sendTrx ?? 'sendTrx null'}");
     return Scaffold(
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

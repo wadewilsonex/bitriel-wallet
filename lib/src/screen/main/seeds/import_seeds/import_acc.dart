@@ -47,7 +47,7 @@ class ImportAccState extends State<ImportAcc> {
   @override
   void initState() {
 
-    print("widget.passCode ${widget.passCode}");
+    debugPrint("widget.passCode ${widget.passCode}");
 
     _apiProvider = Provider.of<ApiProvider>(context, listen: false);
     _contractProvider = Provider.of<ContractProvider>(context, listen: false);
@@ -173,7 +173,7 @@ class ImportAccState extends State<ImportAcc> {
       setState(() { });
     } catch (e) {
         if (kDebugMode) {
-          print("Error validateMnemonic $e");
+          debugPrint("Error validateMnemonic $e");
         }
     }
   }
@@ -190,7 +190,7 @@ class ImportAccState extends State<ImportAcc> {
 
     _importAccountModel.animationController!.addListener(() {
       if (kDebugMode) {
-        print("_importAccountModel!.animationController!.value ${_importAccountModel.animationController!.value}");
+        debugPrint("_importAccountModel!.animationController!.value ${_importAccountModel.animationController!.value}");
       }
       if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
         
@@ -286,7 +286,7 @@ class ImportAccState extends State<ImportAcc> {
       return true;
 
     } catch (e){
-      print("Error addNewAcc $e");
+      debugPrint("Error addNewAcc $e");
       return false;
     }
   }

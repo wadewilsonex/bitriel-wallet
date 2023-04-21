@@ -64,17 +64,13 @@ class AccountState extends State<Account> {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error getBackupKey $e");
+        debugPrint("Error getBackupKey $e");
       }
     }
     _accountModel.pinController.text = '';
   }
 
   Future<void> _changeName() async {
-
-    print("_accountModel.accIndex! ${_accountModel.accIndex!}");
-    
-    print(_apiProvider!.getKeyring.allAccounts[_accountModel.accIndex!].toJson());
 
     // dialogLoading(context);
     if (_accountModel.editNameController.text.isNotEmpty){

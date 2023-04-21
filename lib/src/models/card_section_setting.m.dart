@@ -277,7 +277,7 @@ List<CardSection> settingsLogoutSection({BuildContext? context}) {
     } catch (e) {
 
       if (kDebugMode) {
-        print("_deleteAccount ${e.toString()}");
+        debugPrint("_deleteAccount ${e.toString()}");
       }
       // await dialog(context, e.toString(), 'Opps');
     }

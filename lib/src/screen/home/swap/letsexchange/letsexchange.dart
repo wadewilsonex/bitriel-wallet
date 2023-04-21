@@ -174,7 +174,7 @@ class LetsExchangeState extends State<LetsExchange> {
               }
             },
             onConsoleMessage: (controller, consoleMessage) {
-              print("consoleMessage $consoleMessage");
+              debugPrint("consoleMessage $consoleMessage");
             },
             onReceivedServerTrustAuthRequest: (controller, challenge) async {
               return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);

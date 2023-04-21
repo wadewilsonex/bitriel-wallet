@@ -80,7 +80,7 @@ class SubmitTrxService {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error sendNative $e");
+        debugPrint("Error sendNative $e");
       }
       
       await customDialog(context, 'Opps', e.toString(), txtButton: "Close",);

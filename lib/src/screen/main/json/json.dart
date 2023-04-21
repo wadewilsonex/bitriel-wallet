@@ -46,7 +46,7 @@ class _ImportJsonState extends State<ImportJson> with AccountInterface {
         }
         setState(() {
           
-          print("onChanged ${_animationModel.enable}");
+          debugPrint("onChanged ${_animationModel.enable}");
         });
       }
     }

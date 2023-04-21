@@ -38,7 +38,7 @@ class _OrganizationState extends State<Organization> {
   
   void onPageChange(int value){
 
-    print("onPageChange $value");
+    debugPrint("onPageChange $value");
 
     if (_homeModel.controller.page!.toInt() == 0){
       _homeModel.controller.animateToPage(value, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
@@ -49,7 +49,7 @@ class _OrganizationState extends State<Organization> {
       _homeModel.active = value;
       _homeModel.color = Colors.red.withOpacity(0.3);
     } else if ((_homeModel.controller.page!.toInt() == 2)){
-      print("last one");
+      debugPrint("last one");
       Navigator.pop(context);
     } 
 
@@ -60,7 +60,7 @@ class _OrganizationState extends State<Organization> {
   }
   
   void onTap(int value) async {
-    print("On tap onTap $value");
+    debugPrint("On tap onTap $value");
 
     if (value == 0){
       _homeModel.controller.animateToPage(value, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
@@ -71,7 +71,7 @@ class _OrganizationState extends State<Organization> {
       _homeModel.active = value;
       _homeModel.color = Colors.red.withOpacity(0.3);
     } else if (value == 2){
-      print("last one");
+      debugPrint("last one");
     //   await event_c.DialogCom().dialogMessage(
     //     context!, 
     //     title: ClipRRect(
@@ -199,7 +199,7 @@ class _OrganizationState extends State<Organization> {
       // (context, i){
       //   // homeModel!.onTap(context, i, (){
       //   //   setState(() {
-      //   //     print()
+      //   //     debugPrint()
       //   //   });
       //   // });
       // }

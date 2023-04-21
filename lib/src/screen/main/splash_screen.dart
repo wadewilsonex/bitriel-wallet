@@ -86,7 +86,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error Splash screen $e");
+          debugPrint("Error Splash screen $e");
         }
       
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Onboarding() ), (route) => false);
@@ -97,11 +97,11 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     final bio = await StorageServices.readSaveBio();
 
-    print("bio $bio");
+    debugPrint("bio $bio");
 
     final password = await StorageServices.readSecure(DbKey.password);
 
-    print("passCode $password");
+    debugPrint("passCode $password");
 
     if (bio || password!.isNotEmpty) {
       if(!mounted) return;
@@ -159,7 +159,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
     } catch (e) {
         if (kDebugMode) {
-          print("Error readTheme $e");
+          debugPrint("Error readTheme $e");
         }
     }
   }

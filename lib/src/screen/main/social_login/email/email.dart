@@ -32,15 +32,15 @@
 //   // bool _loading = false;
 
 //   // Future<void> login() async {
-//   //   // print("_model.email.text ${_model.email.text}");
-//   //   // print("_model.password.text ${_model.password.text}");
+//   //   // debugPrint("_model.email.text ${_model.email.text}");
+//   //   // debugPrint("_model.password.text ${_model.password.text}");
 //   //   // setState(() => _loading = true);
 //   //   // await Future.delayed(Duration(seconds: 3));
 //   //   // _loading = false;
 //   //   // if (mounted == true) {
 //   //   //   setState(() {});
 //   //   // }
-//   //   print(Form.of(context)?.validate());
+//   //   debugPrint(Form.of(context)?.validate());
 //   //   if (_model.getFmKey.currentState!.validate()){
 //   //     await _decryptDataLogin();
 //   //   }
@@ -48,7 +48,7 @@
 //   // }
 
 //   // Future<void> _decryptDataLogin() async {
-//   //   print("_decryptDataLogin");
+//   //   debugPrint("_decryptDataLogin");
 //   //   try {
 
 //   //     // Verify OTP with HTTPs
@@ -56,8 +56,8 @@
 //   //     Response response = Response(await rootBundle.loadString('assets/json/phone.json'), 200);
 
 //   //     final responseJson = json.decode(response.body);
-//   //     print("responseJson ${responseJson.runtimeType}");
-//   //     print(responseJson['user'].containsKey("encrypted"));
+//   //     debugPrint("responseJson ${responseJson.runtimeType}");
+//   //     debugPrint(responseJson['user'].containsKey("encrypted"));
 
 //   //     if (response.statusCode == 200) {
 
@@ -100,7 +100,7 @@
 //   //     }
 
 //   //   } catch (e) {
-//   //     print(e);
+//   //     debugPrint(e);
 //   //   }
 //   // }
 

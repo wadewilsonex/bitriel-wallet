@@ -96,7 +96,7 @@
 //                           }
 //                         } catch (e) {
 //                           if (kDebugMode) {
-//                             print("Error from QR scanner $e");
+//                             debugPrint("Error from QR scanner $e");
 //                           }
 //                         }
 //                       },

@@ -49,7 +49,7 @@ class OnboardingState extends State<Onboarding> {
     //     // );
         
     //   }
-    //   // print("signInWithGoogle ${value}");
+    //   // debugPrint("signInWithGoogle ${value}");
 
     //   try {
 
@@ -90,7 +90,7 @@ class OnboardingState extends State<Onboarding> {
     //     }
 
     //   } catch (e) {
-    //     print(e);
+    //     debugPrint(e);
     //   }
 
     // });

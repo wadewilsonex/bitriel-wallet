@@ -261,8 +261,6 @@ class AccountBody extends StatelessWidget{
                                 );
 
                                 decode!.removeAt(index);
-                                
-                                print(decode.indexOf(value));
 
                                 provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[decode.indexOf(value)]);
                                 Provider.of<ContractProvider>(context, listen: false).ethAdd = decode[decode.indexOf(value)]['eth_address'];
@@ -626,7 +624,7 @@ class AccountBody extends StatelessWidget{
     } catch (e) {
 
       if (kDebugMode) {
-        print("_deleteAccount ${e.toString()}");
+        debugPrint("_deleteAccount ${e.toString()}");
       }
       // await dialog(context, e.toString(), 'Opps');
     }

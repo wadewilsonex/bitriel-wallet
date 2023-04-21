@@ -31,7 +31,7 @@ Future<http.Response> getAllEvent() async {
 
 Future<http.Response> getTickets(String tk) async {
   // String js = await rootBundle.loadString('assets/json/tickets.json');
-  // print(js);
+  // debugPrint(js);
   // return http.Response(js, 200);
 
   return await http.get(
@@ -63,10 +63,10 @@ Future<http.Response> queryTrxStatus(String id) async {
 /// Token Info
 /// 
 Future<http.Response> coins() async {
-  print('coins');
+  debugPrint('coins');
   _api ??= dotenv.get('LETS_EXCHANGE_API');
 
-  print(_api);
+  debugPrint(_api);
 
   return await http.get(
     Uri.parse("$_api/v2/coins"),

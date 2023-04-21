@@ -290,13 +290,13 @@ class _SwapPageState extends State<SwapPage> {
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
     _swapProvider!.contractProvider = Provider.of<ContractProvider>(context, listen: false);
     _swapProvider!.apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    
-    _swapProvider!.initList(context: context);
 
-    _swapProvider!.initList(context: context);
+    _swapProvider!.init();
 
     coins().then((value) {
       _swapProvider!.lstCoins = List.from(json.decode(value.body));
+
+      _swapProvider!.initList(context: context);
 
       _swapProvider!.notifyDataChanged();
       _swapProvider!.setList();
@@ -304,7 +304,6 @@ class _SwapPageState extends State<SwapPage> {
     });
 
     _swapProvider!.model!.myController!.addListener(() {
-
 
       _swapProvider!.balance1 = _swapProvider!.model!.myController!.text;
       

@@ -52,7 +52,7 @@ class _TrxExplorerWebViewState extends State<TrxExplorerWebView> {
                 });
               },
               onConsoleMessage: (controller, consoleMessage) {
-                print("consoleMessage $consoleMessage");
+                debugPrint("consoleMessage $consoleMessage");
               },
               onLoadError: (controller, url, code, message) async {
                 if (Platform.isIOS && code == -999) {

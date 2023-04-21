@@ -168,7 +168,7 @@ class SubmitTrxState extends State<SubmitTrx> {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error onSubmit $e");
+        debugPrint("Error onSubmit $e");
       }
     }
   }
@@ -356,7 +356,7 @@ class SubmitTrxState extends State<SubmitTrx> {
         
         // Close Dialog Estimating Fee
         Navigator.pop(context);
-        if (kDebugMode) print("Err validateSubmit $e");
+        if (kDebugMode) debugPrint("Err validateSubmit $e");
         // await trxFunc!.customDialog("Oops", e.toString());
       }
     }
@@ -479,7 +479,7 @@ class SubmitTrxState extends State<SubmitTrx> {
       if (resPin == _pin) return _scanPayM.hash;
     } catch (e){
       if (kDebugMode) {
-        print("Error $e");
+        debugPrint("Error $e");
       }
       throw Exception(e);
     }

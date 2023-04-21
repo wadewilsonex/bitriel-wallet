@@ -30,7 +30,7 @@ class ApiCalls extends GetConnect {
       List ratesCount = response.body;
 
       if (kDebugMode) {
-        print("ratesCount $ratesCount $cryptoBase");
+        debugPrint("ratesCount $ratesCount $cryptoBase");
       }
       //add spots
       for (var i = 0; i < ratesCount.length; i++) {

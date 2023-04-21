@@ -141,7 +141,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
 
       if (kDebugMode) {
-        print("Error initJson $e");
+        debugPrint("Error initJson $e");
       }
     }
   }
@@ -180,7 +180,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error setSavedList $e");
+          debugPrint("Error setSavedList $e");
         }
       
     }
@@ -198,7 +198,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e){
       
         if (kDebugMode) {
-          print("Error initBscClient $e");
+          debugPrint("Error initBscClient $e");
         }
       
     }
@@ -236,7 +236,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err addListActivity $e");
+          debugPrint("Err addListActivity $e");
         }
       
     }
@@ -254,7 +254,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err updateNativeTxStt $e");
+          debugPrint("Err updateNativeTxStt $e");
         }
       
     }
@@ -272,7 +272,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err updateTxStt $e");
+          debugPrint("Err updateTxStt $e");
         }
       
     }
@@ -280,7 +280,7 @@ class ContractProvider with ChangeNotifier {
 
   Future<void> kgoTokenWallet() async {
 
-    print("ethAdd $ethAdd");
+    debugPrint("ethAdd $ethAdd");
     
     if (apiProvider.isMainnet){
       
@@ -311,7 +311,7 @@ class ContractProvider with ChangeNotifier {
       } catch (e) {
         
           if (kDebugMode) {
-            print("Err kgoTokenWallet $e");
+            debugPrint("Err kgoTokenWallet $e");
           }
         
       }
@@ -342,7 +342,7 @@ class ContractProvider with ChangeNotifier {
       } catch (e) {
         
           if (kDebugMode) {
-            print("Err getBep20Balance $e");
+            debugPrint("Err getBep20Balance $e");
           }
         
       }
@@ -350,31 +350,31 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> ethWallet() async {
-    print("ethWallet");
+    debugPrint("ethWallet");
     try {
 
       await initEtherClient();
-      print("finish initEtherClient");
+      debugPrint("finish initEtherClient");
       _eth = NativeService(_etherClient!);
 
-      print("ethAdd $ethAdd");
+      debugPrint("ethAdd $ethAdd");
 
       final balance = await _eth!.getBalance(getEthAddr(ethAdd));
       
-      print("balance $balance");
+      debugPrint("balance $balance");
 
       listContract[apiProvider.ethIndex].balance = balance.toString();
       listContract[apiProvider.ethIndex].chainDecimal = 18;
       listContract[apiProvider.ethIndex].lineChartModel = LineChartModel().prepareGraphChart(listContract[apiProvider.ethIndex]);
       listContract[apiProvider.ethIndex].address = ethAdd;
 
-      print("listContract[apiProvider.ethIndex].address ${listContract[apiProvider.ethIndex].address}");
+      debugPrint("listContract[apiProvider.ethIndex].address ${listContract[apiProvider.ethIndex].address}");
 
       notifyListeners();
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err ethWallet $e");
+          debugPrint("Err ethWallet $e");
         }
       
     }
@@ -396,7 +396,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error bnbWallet $e");
+          debugPrint("Error bnbWallet $e");
         }
       
     }
@@ -461,7 +461,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error sortAsset $e");
+          debugPrint("Error sortAsset $e");
         }
       
     }
@@ -490,15 +490,15 @@ class ContractProvider with ChangeNotifier {
 
     //     await apiPro.getDotChainDecimal();
     //     // await Future.delayed(const Duration(milliseconds: 5000)).then(
-    //     //   (value) => {print('cancel'), streamSubscriptionBsc.cancel()},
+    //     //   (value) => {debugPrint('cancel'), streamSubscriptionBsc.cancel()},
     //     // );
 
     //     // await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
     //     // await Provider.of<WalletProvider>(context, listen: false).fillWithMarketData(context);
-    //     print("Done");
+    //     debugPrint("Done");
     //   });
     // } catch (e) {
-    //   print(e.message);
+    //   debugPrint(e.message);
     // }
   }
 
@@ -516,14 +516,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   // Future<void> addBtcWallet() async {
-  //   print("addBtcWallet");
+  //   debugPrint("addBtcWallet");
   //   try {
   //     final seed = bip39.mnemonicToSeed(widget.passPhrase);
   //     final hdWallet = HDWallet.fromSeed(seed);
   //     final keyPair = ECPair.fromWIF(hdWallet.wif!);
 
   //     final bech32Address = new P2WPKH(data: new PaymentData(pubkey: keyPair.publicKey), network: bitcoin).data!.address;
-  //     print("bech32Address $bech32Address");
+  //     debugPrint("bech32Address $bech32Address");
   //     await StorageServices.storeData(bech32Address, 'bech32');
 
   //     final res = await ApiProvider().encryptPrivateKey(hdWallet.wif!, _userInfoM.confirmPasswordCon.text);
@@ -537,7 +537,7 @@ class ContractProvider with ChangeNotifier {
   //     await Provider.of<ApiProvider>(context, listen: false).getBtcBalance(hdWallet.address!, context: context);
 
   //   } catch (e) {
-  //     print("Error addBtcWallet $e");
+  //     debugPrint("Error addBtcWallet $e");
   //   }
   // }
 
@@ -550,7 +550,7 @@ class ContractProvider with ChangeNotifier {
     //     getEtherBalance();
     //   });
     // } catch (e) {
-    //   print(e.message);
+    //   debugPrint(e.message);
     // }
     // notifyListeners();
   }
@@ -584,14 +584,14 @@ class ContractProvider with ChangeNotifier {
       return contract;
     } catch (e) {
       if (kDebugMode) {
-        print("Err initBsc $e");
+        debugPrint("Err initBsc $e");
       }
     }
     return null;
   }
 
   Future<bool> validateEvmAddr(String address) async {
-    print("validateEvmAddr $address");
+    debugPrint("validateEvmAddr $address");
     bool isValid = false;
     try {
       EthereumAddress.fromHex(address);
@@ -601,7 +601,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err validateEvmAddr $e");
+          debugPrint("Err validateEvmAddr $e");
         }
       
     }
@@ -620,7 +620,7 @@ class ContractProvider with ChangeNotifier {
 
       
         if (kDebugMode) {
-          print("Error getEthGasPrice $e");
+          debugPrint("Error getEthGasPrice $e");
         }
       
     }
@@ -642,8 +642,8 @@ class ContractProvider with ChangeNotifier {
 
   Future<String> getEthMaxGas(String reciever, String amount, {int chainID = 18}) async {
 
-    print("receiver $reciever");
-    print("amount $amount");
+    debugPrint("receiver $reciever");
+    debugPrint("amount $amount");
     await initEtherClient();
 
     // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
@@ -686,7 +686,7 @@ class ContractProvider with ChangeNotifier {
     final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
     final txFunction = bep20Contract.function('transfer');
 
-    print("bep20Contract.address ${bep20Contract.address}");
+    debugPrint("bep20Contract.address ${bep20Contract.address}");
 
     final maxGas = await _bscClient!.estimateGas(
       sender: EthereumAddress.fromHex(ethAddr!),
@@ -714,7 +714,7 @@ class ContractProvider with ChangeNotifier {
 
       
         if (kDebugMode) {
-          print("Error getErc20GasPrice $e");
+          debugPrint("Error getErc20GasPrice $e");
         }
       
     }
@@ -732,7 +732,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getBscGasPrice $e");
+          debugPrint("Error getBscGasPrice $e");
         }
       
     }
@@ -778,7 +778,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error swap $e");
+          debugPrint("Error swap $e");
         }
       
       throw Exception(e);
@@ -823,32 +823,32 @@ class ContractProvider with ChangeNotifier {
     final EthPrivateKey? credentials = EthPrivateKey.fromHex(privateKey);
 
     if (credentials != null) {
-      print("credentials.address.toString() ${credentials.address.toString()}");
+      debugPrint("credentials.address.toString() ${credentials.address.toString()}");
       // final addr = await credentials.extractAddress();
       ethAdd = credentials.address.toString();
 
       notifyListeners();
       
-      print("ethAdd $ethAdd");
+      debugPrint("ethAdd $ethAdd");
       await StorageServices.writeSecure(DbKey.ethAddr, credentials.address.toString());
 
     }
   }
 
   Future<void> getEtherAddr() async {
-    print("getEtherAddr");
+    debugPrint("getEtherAddr");
     try {
 
       final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
       // await StorageServices.readSecure(DbKey.ethAddr);
-      print("ethAddr $ethAddr");
+      debugPrint("ethAddr $ethAddr");
       ethAdd = ethAddr;
 
       notifyListeners();
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getEtherAddr $e");
+          debugPrint("Error getEtherAddr $e");
         }
       
     }
@@ -862,7 +862,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getEtherAddr $e");
+          debugPrint("Error getEtherAddr $e");
         }
       
     }
@@ -1085,7 +1085,7 @@ class ContractProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err addAsset $e");
+          debugPrint("Err addAsset $e");
         }
       
       rethrow;  
@@ -1093,14 +1093,14 @@ class ContractProvider with ChangeNotifier {
   }
 
   // Future<void> saveAddedToken() async {
-  //   print("saveAddedToken");
+  //   debugPrint("saveAddedToken");
   //   await StorageServices.fetchData(DbKey.addedContract).then((value) async {
   //     if (value != null){
   //       List<Map<String, dynamic>> tmp = value;
   //       addedContract.forEach((element) {
   //         tmp.addAll({SmartContractModel.toMap(element)});
   //       });
-  //       print("addedContract ${addedContract.toList()}");
+  //       debugPrint("addedContract ${addedContract.toList()}");
   //       await StorageServices.storeData(tmp, DbKey.addedContract);
   //     }
   //   });

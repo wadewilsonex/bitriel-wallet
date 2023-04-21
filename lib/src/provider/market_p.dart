@@ -109,7 +109,7 @@ class MarketProvider with ChangeNotifier {
 
     final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
 
-    final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
+    final jsonResponse = await json.decode(response.body);
 
     // for (int i = 0; i < id.length; i++) {
     try {
@@ -172,7 +172,7 @@ class MarketProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error fetchTokenMarketPrice $e");
+          debugPrint("Error fetchTokenMarketPrice $e");
         }
       
       return;
@@ -196,7 +196,7 @@ class MarketProvider with ChangeNotifier {
   }
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
-    print("searchCoinFromMarket $id");
+    debugPrint("searchCoinFromMarket $id");
     lsCoin!.clear();
     try {
 
@@ -210,13 +210,12 @@ class MarketProvider with ChangeNotifier {
           }
           return false;
         }).toList();
-        print(lsCoin);
       }
       return lsCoin!;
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error searchCoinFromMarket $e");
+        debugPrint("Error searchCoinFromMarket $e");
       }
       
     }
@@ -232,7 +231,7 @@ class MarketProvider with ChangeNotifier {
       // http.Response value = await http.Response(json.encode(mkData), 200);
       await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}$id&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en')).then((value) async {
 
-        print(value.body);
+        debugPrint(value.body);
 
         if (value.statusCode == 200 && json.decode(value.body).isNotEmpty){
 
@@ -243,12 +242,12 @@ class MarketProvider with ChangeNotifier {
 
       });
 
-      print("queried queryCoinFromMarket $queried");
+      debugPrint("queried queryCoinFromMarket $queried");
       
     } catch (e){
       
       if (kDebugMode) {
-        print("error queryCoinFromMarket $e");
+        debugPrint("error queryCoinFromMarket $e");
       }
       return queried;
     }
@@ -258,7 +257,7 @@ class MarketProvider with ChangeNotifier {
   
   Future<void> fetchTrendingCoin() async {
 
-    if(kDebugMode) print("fetchTrendingCoin");
+    if(kDebugMode) debugPrint("fetchTrendingCoin");
     
     try {
       
@@ -285,7 +284,7 @@ class MarketProvider with ChangeNotifier {
     } catch (e){
       
       if (kDebugMode) {
-        print("error fetch trending coin $e");
+        debugPrint("error fetch trending coin $e");
       }
     }
   }
@@ -312,7 +311,7 @@ class MarketProvider with ChangeNotifier {
 
   Future<List<ListMetketCoinModel>> listMarketCoin() async{
 
-    if(kDebugMode) print("listMarketCoin");
+    if(kDebugMode) debugPrint("listMarketCoin");
 
     try {
 
@@ -336,7 +335,7 @@ class MarketProvider with ChangeNotifier {
     } catch (e){
       
       if (kDebugMode) {
-        print("error fetch listMarketCoin $e");
+        debugPrint("error fetch listMarketCoin $e");
       }
     }
 

@@ -108,7 +108,7 @@
 
 //     } catch (e) {
 //       if (kDebugMode) {
-//         print(e);
+//         debugPrint(e);
 //       }
 //     }
 //   }
@@ -120,7 +120,7 @@
 //   //     final response = await PostRequest().loginVerifyOPT(widget.phoneNumber!, _code);
 
 //   //     final responseJson = json.decode(response.body);
-//   //     print("responseJson $responseJson");
+//   //     debugPrint("responseJson $responseJson");
 //   //     if (response.statusCode == 200) {
 
 //   //       if(!mounted) return;
@@ -153,7 +153,7 @@
 //   //     }
 
 //   //   } catch (e) {
-//   //     print(e);
+//   //     debugPrint(e);
 //   //   }
 //   // }
 
@@ -203,7 +203,7 @@
 
 //     } catch (e) {
 //       if (kDebugMode) {
-//         print(e);
+//         debugPrint(e);
 //       }
 //     }
 //   }

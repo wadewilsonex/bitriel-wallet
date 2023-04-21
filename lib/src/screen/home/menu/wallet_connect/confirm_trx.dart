@@ -32,12 +32,12 @@ class _ConfirmTrxState extends State<ConfirmTrx> {
 
   @override
   initState(){
-    print("id: ${widget.id}");
-    print("ethereumTransaction: ${widget.ethereumTransaction!.toJson()}");
-    print("title: ${widget.title}");
-    print("onConfirm: ${widget.onConfirm}");
-    print("onReject: ${widget.onReject}");
-    print("wcClien: ${widget.wcClient!.chainId}");
+    debugPrint("id: ${widget.id}");
+    debugPrint("ethereumTransaction: ${widget.ethereumTransaction!.toJson()}");
+    debugPrint("title: ${widget.title}");
+    debugPrint("onConfirm: ${widget.onConfirm}");
+    debugPrint("onReject: ${widget.onReject}");
+    debugPrint("wcClien: ${widget.wcClient!.chainId}");
     super.initState();  
   }
   

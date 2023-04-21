@@ -21,7 +21,7 @@ class GetWalletMethod {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error qrShare ${e.toString()}");
+        debugPrint("Error qrShare ${e.toString()}");
       }
     }
   }

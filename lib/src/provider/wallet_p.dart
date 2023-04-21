@@ -77,7 +77,7 @@ class WalletProvider with ChangeNotifier {
       notifyListeners();
     } catch (e) {
         if (kDebugMode) {
-          print("Error fillWithMarketData $e");
+          debugPrint("Error fillWithMarketData $e");
         }
     }
     return null;

@@ -79,14 +79,14 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
   }
 
   Future<void> dismiss(List<SmartContractModel> lsAsset, index) async {
-    print("dismiss $index");
+    debugPrint("dismiss $index");
 
     List found = contract!.addedContract.where((element) {
       if (element.contract == lsAsset[index].contract) return true;
       return false; 
     }).toList();
 
-    print("found $found");
+    debugPrint("found $found");
     if (found.isNotEmpty){
 
       contract!.addedContract.remove(found[0]);

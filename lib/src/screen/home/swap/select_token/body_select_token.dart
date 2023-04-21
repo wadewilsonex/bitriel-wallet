@@ -151,20 +151,20 @@ class SelectSwapTokenBody extends StatelessWidget {
                     int indexFound = index;
 
                     if (provider.searched.isNotEmpty){
-                      print("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
+                      debugPrint("index = Provider.of<SwapProvider>(context, listen: false).ls ${Provider.of<SwapProvider>(context, listen: false).ls[index].network}");
 
                       // List<dynamic> found = Provider.of<SwapProvider>(context, listen: false).lstCoins!.where((element) {
 
                       // })
                       indexFound = Provider.of<SwapProvider>(context, listen: false).ls.indexOf(provider.searched[index]);
-                      print("indexFound $indexFound");
+                      debugPrint("indexFound $indexFound");
                     }
 
                     provider.setNewAsset(indexFound);
                     provider.searched.clear();
 
-                    print("index $index");
-                    print("Found search ${provider.ls[index]}");
+                    debugPrint("index $index");
+                    debugPrint("Found search ${provider.ls[index]}");
 
                     provider.twoCoinModel!.from = provider.name1;
                     provider.twoCoinModel!.to = provider.name2;
@@ -173,7 +173,7 @@ class SelectSwapTokenBody extends StatelessWidget {
                     provider.twoCoinModel!.amt = provider.balance1;
                     provider.twoCoinModel!.affiliateId = "DCNVjpI0Txr1Sw2w";
 
-                    print("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
+                    debugPrint("provider.twoCoinModel!.toJson() ${provider.twoCoinModel!.toJson()}");
 
                     Navigator.pop(context);
                     

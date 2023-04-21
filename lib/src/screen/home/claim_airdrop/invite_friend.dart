@@ -17,7 +17,7 @@
 //       //Follow Selendra and get free $SEL tokens. Share twitter.com/selendraorg to get more $SEL. Claim it at https://selendra-airdrop.netlify.app/claim-$sel?ref=38034120c302. Join t.me/selendraorg to connect with others in the community.
 //       //Share.shareFiles([file.path], text: referralLink);
 //     } catch (e) {
-//       //print(e.toString());
+//       //debugPrint(e.toString());
 //     }
 //   }
 

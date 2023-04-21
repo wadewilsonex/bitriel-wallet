@@ -116,8 +116,8 @@ class SmartContractModel {
   static Future<List<SmartContractModel>> decode(String asset) async {
     final decode = await json.decode(asset);
     List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
-    // print('data ${data.runtimeType} ${data[0]}');
-    // print('decode again ${jsonDecode(data)[0]}');
+    // debugPrint('data ${data.runtimeType} ${data[0]}');
+    // debugPrint('decode again ${jsonDecode(data)[0]}');
     return data;
   }
 }
