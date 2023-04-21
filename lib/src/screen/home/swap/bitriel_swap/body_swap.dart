@@ -111,30 +111,30 @@ class SwapPageBody extends StatelessWidget {
           
                               GestureDetector(
                                 onTap: (){
-                                  swapPageModel!.myController!.clear();
-                                  swapPageModel!.percentActive = 0;
+                                  // swapPageModel!.myController!.clear();
+                                  // swapPageModel!.percentActive = 0;
                                   
-                                  SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
-                                  dynamic tmp = swap.index1;
-                                  // dynamic tmp2 = swap.index2;
+                                  // SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
+                                  // dynamic tmp = swap.index1;
+                                  // // dynamic tmp2 = swap.index2;
           
-                                  swap.index1 = swap.index2;
-                                  swap.index2 = tmp;
+                                  // swap.index1 = swap.index2;
+                                  // swap.index2 = tmp;
           
-                                  tmp = swap.name1;
-                                  swap.name1 = swap.name2;
-                                  swap.name2 = tmp;
+                                  // tmp = swap.name1;
+                                  // swap.name1 = swap.name2;
+                                  // swap.name2 = tmp;
           
-                                  tmp = swap.logo1;
-                                  swap.logo1 = swap.logo2;
-                                  swap.logo2 = tmp;
+                                  // tmp = swap.logo1;
+                                  // swap.logo1 = swap.logo2;
+                                  // swap.logo2 = tmp;
           
-                                  tmp = swap.balance1;
-                                  swap.balance1 = swap.balance2;
-                                  swap.balance2 = tmp;
+                                  // tmp = swap.balance1;
+                                  // swap.balance1 = swap.balance2;
+                                  // swap.balance2 = tmp;
           
                                   // swap.setList();
-                                  swap.notifyDataChanged();
+                                  // swap.notifyDataChanged();
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -142,7 +142,7 @@ class SwapPageBody extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30)
                                   ),
                                   padding: const EdgeInsets.all(5),
-                                  child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
+                                  child: Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
                                 )
                               ),
           
@@ -179,9 +179,11 @@ class SwapPageBody extends StatelessWidget {
             // ),
     
             Expanded(
-              child:  Center(
-                child: _buildNumberPad(context, onDeleteTxt, onTabNum)
-              ),
+              child: Container()
+            ),
+
+            Center(
+              child: _buildNumberPad(context, onDeleteTxt, onTabNum)
             ),
     
             // SizedBox(height: 60.0 - paddingSize),
@@ -303,7 +305,7 @@ class SwapPageBody extends StatelessWidget {
                     onPressed: () async {
 
                       pro.label = "first";
-                      pro.balance1 = swapPageModel!.myController!.text;
+                      // pro.balance1 = swapPageModel!.myController!.text;
 
                       await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
                       // swapPageModel!.myController!.clear();
@@ -451,25 +453,26 @@ class SwapPageBody extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      pro.balance2.isNotEmpty ?
+                      // pro.balance2.isNotEmpty ?
                       Padding(
-                        padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+                        padding: const EdgeInsets.only(top: paddingSize, bottom: paddingSize),
                         child: MyText(
                           textAlign: TextAlign.start,
                           text: pro.lstConvertCoin![pro.name2] != null ? "≈ ${pro.lstConvertCoin![pro.name2]}" : "≈ 0",
+                          // text: "≈ ${pro.balance2}",
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
                         ),
                       )
-                      : Container(
-                        margin: const EdgeInsets.all(8),
-                        width: 50,
-                        child: Lottie.asset(
-                          "assets/animation/loading.json",
-                          repeat: true,
-                          reverse: true,
-                        ),
-                      ) ,
+                      // : Container(
+                      //   margin: const EdgeInsets.all(8),
+                      //   width: 50,
+                      //   child: Lottie.asset(
+                      //     "assets/animation/loading.json",
+                      //     repeat: true,
+                      //     reverse: true,
+                      //   ),
+                      // ) ,
 
                       // MyText(
                       //   textAlign: TextAlign.start,
@@ -492,13 +495,13 @@ class SwapPageBody extends StatelessWidget {
                       // swapPageModel!.myController!.clear();
                       swapPageModel!.percentActive = 0;
 
-                      await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
-                        if (value.statusCode == 200){
-                          pro.resTwoCoinModel!.fromJson(json.decode(value.body));
-                          pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
-                          pro.notifyDataChanged();
-                        }
-                      });
+                      // await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
+                      //   if (value.statusCode == 200){
+                      //     pro.resTwoCoinModel!.fromJson(json.decode(value.body));
+                      //     pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
+                      //     pro.notifyDataChanged();
+                      //   }
+                      // });
                     }
                   )  
 

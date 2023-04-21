@@ -126,6 +126,19 @@ class _SwapPageState extends State<SwapPage> {
 
       });
 
+      // await PostRequest().infoTwoCoin(_swapProvider!.twoCoinModel!).then((value) {
+      //   if (value.statusCode == 200){
+      //     setState(() {
+      //       _swapProvider!.resTwoCoinModel!.fromJson(json.decode(value.body));
+      //       _swapProvider!.balance2 = _swapProvider!.resTwoCoinModel!.deposit_amount_usdt.toString();
+      //       _swapProvider!.notifyDataChanged();
+      //   });
+
+      //     // print(_swapProvider!.resTwoCoinModel!.fromJson(json.decode(value.body)));
+      //   }
+      // });
+      
+
     }
   }
 
@@ -167,6 +180,18 @@ class _SwapPageState extends State<SwapPage> {
       print(_swapProvider!.lstConvertCoin);
 
     });
+
+    // await PostRequest().infoTwoCoin(_swapProvider!.twoCoinModel!).then((value) {
+    //   if (value.statusCode == 200){
+    //     setState(() {
+    //       _swapProvider!.resTwoCoinModel!.fromJson(json.decode(value.body));
+    //       _swapProvider!.balance2 = _swapProvider!.resTwoCoinModel!.deposit_amount_usdt.toString();
+    //       _swapProvider!.notifyDataChanged();
+    //     });
+
+    //     // print(_swapProvider!.resTwoCoinModel!.fromJson(json.decode(value.body)));
+    //   }
+    // });
   }
   
 

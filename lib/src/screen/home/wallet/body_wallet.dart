@@ -8,6 +8,8 @@ import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_tick
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+import 'package:lottie/lottie.dart';
+
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
@@ -254,11 +256,17 @@ class WalletPageBody extends StatelessWidget {
                       
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
-                          return MyText(
-                            text: api.netWorkConnected == true ? "\$${ (provider.mainBalance).toStringAsFixed(2) }" : "...",
+                          return api.netWorkConnected == true ?MyText(
+                            text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
                             hexaColor: AppColors.whiteColorHexa,
                             fontWeight: FontWeight.w700,
                             fontSize: 23,
+                          ) 
+                          : Lottie.asset(
+                            "assets/animation/loading.json",
+                            repeat: true,
+                            reverse: true,
+                            height: 25
                           );
                         }
                       ),
@@ -266,11 +274,18 @@ class WalletPageBody extends StatelessWidget {
                       // SizedBox(height: 0.5.h),
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
-                          return MyText(
-                            text: api.netWorkConnected == true ? "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC" : "...", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                          return api.netWorkConnected == true ? MyText(
+                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                            // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                             hexaColor: AppColors.whiteColorHexa,
                             fontSize: 18,
-                          );
+                          )
+                          : Lottie.asset(
+                              "assets/animation/loading.json",
+                              repeat: true,
+                              reverse: true,
+                              height: 25
+                            );
                         }
                       ),
                           

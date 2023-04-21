@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/select_swap_token_c.dart';
 import 'package:wallet_apps/src/models/select_swap_token_m.dart';
@@ -166,6 +167,16 @@ class SelectSwapTokenBody extends StatelessWidget {
 
                     debugPrint("index $index");
                     debugPrint("Found search ${provider.ls[index]}");
+
+                    convertCoin(provider.name1, provider.name2, provider.model!.myController!.text).then((value) {
+  
+                      provider.lstConvertCoin = json.decode(value.body);
+
+                      provider.notifyListeners();
+
+                      print(provider.lstConvertCoin);
+
+                    });
 
                     provider.twoCoinModel!.from = provider.name1;
                     provider.twoCoinModel!.to = provider.name2;

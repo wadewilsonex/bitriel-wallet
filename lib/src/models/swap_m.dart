@@ -67,15 +67,15 @@ class ResInfoTwoCoinModel{
   List<dynamic>? networks_to;
 
   fromJson(Map<String, dynamic> jsn){
-    min_amount = jsn["min_amount"];
-    max_amount = jsn["max_amount"];
-    amount = jsn["amount"];
-    fee = jsn["fee"];
-    rate = jsn["rate"];
-    profit = jsn["profit"];
-    extra_fee_amount = jsn["extra_fee_amount"];
+    min_amount = jsn["min_amount"].toString();
+    max_amount = jsn["max_amount"].toString();
+    amount = jsn["amount"].toString();
+    fee = jsn["fee"].toString();
+    rate = jsn["rate"].toString();
+    profit = jsn["profit"].toString();
+    extra_fee_amount = jsn["extra_fee_amount"].toString();
     // rate_id = jsn["rate_id"];
-    rate_id_expired_at = jsn["rate_id_expired_at"];
+    rate_id_expired_at = jsn["rate_id_expired_at"].toString();
     // applied_promo_code_id = jsn["applied_promo_code_id"];
     deposit_amount_usdt = jsn["deposit_amount_usdt"];
     withdrawal_amount_usdt = jsn["withdrawal_amount_usdt"];
