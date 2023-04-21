@@ -152,7 +152,7 @@ class SwapProvider extends ChangeNotifier{
 
     }
 
-    setList();
+    // setList();
     label = "";
     
     notifyListeners();
