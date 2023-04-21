@@ -109,7 +109,7 @@ class MarketProvider with ChangeNotifier {
 
     final response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
 
-    final jsonResponse = List<Map<String, dynamic>>.from(await json.decode(response.body));
+    final jsonResponse = await json.decode(response.body);
 
     // for (int i = 0; i < id.length; i++) {
     try {

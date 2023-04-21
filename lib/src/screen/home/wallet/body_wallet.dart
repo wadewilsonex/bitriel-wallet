@@ -119,7 +119,7 @@ class WalletPageBody extends StatelessWidget {
           builder: (context, verifyingP, wg) {
             verifyingP.unverifyAcc = null;
 
-            // if (verifyingP.unverifyAcc != null){
+            if (api.netWorkConnected == true){
               List tmp = verifyingP.getPrivateList.where((e) {
                 if (e['address'] == api.getKeyring.current.address) return true;
                 return false;
@@ -128,96 +128,102 @@ class WalletPageBody extends StatelessWidget {
               if (tmp.isNotEmpty){
                 verifyingP.unverifyAcc = tmp[0];
               }
-            // }
+            }
 
             if (verifyingP.unverifyAcc == null) return Container();
 
-            return verifyingP.unverifyAcc!["status"] == false ? Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
-                borderRadius: const BorderRadius.all(Radius.circular(16))
-              ),
-              child: Row(
-                children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 10,),
-                      Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
-                      const MyText(
-                        pLeft: 10,
-                        text: "Verify your Seed Phrase",
-                        fontWeight: FontWeight.w600,
-                        hexaColor: AppColors.redColor,
-                      ),
-                    ],
-                  ),
+            if (verifyingP.unverifyAcc!["status"] == false) {
+              return Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                ),
+                child: Row(
+                  children: [
 
-                  const Spacer(),
-
-                  TextButton(
-                    onPressed: () async{
-
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
-                        )
-                      ).then((passCodeValue) async {
-                        if (passCodeValue != null){
-                          
-                          await api.getKeyring.store.getDecryptedSeed(api.getKeyring.current.pubKey, passCodeValue).then((getMnemonic) async{
-                            try {
-
-                              if(getMnemonic!.containsKey("seed")){
-
-
-                                // Verifying Account To Get Mnemonic
-                                verifyingP.mnemonic = getMnemonic["seed"];
-                                verifyingP.isVerifying = true;
-
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CreateSeeds(passCode: passCodeValue, newAcc: null,)
-                                    // const ImportAcc(
-                                    //   isBackBtn: true,
-                                    // )
-                                  )
-                                ).then((value) {
-                                  if (value != null && value == true){
-                                    
-                                    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
-                                    Provider.of<ApiProvider>(context, listen: false).notifyListeners();
-                                  }
-                                });
-                              }
-                              else{
-                                throw Exception("wrong mnemonic");
-                                
-                              }
-                              
-                            } catch (e) {
-                              if (kDebugMode) {
-                                debugPrint("error mnemonic $e");
-                              }
-                            }
-
-                          });
-
-                        }
-                      });
-                      
-                    }, 
-                    child: const MyText(
-                      text: "Verify Now",
-                      fontWeight: FontWeight.w700,
-                      hexaColor: AppColors.primaryColor,
+                    Row(
+                      children: [
+                        const SizedBox(width: 10,),
+                        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
+                        const MyText(
+                          pLeft: 10,
+                          text: "Verify your Seed Phrase",
+                          fontWeight: FontWeight.w600,
+                          hexaColor: AppColors.redColor,
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              )
-            ) : const SizedBox();
+
+                    const Spacer(),
+
+                    TextButton(
+                      onPressed: () async{
+
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
+                          )
+                        ).then((passCodeValue) async {
+                          if (passCodeValue != null){
+                            
+                            await api.getKeyring.store.getDecryptedSeed(api.getKeyring.current.pubKey, passCodeValue).then((getMnemonic) async{
+                              try {
+
+                                if(getMnemonic!.containsKey("seed")){
+
+
+                                  // Verifying Account To Get Mnemonic
+                                  verifyingP.mnemonic = getMnemonic["seed"];
+                                  verifyingP.isVerifying = true;
+
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CreateSeeds(passCode: passCodeValue, newAcc: null,)
+                                      // const ImportAcc(
+                                      //   isBackBtn: true,
+                                      // )
+                                    )
+                                  ).then((value) {
+                                    if (value != null && value == true){
+                                      
+                                      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                      Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                                    }
+                                  });
+                                }
+                                else{
+                                  throw Exception("wrong mnemonic");
+                                  
+                                }
+                                
+                              } catch (e) {
+                                if (kDebugMode) {
+                                  debugPrint("error mnemonic $e");
+                                }
+                              }
+
+                            });
+
+                          }
+                        });
+                        
+                      }, 
+                      child: const MyText(
+                        text: "Verify Now",
+                        fontWeight: FontWeight.w700,
+                        hexaColor: AppColors.primaryColor,
+                      ),
+                    )
+                  ],
+                )
+              );
+            }
+            else {
+              return const SizedBox();
+            }
           }
         ),
 
@@ -249,7 +255,7 @@ class WalletPageBody extends StatelessWidget {
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
                           return MyText(
-                            text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                            text: api.netWorkConnected == true ? "\$${ (provider.mainBalance).toStringAsFixed(2) }" : "...",
                             hexaColor: AppColors.whiteColorHexa,
                             fontWeight: FontWeight.w700,
                             fontSize: 23,
@@ -261,7 +267,7 @@ class WalletPageBody extends StatelessWidget {
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
                           return MyText(
-                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                            text: api.netWorkConnected == true ? "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC" : "...", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                             hexaColor: AppColors.whiteColorHexa,
                             fontSize: 18,
                           );

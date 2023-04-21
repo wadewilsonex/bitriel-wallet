@@ -67,20 +67,20 @@ class AppState extends State<App> {
 
     // readTheme();
 
-    getEventJSON().then((value) {
-      debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
-    });
+    // getEventJSON().then((value) {
+    //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
+    // });
 
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
       // Assign Data and Store Endpoint Into Local DB
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
-      await initDynamicLinks();
+      // await initDynamicLinks();
 
       await initApi();
 
-      clearOldBtcAddr();
+      // clearOldBtcAddr();
     });
 
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -163,12 +163,12 @@ class AppState extends State<App> {
     }
   }
 
-  clearOldBtcAddr() async {
-    final res = await StorageServices.fetchData(DbKey.btcAddr);
-    if (res != null) {
-      await StorageServices.removeKey(DbKey.btcAddr);
-    }
-  }
+  // clearOldBtcAddr() async {
+  //   final res = await StorageServices.fetchData(DbKey.btcAddr);
+  //   if (res != null) {
+  //     await StorageServices.removeKey(DbKey.btcAddr);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

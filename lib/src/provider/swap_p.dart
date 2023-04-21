@@ -41,8 +41,6 @@ class SwapProvider extends ChangeNotifier{
 
   initList({required BuildContext? context}){
 
-    init();
-
     searched.clear();
 
     List<SmartContractModel> found1 = contractProvider!.sortListContract.where((element) {
@@ -56,21 +54,24 @@ class SwapProvider extends ChangeNotifier{
       return false;
     }).toList();
 
-    // Init Token
-    name1 = found1[0].symbol!;
-    logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
-    network1 = found1[0].org!;
-    networkFrom = found1[0].org!;
+    print("found1 ${found1}");
+    print("found2 ${found2}");
 
-    name2 = found2[0].symbol!;
-    logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
-    network2 = found2[0].org!;
-    networkTo = found2[0].org!;
-    
-    balance1 = "0";//found1[0].balance!;
-    balance2 = "0";//found2[0].balance!;
+    if (found1.isNotEmpty && found2.isNotEmpty){
+      // Init Token
+      name1 = found1[0].symbol!;
+      logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
+      network1 = found1[0].org!;
+      networkFrom = found1[0].org!;
 
-    debugPrint("finish initList");
+      name2 = found2[0].symbol!;
+      logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
+      network2 = found2[0].org!;
+      networkTo = found2[0].org!;
+      
+      balance1 = "0";//found1[0].balance!;
+      balance2 = "0";//found2[0].balance!;
+    }
   }
 
   void setList() async {

@@ -27,7 +27,7 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
   }
 
   void query(String? label, String value){
-    debugPrint("query ${query}");
+    
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
 
     _swapProvider!.searched = [];

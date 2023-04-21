@@ -93,12 +93,12 @@ class _SwapPageState extends State<SwapPage> {
   }
 
   void onChanged(String value) async {
-    debugPrint("hello chnage");
+    print("hello chnage");
     // Timer.periodic(
     //   Duration(seconds: count),
     //   (Timer timer) {
-    //     debugPrint("hello time");
-    //     debugPrint(timer.tick);
+    //     print("hello time");
+    //     print(timer.tick);
     //   },
     // );
   }
@@ -195,7 +195,7 @@ class _SwapPageState extends State<SwapPage> {
     int dotPosition = _swapProvider!.model!.myController!.text.indexOf(".");
 
     if (dotPosition != -1 && dotPosition != _swapProvider!.model!.myController!.text.length) {
-      // debugPrint(int.parse((_swapProvider!.model!.myController!.text[dotPosition])));
+      // print(int.parse((_swapProvider!.model!.myController!.text[dotPosition])));
 
       if ( (_swapProvider!.model!.myController!.text.length - dotPosition) > 5){
 
@@ -227,19 +227,19 @@ class _SwapPageState extends State<SwapPage> {
   }
 
   Future<void> swapping() async {
-    // debugPrint("Calling swapping function");
+    // print("Calling swapping function");
     try {
 
       dialogLoading(context);
       // _http.Response value = _http.Response(json.encode(m), 200);
       await PostRequest.swap(_swapProvider!.model!.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) async {
-        debugPrint("value ${value.body}");
+        print("value ${value.body}");
         if (value.statusCode == 200){
           // Close Dialog
           Navigator.pop(context);
           Navigator.push(context, Transition(child: ConfirmSwap(res: SwapResponseObj.fromJson(json.decode(value.body))),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         } else {
-          debugPrint("json.decode(value.body)['error'].runtimeType.toString() ${json.decode(value.body)['error'].runtimeType.toString()}");
+          print("json.decode(value.body)['error'].runtimeType.toString() ${json.decode(value.body)['error'].runtimeType.toString()}");
 
           if (json.decode(value.body)['error'].runtimeType.toString() != "String"){
             errorMsg = json.decode(value.body)['error']['validation']["deposit_amount"][0];
@@ -263,7 +263,7 @@ class _SwapPageState extends State<SwapPage> {
       
     }
     on Exception catch (ex){
-      debugPrint("Exception");
+      print("Exception");
       await DialogComponents().customDialog(
         context,
         "Oops",
@@ -279,7 +279,7 @@ class _SwapPageState extends State<SwapPage> {
     catch (e) {
       // Close Dialog
       Navigator.pop(context);
-      debugPrint("Something wrong $e");
+      print("Something wrong $e");
     }
 
   }
@@ -290,13 +290,13 @@ class _SwapPageState extends State<SwapPage> {
     _swapProvider = Provider.of<SwapProvider>(context, listen: false);
     _swapProvider!.contractProvider = Provider.of<ContractProvider>(context, listen: false);
     _swapProvider!.apiProvider = Provider.of<ApiProvider>(context, listen: false);
-    
-    _swapProvider!.initList(context: context);
 
-    _swapProvider!.initList(context: context);
+    _swapProvider!.init();
 
     coins().then((value) {
       _swapProvider!.lstCoins = List.from(json.decode(value.body));
+
+      _swapProvider!.initList(context: context);
 
       _swapProvider!.notifyDataChanged();
       _swapProvider!.setList();
@@ -304,7 +304,6 @@ class _SwapPageState extends State<SwapPage> {
     });
 
     _swapProvider!.model!.myController!.addListener(() {
-
 
       _swapProvider!.balance1 = _swapProvider!.model!.myController!.text;
       
