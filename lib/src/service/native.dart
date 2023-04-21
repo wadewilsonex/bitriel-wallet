@@ -86,6 +86,7 @@ class NativeService implements INativeService {
       debugPrint("trxInfo.amount! ${trxInfo.amount!}");
       debugPrint("EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))) ${EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!)))}");
       debugPrint("trxInfo.chainDecimal! ${trxInfo.chainDecimal!}");
+      
       res = await _client.sendTransaction(
         credentials,
         Transaction(
@@ -93,8 +94,9 @@ class NativeService implements INativeService {
           to: trxInfo.receiver,
           value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))),
         ),
-        chainId: 1,
-        // fetchChainIdFromNetworkId: true,
+        // chainId: 1,
+        chainId: null,
+        fetchChainIdFromNetworkId: true,
       );
 
       debugPrint("Res $res");

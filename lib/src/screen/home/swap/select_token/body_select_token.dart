@@ -23,6 +23,7 @@ class SelectSwapTokenBody extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: const MyText(text: "Select Token", fontWeight: FontWeight.bold, fontSize: 22,),
         actions: <Widget>[
+          
           IconButton(
             icon: Icon(
               Iconsax.close_circle,

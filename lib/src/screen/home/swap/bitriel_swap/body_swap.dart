@@ -133,7 +133,7 @@ class SwapPageBody extends StatelessWidget {
                                   swap.balance1 = swap.balance2;
                                   swap.balance2 = tmp;
           
-                                  swap.setList();
+                                  // swap.setList();
                                   swap.notifyDataChanged();
                                 },
                                 child: Container(
