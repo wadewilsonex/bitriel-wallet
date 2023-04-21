@@ -18,25 +18,27 @@ class TransactionInfo {
   String? estGasFeePrice;
   String? estTotalPrice;
   String? scanUrl;
+  int? chainDecimal;
   String? feeNetworkSymbol;
 
   TransactionInfo({
-    this.hash,
-    this.status,
-    this.coinSymbol,
-    this.privateKey,
+    this.hash = '',
+    this.status = false,
+    this.coinSymbol = '',
+    this.privateKey = '',
     this.receiver,
-    this.timeStamp,
-    this.amount,
-    this.gasFee,
-    this.gasPrice,
-    this.gasPriceUnit,
-    this.maxGas,
-    this.totalAmt,
-    this.estAmountPrice,
-    this.estGasFeePrice,
-    this.estTotalPrice,
-    this.scanUrl,
-    this.feeNetworkSymbol,
+    this.timeStamp = '',
+    this.amount = '',
+    this.gasFee = '',
+    this.gasPrice = '',
+    this.gasPriceUnit = '',
+    this.maxGas = '',
+    this.totalAmt = '',
+    this.estAmountPrice = '',
+    this.estGasFeePrice = '',
+    this.estTotalPrice = '',
+    this.scanUrl = '',
+    this.chainDecimal = 18,
+    this.feeNetworkSymbol = '',
   });
 }

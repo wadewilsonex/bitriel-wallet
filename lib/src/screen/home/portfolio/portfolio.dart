@@ -1,12 +1,12 @@
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/screen/home/portfolio/portfolio_body.dart';
+import 'package:wallet_apps/src/screen/home/portfolio/body_portfolio.dart';
 
 class Portfolio extends StatefulWidget{
 
   final List<dynamic>? listData;
   // /final List<CircularSegmentEntry> listChart;
 
-  const Portfolio({@required this.listData});
+  const Portfolio({Key? key, @required this.listData}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,6 +21,7 @@ class PortfolioState extends State<Portfolio>{
   @override
   void initState(){
     setChartData();
+    AppServices.noInternetConnection(context: context);
     super.initState();
   }
 

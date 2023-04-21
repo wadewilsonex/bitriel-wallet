@@ -1,8 +1,5 @@
 import 'dart:math';
-
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
 
 enum SocialMedia {facebook, twitter, telegram}
@@ -56,7 +53,7 @@ class AirDropProvider with ChangeNotifier {
   Future<DeployedContract> initContract() async {
     try {
 
-      final String abi = await rootBundle.loadString(AppConfig.abiPath+"airdrop.json");
+      final String abi = await rootBundle.loadString("${AppConfig.abiPath}airdrop.json");
       _deployedContract = DeployedContract(
         ContractAbi.fromJson(abi, "AirdropClaim"),
         EthereumAddress.fromHex(contract)
@@ -64,28 +61,17 @@ class AirDropProvider with ChangeNotifier {
       
       notifyListeners();
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Error initContract $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error initContract $e");
+        }
+      
     }
 
     return _deployedContract!;
   }
 
   /* --------------------Read Contract-------------------- */
-  Future<void> airdropTokenAddress() async {
-    try {
-
-      await _contractP!.initBscClient();
-      final preFunction = _deployedContract!.function('airdropTokenAddress');
-      final res = await _contractP!.bscClient.call(
-        contract: _deployedContract!, 
-        function: preFunction, 
-        params: []
-      );
-
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error airdropTokenAddress $e");
-    }
-  }
 
   Future<String> getTrxFee() async {
     try {
@@ -98,13 +84,17 @@ class AirDropProvider with ChangeNotifier {
       );
       res = (res / BigInt.from(pow(10, 9)));
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getTrxFee $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error getTrxFee $e");
+        }
+      
     }
     return '';
   }
 
   Future<dynamic> signMessage(BuildContext context) async {
-    final apiPro = await Provider.of<ApiProvider>(context, listen: false);
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.signMessage('${Provider.of<ContractProvider>(context, listen: false).ethAdd}')").then((value) async {
       return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     });
@@ -120,7 +110,7 @@ class AirDropProvider with ChangeNotifier {
 
       if (_privateKey != ''){
 
-        final credentials = await EthPrivateKey.fromHex(_privateKey);
+        final credentials = EthPrivateKey.fromHex(_privateKey);
 
         final res = await _contractP!.bscClient.sendTransaction(
           credentials,
@@ -154,26 +144,30 @@ class AirDropProvider with ChangeNotifier {
 
 
   Future<void> signUp() async {
-    try {
-      await http.post(
-        Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
-        headers: {"Content-Type": "application/json; charset=utf-8"},
-        body: json.encode({
-          "email": "${_apiProvider!.accountM.address}@gmail.com",
-          "password": '123456',
-          "wallet": "${_apiProvider!.accountM.address}"
-        })
-      ).then((value) async {
-        final res = json.decode(value.body);
-        if (res['success']){
-          await signIn();
-        }
+    // try {
+    //   await http.post(
+    //     Uri.parse('https://airdropv2-api.selendra.org/auth/register'),
+    //     headers: {"Content-Type": "application/json; charset=utf-8"},
+    //     body: json.encode({
+    //       "email": "${_apiProvider!.accountM.address}@gmail.com",
+    //       "password": '123456',
+    //       "wallet": "${_apiProvider!.accountM.address}"
+    //     })
+    //   ).then((value) async {
+    //     final res = json.decode(value.body);
+    //     if (res['success']){
+    //       await signIn();
+    //     }
 
-      });
+    //   });
 
-    } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error signUp $e");
-    }
+    // } catch (e) {
+    //   
+    //     if (kDebugMode) {
+    //       debugPrint("Error signUp $e");
+    //     }
+    //   
+    // }
   }
 
   Future<void> signIn() async {
@@ -197,19 +191,19 @@ class AirDropProvider with ChangeNotifier {
 
     //   // var db = Db(AppConfig.mongoUrl);
     //   // await db.open().then((value) {
-    //   //   print("Hello my db openDb $value");
+    //   //   debugPrint("Hello my db openDb $value");
     //   // });
-    //   // print("Done connect to mongo");
+    //   // debugPrint("Done connect to mongo");
     // } catch (e) {
-    //   print("Error signIn $e");
+    //   debugPrint("Error signIn $e");
     // }
   }
 
   Future<dynamic> encodeRS(BuildContext context, String r, String s) async {
-    final apiPro = await Provider.of<ApiProvider>(context, listen: false);
+    final apiPro = Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
     // .then((value) async {
-    //   print("resolve $value");
+    //   debugPrint("resolve $value");
     //   return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     // });
   }
@@ -232,15 +226,15 @@ class AirDropProvider with ChangeNotifier {
         // );
 
         // For Events Mainnet
-        final res2 = await http.post(
-          Uri.parse('https://airdrop.selendra.org/api/submit'),
-          headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
-          body: json.encode({
-            "wallet": "${_apiProvider!.accountM.address}",
-          })
-        );
+        // final res2 = await http.post(
+        //   Uri.parse('https://airdrop.selendra.org/api/submit'),
+        //   headers: {"Content-Type": "application/json; charset=utf-8", "authorization": "Bearer $getToken"},
+        //   body: json.encode({
+        //     "wallet": "${_apiProvider!.accountM.address}",
+        //   })
+        // );
 
-        return await json.decode(res2.body);
+        // return await json.decode(res2.body);
         
         // if (res2.statusCode == 200){
         //   // Map<String, dynamic> map = Map<String, dynamic>.from(json.decode(res.body));
@@ -255,15 +249,15 @@ class AirDropProvider with ChangeNotifier {
         //   await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
         // }
 
-        // print("Finish storeData");
+        // debugPrint("Finish storeData");
 
         // return json.decode(res.body)['data'];
       // } else {
-      //   // print("From DB $res");
+      //   // debugPrint("From DB $res");
       //   // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
       //   // Check If Time To Re Sign
       //   if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
-      //     print("Is time to api");
+      //     debugPrint("Is time to api");
       //     await StorageServices.removeKey(DbKey.signData);
       //     return await signToDb();
 
@@ -274,11 +268,13 @@ class AirDropProvider with ChangeNotifier {
 
       // var db = Db(AppConfig.mongoUrl);
       // await db.open().then((value) {
-      //   print("Hello my db openDb $value");
+      //   debugPrint("Hello my db openDb $value");
       // });
-      // print("Done connect to mongo");
+      // debugPrint("Done connect to mongo");
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error signToDb $e");
+      if (kDebugMode) {
+        debugPrint("Error signToDb $e");
+      }
     }
   }
   

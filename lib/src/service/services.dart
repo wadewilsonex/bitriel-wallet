@@ -2,10 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:convert/convert.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:polkawallet_sdk/api/apiTx.dart';
 import 'package:polkawallet_sdk/service/tx.dart';
 import 'package:polkawallet_sdk/api/types/txInfoData.dart';
@@ -13,62 +11,75 @@ import 'package:polkawallet_sdk/api/api.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppServices {
+
   static int myNumCount = 0;
 
-  static Future noInternetConnection(GlobalKey<ScaffoldState> globalKey) async {
+  static Future noInternetConnection({required BuildContext? context}) async {
     try {
-      final Connectivity _connectivity = Connectivity();
+      final Connectivity connectivity = Connectivity();
 
-      final myResult = await _connectivity.checkConnectivity();
+      final myResult = await connectivity.checkConnectivity();
 
-      _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         if (result == ConnectivityResult.none) {
-          openSnackBar(globalKey, AppString.contentConnection);
+          // openSnackBar(globalKey, AppString.contentConnection);
+          ScaffoldMessenger.of(context!).showSnackBar(
+            snackBarBody(AppString.contentConnection, context),
+          );
         } else {
+          ScaffoldMessenger.of(context!).removeCurrentSnackBar();
           // ignore: deprecated_member_use
           // globalKey.currentState!.removeCurrentSnackBar();
         }
       });
 
       if (myResult == ConnectivityResult.none) {
-        openSnackBar(globalKey, AppString.contentConnection);
+        snackBarBody(AppString.contentConnection, context!);
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint("noInternetConnection $e");
+      }
+    }
   }
 
   static Future connectivityStatus(BuildContext context) async {
     try {
-      final Connectivity _connectivity = Connectivity();
+      final Connectivity connectivity = Connectivity();
 
-      final myResult = await _connectivity.checkConnectivity();
+      final myResult = await connectivity.checkConnectivity();
 
-      _connectivity.onConnectivityChanged
+      connectivity.onConnectivityChanged
           .listen((ConnectivityResult result) async {
         if (result == ConnectivityResult.none) {
-          await dialogSuccess(context, Text(''), Text(''));
+          await dialogSuccess(context, const Text(''), const Text(''));
         }
       });
 
       if (myResult == ConnectivityResult.none) {
-        await dialogSuccess(context, Text(''), Text(''));
+        await dialogSuccess(context, const Text(''), const Text(''));
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint("connectivityStatus $e");
+      }
+    }
   }
 
-  static void openSnackBar(GlobalKey<ScaffoldState> globalKey, String content) {
-    // ignore: deprecated_member_use
-    // globalKey.currentState!.showSnackBar(snackBarBody(content, globalKey));
+  static void openSnackBar(context, String content) {
+    ScaffoldMessenger.of(context!).showSnackBar(
+      snackBarBody(content, context),
+    );
   }
 
   // ignore: avoid_void_async
-  static void closeSnackBar(
-      GlobalKey<ScaffoldState> globalKey, String content) async {
+  static void closeSnackBar(GlobalKey<ScaffoldState> globalKey, String content) async {
     // await globalKey.currentState.showSnackBar(snackBarBody(content, globalKey)).closed.then((value) =>
-    //   print("value $value")
+    //   debugPrint("value $value")
     // );
   }
 
-  static SnackBar snackBarBody(String content, globalKey) {
+  static SnackBar snackBarBody(String content, BuildContext context) {
     return SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: const Duration(days: 365),
@@ -81,7 +92,7 @@ class AppServices {
         label: "Close",
         textColor: Colors.white,
         onPressed: () {
-          globalKey.currentState.removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
         },
       ),
     );
@@ -117,7 +128,9 @@ class AppServices {
       if (timer.tick <= 10) {
         timeCounter(timer);
         // ignore: invariant_booleans
-      } else if (timer.tick > 10) timer.cancel();
+      } else if (timer.tick > 10) {
+        timer.cancel();
+      }
     });
   }
 
@@ -129,37 +142,45 @@ class AppServices {
       if (support) {
         canCheckBiometrics = await LocalAuthentication().canCheckBiometrics;
       } else {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0)),
-              title: Align(
-                child: MyText(
-                  text: "Oops",
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              content: Padding(
-                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-                child: Text("Your doesn't support finger print",
-                    textAlign: TextAlign.center),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Close'),
-                ),
-              ],
-            );
-          },
-        );
+          await customDialog(
+            context, 
+            'Opps', 
+            "Your device doesn't support finger debugPrint",
+            txtButton: "Close",
+          );
+        // await showDialog(
+        //   context: context,
+        //   builder: (context) {
+        //     return AlertDialog(
+        //       shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(10.0)),
+        //       title: Align(
+        //         child: MyText(
+        //           text: "Oops",
+        //           fontWeight: FontWeight.w600,
+        //         ),
+        //       ),
+        //       content: Padding(
+        //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+        //         child: Text("Your device doesn't support finger debugPrint",
+        //             textAlign: TextAlign.center),
+        //       ),
+        //       actions: <Widget>[
+        //         TextButton(
+        //           onPressed: () => Navigator.pop(context),
+        //           child: const Text('Close'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       }
 
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
-      if (ApiProvider().isDebug == false) print("Erorr $e");
+        if (kDebugMode) {
+          debugPrint("Error checkBiometrics $e");
+        }
       // canCheckBiometrics = false;
     }
 
@@ -169,24 +190,25 @@ class AppServices {
   static Future<String>? getPrivateKey(String pin, BuildContext context) async {
     String privateKey = '';
     try {
-      final encrytKey = await StorageServices().readSecure(DbKey.private);
+      final encrytKey = await StorageServices.readSecure(DbKey.private);
+      // ignore: use_build_context_synchronously
       privateKey = await Provider.of<ApiProvider>(context, listen: false).decryptPrivateKey(encrytKey!, pin);
     } catch (e) {
-      await customDialog(context, 'Opps', 'PIN verification failed');
+      await customDialog(context, 'Opps', 'PIN verification failed', txtButton: "Close",);
     }
     return privateKey;
   }
 
   static List<List<double>> flListToList(List<FlSpot> flList) {
     List<List<double>> tmp = [];
-    flList.forEach((element) {
+    for (var element in flList) {
       tmp.add(
         List.from([
           element.x,
           element.y
         ])
       );
-    });
+    }
 
     return tmp;
   }
@@ -200,6 +222,25 @@ class AppServices {
     });
     return tmp;
   }
+
+  List<SmartContractModel> sortAsset(List<SmartContractModel> lsAsset){
+    SmartContractModel tmp = SmartContractModel();
+    for (int i = 0; i < lsAsset.length; i++) {
+      // if (lsAsset[i].balance!.contains(",")) {
+      //   lsAsset[i].balance = lsAsset[i].balance!.replaceAll(",", "");
+      // } 
+
+      for (int j = i + 1; j < lsAsset.length; j++) {
+        tmp = lsAsset[i];
+        if ( (double.parse(lsAsset[j].balance!.replaceAll(",", ""))) > (double.parse(lsAsset[i].balance!.replaceAll(",", ""))) ) {
+          lsAsset[i] = lsAsset[j];
+          lsAsset[j] = tmp;
+        }
+      }
+    }
+    return lsAsset;
+  }
+
 }
 
 class Encryptt {
@@ -212,16 +253,16 @@ class Encryptt {
   }
 }
 
-class AppUpdate {
+// class AppUpdate {
   
-  Future<AppUpdateInfo> checkUpdate() async {
-    return await InAppUpdate.checkForUpdate();
-  }
+//   Future<AppUpdateInfo> checkUpdate() async {
+//     return await InAppUpdate.checkForUpdate();
+//   }
 
-  Future<void> performImmediateUpdate() async {
-    await InAppUpdate.performImmediateUpdate();
-  }
-}
+//   Future<void> performImmediateUpdate() async {
+//     await InAppUpdate.performImmediateUpdate();
+//   }
+// }
 
 class SendTrx extends ApiTx{
 
@@ -229,14 +270,13 @@ class SendTrx extends ApiTx{
   final ServiceTx service;
 
   SendTrx(this.apiRoot, this.service) : super(apiRoot, service);
-
-  @override
+  
   /// Estimate tx fees, [params] will be ignored if we have [rawParam].
-  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params,
-      {String? rawParam, String? jsApi}) async {
-    final String param = rawParam != null ? rawParam : jsonEncode(params);
+  @override
+  Future<TxFeeEstimateResult> estimateFees(TxInfoData txInfo, List params, {String? rawParam, String? jsApi}) async {
+    final String param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
-    dynamic res = await (service.estimateFees(tx, param));
+    final res = await (service.estimateFees(tx, param, jsApi: jsApi));
     return TxFeeEstimateResult.fromJson(res as Map<String, dynamic>);
   }
 
@@ -248,7 +288,7 @@ class SendTrx extends ApiTx{
     Function(String)? onStatusChange,
     String? rawParam,
   }) async {
-    final param = rawParam != null ? rawParam : jsonEncode(params);
+    final param = rawParam ?? jsonEncode(params);
     final Map tx = txInfo.toJson();
     dynamic res = await (service.signAndSend(
       tx,

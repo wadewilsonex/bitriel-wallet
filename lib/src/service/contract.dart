@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/IContract.dart';
-import 'package:web3dart/web3dart.dart';
+import 'package:wallet_apps/src/models/icontract.dart';
 
 class ContractService implements IContractService {
   
@@ -26,14 +24,17 @@ class ContractService implements IContractService {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error _queryContract $e");
+
+      if (kDebugMode) {
+        debugPrint("Error _queryContract $e");
+      }
     }
     return [];
   }
 
   @override
   Future<EthPrivateKey> getCredentials(String privateKey) async {
-    return await EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey);
+    return EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey);
   }
 
   @override
@@ -48,7 +49,10 @@ class ContractService implements IContractService {
       final res = await _queryContract(_contract, _balanceFunction(), [from]);
       return res.first as BigInt;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getTokenBalance $e");
+      
+      if (kDebugMode) {
+        debugPrint("Error getTokenBalance $e");
+      }
     }
     return 0 as BigInt;
   }
@@ -85,68 +89,33 @@ class ContractService implements IContractService {
               return std!;
             }
           } catch (e) {
-            if (ApiProvider().isDebug == false) print("Error $e");
+            
+            if (kDebugMode) {
+              debugPrint("Error $e");
+            }
           }
         })
         .where((receipt) => receipt != null)
         .first;
 
     return std!;
-
-    // final addedBlock = await _client.addedBlocks();
-
-    // // ignore: unused_local_variable
-    // // ignore: cancel_subscriptions
-    // subscribeEvent = addedBlock.listen((event) async {
-    //   try {
-    //     // This Method Will Run Again And Again Until we return something
-    //     await _client.getTransactionReceipt(txHash).then((d) {
-    //       // Give Value To std When Request Successfully
-    //       if (d != null) {
-    //         std = d.status;
-
-    //         subscribeEvent.cancel();
-    //       }
-    //     });
-
-    //     if (ApiProvider().isDebug == false) print('std in try $std');
-
-    //     // Return Value For True Value And Method GetTrxReceipt Also Terminate
-    //     if (std != null) return std;
-    //   } on FormatException catch (e) {
-    //     // This Error Because can't Convert Hexadecimal number to integer.
-    //     // Note: Transaction is 100% successfully And It's just error becuase of Failure Parse that hexa
-    //     // Example-Error: 0xc, 0x3a, ...
-    //     // Example-Success: 0x1, 0x2, 0,3 ...
-
-    //     // return True For Facing This FormatException
-    //     if (e.message.toString() == 'Invalid radix-10 number') {
-    //       std = true;
-    //       return std;
-    //     }
-    //   } catch (e) {
-    //     if (ApiProvider().isDebug == false) print("Error $e");
-    //   }
-    // });
-
-    // if (ApiProvider().isDebug == false) print('mystd: $std');
-    // return std;
   }
 
   @override
   Future<String>? sendToken(TransactionInfo trxInfo) async {
+    
     String? res;
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
-
-      final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount);
-
+      final txInfo = TransactionInfo(receiver: trxInfo.receiver, amount: trxInfo.amount, chainDecimal: trxInfo.chainDecimal);
       final sender = await credentials.extractAddress();
-
       final maxGas = await getMaxGas(sender, txInfo);
 
-      // final decimal = await getChainDecimal();
+      debugPrint("credentials ${credentials.address}");
+      debugPrint("txInfo ${txInfo}");
+      debugPrint("sender ${sender.hex}");
+      debugPrint("maxGas ${maxGas.toString()}");
 
       res = await _client.sendTransaction(
         credentials,
@@ -156,7 +125,7 @@ class ContractService implements IContractService {
           function: _sendFunction(),
           parameters: [
             trxInfo.receiver,
-            BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
+            BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))
           ],
         ),
         chainId: null,
@@ -164,10 +133,15 @@ class ContractService implements IContractService {
       );
       
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err sendToken $e");
+      
+        if (kDebugMode) {
+          debugPrint("Err sendToken $e");
+        }
+      
+      throw Exception(e);
     }
 
-    return res!;
+    return res;
   }
 
   @override
@@ -177,8 +151,16 @@ class ContractService implements IContractService {
 
   @override
   Future<BigInt> getChainDecimal() async {
-    final res = await _queryContract(_contract, _decimalFunction(), []);
-    return res.first;
+    try {
+      
+      final res = await _queryContract(_contract, _decimalFunction(), []);
+      return res.first;
+    } catch (e){
+        if (kDebugMode) {
+          debugPrint("err getChainDecimal $e");
+        }
+    }
+    return 0 as BigInt;
   }
 
   @override
@@ -189,30 +171,84 @@ class ContractService implements IContractService {
       data: _sendFunction().encodeCall(
         [
           trxInfo.receiver,
-          BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))
+          BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))
         ],
       ),
     );
-
     return maxGas;
   }
 
-  static List<Map<String, dynamic>> getConSymbol(List<SmartContractModel> ls){
+  static List<Map<String, dynamic>> getConSymbol(BuildContext context, List<SmartContractModel> ls, {bool? isOnlySymbol = false}){
     List<Map<String, dynamic>> tmp = [];
-    // for (int i = 0; i < ls.length; i++){
-    //   tmp.add({
-    //     "symbol": ls[i].symbol,
-    //     "index": i
-    //   });
-    // }List<Map<String, dynamic>> tmp = [];
-    for (int i = 0; i < ls.length; i++){
-      tmp.add({
-        "symbol": "${ls[i].symbol} ${ls[i].org != '' ? '(${ls[i].org})' : ''}",
-        "index": i
-      });
-    }
 
+    if (ls.isNotEmpty){
+      
+      for (int i = 0; i < ls.length; i++){
+        String org = _getOrg(i, ls);
+        if (isOnlySymbol == false){
+
+          tmp.add({
+            "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
+            "index": i,
+            "logo": "${ls[i].logo}"
+          });
+        } else {
+          tmp.add({
+            "symbol": "${ls[i].symbol}",
+          });
+        }
+      }
+    }
 
     return tmp;
   }
+
+  static Map<String, dynamic> getConByIndex(BuildContext context, List<SmartContractModel> ls, int index){
+    Map<String, dynamic> tmp = {};
+    
+    String? org;
+    
+    if (ls.isNotEmpty){
+      
+      for (int i = 0; i < ls.length; i++){
+
+        org = _getOrg(i, ls);
+        if (ls[i].symbol == ls[index].symbol){
+          tmp = {
+            "symbol": "${ls[i].symbol}${ org != '' ? ' ($org)' : ''}",
+            "index": i,
+            "logo": "${ls[i].logo}"
+          };
+
+          break;
+        }
+      }
+    }
+
+    return tmp;
+  }
+
+  static String _getOrg(int i, List<SmartContractModel> ls) => (ApiProvider().isMainnet ? ls[i].org : ls[i].orgTest)!;
+}
+
+class GetConByIndex {
+
+  String? symbol;
+
+  List<GetConByIndex> getConSymbol(List<SmartContractModel> ls, {bool? isOnlySymbol = false}){
+    List<GetConByIndex> tmp = [];
+
+    if (ls.isNotEmpty){
+      
+      for (int i = 0; i < ls.length; i++){
+        tmp.add(
+          GetConByIndex.init(ls[i].symbol!)
+        );
+      }
+    }
+
+    return tmp;
+  }
+  GetConByIndex();
+  GetConByIndex.init(this.symbol);
 }

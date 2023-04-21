@@ -1,6 +1,5 @@
 import 'package:wallet_apps/index.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const fontSizePort = 17.0;
 const fontColorPort = Colors.white;
@@ -28,119 +27,119 @@ final portfolioChart = LineChartData(
       );
     },
   ),
-  // titlesData: FlTitlesData(
-  //   show: true,
-  //   bottomTitles: SideTitles(
-  //     reservedSize: 6,
-  //     getTitles: (value) {
-  //       switch (value.toInt()) {
-  //         case 0:
-  //           return '';
-  //         case 1:
-  //           return '2h';
-  //         case 2:
-  //           return '4h';
-  //         case 3:
-  //           return '6h';
-  //         case 4:
-  //           return '8h';
-  //         case 5:
-  //           return '10h';
-  //       }
-  //       return '12h';
-  //     },
-  //     margin: 0,
-  //   ),
-  //   leftTitles: SideTitles(
-  //     getTitles: (value) {
-  //       switch (value.toInt()) {
-  //         case 0:
-  //           return '';
-  //         case 1:
-  //           return '50';
-  //         case 2:
-  //           return '100';
-  //         case 3:
-  //           return '150';
-  //       }
-  //       return '200';
-  //     },
-  //     reservedSize: 3,
-  //     margin: 0,
-  //   ),
-  // ),
-  // minX: 0,
-  // maxX: 6,
-  // minY: 0,
-  // maxY: 4,
-  // lineBarsData: [
-  //   LineChartBarData(
-  //     spots: [
-  //       FlSpot(0, 0),
-  //       FlSpot(0.5, 0.5),
-  //       FlSpot(1, 1),
-  //       FlSpot(1.5, 2),
-  //       FlSpot(2, 2.5),
-  //       FlSpot(2.5, 3),
-  //       FlSpot(3, 3),
-  //       FlSpot(3.5, 3),
-  //       FlSpot(4, 4),
-  //       FlSpot(4.5, 3.5),
-  //       FlSpot(5, 2),
-  //       FlSpot(5.5, 2),
-  //       FlSpot(6, 1),
-  //     ],
-  //     isCurved: true,
-  //     colors: _gradientColors,
-  //     barWidth: 2.5,
-  //     // isStrokeCapRound: true,
-  //     dotData: FlDotData(
-  //       show: false,
-  //     ),
-  //     belowBarData: BarAreaData(
-  //       show: false,
-  //       colors: _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-  //     ),
-  //   ),
-  // ],
+  titlesData: FlTitlesData(
+    show: true,
+    bottomTitles: SideTitles(
+      reservedSize: 6,
+      getTitles: (value) {
+        switch (value.toInt()) {
+          case 0:
+            return '';
+          case 1:
+            return '2h';
+          case 2:
+            return '4h';
+          case 3:
+            return '6h';
+          case 4:
+            return '8h';
+          case 5:
+            return '10h';
+        }
+        return '12h';
+      },
+      margin: 0,
+    ),
+    leftTitles: SideTitles(
+      getTitles: (value) {
+        switch (value.toInt()) {
+          case 0:
+            return '';
+          case 1:
+            return '50';
+          case 2:
+            return '100';
+          case 3:
+            return '150';
+        }
+        return '200';
+      },
+      reservedSize: 3,
+      margin: 0,
+    ),
+  ),
+  minX: 0,
+  maxX: 6,
+  minY: 0,
+  maxY: 4,
+  lineBarsData: [
+    LineChartBarData(
+      spots: [
+        const FlSpot(0, 0),
+        const FlSpot(0.5, 0.5),
+        const FlSpot(1, 1),
+        const FlSpot(1.5, 2),
+        const FlSpot(2, 2.5),
+        const FlSpot(2.5, 3),
+        const FlSpot(3, 3),
+        const FlSpot(3.5, 3),
+        const FlSpot(4, 4),
+        const FlSpot(4.5, 3.5),
+        const FlSpot(5, 2),
+        const FlSpot(5.5, 2),
+        const FlSpot(6, 1),
+      ],
+      isCurved: true,
+      colors: _gradientColors,
+      barWidth: 2.5,
+      // isStrokeCapRound: true,
+      dotData: FlDotData(
+        show: false,
+      ),
+      belowBarData: BarAreaData(
+        show: false,
+        colors: _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+      ),
+    ),
+  ],
 );
 
-Widget homeAppBar(BuildContext context, {Function? query}) {
-  final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-  return Container(
-    height: 70,
-    color: isDarkTheme
-      ? hexaCodeToColor(AppColors.darkCard)
-      : hexaCodeToColor(AppColors.whiteHexaColor),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset(
-          AppConfig.assetsPath+'bitriel_home.png',
-          width: 170,
-          height: 170,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: IconButton(
-            iconSize: 30,
-            color: isDarkTheme ? Colors.white : Colors.black,
-            icon: SvgPicture.asset(AppConfig.iconsPath+"list.svg"),
-            onPressed: () async {
-              await MyBottomSheet().listToken(context: context, query: query);
-              // Navigator.push(
-              //   context,
-              //   RouteAnimation(
-              //     enterPage: AddAsset(),
-              //   ),
-              // );
-            },
-          ),
-        ),
-      ],
-    ),
-  );
-}
+// Widget homeAppBar(BuildContext context, {Function? query}) {
+   
+//   return Container(
+//     height: 70,
+//     color: isDarkMode
+//       ? hexaCodeToColor(AppColors.darkCard)
+//       : hexaCodeToColor(AppColors.whiteHexaColor),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Image.asset(
+//           '${AppConfig.assetsPath}bitriel_home.png',
+//           width: 170,
+//           height: 170,
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(right: 16.0),
+//           child: IconButton(
+//             iconSize: 30,
+//             color: isDarkMode ? Colors.white : Colors.black,
+//             icon: SvgPicture.asset("${AppConfig.iconsPath}list.svg"),
+//             onPressed: () async {
+//               await MyBottomSheet().listToken(context: context, query: query);
+//               // Navigator.push(
+//               //   context,
+//               //   RouteAnimation(
+//               //     enterPage: AddAsset(),
+//               //   ),
+//               // );
+//             },
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 Widget cardToken(
   /* Card Token Display */
@@ -211,6 +210,8 @@ Widget cardToken(
 }
 
 class AddAssetRowButton extends StatelessWidget {
+  const AddAssetRowButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -334,6 +335,8 @@ Widget rowDecorationStyle({Widget? child, double mTop = 0, double mBottom = 16})
 }
 
 class MyBottomAppBar extends StatelessWidget {
+
+  final int? index;
   final bool? apiStatus;
   final HomeModel? homeM;
   final Function? scanReceipt;
@@ -341,8 +344,12 @@ class MyBottomAppBar extends StatelessWidget {
   final Function? fillAddress;
   final Function? contactPiker;
   final void Function()? openDrawer;
+  final void Function(int index)? onIndexChanged;
+  final double iconSize = 24;
 
   const MyBottomAppBar({
+    Key? key, 
+    required this.index,
     this.apiStatus,
     this.homeM,
     this.scanReceipt,
@@ -350,71 +357,137 @@ class MyBottomAppBar extends StatelessWidget {
     this.fillAddress,
     this.contactPiker,
     this.openDrawer,
-  });
+    this.onIndexChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
-    return BottomAppBar(
-      elevation: 10,
-      color: isDarkTheme
-          ? hexaCodeToColor(AppColors.darkCard)
-          : hexaCodeToColor(AppColors.whiteHexaColor),
-      // shape: const CircularNotchedRectangle(),
-      notchMargin: 8.0,
-      child: SizedBox(
-        height: 65,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-                child: MyIconButton(
-              icon: 'telegram.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      await MyBottomSheet().trxOptions(
-                        context: context,
-                        portfolioList: homeM!.portfolioList,
-                      );
-                    },
-            )),
-            Expanded(
-                child: MyIconButton(
-              icon: 'wallet.svg',
-              iconSize: 36,
-              onPressed: !apiStatus!
-                  ? null
-                  : () async {
-                      toReceiveToken!();
-                    },
-            )),
-            Expanded(child: Container()),
-            Expanded(
-              child: MyIconButton(
-                icon: 'contact_list.svg',
-                iconSize: 26,
-                onPressed: !apiStatus!
-                    ? null
-                    : () async {
-                        Navigator.pushNamed(context, AppString.contactBookView);
+     
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+        child: BottomAppBar(
+          height: 80,
+          color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd) : hexaCodeToColor(AppColors.whiteHexaColor),
+          // isDarkMode
+          //   ? hexaCodeToColor(AppColors.darkBgd)
+          //   : hexaCodeToColor(AppColors.whiteHexaColor),
+          // shape: const CircularNotchedRectangle(),
+          // notchMargin: 8.0,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: hexaCodeToColor("#E6E6E6")),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa)
+            ),
+            child: SizedBox(
+              height: 10.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+      
+                  Expanded(
+                    child: MyIconButton(
+                      title: "Discover",
+                      txtColor: index == 0 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                      isActive: index == 0 ? true : false,
+                      onPressed: () {
+                        onIndexChanged!(0);
                       },
+                      child: Icon(Iconsax.discover_1, size: iconSize, color: index == 0 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                    ),
+                  ),
+                  Expanded(
+                    child: MyIconButton(
+                      title: "Wallet",
+                      txtColor: index == 1 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                      isActive: index == 1 ? true : false,
+                      onPressed: () {
+                        onIndexChanged!(1);
+                        // Navigator.push(context, RouteAnimation(enterPage: AssetsPage()));
+                      },
+                      child: Icon(Iconsax.wallet_check, size: iconSize, color: index == 1 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                    ),
+                  ),
+                  Expanded(
+                    child: MyIconButton(
+                      title: "Home",
+                      txtColor: index == 2 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                      isActive: index == 2 ? true : false,
+                      onPressed: () {
+                        // Navigator.push(context, RouteAnimation(enterPage: HomePage()));
+                        onIndexChanged!(2);
+                      },
+                      child: Icon(Iconsax.home, size: iconSize, color: index == 2 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                    ),
+                  ),
+                  // Expanded(
+                  //   child: MyIconButton(
+                  //     title: "Swap",
+                  //     txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                  //     onPressed: () {
+                  //       onIndexChanged!(3);
+                  //     },
+                  //     child: Icon(Iconsax.card_coin, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                  //   ),
+                  // ),
+                  // Expanded(
+                  //   child: MyIconButton(
+                  //     title: "Swap",
+                  //     txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                  //     isActive: index == 3 ? true : false,
+                  //     onPressed: () {
+                  //       onIndexChanged!(3);
+                  //     },
+                  //     child: Icon(Iconsax.convert_card, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                  //   ),
+                  // ),
+                  Expanded(
+                    child: MyIconButton(
+                      title: "Event",
+                      txtColor: index == 3 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                      onPressed: () {
+                        onIndexChanged!(3);
+                      },
+                      child: Icon(Iconsax.calendar_1, size: iconSize, color: index == 3 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                    ),
+                  ),
+                  // Expanded(
+                  //   child: MyIconButton(
+                  //     title: "Setting",
+                  //     txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                  //     isActive: index == 4 ? true : false,
+                  //     onPressed: () {
+                  //       onIndexChanged!(4);
+                  //     },
+                  //     child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                  //   ),
+                  // ),
+
+                  Expanded(
+                    child: MyIconButton(
+                      title: "Settings",
+                      txtColor: index == 4 ? isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor : isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor,
+                      isActive: index == 4 ? true : false,
+                      onPressed: () {
+                        onIndexChanged!(4);
+                      },
+                      child: Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                      // child: SvgPicture.asset("${AppConfig.iconsPath}nft_icon.svg", width: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))//Icon(Iconsax.setting, size: iconSize, color: index == 4 ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.primaryColor) : hexaCodeToColor(isDarkMode ? AppColors.iconColor : AppColors.iconGreyColor))
+                    ),
+                  ),
+      
+                ],
               ),
             ),
-            Expanded(
-              child: MyIconButton(
-                icon: 'menu.svg',
-                iconSize: 27,
-                onPressed: !apiStatus! ? null : openDrawer,
-              ),
-            )
-          ],
+
+          ),
         ),
       ),
     );
     // Container(
-    //   color: isDarkTheme ? hexaCodeToColor(AppColors.darkBgd):  hexaCodeToColor(AppColors.whiteColorHexa),
+    //   color: isDarkMode ? hexaCodeToColor(AppColors.darkBgd):  hexaCodeToColor(AppColors.whiteColorHexa),
     //   child: ,
     // );
   }
@@ -453,6 +526,7 @@ class MyHomeAppBar extends StatelessWidget {
   final Function? action;
 
   const MyHomeAppBar({
+    Key? key, 
     this.pLeft = 0,
     this.pTop = 0,
     this.pRight = 0,
@@ -460,7 +534,7 @@ class MyHomeAppBar extends StatelessWidget {
     this.margin = const EdgeInsets.fromLTRB(0, 12, 0, 0),
     @required this.title,
     this.action,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -474,10 +548,10 @@ class MyHomeAppBar extends StatelessWidget {
           MyLogo(
             width: 50,
             height: 50,
-            logoPath: AppConfig.assetsPath+"sld_logo.svg",
+            logoPath: "${AppConfig.assetsPath}sld_logo.svg",
           ),
           MyText(
-            color: "#FFFFFF",
+            hexaColor: "#FFFFFF",
             text: title,
             left: 15,
           ),
@@ -522,50 +596,50 @@ LineChartData mainData() {
         );
       },
     ),
-    // titlesData: FlTitlesData(
-    //   show: true,
-    //   bottomTitles: SideTitles(
-    //     showTitles: true,
-    //     reservedSize: 6,
-    //     getTextStyles: (context, value) => const TextStyle(
-    //         color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-    //     getTitles: (value) {
-    //       switch (value.toInt()) {
-    //         case 0:
-    //           return '';
-    //         case 1:
-    //           return '2h';
-    //         case 2:
-    //           return '4h';
-    //         case 3:
-    //           return '6h';
-    //         case 4:
-    //           return '8h';
-    //         case 5:
-    //           return '10h';
-    //       }
-    //       return '';
-    //     },
-    //     margin: 0,
-    //   ),
-    //   leftTitles: SideTitles(
-    //     getTitles: (value) {
-    //       switch (value.toInt()) {
-    //         case 0:
-    //           return '';
-    //         case 1:
-    //           return '50';
-    //         case 2:
-    //           return '100';
-    //         case 3:
-    //           return '150';
-    //       }
-    //       return '200';
-    //     },
-    //     reservedSize: 3,
-    //     margin: 0,
-    //   ),
-    // ),
+    titlesData: FlTitlesData(
+      show: true,
+      bottomTitles: SideTitles(
+        showTitles: true,
+        reservedSize: 6,
+        getTextStyles: (context, value) => const TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+        getTitles: (value) {
+          switch (value.toInt()) {
+            case 0:
+              return '';
+            case 1:
+              return '2h';
+            case 2:
+              return '4h';
+            case 3:
+              return '6h';
+            case 4:
+              return '8h';
+            case 5:
+              return '10h';
+          }
+          return '';
+        },
+        margin: 0,
+      ),
+      leftTitles: SideTitles(
+        getTitles: (value) {
+          switch (value.toInt()) {
+            case 0:
+              return '';
+            case 1:
+              return '50';
+            case 2:
+              return '100';
+            case 3:
+              return '150';
+          }
+          return '200';
+        },
+        reservedSize: 3,
+        margin: 0,
+      ),
+    ),
     // borderData: FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
     minX: 0,
     maxX: 6,
@@ -574,21 +648,22 @@ LineChartData mainData() {
     lineBarsData: [
       LineChartBarData(
         spots: [
-          FlSpot(0, 3),
-          FlSpot(0.5, 2.5),
-          FlSpot(1, 1),
-          FlSpot(1.5, 2),
-          FlSpot(2, 2.5),
-          FlSpot(2.5, 3),
-          FlSpot(3, 3),
-          FlSpot(3.5, 3),
-          FlSpot(4, 2),
-          FlSpot(4.5, 3.5),
-          FlSpot(5, 2),
-          FlSpot(5.5, 2),
-          FlSpot(6, 1),
+          const FlSpot(0, 3),
+          const FlSpot(0.5, 2.5),
+          const FlSpot(1, 1),
+          const FlSpot(1.5, 2),
+          const FlSpot(2, 2.5),
+          const FlSpot(2.5, 3),
+          const FlSpot(3, 3),
+          const FlSpot(3.5, 3),
+          const FlSpot(4, 2),
+          const FlSpot(4.5, 3.5),
+          const FlSpot(5, 2),
+          const FlSpot(5.5, 2),
+          const FlSpot(6, 1),
         ],
         isCurved: true,
+        colors: _gradientColors,
         barWidth: 3,
         // isStrokeCapRound: true,
         dotData: FlDotData(
@@ -596,6 +671,8 @@ LineChartData mainData() {
         ),
         belowBarData: BarAreaData(
           show: true,
+          colors:
+              _gradientColors.map((color) => color.withOpacity(0.3)).toList(),
         ),
       ),
     ],

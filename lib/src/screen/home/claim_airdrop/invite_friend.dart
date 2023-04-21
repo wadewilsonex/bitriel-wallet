@@ -17,7 +17,7 @@
 //       //Follow Selendra and get free $SEL tokens. Share twitter.com/selendraorg to get more $SEL. Claim it at https://selendra-airdrop.netlify.app/claim-$sel?ref=38034120c302. Join t.me/selendraorg to connect with others in the community.
 //       //Share.shareFiles([file.path], text: referralLink);
 //     } catch (e) {
-//       //print(e.toString());
+//       //debugPrint(e.toString());
 //     }
 //   }
 
@@ -40,7 +40,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     final ethAdd = Provider.of<ContractProvider>(context, listen: false).ethAdd;
-//     final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+//      
 //     return Scaffold(
 //       key: _globalKey,
 //       body: BodyScaffold(
@@ -50,7 +50,7 @@
             
 //             MyAppBar(
 //               title: 'Invite Friends',
-//               color: isDarkTheme
+//               color: isDarkMode
 //                   ? hexaCodeToColor(AppColors.darkCard)
 //                   : hexaCodeToColor(AppColors.whiteHexaColor),
 //               onPressed: () {

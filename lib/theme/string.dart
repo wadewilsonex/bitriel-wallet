@@ -1,5 +1,6 @@
 // ignore: avoid_classes_with_only_static_members
 class AppString {
+
   static String appName = "Bitriel";
 
   //route_name
@@ -8,6 +9,7 @@ class AppString {
   static const String txActivityView = '/txactivity';
   static const String checkinView = '/checkin';
   static const String accountView = '/account';
+  static const String testtest = '/testtest';
   static const String contactBookView = '/contactbook';
   static const String passcodeView = '/passcode';
   static const String importAccView = '/import';
@@ -17,7 +19,9 @@ class AppString {
   static const String navigationDrawerView = '/navigationdrawer';
   static const String inviteFriendView = '/invitefriend';
   static const String setupAccView = '/importUserInfo';
-  static const String confirmationTxView = '/confirmationTx';
+  static const String eventView = '/event';
+
+  static const String homeView = '/home';
 
   static const String contactAppBarTitle = 'Contact List';
   static const String confirmTxTitle = 'Confirm Transaction';
@@ -47,8 +51,8 @@ class AppString {
 
   static String claimAirdropNote =
       "Share Selendra's love to your friends by posting this airdrop on your social media profile Twitter, Linkedin, Facebook.";
-  static String createAccTitle = "Create Account";
-  static String importAccTitle = "Import Account ";
+  static String createAccTitle = "Getting Started";
+  static String importAccTitle = "Restore Wallet";
 
   static String reset = "Reset";
   static String welcome = "Welcome to";

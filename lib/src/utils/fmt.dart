@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:intl/intl.dart';
 
 class Fmt {
+  
   static String doubleFormat(
     double? value, 
     {
-      int length = 4,
+      int length = 6,
       int round = 0,
     }) {
     if (value == null) {
@@ -19,7 +20,7 @@ class Fmt {
   static String balance(
     String? raw,
     int decimals, {
-    int length = 4,
+    int length = 6,
   }) {
     if (raw == null || raw.isEmpty) {
       return '~';
@@ -31,7 +32,7 @@ class Fmt {
   static String token(
     BigInt? value,
     int decimals, {
-    int length = 4,
+    int length = 6,
   }) {
     if (value == null) {
       return '~';

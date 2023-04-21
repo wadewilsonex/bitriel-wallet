@@ -1,6 +1,4 @@
-import 'package:wallet_apps/src/models/asset_m.dart';
-import 'package:wallet_apps/src/models/lineChart_m.dart';
-
+import 'package:fl_chart/fl_chart.dart';
 import '../../index.dart';
 
 class SmartContractModel {
@@ -9,7 +7,6 @@ class SmartContractModel {
   String? address;
   String? contract;
   String? contractTest;
-  String? chainDecimal;
   String? symbol;
   String? name;
   String? balance;
@@ -20,11 +17,17 @@ class SmartContractModel {
   Market? marketData;
   String? marketPrice;
   String? change24h;
+  int? chainDecimal;
   bool? isContain;
   bool? show;
+  bool? isAdded;
+  String? maxSupply;
+  String? description;
   List<TransactionInfo>? listActivity = [];
   List<List<double>>? lineChartList = [];
+  List<FlSpot>? chart;
   LineChartModel? lineChartModel = LineChartModel();
+  double? money;
 
   SmartContractModel({
     this.id,
@@ -32,21 +35,25 @@ class SmartContractModel {
     this.chainDecimal,
     this.symbol,
     this.name,
-    this.balance = '0.0',
+    this.balance,
     this.logo,
     this.type,
     this.org = '',
     this.orgTest = '',
     this.marketData,
-    this.marketPrice = '',
+    this.marketPrice = '0',
     this.change24h = '',
     this.isContain, 
     this.show,
+    this.maxSupply,
+    this.description,
     this.listActivity,
     this.lineChartList,
     this.lineChartModel,
     this.contract,
-    this.contractTest
+    this.contractTest,
+    this.chart,
+    this.isAdded = false
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) {
@@ -62,16 +69,18 @@ class SmartContractModel {
       contract: json['contract'],
       contractTest: json['contract_test'],
       chainDecimal: json['chainDecimal'],
-      // marketData: Market.fromJson(json['market'] as Map<String, dynamic>),
       marketData: json['market'] != null ? Market.fromJson(json['market']) : null,
       lineChartList: json['lineChartData'] != null
         ? List<List<double>>.from(json["lineChartData"].map((x) => List<double>.from(x.map((x) => x.toDouble()))))
         : null,
       change24h: json['change24h'],
-      marketPrice: json['marketPrice'],
+      marketPrice: json['marketPrice'] ?? '0',
       name: json['name'],
       lineChartModel: json['lineChartModel'] == null ? LineChartModel() : LineChartModel.fromJson(json['lineChartModel']),
-      show: json['show']
+      show: json['show'],
+      maxSupply: json['max_supply'],
+      description: json['description'],
+      isAdded: json['isAdded'] ?? false
     );
   }
 
@@ -84,7 +93,7 @@ class SmartContractModel {
     'logo': asset.logo,
     'org': asset.org,
     'org_test': asset.orgTest,
-    'market': asset.marketData,
+    'market': null,//asset.marketData,
     'lineChartData': asset.lineChartList,
     'change24h': asset.change24h,
     'marketPrice': asset.marketPrice,
@@ -93,12 +102,22 @@ class SmartContractModel {
     "contract": asset.contract,
     "contract_test": asset.contractTest,
     'lineChartModel': LineChartModel.toJson(asset.lineChartModel!),
-    'show': asset.show
+    'show': asset.show,
+    'max_supply': asset.maxSupply,
+    'description': asset.description,
+    'isAdded': asset.isAdded,
   };
 
-  static String encode(List<SmartContractModel> assets) => json.encode(
-    assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList(),
-  );
+  static List<Map<String, dynamic>> encode(List<SmartContractModel> assets) {
 
-  static List<SmartContractModel> decode(String asset) => (json.decode(asset) as List<dynamic>).map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
+    return assets.map<Map<String, dynamic>>((asset) => SmartContractModel.toMap(asset)).toList();
+  }
+
+  static Future<List<SmartContractModel>> decode(String asset) async {
+    final decode = await json.decode(asset);
+    List<SmartContractModel> data = decode.map<SmartContractModel>((item) => SmartContractModel.fromJson(item)).toList();
+    // debugPrint('data ${data.runtimeType} ${data[0]}');
+    // debugPrint('decode again ${jsonDecode(data)[0]}');
+    return data;
+  }
 }

@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:web3dart/web3dart.dart';
 
 class PresaleOrderInfo {
 
@@ -45,8 +43,8 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
+      // final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final redeemFunction = contract!.function('redeem');
       final redeemHash = await _contractP!.bscClient.sendTransaction(
@@ -62,7 +60,11 @@ class PresaleProvider with ChangeNotifier {
       );
 
       hash = redeemHash;
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint("error redeem $e");
+      }
+    }
 
     return hash;
   }
@@ -80,8 +82,8 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
-      // final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
+      // final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final orderFunction = contract!.function('order');
       final orderHash = await _contractP!.bscClient.sendTransaction(
@@ -100,7 +102,11 @@ class PresaleProvider with ChangeNotifier {
 
       hash = orderHash;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error orderUsingBnb $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error orderUsingBnb $e");
+        }
+      
     }
 
     return hash;
@@ -118,7 +124,7 @@ class PresaleProvider with ChangeNotifier {
       await _contractP!.initBscClient();
       final contract = await initPresaleContract();
 
-      final credentials = await EthPrivateKey.fromHex(privateKey!);
+      final credentials = EthPrivateKey.fromHex(privateKey!);
 
       final orderToken = contract!.function('orderToken');
 
@@ -140,7 +146,11 @@ class PresaleProvider with ChangeNotifier {
 
       hash = order;
 
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint("Error orderUsingToken $e");
+      }
+    }
 
     return hash;
   }
@@ -152,9 +162,9 @@ class PresaleProvider with ChangeNotifier {
       final contract = await _contractP!.initBsc(tokenAddress);
       final ethFunction = contract!.function('approve');
 
-      final credentials = await EthPrivateKey.fromHex(privateKey);
+      final credentials = EthPrivateKey.fromHex(privateKey);
 
-      final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
       final gasPrice = await _contractP!.bscClient.getGasPrice();
 
@@ -187,7 +197,11 @@ class PresaleProvider with ChangeNotifier {
 
       return approve;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error approvePresale $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error approvePresale $e");
+        }
+      
     }
     return '';
   }
@@ -198,9 +212,13 @@ class PresaleProvider with ChangeNotifier {
   ///
   /// Use Inside app.dart
   Future<DeployedContract?> initPresaleContract() async {
-    if (ApiProvider().isDebug == false) print("initPresaleContract");
+    
+      if (kDebugMode) {
+        debugPrint("initPresaleContract");
+      }
+    
     try {
-      final String abiCode = await rootBundle.loadString(AppConfig.abiPath+'presale1.json');
+      final String abiCode = await rootBundle.loadString('${AppConfig.abiPath}presale1.json');
       _deployedContract = DeployedContract(
         ContractAbi.fromJson(abiCode, 'Presale'),
         EthereumAddress.fromHex(_presaleContract),
@@ -209,7 +227,11 @@ class PresaleProvider with ChangeNotifier {
       notifyListeners();
       return _deployedContract;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error initPresaleContract $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error initPresaleContract $e");
+        }
+      
     }
     return null;
   }
@@ -217,7 +239,7 @@ class PresaleProvider with ChangeNotifier {
   Future<double> checkTokenBalance(String tokenAddress, {@required BuildContext? context}) async {
     try {
 
-      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       final balance = await ContractProvider().query(
         tokenAddress,
         'balanceOf',
@@ -226,7 +248,11 @@ class PresaleProvider with ChangeNotifier {
 
       return Fmt.bigIntToDouble(balance[0] as BigInt, 18);
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error checkTokenBalance $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error checkTokenBalance $e");
+        }
+      
     }
     return 0.0;
   }
@@ -236,17 +262,21 @@ class PresaleProvider with ChangeNotifier {
     List<dynamic> idRes = [];
 
     try {
-      final myAddr = await StorageServices().readSecure(DbKey.ethAddr);
+      final myAddr = await StorageServices.readSecure(DbKey.ethAddr);
       final preFunction = _deployedContract!.function('investorOrderIds');
-      final List? res = await _contractP!.bscClient.call(
+      final List res = await _contractP!.bscClient.call(
         contract: _deployedContract!,
         function: preFunction,
         params: [EthereumAddress.fromHex("$myAddr")]
       );
 
-      if (res != null) idRes = List.from(res.first);
+      if (res.isNotEmpty) idRes = List.from(res.first);
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getInvestorOrderIds $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error getInvestorOrderIds $e");
+        }
+      
     }
 
     return idRes;
@@ -265,7 +295,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getOrder $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error getOrder $e");
+        }
+      
     }
   }
 
@@ -282,7 +316,11 @@ class PresaleProvider with ChangeNotifier {
       );
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error getPriceToken $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error getPriceToken $e");
+        }
+      
     }
   }
 
@@ -295,7 +333,11 @@ class PresaleProvider with ChangeNotifier {
 
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Err getBNBToken $e");
+      
+        if (kDebugMode) {
+          debugPrint("Err getBNBToken $e");
+        }
+      
     }
   }
 
@@ -308,7 +350,11 @@ class PresaleProvider with ChangeNotifier {
       var res = await _contractP!.bscClient.call(contract: _deployedContract!, function: preFunction, params: []);
       return res;
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error minInvestment $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error minInvestment $e");
+        }
+      
     }
   }
 
@@ -331,7 +377,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error fetchAndFillPrice $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error fetchAndFillPrice $e");
+        }
+      
     }
     return supportTokenList;
   }
@@ -344,7 +394,7 @@ class PresaleProvider with ChangeNotifier {
 
     final allowanceFunc = contract!.function('allowance');
 
-    final ethAddr = await StorageServices().readSecure(DbKey.ethAddr);
+    final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
 
     final res = await _contractP!.bscClient.call(contract: contract, function: allowanceFunc, params: [
       EthereumAddress.fromHex(ethAddr!),
@@ -357,7 +407,11 @@ class PresaleProvider with ChangeNotifier {
   /* --------------------------Helper Function--------------------- */
 
   Future<void> setListOrder() async {
-    if (ApiProvider().isDebug == false) print("setListOrder");
+    
+      if (kDebugMode) {
+        debugPrint("setListOrder");
+      }
+    
     try {
 
       presaleOrderInfo.clear();
@@ -385,7 +439,11 @@ class PresaleProvider with ChangeNotifier {
       }
       notifyListeners();
     } catch (e) {
-      if (ApiProvider().isDebug == false) print("Error setListOrder $e");
+      
+        if (kDebugMode) {
+          debugPrint("Error setListOrder $e");
+        }
+      
     }
   }
 
@@ -400,39 +458,39 @@ class PresaleProvider with ChangeNotifier {
     // 20% disc = 0.025 USD per SEL
     // 30% disc = 0.021 USD per
 
-    double _estSel = 0.00;
+    double estSel = 0.00;
 
-    final bool? isValid = _isNumeric(amt);
+    final bool isValid = _isNumeric(amt);
 
-    if (isValid != null && isValid) {
+    if (isValid) {
       switch (discountRate) {
         case 10:
-          _estSel = double.parse(amt) * assetPrice / 0.027;
+          estSel = double.parse(amt) * assetPrice / 0.027;
           break;
         case 20:
-          _estSel = double.parse(amt) * assetPrice / 0.025;
+          estSel = double.parse(amt) * assetPrice / 0.025;
           break;
         case 30:
-          _estSel = double.parse(amt) * assetPrice / 0.021;
+          estSel = double.parse(amt) * assetPrice / 0.021;
           break;
       }
 
-      estSel = _estSel;
+      estSel = estSel;
     }
 
     notifyListeners();
   }
 
   double calAmtPrice(String amt, double assetPrice) {
-    double _estSel = 0.00;
+    double estSel = 0.00;
 
     final isValid = _isNumeric(amt);
 
     if (isValid) {
-      _estSel = double.parse(amt) * assetPrice;
+      estSel = double.parse(amt) * assetPrice;
     }
 
-    return _estSel;
+    return estSel;
   }
 
   bool _isNumeric(String? str) {

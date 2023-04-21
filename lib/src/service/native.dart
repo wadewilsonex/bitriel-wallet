@@ -1,11 +1,6 @@
-import 'dart:async';
 import 'dart:math';
-
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/models/INative.dart';
-import 'package:web3dart/credentials.dart';
-import 'package:wallet_apps/src/models/trx_info.dart';
-import 'package:web3dart/web3dart.dart';
+import 'package:wallet_apps/src/models/inative.dart';
 
 class NativeService implements INativeService {
   
@@ -26,7 +21,7 @@ class NativeService implements INativeService {
 
   @override
   Future<EthPrivateKey> getCredentials(String privateKey) async {
-    return await EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey.substring(2));
+    return EthPrivateKey.fromHex(privateKey);//_client.credentialsFromPrivateKey(privateKey.substring(2));
   }
 
   @override
@@ -61,7 +56,10 @@ class NativeService implements INativeService {
           return std;
         }
       } catch (e) {
-        if (ApiProvider().isDebug == false) print("Error listenTransfer $e");
+        
+        if (kDebugMode) {
+          debugPrint("Error listenTransfer $e");
+        }
       }
     })
     .where((receipt) => receipt != null)
@@ -72,39 +70,53 @@ class NativeService implements INativeService {
 
   @override
   Future<String>? sendTx(TransactionInfo trxInfo) async {
+    debugPrint("sendTx native.dart");
     String? res;
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
+      debugPrint("await _client.getBalance(credentials.address) ${await _client.getBalance(credentials.address)}");
+      final maxGas = await getMaxGas(credentials.address, trxInfo);
 
-      final sender = await credentials.extractAddress();
-
-      final maxGas = await getMaxGas(sender, trxInfo);
-
+      debugPrint("credentials ${credentials.address}");
+      debugPrint("maxGas ${maxGas}");
+      debugPrint("trxInfo.receiver ${trxInfo.receiver}");
+      debugPrint("trxInfo.gasPrice ${trxInfo.gasPrice}");
+      debugPrint("EtherAmount.inWei(BigInt.one) ${EtherAmount.inWei(BigInt.one)}");
+      debugPrint("trxInfo.amount! ${trxInfo.amount!}");
+      debugPrint("EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))) ${EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!)))}");
+      debugPrint("trxInfo.chainDecimal! ${trxInfo.chainDecimal!}");
       res = await _client.sendTransaction(
         credentials,
         Transaction(
           maxGas: maxGas.toInt(),
           to: trxInfo.receiver,
-          value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
+          value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))),
         ),
-        chainId: null,
-        fetchChainIdFromNetworkId: true,
+        chainId: 1,
+        // fetchChainIdFromNetworkId: true,
       );
 
+      debugPrint("Res $res");
+
     } catch (e){
-      if (ApiProvider().isDebug == false) print("Err sendTx $e");
+
+      if (kDebugMode) {
+        debugPrint("Err sendTx $e");
+      }
     }
 
     return res!;
   }
-
+  
   @override
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
+    debugPrint("sender ${sender.hex}");
+    debugPrint("_client.estimateGas ${await _client.getBalance(EthereumAddress.fromHex(sender.hex))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: trxInfo.receiver,
-      value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, 18))),
+      value: EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))),
     );
 
     return maxGas;

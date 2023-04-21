@@ -5,40 +5,39 @@ class ListTileComponent extends StatelessWidget{
   final String? text;
   final Function? action;
 
-  ListTileComponent({this.text, this.action});
+  const ListTileComponent({Key? key, this.text, this.action}) : super(key: key);
 
+  @override
   Widget build(BuildContext context){
-    final isDarkTheme = Provider.of<ThemeProvider>(context).isDark;
+     
     return GestureDetector(
       onTap: () async {
         await action!();
       },
       child: Container(
         alignment: Alignment.center,
-        margin: const EdgeInsets.only(left: 16,right: 16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
+          color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.whiteColorHexa),
         ),
-        height: 70,
-        child: Row(
-          children: [
-            MyText(
-              text: text,
-              color: isDarkTheme
-                ? AppColors.whiteColorHexa
-                : AppColors.textColor,
-              fontWeight: FontWeight.bold,
-            ),
+        height: 8,
+        child: Padding(
+          padding: const EdgeInsets.all(paddingSize),
+          child: Row(
+            children: [
+              MyText(
+                text: text,
+              ),
 
-            Expanded(child: Container()),
+              Expanded(child: Container()),
 
-            Icon(
-              Icons.arrow_forward_ios, 
-              color: hexaCodeToColor(isDarkTheme
-              ? AppColors.whiteColorHexa
-              : AppColors.textColor)
-            )
-          ],
+              Icon(
+                Icons.arrow_forward_ios, 
+                size: 18.5,
+                color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor)
+              )
+            ],
+          ),
         ),
       ),
     );

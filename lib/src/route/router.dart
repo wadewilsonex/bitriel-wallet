@@ -1,38 +1,43 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/events/events.dart';
+import 'package:wallet_apps/src/screen/home/home/home.dart';
 
-Route<dynamic> generateRoute(RouteSettings routeSettings) {
-  switch (routeSettings.name) {
+
+Route<dynamic> generateRoute(RouteSettings settings) {
+  switch (settings.name) {
     case AppString.splashScreenView:
-      return RouteAnimation(enterPage: MySplashScreen());
+      return RouteAnimation(enterPage: const MySplashScreen());
     case AppString.localAuth:
-      return RouteAnimation(enterPage: FingerPrint());
+      return RouteAnimation(enterPage: const Authentication());
     case AppString.accountView:
-      return RouteAnimation(enterPage: Account());
-    case AppString.contactBookView:
-      return RouteAnimation(enterPage: ContactBook());
+      // return RouteAnimation(enterPage: const Account());
+      return MaterialPageRoute(
+        builder: (_) => const Account(),
+        settings: settings
+      );
+    // case AppString.contactBookView:
+    //   return RouteAnimation(enterPage: ContactBook());
     case AppString.txActivityView:
-      return RouteAnimation(enterPage: TrxActivity());
+      return RouteAnimation(enterPage: const TrxActivity());
     case AppString.importAccView:
-      return RouteAnimation(enterPage: ImportAcc());
-    case AppString.contentBackup:
-      return RouteAnimation(enterPage: ContentsBackup());
-    case AppString.passcodeView:
-      return RouteAnimation(enterPage: Passcode());
-    case AppString.confirmationTxView:
-      return RouteAnimation(enterPage: ConfirmationTx());
+      return RouteAnimation(enterPage: const ImportAcc());
+    case AppString.eventView:
+      return RouteAnimation(enterPage: const FindEvent());
     // case AppString.checkinView:
     //   return RouteAnimation(enterPage: const CheckIn());
     //   break;
     case AppString.recieveWalletView:
-      return RouteAnimation(enterPage: ReceiveWallet());
+      return RouteAnimation(enterPage: const ReceiveWallet());
     case AppString.claimAirdropView:
-      return RouteAnimation(enterPage: ClaimAirDrop());
-    case AppString.navigationDrawerView:
-      return RouteAnimation(enterPage: NavigationDrawer());
+      return RouteAnimation(enterPage: const ClaimAirDrop());
+    // case AppString.navigationDrawerView:
+    //   return RouteAnimation(enterPage: const NavigationDrawer());
     // case AppString.inviteFriendView:
     //   return RouteAnimation(enterPage: InviteFriend());
     //   break;
+    case AppString.homeView:
+      return RouteAnimation(enterPage: const HomePage());
     default:
-      return RouteAnimation(enterPage: MySplashScreen());
+      return RouteAnimation(enterPage: const MySplashScreen());
   }
 }

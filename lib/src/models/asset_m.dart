@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:wallet_apps/index.dart';
 
 class ModelAsset {
+
   bool enable = false;
   bool loading = false;
   bool match = false;
   bool added = false;
+
+  String? logo;
 
   String assetBalance = '0';
   static const String assetSymbol = 'KMPI';
@@ -47,12 +49,13 @@ class Market {
     this.maxSupply,
     this.ath,
     this.athChangePercentage,
-    this.athDate,
+    // this.athDate,
     this.atl,
     this.atlChangePercentage,
-    this.atlDate,
+    // this.atlDate,
     this.roi,
-    this.lastUpdated,
+    // this.lastUpdated,
+    this.description,
   });
 
   String? id;
@@ -75,12 +78,13 @@ class Market {
   String? maxSupply;
   String? ath;
   String? athChangePercentage;
-  DateTime? athDate;
+  // DateTime? athDate;
   String? atl;
   String? atlChangePercentage;
-  DateTime? atlDate;
+  // DateTime? atlDate;
   String? roi;
-  DateTime? lastUpdated;
+  // DateTime? lastUpdated;
+  String? description;
 
   factory Market.fromJson(Map<String, dynamic> json) {
     return Market(
@@ -98,19 +102,19 @@ class Market {
         priceChange24H: json["price_change_24h"].toString(),
         priceChangePercentage24H: json["price_change_percentage_24h"].toString(),
         marketCapChange24H: json["market_cap_change_24h"].toString(),
-        marketCapChangePercentage24H:
-            json["market_cap_change_percentage_24h"].toString(),
+        marketCapChangePercentage24H: json["market_cap_change_percentage_24h"].toString(),
         circulatingSupply: json["circulating_supply"].toString(),
         totalSupply: json["total_supply"].toString(),
         maxSupply: json["max_supply"].toString(),
         ath: json["ath"].toString(),
         athChangePercentage: json["ath_change_percentage"].toString(),
-        athDate: DateTime.parse(json["ath_date"].toString()),
+        // athDate: DateTime.parse(json["ath_date"].toString()),
         atl: json["atl"].toString(),
         atlChangePercentage: json["atl_change_percentage"].toString(),
-        atlDate: DateTime.parse(json["atl_date"].toString()),
+        // atlDate: DateTime.parse(json["atl_date"].toString()),
         roi: json["roi"].toString(),
-        lastUpdated: DateTime.parse(json["last_updated"].toString()),
+        // lastUpdated: DateTime.parse(json["last_updated"].toString()),
+        description: json["description"].toString(),
       );
     }
 
@@ -135,11 +139,57 @@ class Market {
         "max_supply": maxSupply,
         "ath": ath,
         "ath_change_percentage": athChangePercentage,
-        "ath_date": athDate!.toIso8601String(),
+        // "ath_date": athDate!.toIso8601String(),
         "atl": atl,
         "atl_change_percentage": atlChangePercentage,
-        "atl_date": atlDate!.toIso8601String(),
+        // "atl_date": atlDate!.toIso8601String(),
         "roi": roi,
-        "last_updated": lastUpdated!.toIso8601String(),
+        // "last_updated": lastUpdated!.toIso8601String(),
+        "description": description,
       };
+}
+
+class AssetPageModel {
+
+  GlobalKey<RefreshIndicatorState>? indicator;
+  List<String>? categories;
+  List<SmartContractModel>? nativeAssets;
+  List<SmartContractModel>? bep20Assets;
+  List<SmartContractModel>? erc20Assets;
+  ScrollController? scrollController;
+  int assetLength = 1;
+
+  int? categoryIndex;
+
+  PageController? pageController;
+  TabController? tabController;
+
+  TabController? assetTabController;
+
+  AssetPageModel(){
+    categories = [
+      "All",
+      "Native",
+      "BEP-20",
+      "ERC-20",
+    ];
+    categoryIndex = 1;
+    pageController = PageController();
+  }
+
+  void assetFilter(BuildContext context){
+    
+    nativeAssets = [];
+    bep20Assets = [];
+    erc20Assets = [];
+    Provider.of<ContractProvider>(context, listen: false).sortListContract.forEach((element) {
+      if (element.org == "BEP-20" || element.orgTest == "BEP-20") {
+        bep20Assets!.add(element);
+      } else if (element.org == "ERC-20" || element.orgTest == "ERC-20") {
+        erc20Assets!.add(element);
+      } else {
+        nativeAssets!.add(element);
+      }
+    });
+  }
 }

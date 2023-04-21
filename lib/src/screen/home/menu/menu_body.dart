@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/screen/home/menu/wallet_connect/wallet_connect.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class MenuBody extends StatelessWidget {
+  
   final Map<String, dynamic>? userInfo;
   final MenuModel? model;
   final Function? enablePassword;
@@ -11,12 +12,13 @@ class MenuBody extends StatelessWidget {
   final Function? switchTheme;
 
   const MenuBody({
+    Key? key, 
     this.userInfo,
     this.model,
     this.enablePassword,
     this.switchBio,
     this.switchTheme,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +29,52 @@ class MenuBody extends StatelessWidget {
 
         // Wallet
         const MenuSubTitle(index: 1),
-        
-        MyListTile(
-          index: 2,
-          subIndex: 3,
-          onTap: () {
-            Navigator.push(context, RouteAnimation(enterPage: Swap()));
-          },
-        ),
 
         MyListTile(
+          icon: Icon(Iconsax.note_2, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 1,
           subIndex: 0,
           onTap: () {
-            Navigator.pushNamed(context, AppString.recieveWalletView);
+            Navigator.push(context, Transition(child: const ReceiveWallet(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+          },
+        ),
+
+        MyListTile(
+          icon: Icon(Iconsax.wallet_check, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
+          index: 1,
+          subIndex: 1,
+          onTap: () {
+            
+            Navigator.push(context, Transition(child: const AddAsset(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
           },
         ),
 
         MyListTile(
           index: 1,
-          subIndex: 1,
-          onTap: () {
-            Navigator.push(context, RouteAnimation(enterPage: AddAsset()));
+          subIndex: 2,
+          onTap: () async {
+            
+            WalletConnectProvider wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
+            wConnectC.setBuildContext = context;
+            await StorageServices.fetchData(DbKey.wcSession).then((value) async {
+
+              if (value == null){
+
+                String? value = await Navigator.push(context, MaterialPageRoute(builder: (context) => const QrScanner(isShowSendFund: false, isShowWC: true)));
+                
+                if (value != null){
+                  
+                  wConnectC.qrScanHandler(value);
+                }
+              } else {
+                Navigator.push(
+                  context, 
+                  Transition(child: const WalletConnectPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                );
+
+              }
+            });
+            
           },
         ),
 
@@ -56,28 +82,7 @@ class MenuBody extends StatelessWidget {
         const MenuSubTitle(index: 3),
 
         MyListTile(
-          enable: false,
-          index: 3,
-          subIndex: 0,
-          trailing: Switch(
-            value: model!.switchPasscode,
-            onChanged: (value) async {
-              // Navigator.pushNamed(context, AppText.passcodeView);
-              final res = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Passcode(isAppBar: true))
-              );
-              if (res == true) {
-                enablePassword!(true);
-              } else if (res == false) {
-                enablePassword!(false);
-              }
-            },
-          ),
-          onTap: null,
-        ),
-
-        MyListTile(
+          icon: Icon(Iconsax.finger_scan, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           enable: false,
           index: 3,
           subIndex: 1,
@@ -89,32 +94,56 @@ class MenuBody extends StatelessWidget {
           ),
           onTap: null,
         ),
-        const MenuSubTitle(index: 4),
 
-        MyListTile(
-          index: 4,
-          subIndex: 0,
-          onTap: null,
-          trailing: Consumer<ThemeProvider>(
-            builder: (context, value, child) => Switch(
-              value: value.isDark,
-              onChanged: (value) async {
-                await Provider.of<ThemeProvider>(context, listen: false).changeMode();
-              },
-            ),
-          ),
-        ),
-
+        // const MenuSubTitle(index: 4),
+        // MyListTile(
+        //   icon: Icon(Iconsax.moon, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
+        //   enable: false,
+        //   index: 4,
+        //   subIndex: 0,
+        //   trailing: Switch(
+        //     activeColor: hexaCodeToColor(AppColors.defiMenuItem),
+        //     value: isDarkMode,
+        //     onChanged: (value) {
+        //       switchTheme!(value);
+        //     },
+        //   ),
+        //   onTap: null,
+        // ),
+        
         const MenuSubTitle(index: 5),
 
+
+        // MyListTile(
+        //   icon: Icon(Iconsax.archive_book, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
+        //   index: 5,
+        //   subIndex: 1,
+        //   onTap: () async {
+        //     Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+        //     //_launchInBrowser('https://selendra.com/privacy');
+        //   },
+        // ),
+
         MyListTile(
+          icon: Icon(Iconsax.document, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
           index: 5,
-          subIndex: 0,
+          subIndex: 2,
           onTap: () async {
-            Navigator.push(context, RouteAnimation(enterPage: About()));
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
             //_launchInBrowser('https://selendra.com/privacy');
           },
         ),
+        
+        MyListTile(
+          icon: Icon(Iconsax.people, color: isDarkMode ? Colors.white : hexaCodeToColor(AppColors.darkGrey), size: 22.5),
+          index: 5,
+          subIndex: 0,
+          onTap: () async {
+            Navigator.push(context, Transition(child: About(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+            //_launchInBrowser('https://selendra.com/privacy');
+          },
+        ),
+
       ],
     );
   }

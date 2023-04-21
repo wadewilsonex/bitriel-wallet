@@ -1,11 +1,10 @@
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/components/dimissible_background.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-import 'package:wallet_apps/src/models/tx_history.dart';
 
 class TrxActivity extends StatefulWidget {
+  const TrxActivity({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return TrxActivityState();
@@ -22,7 +21,7 @@ class TrxActivityState extends State<TrxActivity> {
 
   @override
   void initState() {
-    AppServices.noInternetConnection(_globalKey);
+    AppServices.noInternetConnection(context: context);
     readTxHistory();
 
     super.initState();
@@ -61,7 +60,7 @@ class TrxActivityState extends State<TrxActivity> {
   }
 
   Future<void> _deleteHistory(int index, String symbol) async {
-    final SharedPreferences _preferences = await SharedPreferences.getInstance();
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     if (symbol == 'SEL') {
       _txHistoryModel.tx.removeAt(index);
@@ -73,7 +72,7 @@ class TrxActivityState extends State<TrxActivity> {
       ..addAll(_txHistoryModel.txKpi);
 
     await clearOldHistory().then((value) async {
-      await _preferences.setString(DbKey.txtHistory, jsonEncode(newTxList));
+      await preferences.setString(DbKey.txtHistory, jsonEncode(newTxList));
     });
   }
 
@@ -89,7 +88,7 @@ class TrxActivityState extends State<TrxActivity> {
   void logOut() async {
     /* Loading */
     dialogLoading(context);
-    await StorageServices().clearStorage();
+    await StorageServices.clearStorage();
     Timer(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, '/');
     });
@@ -118,8 +117,8 @@ class TrxActivityState extends State<TrxActivity> {
         appBar: AppBar(
           title: const MyText(
             text: 'Transaction History',
-            fontSize: 22.0,
-            color: "#FFFFFF",
+            fontSize: 20,
+            hexaColor: "#FFFFFF",
           ),
           bottom: TabBar(
             tabs: myTabs,
@@ -129,7 +128,7 @@ class TrxActivityState extends State<TrxActivity> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: _txHistoryModel.tx == null
+              child: _txHistoryModel.tx.isEmpty
                   ? Container()
                   : ListView.builder(
                       itemCount: _txHistoryModel.tx.length,
@@ -137,7 +136,7 @@ class TrxActivityState extends State<TrxActivity> {
                         return Dismissible(
                           key: UniqueKey(),
                           direction: DismissDirection.endToStart,
-                          background: DismissibleBackground(),
+                          background: const DismissibleBackground(),
                           onDismissed: (direction) {
                             _deleteHistory(
                                 index, _txHistoryModel.tx[index].symbol!);
@@ -159,7 +158,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           hexaCodeToColor(AppColors.secondary),
                                       borderRadius: BorderRadius.circular(40),
                                     ),
-                                    child: Image.asset(AppConfig.assetsPath+'SelendraCircle-White.png'),
+                                    child: Image.asset('${AppConfig.assetsPath}SelendraCircle-White.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),
@@ -172,7 +171,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         MyText(
                                           text:
                                               _txHistoryModel.tx[index].symbol,
-                                          color: "#FFFFFF",
+                                          hexaColor: "#FFFFFF",
                                         ),
                                         MyText(
                                             text: _txHistoryModel.tx[index].org,
@@ -198,7 +197,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           MyText(
                                             text:
                                                 '-${_txHistoryModel.tx[index].amount}',
-                                            color: AppColors.secondarytext,
+                                            hexaColor: AppColors.secondarytext,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
@@ -215,7 +214,7 @@ class TrxActivityState extends State<TrxActivity> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: _txHistoryModel.txKpi == null
+              child: _txHistoryModel.txKpi.isEmpty
                   ? Container()
                   : ListView.builder(
                       itemCount: _txHistoryModel.txKpi.length,
@@ -223,7 +222,7 @@ class TrxActivityState extends State<TrxActivity> {
                         return Dismissible(
                           key: UniqueKey(),
                           direction: DismissDirection.endToStart,
-                          background: DismissibleBackground(),
+                          background: const DismissibleBackground(),
                           onDismissed: (direction) {
                             _deleteHistory(
                                 index, _txHistoryModel.txKpi[index].symbol!);
@@ -246,7 +245,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         borderRadius:
                                             BorderRadius.circular(40)),
                                     child: Image.asset(
-                                        AppConfig.assetsPath+'koompi_white_logo.png'),
+                                        '${AppConfig.assetsPath}koompi_white_logo.png'),
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(right: 16),
@@ -259,7 +258,7 @@ class TrxActivityState extends State<TrxActivity> {
                                         MyText(
                                           text: _txHistoryModel
                                               .txKpi[index].symbol,
-                                          color: "#FFFFFF",
+                                          hexaColor: "#FFFFFF",
                                         ),
                                         MyText(
                                             text: _txHistoryModel
@@ -286,7 +285,7 @@ class TrxActivityState extends State<TrxActivity> {
                                           MyText(
                                             text:
                                                 '-${_txHistoryModel.txKpi[index].amount}',
-                                            color: AppColors.secondarytext,
+                                            hexaColor: AppColors.secondarytext,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
