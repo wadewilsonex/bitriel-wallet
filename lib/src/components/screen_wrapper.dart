@@ -51,24 +51,24 @@ class ScreenWrapperState extends State<ScreenWrapper> with RouteAware {
 
   @override
   void didPush() {
-    // print('*** Entering screen: ${widget.routeName}');
+    // debugPrint('*** Entering screen: ${widget.routeName}');
   }
 
   @override
   void didPushNext() {
-//print('*** Leaving screen: ${widget.routeName}');
+//debugPrint('*** Leaving screen: ${widget.routeName}');
     onLeaveScreen();
   }
 
   @override
   void didPop() {
-    // print('*** Going back, leaving screen: ${widget.routeName}');
+    // debugPrint('*** Going back, leaving screen: ${widget.routeName}');
     onLeaveScreen();
   }
 
   @override
   void didPopNext() {
-    //print('*** Going back to screen: ${widget.routeName}');
+    //debugPrint('*** Going back to screen: ${widget.routeName}');
     onGoingBack();
   }
 }

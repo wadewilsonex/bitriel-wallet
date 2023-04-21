@@ -28,7 +28,7 @@ class MenuState extends State<Menu> {
 
     _menuModel.globalKey = GlobalKey<ScaffoldState>();
     if (kDebugMode) {
-      print(Provider.of<ApiProvider>(context, listen: false).selNetwork);
+      debugPrint(Provider.of<ApiProvider>(context, listen: false).selNetwork);
     }
     Provider.of<WalletConnectProvider>(context, listen: false).setBuildContext = context;
 
@@ -94,7 +94,7 @@ class MenuState extends State<Menu> {
         });
       } else {
         if(!mounted) return;
-        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context, "Your device doesn't have finger debugPrint! Set up to enable this feature");
       }
     } catch (e) {
       if(!mounted) return;
@@ -110,7 +110,7 @@ class MenuState extends State<Menu> {
     } else {
       await StorageServices.clearKeySecure(DbKey.pin);
     }
-    // print("passcode: ${_menuModel.}")
+    // debugPrint("passcode: ${_menuModel.}")
 
     setState(() {});
   }

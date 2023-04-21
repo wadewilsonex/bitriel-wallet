@@ -24,7 +24,7 @@
 //     //   final response = await PostRequest().loginPhoneNumber(phoneNumberController.text);
 
 //     //   final responseJson = json.decode(response.body);
-//     //   print("responseJson $responseJson");
+//     //   debugPrint("responseJson $responseJson");
 //     //   if (response.statusCode == 200) {
 
 //     //     if(!mounted) return;
@@ -41,7 +41,7 @@
 //     //   }
 
 //     // } catch (e) {
-//     //   print(e);
+//     //   debugPrint(e);
 //     // }
 //   }
 

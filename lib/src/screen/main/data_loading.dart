@@ -58,7 +58,7 @@ class DataLoadingState extends State<DataLoading> with TickerProviderStateMixin 
   //   } catch (e) {
 
   //     if (kDebugMode) {
-  //       print("Error validateMnemonic $e");
+  //       debugPrint("Error validateMnemonic $e");
   //     }
   //   }
   //   return res;

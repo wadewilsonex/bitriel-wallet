@@ -70,9 +70,6 @@ class _SetPasswordState extends State<SetPassword> {
       // }
 
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
     }
   }
 
@@ -88,7 +85,7 @@ class _SetPasswordState extends State<SetPassword> {
 
     _importAccountModel.animationController!.addListener(() {
       if (kDebugMode) {
-        print("animationController!.value ${_importAccountModel.animationController!.value}");
+        debugPrint("animationController!.value ${_importAccountModel.animationController!.value}");
       }
 
       if (_importAccountModel.animationController!.value >= 0.17 && _importAccountModel.animationController!.value <= 0.19) {
@@ -130,12 +127,12 @@ class _SetPasswordState extends State<SetPassword> {
     // Execute JS
     // await widget.webViewController!.callAsyncJavaScript(functionBody: "return await decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) async {
         if (kDebugMode) {
-          print("finish DECRYPTING ACCOUNT");
+          debugPrint("finish DECRYPTING ACCOUNT");
         }
 
         await Future.delayed(const Duration(seconds: 2));
         if (kDebugMode) {
-          print("animationController ${_importAccountModel.animationController!.value}");
+          debugPrint("animationController ${_importAccountModel.animationController!.value}");
         }
         
     //   if (value!.value != null){
@@ -162,7 +159,7 @@ class _SetPasswordState extends State<SetPassword> {
         await Future.delayed(const Duration(seconds: 2));
 
         if (kDebugMode) {
-          print("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
+          debugPrint("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
         }
 
         changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");

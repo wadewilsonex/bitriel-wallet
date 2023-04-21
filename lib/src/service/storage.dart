@@ -49,7 +49,7 @@ class StorageServices {
     } catch (e){
       
       if (kDebugMode) {
-        print("Error storeData $e");
+        debugPrint("Error storeData $e");
       }
     }
     return _preferences!;
@@ -86,7 +86,7 @@ class StorageServices {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error storeAssetData $e");
+        debugPrint("Error storeAssetData $e");
       }
     }
   }
@@ -235,7 +235,7 @@ class StorageServices {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error fetchAsset $e");
+        debugPrint("Error fetchAsset $e");
       }
     }
     //return _preferences.getString(_path);

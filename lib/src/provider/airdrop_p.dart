@@ -63,7 +63,7 @@ class AirDropProvider with ChangeNotifier {
     } catch (e){
       
         if (kDebugMode) {
-          print("Error initContract $e");
+          debugPrint("Error initContract $e");
         }
       
     }
@@ -86,7 +86,7 @@ class AirDropProvider with ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getTrxFee $e");
+          debugPrint("Error getTrxFee $e");
         }
       
     }
@@ -164,7 +164,7 @@ class AirDropProvider with ChangeNotifier {
     // } catch (e) {
     //   
     //     if (kDebugMode) {
-    //       print("Error signUp $e");
+    //       debugPrint("Error signUp $e");
     //     }
     //   
     // }
@@ -191,11 +191,11 @@ class AirDropProvider with ChangeNotifier {
 
     //   // var db = Db(AppConfig.mongoUrl);
     //   // await db.open().then((value) {
-    //   //   print("Hello my db openDb $value");
+    //   //   debugPrint("Hello my db openDb $value");
     //   // });
-    //   // print("Done connect to mongo");
+    //   // debugPrint("Done connect to mongo");
     // } catch (e) {
-    //   print("Error signIn $e");
+    //   debugPrint("Error signIn $e");
     // }
   }
 
@@ -203,7 +203,7 @@ class AirDropProvider with ChangeNotifier {
     final apiPro = Provider.of<ApiProvider>(context, listen: false);
     return await apiPro.getSdk.webView!.evalJavascript("settings.encodeHextoByte('$r', '$s')");
     // .then((value) async {
-    //   print("resolve $value");
+    //   debugPrint("resolve $value");
     //   return await claim(context: context, amount: value['value'], expiredDate: value['expiredAt'], v: value['sig']['v'], r: List<int>.from(value['r']), s: List<int>.from(value['s']));
     // });
   }
@@ -249,15 +249,15 @@ class AirDropProvider with ChangeNotifier {
         //   await StorageServices.storeData(json.decode(res2.body), DbKey.signData);
         // }
 
-        // print("Finish storeData");
+        // debugPrint("Finish storeData");
 
         // return json.decode(res.body)['data'];
       // } else {
-      //   // print("From DB $res");
+      //   // debugPrint("From DB $res");
       //   // res = {'success': true, 'data': {'hash': '0xafbe090b948e4674025adc3522a84ea5577bd7b52902cbcd3aa4d73d4502bed5', 'amount': '5000000000000000000', 'Date': '1641587654318', 'v': '0x1c', 'r': '0x54a875fb2430be202e0081977b22a4e01dd051e45f3499c49623bccf8e947a2d', 's': '0x0b8a5eb191d2213e801586bd1a3bbe2cfbf36f952b7690679092ed04ca640e57', 'attempt': 1, 'user': '61d895665362bce365200d53', '_id': '61d895b65362bce365200d59', '__v': '0'}};
       //   // Check If Time To Re Sign
       //   if ( DateTime.now().millisecondsSinceEpoch > int.parse(res['data']['Date']) && res['data']['attempt'] == 1) {
-      //     print("Is time to api");
+      //     debugPrint("Is time to api");
       //     await StorageServices.removeKey(DbKey.signData);
       //     return await signToDb();
 
@@ -268,12 +268,12 @@ class AirDropProvider with ChangeNotifier {
 
       // var db = Db(AppConfig.mongoUrl);
       // await db.open().then((value) {
-      //   print("Hello my db openDb $value");
+      //   debugPrint("Hello my db openDb $value");
       // });
-      // print("Done connect to mongo");
+      // debugPrint("Done connect to mongo");
     } catch (e) {
       if (kDebugMode) {
-        print("Error signToDb $e");
+        debugPrint("Error signToDb $e");
       }
     }
   }

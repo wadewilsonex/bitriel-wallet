@@ -18,7 +18,7 @@ class EventProvider with ChangeNotifier {
 
   initEventContract() async {
     
-    print("initEventContract");
+    debugPrint("initEventContract");
     _web3client = Web3Client('https://rpc0-indranet.selendra.org/evm', _client);
     deployedContract = await getContract();
 
@@ -26,7 +26,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<DeployedContract> getContract() async {
-    print("getContract");
+    debugPrint("getContract");
     String abi = await rootBundle.loadString('assets/abi/NftTicket.json');
     DeployedContract contract = DeployedContract(
       ContractAbi.fromJson(abi, 'NftTicket'), 
@@ -39,7 +39,7 @@ class EventProvider with ChangeNotifier {
   // get Balance Of
   // recipient = receiver
   Future<List<dynamic>> queryBalanceOf({String recipient = '0xa7f5f726B2395Af66A2A4F5Cb6FD903E596c37c7'}) async {
-    print("queryBalanceOf");
+    debugPrint("queryBalanceOf");
 
     try {
       await _web3client!.call(
@@ -49,9 +49,9 @@ class EventProvider with ChangeNotifier {
 
           EthereumAddress.fromHex(recipient)
         ]
-      ).then((value) => print("value $value"));
+      ).then((value) => debugPrint("value $value"));
     } catch (e) {
-      print("Error queryBalanceOf $e");
+      debugPrint("Error queryBalanceOf $e");
     }
     return [];
   }
@@ -59,7 +59,7 @@ class EventProvider with ChangeNotifier {
   // List NFT ID (Token) 
   // recipient = receiver
   Future<List<dynamic>> queryTokenOf({String recipient = '0xa7f5f726B2395Af66A2A4F5Cb6FD903E596c37c7'}) async {
-    print("queryBalanceOf");
+    debugPrint("queryBalanceOf");
 
     try {
       await _web3client!.call(
@@ -69,16 +69,16 @@ class EventProvider with ChangeNotifier {
 
           EthereumAddress.fromHex(recipient)
         ]
-      ).then((value) => print("value $value"));
+      ).then((value) => debugPrint("value $value"));
     } catch (e) {
-      print("Error queryBalanceOf $e");
+      debugPrint("Error queryBalanceOf $e");
     }
     return [];
   }
 
   // Ticket Redeem
   Future<List<dynamic>> redeemQRCodeTicket() async {
-    print("queryBalanceOf");
+    debugPrint("queryBalanceOf");
 
     try {
       await _web3client!.call(
@@ -89,9 +89,9 @@ class EventProvider with ChangeNotifier {
           [1],
 
         ]
-      ).then((value) => print("value $value"));
+      ).then((value) => debugPrint("value $value"));
     } catch (e) {
-      print("Error queryBalanceOf $e");
+      debugPrint("Error queryBalanceOf $e");
     }
     return [];
   }

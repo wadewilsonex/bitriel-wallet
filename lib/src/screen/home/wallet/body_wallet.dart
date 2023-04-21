@@ -199,7 +199,7 @@ class WalletPageBody extends StatelessWidget {
                               
                             } catch (e) {
                               if (kDebugMode) {
-                                print("error mnemonic $e");
+                                debugPrint("error mnemonic $e");
                               }
                             }
 

@@ -65,7 +65,7 @@ class WalletConnectProvider with ChangeNotifier {
   }
 
   void getIP() async {
-    // print("getIP");
+    // debugPrint("getIP");
     List<NetworkInterface> l = await NetworkInterface.list();
     for (int i = 0; i < l.length; i++ ){
       _internetAddress = l[0].addresses;
@@ -94,7 +94,7 @@ class WalletConnectProvider with ChangeNotifier {
     }
     catch(error){
       if (kDebugMode) {
-        print("Err initSession $error");
+        debugPrint("Err initSession $error");
       }
     }
   }
@@ -145,7 +145,7 @@ class WalletConnectProvider with ChangeNotifier {
   //   } catch (e){
       
   //     if (kDebugMode) {
-  //       print("error qrScanHandler $e");
+  //       debugPrint("error qrScanHandler $e");
   //     }
   //   }
   // }
@@ -378,7 +378,7 @@ class WalletConnectProvider with ChangeNotifier {
     } catch (e) {
       
       if (kDebugMode) {
-        print('Error getPrivateKey $e');
+        debugPrint('Error getPrivateKey $e');
       }
       
     }
@@ -390,8 +390,8 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumTransaction ethereumTransaction,
   ) async {
-    print("onSignTransaction");
-    print("ethereumTransaction ${ethereumTransaction.toJson()}");
+    debugPrint("onSignTransaction");
+    debugPrint("ethereumTransaction ${ethereumTransaction.toJson()}");
 
     await onTransaction(
       id: id,
@@ -457,7 +457,7 @@ class WalletConnectProvider with ChangeNotifier {
     required VoidCallback onReject,
   }) async {
 
-    print("onTransaction");
+    debugPrint("onTransaction");
 
     // try {
     //   final maxGas = await contractPro!.bscClient.estimateGas(
@@ -470,9 +470,9 @@ class WalletConnectProvider with ChangeNotifier {
     //       ],
     //     ),
     //   );
-    //   print("maxGas $maxGas");
+    //   debugPrint("maxGas $maxGas");
     // } catch (e) {
-    //   print("Error maxGas $e");
+    //   debugPrint("Error maxGas $e");
     // }
     
     // getMax(sender, txInfo);
@@ -500,11 +500,11 @@ class WalletConnectProvider with ChangeNotifier {
     //     gasPrice = await contractPro!.bscClient.estimateGas();
     //   }
     // } catch (e, trace) {
-    //   print(e);
-    //   print(trace);
+    //   debugPrint(e);
+    //   debugPrint(trace);
     // }
 
-    print("lsWcClients $lsWcClients");
+    debugPrint("lsWcClients $lsWcClients");
 
     Navigator.push(
       context!,
@@ -535,7 +535,7 @@ class WalletConnectProvider with ChangeNotifier {
     int id,
     WCEthereumSignMessage ethereumSignMessage,
   ) {
-    print("on sign");
+    debugPrint("on sign");
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context!,

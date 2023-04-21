@@ -38,7 +38,7 @@ class AppServices {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("noInternetConnection $e");
+        debugPrint("noInternetConnection $e");
       }
     }
   }
@@ -61,7 +61,7 @@ class AppServices {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("connectivityStatus $e");
+        debugPrint("connectivityStatus $e");
       }
     }
   }
@@ -75,7 +75,7 @@ class AppServices {
   // ignore: avoid_void_async
   static void closeSnackBar(GlobalKey<ScaffoldState> globalKey, String content) async {
     // await globalKey.currentState.showSnackBar(snackBarBody(content, globalKey)).closed.then((value) =>
-    //   print("value $value")
+    //   debugPrint("value $value")
     // );
   }
 
@@ -145,7 +145,7 @@ class AppServices {
           await customDialog(
             context, 
             'Opps', 
-            "Your device doesn't support finger print",
+            "Your device doesn't support finger debugPrint",
             txtButton: "Close",
           );
         // await showDialog(
@@ -162,7 +162,7 @@ class AppServices {
         //       ),
         //       content: Padding(
         //         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-        //         child: Text("Your device doesn't support finger print",
+        //         child: Text("Your device doesn't support finger debugPrint",
         //             textAlign: TextAlign.center),
         //       ),
         //       actions: <Widget>[
@@ -179,7 +179,7 @@ class AppServices {
       // ignore: unused_catch_clause
     } on PlatformException catch (e) {
         if (kDebugMode) {
-          print("Error checkBiometrics $e");
+          debugPrint("Error checkBiometrics $e");
         }
       // canCheckBiometrics = false;
     }

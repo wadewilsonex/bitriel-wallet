@@ -15,7 +15,7 @@ class MenuModel {
   /// 
   /// (2) SEL event, (2.1) Claim, (2.2) Swap, (2.3) Presale
   /// 
-  /// (3) Security, (3.1) Password, (3.2) Fingerprint
+  /// (3) Security, (3.1) Password, (3.2) FingerdebugPrint
   /// 
   /// (4) Display, (4.1) Darkmode
   /// 
@@ -47,7 +47,7 @@ class MenuModel {
       'title': "Security",
       'sub': [
         {'icon': "${AppConfig.iconsPath}password.svg", 'subTitle': 'Passcode'},
-        {'icon': "${AppConfig.iconsPath}finger_print.svg", 'subTitle': 'Fingerprint'}
+        {'icon': "${AppConfig.iconsPath}finger_debugPrint.svg", 'subTitle': 'FingerdebugPrint'}
       ]
     },
     {

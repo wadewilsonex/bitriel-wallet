@@ -210,7 +210,7 @@ class _MarketPlaceWebViewState extends State<MarketPlaceWebView> {
                   //   }
                   // },
                   onConsoleMessage: (controller, consoleMessage) {
-                    print("consoleMessage $consoleMessage");
+                    debugPrint("consoleMessage $consoleMessage");
                   },
                   onLoadError: (controller, url, code, message) async {
 

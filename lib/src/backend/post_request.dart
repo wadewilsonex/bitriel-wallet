@@ -108,8 +108,8 @@ class PostRequest {
 
 
     // String js = await rootBundle.loadString('assets/json/list_year.json');
-    // print("js $js");
-    // // print((await json.decode(js)));
+    // debugPrint("js $js");
+    // // debugPrint((await json.decode(js)));
     // return http.Response(js, 200);
 
     return await http.post(
@@ -127,7 +127,7 @@ class PostRequest {
     });
 
     // String js = await rootBundle.loadString('assets/json/by-ticket-type-grouped-by-date.json');
-    // print(js);
+    // debugPrint(js);
     // return http.Response(js, 200);
     return await http.post(
       // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old
@@ -150,10 +150,10 @@ class PostRequest {
   /// Swapping
   /// 
   static Future<http.Response> swap(Map<String, dynamic> obj) async {
-    print('swap ${json.encode(obj)}');
+    debugPrint('swap ${json.encode(obj)}');
     _api ??= dotenv.get('LETS_EXCHANGE_API');
 
-    print(_api);
+    debugPrint(_api);
 
     return await http.post(
       Uri.parse("$_api/v1/transaction"),
@@ -166,8 +166,8 @@ class PostRequest {
   /// Information Between 2 coins
   /// 
   Future<http.Response> infoTwoCoin(InfoTwoCoinModel model) async {
-    print("infoTwoCoin");
-    print("model.toJson() ${model.toJson()}");
+    debugPrint("infoTwoCoin");
+    debugPrint("model.toJson() ${model.toJson()}");
     _api ??= dotenv.get('LETS_EXCHANGE_API');
 
     return await http.post(

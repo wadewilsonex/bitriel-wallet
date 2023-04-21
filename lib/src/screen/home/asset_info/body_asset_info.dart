@@ -134,7 +134,7 @@ class AssetInfoBody extends StatelessWidget {
                             //   final image = ImagePicker();
                             //   await image.pickImage(source: ImageSource.gallery).then((value) async {
                             //     if (kDebugMode) {
-                            //       print(value!.path);
+                            //       debugPrint(value!.path);
                             //     }
                             //     Provider.of<ContractProvider>(context, listen: false).listContract.where((element) {
                             //       if (element.contract == assetInfoModel!.smartContractModel!.contract){

@@ -45,7 +45,7 @@
 //   Future<void> _decryptDataLogin() async {
 
 //     if (kDebugMode) {
-//       print("Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning() ${Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning()}");
+//       debugPrint("Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning() ${Provider.of<HeadlessWebView>(context, listen: false).headlessWebView!.isRunning()}");
 //     }
 
 //     try {
@@ -57,7 +57,7 @@
 //       final responseJson = json.decode(response.body);
 
 //       if (kDebugMode) {
-//         print("responseJson $responseJson");
+//         debugPrint("responseJson $responseJson");
 //       }
 
 //       if (response.statusCode == 200) {
@@ -106,7 +106,7 @@
 
 //     } catch (e) {
 //       if (kDebugMode) {
-//         print(e);
+//         debugPrint(e);
 //       }
 //     }
 //   }
@@ -114,7 +114,7 @@
 
 //   Widget _loginButton(String title) {
 //     if (kDebugMode) {
-//       print("_loginButton");
+//       debugPrint("_loginButton");
 //     }
 //     return MyGradientButton(
 //       edgeMargin: const EdgeInsets.all(paddingSize),
@@ -276,7 +276,7 @@
 
 //     _importAccountModel.animationController!.addListener(() {
 //       if (kDebugMode) {
-//         print("animationController!.value ${_importAccountModel.animationController!.value}");
+//         debugPrint("animationController!.value ${_importAccountModel.animationController!.value}");
 //       }
 
 //       if (_importAccountModel.animationController!.value >= 0.17 && _importAccountModel.animationController!.value <= 0.19) {
@@ -318,12 +318,12 @@
 //     // Execute JS
 //     // await widget.webViewController!.callAsyncJavaScript(functionBody: "return await decrypt.decrypt(${widget.json!['user']['encrypted']}, '${widget.password}')").then((value) async {
 //         if (kDebugMode) {
-//           print("finish DECRYPTING ACCOUNT");
+//           debugPrint("finish DECRYPTING ACCOUNT");
 //         }
 
 //         await Future.delayed(const Duration(seconds: 2));
 //         if (kDebugMode) {
-//           print("animationController ${_importAccountModel.animationController!.value}");
+//           debugPrint("animationController ${_importAccountModel.animationController!.value}");
 //         }
         
 //     //   if (value!.value != null){
@@ -350,7 +350,7 @@
 //         await Future.delayed(const Duration(seconds: 2));
 
 //         if (kDebugMode) {
-//           print("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
+//           debugPrint("CONNECT TO SELENDRA NETWORK ${_importAccountModel.animationController!.value}");
 //         }
 
 //         changeStatus("CONNECT TO SELENDRA NETWORK", avg: "3/4");

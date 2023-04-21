@@ -87,7 +87,7 @@ PreferredSizeWidget defaultAppBar({
                       });
                     }
                     catch (e) {
-                      print("catch $e");
+                      debugPrint("catch $e");
                       Navigator.pop(context);
                       customDialog(context, "Failed", "Please check your connection again", txtButton: "OK");
                     }
@@ -207,17 +207,17 @@ void bottomSheetAddAccount(BuildContext context) async{
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
                       await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
-                        print("value $value");
+                        debugPrint("value $value");
 
-                        print("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
+                        debugPrint("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
 
                         Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
 
-                        print("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
+                        debugPrint("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
                         await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
                         provider.getBtcBalance(context: context);
-                        print("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
+                        debugPrint("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
 
                       });
                       provider.notifyListeners();

@@ -70,7 +70,7 @@ class TrxFunctional {
       // Navigator.pop(context);
       
         if (kDebugMode) {
-          print('Error getPrivateKey $e');
+          debugPrint('Error getPrivateKey $e');
         }
       
       // await customDialog('Opps', 'PIN verification failed');
@@ -118,7 +118,7 @@ class TrxFunctional {
     } catch (e) {
       
       if (kDebugMode) {
-        print("err sendTxBnb $e");
+        debugPrint("err sendTxBnb $e");
       }
     }
   }
@@ -192,7 +192,7 @@ class TrxFunctional {
       } catch (e) {
         
           if (kDebugMode) {
-            print('Err sendTxEvm $e');
+            debugPrint('Err sendTxEvm $e');
           }
         
         if (e.toString().contains('insufficient funds for gas * price + value')) {
@@ -221,7 +221,7 @@ class TrxFunctional {
         // Navigator.pop(context);
         
           if (kDebugMode) {
-            print('Error sendTxBep20 $e');
+            debugPrint('Error sendTxBep20 $e');
           }
         
         if (e.toString().contains('insufficient funds for gas * price + value')) {
@@ -235,7 +235,7 @@ class TrxFunctional {
   }
 
   Future<dynamic> sendTxBep20(ContractService tokenService, TransactionInfo txInfo) async {
-    print("sendTxBep20");
+    debugPrint("sendTxBep20");
     if (txInfo.privateKey != null) {
       try {
         
@@ -252,7 +252,7 @@ class TrxFunctional {
         // Navigator.pop(context);
         
           if (kDebugMode) {
-            print('Error sendTxBep20 $e');
+            debugPrint('Error sendTxBep20 $e');
           }
         
         if (e.toString().contains('insufficient funds for gas * price + value')) {
@@ -401,7 +401,7 @@ class TrxFunctional {
     } catch (e){
 
       if (kDebugMode) {
-        print("Err navigateAssetInfo $e");
+        debugPrint("Err navigateAssetInfo $e");
       }
     }
   }
@@ -435,7 +435,7 @@ class TrxFunctional {
   //     }
   //   } catch (e) {
   //     Navigator.pop(context);
-  //     if (ApiProvider().isDebug == true) print(e.message.toString());
+  //     if (ApiProvider().isDebug == true) debugPrint(e.message.toString());
   //     if (e.message.toString() ==
   //         'insufficient funds for gas * price + value') {
   //       await customDialog('Opps', 'Insufficient funds for gas');
@@ -619,7 +619,7 @@ class TrxFunctional {
   }
 
   Future<bool> checkBalanceofCoin(String asset, String amount, int index) async {
-    print("checkBalanceofCoin");
+    debugPrint("checkBalanceofCoin");
     bool enough = true;
     try {
 
@@ -631,7 +631,7 @@ class TrxFunctional {
 
     } catch (e) {
       if (kDebugMode) {
-        print("Error checkBalanceofCoin $e");
+        debugPrint("Error checkBalanceofCoin $e");
       }
     }
     return enough;
@@ -653,7 +653,7 @@ class TrxFunctional {
           if (org == 'BEP-20'){
             
               if (kDebugMode) {
-                print("Evm addr");
+                debugPrint("Evm addr");
               }
             
             res = await conPro.validateEvmAddr(address);
@@ -668,7 +668,7 @@ class TrxFunctional {
           break;
 
         default:
-          print("Default");
+          debugPrint("Default");
           final res = await conPro.validateEvmAddr(address);
           isValid = res;
           break;
@@ -678,17 +678,17 @@ class TrxFunctional {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Erorr validateAddr $e");
+        debugPrint("Erorr validateAddr $e");
       }
       return isValid;
     }
   }
 
   Future<String>? getNetworkGasPrice(String asset, {required ContractProvider? contractPro, String? network}) async {
-    print("getNetworkGasPrice");
+    debugPrint("getNetworkGasPrice");
     String? gasPrice;
     
-    print("asset $asset");
+    debugPrint("asset $asset");
 
     try {
 
@@ -699,7 +699,7 @@ class TrxFunctional {
         gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
       } 
       else if (asset == 'ETH') {
-        print("Hello eth");
+        debugPrint("Hello eth");
         final res = await contractPro!.getEthGasPrice();
 
         gasPrice = res!.getValueInUnit(EtherUnit.gwei).toString();
@@ -719,7 +719,7 @@ class TrxFunctional {
     } catch (e){
       
         if (kDebugMode) {
-          print("Error getNetworkGasPrice $e");
+          debugPrint("Error getNetworkGasPrice $e");
         }
       
     }
@@ -743,13 +743,13 @@ class TrxFunctional {
           marketPrice = contract.listContract[api!.btcIndex].marketPrice;
           break;
         case 'ETH':
-          print("Hello eth");
-          print("contract.listContract[api!.ethIndex].id ${contract.listContract[api!.ethIndex].id}");
+          debugPrint("Hello eth");
+          debugPrint("contract.listContract[api!.ethIndex].id ${contract.listContract[api!.ethIndex].id}");
           await MarketProvider().queryCoinFromMarket(contract.listContract[api!.ethIndex].id!.toLowerCase()).then((value) {
 
             if (value!.isNotEmpty){
 
-              print("value['current_price'].toString() ${value['current_price'].toString()}");
+              debugPrint("value['current_price'].toString() ${value['current_price'].toString()}");
 
               contract.setEtherMarket(
                 Market(),
@@ -776,7 +776,7 @@ class TrxFunctional {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error estGasFeePrice $e");
+          debugPrint("Error estGasFeePrice $e");
         }
       
     }
@@ -785,17 +785,17 @@ class TrxFunctional {
 
   Future<List>? calPrice(String asset, String amount, {int? assetIndex}) async {
 
-    print("asset $asset");
-    print("amount $amount");
-    print("assetIndex $assetIndex");
+    debugPrint("asset $asset");
+    debugPrint("amount $amount");
+    debugPrint("assetIndex $assetIndex");
 
     String? marketPrice;
     String estPrice;
 
     final contract = Provider.of<ContractProvider>(context!, listen: false);
-    print("amount $amount");
-    print("contract.sortListContract[assetIndex].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}");
-    print("contract.sortListContract[assetIndex].marketPrice == null ${contract.sortListContract[assetIndex].marketPrice == null}");
+    debugPrint("amount $amount");
+    debugPrint("contract.sortListContract[assetIndex].marketPrice ${contract.sortListContract[assetIndex!].marketPrice}");
+    debugPrint("contract.sortListContract[assetIndex].marketPrice == null ${contract.sortListContract[assetIndex].marketPrice == null}");
     // "0" For Contract That Has 0 Decimal
     if (contract.sortListContract[assetIndex].marketPrice == "0" || contract.sortListContract[assetIndex].marketPrice == "null"){
 
@@ -803,7 +803,7 @@ class TrxFunctional {
     } else {
       marketPrice = contract.sortListContract[assetIndex].marketPrice;
     }
-    print("marketPrice $marketPrice");
+    debugPrint("marketPrice $marketPrice");
     marketPrice = marketPrice!.isEmpty ? "0" : marketPrice;
     estPrice = (double.parse(amount) * double.parse(marketPrice)).toStringAsFixed(2);
 
@@ -816,8 +816,8 @@ class TrxFunctional {
     final contractProvider = Provider.of<ContractProvider>(context, listen: false);
     final api = Provider.of<ApiProvider>(context, listen: false);
 
-    print("network $network");
-    print("asset $asset");
+    debugPrint("network $network");
+    debugPrint("asset $asset");
     try {
       
       if (network != null && network == "ERC-20"){
@@ -836,11 +836,11 @@ class TrxFunctional {
       }
         
       else {
-        print("Bep20");
-        print("(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)! ${(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!}");
+        debugPrint("Bep20");
+        debugPrint("(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)! ${(api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!}");
         
-        print(reciever);
-        print(amount);
+        debugPrint(reciever);
+        debugPrint(amount);
         maxGas = await contractProvider.getBep20MaxGas( 
           (api.isMainnet ? contractProvider.sortListContract[index].contract : contractProvider.sortListContract[index].contractTest)!, 
           reciever, 
@@ -852,7 +852,7 @@ class TrxFunctional {
     } catch (e) {
       
       if (kDebugMode) {
-        print("Error estMaxGas $e");
+        debugPrint("Error estMaxGas $e");
       }
     }
     return maxGas!;

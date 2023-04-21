@@ -46,7 +46,7 @@ class GoogleAuthService extends ChangeNotifier {
     } catch (e) {
       
       if (kDebugMode){
-        print("Error signInWithGoogle $e");
+        debugPrint("Error signInWithGoogle $e");
       }
     }
 
@@ -61,7 +61,7 @@ class GoogleAuthService extends ChangeNotifier {
 
     } catch (e) {
       if (kDebugMode){
-        print("Err signOut $e");
+        debugPrint("Err signOut $e");
       }
     }
   }

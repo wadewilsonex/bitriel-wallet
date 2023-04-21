@@ -101,7 +101,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
     _importAccountModel.animationController!.addListener(() {
       if (kDebugMode) {
-        print("animationController!.value ${_importAccountModel.animationController!.value}");
+        debugPrint("animationController!.value ${_importAccountModel.animationController!.value}");
       }
 
       if (_importAccountModel.animationController!.value >= 0.15 && _importAccountModel.animationController!.value <= 0.19) {
@@ -324,7 +324,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
                 return false;
               }).toList();
 
-              // print("Obj found ${obj[0].address}");
+              // debugPrint("Obj found ${obj[0].address}");
               // int indexOfVerifyingSeed = tmp.indexOf(obj[0]);
 
               /// From Welcome, Or From Multi Account
@@ -393,7 +393,7 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateMnemonic $e");
+          debugPrint("Error validateMnemonic $e");
         }
       
     }

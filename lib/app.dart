@@ -44,8 +44,8 @@ class AppState extends State<App> {
 
       }).onError((error) {
         if (kDebugMode) {
-          print('onLink error');
-          print(error.message);
+          debugPrint('onLink error');
+          debugPrint(error.message);
         }
       });
     });
@@ -142,7 +142,7 @@ class AppState extends State<App> {
       });
     } catch (e) {
       if (kDebugMode) {
-        print("Error initApi $e");
+        debugPrint("Error initApi $e");
       }
     }
   }
@@ -158,7 +158,7 @@ class AppState extends State<App> {
       }
     } catch (e){
         if (kDebugMode) {
-          print("Error readTheme $e");
+          debugPrint("Error readTheme $e");
         }
     }
   }

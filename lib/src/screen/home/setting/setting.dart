@@ -84,7 +84,7 @@ class _SettingPageState extends State<SettingPage> {
         });
       } else {
         if(!mounted) return;
-        snackBar(context, "Your device doesn't have finger print! Set up to enable this feature");
+        snackBar(context, "Your device doesn't have finger debugPrint! Set up to enable this feature");
       }
     } catch (e) {
       if(!mounted) return;
@@ -100,7 +100,7 @@ class _SettingPageState extends State<SettingPage> {
   //   } else {
   //     await StorageServices.clearKeySecure(DbKey.passcode);
   //   }
-  //   // print("passcode: ${_menuModel.}")
+  //   // debugPrint("passcode: ${_menuModel.}")
 
   //   setState(() {});
   // }

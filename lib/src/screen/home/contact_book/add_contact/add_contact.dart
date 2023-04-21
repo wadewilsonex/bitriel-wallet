@@ -97,7 +97,7 @@
 //       Navigator.pop(context);
 //       if (ApiProvider().isDebug == true) {
 //         if (kDebugMode) {
-//           print("Error submitContact $e");
+//           debugPrint("Error submitContact $e");
 //         }
 //       }
 //     }

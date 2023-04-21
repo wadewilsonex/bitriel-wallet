@@ -120,8 +120,6 @@ class AddAssetState extends State<AddAsset> {
       }).toList();
     }
 
-    print(getContractData);
-
     setState(() {
       
     });
@@ -135,7 +133,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateEtherAddress $e");
+          debugPrint("Error validateEtherAddress $e");
         }
       
     }
@@ -150,7 +148,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error validateAddress $e");
+          debugPrint("Error validateAddress $e");
         }
       
     }
@@ -250,7 +248,7 @@ class AddAssetState extends State<AddAsset> {
       Navigator.pop(context);
       
         if (kDebugMode) {
-          print("Error addAsset $e");
+          debugPrint("Error addAsset $e");
         }
       
 
@@ -303,7 +301,7 @@ class AddAssetState extends State<AddAsset> {
           
           _tokenSymbol = res[0].toString();
 
-          print("_tokenSymbol $_tokenSymbol");
+          debugPrint("_tokenSymbol $_tokenSymbol");
 
           if (!mounted) return;
           await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
@@ -378,7 +376,7 @@ class AddAssetState extends State<AddAsset> {
 
       
         if (kDebugMode) {
-          print("Error submitAsset $e");
+          debugPrint("Error submitAsset $e");
         }
       
     }
@@ -386,10 +384,10 @@ class AddAssetState extends State<AddAsset> {
 
   Future<void> searchEtherContract() async {
 
-    print("searchEtherContract ${_modelAsset.controllerAssetCode.text}");
+    debugPrint("searchEtherContract ${_modelAsset.controllerAssetCode.text}");
     try {
       final res = await Provider.of<ContractProvider>(context, listen: false).queryEther(_modelAsset.controllerAssetCode.text, 'symbol', []);
-      print("Res $res");
+      debugPrint("Res $res");
       if (res != null) {
         setState(() {
           _tokenSymbol = res[0].toString();
@@ -399,7 +397,7 @@ class AddAssetState extends State<AddAsset> {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error searchEtherContract $e");
+          debugPrint("Error searchEtherContract $e");
         }
       
       throw Exception(e);

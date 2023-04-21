@@ -29,7 +29,7 @@ class Attendance extends ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error initAttContract $e");
+          debugPrint("Error initAttContract $e");
         }
       
     }
@@ -45,7 +45,7 @@ class Attendance extends ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Error getChainDecimal $e");
+          debugPrint("Error getChainDecimal $e");
         }
       
     }
@@ -75,7 +75,7 @@ class Attendance extends ChangeNotifier {
     } catch (e) {
       
         if (kDebugMode) {
-          print("Err checkBalanceAdd $e");
+          debugPrint("Err checkBalanceAdd $e");
         }
       
     }

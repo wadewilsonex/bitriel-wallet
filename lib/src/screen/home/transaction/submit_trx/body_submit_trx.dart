@@ -60,7 +60,7 @@ class SubmitTrxBody extends StatelessWidget {
         focusNode: scanPayM!.nodeReceiverAddress,
         validateField: (value) => value == null ? "Plaese fill reciever address" : null,
         // validateField: (value) {
-        //   print("ValidateField $value");
+        //   debugPrint("ValidateField $value");
         //   return validateAddress!(value);
         // },
         onChanged: onChanged,

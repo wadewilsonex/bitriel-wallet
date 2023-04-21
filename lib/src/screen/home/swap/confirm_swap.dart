@@ -94,18 +94,18 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         _scanPayM.asset!, _scanPayM.controlReceiverAddress.text, 
         context: context, org: _contractProvider!.sortListContract[_scanPayM.assetValue].org
       );
-      print("isValid $isValid");
+      debugPrint("isValid $isValid");
 
-      print("_scanPayM.asset!, ${_scanPayM.asset!}");
-      print("_scanPayM.controlAmount.text ${_scanPayM.controlAmount.text}");
-      print("_scanPayM.assetValue ${_scanPayM.assetValue}");
+      debugPrint("_scanPayM.asset!, ${_scanPayM.asset!}");
+      debugPrint("_scanPayM.controlAmount.text ${_scanPayM.controlAmount.text}");
+      debugPrint("_scanPayM.assetValue ${_scanPayM.assetValue}");
       final isEnough = await trxFunc!.checkBalanceofCoin(
         _scanPayM.asset!,
         _scanPayM.controlAmount.text,
         _scanPayM.assetValue
       );
 
-      print("isEnough $isEnough");
+      debugPrint("isEnough $isEnough");
 
       if (!isEnough) {
         if(!mounted) return;
@@ -121,7 +121,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         );
       // }
 
-      print("gasPrice $gasPrice");
+      debugPrint("gasPrice $gasPrice");
       if (isEnough) {
 
         if (gasPrice != null) {
@@ -132,7 +132,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
             assetIndex: _scanPayM.assetValue
           );
 
-          print("estAmtPrice $estAmtPrice");
+          debugPrint("estAmtPrice $estAmtPrice");
 
           // _contractProvider!.sortListContract[_scanPayM.assetValue].marketPrice;
           if(!mounted) return;
@@ -144,30 +144,30 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
             _scanPayM.assetValue, 
             // network: ApiProvider().isMainnet ? _contractProvider!.sortListContract[_scanPayM.assetValue].org : _contractProvider!.sortListContract[_scanPayM.assetValue].orgTest
           );
-          print("maxGas $maxGas");
+          debugPrint("maxGas $maxGas");
 
           decimal = 18;//_contractProvider!.sortListContract[_scanPayM.assetValue].chainDecimal!;
           final gasFee = double.parse(maxGas!) * double.parse(gasPrice);
           var gasFeeToEther = (gasFee / pow(10, decimal)).toString();
 
-          print("gasFee $gasFee");
-          print("gasFeeToEther $gasFeeToEther");
+          debugPrint("gasFee $gasFee");
+          debugPrint("gasFeeToEther $gasFeeToEther");
 
           // Check BNB balance for Fee
           // if (double.parse(gasFeeToEther) >= double.parse(_contractProvider!.listContract[_apiProvider!.bnbIndex].balance!.replaceAll(",", ""))){
           //   throw ExceptionHandler("You do not have sufficient fee for transaction.");
           // }
 
-          print("Finish Check BNB Balnace For Fee");
+          debugPrint("Finish Check BNB Balnace For Fee");
 
           final estGasFeePrice = await trxFunc!.estGasFeePrice(gasFee, _scanPayM.asset!, assetIndex: _scanPayM.assetValue);
-          print("Finish estGasFeePrice");
+          debugPrint("Finish estGasFeePrice");
           final totalAmt = double.parse(_scanPayM.controlAmount.text) + double.parse((gasFee / pow(10, decimal)).toString());
-          print("Total amount $totalAmt");
+          debugPrint("Total amount $totalAmt");
           final estToSendPrice = totalAmt * double.parse(estAmtPrice!.last == "0" ? "1" : estAmtPrice.last);
-          print("estToSendPrice $estToSendPrice");
+          debugPrint("estToSendPrice $estToSendPrice");
           final estTotalPrice = estGasFeePrice! + estToSendPrice;
-          print("estTotalPrice $estTotalPrice");
+          debugPrint("estTotalPrice $estTotalPrice");
           
           trxFunc!.txInfo = TransactionInfo(
             chainDecimal: decimal,
@@ -211,12 +211,12 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
   }
   
   Future<void> confirmSwapMethod()async {
-    print("Submit");
+    debugPrint("Submit");
     await initTrxInfo();
   }
 
   Future<dynamic> sendTrx(TransactionInfo txInfo, { @required BuildContext? context}) async {
-    print("sendTrx");
+    debugPrint("sendTrx");
     // try {
 
       await StorageServices.readSecure(DbKey.pin)!.then((value) {
@@ -229,12 +229,12 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
       trxFunc!.encryptKey = await StorageServices.readSecure(_scanPayM.asset == 'btcwif' ? 'btcwif' : DbKey.private);
 
-      print("trxFunc!.encryptKey ${trxFunc!.encryptKey}");
+      debugPrint("trxFunc!.encryptKey ${trxFunc!.encryptKey}");
 
       // Show Dialog Fill PIN
       if(!mounted) return;
       String resPin = await Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromSendTx), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
-      print("resPin $resPin");
+      debugPrint("resPin $resPin");
       if (resPin != _pin){
         // ignore: use_build_context_synchronously
         await customDialog(context, "Oops", "Invalid PIN,\nPlease try again.", txtButton: "Close");
@@ -265,7 +265,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
           /* ------------------Check and Get Private------------ */
 
           trxFunc!.privateKey = await trxFunc!.getPrivateKey(resPin, context: context);
-          print("trxFunc!.privateKey ${trxFunc!.privateKey}");
+          debugPrint("trxFunc!.privateKey ${trxFunc!.privateKey}");
           
           /* ------------------Check PIN------------ */
           // Pin Incorrect And Private Key Response NULL
@@ -306,7 +306,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
               _scanPayM.hash = await trxFunc!.sendTxEvm(_contractProvider!.getBnb, txInfo);
             } 
             else if (contractM.symbol == "ETH"){
-              print("Sending ETH");
+              debugPrint("Sending ETH");
               _scanPayM.hash = await trxFunc!.sendTxEvm(trxFunc!.contract!.getEth, txInfo);
             } 
             else if (contractM.symbol == "BTC"){
@@ -327,7 +327,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
                 _scanPayM.hash = await trxFunc!.sendTxErc20(_contractProvider!.getErc20, txInfo);
                 
               } else {
-                print("initBep20Service");
+                debugPrint("initBep20Service");
                 await _contractProvider!.initBep20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxBep20(_contractProvider!.getBep20, txInfo);
               }
@@ -352,7 +352,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       // return _scanPayM.hash;
     // } catch (e){
     //   if (kDebugMode) {
-    //     print("Error $e");
+    //     debugPrint("Error $e");
     //   }
     //   throw Exception(e);
     // }

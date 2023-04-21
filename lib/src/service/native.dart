@@ -58,7 +58,7 @@ class NativeService implements INativeService {
       } catch (e) {
         
         if (kDebugMode) {
-          print("Error listenTransfer $e");
+          debugPrint("Error listenTransfer $e");
         }
       }
     })
@@ -70,22 +70,22 @@ class NativeService implements INativeService {
 
   @override
   Future<String>? sendTx(TransactionInfo trxInfo) async {
-    print("sendTx native.dart");
+    debugPrint("sendTx native.dart");
     String? res;
     try {
 
       final credentials = await getCredentials(trxInfo.privateKey!);
-      print("await _client.getBalance(credentials.address) ${await _client.getBalance(credentials.address)}");
+      debugPrint("await _client.getBalance(credentials.address) ${await _client.getBalance(credentials.address)}");
       final maxGas = await getMaxGas(credentials.address, trxInfo);
 
-      print("credentials ${credentials.address}");
-      print("maxGas ${maxGas}");
-      print("trxInfo.receiver ${trxInfo.receiver}");
-      print("trxInfo.gasPrice ${trxInfo.gasPrice}");
-      print("EtherAmount.inWei(BigInt.one) ${EtherAmount.inWei(BigInt.one)}");
-      print("trxInfo.amount! ${trxInfo.amount!}");
-      print("EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))) ${EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!)))}");
-      print("trxInfo.chainDecimal! ${trxInfo.chainDecimal!}");
+      debugPrint("credentials ${credentials.address}");
+      debugPrint("maxGas ${maxGas}");
+      debugPrint("trxInfo.receiver ${trxInfo.receiver}");
+      debugPrint("trxInfo.gasPrice ${trxInfo.gasPrice}");
+      debugPrint("EtherAmount.inWei(BigInt.one) ${EtherAmount.inWei(BigInt.one)}");
+      debugPrint("trxInfo.amount! ${trxInfo.amount!}");
+      debugPrint("EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!))) ${EtherAmount.inWei(BigInt.from(double.parse(trxInfo.amount!) * pow(10, trxInfo.chainDecimal!)))}");
+      debugPrint("trxInfo.chainDecimal! ${trxInfo.chainDecimal!}");
       res = await _client.sendTransaction(
         credentials,
         Transaction(
@@ -97,12 +97,12 @@ class NativeService implements INativeService {
         // fetchChainIdFromNetworkId: true,
       );
 
-      print("Res $res");
+      debugPrint("Res $res");
 
     } catch (e){
 
       if (kDebugMode) {
-        print("Err sendTx $e");
+        debugPrint("Err sendTx $e");
       }
     }
 
@@ -111,8 +111,8 @@ class NativeService implements INativeService {
   
   @override
   Future<BigInt> getMaxGas(EthereumAddress sender, TransactionInfo trxInfo) async {
-    print("sender ${sender.hex}");
-    print("_client.estimateGas ${await _client.getBalance(EthereumAddress.fromHex(sender.hex))}");
+    debugPrint("sender ${sender.hex}");
+    debugPrint("_client.estimateGas ${await _client.getBalance(EthereumAddress.fromHex(sender.hex))}");
     final maxGas = await _client.estimateGas(
       sender: sender,
       to: trxInfo.receiver,

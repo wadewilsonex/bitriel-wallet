@@ -46,7 +46,7 @@
 //       _hash = await contract.swap(_swapModel.amountController!.text, pKey);
 //     } catch (e) {
 //       Navigator.pop(context);
-//       // if (ApiProvider().isDebug == true) print(e.message);
+//       // if (ApiProvider().isDebug == true) debugPrint(e.message);
 
 //       if (e.toString() == 'RPCError: got code -32000 with msg "insufficient funds for gas * price + value"') {
 //         await DialogComponents().dialogCustom(context: context, titles: 'Opps', contents: 'Insufficient funds for gas');
@@ -61,7 +61,7 @@
 
 //   // Function That Call Approve And Then Call Swap
 //   Future<void> approveAndSwap() async {
-//     if (ApiProvider().isDebug) print("approveAndSwap");
+//     if (ApiProvider().isDebug) debugPrint("approveAndSwap");
 //     try {
 //       final contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -72,7 +72,7 @@
 //             dialogLoading(context, content: "This processing may take a bit longer\nPlease wait a moment");
 //             final approveHash = await approve(res!);
 
-//             if (ApiProvider().isDebug) print("approveHash $approveHash");
+//             if (ApiProvider().isDebug) debugPrint("approveHash $approveHash");
 
 //             if (approveHash != null) {
 //               // await Future.delayed(Duration(seconds: 10));
@@ -119,7 +119,7 @@
 
 //   // Function That Call Swap Without Approve
 //   Future<void> swapWithoutAp() async {
-//     if (ApiProvider().isDebug) print("swapWithoutAp");
+//     if (ApiProvider().isDebug) debugPrint("swapWithoutAp");
 
 //     final contract = Provider.of<ContractProvider>(context, listen: false);
 
@@ -133,7 +133,7 @@
 //             // await Future.delayed(const Duration(seconds: 7));
 //             final res = await contract.getSwap.listenTransfer(hash);
 
-//             if (ApiProvider().isDebug) print("contract.getSwap.listenTransfer(hash) $res");
+//             if (ApiProvider().isDebug) debugPrint("contract.getSwap.listenTransfer(hash) $res");
 
 //             if (res != null) {
 //               if (res) {
@@ -168,14 +168,14 @@
 //   // Function Confirm After Check Allowance
 //   Future<void> confirmFunction() async {
 
-//     if (ApiProvider().isDebug) print("confirmFunction");
+//     if (ApiProvider().isDebug) debugPrint("confirmFunction");
 
 //     try {
 
 //       dialogLoading(context);
 //       final res = await Provider.of<ContractProvider>(context, listen: false).checkAllowance();
 
-//       if (ApiProvider().isDebug) print("res $res");
+//       if (ApiProvider().isDebug) debugPrint("res $res");
 
 //       if (res.toString() == '0') {
 //         Navigator.pop(context);
@@ -186,7 +186,7 @@
 //         await swapWithoutAp();
 //       }
 //     } catch (e) {
-//       if (ApiProvider().isDebug == true) print("Error confirmFunction $e");
+//       if (ApiProvider().isDebug == true) debugPrint("Error confirmFunction $e");
 //     }
 //   }
 
@@ -208,7 +208,7 @@
 //         await confirmDialog(_swapModel.amountController!.text, await swap);
 //       }
 //     } catch (e) {
-//       if(ApiProvider().isDebug) print("Error validateSwap $e");
+//       if(ApiProvider().isDebug) debugPrint("Error validateSwap $e");
 //     }
 //   }
 

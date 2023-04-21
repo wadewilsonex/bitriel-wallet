@@ -71,14 +71,11 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   // initialValue: number,
                   onInputChanged: (PhoneNumber number) {
                     if (kDebugMode) {
-                      print(number.phoneNumber);
+                      debugPrint(number.phoneNumber);
                     }
                     getPhoneNumber = number.phoneNumber;
                   },
                   onInputValidated: (bool value) {
-                    if (kDebugMode) {
-                      print(value);
-                    }
                   },
                   selectorConfig: const SelectorConfig(
                     selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
@@ -107,7 +104,7 @@ class CreateSeedPhoneNumberBody extends StatelessWidget {
                   ),
                   onSaved: (PhoneNumber number) {
                     if (kDebugMode) {
-                      print('On Saved: $number');
+                      debugPrint('On Saved: $number');
                     }
                     getPhoneNumber = number.toString();
                   },

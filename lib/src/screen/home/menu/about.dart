@@ -17,9 +17,9 @@ class About extends StatelessWidget {
     //     throw 'Could not launch $url';
     //   }
     // } on PlatformException catch (e) {
-    //   print("Error My PlatformException $e");
+    //   debugPrint("Error My PlatformException $e");
     // } catch (e) {
-    //   print("Error _launchInBrowser $e");
+    //   debugPrint("Error _launchInBrowser $e");
     // }
   }
 

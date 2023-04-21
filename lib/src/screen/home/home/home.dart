@@ -57,8 +57,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList = jsonDecode(value);
 
-        print(Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList);
-
         // if (Provider.of<VerifySeedsProvider>(context, listen: false).getPrivateList.where((e) {
         //   if (e['address'] == Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address) return true;
         //   return false;
@@ -80,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose(){
     // _videoController!.dispose();
-    print("Why");
+    debugPrint("Why");
     super.dispose();
   }
 
@@ -160,12 +158,12 @@ class _HomePageState extends State<HomePage> {
             // List<int> convert = decode['id'].toString().codeUnits;
             // Uint8List uint8list = Uint8List.fromList(convert);
             // String _credentials = await _signId(decode['id']);
-            // print("_credentials $_credentials");
+            // debugPrint("_credentials $_credentials");
             // String signedDataHex = EthSigUtil.signMessage(
             //   privateKey: _credentials,
             //   message: uint8list
             // );
-            // print("signedDataHex $signedDataHex");
+            // debugPrint("signedDataHex $signedDataHex");
             // Navigator.pop(context);
 
           } else {

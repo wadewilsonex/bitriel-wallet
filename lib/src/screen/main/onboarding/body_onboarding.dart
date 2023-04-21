@@ -101,8 +101,8 @@ class OnboardignBody extends StatelessWidget {
                       itemColor: "#023859",
                       action: () {
                         GoogleAuthService().signInWithGoogle().then((value) => {
-                          print("google name: ${value!.user!.displayName}"),
-                          print("google name: ${value.user!.email}")
+                          debugPrint("google name: ${value!.user!.displayName}"),
+                          debugPrint("google name: ${value.user!.email}")
                         });
                       },
                     ),

@@ -73,7 +73,7 @@
 //
 //   //   try {} catch (e) {
 //   //     Navigator.pop(context);
-//   //     // if (ApiProvider().isDebug == true) print(e.message);
+//   //     // if (ApiProvider().isDebug == true) debugPrint(e.message);
 //
 //   //     if (e.message.toString() ==
 //   //         'insufficient funds for gas * price + value') {
@@ -458,7 +458,7 @@
 //         }
 //       });
 //     } catch (e) {
-//       if (ApiProvider().isDebug == true) print("Error priceChecker $e");
+//       if (ApiProvider().isDebug == true) debugPrint("Error priceChecker $e");
 //     }
 //   }
 //
@@ -486,7 +486,7 @@
 //         );
 //       }
 //     } catch (e) {
-//       if (ApiProvider().isDebug == true) print("Error checkIsAllownce $e");
+//       if (ApiProvider().isDebug == true) debugPrint("Error checkIsAllownce $e");
 //     }
 //   }
 //
@@ -524,7 +524,7 @@
 //         }
 //       }
 //     } catch (e) {
-//       if (ApiProvider().isDebug == true) print("Error submitPresale $e");
+//       if (ApiProvider().isDebug == true) debugPrint("Error submitPresale $e");
 //     }
 //   }
 //
@@ -540,7 +540,7 @@
 //
 //       _model.balance = double.parse(contract.listContract[4].balance!);
 //       _model.listSupportToken = await Provider.of<PresaleProvider>(context, listen: false).fetchAndFillPrice(_model.listSupportToken!);
-//       // if (ApiProvider().isDebug == true) print("_model.listSupportToken ${_model.listSupportToken}");
+//       // if (ApiProvider().isDebug == true) debugPrint("_model.listSupportToken ${_model.listSupportToken}");
 //       // await Provider.of<PresaleProvider>(context, listen: false).setListOrder();
 //
 //       //await Provider.of<PresaleProvider>(context, listen: false).getOrders(3);
@@ -548,7 +548,7 @@
 //
 //       setState(() {});
 //     } catch (e) {
-//       if (ApiProvider().isDebug == true) print("Error initMethod $e");
+//       if (ApiProvider().isDebug == true) debugPrint("Error initMethod $e");
 //     }
 //   }
 //

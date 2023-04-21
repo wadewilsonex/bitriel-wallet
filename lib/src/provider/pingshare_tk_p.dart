@@ -20,7 +20,7 @@ class PingShareTKProvider extends ChangeNotifier {
     //   // Init Web3 Client
     //   _mdwClient = Web3Client(ApiProvider().isMainnet ? AppConfig.networkList[4].httpUrlMN! : AppConfig.networkList[4].httpUrlTN!, Client());
     // } catch (e) {
-    //   print("Err initNFTContract $e");
+    //   debugPrint("Err initNFTContract $e");
     // }
   }
 
@@ -29,9 +29,9 @@ class PingShareTKProvider extends ChangeNotifier {
   Future<void> fetchItemsByAddress() async {
     // model.tickets = [];
     // // Initialize Contract Service Object With Contract Object
-    // print("_provider!.ethAdd ${_provider!.ethAdd}");
+    // debugPrint("_provider!.ethAdd ${_provider!.ethAdd}");
     // try {
-    //   print("deployContract");
+    //   debugPrint("deployContract");
     //   await _mdwClient!.call(
     //     contract: _deployedContract!, 
     //     function: _deployedContract!.function("fetchItemsByAddress"), 
@@ -45,7 +45,7 @@ class PingShareTKProvider extends ChangeNotifier {
     //     notifyListeners();
     //   });
     // } catch (e) {
-    //   print("Err fetchItemsByAddress $e");
+    //   debugPrint("Err fetchItemsByAddress $e");
     // }
   }
 

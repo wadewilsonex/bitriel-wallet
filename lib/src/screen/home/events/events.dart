@@ -57,10 +57,10 @@ class _FindEventState extends State<FindEvent> with TickerProviderStateMixin{
   // }
 
   // void fetchEvent() async {
-  //   print("fetchEvent");
+  //   debugPrint("fetchEvent");
   //   await getAllEvent().then((value) async {
   //     events = List<Map<String, dynamic>>.from((await json.decode(value.body))['events']);
-  //     print("events ${events!.length}");
+  //     debugPrint("events ${events!.length}");
   //   });
     
   //   // events!.add({

@@ -48,7 +48,7 @@
 //                         } catch (e) {
 //                           if (ApiProvider().isDebug == true) {
 //                             if (kDebugMode) {
-//                               print("error TrxOptionMethod.scanQR $e");
+//                               debugPrint("error TrxOptionMethod.scanQR $e");
 //                             }
 //                           }
 //                         }

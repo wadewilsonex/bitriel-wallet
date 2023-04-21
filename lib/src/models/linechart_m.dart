@@ -98,7 +98,7 @@ class LineChartModel {
       }
     } catch (e) {
       if (kDebugMode) {
-          print("Error prepareGraphChart $e");
+          debugPrint("Error prepareGraphChart $e");
         }
     }
 

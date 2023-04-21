@@ -96,8 +96,6 @@ class HomeFunctional {
                                     onTap: () async{
                                       selectedIndex = index;
                                     
-                                      print(selectedIndex);
-                                    
                                       dialogLoading(context);
                                     
                                       AppConfig.networkList[0].wsUrlMN = sldNetworkList[index];

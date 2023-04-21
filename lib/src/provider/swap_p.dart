@@ -70,7 +70,7 @@ class SwapProvider extends ChangeNotifier{
     balance1 = "0";//found1[0].balance!;
     balance2 = "0";//found2[0].balance!;
 
-    print("finish initList");
+    debugPrint("finish initList");
   }
 
   void setList() async {
@@ -110,7 +110,7 @@ class SwapProvider extends ChangeNotifier{
       )
     );
 
-    print("ls.length ${ls.length}");
+    debugPrint("ls.length ${ls.length}");
 
     // ls2.add(
     //   SwapTokenListModel(
