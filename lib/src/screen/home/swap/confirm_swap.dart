@@ -8,11 +8,8 @@ import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
-import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
-import 'package:wallet_apps/src/service/exception_handler.dart';
-import 'package:wallet_apps/src/service/submit_trx_s.dart';
 import 'package:lottie/lottie.dart';
 
 class ConfirmSwap extends StatefulWidget {

@@ -2,7 +2,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';

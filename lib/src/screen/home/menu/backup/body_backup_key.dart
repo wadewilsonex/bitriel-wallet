@@ -39,7 +39,7 @@ class BackUpKeyBody extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: [
 
-            SizedBox(height: 2.5),
+            const SizedBox(height: 2.5),
 
             _backupSection(context),
           ]

@@ -276,33 +276,36 @@ class HomePageBody extends StatelessWidget {
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {
-                    customDialog(
-                      context, 
-                      'Access to Bitriel NFTs?', 
-                      'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
-                      txtButton: "Cancel",
-                      btn2: MyFlatButton(
-                        height: 60,
-                        edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                        isTransparent: false,
-                        buttonColor: AppColors.whiteHexaColor,
-                        textColor: AppColors.redColor,
-                        textButton: "Confirm",
-                        isBorder: true,
-                        action: () {
-                          // Close pop up dialog
-                          Navigator.pop(context);
 
-                          Navigator.push(
-                            context, 
-                            Transition(
-                              child: const NFTMarketPlace(),
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                            )
-                          );
-                        }
-                      )
-                    );
+                    underContstuctionAnimationDailog(context: context);
+                    
+                    // customDialog(
+                    //   context, 
+                    //   'Access to Bitriel NFTs?', 
+                    //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
+                    //   txtButton: "Cancel",
+                    //   btn2: MyFlatButton(
+                    //     height: 60,
+                    //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    //     isTransparent: false,
+                    //     buttonColor: AppColors.whiteHexaColor,
+                    //     textColor: AppColors.redColor,
+                    //     textButton: "Confirm",
+                    //     isBorder: true,
+                    //     action: () {
+                    //       // Close pop up dialog
+                    //       Navigator.pop(context);
+
+                    //       Navigator.push(
+                    //         context, 
+                    //         Transition(
+                    //           child: const NFTMarketPlace(),
+                    //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    //         )
+                    //       );
+                    //     }
+                    //   )
+                    // );
                     
                   },
                 ),

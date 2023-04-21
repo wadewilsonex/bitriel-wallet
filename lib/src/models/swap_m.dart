@@ -373,3 +373,16 @@ class SwapTrxInfo {
   }
 
 }
+
+class ConvertCoinModel{
+  String? status;
+  String? fromCoinAmount;
+  String? toCoinAmount;
+
+  fromJson(Map<String, dynamic> jsn, fromAmount, toAmount){
+    status = jsn["min_amount"];
+    fromCoinAmount = jsn["fromAmount"];
+    toCoinAmount = jsn["toAmount"];
+  }
+
+}

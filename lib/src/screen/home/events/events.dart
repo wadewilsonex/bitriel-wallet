@@ -1,8 +1,5 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/cards/event_card_c.dart';
-import 'package:wallet_apps/src/screen/home/nft/nft.dart';
 
 class FindEvent extends StatefulWidget {
   static const route = '/event';
