@@ -22,6 +22,8 @@ class SwapProvider extends ChangeNotifier{
   String balance1 = "";
   String balance2 = "";
 
+  Widget? imgConversion;
+
   List<SwapTokenListModel> ls = [];
   // List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
@@ -54,8 +56,8 @@ class SwapProvider extends ChangeNotifier{
       return false;
     }).toList();
 
-    print("found1 ${found1}");
-    print("found2 ${found2}");
+    print("found1 ${found1[0].logo}");
+    print("found2 ${found2[0].logo}");
 
     if (found1.isNotEmpty && found2.isNotEmpty){
       // Init Token
@@ -65,7 +67,7 @@ class SwapProvider extends ChangeNotifier{
       networkFrom = found1[0].org!;
 
       name2 = found2[0].symbol!;
-      logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
+      logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.network(found2[0].logo!);
       network2 = found2[0].org!;
       networkTo = found2[0].org!;
       
@@ -93,14 +95,28 @@ class SwapProvider extends ChangeNotifier{
 
   void addCoinByIndex(int i, int j) {
 
+    if (lstCoins![i]['icon'] != null){
+
+      if (lstCoins![i]['icon'].contains('svg')){
+        imgConversion = SvgPicture.network(lstCoins![i]['icon'], width: 10);
+      } else if (lstCoins![i]['icon'] != null){
+        imgConversion = Image.network(lstCoins![i]['icon'], width: 10);
+      }
+    }
+    // Null 
+    else {
+      imgConversion = CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),);
+    }
+
     ls.add(
       SwapTokenListModel(
         title: lstCoins![i]['code'],
         subtitle: lstCoins![i]['name'],
         isActive: index2 == i ? true : false,
-        image: lstCoins![i]['icon'] == null 
-        ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
-        : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+        image: imgConversion,
+        // lstCoins![i]['icon'] == null 
+        // ? 
+        // : SvgPicture.network(lstCoins![i]['icon'], width: 10),
         network: lstCoins![i]['networks'][j]['name'],
         networkCode: lstCoins![i]['networks'][j]['code'],
         // lstCoins![i]['icon'].contains('http') 

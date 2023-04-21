@@ -26,10 +26,10 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // Catch Error During Callback
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode) exit(1);
-  };
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   FlutterError.dumpErrorToConsole(details);
+  //   if (kReleaseMode) exit(1);
+  // };
   
   Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
   Stripe.merchantIdentifier = 'any string works';
