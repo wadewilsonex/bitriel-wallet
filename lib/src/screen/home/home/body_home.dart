@@ -91,7 +91,7 @@ class HomePageBody extends StatelessWidget {
                         unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                         tabs: const [
                           Tab(
-                            text: "Trendings",
+                            text: "Popular",
                           ),
                                       
                           Tab(
@@ -329,6 +329,45 @@ class HomePageBody extends StatelessWidget {
               child: Column(
                 children: [
                             
+                  if (marketProvider.lsMarketLimit.isNotEmpty)
+                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                            
+                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
+                        ),
+                                  
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )          
+                      ],
+                    ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
+
+        Consumer<MarketProvider>(
+          builder: (context, marketProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
                   if (marketProvider.cnts.isNotEmpty)
                   CoinTrending(trendingCoin: marketProvider.cnts,)
                             
@@ -353,45 +392,6 @@ class HomePageBody extends StatelessWidget {
                           pTop: 20,
                         )
                                   
-                      ],
-                    ),
-                  ),
-                  
-                  AppUtils.discliamerShortText(context),
-                ],
-              ),
-            );
-          }
-        ),
-
-        Consumer<MarketProvider>(
-          builder: (context, marketProvider, widget) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                            
-                  if (marketProvider.lsMarketLimit.isNotEmpty)
-                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
-                            
-                  else if(marketProvider.lsMarketLimit.isEmpty) 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                    child: Column(
-                      children: [
-                                  
-                        Lottie.asset(
-                          "assets/animation/search_empty.json",
-                          repeat: true,
-                          reverse: true,
-                          width: 70.w,
-                        ),
-                                  
-                        const MyText(
-                          text: "Opps, Something went wrong!", 
-                          fontSize: 17, 
-                          fontWeight: FontWeight.w600,
-                          pTop: 20,
-                        )          
                       ],
                     ),
                   ),
