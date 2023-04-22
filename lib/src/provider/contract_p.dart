@@ -416,10 +416,11 @@ class ContractProvider with ChangeNotifier {
       // await StorageServices.fetchData(DbKey.hdWallet).then((value) {
       //   listContract[apiProvider.btcIndex].address = value;
       // });
+
+      print("finish fetch market");
       
       // 1. Add Default Asset First
       for (var element in listContract) {
-        print("listContract ${element.marketPrice}");
         if (element.show! && element.id != "polkadot"){
           
           if (element.marketPrice!.isNotEmpty) {

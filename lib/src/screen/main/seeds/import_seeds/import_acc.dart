@@ -259,6 +259,7 @@ class ImportAccState extends State<ImportAcc> {
 
     _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
     
+    // ignore: use_build_context_synchronously
     await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
 
     // ignore: use_build_context_synchronously
@@ -268,6 +269,7 @@ class ImportAccState extends State<ImportAcc> {
       UnverifySeed(
         address: jsn["address"],
         status: true,
+        // ignore: use_build_context_synchronously
         ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd,
         btcAddress: _contractProvider!.listContract[_apiProvider!.btcIndex].address
       )
@@ -300,6 +302,7 @@ class ImportAccState extends State<ImportAcc> {
     /// This Function Connect Polkadot Network And then Connect Selendra Network
 
     await _apiProvider!.getSelNativeChainDecimal(context: context); 
+    // ignore: use_build_context_synchronously
     await _apiProvider!.subSELNativeBalance(context: context); 
     await _apiProvider!.getAddressIcon();
     // Get From Account js
@@ -308,9 +311,6 @@ class ImportAccState extends State<ImportAcc> {
     final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
     
     await StorageServices.writeSecure(DbKey.private, res);
-
-    // Store PIN 6 Digit
-    // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
     changeStatus("GETTING READY", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.5);
