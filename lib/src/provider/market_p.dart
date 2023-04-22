@@ -91,6 +91,7 @@ class MarketProvider with ChangeNotifier {
   Future<void> fetchTokenMarketPrice(BuildContext context, {bool? isQueryApi = false}) async {
 
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
+
     _apiPro = Provider.of<ApiProvider>(context, listen: false);
     
     sortDataMarket.clear();
@@ -115,13 +116,21 @@ class MarketProvider with ChangeNotifier {
     }
     // Refetch Data 
     else {
+
+      print("From refresh");
+
       response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
+
+      print(response!.body);
     }
+
+    // ignore: use_build_context_synchronously
+    await decodingMarketData(context);
 
     notifyListeners();
   }
   
-  Future<void> encodingMarketData(BuildContext context) async {
+  Future<void> decodingMarketData(BuildContext context) async {
 
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);

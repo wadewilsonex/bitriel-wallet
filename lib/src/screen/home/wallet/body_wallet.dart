@@ -41,7 +41,7 @@ class WalletPageBody extends StatelessWidget {
             }
             return notification.depth == 0;
           },
-          onRefresh: () async => await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context),
+          onRefresh: () async => await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context, isQueryApi: true),
           child: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
