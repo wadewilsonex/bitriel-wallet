@@ -24,33 +24,33 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
   final AssetPageModel _model = AssetPageModel();
 
-  Future<void> scrollRefresh() async {
+  // Future<void> scrollRefresh() async {
 
-    contract!.isReady = false;
+  //   contract!.isReady = false;
 
-    setState(() {});
-      _model.indicator!.currentState!.show();
-      await Future.delayed(const Duration(seconds: 1), (){});
+  //   setState(() {});
+  //     _model.indicator!.currentState!.show();
+  //     await Future.delayed(const Duration(seconds: 1), (){});
 
-    // await PortfolioServices().setPortfolio(context);
-    if (_model.tabController!.index == 0 || _model.tabController!.index == 1){
+  //   // await PortfolioServices().setPortfolio(context);
+  //   if (_model.tabController!.index == 0 || _model.tabController!.index == 1){
       
-      if(!mounted) return;
-      await ContractsBalance().refetchContractBalance(context: context);
-    } else if (_model.tabController!.index == 2){
-      _model.indicator!.currentState!.show();
-      await Future.delayed(const Duration(seconds: 1), (){});
-      _model.bep20Assets = AppServices().sortAsset(_model.bep20Assets!);
-    } else if (_model.tabController!.index == 3){
-      _model.indicator!.currentState!.show();
-      await Future.delayed(const Duration(seconds: 1), (){});
-      _model.erc20Assets = AppServices().sortAsset(_model.erc20Assets!);
+  //     if(!mounted) return;
+  //     await ContractsBalance().refetchContractBalance(context: context);
+  //   } else if (_model.tabController!.index == 2){
+  //     _model.indicator!.currentState!.show();
+  //     await Future.delayed(const Duration(seconds: 1), (){});
+  //     _model.bep20Assets = AppServices().sortAsset(_model.bep20Assets!);
+  //   } else if (_model.tabController!.index == 3){
+  //     _model.indicator!.currentState!.show();
+  //     await Future.delayed(const Duration(seconds: 1), (){});
+  //     _model.erc20Assets = AppServices().sortAsset(_model.erc20Assets!);
 
-    } 
+  //   } 
 
-    // To Disable Asset Loading
-    contract!.setReady();
-  }
+  //   // To Disable Asset Loading
+  //   contract!.setReady();
+  // }
 
   @override
   void initState() {
@@ -110,15 +110,11 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      key: _model.indicator,
-      onRefresh: () async => await scrollRefresh(),
-      child: WalletPageBody(
-        homePageModel: widget.homePageModel ?? HomePageModel(),
-        model: _model,
-        searchController: searchController,
-        dismiss: dismiss
-      )
+    return WalletPageBody(
+      homePageModel: widget.homePageModel ?? HomePageModel(),
+      model: _model,
+      searchController: searchController,
+      dismiss: dismiss
     );
   }
 }
