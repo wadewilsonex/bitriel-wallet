@@ -61,9 +61,6 @@ class AppState extends State<App> {
     Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
-        
-    /// Fetch and Fill Market Price Into Asset
-    Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
     // readTheme();
 
@@ -97,6 +94,10 @@ class AppState extends State<App> {
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
+        
+        /// Fetch and Fill Market Price Into Asset
+        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
         // If Data Already Exist
         // Setup Cache
         if (value){
@@ -105,6 +106,7 @@ class AppState extends State<App> {
 
           contractProvider.setReady();
         }
+
       });
 
       await apiProvider.initApi(context: context).then((value) async {
@@ -121,15 +123,6 @@ class AppState extends State<App> {
           if(!mounted) return;
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
 
-          /// Cannot connect Both Network On the Same time
-          ///
-          /// It will be wrong data of that each connection.
-          ///
-          /// This Function Connect Polkadot Network And then Connect Selendra Network
-          // await apiProvider.getDotChainDecimal(con5text: ntext);
-          // await apiProvider.subscribeDotBalance(context: cocontext);
-
-          // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
 
           // Get From Keyring js

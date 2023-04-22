@@ -33,9 +33,9 @@ class ContractProvider with ChangeNotifier {
   ApiProvider apiProvider = ApiProvider();
   MarketProvider? _marketProvider;
 
-  /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
+  /// (0 SEL Token), (1 SEL V1), (2 SEL V2), (3 KIWIGO), (4 ETH), (5 BNB)
   /// 
-  /// (6 DOT) (7 BTC) (8 RekReay) (9 ATT)
+  /// (6 DOT), (7 BTC), (8 RekReay), (9 ATT)
   List<SmartContractModel> listContract = [];
 
   /// This property for ERC-20 and BEP-20 contract added
@@ -404,6 +404,7 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio
   Future? sortAsset() async {
+    print("Start sortAsset");
     try {
 
       mainBalance = 0;
@@ -415,6 +416,7 @@ class ContractProvider with ChangeNotifier {
       
       // 1. Add Default Asset First
       for (var element in listContract) {
+        print("listContract ${element.marketData!.currentPrice}");
         if (element.show! && element.id != "polkadot"){
           
           if (element.marketPrice!.isNotEmpty) {
@@ -1152,6 +1154,23 @@ class ContractProvider with ChangeNotifier {
     listContract[apiProvider.bnbIndex].marketPrice = currentPrice;
     listContract[apiProvider.bnbIndex].change24h = priceChange24h;
     listContract[apiProvider.bnbIndex].lineChartList = lineChart;
+
+    notifyListeners();
+  }
+
+  void setMarketToAsset(int index, Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
+
+    print("index ${index}");
+    print("index ${listContract[index].id}");
+    print("market ${market}");
+    print("currentPrice ${currentPrice}");
+    print("priceChange24h ${priceChange24h}");
+    print("lineChart ${lineChart}");
+
+    listContract[index].marketData = market;
+    listContract[index].marketPrice = currentPrice;
+    listContract[index].change24h = priceChange24h;
+    listContract[index].lineChartList = lineChart;
 
     notifyListeners();
   }
