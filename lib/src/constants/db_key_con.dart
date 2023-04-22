@@ -1,5 +1,6 @@
 class DbKey{
   static String marketkPrice = "marketkPrice_key";
+  static String marketData = "marketData_key";
   
   static String assetCache = "assetCache_key";
   static String listContract = "listContract_key";

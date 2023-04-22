@@ -91,7 +91,7 @@ class HomePageBody extends StatelessWidget {
                         unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                         tabs: const [
                           Tab(
-                            text: "Trendings",
+                            text: "Popular",
                           ),
                                       
                           Tab(
@@ -276,33 +276,36 @@ class HomePageBody extends StatelessWidget {
                   asset: "assets/icons/nft_polygon.png",
                   colorHex: "#192E3C",
                   action: () {
-                    customDialog(
-                      context, 
-                      'Access to Bitriel NFTs?', 
-                      'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
-                      txtButton: "Cancel",
-                      btn2: MyFlatButton(
-                        height: 60,
-                        edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                        isTransparent: false,
-                        buttonColor: AppColors.whiteHexaColor,
-                        textColor: AppColors.redColor,
-                        textButton: "Confirm",
-                        isBorder: true,
-                        action: () {
-                          // Close pop up dialog
-                          Navigator.pop(context);
 
-                          Navigator.push(
-                            context, 
-                            Transition(
-                              child: const NFTMarketPlace(),
-                              transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                            )
-                          );
-                        }
-                      )
-                    );
+                    underContstuctionAnimationDailog(context: context);
+                    
+                    // customDialog(
+                    //   context, 
+                    //   'Access to Bitriel NFTs?', 
+                    //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
+                    //   txtButton: "Cancel",
+                    //   btn2: MyFlatButton(
+                    //     height: 60,
+                    //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                    //     isTransparent: false,
+                    //     buttonColor: AppColors.whiteHexaColor,
+                    //     textColor: AppColors.redColor,
+                    //     textButton: "Confirm",
+                    //     isBorder: true,
+                    //     action: () {
+                    //       // Close pop up dialog
+                    //       Navigator.pop(context);
+
+                    //       Navigator.push(
+                    //         context, 
+                    //         Transition(
+                    //           child: const NFTMarketPlace(),
+                    //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                    //         )
+                    //       );
+                    //     }
+                    //   )
+                    // );
                     
                   },
                 ),
@@ -319,6 +322,45 @@ class HomePageBody extends StatelessWidget {
 
     return TabBarView(
       children: [
+
+        Consumer<MarketProvider>(
+          builder: (context, marketProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
+                  if (marketProvider.lsMarketLimit.isNotEmpty)
+                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                            
+                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
+                        ),
+                                  
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )          
+                      ],
+                    ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
 
         Consumer<MarketProvider>(
           builder: (context, marketProvider, widget) {
@@ -350,45 +392,6 @@ class HomePageBody extends StatelessWidget {
                           pTop: 20,
                         )
                                   
-                      ],
-                    ),
-                  ),
-                  
-                  AppUtils.discliamerShortText(context),
-                ],
-              ),
-            );
-          }
-        ),
-
-        Consumer<MarketProvider>(
-          builder: (context, marketProvider, widget) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                            
-                  if (marketProvider.lsMarketLimit.isNotEmpty)
-                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
-                            
-                  else if(marketProvider.lsMarketLimit.isEmpty) 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
-                    child: Column(
-                      children: [
-                                  
-                        Lottie.asset(
-                          "assets/animation/search_empty.json",
-                          repeat: true,
-                          reverse: true,
-                          width: 70.w,
-                        ),
-                                  
-                        const MyText(
-                          text: "Opps, Something went wrong!", 
-                          fontSize: 17, 
-                          fontWeight: FontWeight.w600,
-                          pTop: 20,
-                        )          
                       ],
                     ),
                   ),

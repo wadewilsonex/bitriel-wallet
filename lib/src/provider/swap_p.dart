@@ -31,12 +31,15 @@ class SwapProvider extends ChangeNotifier{
   /// From LetsExchange API
   List<dynamic>? lstCoins = [];
 
+  Map<dynamic, dynamic>? lstConvertCoin = {};
+
   SwapPageModel? model = SwapPageModel();
 
   SwapTokenListModel? swapTokenListModel = SwapTokenListModel();
   SwapTokenListModel? swapTokenListModel2 = SwapTokenListModel();
   InfoTwoCoinModel? twoCoinModel;
   ResInfoTwoCoinModel? resTwoCoinModel;
+  ConvertCoinModel? convertCoinModel;
 
   ContractProvider? contractProvider;
   ApiProvider? apiProvider;
@@ -88,7 +91,7 @@ class SwapProvider extends ChangeNotifier{
 
     }
 
-    await Future.delayed(Duration(milliseconds: 200), (){});
+    await Future.delayed(const Duration(milliseconds: 200), (){});
     notifyListeners();
 
   }
@@ -212,6 +215,7 @@ class SwapProvider extends ChangeNotifier{
     swapTokenListModel2 = SwapTokenListModel();
     twoCoinModel = InfoTwoCoinModel();
     resTwoCoinModel = ResInfoTwoCoinModel();
+    convertCoinModel = ConvertCoinModel();
   }
 
   void reset(){
@@ -242,6 +246,7 @@ class SwapProvider extends ChangeNotifier{
     swapTokenListModel2 = null;
     twoCoinModel = null;
     resTwoCoinModel = null;
+    convertCoinModel = null;
 
     contractProvider = null;
     apiProvider = null;

@@ -751,12 +751,12 @@ class TrxFunctional {
 
               debugPrint("value['current_price'].toString() ${value['current_price'].toString()}");
 
-              contract.setEtherMarket(
-                Market(),
-                [],
-                value['current_price'].toString(),
-                value['price_change_percentage_24h'] == null ? "0" : value['price_change_percentage_24h'].toString(),
-              );
+              // contract.setEtherMarket(
+              //   Market(),
+              //   [],
+              //   value['current_price'].toString(),
+              //   value['price_change_percentage_24h'] == null ? "0" : value['price_change_percentage_24h'].toString(),
+              // );
             }
           });
 

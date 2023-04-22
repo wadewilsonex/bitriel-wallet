@@ -87,7 +87,7 @@ class ContractProvider with ChangeNotifier {
     sortListContract.clear();
     listContract.clear();
     initSwapContract();
-    initJson();
+    // initJson();
   }
 
   /// Fetch Support Contract From Json Inside Asset
@@ -161,6 +161,8 @@ class ContractProvider with ChangeNotifier {
 
     listContract.clear();
 
+    print("Start setSavedList");
+
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
@@ -175,6 +177,7 @@ class ContractProvider with ChangeNotifier {
         }
       });
       notifyListeners();
+    print("finish setSavedList");
           
       return listContract.isNotEmpty ? true : false;
     } catch (e) {
@@ -416,7 +419,7 @@ class ContractProvider with ChangeNotifier {
       
       // 1. Add Default Asset First
       for (var element in listContract) {
-        print("listContract ${element.marketData!.currentPrice}");
+        print("listContract ${element.marketPrice}");
         if (element.show! && element.id != "polkadot"){
           
           if (element.marketPrice!.isNotEmpty) {
@@ -1120,42 +1123,6 @@ class ContractProvider with ChangeNotifier {
     );
 
     return item.address!;
-  }
-
-  void setMarket(Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h, int index) {
-    listContract[index].marketData = market;
-    listContract[index].lineChartList = lineChart;
-    listContract[index].marketPrice = currentPrice;
-    listContract[index].change24h = priceChange24h;
-
-    notifyListeners();
-  }
-
-  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.kgoIndex].marketData = kgoMarket;
-    listContract[apiProvider.kgoIndex].lineChartList = lineChart;
-    listContract[apiProvider.kgoIndex].marketPrice = currentPrice;
-    listContract[apiProvider.kgoIndex].change24h = priceChange24h;
-
-    notifyListeners();
-  }
-
-  void setEtherMarket(Market ethMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.ethIndex].marketData = ethMarket;
-    listContract[apiProvider.ethIndex].marketPrice = currentPrice;
-    listContract[apiProvider.ethIndex].change24h = priceChange24h;
-    listContract[apiProvider.ethIndex].lineChartList = lineChart;
-
-    notifyListeners();
-  }
-
-  void setBnbMarket(Market bnbMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.bnbIndex].marketData = bnbMarket;
-    listContract[apiProvider.bnbIndex].marketPrice = currentPrice;
-    listContract[apiProvider.bnbIndex].change24h = priceChange24h;
-    listContract[apiProvider.bnbIndex].lineChartList = lineChart;
-
-    notifyListeners();
   }
 
   void setMarketToAsset(int index, Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
