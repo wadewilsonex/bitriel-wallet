@@ -87,7 +87,9 @@ class ContractProvider with ChangeNotifier {
     sortListContract.clear();
     listContract.clear();
     initSwapContract();
-    // initJson();
+    if (listContract.isEmpty){
+      initJson();
+    }
   }
 
   /// Fetch Support Contract From Json Inside Asset

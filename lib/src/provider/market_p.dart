@@ -117,25 +117,28 @@ class MarketProvider with ChangeNotifier {
     }
     // Refetch Data 
     else {
+      print("From Refetch API");
       response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
     }
     
     // ignore: use_build_context_synchronously
-    await encodingMarketData(context);
+    await decodingMarketData(context);
 
     notifyListeners();
   }
   
-  Future<void> encodingMarketData(BuildContext context) async {
+  Future<void> decodingMarketData(BuildContext context) async {
 
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);
 
-    List<dynamic> jsonResponse = await json.decode(response!.body);
-
     try {
 
-      if (response!.statusCode == 200 && jsonResponse.isNotEmpty) {
+      print("response!.statusCode ${response!.statusCode}");
+
+      if (response!.statusCode == 200) {
+
+        List<dynamic> jsonResponse = await json.decode(response!.body);
 
         for (var element in jsonResponse) {
 

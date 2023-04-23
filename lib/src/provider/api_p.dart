@@ -168,6 +168,8 @@ class ApiProvider with ChangeNotifier {
     try {
       final seed = bip39.mnemonicToSeed(seeds);
       final hdWallet = HDWallet.fromSeed(seed);
+
+      print("btcIndex ${btcIndex ?? 'null'}");
       
       contractPro.listContract[btcIndex].address = hdWallet.address!;
       
