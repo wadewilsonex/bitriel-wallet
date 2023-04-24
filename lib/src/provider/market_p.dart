@@ -130,16 +130,18 @@ class MarketProvider with ChangeNotifier {
     notifyListeners();
   }
   
-  Future<void> decodingMarketData(BuildContext context) async {
+ Future<void> decodingMarketData(BuildContext context) async {
 
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);
 
-    List<dynamic> jsonResponse = await json.decode(response!.body);
-
     try {
 
-      if (response!.statusCode == 200 && jsonResponse.isNotEmpty) {
+      print("response!.statusCode ${response!.statusCode}");
+
+      if (response!.statusCode == 200) {
+
+        List<dynamic> jsonResponse = await json.decode(response!.body);
 
         for (var element in jsonResponse) {
 

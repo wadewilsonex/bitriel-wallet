@@ -2,10 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/models/newsarticle_m.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
@@ -90,13 +92,19 @@ class HomePageBody extends StatelessWidget {
                         labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
                         unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                         tabs: const [
+
                           Tab(
                             text: "Popular",
                           ),
                                       
                           Tab(
                             text: "Markets",
-                          )
+                          ),
+
+                          // Tab(
+                          //   text: "News",
+                          // ),
+
                         ],
                       ),
                     ),
@@ -402,6 +410,30 @@ class HomePageBody extends StatelessWidget {
             );
           }
         ),
+
+        // TextButton(
+        //   onPressed: () async{
+        //     getNewsArticle().then((value) {
+        //       // lstArticle = {};
+
+        //       // lstArticle = json.decode(value.body);
+              
+        //       print("lstArticle ${json.decode(value.body)["Data"][0]["id"]}");
+
+        //       for(int i = 0; i < json.decode(value.body)["Data"].length; i++){
+          
+        //         // var data = NewsArticle.fromJson(json.decode(value.body)["Data"][i]);
+
+        //         print("data ${NewsArticle.fromJson(json.decode(value.body)["Data"][i]["id"])}");
+
+        //       }
+              
+        //     });
+        //   }, 
+        //   child: MyText(
+        //     text: "request",
+        //   )
+        // )
       ],
     );
   }

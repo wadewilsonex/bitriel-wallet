@@ -100,11 +100,13 @@ class OnboardignBody extends StatelessWidget {
                       icon: SvgPicture.asset("assets/icons/google-vector.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                       itemColor: "#023859",
                       action: () {
-                        GoogleAuthService().signInWithGoogle().then((value) => {
-                          debugPrint("google name: ${value!.user!.displayName}"),
-                          debugPrint("google name: ${value.user!.email}")
-                        });
-                      },
+                      //   GoogleAuthService().signInWithGoogle().then((value) => {
+                      //     debugPrint("google name: ${value!.user!.displayName}"),
+                      //     debugPrint("google name: ${value.user!.email}")
+                      //   });
+
+                      underContstuctionAnimationDailog(context: context);
+                      }
                     ),
                   ),
                 ),
@@ -119,12 +121,13 @@ class OnboardignBody extends StatelessWidget {
                       icon: SvgPicture.asset("assets/icons/json-file.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                       itemColor: "#0D6BA6",
                       action: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImportJson()
-                          )
-                        );
+                        underContstuctionAnimationDailog(context: context);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ImportJson()
+                        //   )
+                        // );
                       },
                     ),
                   ),

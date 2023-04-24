@@ -83,3 +83,11 @@ Future<http.Response> convertCoin(String fromCoin, String toCoin, String amount)
   );
 
 }
+
+// Get News article
+Future<http.Response> getNewsArticle() async {
+  return await http.get(
+    Uri.parse("https://min-api.cryptocompare.com/data/v2/news/?categories=Blockchain,Mining?lang=EN&api_key=${dotenv.get("CRYPTOCOMPARE_APIKEY")}"),
+    headers: conceteHeader(),
+  );
+}
