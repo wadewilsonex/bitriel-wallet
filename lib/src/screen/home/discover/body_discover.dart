@@ -4,11 +4,7 @@ import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/defi_menu_item_c.dart';
 import 'package:wallet_apps/src/components/marketplace_menu_item_c.dart';
-<<<<<<< HEAD
-import 'package:wallet_apps/src/models/marketplace_list_m.dart';
-=======
 import 'package:wallet_apps/src/models/market/marketplace_list_m.dart';
->>>>>>> daveat
 import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
 
 class DiscoverPageBody extends StatelessWidget {
@@ -210,13 +206,8 @@ class DiscoverPageBody extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),
           child: DefiMenuItem(
-<<<<<<< HEAD
-            image: Image.asset(
-              marketPlaceList[index]['asset'],
-=======
             image: Image.file(
               File(marketPlaceList[index]['asset']),
->>>>>>> daveat
               width: 10.w,
               height: 10.h,
             ),
@@ -249,13 +240,8 @@ class DiscoverPageBody extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(right: 8.0, top: 8.0),
           child: DefiMenuItem(
-<<<<<<< HEAD
-            image: Image.asset(
-              defiList[index]['asset'],
-=======
             image: Image.file(
               File(defiList[index]['asset']),
->>>>>>> daveat
               width: 10.w,
               height: 10.h,
             ),
@@ -274,83 +260,6 @@ class DiscoverPageBody extends StatelessWidget {
   }
 
   Widget _selEcoSysMenu(BuildContext context) {
-<<<<<<< HEAD
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: SelEcoSysMenuItem(
-                image: Image.asset(
-                  "assets/logo/weteka.png",
-                ),
-                title: "Weteka",
-                action: () async {
-                  await LaunchApp.openApp(
-                  androidPackageName: 'com.koompi.sala',
-                  // openStore: false
-                );
-                },
-              ),
-            ),
-
-            const SizedBox(width: 10,),
-
-            Expanded(
-              child: SelEcoSysMenuItem(
-                image: SvgPicture.asset(
-                  "assets/logo/Koompi_wifi.svg",
-                  color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : "#0CACDA"),
-                ),
-                title: "KOOMPI Fi-Fi",
-                action: () {
-                  underContstuctionAnimationDailog(context: context);
-                },
-              ),
-            )
-          ],
-        ),
-
-        const SizedBox(height: 10),
-
-        // Row(
-        //   children: [
-        //     Expanded(
-        //       child: SelEcoSysMenuItem(
-        //         image: Image.asset(
-        //           isDarkMode ?
-        //           "assets/logo/selendra-logo.png" :
-        //           "assets/logo/selendra.png",
-        //           width: 12.w,
-        //         ),
-        //         title: "Funan DApp",
-        //         action: () {
-        //           underContstuctionAnimationDailog(context: context);
-        //         },
-        //       ),
-        //     ),
-
-        //     const SizedBox(width: 10,),
-
-        //     Expanded(
-        //       child: SelEcoSysMenuItem(
-        //         image: Image.asset(
-        //           isDarkMode 
-        //           ? "assets/logo/bitriel-light.png" 
-        //           : "assets/logo/bitriel-logo-v2.png",
-        //           width: 15.w,
-        //         ),
-        //         title: "Bitriel DEX",
-        //         action: () {
-        //           underContstuctionAnimationDailog(context: context);
-        //         },
-        //       ),
-        //     )
-        //   ],
-        // )
-      ],
-=======
     return Consumer<AppProvider>(
       builder: (context, pro, wg) {
         return Column(
@@ -431,7 +340,6 @@ class DiscoverPageBody extends StatelessWidget {
           ],
         );
       }
->>>>>>> daveat
     );
   }
 

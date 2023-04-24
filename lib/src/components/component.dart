@@ -316,6 +316,7 @@ class MyText extends StatelessWidget {
   final double? height;
   final TextAlign? textAlign;
   final TextOverflow? overflow;
+  final int? maxLine;
 
   const MyText({
     Key? key, 
@@ -336,6 +337,7 @@ class MyText extends StatelessWidget {
     this.height,
     this.textAlign = TextAlign.center,
     this.overflow,
+    this.maxLine,
   }) : super(key: key);
 
   @override
@@ -355,6 +357,7 @@ class MyText extends StatelessWidget {
           ),
           textAlign: textAlign,
           overflow: overflow,
+          maxLines: maxLine,
         ),
       ),
     );

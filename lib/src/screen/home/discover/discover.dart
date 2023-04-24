@@ -1,9 +1,6 @@
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/discover_m.dart';
-<<<<<<< HEAD
-=======
 import 'package:wallet_apps/src/models/market/marketplace_list_m.dart';
->>>>>>> daveat
 import 'package:wallet_apps/src/screen/home/discover/body_discover.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -28,11 +25,8 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     AppServices.noInternetConnection(context: context);
-<<<<<<< HEAD
-=======
 
     initDefiList();
->>>>>>> daveat
   }
 
   @override

@@ -151,10 +151,7 @@ export 'src/provider/contract_p.dart';
 export 'src/provider/wallet_p.dart';
 export 'src/provider/market_p.dart';
 export 'src/provider/theme_p.dart';
-<<<<<<< HEAD
-=======
 export 'package:wallet_apps/src/provider/app_p.dart';
->>>>>>> daveat
 export 'package:wallet_apps/src/provider/mdw_p.dart';
 
 // Asset Info

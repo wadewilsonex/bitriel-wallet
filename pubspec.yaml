@@ -11,11 +11,8 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-<<<<<<< HEAD
-version: 8.0.2+103
-=======
-version: 8.1.2+108
->>>>>>> daveat
+
+version: 8.1.4+110
 
 #6 feature
 #8 debug
@@ -165,11 +162,7 @@ dependencies:
   flutter_expanded_tile: ^0.3.7
 
   # Download
-<<<<<<< HEAD
-  path_provider:
-=======
   path_provider: ^2.0.14
->>>>>>> daveat
 
   external_app_launcher: ^3.1.0
 
@@ -181,11 +174,8 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   animated_text_kit: ^4.2.2
   flutter_inappwebview: ^5.7.2+3
-<<<<<<< HEAD
-=======
   json_annotation: ^4.8.0
   archive: ^3.3.7
->>>>>>> daveat
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
@@ -195,6 +185,8 @@ dependency_overrides:
 
   # polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
   # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
+
+  webview_flutter: ^4.2.0
 
   polkawallet_sdk:
     git:
@@ -211,11 +203,8 @@ dependency_overrides:
 
 dev_dependencies:
   flutter_lints: ^2.0.1
-<<<<<<< HEAD
-=======
   json_serializable: any
   build_runner: any
->>>>>>> daveat
   flutter_test:
     sdk: flutter
 
@@ -258,11 +247,7 @@ flutter:
     # - assets/icons/
     # - assets/token_logo/
     - assets/json/
-<<<<<<< HEAD
-    - assets/logo/
-=======
     # - assets/logo/
->>>>>>> daveat
     - assets/ads/
     - assets/ads/mdw/
     - assets/illustration/
@@ -270,18 +255,6 @@ flutter:
     - assets/nfts/
     - assets/nfts/rieltiger/
     - .env
-<<<<<<< HEAD
-
-    # - ../assets/
-    # - ../assets/github/
-    # - ../assets/abi/
-    # - ../assets/icons/
-    # - ../assets/token_logo/
-    # - ../assets/json/
-    # - ../assets/logo/
-    # - ../assets/illustration/
-=======
->>>>>>> daveat
     
     # Animation Flare
     - assets/animation/

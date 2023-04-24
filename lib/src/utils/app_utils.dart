@@ -5,26 +5,19 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
-<<<<<<< HEAD
-
-=======
 import 'package:archive/archive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
->>>>>>> daveat
 
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
 
   static final globalKey = GlobalKey<NavigatorState>();
 
-<<<<<<< HEAD
-=======
   static Archive? _archive;
   static String? _dirPath;
   static File? file;
 
->>>>>>> daveat
   static Color? txtColor;
 
   static Future<DeployedContract> contractfromAssets(String path, String contractAddr, {String? contractName}) async {
@@ -326,8 +319,6 @@ class AppUtils {
     }
     return bl;
   }
-<<<<<<< HEAD
-=======
 
   /// Archive File From Download
   /// 
@@ -373,16 +364,6 @@ double offsetToOpacity({
   double returnMax = 1,
 }) {
   return (currentOffset * returnMax) / maxOffset;
->>>>>>> daveat
 }
-
-double offsetToOpacity({
-  required double currentOffset,
-  required double maxOffset,
-  double returnMax = 1,
-}) {
-  return (currentOffset * returnMax) / maxOffset;
-}
-
 
 class ContractParser {}

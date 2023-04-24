@@ -1,10 +1,7 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart';
-<<<<<<< HEAD
-=======
 import 'package:path_provider/path_provider.dart';
->>>>>>> daveat
 import 'package:wallet_apps/src/constants/asset_path.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/contract.dart';
@@ -33,24 +30,15 @@ class ContractProvider with ChangeNotifier {
 
   bool isReady = false;
 
-<<<<<<< HEAD
-=======
   String? _dir;
 
->>>>>>> daveat
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
   MarketProvider? _marketProvider;
 
-<<<<<<< HEAD
-  /// (0 SEL Token) (1 SEL V1) (2 SEL V2) (3 KIWIGO) (4 ETH) (5 BNB)
-  /// 
-  /// (6 DOT) (7 BTC) (8 RekReay) (9 ATT)
-=======
   /// (0 SEL Token), (1 SEL V1), (2 SEL V2), (3 KIWIGO), (4 ETH), (5 BNB)
   /// 
   /// (6 DOT), (7 BTC), (8 RekReay), (9 ATT)
->>>>>>> daveat
   List<SmartContractModel> listContract = [];
 
   /// This property for ERC-20 and BEP-20 contract added
@@ -102,13 +90,9 @@ class ContractProvider with ChangeNotifier {
     sortListContract.clear();
     listContract.clear();
     initSwapContract();
-<<<<<<< HEAD
-    initJson();
-=======
     if (listContract.isEmpty){
       initJson();
     }
->>>>>>> daveat
   }
 
   /// Fetch Support Contract From Json Inside Asset
@@ -116,11 +100,8 @@ class ContractProvider with ChangeNotifier {
   /// Run First 
   Future<void> initJson() async {
 
-<<<<<<< HEAD
-=======
     _dir = (await getApplicationDocumentsDirectory()).path;
 
->>>>>>> daveat
     try {
       
       // True In Case First Time Initialize
@@ -139,11 +120,7 @@ class ContractProvider with ChangeNotifier {
             SmartContractModel(
               id: decode[i]['id'],
               name: decode[i]["name"],
-<<<<<<< HEAD
-              logo: decode[i]["logo"],
-=======
               logo: "$_dir/${decode[i]["logo"]}",
->>>>>>> daveat
               address: decode[i]['address'],
               contract: decode[i]['contract'],
               contractTest: decode[i]['contract_test'],
@@ -191,11 +168,8 @@ class ContractProvider with ChangeNotifier {
 
     listContract.clear();
 
-<<<<<<< HEAD
-=======
     print("Start setSavedList");
 
->>>>>>> daveat
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
@@ -210,10 +184,7 @@ class ContractProvider with ChangeNotifier {
         }
       });
       notifyListeners();
-<<<<<<< HEAD
-=======
     print("finish setSavedList");
->>>>>>> daveat
           
       return listContract.isNotEmpty ? true : false;
     } catch (e) {
@@ -358,10 +329,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBep20Balance({required int contractIndex}) async {
-<<<<<<< HEAD
-=======
-
->>>>>>> daveat
     if (apiProvider.isMainnet){
       try {
 
@@ -447,10 +414,7 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio
   Future? sortAsset() async {
-<<<<<<< HEAD
-=======
     print("Start sortAsset");
->>>>>>> daveat
     try {
 
       mainBalance = 0;
@@ -459,11 +423,8 @@ class ContractProvider with ChangeNotifier {
       // await StorageServices.fetchData(DbKey.hdWallet).then((value) {
       //   listContract[apiProvider.btcIndex].address = value;
       // });
-<<<<<<< HEAD
-=======
 
       print("finish fetch market");
->>>>>>> daveat
       
       // 1. Add Default Asset First
       for (var element in listContract) {
@@ -1172,40 +1133,6 @@ class ContractProvider with ChangeNotifier {
     return item.address!;
   }
 
-<<<<<<< HEAD
-  void setMarket(Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h, int index) {
-    listContract[index].marketData = market;
-    listContract[index].lineChartList = lineChart;
-    listContract[index].marketPrice = currentPrice;
-    listContract[index].change24h = priceChange24h;
-
-    notifyListeners();
-  }
-
-  void setkiwigoMarket(Market kgoMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.kgoIndex].marketData = kgoMarket;
-    listContract[apiProvider.kgoIndex].lineChartList = lineChart;
-    listContract[apiProvider.kgoIndex].marketPrice = currentPrice;
-    listContract[apiProvider.kgoIndex].change24h = priceChange24h;
-
-    notifyListeners();
-  }
-
-  void setEtherMarket(Market ethMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.ethIndex].marketData = ethMarket;
-    listContract[apiProvider.ethIndex].marketPrice = currentPrice;
-    listContract[apiProvider.ethIndex].change24h = priceChange24h;
-    listContract[apiProvider.ethIndex].lineChartList = lineChart;
-
-    notifyListeners();
-  }
-
-  void setBnbMarket(Market bnbMarket, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
-    listContract[apiProvider.bnbIndex].marketData = bnbMarket;
-    listContract[apiProvider.bnbIndex].marketPrice = currentPrice;
-    listContract[apiProvider.bnbIndex].change24h = priceChange24h;
-    listContract[apiProvider.bnbIndex].lineChartList = lineChart;
-=======
   void setMarketToAsset(int index, Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
 
     print("index ${index}");
@@ -1219,7 +1146,6 @@ class ContractProvider with ChangeNotifier {
     listContract[index].marketPrice = currentPrice;
     listContract[index].change24h = priceChange24h;
     listContract[index].lineChartList = lineChart;
->>>>>>> daveat
 
     notifyListeners();
   }

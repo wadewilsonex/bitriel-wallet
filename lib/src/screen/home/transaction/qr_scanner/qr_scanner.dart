@@ -114,26 +114,6 @@ class _QrScannerState extends State<QrScanner> with SingleTickerProviderStateMix
                         )
                         : Container(),
                         
-<<<<<<< HEAD
-                        widget.isShowWC == true ? ListTile(
-                          title: const MyText(text: "Connect to apps", fontSize: 18, fontWeight: FontWeight.w600, textAlign: TextAlign.start),
-                          subtitle: const MyText(text: "Scan WalletConnect QR code", fontSize: 15, textAlign: TextAlign.start),
-                          leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 30,
-                                child: Image.asset(
-                                  'assets/icons/wallet-connect.png',
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                        : Container(),
-=======
                         Consumer<AppProvider>(
                           builder: (context, pro, wg) {
                             return widget.isShowWC == true ? ListTile(
@@ -156,7 +136,6 @@ class _QrScannerState extends State<QrScanner> with SingleTickerProviderStateMix
                             : Container();
                           }
                         ),
->>>>>>> daveat
                       ],
                     ),
                   ),

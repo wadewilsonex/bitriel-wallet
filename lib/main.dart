@@ -3,14 +3,12 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
-<<<<<<< HEAD
-=======
 import 'package:wallet_apps/src/provider/app_p.dart';
->>>>>>> daveat
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/src/provider/event_p.dart';
 import 'package:wallet_apps/src/provider/headless_webview_p.dart';
+import 'package:wallet_apps/src/provider/newarticle_p.dart';
 import 'package:wallet_apps/src/provider/presale_p.dart';
 import 'package:wallet_apps/src/provider/airdrop_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
@@ -30,17 +28,10 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // Catch Error During Callback
-<<<<<<< HEAD
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-    if (kReleaseMode) exit(1);
-  };
-=======
   // FlutterError.onError = (FlutterErrorDetails details) {
   //   FlutterError.dumpErrorToConsole(details);
   //   if (kReleaseMode) exit(1);
   // };
->>>>>>> daveat
   
   Stripe.publishableKey = dotenv.get("PUBLIC_KEY_STRIPE");
   Stripe.merchantIdentifier = 'any string works';
@@ -103,12 +94,12 @@ Future<void> main() async {
         ChangeNotifierProvider<VerifySeedsProvider>(
           create: (context) => VerifySeedsProvider(),
         ),
-<<<<<<< HEAD
-=======
+        ChangeNotifierProvider<ArticleProvider>(
+          create: (context) => ArticleProvider(),
+        ),
         ChangeNotifierProvider<AppProvider>(
           create: (context) => AppProvider(),
         ),
->>>>>>> daveat
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),
         // ),

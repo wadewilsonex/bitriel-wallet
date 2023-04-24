@@ -45,10 +45,6 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
         await StorageServices.readSecure(DbKey.private)!.then((String value) async {
           if (value.isEmpty) {
-<<<<<<< HEAD
-=======
-
->>>>>>> daveat
             Navigator.pushReplacement(context, RouteAnimation(enterPage: const Onboarding()));
           } else {
             

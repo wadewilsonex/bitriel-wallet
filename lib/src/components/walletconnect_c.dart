@@ -1,10 +1,7 @@
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
-<<<<<<< HEAD
-=======
 import 'package:wallet_apps/src/provider/app_p.dart';
->>>>>>> daveat
 import 'package:wallet_apps/src/screen/home/menu/wallet_connect/confirm_trx.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:wallet_apps/index.dart';
@@ -222,16 +219,12 @@ class WalletConnectProvider with ChangeNotifier {
 
                   SizedBox(width: 2.w,),
 
-<<<<<<< HEAD
-                  Image.asset("assets/logo/bitriel-logo-v2.png", height: 55, width: 55),
-=======
                   Consumer<AppProvider>(
                     builder: (context, pro, wg) {
                       if (pro.dirPath == null) return Container();
                       return Image.file(File("${pro.dirPath}/logo/bitriel-logo-v2.png"), height: 55, width: 55);
                     }
                   ),
->>>>>>> daveat
                 ],
               ),
             ),
