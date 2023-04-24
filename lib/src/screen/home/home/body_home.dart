@@ -6,6 +6,7 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
@@ -25,6 +26,7 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+  final Function? downloadAsset;
 
   const HomePageBody({ 
     Key? key, 
@@ -34,8 +36,8 @@ class HomePageBody extends StatelessWidget {
     this.pushReplacement,
     this.onTapWeb,
     this.getReward,
+    this.downloadAsset
     }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +109,16 @@ class HomePageBody extends StatelessWidget {
               body: _coinMenuCategory(),
             ),
           ),
+          // Consumer<AppProvider>(
+          //   builder: (context, pro, wg) {
+          //     return ElevatedButton(
+          //       onPressed: () async {
+          //         await downloadAsset!();
+          //       }, 
+          //       child: pro.dirPath == null ? Text("Loading") : Image.file(File('${pro.dirPath}/logo/curve.png'))
+          //     );
+          //   }
+          // ),
 
           // SwapPage(),
           const FindEvent(),
@@ -200,121 +212,126 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _menu(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: MyMenuItem(
-                  title: "Swap",
-                  asset: "assets/icons/swap-coin.png",
-                  colorHex: "#0D6BA6",
-                  action: () async {
-                    Navigator.push(
-                      context,
-                      Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                    );
-                    // await showBarModalBottomSheet(
-                    //   context: context,
-                    //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (context) => Column(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: const [
-                    //       SwapMethod(),
-                    //     ],
-                    //   ),
-                    // );
-                  },
-                ),
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Swap",
+                      asset: "${pro.dirPath}/icons/swap-coin.png",
+                      colorHex: "#0D6BA6",
+                      action: () async {
+                        Navigator.push(
+                          context,
+                          Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                        );
+                        // await showBarModalBottomSheet(
+                        //   context: context,
+                        //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                        //   shape: const RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.vertical(
+                        //       top: Radius.circular(25.0),
+                        //     ),
+                        //   ),
+                        //   builder: (context) => Column(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: const [
+                        //       SwapMethod(),
+                        //     ],
+                        //   ),
+                        // );
+                      },
+                    ),
+                  ),
+                
+                  const SizedBox(width: 10,),
+                
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Staking",
+                      asset: "${pro.dirPath}/icons/stake-coin.png",
+                      colorHex: "#151644",
+                      action: () {
+                        underContstuctionAnimationDailog(context: context);
+                      },
+                    ),
+                  ),
+                ],
               ),
-            
-              const SizedBox(width: 10,),
-            
-              Expanded(
-                child: MyMenuItem(
-                  title: "Staking",
-                  asset: "assets/icons/stake-coin.png",
-                  colorHex: "#151644",
-                  action: () {
-                    underContstuctionAnimationDailog(context: context);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-    
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: MyMenuItem(
-                  title: "Buy",
-                  asset: "assets/icons/buy-coin.png",
-                  colorHex: "#F29F05",
-                  action: () async {
-                    underContstuctionAnimationDailog(context: context);
-                  },
-                ),
-              ),
-    
-              const SizedBox(width: 10,),
-    
-              Expanded(
-                child: MyMenuItem(
-                  title: "Bitriel NFTs",
-                  asset: "assets/icons/nft_polygon.png",
-                  colorHex: "#192E3C",
-                  action: () {
+            ),
+        
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Buy",
+                      asset: "${pro.dirPath}/icons/buy-coin.png",
+                      colorHex: "#F29F05",
+                      action: () async {
+                        underContstuctionAnimationDailog(context: context);
+                      },
+                    ),
+                  ),
+        
+                  const SizedBox(width: 10,),
+        
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Bitriel NFTs",
+                      asset: "${pro.dirPath}/icons/nft_polygon.png",
+                      colorHex: "#192E3C",
+                      action: () {
 
-                    underContstuctionAnimationDailog(context: context);
-                    
-                    // customDialog(
-                    //   context, 
-                    //   'Access to Bitriel NFTs?', 
-                    //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
-                    //   txtButton: "Cancel",
-                    //   btn2: MyFlatButton(
-                    //     height: 60,
-                    //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    //     isTransparent: false,
-                    //     buttonColor: AppColors.whiteHexaColor,
-                    //     textColor: AppColors.redColor,
-                    //     textButton: "Confirm",
-                    //     isBorder: true,
-                    //     action: () {
-                    //       // Close pop up dialog
-                    //       Navigator.pop(context);
+                        underContstuctionAnimationDailog(context: context);
+                        
+                        // customDialog(
+                        //   context, 
+                        //   'Access to Bitriel NFTs?', 
+                        //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
+                        //   txtButton: "Cancel",
+                        //   btn2: MyFlatButton(
+                        //     height: 60,
+                        //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                        //     isTransparent: false,
+                        //     buttonColor: AppColors.whiteHexaColor,
+                        //     textColor: AppColors.redColor,
+                        //     textButton: "Confirm",
+                        //     isBorder: true,
+                        //     action: () {
+                        //       // Close pop up dialog
+                        //       Navigator.pop(context);
 
-                    //       Navigator.push(
-                    //         context, 
-                    //         Transition(
-                    //           child: const NFTMarketPlace(),
-                    //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
-                    //         )
-                    //       );
-                    //     }
-                    //   )
-                    // );
-                    
-                  },
-                ),
+                        //       Navigator.push(
+                        //         context, 
+                        //         Transition(
+                        //           child: const NFTMarketPlace(),
+                        //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                        //         )
+                        //       );
+                        //     }
+                        //   )
+                        // );
+                        
+                      },
+                    ),
+                  ),
+        
+                ],
               ),
-    
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      }
     );
   }
 

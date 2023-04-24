@@ -83,3 +83,12 @@ Future<http.Response> convertCoin(String fromCoin, String toCoin, String amount)
   );
 
 }
+
+// Convert Coin
+Future<http.Response> downloadAssets(String fileName) async {
+  return await http.get(
+    Uri.parse("${dotenv.get('BITRIEL_ASSETS')}$fileName"),
+    headers: conceteHeader(),
+  );
+
+}

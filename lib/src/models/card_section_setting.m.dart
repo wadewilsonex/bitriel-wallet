@@ -21,6 +21,8 @@ class CardSection {
 }
 
 List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? packageInfo}) {
+
+  AppProvider _appPro = Provider.of<AppProvider>(context!, listen: false);
   return [
 
     CardSection(
@@ -31,7 +33,7 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
       action: () {
         
         Navigator.push(
-          context!, 
+          context, 
           MaterialPageRoute(
             settings: const RouteSettings(name: "/multipleWallets"),
             builder: (context) => const Account()
@@ -44,8 +46,8 @@ List<CardSection> settingsWalletSection({BuildContext? context, PackageInfo? pac
     CardSection(
       title: 'WalletConnect',
       subtittle: "Manage you DApp connections",
-      leadingIcon: SvgPicture.asset(
-        "assets/icons/walletconnect.svg", 
+      leadingIcon: SvgPicture.file(
+        File("${_appPro.dirPath}/icons/walletconnect.svg"), 
         color: hexaCodeToColor(AppColors.primaryColor),
       ),
       trailingIcon: Iconsax.arrow_right_3,

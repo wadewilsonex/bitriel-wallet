@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wallet_apps/src/constants/asset_path.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/service/contract.dart';
@@ -28,6 +29,8 @@ class ContractProvider with ChangeNotifier {
   bool? std;
 
   bool isReady = false;
+
+  String? _dir;
 
   // To Get Member Variable
   ApiProvider apiProvider = ApiProvider();
@@ -97,6 +100,8 @@ class ContractProvider with ChangeNotifier {
   /// Run First 
   Future<void> initJson() async {
 
+    _dir = (await getApplicationDocumentsDirectory()).path;
+
     try {
       
       // True In Case First Time Initialize
@@ -115,7 +120,7 @@ class ContractProvider with ChangeNotifier {
             SmartContractModel(
               id: decode[i]['id'],
               name: decode[i]["name"],
-              logo: decode[i]["logo"],
+              logo: "$_dir/${decode[i]["logo"]}",
               address: decode[i]['address'],
               contract: decode[i]['contract'],
               contractTest: decode[i]['contract_test'],
@@ -324,6 +329,7 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBep20Balance({required int contractIndex}) async {
+
     if (apiProvider.isMainnet){
       try {
 
