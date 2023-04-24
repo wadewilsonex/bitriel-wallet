@@ -1,16 +1,27 @@
 
 
 import 'dart:math';
+<<<<<<< HEAD
+=======
 import 'dart:ui';
+>>>>>>> daveat
 
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
+<<<<<<< HEAD
+import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
+import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
+import 'package:wallet_apps/src/service/contract.dart';
+import 'package:wallet_apps/src/service/exception_handler.dart';
+import 'package:wallet_apps/src/service/submit_trx_s.dart';
+=======
 import 'package:wallet_apps/src/screen/home/transaction/submit_trx/functional_trx.dart';
 import 'package:wallet_apps/src/service/contract.dart';
 import 'package:lottie/lottie.dart';
+>>>>>>> daveat
 
 class ConfirmSwap extends StatefulWidget {
 
@@ -192,8 +203,11 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
         }
       }
     } catch (e) {
+<<<<<<< HEAD
+=======
 
       print("initTrxInfo $e");
+>>>>>>> daveat
       
       // Close Dialog Loading
       Navigator.pop(context);
@@ -289,10 +303,13 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
             SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue];
 
+<<<<<<< HEAD
+=======
             print("contractM.symbol ${contractM.symbol}");
 
             print("contractM.org ${contractM.org}");
 
+>>>>>>> daveat
             /* -------------Processing Transaction----------- */
             if (contractM.symbol == "SEL"){
               if (contractM.org == 'BEP-20'){
@@ -327,7 +344,10 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
               final contractAddr = ApiProvider().isMainnet ? trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contract : trxFunc!.contract!.sortListContract[_scanPayM.assetValue].contractTest;
               
               if (contractM.org!.contains('ERC-20')) {
+<<<<<<< HEAD
+=======
                 debugPrint("initErc20Service");
+>>>>>>> daveat
 
                 await _contractProvider!.initErc20Service(contractAddr!);
                 _scanPayM.hash = await trxFunc!.sendTxErc20(_contractProvider!.getErc20, txInfo);
@@ -367,18 +387,28 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
   Future enableAnimation() async {
 
     Navigator.pop(context);
+<<<<<<< HEAD
+=======
 
     Navigator.pop(context);
 
+>>>>>>> daveat
     setState(() {
       _scanPayM.isPay = true;
       // disable = true;
     });
     // flareController.play('Checkmark');
+<<<<<<< HEAD
+    await Future.delayed(const Duration(seconds: 1), (){});
+    
+    if(!mounted) return;
+    Navigator.pop(context);
+=======
     await Future.delayed(const Duration(seconds: 3), (){});
     
     // if(!mounted) return;
     // Navigator.pop(context);
+>>>>>>> daveat
     // await successDialog(context, "transferred the funds.", route: HomePage(activePage: 1,));
   }
 
@@ -405,6 +435,95 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
           ),
         ),
       ),
+<<<<<<< HEAD
+      body: Container(
+        padding: const EdgeInsets.all(paddingSize),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+      
+            Row(
+              children: [
+                SvgPicture.network(widget.res!.coin_from_icon!.replaceAll("\/", "\\")),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const MyText(
+                      pLeft: 8,
+                      text: "You Swap",
+                      fontSize: 18,
+                    ),
+                    MyText(
+                      pLeft: 8,
+                      text: "${widget.res!.deposit_amount} ${widget.res!.coin_from} (${widget.res!.coin_from_network})",
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ],
+                ),
+
+      
+              ],
+            ),
+
+            const SizedBox(height: 15),
+
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: hexaCodeToColor(isDarkMode ? AppColors.titleAssetColor : AppColors.primaryColor)),
+                  borderRadius: BorderRadius.circular(30)
+                ),
+                padding: const EdgeInsets.all(5),
+                child: Icon(Iconsax.arrow_down, color: hexaCodeToColor(AppColors.primaryColor), size: 27),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            Row(
+              children: [
+                SvgPicture.network(widget.res!.coin_to_icon!.replaceAll("\/", "\\")),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const MyText(
+                      pLeft: 8,
+                      text: "You Will Get",
+                      fontSize: 18,
+                    ),
+                    MyText(
+                      pLeft: 8,
+                      text: "${widget.res!.withdrawal_amount} ${widget.res!.coin_to} (${widget.res!.coin_to_network})",
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    )
+                  ],
+                ),
+
+      
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            _swapInfo(widget.res!),
+
+            const Spacer(), 
+            MyGradientButton(
+              textButton: "Proceed with Swap",
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              action: () async {
+                // underContstuctionAnimationDailog(context: context);
+                confirmSwapMethod();
+              },
+            ),
+          ],
+        ),
+=======
       body: Stack(
         children: [
 
@@ -525,6 +644,7 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
             ),
           )
         ],
+>>>>>>> daveat
       ),
     );
   }

@@ -32,8 +32,13 @@ class AssetsItemComponent extends StatelessWidget {
                   height: 50,
                   width: 50,
                 )
+<<<<<<< HEAD
+                : Image.asset(
+                  scModel!.logo!,
+=======
                 : Image.file(
                   File(scModel!.logo!),
+>>>>>>> daveat
                   fit: BoxFit.contain,
                   height: 50,
                   width: 50,

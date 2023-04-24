@@ -77,17 +77,25 @@ class ImportAccState extends State<ImportAcc> {
 
   void onSubmit() async {
 
+<<<<<<< HEAD
+    await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.addressFromMnemonic(204, mnemonic: _importAccModel.key!.text).then((value) async {
+
+=======
     print("onSubmit");
     await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.addressFromMnemonic(204, mnemonic: _importAccModel.key!.text).then((value) async {
 
       print("value ${value.address}");
+>>>>>>> daveat
       List account = _apiProvider!.getKeyring.keyPairs.where((element) {
         if (value.address == element.address) return true;
         return false;
       }).toList();
 
       if (account.isNotEmpty) {
+<<<<<<< HEAD
+=======
 
+>>>>>>> daveat
         enable = false;
         setState(() { });
         await DialogComponents().dialogCustom(
@@ -105,8 +113,12 @@ class ImportAccState extends State<ImportAcc> {
           ),
         );
       } else if (enable == true){
+<<<<<<< HEAD
+
+=======
         
         print("widget.isAddNew ${widget.isAddNew}");
+>>>>>>> daveat
         // New Account From Multi Account
         if (widget.isAddNew == true){
 
@@ -124,8 +136,11 @@ class ImportAccState extends State<ImportAcc> {
 
           if(!mounted) return;
 
+<<<<<<< HEAD
+=======
           print("Navigator DataLoading");
 
+>>>>>>> daveat
           Navigator.push(
             context, 
             Transition(
@@ -184,7 +199,11 @@ class ImportAccState extends State<ImportAcc> {
     }
   }
 
+<<<<<<< HEAD
+  void initStateData(TickerProvider tickerProvider, Function mySetState){
+=======
   void initStateData(TickerProvider tickerProvider, Function mySetState) async {
+>>>>>>> daveat
 
     _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
@@ -221,7 +240,11 @@ class ImportAccState extends State<ImportAcc> {
 
     });
 
+<<<<<<< HEAD
+    importAcc();
+=======
     await importAcc();
+>>>>>>> daveat
     // importJson();
   }
 
@@ -231,8 +254,11 @@ class ImportAccState extends State<ImportAcc> {
     
     await addAndImport();
 
+<<<<<<< HEAD
+=======
     print('Finish addAndImport');
 
+>>>>>>> daveat
     changeStatus("CONNECT TO SELENDRA NETWORK", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.2);
     
@@ -267,6 +293,13 @@ class ImportAccState extends State<ImportAcc> {
 
     _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
     
+<<<<<<< HEAD
+    await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
+
+    // ignore: use_build_context_synchronously
+    await _apiProvider!.queryBtcData(context, _importAccModel.key!.text, _importAccModel.pwCon!.text);
+
+=======
     // ignore: use_build_context_synchronously
     await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
 
@@ -276,20 +309,30 @@ class ImportAccState extends State<ImportAcc> {
     await _apiProvider!.queryBtcData(context, _importAccModel.key!.text, _importAccModel.pwCon!.text);
 
     print("finish queryBtcData");
+>>>>>>> daveat
     createKeyModel!.unverifyList.add(
       UnverifySeed(
         address: jsn["address"],
         status: true,
+<<<<<<< HEAD
+=======
         // ignore: use_build_context_synchronously
+>>>>>>> daveat
         ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd,
         btcAddress: _contractProvider!.listContract[_apiProvider!.btcIndex].address
       )
     );
+<<<<<<< HEAD
+
+    await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
+
+=======
     print("finish unverifyList");
 
     await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(createKeyModel!.unverifyListToJson()));
 
     print("finish writeSecureList unverifyList");
+>>>>>>> daveat
   }
 
   /// Return Boolean Value
@@ -308,7 +351,10 @@ class ImportAccState extends State<ImportAcc> {
 
   Future<void> connectNetwork() async {
     
+<<<<<<< HEAD
+=======
     print("connectNetwork");
+>>>>>>> daveat
     /// Cannot connect Both Network On the Same time
     /// 
     /// It will be wrong data of that each connection. 
@@ -316,18 +362,30 @@ class ImportAccState extends State<ImportAcc> {
     /// This Function Connect Polkadot Network And then Connect Selendra Network
 
     await _apiProvider!.getSelNativeChainDecimal(context: context); 
+<<<<<<< HEAD
+=======
     // ignore: use_build_context_synchronously
+>>>>>>> daveat
     await _apiProvider!.subSELNativeBalance(context: context); 
     await _apiProvider!.getAddressIcon();
     // Get From Account js
     // await _apiProvider!.getCurrentAccount(context: context);
 
+<<<<<<< HEAD
+=======
     print("finish SEL");
 
+>>>>>>> daveat
     final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
     
     await StorageServices.writeSecure(DbKey.private, res);
 
+<<<<<<< HEAD
+    // Store PIN 6 Digit
+    // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
+
+=======
+>>>>>>> daveat
     changeStatus("GETTING READY", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.5);
 

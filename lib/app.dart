@@ -2,18 +2,32 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
+<<<<<<< HEAD
+import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
+=======
+>>>>>>> daveat
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'src/route/router.dart' as router;
 
+<<<<<<< HEAD
+
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
+
+=======
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class App extends StatefulWidget {
 
   const App({Key? key}) : super(key: key);
 
+>>>>>>> daveat
   @override
   State<StatefulWidget> createState() {
     return AppState();
@@ -56,6 +70,20 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
+<<<<<<< HEAD
+    Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
+
+    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+        
+    /// Fetch and Fill Market Price Into Asset
+    Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+
+    // readTheme();
+
+    getEventJSON().then((value) {
+      debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
+    });
+=======
     Provider.of<ContractProvider>(context, listen: false).context = context;
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
@@ -69,13 +97,18 @@ class AppState extends State<App> {
     // getEventJSON().then((value) {
     //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
     // });
+>>>>>>> daveat
 
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
       // Assign Data and Store Endpoint Into Local DB
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
+<<<<<<< HEAD
+      await initDynamicLinks();
+=======
       // await initDynamicLinks();
+>>>>>>> daveat
 
       await initApi();
 
@@ -124,6 +157,17 @@ class AppState extends State<App> {
 
           if(!mounted) return;
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
+<<<<<<< HEAD
+
+          /// Cannot connect Both Network On the Same time
+          ///
+          /// It will be wrong data of that each connection.
+          ///
+          /// This Function Connect Polkadot Network And then Connect Selendra Network
+          // await apiProvider.getDotChainDecimal(con5text: ntext);
+          // await apiProvider.subscribeDotBalance(context: cocontext);
+=======
+>>>>>>> daveat
 
           await apiProvider.getAddressIcon();
 
@@ -158,12 +202,21 @@ class AppState extends State<App> {
     }
   }
 
+<<<<<<< HEAD
+  clearOldBtcAddr() async {
+    final res = await StorageServices.fetchData(DbKey.btcAddr);
+    if (res != null) {
+      await StorageServices.removeKey(DbKey.btcAddr);
+    }
+  }
+=======
   // clearOldBtcAddr() async {
   //   final res = await StorageServices.fetchData(DbKey.btcAddr);
   //   if (res != null) {
   //     await StorageServices.removeKey(DbKey.btcAddr);
   //   }
   // }
+>>>>>>> daveat
 
   @override
   Widget build(BuildContext context) {

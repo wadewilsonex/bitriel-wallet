@@ -23,7 +23,11 @@
         "contract": "0x288d3A87a87C284Ed685E0490E5C4cC0883a060a",
         "contract_test": "0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030",
         "address": "",
+<<<<<<< HEAD
+        "logo": "assets/SelendraCircle-Blue.png",
+=======
         "logo": "token_logo/SelendraCircle-Blue.png",
+>>>>>>> daveat
         "symbol": "SEL (v1)",
         "org": "BEP-20",
         "org_test": "BEP-20",
@@ -143,7 +147,11 @@
         "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
         "contract_test": "",
         "address": "",
+<<<<<<< HEAD
+        "logo": "assets/token_logo/rekreay.png",
+=======
         "logo": "token_logo/rekreay.png",
+>>>>>>> daveat
         "org": "BEP-20",
         "org_test": "BEP-20",
         "balance": "0.0",
@@ -160,7 +168,11 @@
         "contract": "0x9B71571dd5967878356Cab2Bb2E860Fa81Ce46f0",
         "contract_test": "",
         "address": "",
+<<<<<<< HEAD
+        "logo": "assets/token_logo/pingshare.png",
+=======
         "logo": "token_logo/pingshare.png",
+>>>>>>> daveat
         "org": "ERC-1155",
         "org_test": "BEP-1155",
         "balance": "0.0",
@@ -187,7 +199,11 @@
             }
         ],
         "address": "",
+<<<<<<< HEAD
+        "logo": "https://assets.coingecko.com/coins/images/325/large/Tether.png?1668148663",
+=======
         "logo": "token_logo/tether.webp",
+>>>>>>> daveat
         "org": "BEP20",
         "org_test": "BEP20",
         "balance": "0.0",

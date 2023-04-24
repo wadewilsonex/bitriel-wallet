@@ -1,4 +1,8 @@
 import 'dart:math';
+<<<<<<< HEAD
+import 'package:awesome_select/awesome_select.dart';
+=======
+>>>>>>> daveat
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:flutter_bitcoin/flutter_bitcoin.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';
@@ -7,6 +11,10 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+<<<<<<< HEAD
+import 'package:wallet_apps/src/models/account.m.dart';
+=======
+>>>>>>> daveat
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:bip39/bip39.dart' as bip39;
@@ -168,8 +176,11 @@ class ApiProvider with ChangeNotifier {
     try {
       final seed = bip39.mnemonicToSeed(seeds);
       final hdWallet = HDWallet.fromSeed(seed);
+<<<<<<< HEAD
+=======
 
       print("btcIndex ${btcIndex ?? 'null'}");
+>>>>>>> daveat
       
       contractPro.listContract[btcIndex].address = hdWallet.address!;
       

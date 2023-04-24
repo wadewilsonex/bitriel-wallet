@@ -57,6 +57,9 @@ class Item {
       
       return this;
     }
+<<<<<<< HEAD
+}
+=======
 }
 
 // import 'package:fl_chart/fl_chart.dart';
@@ -139,3 +142,4 @@ class Item {
 //       return this;
 //     }
 // }
+>>>>>>> daveat

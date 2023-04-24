@@ -101,8 +101,11 @@ class AppConfig {
     iconsPath = "${Provider.of<AppProvider>(context, listen: false).dirPath}/icons/";
   }
 
+<<<<<<< HEAD
+=======
 }
 
+>>>>>>> daveat
 class PresaleConfig {
 
   String mainNet = '0xEbc71fA80a0B6D41c944Ed96289e530D0A92a31F';

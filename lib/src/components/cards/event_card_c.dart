@@ -1,5 +1,13 @@
+<<<<<<< HEAD
+import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/provider/ticket_p.dart';
+import 'package:wallet_apps/src/screen/home/events/list_ticket/list_ticking.dart';
+=======
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:wallet_apps/index.dart';
+>>>>>>> daveat
 
 class EventCardComponents extends StatelessWidget {
 

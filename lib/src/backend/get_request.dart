@@ -2,6 +2,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/backend.dart';
+<<<<<<< HEAD
+import 'package:wallet_apps/src/models/swap_m.dart';
+=======
+>>>>>>> daveat
 
 String? _api;
 
@@ -73,6 +77,8 @@ Future<http.Response> coins() async {
   );
 
 }
+<<<<<<< HEAD
+=======
 
 
 // Convert Coin
@@ -92,3 +98,4 @@ Future<http.Response> downloadAssets(String fileName) async {
   );
 
 }
+>>>>>>> daveat

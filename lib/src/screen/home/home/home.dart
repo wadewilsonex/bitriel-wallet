@@ -1,6 +1,13 @@
 import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:wallet_apps/index.dart';
+<<<<<<< HEAD
+import 'package:wallet_apps/src/backend/post_request.dart';
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/verify_seed_p.dart';
+import 'package:wallet_apps/src/screen/home/home/body_home.dart';
+import 'package:wallet_apps/src/components/dialog_c.dart';
+=======
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
@@ -10,6 +17,7 @@ import 'package:wallet_apps/src/screen/home/home/body_home.dart';
 import 'package:wallet_apps/src/components/dialog_c.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+>>>>>>> daveat
 
 class HomePage extends StatefulWidget {
 
@@ -33,8 +41,11 @@ class _HomePageState extends State<HomePage> {
 
   final bool? pushReplacement = true;
 
+<<<<<<< HEAD
+=======
   String? dir;
 
+>>>>>>> daveat
   @override
   void initState() {
 
@@ -58,8 +69,11 @@ class _HomePageState extends State<HomePage> {
         _model.adsCarouselActiveIndex = index;
       });
     };
+<<<<<<< HEAD
+=======
     
     allAssets();
+>>>>>>> daveat
 
     StorageServices.readSecure(DbKey.privateList)!.then((value) => {
       setState(() {
@@ -74,6 +88,11 @@ class _HomePageState extends State<HomePage> {
 
       })
     });
+<<<<<<< HEAD
+
+    
+=======
+>>>>>>> daveat
     
     AppServices.noInternetConnection(context: context);
     
@@ -141,8 +160,11 @@ class _HomePageState extends State<HomePage> {
 
     await Future.delayed(Duration(seconds: randomNum!), () async {
 
+<<<<<<< HEAD
+=======
       AppProvider _appPro = Provider.of<AppProvider>(context, listen: false);
 
+>>>>>>> daveat
       try {
         await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
         
@@ -157,7 +179,11 @@ class _HomePageState extends State<HomePage> {
               titlesFontSize: 17,
               contents: "500 SEL\nOn the way!",
               textButton: "Complete",
+<<<<<<< HEAD
+              image: Image.asset("assets/icons/success.png", width: 18, height: 8),
+=======
               image: Image.asset("${_appPro.dirPath}/icons/success.png", width: 18, height: 8),
+>>>>>>> daveat
               btn2: Container(),
               btn: null
             );
@@ -210,6 +236,8 @@ class _HomePageState extends State<HomePage> {
   //   return await Provider.of<ApiProvider>(context, listen: false).getPrivateKey("august midnight obvious fragile pretty begin useless collect elder ability enhance series");
 
   // }
+<<<<<<< HEAD
+=======
 
   void allAssets() async {
 
@@ -284,6 +312,7 @@ class _HomePageState extends State<HomePage> {
       print("file ${f.path}");
     }
   }
+>>>>>>> daveat
   
   @override
   Widget build(BuildContext context) {
@@ -293,7 +322,10 @@ class _HomePageState extends State<HomePage> {
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
       getReward: _scanLogin,
+<<<<<<< HEAD
+=======
       downloadAsset: downloadAsset
+>>>>>>> daveat
     );
   }
 }

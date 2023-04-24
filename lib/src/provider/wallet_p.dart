@@ -46,6 +46,14 @@ class WalletProvider with ChangeNotifier {
 
       // Find Total Of All Asset
       for (var element in market.sortDataMarket) {
+<<<<<<< HEAD
+        if (element['current_price'].runtimeType.toString() == 'int') {
+          // To Convert Integer To Double By Plus With .0
+          total = total + ((element['current_price']) + .0);
+        } else {
+          total += element['current_price'];
+        }
+=======
 
         total += element.current_price!;
         // if (element.current_price.runtimeType.toString() == 'int') {
@@ -53,6 +61,7 @@ class WalletProvider with ChangeNotifier {
         //   total = total + ((element['current_price']) + .0);
         // } else {
         // }
+>>>>>>> daveat
       }
 
       // Loop Add Eacher Asset From Market

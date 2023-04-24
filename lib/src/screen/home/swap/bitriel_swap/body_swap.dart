@@ -1,18 +1,28 @@
 import 'package:wallet_apps/index.dart';
+<<<<<<< HEAD
+=======
 import 'package:wallet_apps/src/backend/get_request.dart';
+>>>>>>> daveat
 import 'package:wallet_apps/src/backend/post_request.dart';
 import 'package:wallet_apps/src/components/num_pad_c.dart';
 import 'package:wallet_apps/src/models/swap_m.dart';
 import 'package:wallet_apps/src/provider/swap_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/select_token/select_token.dart';
 import 'package:wallet_apps/src/screen/home/swap/status_swap.dart';
+<<<<<<< HEAD
+=======
 import 'package:lottie/lottie.dart';
+>>>>>>> daveat
 
 class SwapPageBody extends StatelessWidget {
   
   final SwapPageModel? swapPageModel;
   final Function? percentTap;
   final Function? onDeleteTxt;
+<<<<<<< HEAD
+  final Function(String)? onChanged;
+=======
+>>>>>>> daveat
   final Function? onTabNum;
   final Function? calculateAmount;
   final Function? swapping;
@@ -21,6 +31,10 @@ class SwapPageBody extends StatelessWidget {
     Key? key,
     this.swapPageModel,
     this.percentTap,
+<<<<<<< HEAD
+    this.onChanged,
+=======
+>>>>>>> daveat
     this.onDeleteTxt,
     this.calculateAmount,
     this.swapping,
@@ -111,6 +125,32 @@ class SwapPageBody extends StatelessWidget {
           
                               GestureDetector(
                                 onTap: (){
+<<<<<<< HEAD
+                                  swapPageModel!.myController!.clear();
+                                  swapPageModel!.percentActive = 0;
+                                  
+                                  SwapProvider swap = Provider.of<SwapProvider>(context, listen: false);
+                                  dynamic tmp = swap.index1;
+                                  // dynamic tmp2 = swap.index2;
+          
+                                  swap.index1 = swap.index2;
+                                  swap.index2 = tmp;
+          
+                                  tmp = swap.name1;
+                                  swap.name1 = swap.name2;
+                                  swap.name2 = tmp;
+          
+                                  tmp = swap.logo1;
+                                  swap.logo1 = swap.logo2;
+                                  swap.logo2 = tmp;
+          
+                                  tmp = swap.balance1;
+                                  swap.balance1 = swap.balance2;
+                                  swap.balance2 = tmp;
+          
+                                  swap.setList();
+                                  swap.notifyDataChanged();
+=======
                                   // swapPageModel!.myController!.clear();
                                   // swapPageModel!.percentActive = 0;
                                   
@@ -135,6 +175,7 @@ class SwapPageBody extends StatelessWidget {
           
                                   // swap.setList();
                                   // swap.notifyDataChanged();
+>>>>>>> daveat
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -142,7 +183,11 @@ class SwapPageBody extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30)
                                   ),
                                   padding: const EdgeInsets.all(5),
+<<<<<<< HEAD
+                                  child: Icon(Iconsax.arrow_swap, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
+=======
                                   child: Icon(Iconsax.arrow_down_1, color: hexaCodeToColor(AppColors.primaryColor), size: 25.sp,),
+>>>>>>> daveat
                                 )
                               ),
           
@@ -179,11 +224,17 @@ class SwapPageBody extends StatelessWidget {
             // ),
     
             Expanded(
+<<<<<<< HEAD
+              child:  Center(
+                child: _buildNumberPad(context, onDeleteTxt, onTabNum)
+              ),
+=======
               child: Container()
             ),
 
             Center(
               child: _buildNumberPad(context, onDeleteTxt, onTabNum)
+>>>>>>> daveat
             ),
     
             // SizedBox(height: 60.0 - paddingSize),
@@ -204,6 +255,131 @@ class SwapPageBody extends StatelessWidget {
     );
   }
 
+<<<<<<< HEAD
+  // Widget _payInput(BuildContext context){
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
+  //     child: Column(
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [
+
+  //         Padding(
+  //           padding: const EdgeInsets.only(right: 5),
+  //           child: Row(
+  //             children: [
+                
+  //               const MyText(
+  //                 text: 'You Send',
+  //                 fontWeight: FontWeight.bold,
+  //                 hexaColor: AppColors.primaryColor,
+  //                 fontSize: 18,
+  //               ),
+                
+  //               // Expanded(child: Container()),
+          
+  //               // const MyText( 
+  //               //   text: 'Balance: ',
+  //               // ),
+
+  //               // Consumer<SwapProvider>(
+  //               //   builder: (context, provider, widget){
+  //               //     return Row(
+  //               //       children: [
+  //               //         MyText(
+  //               //           text: provider.balance1,
+  //               //           fontWeight: FontWeight.w600,
+                          
+  //               //         ),
+  //               //         SizedBox(width: 1.w),
+  //               //         MyText(
+  //               //           text: provider.name1,
+  //               //           fontWeight: FontWeight.w600,
+                          
+  //               //         ),
+  //               //       ],
+  //               //     );
+  //               //   }
+  //               // ),
+
+  //             ],
+  //           ),
+  //         ),
+          
+  //         Row(
+  //           children: [
+  //             Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+
+  //                 SizedBox(
+  //                   width: MediaQuery.of(context).size.width / 2,
+  //                   child: TextFormField(
+  //                     onChanged: onChanged,
+  //                     focusNode: swapPageModel!.focusNode,
+  //                     controller: swapPageModel!.myController,
+  //                     textAlign: TextAlign.start,
+  //                     showCursor: true,
+  //                     style: TextStyle(fontSize: 24, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), fontWeight: FontWeight.w700),
+  //                     inputFormatters: [
+  //                       // LengthLimitingTextInputFormatter(4),
+  //                       // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0.4}'))
+  //                       FilteringTextInputFormatter.digitsOnly
+  //                     ],
+  //                     decoration: InputDecoration(
+  //                       hintText: "0",
+  //                       hintStyle: TextStyle(
+  //                         fontFamily: "NotoSans",
+  //                         fontSize: 24,
+  //                         color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,) : hexaCodeToColor(isDarkMode ? AppColors.greyColor : AppColors.textColor,)
+  //                       ),
+  //                       border: InputBorder.none,
+                    
+  //                     ),
+  //                     // Disable the default soft keybaord
+  //                     keyboardType: TextInputType.none,
+  //                   ),
+  //                 ),
+
+  //                 const MyText(
+  //                   textAlign: TextAlign.start,
+  //                   text: '≈\$0',
+  //                   fontSize: 18,
+  //                 ),
+  //               ],
+  //             ),
+
+  //             Expanded(child: Container()),
+
+  //             Consumer<SwapProvider>(
+  //               builder: (context, pro, wg) {
+  //                 return _ddButton(
+  //                   context: context, 
+  //                   i: 0,
+  //                   onPressed: () async {
+
+  //                     pro.label = "first";
+  //                     pro.balance1 = swapPageModel!.myController!.text;
+
+  //                     await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+  //                     // swapPageModel!.myController!.clear();
+  //                     swapPageModel!.percentActive = 0;
+                      
+  //                   }
+  //                 );
+  //               }
+  //             ), 
+
+
+  //           ],
+  //         ),
+          
+  //       ],
+  //     ),
+  //   );
+  // }
+
+=======
+>>>>>>> daveat
   Widget _payInput(BuildContext context){
     return Padding(
       padding: const EdgeInsets.only(top: paddingSize, left: paddingSize, right: paddingSize),
@@ -211,6 +387,71 @@ class SwapPageBody extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
 
+<<<<<<< HEAD
+          Row(
+            children: [
+              const Spacer(),
+
+              Expanded(
+                child: Consumer<SwapProvider>(
+                  builder: (context, pro, wg) {
+                    return _ddButton(
+                      context: context, 
+                      i: 0,
+                      onPressed: () async {
+                        
+                        pro.label = "first";
+                        pro.balance1 = swapPageModel!.myController!.text;
+                        
+                        await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                        // swapPageModel!.myController!.clear();
+                        swapPageModel!.percentActive = 0;
+                        
+                      }
+                    );
+                  }
+                ),
+              ),
+
+              const Spacer(),
+            ],
+          ),
+          
+          SizedBox(
+            child: TextFormField(
+              onChanged: onChanged,
+              focusNode: swapPageModel!.focusNode,
+              controller: swapPageModel!.myController,
+              textAlign: TextAlign.center,
+              showCursor: true,
+              style: TextStyle(fontSize: 24, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), fontWeight: FontWeight.w700),
+              inputFormatters: [
+                // LengthLimitingTextInputFormatter(4),
+                // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0.4}'))
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              decoration: InputDecoration(
+                hintText: "0",
+                hintStyle: TextStyle(
+                  fontFamily: "NotoSans",
+                  fontSize: 24,
+                  color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,) : hexaCodeToColor(isDarkMode ? AppColors.greyColor : AppColors.textColor,)
+                ),
+                border: InputBorder.none,
+            
+              ),
+              // Disable the default soft keybaord
+              keyboardType: TextInputType.none,
+            ),
+          ),
+
+          // Expanded(child: Container()),
+
+
+          
+        ],
+      ),
+=======
           Padding(
             padding: const EdgeInsets.only(right: 5),
             child: Row(
@@ -511,6 +752,7 @@ class SwapPageBody extends StatelessWidget {
           ),
         );
       }
+>>>>>>> daveat
     );
   }
 
@@ -522,10 +764,79 @@ class SwapPageBody extends StatelessWidget {
   //         child: Column(
   //           mainAxisSize: MainAxisSize.min,
   //           children: [
+<<<<<<< HEAD
+
+  //             Padding(
+  //               padding: const EdgeInsets.only(right: 5),
+  //               child: Row(
+  //                 children: [
+  //                   const MyText(
+  //                     text: 'You Get',
+  //                     fontWeight: FontWeight.bold,
+  //                     hexaColor: AppColors.primaryColor,
+  //                     fontSize: 18,
+  //                   ),
+
+  //                   Expanded(child: Container()),
+
+  //                   // const MyText( 
+  //                   //   text: 'Balance: ',
+  //                   // ),
+
+  //                   // Consumer<SwapProvider>(
+  //                   //   builder: (context, provider, widget){
+  //                   //     return Row(
+  //                   //       children: [
+  //                   //         MyText(
+  //                   //           text: provider.balance2,
+  //                   //           fontWeight: FontWeight.w600,
+                              
+  //                   //         ),
+  //                   //         SizedBox(width: 1.w),
+  //                   //         MyText(
+  //                   //           text: provider.name2,
+  //                   //           fontWeight: FontWeight.w600,
+  //                   //         ),
+  //                   //       ],
+  //                   //     );
+  //                   //   }
+  //                   // ),
+  //                 ],
+  //               ),
+  //             ),    
+=======
+>>>>>>> daveat
               
   //             Row(
   //               mainAxisSize: MainAxisSize.min,
   //               children: [
+<<<<<<< HEAD
+                  
+  //                 Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Padding(
+  //                       padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+  //                       child: MyText(
+  //                         textAlign: TextAlign.start,
+  //                         text: pro.balance2,
+  //                         fontWeight: FontWeight.bold,
+  //                         fontSize: 24,
+  //                       ),
+  //                     ),
+
+  //                     MyText(
+  //                         textAlign: TextAlign.start,
+  //                         text: '≈\$0',
+  //                         fontSize: 18,
+  //                       ),
+  //                   ],
+  //                 ),
+
+  //                 Expanded(child: Container()),
+
+=======
+>>>>>>> daveat
 
   //                 _ddButton(
   //                   context: context, 
@@ -556,6 +867,51 @@ class SwapPageBody extends StatelessWidget {
   //   );
   // }
 
+<<<<<<< HEAD
+  Widget _getDisplay(BuildContext context){
+    return Consumer<SwapProvider>(
+      builder: (context, pro, wg) {
+        return Padding(
+          padding: const EdgeInsets.only(left: paddingSize, right: paddingSize, bottom: paddingSize),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+
+                  _ddButton(
+                    context: context, 
+                    i: 1,
+                    onPressed:  () async {
+
+                      pro.label = "second";
+                      await Navigator.push(context, Transition(child: const SelectSwapToken(), transitionEffect: TransitionEffect.BOTTOM_TO_TOP));
+                      // swapPageModel!.myController!.clear();
+                      swapPageModel!.percentActive = 0;
+
+                      await PostRequest().infoTwoCoin(pro.twoCoinModel!).then((value) {
+                        if (value.statusCode == 200){
+                          pro.resTwoCoinModel!.fromJson(json.decode(value.body));
+                          pro.balance2 = pro.resTwoCoinModel!.deposit_amount_usdt.toString();
+                          pro.notifyDataChanged();
+                        }
+                      });
+                    }
+                  )  
+
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+=======
+>>>>>>> daveat
   /// dd stand for dropdown
   Widget _ddButton({BuildContext? context, Function()? onPressed, required int? i}){
     
@@ -569,6 +925,9 @@ class SwapPageBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: hexaCodeToColor(AppColors.lightColorBg)
             ),
+<<<<<<< HEAD
+            child: provider.ls.isEmpty ? const MyText(text: ".....", pLeft: 20, pRight: 20, pTop: 5, pBottom: 5,) : Row(
+=======
             child: provider.ls.isEmpty 
               ? Container(
                 margin: const EdgeInsets.all(8),
@@ -580,6 +939,7 @@ class SwapPageBody extends StatelessWidget {
                 ),
               ) 
               : Row(
+>>>>>>> daveat
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

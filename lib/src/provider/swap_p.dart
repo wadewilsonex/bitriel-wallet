@@ -22,8 +22,11 @@ class SwapProvider extends ChangeNotifier{
   String balance1 = "";
   String balance2 = "";
 
+<<<<<<< HEAD
+=======
   Widget? imgConversion;
 
+>>>>>>> daveat
   List<SwapTokenListModel> ls = [];
   // List<SwapTokenListModel> ls2 = [];
   List<SwapTokenListModel> searched = [];
@@ -31,21 +34,32 @@ class SwapProvider extends ChangeNotifier{
   /// From LetsExchange API
   List<dynamic>? lstCoins = [];
 
+<<<<<<< HEAD
+=======
   Map<dynamic, dynamic>? lstConvertCoin = {};
 
+>>>>>>> daveat
   SwapPageModel? model = SwapPageModel();
 
   SwapTokenListModel? swapTokenListModel = SwapTokenListModel();
   SwapTokenListModel? swapTokenListModel2 = SwapTokenListModel();
   InfoTwoCoinModel? twoCoinModel;
   ResInfoTwoCoinModel? resTwoCoinModel;
+<<<<<<< HEAD
+=======
   ConvertCoinModel? convertCoinModel;
+>>>>>>> daveat
 
   ContractProvider? contractProvider;
   ApiProvider? apiProvider;
 
   initList({required BuildContext? context}){
 
+<<<<<<< HEAD
+    init();
+
+=======
+>>>>>>> daveat
     searched.clear();
 
     List<SmartContractModel> found1 = contractProvider!.sortListContract.where((element) {
@@ -59,6 +73,23 @@ class SwapProvider extends ChangeNotifier{
       return false;
     }).toList();
 
+<<<<<<< HEAD
+    // Init Token
+    name1 = found1[0].symbol!;
+    logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
+    network1 = found1[0].org!;
+    networkFrom = found1[0].org!;
+
+    name2 = found2[0].symbol!;
+    logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.asset(found2[0].logo!);
+    network2 = found2[0].org!;
+    networkTo = found2[0].org!;
+    
+    balance1 = "0";//found1[0].balance!;
+    balance2 = "0";//found2[0].balance!;
+
+    debugPrint("finish initList");
+=======
     print("found1 ${found1[0].logo}");
     print("found2 ${found2[0].logo}");
 
@@ -77,6 +108,7 @@ class SwapProvider extends ChangeNotifier{
       balance1 = "0";//found1[0].balance!;
       balance2 = "0";//found2[0].balance!;
     }
+>>>>>>> daveat
   }
 
   void setList() async {
@@ -91,13 +123,19 @@ class SwapProvider extends ChangeNotifier{
 
     }
 
+<<<<<<< HEAD
+    await Future.delayed(Duration(milliseconds: 200), (){});
+=======
     await Future.delayed(const Duration(milliseconds: 200), (){});
+>>>>>>> daveat
     notifyListeners();
 
   }
 
   void addCoinByIndex(int i, int j) {
 
+<<<<<<< HEAD
+=======
     if (lstCoins![i]['icon'] != null){
 
       if (lstCoins![i]['icon'].contains('svg')){
@@ -111,15 +149,22 @@ class SwapProvider extends ChangeNotifier{
       imgConversion = CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),);
     }
 
+>>>>>>> daveat
     ls.add(
       SwapTokenListModel(
         title: lstCoins![i]['code'],
         subtitle: lstCoins![i]['name'],
         isActive: index2 == i ? true : false,
+<<<<<<< HEAD
+        image: lstCoins![i]['icon'] == null 
+        ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
+        : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+=======
         image: imgConversion,
         // lstCoins![i]['icon'] == null 
         // ? 
         // : SvgPicture.network(lstCoins![i]['icon'], width: 10),
+>>>>>>> daveat
         network: lstCoins![i]['networks'][j]['name'],
         networkCode: lstCoins![i]['networks'][j]['code'],
         // lstCoins![i]['icon'].contains('http') 
@@ -171,7 +216,11 @@ class SwapProvider extends ChangeNotifier{
 
     }
 
+<<<<<<< HEAD
+    setList();
+=======
     // setList();
+>>>>>>> daveat
     label = "";
     
     notifyListeners();
@@ -215,7 +264,10 @@ class SwapProvider extends ChangeNotifier{
     swapTokenListModel2 = SwapTokenListModel();
     twoCoinModel = InfoTwoCoinModel();
     resTwoCoinModel = ResInfoTwoCoinModel();
+<<<<<<< HEAD
+=======
     convertCoinModel = ConvertCoinModel();
+>>>>>>> daveat
   }
 
   void reset(){
@@ -246,7 +298,10 @@ class SwapProvider extends ChangeNotifier{
     swapTokenListModel2 = null;
     twoCoinModel = null;
     resTwoCoinModel = null;
+<<<<<<< HEAD
+=======
     convertCoinModel = null;
+>>>>>>> daveat
 
     contractProvider = null;
     apiProvider = null;
