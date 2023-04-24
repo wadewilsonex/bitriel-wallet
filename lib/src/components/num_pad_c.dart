@@ -208,6 +208,11 @@ class NumPad extends StatelessWidget {
               ),
             ],
           ),
+<<<<<<< HEAD
+=======
+
+          const SizedBox(height: 10)
+>>>>>>> daveat
         ],
       ),
     );

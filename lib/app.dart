@@ -2,19 +2,17 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
-import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'src/route/router.dart' as router;
 
-
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
 
+  const App({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -58,29 +56,30 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
+    Provider.of<ContractProvider>(context, listen: false).context = context;
+
+    Provider.of<AppProvider>(context, listen: false).setContext = context;
+
     Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
-        
-    /// Fetch and Fill Market Price Into Asset
-    Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 
     // readTheme();
 
-    getEventJSON().then((value) {
-      debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
-    });
+    // getEventJSON().then((value) {
+    //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
+    // });
 
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
       // Assign Data and Store Endpoint Into Local DB
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
-      await initDynamicLinks();
+      // await initDynamicLinks();
 
       await initApi();
 
-      clearOldBtcAddr();
+      // clearOldBtcAddr();
     });
 
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -97,6 +96,10 @@ class AppState extends State<App> {
       final contractProvider = Provider.of<ContractProvider>(context, listen: false);
 
       contractProvider.setSavedList().then((value) async {
+
+        /// Fetch and Fill Market Price Into Asset
+        await Provider.of<MarketProvider>(context!, listen: false).fetchTokenMarketPrice(context);
+
         // If Data Already Exist
         // Setup Cache
         if (value){
@@ -105,6 +108,7 @@ class AppState extends State<App> {
 
           contractProvider.setReady();
         }
+
       });
 
       await apiProvider.initApi(context: context).then((value) async {
@@ -121,15 +125,6 @@ class AppState extends State<App> {
           if(!mounted) return;
           Provider.of<ContractProvider>(context, listen: false).getBtcAddr();
 
-          /// Cannot connect Both Network On the Same time
-          ///
-          /// It will be wrong data of that each connection.
-          ///
-          /// This Function Connect Polkadot Network And then Connect Selendra Network
-          // await apiProvider.getDotChainDecimal(con5text: ntext);
-          // await apiProvider.subscribeDotBalance(context: cocontext);
-
-          // await apiProvider.connectSELNode(context: context);
           await apiProvider.getAddressIcon();
 
           // Get From Keyring js
@@ -163,12 +158,12 @@ class AppState extends State<App> {
     }
   }
 
-  clearOldBtcAddr() async {
-    final res = await StorageServices.fetchData(DbKey.btcAddr);
-    if (res != null) {
-      await StorageServices.removeKey(DbKey.btcAddr);
-    }
-  }
+  // clearOldBtcAddr() async {
+  //   final res = await StorageServices.fetchData(DbKey.btcAddr);
+  //   if (res != null) {
+  //     await StorageServices.removeKey(DbKey.btcAddr);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

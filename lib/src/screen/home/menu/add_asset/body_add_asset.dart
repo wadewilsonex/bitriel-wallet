@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import 'package:pinput/pinput.dart';
+=======
+>>>>>>> daveat
 import 'package:wallet_apps/index.dart';
 
 class AddAssetBody extends StatelessWidget {

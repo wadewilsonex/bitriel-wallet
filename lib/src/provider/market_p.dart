@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/models/list_market_coin_m.dart';
+=======
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/list_market_coin_m.dart';
+import 'package:wallet_apps/src/models/market/coin.dart';
+>>>>>>> daveat
 import 'package:wallet_apps/src/models/trendingcoin_m.dart';
 
 import '../../index.dart';
 
+<<<<<<< HEAD
 List<dynamic> mkData = [
 	{
 		"id": "ethereum",
@@ -38,6 +47,14 @@ List<dynamic> mkData = [
 		"last_updated": "2023-04-16T05:32:56.472Z"
 	}
 ];
+=======
+// {
+// 	"status": {
+// 		"error_code": 429,
+// 		"error_message": "You've exceeded the Rate Limit. Please visit https://www.coingecko.com/en/api/pricing to subscribe to our API plans for higher rate limits."
+// 	}
+// }
+>>>>>>> daveat
 
 class MarketProvider with ChangeNotifier {
   
@@ -53,6 +70,13 @@ class MarketProvider with ChangeNotifier {
 
   Map<String, dynamic>? queried;
 
+<<<<<<< HEAD
+=======
+  ApiProvider? _apiPro;
+  ContractProvider? _contractPro;
+  http.Response? response;
+
+>>>>>>> daveat
   List<String> id = [
     'selendra', //1
     'selendra_v1', //2
@@ -66,7 +90,22 @@ class MarketProvider with ChangeNotifier {
     'att', //9
   ];
 
+<<<<<<< HEAD
   List<Map<String, dynamic>> sortDataMarket = [];
+=======
+  List<Coin> sortDataMarket = [];
+  List<Map<String, dynamic>>? tojson = [];
+  
+  List<Map<String, dynamic>> sortDataToJson(){
+
+    tojson = [];
+    for(var e in sortDataMarket){
+      tojson!.add(e.toJson());
+    }
+
+    return tojson!;
+  }
+>>>>>>> daveat
 
   Market? parseMarketData(List<Map<String, dynamic>> responseBody) {
     Market? data;
@@ -98,6 +137,7 @@ class MarketProvider with ChangeNotifier {
     return prices;
   }
 
+<<<<<<< HEAD
   Future<void> fetchTokenMarketPrice(BuildContext context) async {
     
     debugPrint("fetchTokenMarketPrice");
@@ -166,11 +206,97 @@ class MarketProvider with ChangeNotifier {
           }
 
         }
+=======
+  Future<void> fetchTokenMarketPrice(BuildContext context, {bool? isQueryApi = false}) async {
+
+    _contractPro = Provider.of<ContractProvider>(context, listen: false);
+
+    _apiPro = Provider.of<ApiProvider>(context, listen: false);
+    
+    sortDataMarket.clear();
+
+    if (isQueryApi == false){
+
+      await StorageServices.fetchData(DbKey.marketData).then((value) async {
+        
+        // Have Cache Data => Fill Out
+        if (value != null && isQueryApi == false){
+          print("From DB");
+          response =  http.Response(json.encode(value), 200);
+        }
+        // No Cache Data => Fetch New 
+        else {
+          print("From API");
+          // 
+          response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
+          
+          print("response ${response!.body}");
+        }
+      });
+    }
+    // Refetch Data 
+    else {
+      print("From Refetch API");
+      response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
+    }
+    
+    // ignore: use_build_context_synchronously
+    await decodingMarketData(context);
+
+    notifyListeners();
+  }
+  
+  Future<void> decodingMarketData(BuildContext context) async {
+
+    _contractPro = Provider.of<ContractProvider>(context, listen: false);
+    _apiPro = Provider.of<ApiProvider>(context, listen: false);
+
+    try {
+
+      print("response!.statusCode ${response!.statusCode}");
+
+      if (response!.statusCode == 200) {
+
+        List<dynamic> jsonResponse = await json.decode(response!.body);
+
+        for (var element in jsonResponse) {
+
+          sortDataMarket.add(Coin.fromJson(element));
+
+          List<List<double>> lineChartData = [];//await fetchLineChartData(element['id']);
+
+          final res = Market();// parseMarketData(jsonResponse);
+          print("Start setMarketToAsset");
+          _contractPro!.listContract.every((ls) {
+            print("element.id ${element['id']}");
+            print("ls.id ${ls.id}");
+
+            if (ls.id == element['id']){
+              // ls.marketData = 
+
+              print("start setMarket");
+              _contractPro!.setMarketToAsset(
+                _contractPro!.listContract.indexOf(ls),
+                res,
+                lineChartData,
+                element['current_price'].toString(),
+                element['price_change_percentage_24h'] == null ? "0" : element['price_change_percentage_24h'].toString(),
+              );
+            }
+            return true;
+          });
+        }
+
+        _contractPro!.notifyListeners();
+
+        await StorageServices.storeData(sortDataToJson(), DbKey.marketData);
+>>>>>>> daveat
       }
 
       notifyListeners();
     } catch (e) {
       
+<<<<<<< HEAD
         if (kDebugMode) {
           debugPrint("Error fetchTokenMarketPrice $e");
         }
@@ -193,6 +319,14 @@ class MarketProvider with ChangeNotifier {
     // }
 
     notifyListeners();
+=======
+      if (kDebugMode) {
+        debugPrint("Error fetchTokenMarketPrice $e");
+      }
+      
+      return;
+    }
+>>>>>>> daveat
   }
 
   Future<List<Map<String, dynamic>>> searchCoinFromMarket(String id) async {
@@ -261,6 +395,10 @@ class MarketProvider with ChangeNotifier {
     
     try {
       
+<<<<<<< HEAD
+=======
+      // final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
+>>>>>>> daveat
       final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
       
       cnts = List<CoinsModel>.empty(growable: true);

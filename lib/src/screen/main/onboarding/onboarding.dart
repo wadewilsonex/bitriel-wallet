@@ -21,6 +21,11 @@ class OnboardingState extends State<Onboarding> {
   @override
   void initState() {
 
+<<<<<<< HEAD
+=======
+    checkRemainFailImport();
+
+>>>>>>> daveat
     Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
     
     // inAppUpdate();
@@ -37,6 +42,14 @@ class OnboardingState extends State<Onboarding> {
   //   }
   // }
 
+<<<<<<< HEAD
+=======
+  // Seed Import Failed Checker And Clear
+  void checkRemainFailImport() async {
+    await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+  }
+
+>>>>>>> daveat
   void tabGoogle(){
     
     // await GoogleAuthService().signOut();

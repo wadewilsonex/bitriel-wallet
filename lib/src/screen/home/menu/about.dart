@@ -41,7 +41,11 @@ class About extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+<<<<<<< HEAD
             SizedBox(
+=======
+            const SizedBox(
+>>>>>>> daveat
               height: 5,
             ),
             InkWell(

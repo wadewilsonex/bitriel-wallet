@@ -8,6 +8,11 @@ import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_tick
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
+<<<<<<< HEAD
+=======
+import 'package:lottie/lottie.dart';
+
+>>>>>>> daveat
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
@@ -29,6 +34,7 @@ class WalletPageBody extends StatelessWidget {
       length: 1,
       child: Scaffold(
         backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+<<<<<<< HEAD
         body: NestedScrollView(
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -67,6 +73,56 @@ class WalletPageBody extends StatelessWidget {
           ],
           
           body: _tabBarView(context, dismiss!),
+=======
+        body: RefreshIndicator(
+          notificationPredicate: (notification) {
+            // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
+            if (notification is OverscrollNotification || Platform.isIOS) {
+              return notification.depth == 2;
+            }
+            return notification.depth == 0;
+          },
+          onRefresh: () async => await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context, isQueryApi: true),
+          child: NestedScrollView(
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverSafeArea(
+                  top: false,
+                  sliver: SliverAppBar(
+                    toolbarHeight: 270,
+                    pinned: true,
+                    floating: true,
+                    snap: true,
+                    title: _userWallet(context),
+                    centerTitle: true,
+                    automaticallyImplyLeading: false,
+                    bottom: TabBar(
+                      labelColor: hexaCodeToColor(AppColors.primaryColor),
+                      unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
+                      indicatorColor: hexaCodeToColor(AppColors.primaryColor),
+                      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
+                      unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
+                      tabs: const [
+                        Tab(
+                          text: "Assets",
+                        ),
+                                    
+                        // Tab(
+                        //   text: "NFTs",
+                        // )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            
+            body: _tabBarView(context, dismiss!),
+          ),
+>>>>>>> daveat
         ),
       ),
     );
@@ -119,7 +175,11 @@ class WalletPageBody extends StatelessWidget {
           builder: (context, verifyingP, wg) {
             verifyingP.unverifyAcc = null;
 
+<<<<<<< HEAD
             // if (verifyingP.unverifyAcc != null){
+=======
+            if (api.netWorkConnected == true){
+>>>>>>> daveat
               List tmp = verifyingP.getPrivateList.where((e) {
                 if (e['address'] == api.getKeyring.current.address) return true;
                 return false;
@@ -128,6 +188,7 @@ class WalletPageBody extends StatelessWidget {
               if (tmp.isNotEmpty){
                 verifyingP.unverifyAcc = tmp[0];
               }
+<<<<<<< HEAD
             // }
 
             if (verifyingP.unverifyAcc == null) return Container();
@@ -218,6 +279,104 @@ class WalletPageBody extends StatelessWidget {
                 ],
               )
             ) : const SizedBox();
+=======
+            }
+
+            if (verifyingP.unverifyAcc == null) return Container();
+
+            if (verifyingP.unverifyAcc!["status"] == false) {
+              return Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: hexaCodeToColor(AppColors.warningColor).withOpacity(0.25),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))
+                ),
+                child: Row(
+                  children: [
+
+                    Row(
+                      children: [
+                        const SizedBox(width: 10,),
+                        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.redColor),),
+                        const MyText(
+                          pLeft: 10,
+                          text: "Verify your Seed Phrase",
+                          fontWeight: FontWeight.w600,
+                          hexaColor: AppColors.redColor,
+                        ),
+                      ],
+                    ),
+
+                    const Spacer(),
+
+                    TextButton(
+                      onPressed: () async{
+
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Pincode(label: PinCodeLabel.fromAccount,)
+                          )
+                        ).then((passCodeValue) async {
+                          if (passCodeValue != null){
+                            
+                            await api.getKeyring.store.getDecryptedSeed(api.getKeyring.current.pubKey, passCodeValue).then((getMnemonic) async{
+                              try {
+
+                                if(getMnemonic!.containsKey("seed")){
+
+
+                                  // Verifying Account To Get Mnemonic
+                                  verifyingP.mnemonic = getMnemonic["seed"];
+                                  verifyingP.isVerifying = true;
+
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CreateSeeds(passCode: passCodeValue, newAcc: null,)
+                                      // const ImportAcc(
+                                      //   isBackBtn: true,
+                                      // )
+                                    )
+                                  ).then((value) {
+                                    if (value != null && value == true){
+                                      
+                                      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+                                      Provider.of<ApiProvider>(context, listen: false).notifyListeners();
+                                    }
+                                  });
+                                }
+                                else{
+                                  throw Exception("wrong mnemonic");
+                                  
+                                }
+                                
+                              } catch (e) {
+                                if (kDebugMode) {
+                                  debugPrint("error mnemonic $e");
+                                }
+                              }
+
+                            });
+
+                          }
+                        });
+                        
+                      }, 
+                      child: const MyText(
+                        text: "Verify Now",
+                        fontWeight: FontWeight.w700,
+                        hexaColor: AppColors.primaryColor,
+                      ),
+                    )
+                  ],
+                )
+              );
+            }
+            else {
+              return const SizedBox();
+            }
+>>>>>>> daveat
           }
         ),
 
@@ -248,11 +407,25 @@ class WalletPageBody extends StatelessWidget {
                       
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
+<<<<<<< HEAD
                           return MyText(
                             text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
                             hexaColor: AppColors.whiteColorHexa,
                             fontWeight: FontWeight.w700,
                             fontSize: 23,
+=======
+                          return api.netWorkConnected == true ?MyText(
+                            text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 23,
+                          ) 
+                          : Lottie.asset(
+                            "assets/animation/loading.json",
+                            repeat: true,
+                            reverse: true,
+                            height: 25
+>>>>>>> daveat
                           );
                         }
                       ),
@@ -260,11 +433,26 @@ class WalletPageBody extends StatelessWidget {
                       // SizedBox(height: 0.5.h),
                       Consumer<ContractProvider>(
                         builder: (context, provider, widget){
+<<<<<<< HEAD
                           return MyText(
                             text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
                             hexaColor: AppColors.whiteColorHexa,
                             fontSize: 18,
                           );
+=======
+                          return api.netWorkConnected == true ? MyText(
+                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                            // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                            hexaColor: AppColors.whiteColorHexa,
+                            fontSize: 18,
+                          )
+                          : Lottie.asset(
+                              "assets/animation/loading.json",
+                              repeat: true,
+                              reverse: true,
+                              height: 25
+                            );
+>>>>>>> daveat
                         }
                       ),
                           

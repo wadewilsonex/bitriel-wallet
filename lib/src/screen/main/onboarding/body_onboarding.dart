@@ -48,6 +48,7 @@ class OnboardignBody extends StatelessWidget {
           ),
         ),
     
+<<<<<<< HEAD
         Column(
           children: [
     
@@ -133,6 +134,97 @@ class OnboardignBody extends StatelessWidget {
             ),
             
           ],
+=======
+        Consumer<AppProvider>(
+          builder: (context, pro, wg) {
+            return Column(
+              children: [
+    
+                Row(
+                  children: [
+                    
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20 / 2),
+                        child: WelcomeItem(
+                          title: "Create wallet",
+                          textColor: AppColors.whiteColorHexa,
+                          image: Image.asset("${pro.dirPath}/icons/setup-1.png", ),
+                          icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
+                          itemColor: "#263238",
+                          action: () {
+                            Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromCreateSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                          },
+                        ),
+                      ),
+                    ),
+    
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, right: 20, left: 20 / 2),
+                        child: WelcomeItem(
+                          title: "Import wallet",
+                          textColor: AppColors.whiteColorHexa,
+                          image: Image.asset("${pro.dirPath}/icons/setup-2.png", fit: BoxFit.fill,),
+                          icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
+                          itemColor: "#F27649",
+                          action: () {
+                            Navigator.push(context, Transition(child: const Pincode(label: PinCodeLabel.fromImportSeeds,), transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20 / 2),
+                        child: WelcomeItem(
+                          title: "Google Sign In",
+                          textColor: AppColors.whiteColorHexa,
+                          image: Image.asset("${pro.dirPath}/icons/setup-3.png", ),
+                          icon: SvgPicture.asset("${pro.dirPath}/icons/google-vector.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          itemColor: "#023859",
+                          action: () {
+                            GoogleAuthService().signInWithGoogle().then((value) => {
+                              debugPrint("google name: ${value!.user!.displayName}"),
+                              debugPrint("google name: ${value.user!.email}")
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+    
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 20, left: 20 / 2),
+                        child: WelcomeItem(
+                          title: "Import Json",
+                          textColor: AppColors.whiteColorHexa,
+                          image: Image.asset("${pro.dirPath}/icons/setup-4.png",),
+                          icon: SvgPicture.asset("${pro.dirPath}/icons/json-file.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          itemColor: "#0D6BA6",
+                          action: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ImportJson()
+                              )
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                
+              ],
+            );
+          }
+>>>>>>> daveat
         ),
       ],
     );

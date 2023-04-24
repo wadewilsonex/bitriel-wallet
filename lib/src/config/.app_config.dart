@@ -92,13 +92,20 @@ class AppConfig {
   static const oSEL = '0xa7f2421fa3d3f31dbf34af7580a1e3d56bcd3030';
 
   static String abiPath = "assets/abi/";
-  static String iconsPath = "assets/icons/";
+  static String iconsPath = '';
   static String illustrationsPath = "assets/illustration/";
   static String assetsPath = "assets/";
   static String animationPath = "assets/animation/";
 
+  static initIconPath(BuildContext context){
+    iconsPath = "${Provider.of<AppProvider>(context, listen: false).dirPath}/icons/";
+  }
+
+<<<<<<< HEAD
+=======
 }
 
+>>>>>>> daveat
 class PresaleConfig {
 
   String mainNet = '0xEbc71fA80a0B6D41c944Ed96289e530D0A92a31F';

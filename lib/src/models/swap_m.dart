@@ -67,6 +67,7 @@ class ResInfoTwoCoinModel{
   List<dynamic>? networks_to;
 
   fromJson(Map<String, dynamic> jsn){
+<<<<<<< HEAD
     min_amount = jsn["min_amount"];
     max_amount = jsn["max_amount"];
     amount = jsn["amount"];
@@ -76,6 +77,17 @@ class ResInfoTwoCoinModel{
     extra_fee_amount = jsn["extra_fee_amount"];
     // rate_id = jsn["rate_id"];
     rate_id_expired_at = jsn["rate_id_expired_at"];
+=======
+    min_amount = jsn["min_amount"].toString();
+    max_amount = jsn["max_amount"].toString();
+    amount = jsn["amount"].toString();
+    fee = jsn["fee"].toString();
+    rate = jsn["rate"].toString();
+    profit = jsn["profit"].toString();
+    extra_fee_amount = jsn["extra_fee_amount"].toString();
+    // rate_id = jsn["rate_id"];
+    rate_id_expired_at = jsn["rate_id_expired_at"].toString();
+>>>>>>> daveat
     // applied_promo_code_id = jsn["applied_promo_code_id"];
     deposit_amount_usdt = jsn["deposit_amount_usdt"];
     withdrawal_amount_usdt = jsn["withdrawal_amount_usdt"];
@@ -372,4 +384,21 @@ class SwapTrxInfo {
     profit = jsn["profit"];
   }
 
+<<<<<<< HEAD
 }
+=======
+}
+
+class ConvertCoinModel{
+  String? status;
+  String? fromCoinAmount;
+  String? toCoinAmount;
+
+  fromJson(Map<String, dynamic> jsn, fromAmount, toAmount){
+    status = jsn["min_amount"];
+    fromCoinAmount = jsn["fromAmount"];
+    toCoinAmount = jsn["toAmount"];
+  }
+
+}
+>>>>>>> daveat

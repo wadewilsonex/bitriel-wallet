@@ -159,6 +159,7 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
           onTap: null
         ),
 
+<<<<<<< HEAD
         // ListTile(
         //   leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5.sp, width: 22.5.sp,),
         //   title: const MyText(text: "Unlock with Face ID", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
@@ -175,6 +176,8 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
         //   onTap: null,
         // ),
 
+=======
+>>>>>>> daveat
       ],
     );
   }

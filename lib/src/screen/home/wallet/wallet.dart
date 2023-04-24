@@ -110,6 +110,7 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return RefreshIndicator(
       key: _model.indicator,
       onRefresh: () async => await scrollRefresh(),
@@ -119,6 +120,13 @@ class _WalletPageState extends State<WalletPage> with SingleTickerProviderStateM
         searchController: searchController,
         dismiss: dismiss
       )
+=======
+    return WalletPageBody(
+      homePageModel: widget.homePageModel ?? HomePageModel(),
+      model: _model,
+      searchController: searchController,
+      dismiss: dismiss
+>>>>>>> daveat
     );
   }
 }

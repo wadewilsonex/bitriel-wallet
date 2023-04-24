@@ -6,6 +6,10 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+<<<<<<< HEAD
+=======
+import 'package:wallet_apps/src/provider/app_p.dart';
+>>>>>>> daveat
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
@@ -25,6 +29,10 @@ class HomePageBody extends StatelessWidget {
   final Function(int index)? onPageChanged;
   final Function? onTapWeb;
   final Function? getReward;
+<<<<<<< HEAD
+=======
+  final Function? downloadAsset;
+>>>>>>> daveat
 
   const HomePageBody({ 
     Key? key, 
@@ -34,9 +42,15 @@ class HomePageBody extends StatelessWidget {
     this.pushReplacement,
     this.onTapWeb,
     this.getReward,
+<<<<<<< HEAD
     }) : super(key: key);
 
 
+=======
+    this.downloadAsset
+    }) : super(key: key);
+
+>>>>>>> daveat
   @override
   Widget build(BuildContext context) {
     
@@ -91,7 +105,11 @@ class HomePageBody extends StatelessWidget {
                         unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
                         tabs: const [
                           Tab(
+<<<<<<< HEAD
                             text: "Trendings",
+=======
+                            text: "Popular",
+>>>>>>> daveat
                           ),
                                       
                           Tab(
@@ -107,6 +125,19 @@ class HomePageBody extends StatelessWidget {
               body: _coinMenuCategory(),
             ),
           ),
+<<<<<<< HEAD
+=======
+          // Consumer<AppProvider>(
+          //   builder: (context, pro, wg) {
+          //     return ElevatedButton(
+          //       onPressed: () async {
+          //         await downloadAsset!();
+          //       }, 
+          //       child: pro.dirPath == null ? Text("Loading") : Image.file(File('${pro.dirPath}/logo/curve.png'))
+          //     );
+          //   }
+          // ),
+>>>>>>> daveat
 
           // SwapPage(),
           const FindEvent(),
@@ -200,6 +231,7 @@ class HomePageBody extends StatelessWidget {
   }
 
   Widget _menu(BuildContext context) {
+<<<<<<< HEAD
     return Column(
       children: [
         Padding(
@@ -312,6 +344,128 @@ class HomePageBody extends StatelessWidget {
           ),
         ),
       ],
+=======
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Swap",
+                      asset: "${pro.dirPath}/icons/swap-coin.png",
+                      colorHex: "#0D6BA6",
+                      action: () async {
+                        Navigator.push(
+                          context,
+                          Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                        );
+                        // await showBarModalBottomSheet(
+                        //   context: context,
+                        //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                        //   shape: const RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.vertical(
+                        //       top: Radius.circular(25.0),
+                        //     ),
+                        //   ),
+                        //   builder: (context) => Column(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: const [
+                        //       SwapMethod(),
+                        //     ],
+                        //   ),
+                        // );
+                      },
+                    ),
+                  ),
+                
+                  const SizedBox(width: 10,),
+                
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Staking",
+                      asset: "${pro.dirPath}/icons/stake-coin.png",
+                      colorHex: "#151644",
+                      action: () {
+                        underContstuctionAnimationDailog(context: context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Buy",
+                      asset: "${pro.dirPath}/icons/buy-coin.png",
+                      colorHex: "#F29F05",
+                      action: () async {
+                        underContstuctionAnimationDailog(context: context);
+                      },
+                    ),
+                  ),
+        
+                  const SizedBox(width: 10,),
+        
+                  Expanded(
+                    child: MyMenuItem(
+                      title: "Bitriel NFTs",
+                      asset: "${pro.dirPath}/icons/nft_polygon.png",
+                      colorHex: "#192E3C",
+                      action: () {
+
+                        underContstuctionAnimationDailog(context: context);
+                        
+                        // customDialog(
+                        //   context, 
+                        //   'Access to Bitriel NFTs?', 
+                        //   'Bitriel NFTs is still in development!!!\n\n You can play around with Bitriel NFTs page.',
+                        //   txtButton: "Cancel",
+                        //   btn2: MyFlatButton(
+                        //     height: 60,
+                        //     edgeMargin: const EdgeInsets.symmetric(horizontal: paddingSize),
+                        //     isTransparent: false,
+                        //     buttonColor: AppColors.whiteHexaColor,
+                        //     textColor: AppColors.redColor,
+                        //     textButton: "Confirm",
+                        //     isBorder: true,
+                        //     action: () {
+                        //       // Close pop up dialog
+                        //       Navigator.pop(context);
+
+                        //       Navigator.push(
+                        //         context, 
+                        //         Transition(
+                        //           child: const NFTMarketPlace(),
+                        //           transitionEffect: TransitionEffect.RIGHT_TO_LEFT
+                        //         )
+                        //       );
+                        //     }
+                        //   )
+                        // );
+                        
+                      },
+                    ),
+                  ),
+        
+                ],
+              ),
+            ),
+          ],
+        );
+      }
+>>>>>>> daveat
     );
   }
 
@@ -326,6 +480,48 @@ class HomePageBody extends StatelessWidget {
               child: Column(
                 children: [
                             
+<<<<<<< HEAD
+=======
+                  if (marketProvider.lsMarketLimit.isNotEmpty)
+                  CoinMarket(lsMarketCoin: marketProvider.lsMarketLimit,)
+                            
+                  else if(marketProvider.lsMarketLimit.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: paddingSize),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
+                        ),
+                                  
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )          
+                      ],
+                    ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
+
+        Consumer<MarketProvider>(
+          builder: (context, marketProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
+>>>>>>> daveat
                   if (marketProvider.cnts.isNotEmpty)
                   CoinTrending(trendingCoin: marketProvider.cnts,)
                             
@@ -360,6 +556,7 @@ class HomePageBody extends StatelessWidget {
             );
           }
         ),
+<<<<<<< HEAD
 
         Consumer<MarketProvider>(
           builder: (context, marketProvider, widget) {
@@ -399,6 +596,8 @@ class HomePageBody extends StatelessWidget {
             );
           }
         ),
+=======
+>>>>>>> daveat
       ],
     );
   }
