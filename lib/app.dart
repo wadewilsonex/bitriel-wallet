@@ -9,12 +9,11 @@ import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'src/route/router.dart' as router;
 
-
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
 
+  const App({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -58,6 +57,10 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
+    Provider.of<ContractProvider>(context, listen: false).context = context;
+
+    Provider.of<AppProvider>(context, listen: false).setContext = context;
+
     Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
@@ -97,8 +100,6 @@ class AppState extends State<App> {
 
       contractProvider.setSavedList().then((value) async {
 
-        print("From not await");
-        
         /// Fetch and Fill Market Price Into Asset
         await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
 

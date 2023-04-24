@@ -3,6 +3,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:wallet_apps/app.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/components/walletconnect_c.dart';
+import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/provider/atd_pro.dart';
 import 'package:wallet_apps/src/provider/auth/google_auth_service.dart';
 import 'package:wallet_apps/src/provider/event_p.dart';
@@ -95,6 +96,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider<ArticleProvider>(
           create: (context) => ArticleProvider(),
+        ),
+        ChangeNotifierProvider<AppProvider>(
+          create: (context) => AppProvider(),
         ),
         // ChangeNotifierProvider<DOER>(
         //   create: (context) => GoogleAuthService(),

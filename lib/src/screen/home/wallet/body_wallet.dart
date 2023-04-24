@@ -29,11 +29,19 @@ class WalletPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Scaffold(
       backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
       body: DefaultTabController(
         length: 1,
         child: RefreshIndicator(
+=======
+    return DefaultTabController(
+      length: 1,
+      child: Scaffold(
+        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+        body: RefreshIndicator(
+>>>>>>> daveat
           notificationPredicate: (notification) {
             // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
             if (notification is OverscrollNotification || Platform.isIOS) {

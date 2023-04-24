@@ -32,8 +32,8 @@ class AssetsItemComponent extends StatelessWidget {
                   height: 50,
                   width: 50,
                 )
-                : Image.asset(
-                  scModel!.logo!,
+                : Image.file(
+                  File(scModel!.logo!),
                   fit: BoxFit.contain,
                   height: 50,
                   width: 50,
