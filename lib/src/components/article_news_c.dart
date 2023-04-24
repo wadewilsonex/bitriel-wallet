@@ -1,4 +1,5 @@
 import 'package:wallet_apps/index.dart';
+import 'package:wallet_apps/src/screen/home/webview/article_news_webview.dart';
 import 'package:wallet_apps/src/screen/home/webview/marketplace_webview.dart';
 
 class ArticleNewsList extends StatefulWidget {
@@ -33,7 +34,7 @@ class _ArticleNewsListState extends State<ArticleNewsList> {
         Navigator.push(
           context, 
           Transition(
-            child: MarketPlaceWebView(url: widget.articleQueried!["Data"][widget.index]["url"], title: widget.articleQueried!["Data"][widget.index]["title"],),
+            child: ArticleWebView(url: widget.articleQueried!["Data"][widget.index]["url"], title: widget.articleQueried!["Data"][widget.index]["title"],),
             transitionEffect: TransitionEffect.RIGHT_TO_LEFT
           )
         );

@@ -65,7 +65,7 @@ class HomePageBody extends StatelessWidget {
           WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           DefaultTabController(
-            length: 3,
+            length: 2,
             child: NestedScrollView(
               floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -94,9 +94,9 @@ class HomePageBody extends StatelessWidget {
                             text: "Markets",
                           ),
                                       
-                          Tab(
-                            text: "Trendings",
-                          ),
+                          // Tab(
+                          //   text: "Trendings",
+                          // ),
 
                           Tab(
                             text: "News",
@@ -352,46 +352,46 @@ class HomePageBody extends StatelessWidget {
           }
         ),
 
-        Consumer<MarketProvider>(
-          builder: (context, marketProvider, widget) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
+        // Consumer<MarketProvider>(
+        //   builder: (context, marketProvider, widget) {
+        //     return SingleChildScrollView(
+        //       child: Column(
+        //         children: [
                             
-                  if (marketProvider.cnts.isNotEmpty)
-                  CoinTrending(trendingCoin: marketProvider.cnts,)
+        //           if (marketProvider.cnts.isNotEmpty)
+        //           CoinTrending(trendingCoin: marketProvider.cnts,)
                             
-                  else if(marketProvider.cnts.isEmpty) 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      children: [
+        //           else if(marketProvider.cnts.isEmpty) 
+        //           Padding(
+        //             padding: const EdgeInsets.symmetric(vertical: 20),
+        //             child: Column(
+        //               children: [
                                   
-                        Lottie.asset(
-                          "assets/animation/search_empty.json",
-                          repeat: true,
-                          reverse: true,
-                          width: 70.w,
-                        ),
+        //                 Lottie.asset(
+        //                   "assets/animation/search_empty.json",
+        //                   repeat: true,
+        //                   reverse: true,
+        //                   width: 70.w,
+        //                 ),
                         
                                   
-                        const MyText(
-                          text: "Opps, Something went wrong!", 
-                          fontSize: 17, 
-                          fontWeight: FontWeight.w600,
-                          pTop: 20,
-                        )
+        //                 const MyText(
+        //                   text: "Opps, Something went wrong!", 
+        //                   fontSize: 17, 
+        //                   fontWeight: FontWeight.w600,
+        //                   pTop: 20,
+        //                 )
                                   
-                      ],
-                    ),
-                  ),
+        //               ],
+        //             ),
+        //           ),
                   
-                  AppUtils.discliamerShortText(context),
-                ],
-              ),
-            );
-          }
-        ),
+        //           AppUtils.discliamerShortText(context),
+        //         ],
+        //       ),
+        //     );
+        //   }
+        // ),
 
         Consumer<ArticleProvider>(
           builder: (context, articleProvider, widget) {

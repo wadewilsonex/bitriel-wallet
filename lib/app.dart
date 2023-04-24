@@ -58,7 +58,7 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
-    Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
+    // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
 

@@ -18,7 +18,7 @@ class MarketProvider with ChangeNotifier {
   
   http.Response? _res;
   
-  List<CoinsModel> cnts = List<CoinsModel>.empty(growable: true);
+  // List<CoinsModel> cnts = List<CoinsModel>.empty(growable: true);
 
   List<ListMetketCoinModel> lsMarketLimit = List<ListMetketCoinModel>.empty(growable: true);
 
@@ -247,40 +247,40 @@ class MarketProvider with ChangeNotifier {
     return queried;
   }
   
-  Future<void> fetchTrendingCoin() async {
+  // Future<void> fetchTrendingCoin() async {
 
-    if(kDebugMode) debugPrint("fetchTrendingCoin");
+  //   if(kDebugMode) debugPrint("fetchTrendingCoin");
     
-    try {
+  //   try {
       
-      // final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
-      final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
+  //     // final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
+  //     final res = await http.get(Uri.parse('https://api.coingecko.com/api/v3/search/trending'));
       
-      cnts = List<CoinsModel>.empty(growable: true);
+  //     cnts = List<CoinsModel>.empty(growable: true);
 
-      if (res.statusCode == 200) {
-        final data = await jsonDecode(res.body);
+  //     if (res.statusCode == 200) {
+  //       final data = await jsonDecode(res.body);
         
-        for(int i = 0; i < data['coins'].length; i++){
+  //       for(int i = 0; i < data['coins'].length; i++){
           
-          cnts.add(CoinsModel.fromJson(data['coins'][i]));
+  //         cnts.add(CoinsModel.fromJson(data['coins'][i]));
 
-          final getPriceData = await fetchPriceData(cnts[i].item.id!);
+  //         final getPriceData = await fetchPriceData(cnts[i].item.id!);
 
-          cnts[i].item.priceBtc = getPriceData;
+  //         cnts[i].item.priceBtc = getPriceData;
 
-        }
+  //       }
       
-        notifyListeners();
-      }
+  //       notifyListeners();
+  //     }
       
-    } catch (e){
+  //   } catch (e){
       
-      if (kDebugMode) {
-        debugPrint("error fetch trending coin $e");
-      }
-    }
-  }
+  //     if (kDebugMode) {
+  //       debugPrint("error fetch trending coin $e");
+  //     }
+  //   }
+  // }
 
 
   Future<double> fetchPriceData(String id) async {
