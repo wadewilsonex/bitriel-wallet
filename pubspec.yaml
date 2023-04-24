@@ -184,6 +184,8 @@ dependency_overrides:
   # polkawallet_sdk: 0.4.8 # // Work For Android But not work for iOS
   # polkawallet_sdk: 0.5.0 # // Work For iOS But not work for Android
 
+  webview_flutter: ^4.2.0
+
   polkawallet_sdk:
     git:
       url: https://github.com/DaveatCor/sdk.git

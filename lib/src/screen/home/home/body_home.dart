@@ -1,13 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_apps/index.dart';
-import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:wallet_apps/src/models/newsarticle_m.dart';
+import 'package:wallet_apps/src/provider/newarticle_p.dart';
+import 'package:wallet_apps/src/screen/home/home/article/article_news.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
@@ -15,9 +14,7 @@ import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_market.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_trending.dart';
-import 'package:wallet_apps/src/screen/home/nft/nft_marketplace.dart/nft_marketplace.dart';
 import 'package:wallet_apps/src/screen/home/setting/setting.dart';
-import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 
 class HomePageBody extends StatelessWidget {
 
@@ -68,7 +65,7 @@ class HomePageBody extends StatelessWidget {
           WalletPage(isTrx: isTrx, homePageModel: homePageModel,),
 
           DefaultTabController(
-            length: 2,
+            length: 3,
             child: NestedScrollView(
               floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -94,16 +91,16 @@ class HomePageBody extends StatelessWidget {
                         tabs: const [
 
                           Tab(
-                            text: "Popular",
+                            text: "Markets",
                           ),
                                       
                           Tab(
-                            text: "Markets",
+                            text: "Trendings",
                           ),
 
-                          // Tab(
-                          //   text: "News",
-                          // ),
+                          Tab(
+                            text: "News",
+                          ),
 
                         ],
                       ),
@@ -225,21 +222,6 @@ class HomePageBody extends StatelessWidget {
                       context,
                       Transition(child: const SwapPage(), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                     );
-                    // await showBarModalBottomSheet(
-                    //   context: context,
-                    //   backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                    //   shape: const RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.vertical(
-                    //       top: Radius.circular(25.0),
-                    //     ),
-                    //   ),
-                    //   builder: (context) => Column(
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: const [
-                    //       SwapMethod(),
-                    //     ],
-                    //   ),
-                    // );
                   },
                 ),
               ),
@@ -411,29 +393,47 @@ class HomePageBody extends StatelessWidget {
           }
         ),
 
-        // TextButton(
-        //   onPressed: () async{
-        //     getNewsArticle().then((value) {
-        //       // lstArticle = {};
+        Consumer<ArticleProvider>(
+          builder: (context, articleProvider, widget) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                            
+                  if (articleProvider.articleQueried!.isNotEmpty)
+                  ArticleNews(articleQueried: articleProvider.articleQueried,)
+                            
+                  else if(articleProvider.articleQueried!.isEmpty) 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      children: [
+                                  
+                        Lottie.asset(
+                          "assets/animation/search_empty.json",
+                          repeat: true,
+                          reverse: true,
+                          width: 70.w,
+                        ),
+                        
+                                  
+                        const MyText(
+                          text: "Opps, Something went wrong!", 
+                          fontSize: 17, 
+                          fontWeight: FontWeight.w600,
+                          pTop: 20,
+                        )
+                                  
+                      ],
+                    ),
+                  ),
+                  
+                  AppUtils.discliamerShortText(context),
+                ],
+              ),
+            );
+          }
+        ),
 
-        //       // lstArticle = json.decode(value.body);
-              
-        //       print("lstArticle ${json.decode(value.body)["Data"][0]["id"]}");
-
-        //       for(int i = 0; i < json.decode(value.body)["Data"].length; i++){
-          
-        //         // var data = NewsArticle.fromJson(json.decode(value.body)["Data"][i]);
-
-        //         print("data ${NewsArticle.fromJson(json.decode(value.body)["Data"][i]["id"])}");
-
-        //       }
-              
-        //     });
-        //   }, 
-        //   child: MyText(
-        //     text: "request",
-        //   )
-        // )
       ],
     );
   }

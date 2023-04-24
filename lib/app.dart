@@ -4,6 +4,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/provider/newarticle_p.dart';
 import 'package:wallet_apps/src/provider/provider.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'src/route/router.dart' as router;
@@ -60,6 +61,8 @@ class AppState extends State<App> {
     Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+
+    Provider.of<ArticleProvider>(context, listen: false).requestArticle();
 
     // readTheme();
 
