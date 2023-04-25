@@ -52,7 +52,6 @@ class OnboardignBody extends StatelessWidget {
           builder: (context, pro, wg) {
             return Column(
               children: [
-    
                 Row(
                   children: [
                     
@@ -62,7 +61,7 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Create wallet",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.file(File("${pro.dirPath}/icons/setup-1.png"), ),
+                          image: pro.onBoardingImg![0].path.isEmpty ? circularWidget() : Image.file(pro.onBoardingImg![0]),
                           icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                           itemColor: "#263238",
                           action: () {
@@ -78,7 +77,7 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Import wallet",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.file(File("${pro.dirPath}/icons/setup-2.png"), fit: BoxFit.fill,),
+                          image: pro.onBoardingImg![1].path.isEmpty ? circularWidget() : Image.file(pro.onBoardingImg![1], fit: BoxFit.fill,),
                           icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                           itemColor: "#F27649",
                           action: () {
@@ -92,14 +91,15 @@ class OnboardignBody extends StatelessWidget {
 
                 Row(
                   children: [
+
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20 / 2),
                         child: WelcomeItem(
                           title: "Google Sign In",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.file(File("${pro.dirPath}/icons/setup-3.png"), ),
-                          icon: SvgPicture.file(File("${pro.dirPath}/icons/google-vector.svg"), color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          image: pro.onBoardingImg![2].path.isEmpty ? circularWidget() : Image.file(pro.onBoardingImg![2], ),
+                          icon: pro.onBoardingImg![3].path.isEmpty ? circularWidget() : SvgPicture.file(pro.onBoardingImg![3], color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                           itemColor: "#023859",
                           action: () {
                             // GoogleAuthService().signInWithGoogle().then((value) => {
@@ -118,8 +118,8 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Import Json",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.file(File("${pro.dirPath}/icons/setup-4.png"),),
-                          icon: SvgPicture.file(File("${pro.dirPath}/icons/json-file.svg"), color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          image: pro.onBoardingImg![4].path.isEmpty ? circularWidget() : Image.file( pro.onBoardingImg![4],),
+                          icon: pro.onBoardingImg![5].path.isEmpty ? circularWidget() : SvgPicture.file(pro.onBoardingImg![5], color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                           itemColor: "#0D6BA6",
                           action: () {
                             // Navigator.push(
@@ -140,6 +140,15 @@ class OnboardignBody extends StatelessWidget {
             );
           }
         ),
+      ],
+    );
+  }
+
+  Widget circularWidget(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        SizedBox(height: 30, width: 30, child: CircularProgressIndicator())
       ],
     );
   }

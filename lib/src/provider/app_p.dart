@@ -7,7 +7,20 @@ class AppProvider with ChangeNotifier {
 
   static BuildContext? buildContext;
 
+  bool? isIconsReady = false;
+
   String? dirPath;
+
+  File? file;
+  
+  List<File>? onBoardingImg = [
+    File(''),
+    File(''),
+    File(''),
+    File(''),
+    File(''),
+    File(''),
+  ];
 
   set setContext(BuildContext ct) {
     buildContext = ct;
@@ -15,7 +28,7 @@ class AppProvider with ChangeNotifier {
     // notifyListeners();
   }
   
-  void downloadAndSaveAsset() async {
+  Future<void> downloadFirstAsset() async {
 
     await Permission.storage.request().then((pm) async {
       print("allAssets");
@@ -24,6 +37,17 @@ class AppProvider with ChangeNotifier {
       AppConfig.initIconPath(buildContext!);
 
       await downloadAsset(fileName: 'icons.zip');
+      isIconsReady = true;
+
+      onBoardingImg = [
+        File("$dirPath/icons/setup-1.png"),
+        File("$dirPath/icons/setup-2.png"),
+        File("$dirPath/icons/setup-3.png"),
+        File("$dirPath/icons/google-vector.svg"),
+        File("$dirPath/icons/setup-4.png"),
+        File("$dirPath/icons/json-file.svg"),
+      ];
+      
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
       Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
@@ -32,31 +56,35 @@ class AppProvider with ChangeNotifier {
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
       Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
 
-      await downloadAsset(fileName: 'token_logo.zip');
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
-
-      await downloadAsset(fileName: 'nfts.zip');
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
-
-      await downloadAsset(fileName: 'default.zip');
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
-
-      await downloadAsset(fileName: 'payment.zip');
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
-
     });
   }
+
+  Future<void> downloadSecondAsset() async {
+
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
+
+    await downloadAsset(fileName: 'token_logo.zip');
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
+
+    await downloadAsset(fileName: 'nfts.zip');
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
+
+    await downloadAsset(fileName: 'default.zip');
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
+
+    await downloadAsset(fileName: 'payment.zip');
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
+  }  
 
   Future<void> downloadAsset({required String fileName}) async {
 
     print("downloadAsset $fileName");
     String dir = (await getApplicationDocumentsDirectory()).path;
-
-    print(await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists());
 
     // ignore: unrelated_type_equality_checks
     if ( await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists() == false ){
@@ -68,15 +96,12 @@ class AppProvider with ChangeNotifier {
           await AppUtils.archiveFile(await File("${dir.path}/$fileName").writeAsBytes(value.bodyBytes)).then((files) async {
             
             // await readFile(fileName);
+
+            Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
           });
         });
         
       });
-
-      // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(buildContext!, listen: false).dirPath = dir;
-
-      Provider.of<AppProvider>(buildContext!, listen: false).notifyListeners();
       
       print("Finish downloadAsset");
     } else {
@@ -85,6 +110,20 @@ class AppProvider with ChangeNotifier {
       Provider.of<AppProvider>(buildContext!, listen: false).dirPath = dir;
       // await readFile(fileName);
     }
+  }
+
+  Future<void> deleteAllFile() async {
+
+    isIconsReady = false;
+    
+    notifyListeners();
+
+    Directory("$dirPath/icons").deleteSync(recursive: true);
+    Directory("$dirPath/logo").deleteSync(recursive: true);
+    Directory("$dirPath/token_logo").deleteSync(recursive: true);
+    Directory("$dirPath/nfts").deleteSync(recursive: true);
+    Directory("$dirPath/default").deleteSync(recursive: true);
+    Directory("$dirPath/payment").deleteSync(recursive: true);
   }
   
 }

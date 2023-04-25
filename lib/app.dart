@@ -65,22 +65,22 @@ class AppState extends State<App> {
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
 
-    Provider.of<AppProvider>(context, listen: false).downloadAndSaveAsset();
-
-    // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
-
-    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
-
-    Provider.of<ArticleProvider>(context, listen: false).requestArticle();
-
-    // readTheme();
-
-    // getEventJSON().then((value) {
-    //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
-    // });
-
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
+
+      await Provider.of<AppProvider>(context, listen: false).downloadFirstAsset().then((value) {
+        Provider.of<AppProvider>(context, listen: false).notifyListeners();
+      });
+
+      print("Finish dwonload first");
+
+      // ignore: use_build_context_synchronously
+      await Provider.of<AppProvider>(context, listen: false).downloadSecondAsset();
+
+      Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+
+      Provider.of<ArticleProvider>(context, listen: false).requestArticle();
+
       // Assign Data and Store Endpoint Into Local DB
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
