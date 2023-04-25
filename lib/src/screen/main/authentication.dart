@@ -217,146 +217,154 @@ class AuthenticationState extends State<Authentication> {
 
 
   Widget _bodyPasscodeWidget(BuildContext context) {
-    return BodyScaffold(
-      isSafeArea: true,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return BodyScaffold(
+          isSafeArea: true,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
 
-          const SizedBox(
-            height: 75.0,
-          ),
-          SizedBox(
-            height: 100,
-            width: 100,
-            child: Image.asset("assets/logo/bitriel-splash.png",)
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: tfPasswordWidget(_pwdController, "Enter Password"),
-          ),
+              const SizedBox(
+                height: 75.0,
+              ),
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: Image.file(File("${pro.dirPath}/logo/bitriel-splash.png",))
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              
+              Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: tfPasswordWidget(_pwdController, "Enter Password"),
+              ),
 
-          Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: MyGradientButton(
-              textButton: "Continue",
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              action: () {
-                checkPassword();
-              }
-            ),
-          ),
-
-          Expanded(
-            child: Container(),
-          ),
-
-          Container(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Center(
-              child: RichText(
-                text: TextSpan(
-                    text: 'Forgot your password?',
-                    style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
-                    children: <TextSpan>[
-                      TextSpan(text: ' Logout all Wallets',
-                          style: TextStyle(
-                              color: hexaCodeToColor(AppColors.primaryColor), fontSize: 18, fontWeight: FontWeight.w600),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              _deleteAccoutDialog(context: context);
-                              // navigate to desired screen
-                            }
-                      )
-                    ]
+              Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: MyGradientButton(
+                  textButton: "Continue",
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: () {
+                    checkPassword();
+                  }
                 ),
               ),
-            ),
+
+              Expanded(
+                child: Container(),
+              ),
+
+              Container(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'Forgot your password?',
+                        style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
+                        children: <TextSpan>[
+                          TextSpan(text: ' Logout all Wallets',
+                              style: TextStyle(
+                                  color: hexaCodeToColor(AppColors.primaryColor), fontSize: 18, fontWeight: FontWeight.w600),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  _deleteAccoutDialog(context: context);
+                                  // navigate to desired screen
+                                }
+                          )
+                        ]
+                    ),
+                  ),
+                ),
+              ),
+            ], 
           ),
-        ], 
-      ),
+        );
+      }
     );
   }
 
   // ignore: unused_element
   Widget _bodyFingerPrintWidget(BuildContext context) {
-    return BodyScaffold(
-      isSafeArea: true,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return BodyScaffold(
+          isSafeArea: true,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
 
-          const SizedBox(
-            height: 100.0,
-          ),
-          Image.asset("assets/logo/fingerdebugPrint.png",),
-          const SizedBox(
-            height: 20.0,
-          ),
-          
-          MyText(
-            top: 20.0,
-            text: widget.isEnable == true ? 'Finger Print Authentication' : 'Increase your \nsecurity!',
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            hexaColor: isDarkMode
-              ? AppColors.whiteColorHexa
-              : AppColors.textColor,
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-
-          MyText(
-            top: 20.0,
-            width: 80,
-            text: widget.isEnable == true ? '' : 'Activate biometrics for your wallet to make it even more secure.',
-            hexaColor: isDarkMode
-              ? AppColors.whiteColorHexa
-              : AppColors.textColor,
-          ),
-
-          Expanded(
-            child: Container(),
-          ),
-
-          Column(
-            children: [
-              MyGradientButton(
-                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                textButton: widget.isEnable == true ? "Unlock with biometry" : "Enable biometry now",
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                action: () async {
-                  authenticate();
-                },
+              const SizedBox(
+                height: 100.0,
               ),
-              widget.isEnable == true
-              ? Container() 
-              : MyFlatButton(
-                height: 60,
-                isTransparent: true,
-                textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
-                edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-                textButton: "Skip",
-                action: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
-                  );
-                },
-              )
-            ],
+              Image.file(File("${pro.dirPath}/logo/fingerdebugPrint.png",)),
+              const SizedBox(
+                height: 20.0,
+              ),
+              
+              MyText(
+                top: 20.0,
+                text: widget.isEnable == true ? 'Finger Print Authentication' : 'Increase your \nsecurity!',
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                hexaColor: isDarkMode
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+
+              MyText(
+                top: 20.0,
+                width: 80,
+                text: widget.isEnable == true ? '' : 'Activate biometrics for your wallet to make it even more secure.',
+                hexaColor: isDarkMode
+                  ? AppColors.whiteColorHexa
+                  : AppColors.textColor,
+              ),
+
+              Expanded(
+                child: Container(),
+              ),
+
+              Column(
+                children: [
+                  MyGradientButton(
+                    edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                    textButton: widget.isEnable == true ? "Unlock with biometry" : "Enable biometry now",
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    action: () async {
+                      authenticate();
+                    },
+                  ),
+                  widget.isEnable == true
+                  ? Container() 
+                  : MyFlatButton(
+                    height: 60,
+                    isTransparent: true,
+                    textColor: isDarkMode ? AppColors.whiteHexaColor : AppColors.textColor,
+                    edgeMargin: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+                    textButton: "Skip",
+                    action: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DataLoading(initStateData: widget.initStateData, importAnimationAccModel: widget.importAccountModel,))
+                      );
+                    },
+                  )
+                ],
+              ),
+            ], 
           ),
-        ], 
-      ),
+        );
+      }
     );
   }
 }

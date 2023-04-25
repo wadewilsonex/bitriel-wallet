@@ -47,15 +47,19 @@ class HomeFunctional {
                       collapsedIconColor: hexaCodeToColor(AppColors.iconColor),
                       iconColor: hexaCodeToColor(AppColors.primaryColor),
                       clipBehavior: Clip.antiAlias,
-                      leading: Container(
-                        alignment: Alignment.centerLeft,
-                        width: 50,
-                        height: 50,
-                        child: CircleAvatar(
-                          child: Image.asset(
-                            'assets/SelendraCircle-White.png',
-                          ),
-                        ),
+                      leading: Consumer<AppProvider>(
+                        builder: (context, pro, wg) {
+                          return Container(
+                            alignment: Alignment.centerLeft,
+                            width: 50,
+                            height: 50,
+                            child: CircleAvatar(
+                              child: Image.file(
+                                File('${pro.dirPath}/default/SelendraCircle-White.png'),
+                              ),
+                            ),
+                          );
+                        }
                       ),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

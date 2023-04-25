@@ -8,73 +8,32 @@ import 'package:wallet_apps/src/screen/home/nft/details_ticket/body_details_tick
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/swap/swap_method/swap_method.dart';
 import 'package:wallet_apps/src/screen/main/seeds/create_seeds/create_seeds.dart';
-<<<<<<< HEAD
-=======
 import 'package:lottie/lottie.dart';
 
->>>>>>> daveat
 class WalletPageBody extends StatelessWidget {
   
   final HomePageModel? homePageModel;
   final AssetPageModel? model;
   final TextEditingController? searchController;
   final Function? dismiss;
+  final Function? fetchMarketPrice;
 
   const WalletPageBody({
     Key? key,
     this.homePageModel,
     this.model,
     this.searchController,
-    this.dismiss
+    this.dismiss,
+    this.fetchMarketPrice
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-<<<<<<< HEAD
-        body: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverSafeArea(
-                top: false,
-                sliver: SliverAppBar(
-                  toolbarHeight: 270,
-                  pinned: true,
-                  floating: true,
-                  snap: true,
-                  title: _userWallet(context),
-                  centerTitle: true,
-                  automaticallyImplyLeading: false,
-                  bottom: TabBar(
-                    labelColor: hexaCodeToColor(AppColors.primaryColor),
-                    unselectedLabelColor: hexaCodeToColor(AppColors.greyColor),
-                    indicatorColor: hexaCodeToColor(AppColors.primaryColor),
-                    labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'NotoSans'),
-                    unselectedLabelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'NotoSans'),
-                    tabs: const [
-                      Tab(
-                        text: "Assets",
-                      ),
-                                  
-                      // Tab(
-                      //   text: "NFTs",
-                      // )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-          
-          body: _tabBarView(context, dismiss!),
-=======
-        body: RefreshIndicator(
+    return Scaffold(
+      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+      body: DefaultTabController(
+        length: 1,
+        child: RefreshIndicator(
           notificationPredicate: (notification) {
             // with NestedScrollView local(depth == 2) OverscrollNotification are not sent
             if (notification is OverscrollNotification || Platform.isIOS) {
@@ -122,7 +81,6 @@ class WalletPageBody extends StatelessWidget {
             
             body: _tabBarView(context, dismiss!),
           ),
->>>>>>> daveat
         ),
       ),
     );
@@ -174,12 +132,7 @@ class WalletPageBody extends StatelessWidget {
         Consumer<VerifySeedsProvider>(
           builder: (context, verifyingP, wg) {
             verifyingP.unverifyAcc = null;
-
-<<<<<<< HEAD
-            // if (verifyingP.unverifyAcc != null){
-=======
             if (api.netWorkConnected == true){
->>>>>>> daveat
               List tmp = verifyingP.getPrivateList.where((e) {
                 if (e['address'] == api.getKeyring.current.address) return true;
                 return false;
@@ -188,7 +141,6 @@ class WalletPageBody extends StatelessWidget {
               if (tmp.isNotEmpty){
                 verifyingP.unverifyAcc = tmp[0];
               }
-<<<<<<< HEAD
             // }
 
             if (verifyingP.unverifyAcc == null) return Container();
@@ -279,7 +231,6 @@ class WalletPageBody extends StatelessWidget {
                 ],
               )
             ) : const SizedBox();
-=======
             }
 
             if (verifyingP.unverifyAcc == null) return Container();
@@ -376,94 +327,81 @@ class WalletPageBody extends StatelessWidget {
             else {
               return const SizedBox();
             }
->>>>>>> daveat
           }
         ),
 
         const SizedBox(height: 5,),
 
-        Consumer<ApiProvider>(
-          builder: (context, apiProvider, widget){
+        Consumer<AppProvider>(
+          builder: (context, pro, widget){
 
             return Container(
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.whiteColorHexa),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                image: const DecorationImage(
-                  image: AssetImage('assets/bg-glass.jpg'),
+                image: DecorationImage(
+                  image: FileImage(File('${pro.dirPath}/default/bg-glass.jpg')),
                   fit: BoxFit.cover
                 ),
               ),
               width: MediaQuery.of(context).size.width,
               
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                  child: Column(
-                    children: [
-                      
-                      SizedBox(height: 2.5.h),
-                      
-                      Consumer<ContractProvider>(
-                        builder: (context, provider, widget){
-<<<<<<< HEAD
-                          return MyText(
-                            text: "\$${ (provider.mainBalance).toStringAsFixed(2) }",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 23,
-=======
-                          return api.netWorkConnected == true ?MyText(
-                            text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 23,
-                          ) 
-                          : Lottie.asset(
-                            "assets/animation/loading.json",
-                            repeat: true,
-                            reverse: true,
-                            height: 25
->>>>>>> daveat
-                          );
-                        }
-                      ),
-                      
-                      // SizedBox(height: 0.5.h),
-                      Consumer<ContractProvider>(
-                        builder: (context, provider, widget){
-<<<<<<< HEAD
-                          return MyText(
-                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC", // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontSize: 18,
-                          );
-=======
-                          return api.netWorkConnected == true ? MyText(
-                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
-                            // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontSize: 18,
-                          )
-                          : Lottie.asset(
-                              "assets/animation/loading.json",
-                              repeat: true,
-                              reverse: true,
-                              height: 25
-                            );
->>>>>>> daveat
-                        }
-                      ),
+              child: Consumer<ApiProvider>(
+                builder: (context, apiProvider, wg) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                      child: Column(
+                        children: [
                           
-                      SizedBox(height: 2.5.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
-                        child: _operationRequest(context),
+                          SizedBox(height: 2.5.h),
+                          
+                          Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return api.netWorkConnected == true ? MyText(
+                                text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                                hexaColor: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 23,
+                              ) 
+                              : Lottie.asset(
+                                "assets/animation/loading.json",
+                                repeat: true,
+                                reverse: true,
+                                height: 25
+                              );
+                            }
+                          ),
+                          
+                          // SizedBox(height: 0.5.h),
+                          Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return api.netWorkConnected == true ? MyText(
+                                text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                                // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                                hexaColor: AppColors.whiteColorHexa,
+                                fontSize: 18,
+                              )
+                              : Lottie.asset(
+                                "assets/animation/loading.json",
+                                repeat: true,
+                                reverse: true,
+                                height: 25
+                              );
+                            }
+                          ),
+                              
+                          SizedBox(height: 2.5.h),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
+                            child: _operationRequest(context),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }
               ),
             );
           } 

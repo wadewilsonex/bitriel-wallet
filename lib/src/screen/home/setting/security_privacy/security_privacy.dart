@@ -159,25 +159,6 @@ class _SecurityPrivacyState extends State<SecurityPrivacy> {
           onTap: null
         ),
 
-<<<<<<< HEAD
-        // ListTile(
-        //   leading: SvgPicture.asset("assets/icons/face-id.svg", height: 22.5.sp, width: 22.5.sp,),
-        //   title: const MyText(text: "Unlock with Face ID", fontSize: 17, fontWeight: FontWeight.bold, textAlign: TextAlign.start,),
-        //   minLeadingWidth: 0,
-        //   horizontalTitleGap: 5,
-        //   trailing: Switch(
-        //     activeColor: hexaCodeToColor(AppColors.primaryColor),
-        //     // value: model!.switchBio,
-        //     value: true,
-        //     onChanged: (value) {
-        //       // switchBio!(context, value);
-        //     },
-        //   ),
-        //   onTap: null,
-        // ),
-
-=======
->>>>>>> daveat
       ],
     );
   }

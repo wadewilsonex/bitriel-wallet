@@ -246,27 +246,31 @@ class TicketDetail extends StatelessWidget {
   }
 
   Widget orgProfile() {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MyText(
-            text: creator,
-            fontWeight: FontWeight.w600,
-            textAlign: TextAlign.start,
-            fontSize: 17,
-          ),
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MyText(
+                text: creator,
+                fontWeight: FontWeight.w600,
+                textAlign: TextAlign.start,
+                fontSize: 17,
+              ),
 
-          const MyText(
-            text: "Organizer",
-            textAlign: TextAlign.start,
-            hexaColor: AppColors.greyCode,
+              const MyText(
+                text: "Organizer",
+                textAlign: TextAlign.start,
+                hexaColor: AppColors.greyCode,
+              ),
+              
+            ],
           ),
-          
-        ],
-      ),
-      leading: const CircleAvatar(backgroundImage: AssetImage('assets/nfts/2.png')),
+          leading: CircleAvatar(backgroundImage: FileImage(File('${pro.dirPath}/nfts/2.png'))),
+        );
+      }
     );
   }
 

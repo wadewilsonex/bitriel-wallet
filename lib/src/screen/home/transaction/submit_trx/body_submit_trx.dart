@@ -89,253 +89,250 @@ class SubmitTrxBody extends StatelessWidget {
     
     final contract = Provider.of<ContractProvider>(context);
 
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Consumer<ContractProvider>(
-        builder: (context, provider, widget) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
-            child: Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  
-                  const SizedBox(height: 5,),
+    return Consumer<ContractProvider>(
+      builder: (context, provider, widget) {
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          color: hexaCodeToColor(isDarkMode ? AppColors.darkBgd : AppColors.lightColorBg),
+          child: Form(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                
+                const SizedBox(height: 5,),
     
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    child: MyText(
-                      text: "Available balance",
-                      hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
-                      fontSize: 20,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "Available balance",
+                    hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.darkGrey,
+                    fontSize: 20,
                   ),
-                  
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: paddingSize),
-                    child: MyText(
-                      text: "${scanPayM!.balance!} ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
-                      hexaColor: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.start,
-                      fontSize: 25,
-                    ),
+                ),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: paddingSize),
+                  child: MyText(
+                    text: "${scanPayM!.balance!} ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol}",
+                    hexaColor: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.start,
+                    fontSize: 25,
                   ),
+                ),
     
-                  Padding(
-                    padding: const EdgeInsets.all(paddingSize),
-                    child: MyText(
-                      text: "Please, enter the receiver’s address with the amount of transfer ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol} in below field.",
-                      hexaColor: "#878787",
-                      textAlign: TextAlign.start,
-                      fontSize: 17,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(paddingSize),
+                  child: MyText(
+                    text: "Please, enter the receiver’s address with the amount of transfer ${Provider.of<ContractProvider>(context).sortListContract[scanPayM!.assetValue].symbol} in below field.",
+                    hexaColor: "#878787",
+                    textAlign: TextAlign.start,
+                    fontSize: 17,
                   ),
+                ),
     
-                  // const SizedBox(height: 2,),
+                // const SizedBox(height: 2,),
 
-                  // _listSenderWallet(context),
+                // _listSenderWallet(context),
 
-                  const SizedBox(height: 5,),
-          
-                  listInput[0],
-                  
-          
-                  listInput[1],
+                const SizedBox(height: 5,),
+        
+                listInput[0],
+                
+        
+                listInput[1],
     
-                  /* Type of payment */
-                  GestureDetector(
-                    onTap: () async {
-                      FocusScope.of(context).unfocus();
-                      await showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        isDismissible: true,
-                        backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical( 
-                            top: Radius.circular(25.0),
-                          ),
-                        ),
-                        builder: (context) => _listAsset(
-                          isValue: true,
-                          listContract: ContractService.getConSymbol(context, contract.sortListContract),
-                          initialValue: scanPayM!.assetValue.toString(),
-                          onChanged: onChangeAsset,
-                        ),
-                      );
-    
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                        // bottom: 16,
-                        left: paddingSize,
-                        right: paddingSize,
-                      ),
-                      
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(
-                          paddingSize, 0, paddingSize, 0
-                        ), 
-                        decoration: BoxDecoration(
-                          color: isDarkMode
-                            ? Colors.white.withOpacity(0.06)
-                            : hexaCodeToColor(AppColors.whiteHexaColor),
-                          borderRadius: BorderRadius.circular(size5),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
-                            ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,) 
-                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,),
-
-                            Expanded(
-                              child: MyText(
-                                pTop: paddingSize,
-                                pBottom: paddingSize,
-                                pLeft: paddingSize,
-                                text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                textAlign: TextAlign.left,
-                                hexaColor: isDarkMode
-                                  ? AppColors.darkSecondaryText
-                                  : AppColors.textColor,
-                              ),
-                            ),
-
-                            Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),)
-                          ],
+                /* Type of payment */
+                GestureDetector(
+                  onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    await showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      backgroundColor: hexaCodeToColor(AppColors.lightColorBg),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical( 
+                          top: Radius.circular(25.0),
                         ),
                       ),
-                    ),
-                  ),
+                      builder: (context) => _listAsset(
+                        isValue: true,
+                        listContract: ContractService.getConSymbol(context, contract.sortListContract),
+                        initialValue: scanPayM!.assetValue.toString(),
+                        onChanged: onChangeAsset,
+                      ),
+                    );
     
-                  Container(
+                  },
+                  child: Container(
                     margin: const EdgeInsets.only(
-                      top: 10,
+                      // bottom: 16,
                       left: paddingSize,
                       right: paddingSize,
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18),
-                        const SizedBox(width: 1,),
-                        MyText(
-                          pLeft: 5,
-                          text: "Select the right network and asset, or assets may be lost.",
-                          hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
-                          fontSize: 15,
-                        ),
-                      ],
+                    
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(
+                        paddingSize, 0, paddingSize, 0
+                      ), 
+                      decoration: BoxDecoration(
+                        color: isDarkMode
+                          ? Colors.white.withOpacity(0.06)
+                          : hexaCodeToColor(AppColors.whiteHexaColor),
+                        borderRadius: BorderRadius.circular(size5),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
+                          ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,) 
+                          : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,),
+
+                          Expanded(
+                            child: MyText(
+                              pTop: paddingSize,
+                              pBottom: paddingSize,
+                              pLeft: paddingSize,
+                              text: "${ (ContractService.getConByIndex( context, provider.sortListContract, scanPayM!.assetValue ))['symbol'] }",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              textAlign: TextAlign.left,
+                              hexaColor: isDarkMode
+                                ? AppColors.darkSecondaryText
+                                : AppColors.textColor,
+                            ),
+                          ),
+
+                          Icon(Iconsax.arrow_right_3, color: hexaCodeToColor(AppColors.primaryColor),)
+                        ],
+                      ),
                     ),
                   ),
+                ),
     
-                  Expanded(child: Container()),
-                  MyGradientButton(
-                    edgeMargin: const EdgeInsets.all(paddingSize),
-                    textButton: "CONTINUE",
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    action: scanPayM!.enable ? validateSubmit : null,
-                  ),
-          
-                ],
-              ),
-            ),
-          );
-        }
-      ),
-    );
-  }
-
-  Widget _listSenderWallet(BuildContext context) {
-    return Consumer<ApiProvider>(
-      builder: (context, provider, widget) {
-        return InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            bottomSheetSelectAccount(context);
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 5),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.fromLTRB(paddingSize, 0, paddingSize, 0),
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16.0),
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                    left: paddingSize,
+                    right: paddingSize,
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AvatarShimmer(
-                                height: 50,
-                                width: 50,
-                                txt: provider.getKeyring.current.icon,
-                                child: randomAvatar(provider.getKeyring.current.icon ?? ''),
-                              ),
-
-                              const SizedBox(width: 10),
-
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  MyText(
-                                    text: provider.getKeyring.current.name,
-                                    hexaColor: AppColors.blackColor,
-                                    fontSize: 19,
-                                    textAlign: TextAlign.start,
-                                  ),
-
-                                  MyText(
-                                    text: provider.getKeyring.current.address!.replaceRange(8, provider.getKeyring.current.address!.length - 8, "......."),
-                                    hexaColor: AppColors.blackColor,
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w600,
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  
-                                ],
-                              ),
-                            ]
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 0,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                          child: const Icon(
-                            Iconsax.arrow_down_1
-                          ),
-                        ),
+                      Icon(Iconsax.warning_2, color: hexaCodeToColor(AppColors.warningColor), size: 18),
+                      const SizedBox(width: 1,),
+                      MyText(
+                        pLeft: 5,
+                        text: "Select the right network and asset, or assets may be lost.",
+                        hexaColor: isDarkMode ? AppColors.lowWhite : AppColors.textColor,
+                        fontSize: 15,
                       ),
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 5),
-            ],
+    
+                Expanded(child: Container()),
+                MyGradientButton(
+                  edgeMargin: const EdgeInsets.all(paddingSize),
+                  textButton: "CONTINUE",
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  action: scanPayM!.enable ? validateSubmit : null,
+                ),
+        
+              ],
+            ),
           ),
         );
       }
     );
   }
+
+  // Widget _listSenderWallet(BuildContext context) {
+  //   return Consumer<ApiProvider>(
+  //     builder: (context, provider, widget) {
+  //       return InkWell(
+  //         highlightColor: Colors.transparent,
+  //         splashColor: Colors.transparent,
+  //         onTap: () {
+  //           bottomSheetSelectAccount(context);
+  //         },
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             const SizedBox(height: 5),
+  //             Container(
+  //               width: MediaQuery.of(context).size.width,
+  //               padding: const EdgeInsets.fromLTRB(paddingSize, 0, paddingSize, 0),
+  //               child: Container(
+  //                 clipBehavior: Clip.antiAlias,
+  //                 decoration: BoxDecoration(
+  //                   color: Colors.white,
+  //                   borderRadius: BorderRadius.circular(16.0),
+  //                 ),
+  //                 child: Row(
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Expanded(
+  //                       child: Container(
+  //                         padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+  //                         child: Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             AvatarShimmer(
+  //                               height: 50,
+  //                               width: 50,
+  //                               txt: provider.getKeyring.current.icon,
+  //                               child: randomAvatar(provider.getKeyring.current.icon ?? ''),
+  //                             ),
+
+  //                             const SizedBox(width: 10),
+
+  //                             Column(
+  //                               crossAxisAlignment: CrossAxisAlignment.start,
+  //                               children: [
+  //                                 MyText(
+  //                                   text: provider.getKeyring.current.name,
+  //                                   hexaColor: AppColors.blackColor,
+  //                                   fontSize: 19,
+  //                                   textAlign: TextAlign.start,
+  //                                 ),
+
+  //                                 MyText(
+  //                                   text: provider.getKeyring.current.address!.replaceRange(8, provider.getKeyring.current.address!.length - 8, "......."),
+  //                                   hexaColor: AppColors.blackColor,
+  //                                   fontSize: 19,
+  //                                   fontWeight: FontWeight.w600,
+  //                                   textAlign: TextAlign.start,
+  //                                 ),
+                                  
+  //                               ],
+  //                             ),
+  //                           ]
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     Expanded(
+  //                       flex: 0,
+  //                       child: Container(
+  //                         padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+  //                         child: const Icon(
+  //                           Iconsax.arrow_down_1
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             const SizedBox(height: 5),
+  //           ],
+  //         ),
+  //       );
+  //     }
+  //   );
+  // }
 
   void bottomSheetSelectAccount(BuildContext context) async{
     return showBarModalBottomSheet(
@@ -469,7 +466,7 @@ class SubmitTrxBody extends StatelessWidget {
                               ) 
                               : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listContract[index]["logo"]}", height: 40, width: 40,)
+                                child: Image.file(File("${listContract[index]["logo"]}"), height: 40, width: 40,)
                               ),
                                           
                               const SizedBox(width: 10,),

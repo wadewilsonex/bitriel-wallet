@@ -24,7 +24,7 @@ class NFTCard extends StatelessWidget {
             ),
             color: Colors.grey,
             image: DecorationImage(
-              image: AssetImage(image),
+              image: FileImage(File(image)),
               fit: BoxFit.cover,
             )
           ),
@@ -56,19 +56,23 @@ class NFTCard extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
 
-                  SizedBox(
-                    height: 25,
-                    child: Row(
-                      children: const [
-                        Image(
-                          image: AssetImage("assets/SelendraCircle-Blue.png"),
+                  Consumer<AppProvider>(
+                    builder: (context, pro, wg) {
+                      return SizedBox(
+                        height: 25,
+                        child: Row(
+                          children: [
+                            Image(
+                              image: FileImage(File("${pro.dirPath}/logo/SelendraCircle-Blue.png")),
+                            ),
+                            const MyText(
+                              text: " 1.25",
+                              fontWeight: FontWeight.w600,
+                            )
+                          ],
                         ),
-                        MyText(
-                          text: " 1.25",
-                          fontWeight: FontWeight.w600,
-                        )
-                      ],
-                    ),
+                      );
+                    }
                   ),
 
                 ]
@@ -111,6 +115,7 @@ class NFTDetail extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            
             _appbar(context, image),
             _creatorProfile(creatorImage),
             SliverToBoxAdapter(
@@ -171,38 +176,43 @@ class NFTDetail extends StatelessWidget {
 
           const SizedBox(width: 10,),
 
-          Row(
-            children: [
-              ClipRRect(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/SelendraCircle-Blue.png'),
+          Consumer<AppProvider>(
+            builder: (context, pro, wg) {
+              return Row(
+                children: [
+                  ClipRRect(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            
+                            Image.file(File('${pro.dirPath}/logo/SelendraCircle-Blue.png')),
 
-                        MyText(
-                          text: ' $price SEL',
-                          hexaColor: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                            MyText(
+                              text: ' $price SEL',
+                              hexaColor: AppColors.primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+
+                            MyText(
+                              text: ' ≈ USD \$$price',
+                              hexaColor: AppColors.primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+
+                          ],
                         ),
-
-                        MyText(
-                          text: ' ≈ USD \$$price',
-                          hexaColor: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            }
           ),
 
           const Spacer(),
@@ -265,7 +275,7 @@ class NFTDetail extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: FileImage(File(image)),
                     fit: BoxFit.fill,
                   ),
                 ),

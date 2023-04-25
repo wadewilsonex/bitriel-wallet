@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import 'package:pinput/pinput.dart';
-=======
->>>>>>> daveat
 import 'package:wallet_apps/index.dart';
 
 class AddAssetBody extends StatelessWidget {
@@ -135,7 +131,7 @@ class AddAssetBody extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    Image.asset("${networkSymbol![initialValue!]["logo"]}", height: 22.sp, width: 22.sp,),
+                                    Image.file(File("${networkSymbol![initialValue!]["logo"]}"), height: 22.sp, width: 22.sp,),
 
                                     SizedBox(width: 2.5.w,),
 
