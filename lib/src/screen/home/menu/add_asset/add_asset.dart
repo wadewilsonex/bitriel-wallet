@@ -82,7 +82,6 @@ class AddAssetState extends State<AddAsset> {
   
   @override
   void initState() {
-
     getContractAddress().then((value) => {
       initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
     }).then((value) => {

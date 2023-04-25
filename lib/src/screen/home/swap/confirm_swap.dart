@@ -193,7 +193,6 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       }
     } catch (e) {
 
-
       
       // Close Dialog Loading
       Navigator.pop(context);

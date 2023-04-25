@@ -395,7 +395,20 @@ class SubmitTrxState extends State<SubmitTrx> {
           await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
             if (value == true){
 
-              enableAnimation();  
+              print("_scanPayM.controlReceiverAddress.text ${_scanPayM.controlReceiverAddress.text}");
+
+              print("txInfo.hash ${txInfo.hash}");
+
+
+              enableAnimation().then((value) async{
+                routeSuccess(
+                  _scanPayM.controlAmount.text, 
+                  _scanPayM.controlReceiverAddress.text,
+                  txInfo.hash!,
+                  txInfo.coinSymbol!,
+                );
+              });  
+
             } else {
 
               // Close Dialog
@@ -527,11 +540,17 @@ class SubmitTrxState extends State<SubmitTrx> {
   
   bool pushReplacement = false;
 
-  Future<dynamic> routeSuccess(){
+  Future<dynamic> routeSuccess(String amount, String toAddress, String hash, String assetSymbol){
     return  Navigator.push(
       context,
       Transition(
-        child: const SuccessTransfer(),
+        child: SuccessTransfer(
+          amount: amount, 
+          toAddress: toAddress, 
+          hash: hash,
+          assetSymbol: assetSymbol,
+          isDebitCard: false,
+        ),
         transitionEffect: TransitionEffect.RIGHT_TO_LEFT
       ),
     );
