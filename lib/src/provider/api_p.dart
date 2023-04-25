@@ -7,6 +7,7 @@ import 'package:polkawallet_sdk/storage/keyring.dart';
 import 'package:polkawallet_sdk/utils/index.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/constants/db_key_con.dart';
+import 'package:wallet_apps/src/models/account.m.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallet_apps/src/provider/receive_wallet_p.dart';
 import 'package:bip39/bip39.dart' as bip39;

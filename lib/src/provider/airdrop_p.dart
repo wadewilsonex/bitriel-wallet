@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:wallet_apps/index.dart';
+import 'package:http/http.dart' as http;
 
 enum SocialMedia {facebook, twitter, telegram}
 

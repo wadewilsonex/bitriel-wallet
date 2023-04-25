@@ -466,7 +466,7 @@ class SubmitTrxBody extends StatelessWidget {
                               ) 
                               : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listContract[index]["logo"]}", height: 40, width: 40,)
+                                child: Image.file(File("${listContract[index]["logo"]}"), height: 40, width: 40,)
                               ),
                                           
                               const SizedBox(width: 10,),

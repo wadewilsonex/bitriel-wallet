@@ -122,8 +122,6 @@ class _SwapPageState extends State<SwapPage> {
           _swapProvider!.lstConvertCoin = json.decode(value.body);
         });
 
-        print(_swapProvider!.lstConvertCoin);
-
       });
 
       // await PostRequest().infoTwoCoin(_swapProvider!.twoCoinModel!).then((value) {
@@ -176,8 +174,6 @@ class _SwapPageState extends State<SwapPage> {
       setState(() {
         _swapProvider!.lstConvertCoin = json.decode(value.body);
       });
-
-      print(_swapProvider!.lstConvertCoin);
 
     });
 
@@ -257,19 +253,19 @@ class _SwapPageState extends State<SwapPage> {
   }
 
   Future<void> swapping() async {
-    // print("Calling swapping function");
+    
     try {
 
       dialogLoading(context);
       // _http.Response value = _http.Response(json.encode(m), 200);
       await PostRequest.swap(_swapProvider!.model!.toJsonSwap(_swapProvider!, _swapProvider!.contractProvider!.ethAdd)).then((value) async {
-        print("value ${value.body}");
+        
         if (value.statusCode == 200){
           // Close Dialog
           Navigator.pop(context);
           Navigator.push(context, Transition(child: ConfirmSwap(res: SwapResponseObj.fromJson(json.decode(value.body))),  transitionEffect: TransitionEffect.RIGHT_TO_LEFT));
         } else {
-          print("json.decode(value.body)['error'].runtimeType.toString() ${json.decode(value.body)['error'].runtimeType.toString()}");
+          
 
           if (json.decode(value.body)['error'].runtimeType.toString() != "String"){
             errorMsg = json.decode(value.body)['error']['validation']["deposit_amount"][0];
@@ -293,7 +289,7 @@ class _SwapPageState extends State<SwapPage> {
       
     }
     on Exception catch (ex){
-      print("Exception");
+      
       await DialogComponents().customDialog(
         context,
         "Oops",
@@ -309,7 +305,7 @@ class _SwapPageState extends State<SwapPage> {
     catch (e) {
       // Close Dialog
       Navigator.pop(context);
-      print("Something wrong $e");
+      
     }
 
   }

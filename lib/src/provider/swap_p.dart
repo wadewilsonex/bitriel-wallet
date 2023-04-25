@@ -59,18 +59,15 @@ class SwapProvider extends ChangeNotifier{
       return false;
     }).toList();
 
-    print("found1 ${found1[0].logo}");
-    print("found2 ${found2[0].logo}");
-
     if (found1.isNotEmpty && found2.isNotEmpty){
       // Init Token
       name1 = found1[0].symbol!;
-      logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.network(found1[0].logo!);
+      logo1 = found1[0].logo!.contains('http') && found1[0].logo!.contains('svg') ? SvgPicture.network(found1[0].logo!) : Image.file(File(found1[0].logo!));
       network1 = found1[0].org!;
       networkFrom = found1[0].org!;
 
       name2 = found2[0].symbol!;
-      logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.network(found2[0].logo!);
+      logo2 = found2[0].logo!.contains('http') && found2[0].logo!.contains('svg') ? SvgPicture.network(found2[0].logo!) : Image.file(File(found2[0].logo!));
       network2 = found2[0].org!;
       networkTo = found2[0].org!;
       
@@ -129,24 +126,6 @@ class SwapProvider extends ChangeNotifier{
         
       )
     );
-
-    debugPrint("ls.length ${ls.length}");
-
-    // ls2.add(
-    //   SwapTokenListModel(
-    //     title: lstCoins![i]['code'],
-    //     subtitle: lstCoins![i]['name'],
-    //     isActive: index2 == i ? true : false,
-    //     image: lstCoins![i]['icon'] == null 
-    //     ? CircleAvatar(child: Container(width: 10, height: 10, color: Colors.green,),) 
-    //     : SvgPicture.network(lstCoins![i]['icon'], width: 10),
-    //     network: lstCoins![i]['networks'][j]['name'],
-    //     //lstCoins![i]['icon'].contains('http') 
-    //     // ? Image.network(lstCoins![i]['icon'], width: 10)
-    //     // : Image.asset(lstCoins![i]['icon'], width: 10),
-    //     balance: "0"//contractProvider!.sortListContract[i].balance,
-    //   )
-    // );
   }
 
   void setNewAsset(int index){

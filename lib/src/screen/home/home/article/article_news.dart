@@ -16,6 +16,7 @@ class ArticleNews extends StatelessWidget {
       itemCount: articleQueried!["Data"].length,
       shrinkWrap: true,
       itemBuilder: (context, index){
+        
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

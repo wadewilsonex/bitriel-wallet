@@ -62,7 +62,7 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Create wallet",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.asset("${pro.dirPath}/icons/setup-1.png", ),
+                          image: Image.file(File("${pro.dirPath}/icons/setup-1.png"), ),
                           icon: Icon(Iconsax.add_circle, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                           itemColor: "#263238",
                           action: () {
@@ -78,7 +78,7 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Import wallet",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.asset("${pro.dirPath}/icons/setup-2.png", fit: BoxFit.fill,),
+                          image: Image.file(File("${pro.dirPath}/icons/setup-2.png"), fit: BoxFit.fill,),
                           icon: Icon(Iconsax.arrow_down_2, color: hexaCodeToColor(AppColors.whiteColorHexa), size: 35),
                           itemColor: "#F27649",
                           action: () {
@@ -98,8 +98,8 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Google Sign In",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.asset("${pro.dirPath}/icons/setup-3.png", ),
-                          icon: SvgPicture.asset("${pro.dirPath}/icons/google-vector.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          image: Image.file(File("${pro.dirPath}/icons/setup-3.png"), ),
+                          icon: SvgPicture.file(File("${pro.dirPath}/icons/google-vector.svg"), color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                           itemColor: "#023859",
                           action: () {
                             // GoogleAuthService().signInWithGoogle().then((value) => {
@@ -118,8 +118,8 @@ class OnboardignBody extends StatelessWidget {
                         child: WelcomeItem(
                           title: "Import Json",
                           textColor: AppColors.whiteColorHexa,
-                          image: Image.asset("${pro.dirPath}/icons/setup-4.png",),
-                          icon: SvgPicture.asset("${pro.dirPath}/icons/json-file.svg", color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
+                          image: Image.file(File("${pro.dirPath}/icons/setup-4.png"),),
+                          icon: SvgPicture.file(File("${pro.dirPath}/icons/json-file.svg"), color: hexaCodeToColor(AppColors.whiteColorHexa), height: 35, width: 35),
                           itemColor: "#0D6BA6",
                           action: () {
                             // Navigator.push(

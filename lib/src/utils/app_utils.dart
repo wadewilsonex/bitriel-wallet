@@ -330,31 +330,25 @@ class AppUtils {
   /// 
   static Future<void> archiveFile(File value) async {
     // List<FileSystemEntity>
-    print("File path ${value.path}");
     _archive = ZipDecoder().decodeBytes(value.readAsBytesSync());
     
     _dirPath = (await getApplicationDocumentsDirectory()).path;
 
-    print("Start loop");
-    print("_dirPath $_dirPath");
     for (var f in _archive!){
 
-      print("F $_dirPath/${f.name}");
-
-      print(_archive!.files.indexOf(f));
       if (_archive!.files.indexOf(f) != 0){
 
         file = File("$_dirPath/${f.name}");
 
-        print("file ${file!.path}");
+  
 
         file = await file!.create(recursive: true);
 
         await file!.writeAsBytes(f.content);
 
-        print("f ${f.name}");
+  
       }
-      print("Finish write file");
+
 
     }
 

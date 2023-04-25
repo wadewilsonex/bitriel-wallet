@@ -168,8 +168,6 @@ class ContractProvider with ChangeNotifier {
 
     listContract.clear();
 
-    print("Start setSavedList");
-
     try {
 
       await StorageServices.fetchAsset(DbKey.listContract).then((value) {
@@ -184,7 +182,6 @@ class ContractProvider with ChangeNotifier {
         }
       });
       notifyListeners();
-    print("finish setSavedList");
           
       return listContract.isNotEmpty ? true : false;
     } catch (e) {
@@ -329,7 +326,6 @@ class ContractProvider with ChangeNotifier {
   }
 
   Future<void> getBep20Balance({required int contractIndex}) async {
-
     if (apiProvider.isMainnet){
       try {
 
@@ -415,17 +411,11 @@ class ContractProvider with ChangeNotifier {
 
   // Sort Asset Portoflio
   Future? sortAsset() async {
-    print("Start sortAsset");
+    
     try {
 
       mainBalance = 0;
       sortListContract.clear();
-      
-      // await StorageServices.fetchData(DbKey.hdWallet).then((value) {
-      //   listContract[apiProvider.btcIndex].address = value;
-      // });
-
-      print("finish fetch market");
       
       // 1. Add Default Asset First
       for (var element in listContract) {
@@ -853,10 +843,10 @@ class ContractProvider with ChangeNotifier {
     debugPrint("getEtherAddr");
     try {
 
-      // final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
-      final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
-      // debugPrint("ethAddr $ethAddr");
-      ethAdd = ethAddr!;
+      final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
+      // await StorageServices.readSecure(DbKey.ethAddr);
+      debugPrint("ethAddr $ethAddr");
+      ethAdd = ethAddr;
 
       notifyListeners();
     } catch (e) {
@@ -1136,12 +1126,12 @@ class ContractProvider with ChangeNotifier {
 
   void setMarketToAsset(int index, Market market, List<List<double>> lineChart, String currentPrice, String priceChange24h) {
 
-    print("index ${index}");
-    print("index ${listContract[index].id}");
-    print("market ${market}");
-    print("currentPrice ${currentPrice}");
-    print("priceChange24h ${priceChange24h}");
-    print("lineChart ${lineChart}");
+    // print("index ${index}");
+    // print("index ${listContract[index].id}");
+    // print("market ${market}");
+    // print("currentPrice ${currentPrice}");
+    // print("priceChange24h ${priceChange24h}");
+    // print("lineChart ${lineChart}");
 
     listContract[index].marketData = market;
     listContract[index].marketPrice = currentPrice;

@@ -193,7 +193,6 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
       }
     } catch (e) {
 
-      print("initTrxInfo $e");
       
       // Close Dialog Loading
       Navigator.pop(context);
@@ -289,9 +288,9 @@ class _ConfirmSwapState extends State<ConfirmSwap> {
 
             SmartContractModel contractM = _contractProvider!.sortListContract[_scanPayM.assetValue];
 
-            print("contractM.symbol ${contractM.symbol}");
+      
 
-            print("contractM.org ${contractM.org}");
+      
 
             /* -------------Processing Transaction----------- */
             if (contractM.symbol == "SEL"){

@@ -29,8 +29,6 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
   void query(String? label, String value){
     
     try {
-      print("query");
-      print("label $label");
       _swapProvider = Provider.of<SwapProvider>(context, listen: false);
 
       _swapProvider!.searched = [];
@@ -54,12 +52,10 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
         _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
 
       }
-      print("_swapProvider!.searched ${_swapProvider!.searched}");
 
       setState(() { });
     } catch (e) {
 
-      print("Error query $e");
     }
     // mySetState(() { });
   }

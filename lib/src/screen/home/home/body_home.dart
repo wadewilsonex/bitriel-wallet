@@ -5,9 +5,9 @@ import 'package:wallet_apps/src/components/menu_item_c.dart';
 import 'package:wallet_apps/src/components/scroll_speed.dart';
 import 'package:wallet_apps/src/models/image_ads.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/provider/newarticle_p.dart';
 import 'package:wallet_apps/src/screen/home/home/article/article_news.dart';
-import 'package:wallet_apps/src/provider/app_p.dart';
 import 'package:wallet_apps/src/screen/home/swap/bitriel_swap/swap.dart';
 import 'package:wallet_apps/src/screen/home/wallet/wallet.dart';
 import 'package:wallet_apps/src/screen/home/events/events.dart';
@@ -95,10 +95,6 @@ class HomePageBody extends StatelessWidget {
                           Tab(
                             text: "Markets",
                           ),
-                                      
-                          // Tab(
-                          //   text: "Trendings",
-                          // ),
 
                           Tab(
                             text: "News",
@@ -465,10 +461,8 @@ class HomePageBody extends StatelessWidget {
             );
           }
         ),
-
       ],
     );
   }
-
 
 }

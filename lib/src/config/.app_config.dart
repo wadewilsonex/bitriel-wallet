@@ -3,8 +3,9 @@ import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/models/network_params.dart';
 
 class AppConfig {
+  
   // QR Embedded
-  static String logoQrEmbedded = "assets/SelendraQr-1.png";
+  static String logoQrEmbedded = "";
 
   /*Google spreedsheet id for claim airdrop */
   static const spreedSheetId = '1hFKqaUe1q_6A-b-_ZnEAC574d51fCi1bTWQKCluHF2E';
@@ -99,6 +100,7 @@ class AppConfig {
 
   static initIconPath(BuildContext context){
     iconsPath = "${Provider.of<AppProvider>(context, listen: false).dirPath}/icons/";
+    logoQrEmbedded = "${Provider.of<AppProvider>(context, listen: false).dirPath}/default/SelendraQr-1.png";
   }
 
 }

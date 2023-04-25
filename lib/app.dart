@@ -1,5 +1,7 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
 import 'package:wallet_apps/index.dart';
@@ -22,6 +24,8 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+
+  String? dir;
 
   // Init firebase deep link
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
@@ -57,7 +61,6 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
-    // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
     Provider.of<ContractProvider>(context, listen: false).context = context;
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
@@ -160,6 +163,49 @@ class AppState extends State<App> {
           debugPrint("Error readTheme $e");
         }
     }
+  }
+
+
+
+  
+  
+  Future<void> downloadAsset({required String fileName}) async {
+
+    print("downloadAsset $fileName");
+    dir ??= (await getApplicationDocumentsDirectory()).path;
+
+    // ignore: unrelated_type_equality_checks
+    if ( await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists() == false ){
+
+      await downloadAssets(fileName).then((value) async {
+        
+        await Permission.storage.request().then((pm) async {
+          if (pm.isGranted){
+            await getApplicationDocumentsDirectory().then((dir) async {
+
+              await AppUtils.archiveFile(await File("${dir.path}/$fileName").writeAsBytes(value.bodyBytes)).then((files) async {
+                
+                // await readFile(fileName);
+              });
+            });
+          }
+        });
+        
+      });
+
+      // ignore: use_build_context_synchronously
+      Provider.of<AppProvider>(context, listen: false).dirPath = dir;
+      
+      print("Finish downloadAsset");
+    } else {
+      print("Just read");
+      // ignore: use_build_context_synchronously
+      Provider.of<AppProvider>(context, listen: false).dirPath = dir;
+      // await readFile(fileName);
+    }
+
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+    Provider.of<AppProvider>(context, listen: false).notifyListeners();
   }
 
   // clearOldBtcAddr() async {

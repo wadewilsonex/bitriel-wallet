@@ -56,55 +56,63 @@ class _PaymentOptionsState extends State<PaymentOptions> {
   }
 
   Widget _headerPayment(){
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(paddingSize),
-        child: Column(
-          children: [
-            Row(
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return Container(
+          decoration: BoxDecoration(
+            color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(paddingSize),
+            child: Column(
               children: [
-                Image.asset(isDarkMode ? "assets/appbar_event.png" : "assets/appbar_event_black.png", width: 75,),
+                Row(
+                  children: [
+                    Image.file(File(isDarkMode ? "${pro.dirPath}/default/appbar_event.png" : "${pro.dirPath}/default/appbar_event_black.png"), width: 75,),
 
-                const MyText(text: "Preferred Payment", fontWeight: FontWeight.bold, fontSize: 16, left: 10),
+                    const MyText(text: "Preferred Payment", fontWeight: FontWeight.bold, fontSize: 16, left: 10),
+                  ],
+                ),
+
+                const SizedBox(height: 15),
+
+                Consumer<AppProvider>(
+                  builder: (context, pro, wg) {
+                    return Container(
+                      padding: const EdgeInsets.all(paddingSize),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
+                          width: 1,
+                        ),
+                        color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.file(File("${pro.dirPath}/logo/bitriel-logo-)v2.png"), width: 40),
+                          
+                          Padding(
+                            padding: const EdgeInsets.only(left: paddingSize),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                MyText(text: "Bitriel Wallet", fontSize: 15, fontWeight: FontWeight.bold, ),
+                                MyText(text: "Pay Securely SEL Token", ),
+
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                ),
               ],
             ),
-
-            const SizedBox(height: 15),
-
-            Container(
-              padding: const EdgeInsets.all(paddingSize),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: isDarkMode ? Colors.transparent : hexaCodeToColor(AppColors.orangeColor).withOpacity(0.5),
-                  width: 1,
-                ),
-                color: isDarkMode ? hexaCodeToColor(AppColors.defiMenuItem) : hexaCodeToColor(AppColors.whiteColorHexa),
-              ),
-              child: Row(
-                children: [
-                  Image.asset("assets/logo/bitriel-logo-v2.png", width: 40),
-                  
-                  Padding(
-                    padding: const EdgeInsets.only(left: paddingSize),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        MyText(text: "Bitriel Wallet", fontSize: 15, fontWeight: FontWeight.bold, ),
-                        MyText(text: "Pay Securely SEL Token", ),
-
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 
@@ -137,29 +145,33 @@ class _PaymentOptionsState extends State<PaymentOptions> {
                 children: [
                   Icon(Iconsax.cards, size: 40, color: hexaCodeToColor(AppColors.primaryColor)),
                   
-                  Padding(
-                    padding: const EdgeInsets.only(left: paddingSize),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold),
-                        
-                        const SizedBox(height: 5),
-          
-                        Row(
+                  Consumer<AppProvider>(
+                    builder: (context, pro, wg) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: paddingSize),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset("assets/payment/visa.png" , width: 40,),
+                            const MyText(text: "Credit / Debit Card", fontSize: 15, fontWeight: FontWeight.bold),
+                            
+                            const SizedBox(height: 5),
           
-                            const SizedBox(width: 5),
-                            Image.asset("assets/payment/mastercard.png", width: 40,),
+                            Row(
+                              children: [
+                                Image.file(File("${pro.dirPath}/payment/visa.png") , width: 40,),
           
-                            const SizedBox(width: 5),
-                            Image.asset("assets/payment/paypal.png", width: 40,),
+                                const SizedBox(width: 5),
+                                Image.file(File("${pro.dirPath}/payment/mastercard.png"), width: 40,),
+          
+                                const SizedBox(width: 5),
+                                Image.file(File("${pro.dirPath}/payment/paypal.png"), width: 40,),
+                              ],
+                            )
+          
                           ],
-                        )
-          
-                      ],
-                    ),
+                        ),
+                      );
+                    }
                   )
                 ],
               ),

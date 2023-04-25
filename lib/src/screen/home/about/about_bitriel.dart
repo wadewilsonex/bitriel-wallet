@@ -56,20 +56,24 @@ class AboutBitriel extends StatelessWidget {
   }
 
   Widget _bitrielVersion(){
-    return Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Image.asset("assets/logo/bitriel-logo-v2.png", height: 40.sp, width: 40.sp,),
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Image.file(File("${pro.dirPath}/logo/bitriel-logo-v2.png"), height: 40.sp, width: 40.sp,),
+              ),
+              MyText(
+                text: "${packageInfo!.appName}: ${packageInfo!.version}",
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              )
+            ],
           ),
-          MyText(
-            text: "${packageInfo!.appName}: ${packageInfo!.version}",
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          )
-        ],
-      ),
+        );
+      }
     );
   }
 
