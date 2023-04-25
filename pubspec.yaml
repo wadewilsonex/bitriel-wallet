@@ -173,10 +173,7 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   animated_text_kit: ^4.2.2
   flutter_inappwebview: ^5.7.2+3
-<<<<<<< HEAD
-=======
   webview_flutter: ^4.2.0
->>>>>>> samnang
   json_annotation: ^4.8.0
   archive: ^3.3.7
 
@@ -254,12 +251,6 @@ flutter:
     - assets/ads/
     - assets/ads/mdw/
     - assets/illustration/
-<<<<<<< HEAD
-=======
-    - assets/payment/
-    - assets/nfts/
-    - assets/nfts/rieltiger/
->>>>>>> samnang
     - .env
     
     # Animation Flare
