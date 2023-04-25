@@ -65,6 +65,8 @@ class AppState extends State<App> {
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
 
+    Provider.of<AppProvider>(context, listen: false).downloadAndSaveAsset();
+
     // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
 
     Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
