@@ -168,54 +168,5 @@ class ContractsBalance extends ChangeNotifier {
     }
 
   }
-
-  static Future<void> multipleAsset() async {
-
-    await downloadAsset(fileName: 'token_logo.zip');
-
-    await downloadAsset(fileName: 'nfts.zip');
-
-    await downloadAsset(fileName: 'payment.zip');
-
-    await downloadAsset(fileName: 'default.zip');
-
-    print("finish download ");
-  }
-
-  static Future<void> downloadAsset({required String fileName}) async {
-
-    print("downloadAsset $fileName");
-    String dir = (await getApplicationDocumentsDirectory()).path;
-
-    print(await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists());
-
-    // ignore: unrelated_type_equality_checks
-    if ( await Directory("$dir/${fileName.replaceAll(".zip", "")}").exists() == false ){
-
-      await downloadAssets(fileName).then((value) async {
-
-        await getApplicationDocumentsDirectory().then((dir) async {
-
-          await AppUtils.archiveFile(await File("${dir.path}/$fileName").writeAsBytes(value.bodyBytes)).then((files) async {
-            
-            // await readFile(fileName);
-          });
-        });
-        
-      });
-
-      // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(_context!, listen: false).dirPath = dir;
-
-      Provider.of<AppProvider>(_context!, listen: false).notifyListeners();
-      
-      print("Finish downloadAsset");
-    } else {
-      print("Just read");
-      // ignore: use_build_context_synchronously
-      Provider.of<AppProvider>(_context!, listen: false).dirPath = dir;
-      // await readFile(fileName);
-    }
-  }
   
 }

@@ -24,8 +24,6 @@ class OnboardingState extends State<Onboarding> {
   @override
   void initState() {
 
-    downloadAndSaveAsset();
-
     checkRemainFailImport();
 
     Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
@@ -43,28 +41,6 @@ class OnboardingState extends State<Onboarding> {
   //     await InAppUpdate.completeFlexibleUpdate();
   //   }
   // }
-
-  void downloadAndSaveAsset() async {
-
-    await Permission.storage.request().then((pm) async {
-      print("allAssets");
-      Provider.of<AppProvider>(context, listen: false).dirPath ??= (await getApplicationDocumentsDirectory()).path;
-      // ignore: use_build_context_synchronously
-      AppConfig.initIconPath(context);
-
-      await ContractsBalance.downloadAsset(fileName: 'icons.zip');
-      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
-      Provider.of<AppProvider>(context, listen: false).notifyListeners();
-
-      setState(() {
-        
-      });
-
-      await ContractsBalance.downloadAsset(fileName: 'logo.zip');
-
-      
-    });
-  }
 
   // Seed Import Failed Checker And Clear
   void checkRemainFailImport() async {

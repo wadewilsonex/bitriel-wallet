@@ -171,16 +171,9 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
     _importAccountModel.animationController!.forward(from: 8);
-    changeStatus("DOWNLOAD ASSETS", avg: "3/4");
-    await ContractsBalance.multipleAsset();
-
-    _importAccountModel.animationController!.forward(from: 8);
-    changeStatus("QUERY BALANCES", avg: "4/4");
+    changeStatus("DONE", avg: "3/3");
 
     await ContractsBalance.getAllAssetBalance();
-
-    changeStatus("READY", avg: "4/4");
-    await Future.delayed(Duration(seconds: 1), (){});
 
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(

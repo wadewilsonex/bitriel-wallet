@@ -130,6 +130,7 @@ class ReceiveWalletBody extends StatelessWidget {
                                   
                                         // Qr View
                                         qrCodeGenerator(
+                                          context,
                                           provider.accountM!.address ?? '',
                                           AppConfig.logoQrEmbedded,
                                           provider.keyQrShare,
