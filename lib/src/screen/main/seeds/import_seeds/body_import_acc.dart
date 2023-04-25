@@ -26,9 +26,8 @@ class ImportAccBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BodyScaffold(
-      height: MediaQuery.of(context).size.height,
-      bottom: paddingSize, left: paddingSize, right: paddingSize,
+    return Padding(
+      padding: const EdgeInsets.all(paddingSize),
       child: Column(
         children: [
           
@@ -39,7 +38,7 @@ class ImportAccBody extends StatelessWidget {
               subTitle: 'Please add your 12 words seed below to restore your wallet.'
             ),
           ),
-
+    
           MySeedField(
             pLeft: 0, pRight: 0,
             pTop: 20,
@@ -57,7 +56,7 @@ class ImportAccBody extends StatelessWidget {
             //inputAction: TextInputAction.done,
             onSubmit: onSubmit,
           ),
-
+    
           Expanded(child: Container()),
           MyGradientButton(
             textButton: "Continue",

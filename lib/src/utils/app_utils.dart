@@ -14,6 +14,10 @@ class AppUtils {
 
   static Color? txtColor;
 
+  static final DateTime now = DateTime.now();
+
+  String formattedDate = DateFormat('EEEE, MMM d, yyyy').format(now);
+
   static Future<DeployedContract> contractfromAssets(String path, String contractAddr, {String? contractName}) async {
     final String contractJson = await rootBundle.loadString(path);
     return DeployedContract(
