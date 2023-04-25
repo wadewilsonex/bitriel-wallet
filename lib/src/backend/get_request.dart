@@ -29,9 +29,6 @@ Future<http.Response> getAllEvent() async {
 }
 
 Future<http.Response> getTickets(String tk) async {
-  // String js = await rootBundle.loadString('assets/json/tickets.json');
-  // debugPrint(js);
-  // return http.Response(js, 200);
 
   return await http.get(
       // Uri.parse("${dotenv.get('DOERS_API')}sessions/by-ticket-type"), // Old

@@ -102,25 +102,20 @@ class MarketProvider with ChangeNotifier {
         
         // Have Cache Data => Fill Out
         if (value != null && isQueryApi == false){
-          print("From DB");
+          
           response =  http.Response(json.encode(value), 200);
         }
         // No Cache Data => Fetch New 
         else {
-          print("From API");
-          // 
+
           response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
-          
-          print("response ${response!.body}");
         }
       });
     }
     // Refetch Data 
     else {
-      print("From Refetch API");
-      response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
 
-      print(response!.body);
+      response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
     }
     
     // ignore: use_build_context_synchronously
@@ -139,8 +134,6 @@ class MarketProvider with ChangeNotifier {
 
     try {
 
-      print("response!.statusCode ${response!.statusCode}");
-
       if (response!.statusCode == 200) {
 
         List<dynamic> jsonResponse = await json.decode(response!.body);
@@ -152,15 +145,11 @@ class MarketProvider with ChangeNotifier {
           List<List<double>> lineChartData = [];//await fetchLineChartData(element['id']);
 
           final res = Market();// parseMarketData(jsonResponse);
-          print("Start setMarketToAsset");
+
           _contractPro!.listContract.every((ls) {
-            print("element.id ${element['id']}");
-            print("ls.id ${ls.id}");
 
             if (ls.id == element['id']){
-              // ls.marketData = 
 
-              print("start setMarket");
               _contractPro!.setMarketToAsset(
                 _contractPro!.listContract.indexOf(ls),
                 res,

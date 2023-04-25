@@ -214,9 +214,9 @@ class SwapPageBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 5),
             child: Row(
-              children: [
+              children: const [
                 
-                const MyText(
+                MyText(
                   text: 'You Send',
                   fontWeight: FontWeight.bold,
                   hexaColor: AppColors.primaryColor,
@@ -315,7 +315,6 @@ class SwapPageBody extends StatelessWidget {
                   );
                 }
               ), 
-
 
             ],
           ),
@@ -464,21 +463,6 @@ class SwapPageBody extends StatelessWidget {
                           fontSize: 24,
                         ),
                       )
-                      // : Container(
-                      //   margin: const EdgeInsets.all(8),
-                      //   width: 50,
-                      //   child: Lottie.asset(
-                      //     "assets/animation/loading.json",
-                      //     repeat: true,
-                      //     reverse: true,
-                      //   ),
-                      // ) ,
-
-                      // MyText(
-                      //   textAlign: TextAlign.start,
-                      //   text: '≈\$0',
-                      //   fontSize: 18,
-                      // ),
                     ],
                   ),
 

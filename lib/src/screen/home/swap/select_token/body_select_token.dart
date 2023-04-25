@@ -174,8 +174,6 @@ class SelectSwapTokenBody extends StatelessWidget {
 
                       provider.notifyListeners();
 
-                      print(provider.lstConvertCoin);
-
                     });
 
                     provider.twoCoinModel!.from = provider.name1;

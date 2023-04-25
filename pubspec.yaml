@@ -251,9 +251,6 @@ flutter:
     - assets/ads/
     - assets/ads/mdw/
     - assets/illustration/
-    - assets/payment/
-    - assets/nfts/
-    - assets/nfts/rieltiger/
     - .env
     
     # Animation Flare

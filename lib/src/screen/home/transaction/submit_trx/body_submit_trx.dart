@@ -147,6 +147,7 @@ class SubmitTrxBody extends StatelessWidget {
                   /* Type of payment */
                   GestureDetector(
                     onTap: () async {
+
                       FocusScope.of(context).unfocus();
                       await showModalBottomSheet(
                         context: context,
@@ -188,7 +189,7 @@ class SubmitTrxBody extends StatelessWidget {
                           children: <Widget>[
                             provider.sortListContract[scanPayM!.assetValue].logo.toString().contains("http") 
                             ? Image.network("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,) 
-                            : Image.asset("${provider.sortListContract[scanPayM!.assetValue].logo}", height: 40, width: 40,),
+                            : Image.file(File("${provider.sortListContract[scanPayM!.assetValue].logo}"), height: 40, width: 40,),
 
                             Expanded(
                               child: MyText(
@@ -469,7 +470,7 @@ class SubmitTrxBody extends StatelessWidget {
                               ) 
                               : ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listContract[index]["logo"]}", height: 40, width: 40,)
+                                child: Image.file(File("${listContract[index]["logo"]}"), height: 40, width: 40,)
                               ),
                                           
                               const SizedBox(width: 10,),

@@ -27,10 +27,7 @@ class AddAssetState extends State<AddAsset> {
   String _tokenSymbol = '';
   int? initialValue;
 
-  List<Map<String, dynamic>> networkSymbol = [
-    {"symbol": "BSC", "index": 0, "logo": "assets/token_logo/bnb.png"},
-    {"symbol":"Ethereum", "index": 1, "logo": "assets/token_logo/eth.png"}
-  ];
+  List<Map<String, dynamic>>? networkSymbol;
 
   List searchResults = [];
 
@@ -85,6 +82,7 @@ class AddAssetState extends State<AddAsset> {
   
   @override
   void initState() {
+
     getContractAddress().then((value) => {
       initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
     }).then((value) => {
@@ -94,6 +92,11 @@ class AddAssetState extends State<AddAsset> {
     _modelAsset.result = {};
     _modelAsset.match = false;
     initialValue = widget.network;
+
+    networkSymbol = [
+      {"symbol": "BSC", "index": 0, "logo": "${Provider.of<AppProvider>(context, listen: false).dirPath}/token_logo/bnb.png"},
+      {"symbol":"Ethereum", "index": 1, "logo": "${Provider.of<AppProvider>(context, listen: false).dirPath}/token_logo/eth.png"}
+    ];
     
     AppServices.noInternetConnection(context: context);
 
@@ -230,7 +233,7 @@ class AddAssetState extends State<AddAsset> {
         await Provider.of<ContractProvider>(context, listen: false).addToken(
           _tokenSymbol,
           context,
-          network: networkSymbol[initialValue!]['symbol'],
+          network: networkSymbol![initialValue!]['symbol'],
           contractAddr: _modelAsset.controllerAssetCode.text,
         );
         

@@ -255,7 +255,7 @@ class ChangePinState extends State<ChangePin> {
       context: context,
       contents: "You have successfully change PIN",
       textButton: "Complete",
-      image: Image.asset("${appProvider.dirPath}/icons/success.png", width: 20, height: 10),
+      image: Image.file(File("${appProvider.dirPath}/icons/success.png"), width: 20, height: 10),
       btn2: MyGradientButton(
         edgeMargin: const EdgeInsets.only(left: 20, right: 20),
         textButton: "Complete",

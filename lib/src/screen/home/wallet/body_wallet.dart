@@ -332,72 +332,76 @@ class WalletPageBody extends StatelessWidget {
 
         const SizedBox(height: 5,),
 
-        Consumer<ApiProvider>(
-          builder: (context, apiProvider, widget){
+        Consumer<AppProvider>(
+          builder: (context, pro, widget){
 
             return Container(
               decoration: BoxDecoration(
                 color: hexaCodeToColor(AppColors.whiteColorHexa),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
-                image: const DecorationImage(
-                  image: AssetImage('assets/bg-glass.jpg'),
+                image: DecorationImage(
+                  image: FileImage(File('${pro.dirPath}/default/bg-glass.jpg')),
                   fit: BoxFit.cover
                 ),
               ),
               width: MediaQuery.of(context).size.width,
               
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                  child: Column(
-                    children: [
-                      
-                      SizedBox(height: 2.5.h),
-                      
-                      Consumer<ContractProvider>(
-                        builder: (context, provider, widget){
-                          return api.netWorkConnected == true ?MyText(
-                            text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 23,
-                          ) 
-                          : Lottie.asset(
-                            "assets/animation/loading.json",
-                            repeat: true,
-                            reverse: true,
-                            height: 25
-                          );
-                        }
-                      ),
-                      
-                      // SizedBox(height: 0.5.h),
-                      Consumer<ContractProvider>(
-                        builder: (context, provider, widget){
-                          return api.netWorkConnected == true ? MyText(
-                            text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
-                            // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
-                            hexaColor: AppColors.whiteColorHexa,
-                            fontSize: 18,
-                          )
-                          : Lottie.asset(
-                            "assets/animation/loading.json",
-                            repeat: true,
-                            reverse: true,
-                            height: 25
-                          );
-                        }
-                      ),
+              child: Consumer<ApiProvider>(
+                builder: (context, apiProvider, wg) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                      child: Column(
+                        children: [
                           
-                      SizedBox(height: 2.5.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
-                        child: _operationRequest(context),
+                          SizedBox(height: 2.5.h),
+                          
+                          Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return api.netWorkConnected == true ? MyText(
+                                text:"\$${ (provider.mainBalance).toStringAsFixed(2) }",
+                                hexaColor: AppColors.whiteColorHexa,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 23,
+                              ) 
+                              : Lottie.asset(
+                                "assets/animation/loading.json",
+                                repeat: true,
+                                reverse: true,
+                                height: 25
+                              );
+                            }
+                          ),
+                          
+                          // SizedBox(height: 0.5.h),
+                          Consumer<ContractProvider>(
+                            builder: (context, provider, widget){
+                              return api.netWorkConnected == true ? MyText(
+                                text: "${AppUtils.toBTC(provider.mainBalance, double.parse(provider.listContract[apiProvider.btcIndex].marketPrice!)).toStringAsFixed(5)} BTC",
+                                // provider.listContract.isEmpty ? '' : """≈ ${ (provider.mainBalance / double.parse(provider.listContract[apiProvider.btcIndex].marketPrice ?? '0')).toStringAsFixed(5) } BTC""",
+                                hexaColor: AppColors.whiteColorHexa,
+                                fontSize: 18,
+                              )
+                              : Lottie.asset(
+                                "assets/animation/loading.json",
+                                repeat: true,
+                                reverse: true,
+                                height: 25
+                              );
+                            }
+                          ),
+                              
+                          SizedBox(height: 2.5.h),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, right: 20, bottom: 2.5.h),
+                            child: _operationRequest(context),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }
               ),
             );
           } 

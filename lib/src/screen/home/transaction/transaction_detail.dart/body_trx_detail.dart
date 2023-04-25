@@ -26,29 +26,33 @@ class BodyTransactionDetail extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      body: Column(
-        children: [
-          // rowInfo("Time","09-12-2022 02:30"),
-          headerWidget(context),
+      body: Consumer<AppProvider>(
+        builder: (context, pro, wg) {
+          return Column(
+            children: [
+              // rowInfo("Time","09-12-2022 02:30"),
+              headerWidget(context),
 
-          amountTrx(context),
+              amountTrx(context),
 
-          trxInfo(context),
+              trxInfo(context),
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Divider(
-              thickness: 1,
-              color: hexaCodeToColor(AppColors.greyColor),
-            ),
-          ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(
+                  thickness: 1,
+                  color: hexaCodeToColor(AppColors.greyColor),
+                ),
+              ),
 
-          viewTrx(context),
+              viewTrx(context),
 
-          Expanded(child: Container()),
-          Image.asset("assets/logo/bitriel-white.png"),
-          Expanded(child: Container()),
-        ],
+              Expanded(child: Container()),
+              Image.file(File("${pro.dirPath}/logo/bitriel-white.png")),
+              Expanded(child: Container()),
+            ],
+          );
+        }
       ),
     );
   }

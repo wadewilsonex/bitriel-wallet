@@ -91,104 +91,108 @@ class DiscoverPageBody extends StatelessWidget {
   }
 
   Widget _searchInputWeb(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(paddingSize),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: const DecorationImage(
-          image: AssetImage('assets/search_bg.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-          child: Padding(
-            padding: const EdgeInsets.all(paddingSize),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const MyText(
-                  text: 'DApp Browser',
-                  fontWeight: FontWeight.w700,
-                  color2: Colors.white,
-                  fontSize: 20,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const MyText(
-                  right: 25,
-                  left: 25,
-                  text: "Welcome to bitriel DApp browser you can search any DApp sites you want",
-                  color2: Colors.white,
-                  fontSize: 18,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-
-                TextFormField(
-                  onFieldSubmitted: (val) {
-                    Navigator.push(
-                      context,
-                      Transition(child: MarketPlaceWebView(url: searchController!.text, title: "DApp Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
-                    );
-                    searchController!.clear();
-                  },
-                  controller: searchController,
-                  textInputAction: TextInputAction.search,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: hexaCodeToColor(AppColors.blackColor),
-                  ),
-                  decoration: InputDecoration(
-                    
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
-                    ),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
-                    ),
-
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
-                    ),
-
-                    hintText: "Enter dapp site name or URL",
-                    hintStyle: TextStyle(
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return Container(
+          margin: const EdgeInsets.all(paddingSize),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image:  DecorationImage(
+              image: FileImage(File('${pro.dirPath}/default/search_bg.jpg')),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+              child: Padding(
+                padding: const EdgeInsets.all(paddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const MyText(
+                      text: 'DApp Browser',
+                      fontWeight: FontWeight.w700,
+                      color2: Colors.white,
                       fontSize: 20,
-                      color: hexaCodeToColor(AppColors.blackColor),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const MyText(
+                      right: 25,
+                      left: 25,
+                      text: "Welcome to bitriel DApp browser you can search any DApp sites you want",
+                      color2: Colors.white,
+                      fontSize: 18,
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
 
-                    prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
-                    
-                    /* Prefix Text */
-                    filled: true,
-                    fillColor: hexaCodeToColor("#D9D9D9").withOpacity(0.9),
-                    suffixIcon: IconButton(
-                      onPressed: () {
+                    TextFormField(
+                      onFieldSubmitted: (val) {
                         Navigator.push(
                           context,
                           Transition(child: MarketPlaceWebView(url: searchController!.text, title: "DApp Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
                         );
                         searchController!.clear();
                       },
-                      icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.primaryColor), size: 30),
+                      controller: searchController,
+                      textInputAction: TextInputAction.search,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: hexaCodeToColor(AppColors.blackColor),
+                      ),
+                      decoration: InputDecoration(
+                        
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+                        ),
+
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+                        ),
+
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(width: 0, color: hexaCodeToColor(isDarkMode ? AppColors.bluebgColor : AppColors.orangeColor).withOpacity(0),),
+                        ),
+
+                        hintText: "Enter dapp site name or URL",
+                        hintStyle: TextStyle(
+                          fontSize: 20,
+                          color: hexaCodeToColor(AppColors.blackColor),
+                        ),
+
+                        prefixStyle: TextStyle(color: hexaCodeToColor(isDarkMode ? AppColors.whiteHexaColor : AppColors.orangeColor), fontSize: 18.0),
+                        
+                        /* Prefix Text */
+                        filled: true,
+                        fillColor: hexaCodeToColor("#D9D9D9").withOpacity(0.9),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              Transition(child: MarketPlaceWebView(url: searchController!.text, title: "DApp Browser",), transitionEffect: TransitionEffect.RIGHT_TO_LEFT)
+                            );
+                            searchController!.clear();
+                          },
+                          icon: Icon(Iconsax.search_normal_1, color: hexaCodeToColor( AppColors.primaryColor), size: 30),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
   Widget _marketPlaceMenu(BuildContext context) {
@@ -302,41 +306,6 @@ class DiscoverPageBody extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: SelEcoSysMenuItem(
-            //         image: Image.asset(
-            //           isDarkMode ?
-            //           "assets/logo/selendra-logo.png" :
-            //           "assets/logo/selendra.png",
-            //           width: 12.w,
-            //         ),
-            //         title: "Funan DApp",
-            //         action: () {
-            //           underContstuctionAnimationDailog(context: context);
-            //         },
-            //       ),
-            //     ),
-
-            //     const SizedBox(width: 10,),
-
-            //     Expanded(
-            //       child: SelEcoSysMenuItem(
-            //         image: Image.asset(
-            //           isDarkMode 
-            //           ? "assets/logo/bitriel-light.png" 
-            //           : "assets/logo/bitriel-logo-v2.png",
-            //           width: 15.w,
-            //         ),
-            //         title: "Bitriel DEX",
-            //         action: () {
-            //           underContstuctionAnimationDailog(context: context);
-            //         },
-            //       ),
-            //     )
-            //   ],
-            // )
           ],
         );
       }

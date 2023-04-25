@@ -125,8 +125,8 @@ class _QrScannerState extends State<QrScanner> with SingleTickerProviderStateMix
                                 children: [
                                   SizedBox(
                                     width: 30,
-                                    child: Image.asset(
-                                      '${pro.dirPath}/icons/wallet-connect.png',
+                                    child: Image.file(
+                                      File('${pro.dirPath}/icons/wallet-connect.png'),
                                       fit: BoxFit.fill,
                                     ),
                                   ),
