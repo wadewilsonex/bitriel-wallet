@@ -79,6 +79,7 @@ class ImportAccState extends State<ImportAcc> {
 
     await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.addressFromMnemonic(204, mnemonic: _importAccModel.key!.text).then((value) async {
 
+
       List account = _apiProvider!.getKeyring.keyPairs.where((element) {
         if (value.address == element.address) return true;
         return false;
@@ -102,7 +103,8 @@ class ImportAccState extends State<ImportAcc> {
           ),
         );
       } else if (enable == true){
-
+        
+  
         // New Account From Multi Account
         if (widget.isAddNew == true){
 
@@ -119,6 +121,8 @@ class ImportAccState extends State<ImportAcc> {
         } else {
 
           if(!mounted) return;
+
+    
 
           Navigator.push(
             context, 
@@ -178,7 +182,7 @@ class ImportAccState extends State<ImportAcc> {
     }
   }
 
-  void initStateData(TickerProvider tickerProvider, Function mySetState){
+  void initStateData(TickerProvider tickerProvider, Function mySetState) async {
 
     _importAccountModel.animationController = AnimationController(vsync: tickerProvider, duration: const Duration(seconds: 2));
 
@@ -215,7 +219,7 @@ class ImportAccState extends State<ImportAcc> {
 
     });
 
-    importAcc();
+    await importAcc();
     // importJson();
   }
 
@@ -259,7 +263,9 @@ class ImportAccState extends State<ImportAcc> {
 
     _pk = await _apiProvider!.getPrivateKey(_importAccModel.key!.text);
     
+    // ignore: use_build_context_synchronously
     await Provider.of<ContractProvider>(context, listen: false).extractAddress(_pk!);
+
 
     // ignore: use_build_context_synchronously
     await _apiProvider!.queryBtcData(context, _importAccModel.key!.text, _importAccModel.pwCon!.text);
@@ -268,6 +274,7 @@ class ImportAccState extends State<ImportAcc> {
       UnverifySeed(
         address: jsn["address"],
         status: true,
+        // ignore: use_build_context_synchronously
         ethAddress: Provider.of<ContractProvider>(context, listen: false).ethAdd,
         btcAddress: _contractProvider!.listContract[_apiProvider!.btcIndex].address
       )
@@ -300,17 +307,16 @@ class ImportAccState extends State<ImportAcc> {
     /// This Function Connect Polkadot Network And then Connect Selendra Network
 
     await _apiProvider!.getSelNativeChainDecimal(context: context); 
+    // ignore: use_build_context_synchronously
     await _apiProvider!.subSELNativeBalance(context: context); 
     await _apiProvider!.getAddressIcon();
     // Get From Account js
     // await _apiProvider!.getCurrentAccount(context: context);
 
+
     final res = await _apiProvider!.encryptPrivateKey(_pk!, _importAccModel.pwCon!.text);
     
     await StorageServices.writeSecure(DbKey.private, res);
-
-    // Store PIN 6 Digit
-    // await StorageServices.writeSecure(DbKey.passcode, _importAccModel.pwCon!.text);
 
     changeStatus("GETTING READY", avg: "2/3");
     _importAccountModel.animationController!.forward(from: 0.5);
@@ -319,10 +325,17 @@ class ImportAccState extends State<ImportAcc> {
     await Provider.of<ContractProvider>(context, listen: false).getEtherAddr();
 
     _importAccountModel.animationController!.forward(from: 8);
-    changeStatus("DONE", avg: "3/3");
+    changeStatus("DOWNLOAD ASSETS", avg: "3/4");
+    await ContractsBalance.multipleAsset();
+
+    _importAccountModel.animationController!.forward(from: 8);
+    changeStatus("QUERY BALANCES", avg: "4/4");
 
     await ContractsBalance.getAllAssetBalance();
 
+    changeStatus("READY", avg: "4/4");
+    await Future.delayed(Duration(seconds: 1), (){});
+    
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(
       context, 

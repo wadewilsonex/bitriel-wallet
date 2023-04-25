@@ -27,31 +27,36 @@ class _SelectSwapTokenState extends State<SelectSwapToken> {
   }
 
   void query(String? label, String value){
-    debugPrint("query ${query}");
-    _swapProvider = Provider.of<SwapProvider>(context, listen: false);
+    
+    try {
+      _swapProvider = Provider.of<SwapProvider>(context, listen: false);
 
-    _swapProvider!.searched = [];
-    if (label == "first"){
+      _swapProvider!.searched = [];
+      if (label == "first"){
 
-      _swapProvider!.searched = _swapProvider!.ls.where((element) {
-        element.subtitle!.toLowerCase();
-        if ( element.subtitle!.toLowerCase().contains(value.toLowerCase()) == true){
+        _swapProvider!.searched = _swapProvider!.ls.where((element) {
 
-          return element.subtitle!.toLowerCase().contains(value.toLowerCase());
-        }
-        else if (element.title!.toLowerCase().contains(value.toLowerCase())){
+          element.subtitle!.toLowerCase();
+          if ( element.subtitle!.toLowerCase().contains(value.toLowerCase()) == true){
 
-          return element.title!.toLowerCase().contains(value.toLowerCase());
-        }
-        return false;
-      }).toList();
+            return element.subtitle!.toLowerCase().contains(value.toLowerCase());
+          }
+          else if (element.title!.toLowerCase().contains(value.toLowerCase())){
 
-    } else {
-      _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+            return element.title!.toLowerCase().contains(value.toLowerCase());
+          }
+          return false;
+        }).toList();
+
+      } else {
+        _swapProvider!.searched = _swapProvider!.ls.where((element) => element.subtitle!.toLowerCase().contains(value.toLowerCase())).toList();
+
+      }
+
+      setState(() { });
+    } catch (e) {
 
     }
-
-    setState(() { });
     // mySetState(() { });
   }
 

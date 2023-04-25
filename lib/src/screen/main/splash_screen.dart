@@ -20,6 +20,7 @@ class MySplashScreenState extends State<MySplashScreen> with SingleTickerProvide
 
   @override
   void initState() {
+    
     readTheme();
     // checkBio();
     getCurrentAccount();

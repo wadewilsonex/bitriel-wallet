@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:awesome_select/awesome_select.dart';
 import 'package:flutter_aes_ecb_pkcs5/flutter_aes_ecb_pkcs5.dart';
 import 'package:flutter_bitcoin/flutter_bitcoin.dart';
 import 'package:polkawallet_sdk/api/types/networkParams.dart';

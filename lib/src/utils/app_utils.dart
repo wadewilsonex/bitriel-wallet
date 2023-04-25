@@ -5,12 +5,18 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:wallet_apps/index.dart';
-
+import 'package:archive/archive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io' as io;
 
 // ignore: avoid_classes_with_only_static_members
 class AppUtils {
 
   static final globalKey = GlobalKey<NavigatorState>();
+
+  static Archive? _archive;
+  static String? _dirPath;
+  static File? file;
 
   static Color? txtColor;
 
@@ -313,6 +319,37 @@ class AppUtils {
     }
     return bl;
   }
+
+  /// Archive File From Download
+  /// 
+  /// And Return All Those File
+  /// 
+  static Future<void> archiveFile(File value) async {
+    // List<FileSystemEntity>
+    _archive = ZipDecoder().decodeBytes(value.readAsBytesSync());
+    
+    _dirPath = (await getApplicationDocumentsDirectory()).path;
+
+    for (var f in _archive!){
+
+      if (_archive!.files.indexOf(f) != 0){
+
+        file = File("$_dirPath/${f.name}");
+
+  
+
+        file = await file!.create(recursive: true);
+
+        await file!.writeAsBytes(f.content);
+
+  
+      }
+
+
+    }
+
+    // return Directory(_dirPath!).listSync();
+  }
 }
 
 double offsetToOpacity({
@@ -322,6 +359,5 @@ double offsetToOpacity({
 }) {
   return (currentOffset * returnMax) / maxOffset;
 }
-
 
 class ContractParser {}

@@ -72,69 +72,9 @@ class _OrganizationState extends State<Organization> {
       _homeModel.color = Colors.red.withOpacity(0.3);
     } else if (value == 2){
       debugPrint("last one");
-    //   await event_c.DialogCom().dialogMessage(
-    //     context!, 
-    //     title: ClipRRect(
-    //       borderRadius: BorderRadius.circular(100),
-    //       child: SizedBox(
-    //         width: 30,
-    //         child: event_c.Lottie.asset(
-    //           "assets/animation/exit.json",
-    //           repeat: true,
-    //           reverse: true,
-    //           height: 100
-    //         ),
-    //       ),
-    //     ), 
-    //     edgeInsetsGeometry: const EdgeInsets.all(20),
-    //     content: event_c.AnimatedTextKit(
-    //       repeatForever: true,
-    //       pause: const Duration(seconds: 1),
-    //       animatedTexts: [
-
-    //         event_c.TypewriterAnimatedText(
-    //           "Are you sure wanna log out?",
-    //           textAlign: TextAlign.center,
-    //           textStyle: TextStyle(
-    //             fontSize: 14
-    //           )
-    //         ),
-
-    //       ],
-    //     ),
-    //     // MyText(text: "Are you sure wanna sign out?",),
-    //     action2: Container(
-    //       // margin: EdgeInsets.only(left: 10),
-    //       child: TextButton(
-    //         // style: ButtonStyle(
-    //         //   backgroundColor: MaterialStateProperty.all(Colors.red),
-    //         //   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
-    //         // ),
-    //         onPressed: () async {
-
-    //           event_c.DialogCom().dialogLoading(context, content: "Signing Out");
-    //           // await event_c.StorageServices.clearStorage();
                               
-    //           // Dispose Web Socket
-    //           // Provider.of<MDWSocketProvider>(context, listen: false).dispose();
-                              
-    //           // ignore: use_build_context_synchronously
-              Navigator.pop(context);
-    //           // await StorageServices.clearStorage();
-                              
-    //           // Dispose Web Socket
-    //           // Provider.of<MDWSocketProvider>(context, listen: false).dispose();
-                              
-    //           // Navigator.pushAndRemoveUntil(
-    //           //   context, 
-    //           //   Transition(child: LoginPage(), transitionEffect: TransitionEffect.LEFT_TO_RIGHT), 
-    //           //   (route) => false
-    //           // );
-    //         },
-    //         child: const MyText(text: "Yes", left: 10, right: 10, color2: Colors.red, fontSize: 12, fontWeight: FontWeight.bold,),
-    //       ),
-    //     ),
-    //   );
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     } 
     setState(() { });
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:wallet_apps/index.dart';
 
 class ImageListView extends StatefulWidget {
   const ImageListView({Key? key, required this.startIndex, this.duration = 30})
@@ -63,7 +64,11 @@ class ImageListViewState extends State<ImageListView> {
           itemCount: 9,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return _ImageTile(image: 'assets/nfts/rieltiger/${widget.startIndex + index}.png');
+            return Consumer<AppProvider>(
+              builder: (context, pro, wg) {
+                return _ImageTile(image: '${pro.dirPath}/nfts/rieltiger/${widget.startIndex + index}.png');
+              }
+            );
           },
         ),
       ),
@@ -78,8 +83,8 @@ class _ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      image,
+    return Image.file(
+      File(image),
       width: 130,
     );
   }

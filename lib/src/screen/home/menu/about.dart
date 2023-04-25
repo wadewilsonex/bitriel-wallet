@@ -41,7 +41,7 @@ class About extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             InkWell(

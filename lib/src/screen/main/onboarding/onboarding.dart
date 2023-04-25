@@ -1,5 +1,8 @@
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/provider/headless_webview_p.dart';
+import 'package:wallet_apps/src/provider/provider.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -21,6 +24,10 @@ class OnboardingState extends State<Onboarding> {
   @override
   void initState() {
 
+    downloadAndSaveAsset();
+
+    checkRemainFailImport();
+
     Provider.of<HeadlessWebView>(context, listen: false).initHeadlessWebview();
     
     // inAppUpdate();
@@ -36,6 +43,33 @@ class OnboardingState extends State<Onboarding> {
   //     await InAppUpdate.completeFlexibleUpdate();
   //   }
   // }
+
+  void downloadAndSaveAsset() async {
+
+    await Permission.storage.request().then((pm) async {
+      print("allAssets");
+      Provider.of<AppProvider>(context, listen: false).dirPath ??= (await getApplicationDocumentsDirectory()).path;
+      // ignore: use_build_context_synchronously
+      AppConfig.initIconPath(context);
+
+      await ContractsBalance.downloadAsset(fileName: 'icons.zip');
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, use_build_context_synchronously
+      Provider.of<AppProvider>(context, listen: false).notifyListeners();
+
+      setState(() {
+        
+      });
+
+      await ContractsBalance.downloadAsset(fileName: 'logo.zip');
+
+      
+    });
+  }
+
+  // Seed Import Failed Checker And Clear
+  void checkRemainFailImport() async {
+    await Provider.of<ApiProvider>(context, listen: false).getSdk.api.keyring.deleteAccount(Provider.of<ApiProvider>(context, listen: false).getKeyring, Provider.of<ApiProvider>(context, listen: false).getKeyring.current);
+  }
 
   void tabGoogle(){
     

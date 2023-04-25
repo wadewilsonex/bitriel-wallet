@@ -67,7 +67,7 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
           child: Hero(
               tag: widget.url,
               // child: Image.asset(url),
-              child: widget.url.contains("https") ? Image.network(widget.url) : Image.asset(widget.url)
+              child: Image.file(File(widget.url))//widget.url.contains("https") ? Image.network(widget.url) : Image.asset(widget.url)
             ),
           ),
           onTap: () async {

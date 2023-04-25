@@ -111,8 +111,8 @@ class ReceiveWalletBody extends StatelessWidget {
                                             width: logoSize,
                                             height: logoSize,
                                           )
-                                          : Image.asset(
-                                            conProvider.sortListContract[provider.assetsIndex].logo!,
+                                          : Image.file(
+                                            File(conProvider.sortListContract[provider.assetsIndex].logo!),
                                             fit: BoxFit.contain,
                                             width: logoSize,
                                             height: logoSize,
@@ -195,8 +195,12 @@ class ReceiveWalletBody extends StatelessWidget {
                             ],
                           ),
         
-                          Expanded(
-                            child: Image.asset(isDarkMode ? "assets/logo/bitriel-logo-light.png" : "assets/logo/bitriel-logo-dark.png", width: 100,),
+                          Consumer<AppProvider>(
+                            builder: (context, pro, wg) {
+                              return Expanded(
+                                child: Image.file(File(isDarkMode ? "${pro.dirPath}/logo/bitriel-logo-light.png" : "${pro.dirPath}/logo/bitriel-logo-dark.png"), width: 100,),
+                              );
+                            }
                           )
                         ],
                       );

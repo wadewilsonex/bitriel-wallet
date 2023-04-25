@@ -34,12 +34,17 @@ class WalletConnectPageState extends State<WalletConnectPage> {
 
   void filterListWcSession() async {
 
-    _wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
-    _wConnectC!.setBuildContext = context;
-    await StorageServices.fetchData("session").then((value) {
-      
-      _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
-    });
+    if (mounted){
+      _wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
+      _wConnectC!.setBuildContext = context;
+      await StorageServices.fetchData("session").then((value) {
+
+        if (value != null){
+
+          _wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+        }        
+      });
+    }
     
   }
 
