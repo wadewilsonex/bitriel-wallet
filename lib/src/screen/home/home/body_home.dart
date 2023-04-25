@@ -110,16 +110,16 @@ class HomePageBody extends StatelessWidget {
               body: _coinMenuCategory(),
             ),
           ),
-          // Consumer<AppProvider>(
-          //   builder: (context, pro, wg) {
-          //     return ElevatedButton(
-          //       onPressed: () async {
-          //         await downloadAsset!();
-          //       }, 
-          //       child: pro.dirPath == null ? Text("Loading") : Image.file(File('${pro.dirPath}/logo/curve.png'))
-          //     );
-          //   }
-          // ),
+          Consumer<AppProvider>(
+            builder: (context, pro, wg) {
+              return ElevatedButton(
+                onPressed: () async {
+                  await downloadAsset!();
+                }, 
+                child: pro.dirPath == null ? Text("Loading") : Image.file(File('${pro.dirPath}/logo/curve.png'))
+              );
+            }
+          ),
 
           // SwapPage(),
           const FindEvent(),

@@ -21,57 +21,61 @@ class WelcomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
-      onTap: (){
-        action!();
-      },
-      child: Container(
-        // height: MediaQuery.of(context).size.height,
-        // width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: hexaCodeToColor(itemColor!)
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  icon!
-                ],
-              ),
+    return Consumer<AppProvider>(
+      builder: (context, pro, wg) {
+        return GestureDetector(
+          onTap: (){
+            action!();
+          },
+          child: Container(
+            // height: MediaQuery.of(context).size.height,
+            // width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: hexaCodeToColor(itemColor!)
             ),
-
-            // const Spacer(),
-
-            SizedBox(
-              height: 150,
-              width: 150,
-              child: image!
-            ),
-
-            // const Spacer(),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10, left: 10.0),
-              child: Row(
-                children: [
-                  MyText(
-                    text: title,
-                    hexaColor: textColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      icon!
+                    ],
                   ),
-                ],
-              ),
+                ),
+
+                // const Spacer(),
+
+                SizedBox(
+                  height: 150,
+                  width: 150,
+                  child: image!
+                ),
+
+                // const Spacer(),
+
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10, left: 10.0),
+                  child: Row(
+                    children: [
+                      MyText(
+                        text: title,
+                        hexaColor: textColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }
