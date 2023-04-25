@@ -54,7 +54,7 @@ class MyMenuItem extends StatelessWidget {
                         heightFactor: 1,
                         widthFactor: 1,
                         alignment: Alignment.topLeft,
-                        child: Image.asset(asset!),
+                        child: Image.file(File(asset!)),
                       ),
                     ),
                   ],

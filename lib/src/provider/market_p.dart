@@ -111,18 +111,20 @@ class MarketProvider with ChangeNotifier {
           // 
           response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
           
+          print("response ${response!.body}");
         }
       });
     }
     // Refetch Data 
     else {
-
-      print("From refresh");
-
+      print("From Refetch API");
       response = await http.get(Uri.parse('${AppConfig.coingeckoBaseUrl}${id.join(',')}'));
 
       print(response!.body);
     }
+    
+    // ignore: use_build_context_synchronously
+    await decodingMarketData(context);
 
     // ignore: use_build_context_synchronously
     await decodingMarketData(context);
@@ -130,7 +132,7 @@ class MarketProvider with ChangeNotifier {
     notifyListeners();
   }
   
- Future<void> decodingMarketData(BuildContext context) async {
+  Future<void> decodingMarketData(BuildContext context) async {
 
     _contractPro = Provider.of<ContractProvider>(context, listen: false);
     _apiPro = Provider.of<ApiProvider>(context, listen: false);

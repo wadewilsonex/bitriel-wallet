@@ -243,6 +243,7 @@ class ChangePinState extends State<ChangePin> {
     
     dialogLoading(context);
     final res = Provider.of<ApiProvider>(context, listen: false);
+    final AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     await res.getSdk.api.keyring.changePassword(res.getKeyring, res.getKeyring.current, oldPass!, newPass);
 
     await _updatePkWithNewPass();
@@ -254,7 +255,7 @@ class ChangePinState extends State<ChangePin> {
       context: context,
       contents: "You have successfully change PIN",
       textButton: "Complete",
-      image: Image.asset("assets/icons/success.png", width: 20, height: 10),
+      image: Image.asset("${appProvider.dirPath}/icons/success.png", width: 20, height: 10),
       btn2: MyGradientButton(
         edgeMargin: const EdgeInsets.only(left: 20, right: 20),
         textButton: "Complete",
