@@ -173,8 +173,10 @@ Future<void> filterListWcSession(BuildContext context) async {
   wConnectC = Provider.of<WalletConnectProvider>(context, listen: false);
   wConnectC.setBuildContext = context;
   await StorageServices.fetchData("session").then((value) {
-      
-      wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+      if (value != null){
+
+        wConnectC!.fromJsonFilter(List<Map<String, dynamic>>.from(value));
+      }
     }
   );
     
@@ -217,6 +219,7 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                         // Assign BTC Address And Store New
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
+
                         await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
                         // ignore: use_build_context_synchronously
                         provider.getBtcBalance(context: context);

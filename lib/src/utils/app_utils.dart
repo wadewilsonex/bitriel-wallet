@@ -66,7 +66,7 @@ class AppUtils {
     ]); /* Return Real Date Time */
   }
 
-  String timeStampToDate(int timeStamp) {
+  static String timeStampToDate(int timeStamp) {
     try {
 
       // final parse = DateTime.parse(timeStamp).toLocal(); /* Parse Time Stamp String to DateTime Format */

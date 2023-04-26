@@ -262,11 +262,16 @@ class SwapPageBody extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: TextFormField(
+                      autofocus: true,
                       focusNode: swapPageModel!.focusNode,
                       controller: swapPageModel!.myController,
                       textAlign: TextAlign.start,
                       showCursor: true,
-                      style: TextStyle(fontSize: 24, color: hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,), fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontSize: 24, 
+                        color: hexaCodeToColor(AppColors.textColor,), 
+                        fontWeight: FontWeight.w700
+                      ),
                       inputFormatters: [
                         // LengthLimitingTextInputFormatter(4),
                         // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0.4}'))
@@ -277,7 +282,7 @@ class SwapPageBody extends StatelessWidget {
                         hintStyle: TextStyle(
                           fontFamily: "NotoSans",
                           fontSize: 24,
-                          color: swapPageModel!.focusNode!.hasFocus ? hexaCodeToColor(isDarkMode ? AppColors.whiteColorHexa : AppColors.textColor,) : hexaCodeToColor(isDarkMode ? AppColors.greyColor : AppColors.textColor,)
+                          color: hexaCodeToColor(AppColors.greyCode,)
                         ),
                         border: InputBorder.none,
                     

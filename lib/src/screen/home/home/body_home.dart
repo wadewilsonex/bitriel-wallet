@@ -14,7 +14,6 @@ import 'package:wallet_apps/src/screen/home/events/events.dart';
 import 'package:wallet_apps/src/screen/home/discover/discover.dart';
 import 'package:wallet_apps/src/screen/home/home/home.dart';
 import 'package:wallet_apps/src/screen/home/home/market/coin_market.dart';
-import 'package:wallet_apps/src/screen/home/home/market/coin_trending.dart';
 import 'package:wallet_apps/src/screen/home/setting/setting.dart';
 
 class HomePageBody extends StatelessWidget {
@@ -23,8 +22,8 @@ class HomePageBody extends StatelessWidget {
   final HomePageModel? homePageModel;
   final bool? pushReplacement;
   final Function(int index)? onPageChanged;
-  final Function? onTapWeb;
-  final Function? getReward;
+  // final Function? onTapWeb;
+  // final Function? getReward;
   final Function? downloadAsset;
 
   const HomePageBody({ 
@@ -33,8 +32,8 @@ class HomePageBody extends StatelessWidget {
     this.homePageModel,
     this.onPageChanged,
     this.pushReplacement,
-    this.onTapWeb,
-    this.getReward,
+    // this.onTapWeb,
+    // this.getReward,
     this.downloadAsset
     }) : super(key: key);
 
