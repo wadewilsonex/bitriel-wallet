@@ -395,11 +395,6 @@ class SubmitTrxState extends State<SubmitTrx> {
           await SubmitTrxService().sendNative(_scanPayM, trxFunc!.pin!, context, txInfo: txInfo).then((value) async {
             if (value == true){
 
-              print("_scanPayM.controlReceiverAddress.text ${_scanPayM.controlReceiverAddress.text}");
-
-              print("txInfo.hash ${txInfo.hash}");
-
-
               enableAnimation().then((value) async{
                 routeSuccess(
                   _scanPayM.controlAmount.text, 
