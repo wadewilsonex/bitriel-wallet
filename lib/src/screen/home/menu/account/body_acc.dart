@@ -236,6 +236,9 @@ class AccountBody extends StatelessWidget{
                                         return false;
                                       }).toList();
                                       Navigator.pop(context, current[0]);
+
+                                      // Close pop buttom sheet
+                                      Navigator.pop(context);
                                       
                                     },
                                   ),

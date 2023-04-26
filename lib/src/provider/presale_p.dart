@@ -420,7 +420,7 @@ class PresaleProvider with ChangeNotifier {
           int.parse('18'),
         ).toStringAsFixed(6);
 
-        dynamic timeStamp = AppUtils().timeStampToDate(int.parse(orderInfo[2].toString()));
+        dynamic timeStamp = AppUtils.timeStampToDate(int.parse(orderInfo[2].toString()));
 
         final isClaimed = orderInfo[3];
 
