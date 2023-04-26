@@ -35,6 +35,8 @@ class AddAssetState extends State<AddAsset> {
   List<Map<String, dynamic>>? initContractData = [];
   String queryContractAddress = '';
 
+  MarketProvider? mkPro;
+
   void onChangedQuery(dynamic v) { 
     setState(() {
       queryContractAddress = v;
@@ -82,6 +84,9 @@ class AddAssetState extends State<AddAsset> {
   
   @override
   void initState() {
+
+    mkPro = Provider.of<MarketProvider>(context, listen: false);
+
     getContractAddress().then((value) => {
       initContractData = List<Map<String, dynamic>>.from(jsonDecode(value.body)),
     }).then((value) => {
@@ -229,12 +234,18 @@ class AddAssetState extends State<AddAsset> {
           },
         );
       } else {
+        
         await Provider.of<ContractProvider>(context, listen: false).addToken(
           _tokenSymbol,
           context,
           network: networkSymbol![initialValue!]['symbol'],
           contractAddr: _modelAsset.controllerAssetCode.text,
         );
+
+        if (mkPro!.queried!.isNotEmpty){
+          print("mkPro!.queried![0]['id'] ${mkPro!.queried!['id']}");
+          MarketProvider.id.add(mkPro!.queried!['id']);
+        }
         
         if(!mounted) return;
         await Provider.of<ContractProvider>(context, listen: false).sortAsset();
@@ -306,21 +317,21 @@ class AddAssetState extends State<AddAsset> {
           debugPrint("_tokenSymbol $_tokenSymbol");
 
           if (!mounted) return;
-          await Provider.of<MarketProvider>(context, listen: false).searchCoinFromMarket(_tokenSymbol);
+          await mkPro!.searchCoinFromMarket(_tokenSymbol);
 
           if (!mounted) return;
-          if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty) {
+          if (mkPro!.lsCoin!.isNotEmpty) {
             
-          setState(() {
-            _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
-          });
+            setState(() {
+              _modelAsset.logo = Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['large'];
+            });
         
           }
         }
         
-        if (Provider.of<MarketProvider>(context, listen: false).lsCoin!.isNotEmpty){
+        if (mkPro!.lsCoin!.isNotEmpty){
 
-          await Provider.of<MarketProvider>(context, listen: false).queryCoinFromMarket(Provider.of<MarketProvider>(context, listen: false).lsCoin![0]['id']);
+          await mkPro!.queryCoinFromMarket(mkPro!.lsCoin![0]['id']);
         }
 
         setState(() {

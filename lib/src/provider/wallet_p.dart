@@ -42,10 +42,8 @@ class WalletProvider with ChangeNotifier {
 
       double temp = 0.0, total = 0.0, percen = 0.0;
 
-      final market = Provider.of<MarketProvider>(context, listen: false);
-
       // Find Total Of All Asset
-      for (var element in market.sortDataMarket) {
+      for (var element in MarketProvider.sortDataMarket) {
 
         total += element.current_price!;
         // if (element.current_price.runtimeType.toString() == 'int') {
@@ -56,22 +54,22 @@ class WalletProvider with ChangeNotifier {
       }
 
       // Loop Add Eacher Asset From Market
-      for (int i = 0; i < market.sortDataMarket.length; i++) {
+      for (int i = 0; i < MarketProvider.sortDataMarket.length; i++) {
 
         // Divide Value With Total Of Asset
-        temp = market.sortDataMarket[i].current_price! / total;
+        temp = MarketProvider.sortDataMarket[i].current_price! / total;
         percen = temp * 100;
 
         // Use Round To Round Number
         _portfolioM.add(PortfolioM(
           color: pieColorList[i],
-          symbol: market.sortDataMarket[i].current_price.toString().toUpperCase(),
+          symbol: MarketProvider.sortDataMarket[i].current_price.toString().toUpperCase(),
           percentage: percen.toStringAsFixed(2),
         ));
 
         // This Variable For Pie Chart Data
         dataMap.addAll({
-          market.sortDataMarket[i].symbol! : double.parse(percen.toStringAsFixed(4))
+          MarketProvider.sortDataMarket[i].symbol! : double.parse(percen.toStringAsFixed(4))
         });
       }
 

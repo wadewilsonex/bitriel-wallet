@@ -74,7 +74,7 @@ class DetailsTicketingBody extends StatelessWidget {
             SizedBox(
                 height: 150,
                 width: 150,
-                child: qrCodeGenerator("", "", Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare, embeddedImage: false)
+                child: qrCodeGenerator(context, "", "", Provider.of<ReceiveWalletProvider>(context, listen: false).keyQrShare, embeddedImage: false)
             )
 
           ],

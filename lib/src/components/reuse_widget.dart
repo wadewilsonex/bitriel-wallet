@@ -902,20 +902,24 @@ Widget textDisplay(String text, TextStyle textStyle) {
 /* ---------------------------------Camera and Gallery------------------------------------------------ */
 
 /* QR Code Generate Function */
-Widget qrCodeGenerator(String wallet, String logoName, GlobalKey keyQrShare, {double width = 45, bool embeddedImage = true}) {
-  return SizedBox(
-    width: width.w,
-    child: QrImage(
-      padding: EdgeInsets.zero,
-      backgroundColor: Colors.white,
-      embeddedImage: embeddedImage == true ? const AssetImage('assets/logo/bitirel-logo-circle.png') : null,
-      embeddedImageStyle: QrEmbeddedImageStyle(
-        size: Size(25.sp, 25.sp),
-      ),
-      eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
-      dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
-      data: wallet,
-    ),
+Widget qrCodeGenerator(BuildContext context, String wallet, String logoName, GlobalKey keyQrShare, {double width = 45, bool embeddedImage = true}) {
+  return Consumer<AppProvider>(
+    builder: (context, pro, wg) {
+      return SizedBox(
+        width: width.w,
+        child: QrImage(
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.white,
+          embeddedImage: embeddedImage == true ? FileImage(File('${pro.dirPath}/logo/bitirel-logo-circle.png')) : null,
+          embeddedImageStyle: QrEmbeddedImageStyle(
+            size: Size(25.sp, 25.sp),
+          ),
+          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.circle, color: Colors.black),
+          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.circle, color: Colors.black),
+          data: wallet,
+        ),
+      );
+    }
   );
 }
 
@@ -923,7 +927,7 @@ Widget qrCodeProfile(String wallet, String logoName, GlobalKey keyQrShare) {
   return QrImage(
     padding: EdgeInsets.zero,
     backgroundColor: Colors.white,
-    embeddedImage: AssetImage(logoName),
+    embeddedImage: FileImage(File(logoName)),
     embeddedImageStyle: QrEmbeddedImageStyle(
       size: const Size(50, 50),
     ),
@@ -1375,10 +1379,14 @@ Widget tfPasswordWidget(TextEditingController? password, String? title, {bool ob
 
                                 const SizedBox(height: 2),
                                 
-                                qrCodeProfile(
-                                  value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
-                                  "assets/logo/bitirel-logo-circle.png",
-                                  provider.keyQrShare,
+                                Consumer<AppProvider>(
+                                  builder: (context, pro, wg) {
+                                    return qrCodeProfile(
+                                      value.contractProvider!.ethAdd.isNotEmpty ? value.contractProvider!.ethAdd : '',
+                                      "${pro.dirPath}/logo/bitirel-logo-circle.png",
+                                      provider.keyQrShare,
+                                    );
+                                  }
                                 ),
                               ],
                             ),

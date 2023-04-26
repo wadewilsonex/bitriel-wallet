@@ -61,25 +61,31 @@ class AppState extends State<App> {
 
     Provider.of<ContractsBalance>(context, listen: false).setContext = context;
 
+    Provider.of<MarketProvider>(context, listen: false).setBuildContext = context;
+
     Provider.of<ContractProvider>(context, listen: false).context = context;
 
     Provider.of<AppProvider>(context, listen: false).setContext = context;
 
-    // Provider.of<MarketProvider>(context, listen: false).fetchTrendingCoin();
-
-    Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
-
-    Provider.of<ArticleProvider>(context, listen: false).requestArticle();
-
-    // readTheme();
-
-    // getEventJSON().then((value) {
-    //   debugPrint("getEventJSON value ${(json.decode(value.body))[0]['type']}");
-    // });
-
     // Query Selendra Endpoint
     getSelendraEndpoint().then((value) async {
+
+      await Provider.of<AppProvider>(context, listen: false).downloadFirstAsset().then((value) {
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        Provider.of<AppProvider>(context, listen: false).notifyListeners();
+      });
+
+      // ignore: use_build_context_synchronously
+      await Provider.of<AppProvider>(context, listen: false).downloadSecondAsset();
+
+      // ignore: use_build_context_synchronously
+      Provider.of<MarketProvider>(context, listen: false).listMarketCoin();
+
+      // ignore: use_build_context_synchronously
+      Provider.of<ArticleProvider>(context, listen: false).requestArticle();
+
       // Assign Data and Store Endpoint Into Local DB
+      // ignore: use_build_context_synchronously
       await Provider.of<ApiProvider>(context, listen: false).initSelendraEndpoint(await json.decode(value.body));
 
       // await initDynamicLinks();
@@ -105,7 +111,7 @@ class AppState extends State<App> {
       contractProvider.setSavedList().then((value) async {
 
         /// Fetch and Fill Market Price Into Asset
-        await Provider.of<MarketProvider>(context, listen: false).fetchTokenMarketPrice(context);
+        MarketProvider.fetchTokenMarketPrice();
 
         // If Data Already Exist
         // Setup Cache
@@ -138,7 +144,7 @@ class AppState extends State<App> {
           // ignore: use_build_context_synchronously
           // await apiProvider.getCurrentAccount(context: context, funcName: 'keyring');
           // Get SEL Native Chain Will Fetch also Balance
-          await ContractsBalance.getAllAssetBalance();
+          ContractsBalance.getAllAssetBalance();
 
         }
       });

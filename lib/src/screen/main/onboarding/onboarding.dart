@@ -19,10 +19,16 @@ class OnboardingState extends State<Onboarding> {
   int? currentVersion;
   bool? selected = false;
 
+  AppProvider? _appPro;
+
   //var snackBar;
 
   @override
   void initState() {
+    
+    _appPro = Provider.of<AppProvider>(context, listen: false);
+
+    // downloadAndSaveAsset();
 
     downloadAndSaveAsset();
 

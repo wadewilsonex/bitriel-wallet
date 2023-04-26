@@ -3,7 +3,7 @@ import 'package:wallet_apps/src/constants/db_key_con.dart';
 
 class ThemeProvider with ChangeNotifier {
 
-  bool isDark = true;
+  bool isDark = false;
 
   Future<void> changeMode() async {
     if (isDark) {

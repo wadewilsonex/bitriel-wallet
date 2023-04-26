@@ -336,15 +336,11 @@ class AppUtils {
 
         file = File("$_dirPath/${f.name}");
 
-  
-
         file = await file!.create(recursive: true);
 
         await file!.writeAsBytes(f.content);
-
-  
+        print("f ${f.name}");
       }
-
 
     }
 

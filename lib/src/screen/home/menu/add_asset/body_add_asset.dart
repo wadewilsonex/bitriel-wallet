@@ -442,7 +442,7 @@ class AddAssetBody extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
-                                child: Image.asset("${listNetwork[index]["logo"]}", height: 27.sp, width: 27.sp,)
+                                child: Image.file(File("${listNetwork[index]["logo"]}"), height: 27.sp, width: 27.sp,)
                               ),
                                           
                               SizedBox(width: 2.w,),
