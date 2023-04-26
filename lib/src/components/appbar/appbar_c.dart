@@ -204,28 +204,26 @@ void bottomSheetAddAccount(BuildContext context) async{
 
                       dialogLoading(context);
 
-                      print("provider.getKeyring.allAccounts[index] ${provider.getKeyring.allAccounts[index].address}");
-
+                      // Set Selendra Current Account With Selected Account
                       provider.getKeyring.setCurrent(provider.getKeyring.allAccounts[index]);
 
                       await StorageServices.readSecure(DbKey.privateList)!.then((value) async {
-                        debugPrint("value $value");
 
-                        debugPrint("json.decode(value)[index]['eth_address' ${json.decode(value)[index]['eth_address']}");
-
+                        // Assign Selected Account SEL Address To Sorted Address List
+                        Provider.of<ContractProvider>(context, listen: false).sortListContract[0].address = json.decode(value)[index]['address'];
+                        
+                        // Assign EVM Address to ethAddr
                         Provider.of<ContractProvider>(context, listen: false).ethAdd = json.decode(value)[index]['eth_address'];
-                        debugPrint("json.decode(value)[index]['btc_address'] ${json.decode(value)[index]['btc_address']}");
 
+                        // Assign BTC Address And Store New
                         Provider.of<ContractProvider>(context, listen: false).listContract[provider.btcIndex].address = json.decode(value)[index]['btc_address'];
 
                         await StorageServices.writeSecure(DbKey.bech32, json.decode(value)[index]['btc_address']);
                         provider.getBtcBalance(context: context);
-
+                        
                         Provider.of<ContractProvider>(context, listen: false).notifyListeners();
-
-                        debugPrint("Provider.of<ContractProvider>(context, listen: false).ethAdd ${Provider.of<ContractProvider>(context, listen: false).ethAdd}");
-
                       });
+
                       provider.notifyListeners();
                       await ContractsBalance.getAllAssetBalance();
 

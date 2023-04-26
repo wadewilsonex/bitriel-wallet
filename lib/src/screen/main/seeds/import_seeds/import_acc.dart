@@ -327,7 +327,7 @@ class ImportAccState extends State<ImportAcc> {
     _importAccountModel.animationController!.forward(from: 8);
     changeStatus("READY", avg: "3/3");
 
-    await ContractsBalance.getAllAssetBalance();
+    ContractsBalance.getAllAssetBalance();
     
     if(!mounted) return;
     Navigator.pushAndRemoveUntil(

@@ -9,7 +9,6 @@ class DbKey{
   static String contactList = "contactList_key";
   static String defContactList = "defaultContactList_key";
   static String btcAddr = "btcaddress_key";
-  static String ethAddr = "etherAdd_key";
   static String totalRate = "total_rate_key";
   static String currentAmount = "current_amount_key";
   static String bech32 = "bech32_key";

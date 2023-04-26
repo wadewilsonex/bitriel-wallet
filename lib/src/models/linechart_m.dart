@@ -73,7 +73,7 @@ class LineChartModel {
     try {
 
       // To Prevent Null Of Line Chart
-      if (contract.lineChartList != null){
+      if (contract.lineChartList != null && contract.lineChartList!.isNotEmpty){
 
         double minY = double.maxFinite;
         double maxY = double.minPositive;

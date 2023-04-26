@@ -214,8 +214,6 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
 
     /// From Onboading Page Create New
     else {
-      
-      _importAccountModel.status = true;
 
       if(!mounted) return;
       
@@ -270,6 +268,8 @@ class VerifyPassphraseState extends State<VerifyPassphrase> {
     ));
 
     await StorageServices.writeSecureList(DbKey.privateList, jsonEncode(widget.createKeyModel!.unverifyListToJson()));
+
+    ContractsBalance.getAllAssetBalance();
 
   }
   

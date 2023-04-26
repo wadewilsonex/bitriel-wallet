@@ -2,6 +2,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wallet_apps/index.dart';
 import 'package:wallet_apps/src/backend/get_request.dart';
+import 'package:in_app_update/in_app_update.dart';
+import 'package:upgrader/upgrader.dart';
 
 class AppProvider with ChangeNotifier {
 
@@ -31,7 +33,6 @@ class AppProvider with ChangeNotifier {
   Future<void> downloadFirstAsset() async {
 
     await Permission.storage.request().then((pm) async {
-      print("allAssets");
       Provider.of<AppProvider>(buildContext!, listen: false).dirPath ??= (await getApplicationDocumentsDirectory()).path;
       // ignore: use_build_context_synchronously
       AppConfig.initIconPath(buildContext!);
@@ -83,7 +84,6 @@ class AppProvider with ChangeNotifier {
 
   Future<void> downloadAsset({required String fileName}) async {
 
-    print("downloadAsset $fileName");
     String dir = (await getApplicationDocumentsDirectory()).path;
 
     // ignore: unrelated_type_equality_checks
@@ -103,9 +103,8 @@ class AppProvider with ChangeNotifier {
         
       });
       
-      print("Finish downloadAsset");
     } else {
-      print("Just read");
+
       // ignore: use_build_context_synchronously
       Provider.of<AppProvider>(buildContext!, listen: false).dirPath = dir;
       // await readFile(fileName);
@@ -126,4 +125,15 @@ class AppProvider with ChangeNotifier {
     Directory("$dirPath/payment").deleteSync(recursive: true);
   }
   
+  static Future<void> appUpdateChecker() async {
+
+    await InAppUpdate.checkForUpdate().then((value) {
+
+      if (value.updateAvailability == UpdateAvailability.updateAvailable){
+        UpgradeAlert(                  /// <------------------
+          child: UpgradeCard()
+        );
+      }
+    });
+  }
 }

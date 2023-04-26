@@ -140,7 +140,9 @@ dependencies:
   url_launcher: ^6.1.5
   loading_indicator: ^3.1.0
   fluttertoast: ^8.0.9
-  in_app_update: ^4.0.1
+  # Store Update
+  in_app_update:
+  upgrader:
   # tutorial_coach_mark: ^1.2.4
   transition: ^2.0.2
   motion_toast: ^2.3.2
