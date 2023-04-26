@@ -16,14 +16,12 @@ class DiscoverPage extends StatefulWidget {
 
 class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderStateMixin{
 
-  late TabController _tabController;
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     DiscoverContent.initContext(context: context);
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
     AppServices.noInternetConnection(context: context);
 
     initDefiList();
@@ -31,7 +29,8 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _searchController.dispose();
+
     super.dispose();
   }
 
@@ -40,7 +39,6 @@ class _DiscoverPageState extends State<DiscoverPage> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return DiscoverPageBody(
       homePageModel: widget.homePageModel,
-      tabController: _tabController,
       searchController: _searchController
     );
   }

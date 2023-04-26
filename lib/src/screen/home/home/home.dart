@@ -93,83 +93,83 @@ class _HomePageState extends State<HomePage> {
       });
   }
 
-  Future<void> _scanLogin(String url) async {
-
-    dialogLoading(
-      context,
-      content: "Requesting SEL"
-    );
-
-    while (true){
-
-      randomNum = _random.nextInt(7);
-      if (randomNum != 0) break;
-    }
-
-    await Future.delayed(Duration(seconds: randomNum!), () async {
-
-      AppProvider _appPro = Provider.of<AppProvider>(context, listen: false);
-
-      try {
-        await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
-        
-          // Close Dialog
-          Navigator.pop(context);
-        
-          if (json.decode(value.body)['success'] == true){
-
-            await DialogComponents().dialogCustom(
-              context: context,
-              contentsFontSize: 17,
-              titlesFontSize: 17,
-              contents: "500 SEL\nOn the way!",
-              textButton: "Complete",
-              image: Image.file(File("${_appPro.dirPath}/icons/success.png"), width: 18, height: 8),
-              btn2: Container(),
-              btn: null
-            );
-            
-            // Navigator.pop(context);
-            // List<int> convert = decode['id'].toString().codeUnits;
-            // Uint8List uint8list = Uint8List.fromList(convert);
-            // String _credentials = await _signId(decode['id']);
-            // debugPrint("_credentials $_credentials");
-            // String signedDataHex = EthSigUtil.signMessage(
-            //   privateKey: _credentials,
-            //   message: uint8list
-            // );
-            // debugPrint("signedDataHex $signedDataHex");
-            // Navigator.pop(context);
-
-          } else {
-            await DialogComponents().dialogCustom(
-              contentsFontSize: 17,
-              titlesFontSize: 17,
-              context: context,
-              contents: "${json.decode(value.body)['data']}",
-              titles: "Oops",
-              btn2: Container(),
-              btn: null
-            );
-          }
-        });
-      } catch (e) {
-        
-        // Close Dialog
-        Navigator.pop(context);
-        
-        await DialogComponents().dialogCustom(
-          context: context,
-          contents: e.toString(),
-          titles: "Oops",
-          btn2: Container(),
-          btn: null
-        );
-
-      }
-    });
-
-  }
+  // Future<void> _scanLogin(String url) async {
+  //
+  //   dialogLoading(
+  //     context,
+  //     content: "Requesting SEL"
+  //   );
+  //
+  //   while (true){
+  //
+  //     randomNum = _random.nextInt(7);
+  //     if (randomNum != 0) break;
+  //   }
+  //
+  //   await Future.delayed(Duration(seconds: randomNum!), () async {
+  //
+  //     AppProvider _appPro = Provider.of<AppProvider>(context, listen: false);
+  //
+  //     try {
+  //       await PostRequest().requestReward(url, Provider.of<ApiProvider>(context, listen: false).getKeyring.current.address!).then((value) async {
+  //
+  //         // Close Dialog
+  //         Navigator.pop(context);
+  //
+  //         if (json.decode(value.body)['success'] == true){
+  //
+  //           await DialogComponents().dialogCustom(
+  //             context: context,
+  //             contentsFontSize: 17,
+  //             titlesFontSize: 17,
+  //             contents: "500 SEL\nOn the way!",
+  //             textButton: "Complete",
+  //             image: Image.file(File("${_appPro.dirPath}/icons/success.png"), width: 18, height: 8),
+  //             btn2: Container(),
+  //             btn: null
+  //           );
+  //
+  //           // Navigator.pop(context);
+  //           // List<int> convert = decode['id'].toString().codeUnits;
+  //           // Uint8List uint8list = Uint8List.fromList(convert);
+  //           // String _credentials = await _signId(decode['id']);
+  //           // debugPrint("_credentials $_credentials");
+  //           // String signedDataHex = EthSigUtil.signMessage(
+  //           //   privateKey: _credentials,
+  //           //   message: uint8list
+  //           // );
+  //           // debugPrint("signedDataHex $signedDataHex");
+  //           // Navigator.pop(context);
+  //
+  //         } else {
+  //           await DialogComponents().dialogCustom(
+  //             contentsFontSize: 17,
+  //             titlesFontSize: 17,
+  //             context: context,
+  //             contents: "${json.decode(value.body)['data']}",
+  //             titles: "Oops",
+  //             btn2: Container(),
+  //             btn: null
+  //           );
+  //         }
+  //       });
+  //     } catch (e) {
+  //
+  //       // Close Dialog
+  //       Navigator.pop(context);
+  //
+  //       await DialogComponents().dialogCustom(
+  //         context: context,
+  //         contents: e.toString(),
+  //         titles: "Oops",
+  //         btn2: Container(),
+  //         btn: null
+  //       );
+  //
+  //     }
+  //   });
+  //
+  // }
 
   // Future<void> readFile(String fileName) async{
 
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
       homePageModel: _model,
       onPageChanged: onPageChanged,
       pushReplacement: pushReplacement,
-      getReward: _scanLogin
+      // getReward: _scanLogin
     );
   }
 }

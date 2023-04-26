@@ -841,10 +841,10 @@ class ContractProvider with ChangeNotifier {
     debugPrint("getEtherAddr");
     try {
 
-      final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
-      // await StorageServices.readSecure(DbKey.ethAddr);
-      debugPrint("ethAddr $ethAddr");
-      ethAdd = ethAddr;
+      // final ethAddr = "0xe11175d356d20b70abcec858c6b82b226e988941";
+      // final ethAddr = await StorageServices.readSecure(DbKey.ethAddr);
+      // debugPrint("ethAddr $ethAddr");
+      // ethAdd = ethAddr!;
 
       notifyListeners();
     } catch (e) {
